@@ -44,7 +44,8 @@ namespace Bec.TargetFramework.Entities
             target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
-            target.IsProductPushed = source.IsProductPushed;
+            target.IsProductAdvised = source.IsProductAdvised;
+            target.ProductAdvisedOn = source.ProductAdvisedOn;
             target.InvoiceID = source.InvoiceID;
 
             // Navigation Properties
@@ -84,7 +85,8 @@ namespace Bec.TargetFramework.Entities
             target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
-            target.IsProductPushed = source.IsProductPushed;
+            target.IsProductAdvised = source.IsProductAdvised;
+            target.ProductAdvisedOn = source.ProductAdvisedOn;
             target.InvoiceID = source.InvoiceID;
 
             // User-defined partial method

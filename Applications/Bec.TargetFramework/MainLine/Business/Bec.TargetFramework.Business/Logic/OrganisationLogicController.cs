@@ -641,10 +641,12 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     LenderName = dto.LenderName,
                     MortgageApplicationNumber = dto.MortgageApplicationNumber,
-                    IsProductPushed = dto.IsProductPushed,
+                    IsProductAdvised = dto.IsProductAdvised,
+                    ProductAdvisedOn = dto.IsProductAdvised ? DateTime.Now : (DateTime?)null,
                     CreatedOn = DateTime.Now,
                     CreatedBy = UserNameService.UserName
                 };
+
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
 
                 await scope.SaveChangesAsync();
@@ -697,7 +699,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task PushProduct(Guid txID, Guid orgID, Guid primaryBuyerUaoID)
+        public async Task AdviseProduct(Guid txID, Guid orgID, Guid primaryBuyerUaoID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -709,7 +711,8 @@ namespace Bec.TargetFramework.Business.Logic
                     .Select(s => s.SmsTransaction)
                     .SingleOrDefault();
                 Ensure.That(transaction).IsNotNull();
-                transaction.IsProductPushed = true;
+                transaction.IsProductAdvised = true;
+                transaction.ProductAdvisedOn = DateTime.Now;
                 transaction.ModifiedOn = DateTime.Now;
                 transaction.ModifiedBy = UserNameService.UserName;
                 await scope.SaveChangesAsync();

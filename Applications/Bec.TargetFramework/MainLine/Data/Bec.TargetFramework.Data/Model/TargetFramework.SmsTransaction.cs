@@ -25,7 +25,7 @@ namespace Bec.TargetFramework.Data
         {
           this.IsActive = true;
           this.IsDeleted = false;
-          this.IsProductPushed = false;
+          this.IsProductAdvised = true;
         }
 
         #region Properties
@@ -181,9 +181,19 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for IsProductPushed in the schema.
+        /// There are no comments for IsProductAdvised in the schema.
         /// </summary>
-        public virtual bool IsProductPushed
+        public virtual bool IsProductAdvised
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ProductAdvisedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> ProductAdvisedOn
         {
             get;
             set;

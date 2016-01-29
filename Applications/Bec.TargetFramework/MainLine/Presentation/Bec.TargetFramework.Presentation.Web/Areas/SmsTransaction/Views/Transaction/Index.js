@@ -149,16 +149,19 @@ function txChange(dataItem) {
 }
 
 function showTransactionDetails(dataItem) {
-    var purchasedByContact = dataItem.SmsTransaction.Invoice
+    var orderedByContact = dataItem.SmsTransaction.Invoice
         ? dataItem.SmsTransaction.Invoice.UserAccountOrganisation.Contact
         : null;
     var data = _.extend({}, dataItem, {
         purchasePrice: formatCurrency(dataItem.SmsTransaction.Price),
         pageNumber: txGrid.grid.dataSource.page(),
-        safeBuyerPurchasedBy: purchasedByContact
-            ? purchasedByContact.Salutation + " " + purchasedByContact.FirstName + " " + purchasedByContact.LastName
-            : "",
-        safeBuyerPurchasedOn: dataItem.SmsTransaction.Invoice
+        productAdvisedOn: dataItem.SmsTransaction.ProductAdvisedOn
+            ? dateString(dataItem.SmsTransaction.ProductAdvisedOn)
+            : null,
+        safeBuyerOrderedBy: orderedByContact
+            ? orderedByContact.Salutation + " " + orderedByContact.FirstName + " " + orderedByContact.LastName
+            : null,
+        safeBuyerOrderedOn: dataItem.SmsTransaction.Invoice
             ? dateString(dataItem.SmsTransaction.Invoice.CreatedOn)
             : null
     });

@@ -239,7 +239,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsTransaction.InvoiceID,
-                x.SmsTransaction.IsProductPushed,
+                x.SmsTransaction.IsProductAdvised,
                 x.SmsUserAccountOrganisationTransactionTypeID,
                 x.SmsUserAccountOrganisationTransactionID,
                 Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),

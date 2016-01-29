@@ -99,7 +99,7 @@
 
                                 @if (Model.SmsTransaction.InvoiceID == null)
                                 {
-                                    var purchaseMessage = Model.SmsTransaction.IsProductPushed 
+                                    var purchaseMessage = Model.SmsTransaction.IsProductAdvised 
                                         ? "The Safe Buyer product was ordered by your conveyancer. You can purchase it now."
                                         : "In order to use the Safe Buyer product, you have to purchase it.";
                                     <div class="row">

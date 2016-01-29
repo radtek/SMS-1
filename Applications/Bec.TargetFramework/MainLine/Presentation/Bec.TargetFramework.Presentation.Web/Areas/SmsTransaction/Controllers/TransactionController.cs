@@ -92,7 +92,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
                 x.SmsTransaction.Price,
-                x.SmsTransaction.IsProductPushed,
+                x.SmsTransaction.IsProductAdvised,
+                x.SmsTransaction.ProductAdvisedOn,
                 x.SmsTransaction.InvoiceID,
                 x.Confirmed,
                 x.Contact.Salutation,
@@ -287,24 +288,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public ActionResult ViewPushProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
+        public ActionResult ViewAdviseProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
         {
             ViewBag.transactionId = transactionId;
             ViewBag.primaryBuyerUaoId = primaryBuyerUaoId;
             ViewBag.pageNumber = pageNumber;
-            return PartialView("_PushProduct");
+            return PartialView("_AdviseProduct");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> PushProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
+        public async Task<ActionResult> AdviseProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             await EnsureSmsTransactionInOrg(transactionId, orgID, QueryClient);
-            await EnsureCanPushProduct(transactionId, primaryBuyerUaoId, QueryClient);
+            await EnsureCanAdviseProduct(transactionId, primaryBuyerUaoId, QueryClient);
 
-            await OrganisationClient.PushProductAsync(transactionId, orgID, primaryBuyerUaoId);
+            await OrganisationClient.AdviseProductAsync(transactionId, orgID, primaryBuyerUaoId);
 
             return RedirectToAction("Index", new { selectedTransactionID = transactionId, pageNumber = pageNumber });
         }
@@ -351,13 +352,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             if (!canGeneratePin) throw new InvalidOperationException("Cannot generate the PIN.");
         }
 
-        internal static async Task EnsureCanPushProduct(Guid txID, Guid primaryBuyerUaoId, IQueryLogicClient queryClient)
+        internal static async Task EnsureCanAdviseProduct(Guid txID, Guid primaryBuyerUaoId, IQueryLogicClient queryClient)
         {
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
                 x.UserAccountOrganisationID == primaryBuyerUaoId &&
                 x.SmsTransactionID == txID &&
-                !x.SmsTransaction.IsProductPushed);
+                !x.SmsTransaction.IsProductAdvised);
 
             var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             var model = res.FirstOrDefault();
@@ -367,29 +368,29 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             }
         }
 
-        public ActionResult ViewSendQuote(Guid txID)
-        {
-            ViewBag.txID = txID;
-            return PartialView("_ViewSendQuote");
-        }
+        //public ActionResult ViewSendQuote(Guid txID)
+        //{
+        //    ViewBag.txID = txID;
+        //    return PartialView("_ViewSendQuote");
+        //}
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendQuote(Guid txID, string message, Guid AttachmentsID)
-        {
-            var orgID = HttpContext.GetWebUserObject().OrganisationID;
-            var uaoID = HttpContext.GetWebUserObject().UaoID;
+        //[HttpPost, ValidateAntiForgeryToken]
+        //public async Task<ActionResult> SendQuote(Guid txID, string message, Guid AttachmentsID)
+        //{
+        //    var orgID = HttpContext.GetWebUserObject().OrganisationID;
+        //    var uaoID = HttpContext.GetWebUserObject().UaoID;
 
-            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+        //    var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
 
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsTransaction.InvoiceID, x.UserAccountOrganisationID });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.SmsTransactionID == txID && x.SmsTransaction.OrganisationID == orgID && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
-            var utxs = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
-            var utx = utxs.FirstOrDefault();
-            if (utx == null) throw new AccessViolationException("Operation failed");
+        //    var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsTransaction.InvoiceID, x.UserAccountOrganisationID });
+        //    var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.SmsTransactionID == txID && x.SmsTransaction.OrganisationID == orgID && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
+        //    var utxs = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+        //    var utx = utxs.FirstOrDefault();
+        //    if (utx == null) throw new AccessViolationException("Operation failed");
 
-            await nClient.CreateConversationAsync(orgID, uaoID, AttachmentsID, ActivityType.SmsTransaction, txID, "New Quote", message, true, new Guid[] { utx.UserAccountOrganisationID });
+        //    await nClient.CreateConversationAsync(orgID, uaoID, AttachmentsID, ActivityType.SmsTransaction, txID, "New Quote", message, true, new Guid[] { utx.UserAccountOrganisationID });
 
-            return RedirectToAction("Index", new { selectedTransactionID = txID });
-        }
+        //    return RedirectToAction("Index", new { selectedTransactionID = txID });
+        //}
     }
 }
