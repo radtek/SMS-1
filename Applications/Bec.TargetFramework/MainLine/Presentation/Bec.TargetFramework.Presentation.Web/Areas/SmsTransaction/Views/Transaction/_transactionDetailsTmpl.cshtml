@@ -4,31 +4,46 @@
 </span>*@
 {{/unless}}
 
-{{#xif "this.SmsTransaction.Address.Line1 || this.SmsTransaction.Address.Line2 || this.SmsTransaction.Address.Town || this.SmsTransaction.Address.County || this.SmsTransaction.Address.PostalCode"}}
 <h5>Transaction Address</h5>
-{{/xif}}
-
 <dl class="dl-horizontal">
-    {{#if SmsTransaction.Address.Line1}}
     <dt>Address Line 1:</dt>
-    <dd><p>{{SmsTransaction.Address.Line1}}</p></dd>
-    {{/if}}
+    <dd>
+        <p>
+            {{#if SmsTransaction.Address.Line1}}
+                {{SmsTransaction.Address.Line1}}
+            {{else}}
+                TBC
+            {{/if}}
+        </p>
+    </dd>
     {{#if SmsTransaction.Address.Line2}}
     <dt>Address Line 2:</dt>
     <dd><p>{{SmsTransaction.Address.Line2}}</p></dd>
     {{/if}}
-    {{#if SmsTransaction.Address.Town}}
     <dt>Town:</dt>
-    <dd><p>{{SmsTransaction.Address.Town}}</p></dd>
-    {{/if}}
+    <dd>
+        <p>
+            {{#if SmsTransaction.Address.Town}}
+                {{SmsTransaction.Address.Town}}
+            {{else}}
+                TBC
+            {{/if}}
+        </p>
+    </dd>
     {{#if SmsTransaction.Address.County}}
     <dt>County:</dt>
     <dd><p>{{SmsTransaction.Address.County}}</p></dd>
     {{/if}}
-    {{#if SmsTransaction.Address.PostalCode}}
     <dt>Post Code:</dt>
-    <dd><p>{{SmsTransaction.Address.PostalCode}}</p></dd>
-    {{/if}}
+    <dd>
+        <p>
+            {{#if SmsTransaction.Address.PostalCode}}
+                {{SmsTransaction.Address.PostalCode}}
+            {{else}}
+                TBC
+            {{/if}}
+        </p>
+    </dd>
 </dl>
 {{#xif "this.SmsTransaction.LenderName || this.SmsTransaction.MortgageApplicationNumber || this.SmsTransaction.Price"}}
 <h5>Other Details</h5>
@@ -78,16 +93,20 @@
     <dt>Product Advised:</dt>
     <dd>
         <p>
-            {{#if SmsTransaction.IsProductAdvised}}{{productAdvisedOn}}{{else}}No{{/if}}
+            {{#if SmsTransaction.IsProductAdvised}}
+                {{productAdvisedOn}}
+            {{else}}
+                No
+            {{/if}}
         </p>
     </dd>
     <dt>Product Ordered:</dt>
     <dd>
         <p>
             {{#if safeBuyerOrderedBy}}
-            {{safeBuyerOrderedOn}} by {{safeBuyerOrderedBy}}
+                {{safeBuyerOrderedOn}} by {{safeBuyerOrderedBy}}
             {{else}}
-            No
+                No
             {{/if}}
         </p>
     </dd>
