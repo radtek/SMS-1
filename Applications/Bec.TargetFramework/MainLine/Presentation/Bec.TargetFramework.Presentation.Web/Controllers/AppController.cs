@@ -20,6 +20,8 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public IAddressLogicClient AddressClient { get; set; }
         public IUserLogicClient UserClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
+        public ICalloutLogicClient calloutClient { get; set; }
+        public ISMHLogicClient smhClient { get; set; }
 
         public ActionResult Index()
         {
@@ -92,6 +94,110 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
             JObject res = await QueryClient.QueryAsync("Lenders", select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
+        }
+
+        public async Task<ActionResult> ViewRenderCallout()
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var userID = WebUserHelper.GetWebUserObject(HttpContext).UserID;
+            var createDate = WebUserHelper.GetWebUserObject(HttpContext).Created;
+
+            //get viewed callout 
+            var selectCua = ODataHelper.Select<CalloutUserAccountDTO>(x => new
+            {
+                x.CalloutID,
+                x.RoleID,
+                x.UserID
+
+            }, false);
+            var filterCua = ODataHelper.Filter<CalloutUserAccountDTO>(x =>
+                !x.IsDeleted && x.UserID == userID
+               );
+            var allCuas = (await QueryClient.QueryAsync<CalloutUserAccountDTO>("CalloutUserAccounts", selectCua + filterCua)).ToList();
+            var filteredCuas = allCuas.ToList();
+
+            var selectUaoRole = ODataHelper.Select<UserAccountOrganisationRoleDTO>(x => new
+            {
+                x.OrganisationRole.RoleName,
+                x.OrganisationRole.RoleTypeID,
+                x.OrganisationRole.RoleDescription,
+                x.OrganisationRoleID,
+                x.UserAccountOrganisationID
+
+            }, false);
+
+            var filterUaoRole = ODataHelper.Filter<UserAccountOrganisationRoleDTO>(x =>
+                !x.IsDeleted && x.UserAccountOrganisationID == uaoID
+               );
+            var allUaoRoles = (await QueryClient.QueryAsync<UserAccountOrganisationRoleDTO>("UserAccountOrganisationRoles", selectUaoRole + filterUaoRole)).ToList();
+            var filteredRoles = allUaoRoles.ToList();
+
+            var select = ODataHelper.Select<CalloutDTO>(x => new
+            {
+                x.CalloutID,
+                x.Title,
+                x.Description,
+                x.Selector,
+                x.EffectiveOn,
+                x.Position, 
+                x.RoleID,
+                x.CreatedOn
+            }, false);
+            var now = DateTime.Now;
+            var where2 = ODataHelper.Expression<CalloutDTO>(x => !x.IsDeleted && x.EffectiveOn < now && x.CreatedOn > createDate);
+            if (filteredCuas != null && filteredCuas.Any())
+            {
+                foreach (var cuaItem in filteredCuas)
+                {
+                    var callOutId = cuaItem.CalloutID;
+                    where2 = Expression.And(where2, ODataHelper.Expression<CalloutDTO>(x => x.CalloutID != callOutId));
+                }
+            }
+            var where1 = ODataHelper.Expression<CalloutDTO>(x => false);
+
+            if (filteredRoles != null && filteredRoles.Any())
+            {
+                foreach (var roleItem in filteredRoles)
+                {
+                    var roleName = roleItem.OrganisationRole.RoleName.ToLower();
+                    where1 = Expression.Or(where1, ODataHelper.Expression<CalloutDTO>(x => x.Role.RoleName.ToLower() == roleName));
+                }
+            }
+            var where = Expression.And(where2, where1);
+            var filter = ODataHelper.Filter(where);
+            var orderbyCallout = ODataHelper.OrderBy<CalloutDTO>(x => new { x.RoleID, x.DisplayOrder });
+
+            var res = await QueryClient.QueryAsync<CalloutDTO>("Callouts", ODataHelper.RemoveParameters(Request) + select + filter + orderbyCallout);
+
+            //update viewed callout
+            var viewedCallouts = res.ToList();
+            if (viewedCallouts != null && viewedCallouts.Any())
+            {
+                foreach (var item in viewedCallouts)
+                {
+                    var calloutUserAccount = new CalloutUserAccountDTO();
+                    calloutUserAccount.CalloutUserAccountID = Guid.NewGuid();
+                    calloutUserAccount.CalloutID = item.CalloutID;
+                    calloutUserAccount.RoleID = item.RoleID;
+                    calloutUserAccount.IsDeleted = false;
+                    calloutUserAccount.CreatedOn = DateTime.Now;
+                    calloutUserAccount.UserID = userID;
+                    await calloutClient.CreateCalloutUserAccountAsync(calloutUserAccount);
+                }
+            }
+
+            return Json(new { result = true, callOuts = res.Select(x => new { x.Title, x.Description, x.Selector, x.Position }) }, JsonRequestBehavior.AllowGet);
+            // return PartialView("_RenderCallout", calloutModel);
+        }
+
+
+        public async Task<ActionResult> GetSMHItemOnPage(string pageUrl)
+        {
+            var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
+            var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);
+            var res = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(list, Formatting.None));
+
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
     }
 }

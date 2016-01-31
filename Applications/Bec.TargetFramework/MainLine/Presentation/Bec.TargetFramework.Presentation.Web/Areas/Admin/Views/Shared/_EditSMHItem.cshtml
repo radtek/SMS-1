@@ -1,4 +1,5 @@
 ﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model SMHItemDTO
 
@@ -58,15 +59,8 @@
                                     <label class="label">Position:</label>
                                     <label class="input">
                                         @*<i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>*@
-                                        @{
-                                            var positions = new List<SelectListItem> {
-                                            new SelectListItem{Text="Top", Value = "0"},
-                                            new SelectListItem{Text="Left", Value = "1"},
-                                            new SelectListItem{Text="Right", Value = "2"},
-                                            new SelectListItem{Text="Bottom", Value = "3"},
-                                            };
-                                        }
-                                        @Html.DropDownListFor(m => m.ItemPosition, positions, null, new { tabindex = "5", style = "width:100%; min-height:25px;" })
+                                       
+                                        @Html.DropDownListFor(m => m.ItemPosition, EnumHelper.GetSelectList(typeof(HtmlPositionEnum)), null, new { tabindex = "5", style = "width:100%; min-height:25px;" })
                                     </label>
                                 </section>
                             </fieldset>

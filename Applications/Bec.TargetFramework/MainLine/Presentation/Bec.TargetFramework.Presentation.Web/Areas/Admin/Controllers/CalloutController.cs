@@ -1,0 +1,321 @@
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models;
+using Bec.TargetFramework.Presentation.Web.Base;
+using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
+{
+    [ClaimsRequired("Add", "Callout", Order = 1000)]
+    public class CalloutController : ApplicationControllerBase
+    {
+        public IQueryLogicClient queryClient { get; set; }
+        public ICalloutLogicClient calloutClient { get; set; }
+        public async Task<ActionResult> Index()
+        {
+            var selectRole = ODataHelper.Select<RoleDTO>(x => new
+            {
+                x.RoleID,
+                x.IsActive,
+                x.RoleName,
+                x.IsDeleted
+
+            }, false);
+
+            var filterRole = ODataHelper.Filter<RoleDTO>(x =>
+                !x.IsDeleted
+               );
+            var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
+            var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
+            var allRoles1 = allRoles.Select(f => new SelectListItem
+            {
+                Value = f.RoleID.ToString(),
+                Text = f.RoleName
+            });
+            ViewBag.roles = allRoles1.ToList();
+            var calloutModel = new CalloutModel();
+            if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["calloutRoleId"])))
+                calloutModel.CalloutRoleId = Guid.Parse(Convert.ToString(TempData["calloutRoleId"]));
+            else
+                calloutModel.CalloutRoleId = default(Guid);
+
+            return View(calloutModel);
+        }
+
+        public async Task<ActionResult> GetCallouts(string search)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var select = ODataHelper.Select<CalloutDTO>(x => new
+            {
+                x.CalloutID,
+                x.IsActive,
+                x.Title,
+                x.Role.RoleName,
+                x.Description,
+                x.IsDeleted,
+                x.CreatedOn,
+                x.ModifiedOn,
+                x.Selector,
+                x.CreatedBy,
+                x.ModifiedBy,
+                x.EffectiveOn, x.Position
+            }, false);
+
+            var where = ODataHelper.Expression<CalloutDTO>(x => !x.IsDeleted);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.Trim().ToLower();
+                where = Expression.And(where, ODataHelper.Expression<CalloutDTO>(x =>
+                    x.Role.RoleName.ToLower().Contains(search) ||
+                    x.Title.ToLower().Contains(search)
+                    ));
+            }
+            var filter = ODataHelper.Filter(where);
+
+            JObject res = await queryClient.QueryAsync("Callouts", ODataHelper.RemoveParameters(Request) + select + filter);
+            return Content(res.ToString(Formatting.None), "application/json");
+        }
+
+        public async Task<ActionResult> ViewAddCallout()
+        {
+            TempData["version"] = Settings.OctoVersion;
+            var selectRole = ODataHelper.Select<RoleDTO>(x => new
+            {
+                x.RoleID,
+                x.IsActive,
+                x.RoleName,
+                x.IsDeleted
+
+            }, false);
+
+            var filterRole = ODataHelper.Filter<RoleDTO>(x =>
+                !x.IsDeleted
+               );
+            var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
+            var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
+            var allRoles1 = allRoles.Select(f => new SelectListItem
+            {
+                Value = f.RoleID.ToString(),
+                Text = f.RoleName
+            });
+            ViewBag.roles = allRoles1.ToList();
+         
+            return PartialView("_AddCallout");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddCallout(CalloutDTO callout)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            callout.CalloutID = Guid.NewGuid();
+            callout.IsActive = true;
+            //callout.EffectiveOn = Convert.ToDateTime(Request.Form["EffectiveOn"]) ;
+            callout.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
+            await calloutClient.CreateCalloutAsync(callout);
+            TempData["CalloutId"] = callout.CalloutID;
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> ViewEditCallout(Guid CalloutId, int pageNumber = 1)
+        {
+            ViewBag.CalloutId = CalloutId;
+            ViewBag.pageNumber = pageNumber;
+            var selectRole = ODataHelper.Select<RoleDTO>(x => new
+            {
+                x.RoleID,
+                x.IsActive,
+                x.RoleName,
+                x.IsDeleted
+
+            }, false);
+
+            var filterRole = ODataHelper.Filter<RoleDTO>(x =>
+                !x.IsDeleted
+               );
+            var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
+            var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
+            var allRoles1 = allRoles.Select(f => new SelectListItem
+            {
+                Value = f.RoleID.ToString(),
+                Text = f.RoleName
+            });
+            ViewBag.roles = allRoles1.ToList();
+
+          
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+
+            var select = ODataHelper.Select<CalloutDTO>(x => new
+            {
+                x.CalloutID,
+                x.IsActive,
+                x.Title,
+                x.Role.RoleName,
+                x.Description,
+                x.IsDeleted,
+                x.RoleID,
+               x.EffectiveOn,
+               x.DisplayOrder,
+               x.Selector, x.Position
+              
+            });
+            var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == CalloutId);
+            var res = await queryClient.QueryAsync<CalloutDTO>("Callouts", select + filter);
+            var fo = res.First();
+            //TempData["version"] = fo.Version;
+
+            return PartialView("_EditCallout", Edit.MakeModel(fo));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditCallout(Guid calloutId, int pageNumber = 1)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            
+
+            try
+            {
+                var select = ODataHelper.Select<CalloutDTO>(x => new
+                {
+                    x.CalloutID,
+                    x.IsActive,
+                    x.RoleID,
+                    x.IsDeleted,
+                    x.Role.RoleName
+
+                });
+                var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
+
+                var data = Edit.fromD(Request.Form,
+
+                    "Description",
+                    "Title",
+                   "EffectiveOn",
+                   "Selector", "Position"
+                  );
+                data.Add("ModifiedOn", DateTime.Now);
+                data.Add("ModifiedBy", WebUserHelper.GetWebUserObject(HttpContext).Email);
+                await queryClient.UpdateGraphAsync("Callouts", data, filter);
+                TempData["CalloutId"] = calloutId;
+                TempData["pageNumber"] = pageNumber;
+
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Edit Callout Failed",
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public async Task<ActionResult> ViewCalloutOrder(Guid RoleId)
+        {
+            var selectCallout = ODataHelper.Select<CalloutDTO>(x => new
+            {
+                x.CalloutID,
+                x.IsActive,
+                x.Title,
+                x.EffectiveOn
+
+            }, false);
+
+            var filterCallout = ODataHelper.Filter<CalloutDTO>(x =>
+                !x.IsDeleted && x.RoleID == RoleId
+               );
+            var orderbyCallout = ODataHelper.OrderBy<CalloutDTO>(x => new { x.DisplayOrder });
+            var allCallouts = (await queryClient.QueryAsync<CalloutDTO>("Callouts", selectCallout + filterCallout + orderbyCallout)).ToList();
+
+            var calloutModel = new CalloutModel();
+            calloutModel.Callouts = allCallouts.ToList();
+
+            return PartialView("_OrderCallout", calloutModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> OrderCallout()
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            try
+            {
+               
+                  var calloutOrderList = Convert.ToString(HttpContext.Request.Form["calloutOrderList"]);
+                  var calloutRoleId = HttpContext.Request.Form["calloutRoleId"];
+                  if (!string.IsNullOrWhiteSpace(calloutOrderList))
+                  {
+                      var allCallouts = calloutOrderList.Split(new[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
+                      if (allCallouts != null && allCallouts.Any())
+                      {
+                          foreach (var item in allCallouts)
+                          {
+                              var tmpCallout = item.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[1];
+                              var calloutId =Guid.Parse(tmpCallout);
+                              var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
+                              var data = Edit.fromD(Request.Form);
+                              data.Add("DisplayOrder", item.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0]);
+                              data.Add("ModifiedBy", WebUserHelper.GetWebUserObject(HttpContext).Email);
+                              await queryClient.UpdateGraphAsync("Callouts", data, filter);
+                          }
+                      }
+
+                  }
+                  TempData["calloutRoleId"] = calloutRoleId;
+
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Order Callout Failed",
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public async Task<ActionResult> ViewDeleteCallout(Guid calloutId, string label)
+        {
+            ViewBag.calloutId = calloutId;
+            var select = ODataHelper.Select<CalloutDTO>(x => new
+            {
+                x.CalloutID,
+                x.Title
+            });
+            var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
+            var res = await queryClient.QueryAsync<CalloutDTO>("Callouts", select + filter);
+            var fo = res.First();
+            ViewBag.title = fo.Title;
+            return PartialView("_DeleteCallout");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteCallout(Guid calloutId)
+        {
+            var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
+            var data = Edit.fromD(Request.Form);
+            data.Add("IsDeleted", "true");
+            data.Add("ModifiedOn", DateTime.Now);
+            await queryClient.UpdateGraphAsync("Callouts", data, filter);
+            return RedirectToAction("Index");
+        }
+    }
+}

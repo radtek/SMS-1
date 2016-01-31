@@ -1,6 +1,6 @@
 ﻿function runPageIntro() {
     var ajaxOptions = {
-        url: "/Home/GetSMHItemOnPage",
+        url: "/App/GetSMHItemOnPage",
         data: { pageUrl: window.location.pathname },
         cache: false
     };
@@ -13,15 +13,23 @@
         });
 }
 
+function getPosition(pos) {
+    if (pos == 1) return "right";
+    if (pos == 2) return "left";
+    if (pos == 3) return "top";
+    if (pos == 4) return "bottom";
+    return "right";
+}
+
 function getSteps(items) {
     var steps = [];
     $.each(items, function (i, item) {
         
-
+        //console.log(getPosition(item.ItemPosition));
         steps.push({
             element: item.ItemSelector,
             intro: item.ItemDescription,
-            position: item.Position,
+            position: getPosition(item.ItemPosition),
             onbeforechange: function (e,t) {
                 //if ($(item.ItemSelector) == undefined) { return true; }
                 
@@ -40,8 +48,8 @@ function getSteps(items) {
                 //if (isHidden) {
                 //    return true;
                 //}
-                console.log(e);
-                console.log(e,t);
+                //console.log(e);
+                //console.log(e,t);
             },
 
         });

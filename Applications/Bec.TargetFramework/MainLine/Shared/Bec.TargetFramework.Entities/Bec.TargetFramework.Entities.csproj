@@ -194,6 +194,14 @@
     <Compile Include="Boo\BusTaskProcessLogDTO.cs" />
     <Compile Include="Boo\BusTaskScheduleDTO.cs" />
     <Compile Include="Boo\BusTaskScheduleProcessLogDTO.cs" />
+    <Compile Include="Boo\CalloutDTO.cs" />
+    <Compile Include="Boo\CalloutDTO.Generated.cs">
+      <DependentUpon>CalloutDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\CalloutUserAccountDTO.cs" />
+    <Compile Include="Boo\CalloutUserAccountDTO.Generated.cs">
+      <DependentUpon>CalloutUserAccountDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ClassificationTypeCategoryDTO.cs" />
     <Compile Include="Boo\ClassificationTypeCategoryDTO.Generated.cs">
       <DependentUpon>ClassificationTypeCategoryDTO.cs</DependentUpon>
@@ -1960,6 +1968,7 @@
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
+    <Compile Include="Enums\HtmlPositionEnum.cs" />
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />

@@ -22,6 +22,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/content/css/smartadmin-skins.min.css",
                 "~/content/css/smartadmin-rtl.min.css",
                 "~/content/css/your_style.min.css",
+                "~/content/introjs.min.css",
                 "~/content/site.css"
                 ));
 
@@ -54,7 +55,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Libs/toastr.min.js",
                 "~/Scripts/Libs/jquery.scrollTo.js",
                 "~/Scripts/Libs/toastr.min.js",
-                "~/Scripts/Bec/bec.jquery.validate.rules.js"
+                "~/Scripts/Bec/bec.jquery.validate.rules.js",
+                "~/Scripts/intro.min.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/websitelayout").Include(
@@ -114,6 +116,12 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_GeneratePin").Include("~/Areas/Admin/Views/Shared/_GeneratePin.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_Verify").Include("~/Areas/Admin/Views/Shared/_Verify.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RejectTempCompany").Include("~/Areas/Admin/Views/Shared/_RejectTempCompany.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Callout/Index").Include("~/Areas/Admin/Views/Callout/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Callout/RenderCallout").Include("~/Areas/Admin/Views/Callout/RenderCallout.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddCallout").Include("~/Areas/Admin/Views/Shared/_AddCallout.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditCallout").Include("~/Areas/Admin/Views/Shared/_EditCallout.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteCallout").Include("~/Areas/Admin/Views/Shared/_DeleteCallout.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_OrderCallout").Include("~/Areas/Admin/Views/Shared/_OrderCallout.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Admin/ShowMeHow/Index").Include("~/Areas/Admin/Views/ShowMeHow/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSMHPage").Include("~/Areas/Admin/Views/Shared/_AddSMHPage.js"));

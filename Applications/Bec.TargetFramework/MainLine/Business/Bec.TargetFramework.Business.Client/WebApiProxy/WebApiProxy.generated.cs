@@ -181,6 +181,21 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void PublishCheckNoMatchNotification(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
 	}
 
+	public partial interface ICalloutLogicClient : IClientBase	{	
+
+		/// <returns></returns>
+		Task CreateCalloutAsync(CalloutDTO calloutDTO);
+
+		/// <returns></returns>
+		void CreateCallout(CalloutDTO calloutDTO);
+
+		/// <returns></returns>
+		Task CreateCalloutUserAccountAsync(CalloutUserAccountDTO calloutUserAccountDTO);
+
+		/// <returns></returns>
+		void CreateCalloutUserAccount(CalloutUserAccountDTO calloutUserAccountDTO);
+	}
+
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -2121,6 +2136,66 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/BankAccountLogic/PublishCheckNoMatchNotification?uaoID=" + uaoID + "&uaotxID=" + uaotxID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user)).Wait();
+		}
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class CalloutLogicClient : ClientBase, Interfaces.ICalloutLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public CalloutLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public CalloutLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task CreateCalloutAsync(CalloutDTO calloutDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<CalloutDTO>("api/CalloutLogic/CreateCalloutAsync", calloutDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void CreateCallout(CalloutDTO calloutDTO)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<CalloutDTO>("api/CalloutLogic/CreateCalloutAsync", calloutDTO, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task CreateCalloutUserAccountAsync(CalloutUserAccountDTO calloutUserAccountDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<CalloutUserAccountDTO>("api/CalloutLogic/CreateCalloutUserAccountAsync", calloutUserAccountDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void CreateCalloutUserAccount(CalloutUserAccountDTO calloutUserAccountDTO)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<CalloutUserAccountDTO>("api/CalloutLogic/CreateCalloutUserAccountAsync", calloutUserAccountDTO, _user)).Wait();
 		}
 
 		#endregion

@@ -1,5 +1,4 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
-using Bec.TargetFramework.Entities;
+﻿using Bec.TargetFramework.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,8 +10,7 @@ using System.Web.Mvc;
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
     public class HomeController : Controller
-    {
-        public ISMHLogicClient smhClient { get; set; }
+    {   
         public ActionResult Index()
         {
             return View();
@@ -86,15 +84,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public ActionResult AboutUs()
         {
             return View();
-        }
-
-        public async Task<ActionResult> GetSMHItemOnPage(string pageUrl)
-        {
-            var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
-            var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);
-            var res = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(list, Formatting.None));
-
-            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
     }

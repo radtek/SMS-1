@@ -110,7 +110,7 @@
                     </li>
                 }
                 
-                @if (ClaimsHelper.UserHasClaim("Add", "ShowMeHow"))
+                @if (ClaimsHelper.UserHasClaim("Add", "SupportFunctions"))
                 {
                     <li class="@Html.RouteIf("open", "SupportFunctions")">
                         <a href="#"><i class="fa fa-lg fa-fw fa-file-text-o"></i> <span class="menu-item-parent">Support Functions</span></a>
@@ -118,9 +118,9 @@
                             <li class="@Html.RouteIf("active", "ShowMeHow", "Index")">
                                 <a href="@Url.Action("Index", "ShowMeHow", new { area = "Admin" })">Show Me How</a>
                             </li>
-                            <li>
-                                <a href="#">Call Out Function</a>
-                            </li>
+                            <li class="@Html.RouteIf("active", "CallOut", "Index")">
+                                <a href="@Url.Action("Index", "CallOut", new { area = "Admin" })">Call Out Function</a>
+                            </li>                            
                         </ul>
                     </li>
                 }

@@ -185,6 +185,7 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CalloutController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="App_Helpers\PdfContentResult.cs" />
     <Compile Include="Areas\Admin\Controllers\ShowMeHowController.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
+    <Compile Include="Areas\Admin\Models\CalloutModel.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\Admin\Models\SMHPageModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
@@ -254,6 +256,8 @@
     <Content Include="Areas\Account\Views\Login\Index.js" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
     <Content Include="Areas\Account\Views\Search\Index.js" />
+    <Content Include="Areas\Admin\Views\Callout\Index.js" />
+    <Content Include="Areas\Admin\Views\Callout\RenderCallout.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
@@ -271,6 +275,10 @@
     <Content Include="Areas\Admin\Views\Shared\_EditSMHPage.js" />
     <Content Include="Areas\Admin\Views\Shared\_AddSMHPage.js" />
     <Content Include="Areas\Admin\Views\ShowMeHow\Index.js" />
+    <Content Include="Areas\Admin\Views\Shared\_AddCallout.js" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteCallout.js" />
+    <Content Include="Areas\Admin\Views\Shared\_EditCallout.js" />
+    <Content Include="Areas\Admin\Views\Shared\_OrderCallout.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
@@ -280,7 +288,6 @@
       <DependentUpon>sms-font.css</DependentUpon>
     </Content>
     <Content Include="Content\Fonts\sms-font.svg" />
-    <Content Include="Content\introjs-rtl.min.css" />
     <Content Include="Content\introjs.min.css" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
@@ -879,6 +886,12 @@
     <Content Include="Areas\Admin\Views\Shared\_DeleteSMHItem.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_DeleteSMHPage.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AddSMHSysPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Callout\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AddCallout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_EditCallout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_OrderCallout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_RenderCallout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteCallout.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
