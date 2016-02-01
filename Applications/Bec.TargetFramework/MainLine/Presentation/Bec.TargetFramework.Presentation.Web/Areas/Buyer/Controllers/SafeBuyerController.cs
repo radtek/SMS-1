@@ -198,6 +198,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
 
+            //todo: drop Zenon's lovely DTO (invoice & transactionorder)
+
             var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, orderRequest);
             if (purchaseProductResult.IsPaymentSuccessful)
             {

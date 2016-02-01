@@ -1896,7 +1896,6 @@
     <Compile Include="DTO\Payment\OrderResponseDTO.cs" />
     <Compile Include="DTO\Payment\PaymentTransactionRequestDTO.cs" />
     <Compile Include="DTO\Payment\PaymentTransactionResponseDTO.cs" />
-    <Compile Include="DTO\ProductPurchaseResponse.cs" />
     <Compile Include="DTO\PermanentAccountDTO.cs" />
     <Compile Include="DTO\PersonalDetailDTO.cs" />
     <Compile Include="DTO\FirmUserDTO.cs" />

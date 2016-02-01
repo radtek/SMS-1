@@ -740,20 +740,23 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.SmsTransactionID == txID).FirstOrDefault();
-                Ensure.That(tx).IsNotNull();
                 tx.ShoppingCartID = cartID;
                 await scope.SaveChangesAsync();
                 return CartPricingProcessor.CalculateCartPrice(scope, cartID);
             }
         }
 
-        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID)
+        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType)
         {
             Guid? cartID = null;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var q = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.SmsTransactionID == smsTransactionID).Select(x => x.ShoppingCartID);
-                cartID = q.FirstOrDefault();
+                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.SmsTransactionID == smsTransactionID).FirstOrDefault();
+                Ensure.That(tx).IsNotNull();
+                tx.ShoppingCart.PaymentCardTypeID = cardType.GetIntValue();
+                tx.ShoppingCart.PaymentMethodTypeID = methodType.GetIntValue();
+                await scope.SaveChangesAsync();
+                cartID = tx.ShoppingCartID;
             }
             Ensure.That(cartID).IsNotNull();
 
