@@ -6,34 +6,41 @@
             <i class="fa fa-home fa-lg margin-right-10"></i>Transactions
         </h2>
         <div class="col-sm-12">
-            <ul class="media-list buyer-transaction-list well">
-                @foreach (var tx in Model)
-                {
-                    var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
-                    <li class="media">
-                        <span class="transaction-icon pull-left">
-                            <i class="media-object fa fa-home fa-4x"></i>
-                        </span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer", selectedTransactionId = tx.SmsTransactionID })">
-                                    @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
-                                    {
-                                        <text>Purchase of Property </text>@(tx.SmsTransaction.Address.Line1 + ", " + tx.SmsTransaction.Address.PostalCode)<text> added by </text>@companyName<text>.</text>
-                                    }
-                                    else
-                                    {
-                                        <text>Purchase of Property TBC added by </text>@companyName<text>.</text>
-                                    }
-                                </a>
-                            </h4>
-                            <p class="text-muted">
-                                <small>Added On: <span class="format-date" data-val="@tx.CreatedOn.ToString("O")"></span></small>
-                            </p>
-                        </div>
-                    </li>
-                }
-            </ul>
+            <div class="well">
+                <div class="alert alert-info fade in">
+                    <i class="fa fa-info margin-right-5"></i><strong>Information </strong>
+                    <p>Please find below your transactions on the Safe Move Scheme. Select your transaction property address for further details.</p>
+                </div>
+                <ul class="media-list buyer-transaction-list ">
+                    @foreach (var tx in Model)
+                    {
+                        var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                        <li class="media">
+                            <span class="transaction-icon pull-left">
+                                <i class="media-object fa fa-home fa-4x"></i>
+                            </span>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer", selectedTransactionId = tx.SmsTransactionID })">
+                                        @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
+                                        {
+                                            <text>Purchase of Property </text>@(tx.SmsTransaction.Address.Line1 + ", " + tx.SmsTransaction.Address.PostalCode)<text> added by </text>@companyName<<<text>.</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Purchase of Property TBC added by </text>@companyName<text>.</text>
+                                        }
+                                    </a>
+                                </h4>
+                                <p class="text-muted">
+                                    <small>Added On: <span class="format-date" data-val="@tx.CreatedOn.ToString(" o")"></span></small>
+                                </p>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            
         </div>
     </div>
 </div>
