@@ -24,6 +24,9 @@
                             @Html.AntiForgeryToken()
                             @Html.Hidden("txID", (object)ViewBag.txID)
                             <fieldset>
+                                <label>After proceeding, you can select 'Check Bank Account' to use the Safe Buyer product.</label>
+                            </fieldset>
+                            @*<fieldset>
                                 <label>Purchase Summary</label>
                                 <div class="row">
                                     <div class="col col-md-12">
@@ -182,14 +185,14 @@
                                         </div>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </fieldset>*@
                         </form>
                     </section>
                 </div>
             </div>
             <div class="modal-footer" id="footer">
                 <button type="button" id="cancelPurchase" class="btn btn-default" data-dismiss="modal" tabindex="28">Cancel</button>
-                <button type="button" id="submitPurchase" class="btn btn-primary" tabindex="30">Purchase</button>
+                <button type="button" id="submitPurchase" class="btn btn-primary" tabindex="30">OK</button>
             </div>
         </div>
     </div>

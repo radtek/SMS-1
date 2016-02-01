@@ -34,7 +34,9 @@
                         </ul>
                         <div class="tab-content padding-top-10">
                             <div class="tab-pane active" id="transactionDetailsPanel">
-                                @if (TempData["PaymentSuccessful"] != null)
+                                
+                                @*//TODO: 'toggle' off
+                                    if (TempData["PaymentSuccessful"] != null)
                                 {
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -44,7 +46,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                }
+                                }*@
                                 <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Confirmed? "block" : "none")">
                                     <div id="detailsRowTransactionAddress" class="col-sm-6 col-lg-4" style="display:@(!string.IsNullOrWhiteSpace(Model.SmsTransaction.Address.Line1) ? "block" : "none")">
                                         <dl>
@@ -130,7 +132,7 @@
                                                 <i class="fa fa-chevron-right margin-left-5"></i>
                                             </a>
                                             <a id="purchaseProductBtn" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewPurchaseProduct", "SafeBuyer" , new { area = "Buyer", txID = Model.SmsTransactionID })">
-                                                Purchase Product
+                                                Proceed
                                                 <i class="fa fa-chevron-right margin-left-5"></i>
                                             </a>
                                         </div>

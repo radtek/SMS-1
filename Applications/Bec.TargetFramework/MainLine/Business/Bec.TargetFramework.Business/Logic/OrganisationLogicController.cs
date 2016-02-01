@@ -762,7 +762,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cartID.Value, "Safe Buyer");
             var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-
+            /*
             orderRequest.TransactionOrderID = transactionOrder.TransactionOrderID;
             orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
             var payment = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
@@ -770,7 +770,11 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 await UpdateTransactionInvoiceID(smsTransactionID, invoice.InvoiceID);
             }
-            return payment;
+            return payment;*/
+
+            //TODO: 'toggle' off
+            await UpdateTransactionInvoiceID(smsTransactionID, invoice.InvoiceID);
+            return new TransactionOrderPaymentDTO { IsPaymentSuccessful = true };
         }
 
         private async Task UpdateTransactionInvoiceID(Guid txID, Guid invoiceID)

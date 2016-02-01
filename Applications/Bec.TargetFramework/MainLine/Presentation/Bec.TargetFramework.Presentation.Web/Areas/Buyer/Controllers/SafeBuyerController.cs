@@ -193,14 +193,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return PartialView("_PurchaseProduct");
         }
 
-        public async Task<ActionResult> PurchaseProduct(Guid txID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO orderRequest)
+        public async Task<ActionResult> PurchaseProduct(Guid txID)//, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO orderRequest)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
 
-            //todo: drop Zenon's lovely DTO (invoice & transactionorder)
-
-            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, orderRequest);
+            //TODO: 'toggle' off
+            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, new OrderRequestDTO());
             if (purchaseProductResult.IsPaymentSuccessful)
             {
                 TempData["PaymentSuccessful"] = true;

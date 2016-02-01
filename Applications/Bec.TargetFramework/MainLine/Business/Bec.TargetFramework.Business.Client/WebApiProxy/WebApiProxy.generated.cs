@@ -936,12 +936,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		CartPricingDTO EnsureCart(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
 
 		/// <param name="smsTransactionID"></param>
+		/// <param name="cardType"></param>
+		/// <param name="methodType"></param>
 		/// <returns></returns>
-		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,OrderRequestDTO orderRequest);
+		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest);
 
 		/// <param name="smsTransactionID"></param>
+		/// <param name="cardType"></param>
+		/// <param name="methodType"></param>
 		/// <returns></returns>
-		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,OrderRequestDTO orderRequest);
+		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
@@ -3934,21 +3938,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="smsTransactionID"></param>
+		/// <param name="cardType"></param>
+		/// <param name="methodType"></param>
 		/// <returns></returns>
-		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,OrderRequestDTO orderRequest)
+		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID, orderRequest, _user);
+			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType, orderRequest, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="smsTransactionID"></param>
-		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,OrderRequestDTO orderRequest)
+		/// <param name="cardType"></param>
+		/// <param name="methodType"></param>
+		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID, orderRequest, _user)).Result;
+			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType, orderRequest, _user)).Result;
 		}
 
 		/// <summary>
