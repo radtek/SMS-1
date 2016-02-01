@@ -48,6 +48,10 @@
             return false;
         });
     }
+
+    if ($('#content').data("welcome") == "True") {
+        handleModal({ url: $('#content').data("welcomeurl") }, null, true);        
+    }
 });
 
 // Publicly available!!! Used by _ConfirmDetails.js too

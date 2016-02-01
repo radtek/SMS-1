@@ -1,4 +1,5 @@
 ﻿function runPageIntro() {
+    console.log('run smh');
     var ajaxOptions = {
         url: "/App/GetSMHItemOnPage",
         data: { pageUrl: window.location.pathname },
@@ -99,4 +100,5 @@ $(document).ready(function () {
     //    Bec.TargetFramework.Presentation.Web.App_Helpers.IntroHelper.IsFirstLogin = false;
     //   @Html.Raw("startSysIntro();");
     //}*@
+
 });

@@ -89,7 +89,7 @@ $(function () {
     });
 
     if ($('#content').data("welcome") == "True") {
-        handleModal({ url: $('#content').data("welcomeurl") }, null, true);
+        handleModal({ url: $('#content').data("welcomeurl") }, null, true);       
     }
 
     function setupTabs() {
@@ -120,7 +120,7 @@ function txChange(dataItem) {
 
     $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email + "&pageNumber=" + txGrid.grid.dataSource.page());
     $("#pinButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
-    
+
     $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
 
     showTransactionDetails(dataItem);
@@ -137,7 +137,7 @@ function txChange(dataItem) {
 function showTransactionDetails(dataItem) {
     var data = _.extend({}, dataItem, {
         purchasePrice: formatCurrency(dataItem.SmsTransaction.Price),
-        pageNumber:  txGrid.grid.dataSource.page()
+        pageNumber: txGrid.grid.dataSource.page()
     });
     transactionDetailsTemplatePromise.done(function (template) {
         var html = template(data);
@@ -196,7 +196,7 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
         relatedPartiesTemplatePromise.done(function (template) {
             var html = template(templateData);
             $('#' + targetElementId).html(html);
-        });        
+        });
     })
     .error(function (data) {
         console.log(data);

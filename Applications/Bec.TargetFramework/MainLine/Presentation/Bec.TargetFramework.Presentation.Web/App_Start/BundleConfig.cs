@@ -161,6 +161,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Match").Include("~/Areas/Buyer/Views/SafeBuyer/_Match.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSysSMS").Include("~/Views/Shared/_IntroSysSMS.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSMS").Include("~/Views/Shared/_IntroSMS.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
 

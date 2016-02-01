@@ -892,6 +892,7 @@
     <Content Include="Areas\Admin\Views\Shared\_OrderCallout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_RenderCallout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_DeleteCallout.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\Welcome.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1002,6 +1003,7 @@
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="sitemap.txt" />
     <Content Include="Views\Shared\_IntroSMS.js" />
+    <Content Include="Views\Shared\_IntroSysSMS.js" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />

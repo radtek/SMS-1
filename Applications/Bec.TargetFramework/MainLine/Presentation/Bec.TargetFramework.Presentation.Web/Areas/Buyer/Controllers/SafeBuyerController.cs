@@ -227,5 +227,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + ODataHelper.Filter(filter) + orderByDesc);
             return data;
         }
+
+        public ActionResult Welcome()
+        {
+            return PartialView();
+        }
     }
 }

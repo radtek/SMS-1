@@ -47,6 +47,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var userObject = WebUserHelper.GetWebUserObject(HttpContext);
             if (userObject != null) userObject.NeedsTCs = (await NotificationLogicClient.GetUnreadNotificationsAsync(userObject.UserID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
 
+            //mark as new user
+            TempData["JustDoneRegister"] = true;
+
             //update database
             await NotificationLogicClient.MarkAcceptedAsync(notificationID);
             return RedirectToAction("Index", "App", new { area = "" });

@@ -1,6 +1,6 @@
 ﻿@using Bec.TargetFramework.Entities.Enums
 <!-- MAIN CONTENT -->
-<div id="content">
+<div id="content" data-welcome="@TempData["WelcomeMessage"]">
     <div class="row">
         <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-bank margin-right-10"></i>View Bank Accounts</h2>
         <div class="col-sm-12">
@@ -17,7 +17,7 @@
                 <div class="col-sm-6">
                     <!-- well -->
                     <div class="well">
-                        
+
                         <a id="markPotentialButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.PotentialFraud"><i class="fa fa-exclamation margin-right-5"></i>Mark Potential Fraud</a>
                         <a id="markSafeButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.Safe"><i class="fa fa-check margin-right-5"></i>Mark Safe</a>
                         <a id="markSafeKillDupesButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.Safe&killDuplicates=true"><i class="fa fa-check margin-right-5"></i>Mark Safe and Mark all Duplicates as Potential Fraud</a>
@@ -50,6 +50,7 @@
     </div>
 </div>
 
-@section Scripts {
+@section Scripts {  
+    <script async src="@Scripts.Url("~/Scripts/Shared/_IntroSysSMS")"></script>  
     <script async src="@Scripts.Url("~/Scripts/Admin/Finance/OutstandingBankAccounts")"></script>
 }

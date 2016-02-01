@@ -1,5 +1,5 @@
 ﻿<!-- MAIN CONTENT -->
-<div id="content">
+<div id="content" data-welcome="@TempData["WelcomeMessage"]">
     <div class="row">
         <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-inbox margin-right-10"></i>View Provisional Companies</h2>
 
@@ -262,6 +262,7 @@
     </div>
 </div>
 
-@section Scripts {
+@section Scripts {    
+    <script async src="@Scripts.Url("~/Scripts/Shared/_IntroSysSMS")"></script>
     <script async src="@Scripts.Url("~/Scripts/Admin/Company/Provisional")"></script>
 }

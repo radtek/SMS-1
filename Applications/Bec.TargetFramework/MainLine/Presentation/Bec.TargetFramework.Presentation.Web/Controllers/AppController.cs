@@ -199,5 +199,17 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<ActionResult> GetSystemSMHItem()
+        {
+            string pageUrl = "SMH";
+            var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
+            var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);
+            var res = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(list, Formatting.None));
+
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
+
+        
     }
 }
