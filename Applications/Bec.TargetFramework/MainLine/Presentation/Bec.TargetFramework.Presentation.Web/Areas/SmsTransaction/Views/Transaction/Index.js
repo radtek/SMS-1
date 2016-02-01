@@ -155,6 +155,7 @@ function showTransactionDetails(dataItem) {
     var data = _.extend({}, dataItem, {
         purchasePrice: formatCurrency(dataItem.SmsTransaction.Price),
         pageNumber: txGrid.grid.dataSource.page(),
+        transactionCreated: dateString(dataItem.SmsTransaction.CreatedOn),
         productAdvisedOn: dataItem.SmsTransaction.ProductAdvisedOn
             ? dateString(dataItem.SmsTransaction.ProductAdvisedOn)
             : null,
