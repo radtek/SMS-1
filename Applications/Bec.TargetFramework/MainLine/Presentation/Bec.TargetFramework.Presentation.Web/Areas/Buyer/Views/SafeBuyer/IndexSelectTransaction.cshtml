@@ -15,6 +15,8 @@
                     @foreach (var tx in Model)
                     {
                         var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                        string linkText = "";
+
                         <li class="media">
                             <span class="transaction-icon pull-left">
                                 <i class="media-object fa fa-home fa-4x"></i>
@@ -24,12 +26,13 @@
                                     <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer", selectedTransactionId = tx.SmsTransactionID })">
                                         @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
                                         {
-                                            <text>Purchase of Property </text>@(tx.SmsTransaction.Address.Line1 + ", " + tx.SmsTransaction.Address.PostalCode)<text> added by </text>@companyName<<<text>.</text>
+                                            linkText = "Purchase of Property " + tx.SmsTransaction.Address.Line1 + ", " + tx.SmsTransaction.Address.PostalCode + " added by " + companyName + ".";
                                         }
                                         else
                                         {
-                                            <text>Purchase of Property TBC added by </text>@companyName<text>.</text>
+                                            linkText = "Purchase of Property TBC added by " + companyName + ".";
                                         }
+                                        @linkText
                                     </a>
                                 </h4>
                                 <p class="text-muted">
@@ -40,7 +43,7 @@
                     }
                 </ul>
             </div>
-            
+
         </div>
     </div>
 </div>
