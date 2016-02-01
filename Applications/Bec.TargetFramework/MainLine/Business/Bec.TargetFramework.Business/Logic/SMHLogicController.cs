@@ -17,14 +17,6 @@ namespace Bec.TargetFramework.Business.Logic
         public UserLogicController UserLogic { get; set; }
 
         #region Management
-        //public List<VRoleDTO> GetSystemRoles()
-        //{
-        //    using (var scope = DbContextScopeFactory.CreateReadOnly())
-        //    {
-        //        var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VRoles.Where(r => !r.RoleName.Equals("Temporary User")).ToDtos();
-        //        return ret;
-        //    }
-        //}
 
         public async Task<SMHPageDTO> AddSmhPage(SMHPageDTO smhPageDto)
         {

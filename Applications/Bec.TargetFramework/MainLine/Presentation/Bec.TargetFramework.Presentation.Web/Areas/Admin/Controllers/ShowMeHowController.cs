@@ -17,6 +17,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     [ClaimsRequired("Add", "ShowMeHow", Order = 1000)]
     public class ShowMeHowController : Controller
     {
+        const string _defaultSystemUrl = "SMH";
         public IQueryLogicClient queryClient { get; set; }
         public ISmhLogicClient smhClient { get; set; }
 
@@ -50,7 +51,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> AddPage(SMHPageDTO page)
         {
             var result = await smhClient.AddSmhPageAsync(page);
-            TempData["PageId"] = result.PageID;
+            TempData["pageId"] = result.PageID;
             TempData["tabIndex"] = 0;
             return RedirectToAction("Index");
         }
@@ -59,9 +60,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddSysPage(SMHPageDTO page)
         {
-            page.PageURL = "SMH";//Default Value
+            page.PageURL = _defaultSystemUrl;
             var result = await smhClient.AddSmhPageAsync(page);
-            TempData["SysPageId"] = result.PageID;
+            TempData["sysPageId"] = result.PageID;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Index");
         }
@@ -122,12 +123,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             await smhClient.EditSmhPageAsync(pageDTO);
             if (page.IsSystemSMH)
             {
-                TempData["SysPageId"] = page.PageId;
+                TempData["sysPageId"] = page.PageId;
                 TempData["tabIndex"] = 1;
             }
             else
             {
-                TempData["PageId"] = page.PageId;
+                TempData["pageId"] = page.PageId;
                 TempData["tabIndex"] = 0;
             }
             return RedirectToAction("Index");
@@ -189,12 +190,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             await smhClient.DeleteSmhPageAsync(pageDTO);
             if (page.IsSystemSMH)
             {
-                TempData["SysPageId"] = null;
+                TempData["sysPageId"] = null;
                 TempData["tabIndex"] = 1;
             }
             else
             {
-                TempData["PageId"] = null;
+                TempData["pageId"] = null;
                 TempData["tabIndex"] = 0;
             }
             return RedirectToAction("Index");
@@ -203,7 +204,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetPages()
         {
             var selectPage = ODataHelper.Select<SMHPageDTO>(x => new { x.PageID, x.PageName, x.PageURL, x.RoleId });
-            var filterPage = ODataHelper.Filter<SMHPageDTO>(x => x.PageURL != "SMH");
+            var filterPage = ODataHelper.Filter<SMHPageDTO>(x => x.PageURL != _defaultSystemUrl);
             var pages = await queryClient.QueryAsync<SMHPageDTO>("SMHPages", selectPage + filterPage);
 
             var selectRoles = ODataHelper.Select<RoleDTO>(x => new { x.RoleID, x.RoleName });
@@ -229,7 +230,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetSysPages()
         {
             var selectPage = ODataHelper.Select<SMHPageDTO>(x => new { x.PageID, x.PageName, x.PageURL, x.RoleId });
-            var filterPage = ODataHelper.Filter<SMHPageDTO>(x => x.PageURL == "SMH");
+            var filterPage = ODataHelper.Filter<SMHPageDTO>(x => x.PageURL == _defaultSystemUrl);
             var pages = await queryClient.QueryAsync<SMHPageDTO>("SMHPages", selectPage + filterPage);
 
             var selectRoles = ODataHelper.Select<RoleDTO>(x => new { x.RoleID, x.RoleName });
@@ -290,15 +291,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 var page = pages.FirstOrDefault();
                 if (page != null)
                 {
-                    if (page.PageURL.Equals("SMH"))
+                    if (page.PageURL.Equals(_defaultSystemUrl))
                     {
                         TempData["tabIndex"] = 1;
-                        TempData["SysPageId"] = page.PageID;
+                        TempData["sysPageId"] = page.PageID;
                     }
                     else
                     {
                         TempData["tabIndex"] = 0;
-                        TempData["PageId"] = page.PageID;
+                        TempData["pageId"] = page.PageID;
                     }
                 }
             }
@@ -332,15 +333,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 var page = pages.FirstOrDefault();
                 if (page != null)
                 {
-                    if (page.PageURL.Equals("SMH"))
+                    if (page.PageURL.Equals(_defaultSystemUrl))
                     {
                         TempData["tabIndex"] = 1;
-                        TempData["SysPageId"] = page.PageID;
+                        TempData["sysPageId"] = page.PageID;
                     }
                     else
                     {
                         TempData["tabIndex"] = 0;
-                        TempData["PageId"] = page.PageID;
+                        TempData["pageId"] = page.PageID;
                     }
                 }
             }
@@ -372,15 +373,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 var page = pages.FirstOrDefault();
                 if (page != null)
                 {
-                    if (page.PageURL.Equals("SMH"))
+                    if (page.PageURL.Equals(_defaultSystemUrl))
                     {
                         TempData["tabIndex"] = 1;
-                        TempData["SysPageId"] = page.PageID;
+                        TempData["sysPageId"] = page.PageID;
                     }
                     else
                     {
                         TempData["tabIndex"] = 0;
-                        TempData["PageId"] = page.PageID;
+                        TempData["pageId"] = page.PageID;
                     }
                 }
             }

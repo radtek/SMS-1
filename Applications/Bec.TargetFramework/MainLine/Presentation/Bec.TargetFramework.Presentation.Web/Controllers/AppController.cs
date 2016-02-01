@@ -22,6 +22,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public IQueryLogicClient QueryClient { get; set; }
         public ICalloutLogicClient calloutClient { get; set; }
         public ISmhLogicClient smhClient { get; set; }
+        const string _defaultSystemUrl = "SMH";
 
         public ActionResult Index()
         {
@@ -194,19 +195,15 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public async Task<ActionResult> GetSmhItemOnPage(string pageUrl)
         {
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
-            var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);
-            var res = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(list, Formatting.None));
-
+            var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);           
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetSystemSmhItem()
         {
-            string pageUrl = "SMH";
+            string pageUrl = _defaultSystemUrl;
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);
-            var res = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(list, Formatting.None));
-
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
