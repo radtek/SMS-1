@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ShoppingCartDTO() {
         }
 
-        public ShoppingCartDTO(global::System.Guid shoppingCartID, bool isActive, bool isDeleted, global::System.DateTime createdOn, bool hasBeenConvertedToTransactionOrder, bool hasExpired, string currencyCode, global::System.DateTime currencyRateDate, decimal currencyRate, decimal currencyRateToGBP, decimal currencyRateToUSD, string countryCode, global::System.Guid globalPaymentMethodID, global::System.Nullable<System.Guid> organisationID, int paymentCardTypeID, int paymentMethodTypeID, global::System.Nullable<System.Guid> userAccountOrganisationID, List<ShoppingCartItemDTO> shoppingCartItems, List<CountryDeductionDTO> countryDeductions, List<InvoiceDTO> invoices, GlobalPaymentMethodDTO globalPaymentMethod, UserAccountOrganisationDTO userAccountOrganisation, OrganisationDTO organisation) {
+        public ShoppingCartDTO(global::System.Guid shoppingCartID, bool isActive, bool isDeleted, global::System.DateTime createdOn, bool hasBeenConvertedToTransactionOrder, bool hasExpired, string currencyCode, global::System.DateTime currencyRateDate, decimal currencyRate, decimal currencyRateToGBP, decimal currencyRateToUSD, string countryCode, global::System.Guid globalPaymentMethodID, global::System.Nullable<System.Guid> organisationID, int paymentCardTypeID, int paymentMethodTypeID, global::System.Nullable<System.Guid> userAccountOrganisationID, List<ShoppingCartItemDTO> shoppingCartItems, List<CountryDeductionDTO> countryDeductions, List<InvoiceDTO> invoices, GlobalPaymentMethodDTO globalPaymentMethod, UserAccountOrganisationDTO userAccountOrganisation, OrganisationDTO organisation, List<SmsTransactionDTO> smsTransactions) {
 
           this.ShoppingCartID = shoppingCartID;
           this.IsActive = isActive;
@@ -47,6 +47,7 @@ namespace Bec.TargetFramework.Entities
           this.GlobalPaymentMethod = globalPaymentMethod;
           this.UserAccountOrganisation = userAccountOrganisation;
           this.Organisation = organisation;
+          this.SmsTransactions = smsTransactions;
         }
 
         #endregion
@@ -125,6 +126,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public OrganisationDTO Organisation { get; set; }
+
+        [DataMember]
+        public List<SmsTransactionDTO> SmsTransactions { get; set; }
 
         #endregion
     }

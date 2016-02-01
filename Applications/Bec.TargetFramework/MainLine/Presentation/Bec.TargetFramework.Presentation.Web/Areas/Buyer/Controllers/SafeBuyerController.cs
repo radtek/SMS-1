@@ -187,7 +187,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
+            var cartPricing = await OrganisationClient.EnsureCartAsync(txID, currentUserUaoId, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card);
             ViewBag.txID = txID;
+            ViewBag.cartPricing = cartPricing;
             return PartialView("_PurchaseProduct");
         }
 
@@ -196,9 +198,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
 
-            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, currentUserUaoId, orderRequest);
+            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, orderRequest);
             if (purchaseProductResult.IsPaymentSuccessful)
             {
+                TempData["PaymentSuccessful"] = true;
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             else

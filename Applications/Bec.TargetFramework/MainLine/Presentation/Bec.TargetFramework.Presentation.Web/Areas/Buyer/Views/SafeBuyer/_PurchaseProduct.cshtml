@@ -4,6 +4,7 @@
 @model OrderRequestDTO
 @{
     var months = Enumerable.Range(1, 12).Select(s => new SelectListItem { Text = s.ToString(), Value = s.ToString() });
+    CartPricingDTO cartPricing = ViewBag.cartPricing;
 }
 
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="purchaseProductLabel" aria-hidden="true">
@@ -23,10 +24,16 @@
                             @Html.AntiForgeryToken()
                             @Html.Hidden("txID", (object)ViewBag.txID)
                             <fieldset>
+                                <label>Purchase Summary</label>
                                 <div class="row">
                                     <div class="col col-md-12">
                                         <section>
-                                            <label class="label">Safe Buyer Product: <strong>£10.00</strong></label>
+                                            <table>
+                                                <tr><td style="width:100%;"><label>Safe Buyer:</label></td><td class="pull-right"><label><strong>£@(cartPricing.CartTotalExcludingDiscountsAndTaxAndDeduct.ToString("N"))</strong></label></td></tr>
+                                                <tr><td style="width:100%;"><label>VAT:</label></td><td class="pull-right"><label><strong>£@(cartPricing.Tax.ToString("N"))</strong></label></td></tr>
+                                                <tr><td style="width:100%;"><label>Total:</label></td><td class="pull-right"><label><strong>£@(cartPricing.CartFinalPrice.ToString("N"))</strong></label></td></tr>
+                                            </table>
+                                            <hr />
                                         </section>
                                     </div>
                                 </div>

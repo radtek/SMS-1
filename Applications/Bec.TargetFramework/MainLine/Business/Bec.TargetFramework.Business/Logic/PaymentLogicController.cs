@@ -324,19 +324,6 @@ namespace Bec.TargetFramework.Business.Logic
             return responseDto;
         }
 
-        public async Task<ProductPurchaseResult> PurchaseProduct(Guid uaoID, Guid productID, int productVersion, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, string reference, decimal? amount)
-        {
-            var cart = await ShoppingCartLogic.CreateShoppingCartAsync(uaoID, cardType, methodType, "UK");
-            await ShoppingCartLogic.AddProductToShoppingCartAsync(cart.ShoppingCartID, productID, productVersion, 1, amount);
-            var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, reference);
-            var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-            return new ProductPurchaseResult
-            {
-                ShoppingCartTransactionOrderID = transactionOrder.TransactionOrderID,
-                InvoiceID = invoice.InvoiceID
-            };
-        }
-       
         private string DetermineErrorCodeFromApprovalCode(string approvalCode)
         {
             Ensure.That(approvalCode).IsNotNullOrEmpty();

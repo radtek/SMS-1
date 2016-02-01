@@ -46,6 +46,7 @@ namespace Bec.TargetFramework.Entities
             target.ModifiedBy = source.ModifiedBy;
             target.IsProductAdvised = source.IsProductAdvised;
             target.ProductAdvisedOn = source.ProductAdvisedOn;
+            target.ShoppingCartID = source.ShoppingCartID;
             target.InvoiceID = source.InvoiceID;
 
             // Navigation Properties
@@ -54,6 +55,7 @@ namespace Bec.TargetFramework.Entities
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
               target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
               target.Invoice = source.Invoice.ToDtoWithRelated(level - 1);
+              target.ShoppingCart = source.ShoppingCart.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -87,6 +89,7 @@ namespace Bec.TargetFramework.Entities
             target.ModifiedBy = source.ModifiedBy;
             target.IsProductAdvised = source.IsProductAdvised;
             target.ProductAdvisedOn = source.ProductAdvisedOn;
+            target.ShoppingCartID = source.ShoppingCartID;
             target.InvoiceID = source.InvoiceID;
 
             // User-defined partial method

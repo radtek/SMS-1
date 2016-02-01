@@ -921,15 +921,27 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AdviseProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
 
-		/// <param name="smsTransactionID"></param>
-		/// <param name="purchaserUaoID"></param>
+		/// <param name="txID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="cardTypeEnum"></param>
+		/// <param name="paymentTypeEnum"></param>
 		/// <returns></returns>
-		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,Guid purchaserUaoID,OrderRequestDTO orderRequest);
+		Task<CartPricingDTO> EnsureCartAsync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
+
+		/// <param name="txID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="cardTypeEnum"></param>
+		/// <param name="paymentTypeEnum"></param>
+		/// <returns></returns>
+		CartPricingDTO EnsureCart(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
 
 		/// <param name="smsTransactionID"></param>
-		/// <param name="purchaserUaoID"></param>
 		/// <returns></returns>
-		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,Guid purchaserUaoID,OrderRequestDTO orderRequest);
+		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,OrderRequestDTO orderRequest);
+
+		/// <param name="smsTransactionID"></param>
+		/// <returns></returns>
+		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,OrderRequestDTO orderRequest);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
@@ -1027,26 +1039,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		TransactionOrderPaymentDTO ProcessPaymentTransaction(OrderRequestDTO request);
-
-		/// <param name="uaoID"></param>
-		/// <param name="productID"></param>
-		/// <param name="productVersion"></param>
-		/// <param name="cardType"></param>
-		/// <param name="methodType"></param>
-		/// <param name="reference"></param>
-		/// <param name="amount"></param>
-		/// <returns></returns>
-		Task<ProductPurchaseResult> PurchaseProductAsync(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount);
-
-		/// <param name="uaoID"></param>
-		/// <param name="productID"></param>
-		/// <param name="productVersion"></param>
-		/// <param name="cardType"></param>
-		/// <param name="methodType"></param>
-		/// <param name="reference"></param>
-		/// <param name="amount"></param>
-		/// <returns></returns>
-		ProductPurchaseResult PurchaseProduct(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount);
 	}
 
 	public partial interface IProductLogicClient : IClientBase	{	
@@ -3914,24 +3906,49 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="smsTransactionID"></param>
-		/// <param name="purchaserUaoID"></param>
+		/// <param name="txID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="cardTypeEnum"></param>
+		/// <param name="paymentTypeEnum"></param>
 		/// <returns></returns>
-		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,Guid purchaserUaoID,OrderRequestDTO orderRequest)
+		public virtual Task<CartPricingDTO> EnsureCartAsync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&purchaserUaoID=" + purchaserUaoID, orderRequest, _user);
+			return PostAsync<object, CartPricingDTO>("api/OrganisationLogic/EnsureCart?txID=" + txID + "&uaoID=" + uaoID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="cardTypeEnum"></param>
+		/// <param name="paymentTypeEnum"></param>
+		public virtual CartPricingDTO EnsureCart(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, CartPricingDTO>("api/OrganisationLogic/EnsureCart?txID=" + txID + "&uaoID=" + uaoID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum, null, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="smsTransactionID"></param>
-		/// <param name="purchaserUaoID"></param>
-		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,Guid purchaserUaoID,OrderRequestDTO orderRequest)
+		/// <returns></returns>
+		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,OrderRequestDTO orderRequest)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&purchaserUaoID=" + purchaserUaoID, orderRequest, _user)).Result;
+			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID, orderRequest, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="smsTransactionID"></param>
+		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,OrderRequestDTO orderRequest)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID, orderRequest, _user)).Result;
 		}
 
 		/// <summary>
@@ -4182,41 +4199,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/PaymentLogic/ProcessPaymentTransaction", request, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="productID"></param>
-		/// <param name="productVersion"></param>
-		/// <param name="cardType"></param>
-		/// <param name="methodType"></param>
-		/// <param name="reference"></param>
-		/// <param name="amount"></param>
-		/// <returns></returns>
-		public virtual Task<ProductPurchaseResult> PurchaseProductAsync(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount)
-		{
-			reference = reference.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object, ProductPurchaseResult>("api/PaymentLogic/PurchaseProduct?uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion + "&cardType=" + cardType + "&methodType=" + methodType + "&reference=" + reference + "&amount=" + amount, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="productID"></param>
-		/// <param name="productVersion"></param>
-		/// <param name="cardType"></param>
-		/// <param name="methodType"></param>
-		/// <param name="reference"></param>
-		/// <param name="amount"></param>
-		public virtual ProductPurchaseResult PurchaseProduct(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount)
-		{
-			reference = reference.UrlEncode();
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, ProductPurchaseResult>("api/PaymentLogic/PurchaseProduct?uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion + "&cardType=" + cardType + "&methodType=" + methodType + "&reference=" + reference + "&amount=" + amount, null, _user)).Result;
 		}
 
 		#endregion

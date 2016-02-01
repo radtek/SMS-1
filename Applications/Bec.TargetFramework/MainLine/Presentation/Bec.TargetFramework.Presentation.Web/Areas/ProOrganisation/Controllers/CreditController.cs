@@ -69,35 +69,35 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return PartialView("_TopUpCredit");
         }
 
-        public async Task<ActionResult> TopUpCredit(Guid? txID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO details, int amount)
-        {
-            if (txID == null)
-            {
-                var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-                var prod = await prodClient.GetTopUpProductAsync();
-                var productPurchaseResult = await paymentClient.PurchaseProductAsync(uaoID, prod.ProductID, prod.ProductVersionID, cardType, methodType, "Credit Top Up", amount);
-                txID = productPurchaseResult.ShoppingCartTransactionOrderID;
-            }
+        //public async Task<ActionResult> TopUpCredit(Guid? txID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO details, int amount)
+        //{
+        //    if (txID == null)
+        //    {
+        //        var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+        //        var prod = await prodClient.GetTopUpProductAsync();
+        //        var productPurchaseResult = await paymentClient.PurchaseProductAsync(uaoID, prod.ProductID, prod.ProductVersionID, cardType, methodType, "Credit Top Up", amount);
+        //        txID = productPurchaseResult.ShoppingCartTransactionOrderID;
+        //    }
 
-            details.TransactionOrderID = txID.Value;
-            details.PaymentChargeType = PaymentChargeTypeEnum.Sale;
-            var paymentDto = paymentClient.ProcessPaymentTransaction(details);
+        //    details.TransactionOrderID = txID.Value;
+        //    details.PaymentChargeType = PaymentChargeTypeEnum.Sale;
+        //    var paymentDto = paymentClient.ProcessPaymentTransaction(details);
 
-            if (paymentDto.IsPaymentSuccessful)
-            {
-                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(new
-                {
-                    result = false,
-                    title = "Payment Unsuccessful",
-                    message = paymentDto.ErrorMessage,
-                    txID = txID.Value
-                }, JsonRequestBehavior.AllowGet);
+        //    if (paymentDto.IsPaymentSuccessful)
+        //    {
+        //        return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //    {
+        //        return Json(new
+        //        {
+        //            result = false,
+        //            title = "Payment Unsuccessful",
+        //            message = paymentDto.ErrorMessage,
+        //            txID = txID.Value
+        //        }, JsonRequestBehavior.AllowGet);
 
-            }
-        }
+        //    }
+        //}
     }
 }

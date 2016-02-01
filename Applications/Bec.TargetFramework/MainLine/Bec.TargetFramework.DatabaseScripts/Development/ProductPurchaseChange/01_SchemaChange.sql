@@ -16,6 +16,15 @@ ALTER TABLE sms."SmsTransaction"
 
 
 
+ALTER TABLE sms."SmsTransaction" ADD COLUMN "ShoppingCartID" UUID;
+
+ALTER TABLE sms."SmsTransaction"
+  ADD CONSTRAINT "SmsTransaction_fk" FOREIGN KEY ("ShoppingCartID")
+    REFERENCES public."ShoppingCart"("ShoppingCartID")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+
 
 INSERT INTO public."ClassificationTypeCategory"("ClassificationTypeCategoryID", "Name")
 VALUES (70,'DeductionTypeID');

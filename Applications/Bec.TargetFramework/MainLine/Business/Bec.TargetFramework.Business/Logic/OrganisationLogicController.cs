@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bec.TargetFramework.Business.Product.Processor;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -29,6 +30,9 @@ namespace Bec.TargetFramework.Business.Logic
         public ClassificationDataLogicController ClassificationLogic { get; set; }
         public ProductLogicController ProductLogic { get; set; }
         public PaymentLogicController PaymentLogic { get; set; }
+        public ShoppingCartLogicController ShoppingCartLogic { get; set; }
+        public InvoiceLogicController InvoiceLogic { get; set; }
+        public TransactionOrderLogicController TransactionOrderLogic { get; set; }
 
         public async Task ExpireTemporaryLoginsAsync(int days, int hours, int minutes)
         {
@@ -719,25 +723,51 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID, Guid purchaserUaoID)
+        public async Task<CartPricingDTO> EnsureCart(Guid txID, Guid uaoID, PaymentCardTypeIDEnum cardTypeEnum = PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum paymentTypeEnum = PaymentMethodTypeIDEnum.Credit_Card)
         {
-            const decimal safeBuyerCost = 10.00m;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var smsTransaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == smsTransactionID);
-                Ensure.That(smsTransaction).IsNotNull();
+                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.SmsTransactionID == txID).FirstOrDefault();
+                Ensure.That(tx).IsNotNull();
+                if (tx.ShoppingCartID.HasValue) return CartPricingProcessor.CalculateCartPrice(scope, tx.ShoppingCartID.Value);
             }
+            
             var product = ProductLogic.GetBankAccountCheckProduct();
             Ensure.That(product).IsNotNull();
-            var productPurchaseResult = await PaymentLogic.PurchaseProduct(purchaserUaoID, product.ProductID, product.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", safeBuyerCost);
-            orderRequest.TransactionOrderID = productPurchaseResult.ShoppingCartTransactionOrderID;
-            orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
-            var transactionOrder = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
-            if (transactionOrder.IsPaymentSuccessful)
+            var cartID = (await ShoppingCartLogic.CreateShoppingCartAsync(uaoID, cardTypeEnum, paymentTypeEnum)).ShoppingCartID;
+            await ShoppingCartLogic.AddProductToShoppingCartAsync(cartID, product.ProductID, product.ProductVersionID, 1);
+            
+            using (var scope = DbContextScopeFactory.Create())
             {
-                await UpdateTransactionInvoiceID(smsTransactionID, productPurchaseResult.InvoiceID);
+                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.SmsTransactionID == txID).FirstOrDefault();
+                Ensure.That(tx).IsNotNull();
+                tx.ShoppingCartID = cartID;
+                await scope.SaveChangesAsync();
+                return CartPricingProcessor.CalculateCartPrice(scope, cartID);
             }
-            return transactionOrder;
+        }
+
+        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID)
+        {
+            Guid? cartID = null;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var q = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.SmsTransactionID == smsTransactionID).Select(x => x.ShoppingCartID);
+                cartID = q.FirstOrDefault();
+            }
+            Ensure.That(cartID).IsNotNull();
+
+            var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cartID.Value, "Safe Buyer");
+            var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
+
+            orderRequest.TransactionOrderID = transactionOrder.TransactionOrderID;
+            orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
+            var payment = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
+            if (payment.IsPaymentSuccessful)
+            {
+                await UpdateTransactionInvoiceID(smsTransactionID, invoice.InvoiceID);
+            }
+            return payment;
         }
 
         private async Task UpdateTransactionInvoiceID(Guid txID, Guid invoiceID)

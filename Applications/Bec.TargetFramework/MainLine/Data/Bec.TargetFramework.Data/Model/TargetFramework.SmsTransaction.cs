@@ -201,6 +201,16 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for ShoppingCartID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> ShoppingCartID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for InvoiceID in the schema.
         /// </summary>
         public virtual global::System.Nullable<System.Guid> InvoiceID
@@ -245,6 +255,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for Invoice in the schema.
         /// </summary>
         public virtual Invoice Invoice
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ShoppingCart in the schema.
+        /// </summary>
+        public virtual ShoppingCart ShoppingCart
         {
             get;
             set;
