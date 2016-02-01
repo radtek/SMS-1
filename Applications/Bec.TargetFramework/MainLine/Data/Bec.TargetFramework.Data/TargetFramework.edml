@@ -2991,6 +2991,10 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
           </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_fk">
+            <End Role="UserAccounts" EntitySet="UserAccounts" />
+            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -18383,6 +18387,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="CalloutUserAccount_fk">
+          <End Role="UserAccounts" Type="Bec.TargetFramework.Data.Store.UserAccounts" Multiplicity="1" />
+          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccounts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccount">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -21347,6 +21363,10 @@
           </AssociationSet>
           <AssociationSet Name="CalloutUserAccount_UserType_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk">
             <End Role="Role" EntitySet="Roles" />
+            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_fk">
+            <End Role="UserAccount" EntitySet="UserAccounts" />
             <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
@@ -25943,6 +25963,7 @@
           <NavigationProperty Name="UserClaims" Relationship="Bec.TargetFramework.Data.FK_dboUserClaims_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="UserClaims" ed:Guid="65e97acd-24ba-4243-84d0-081ad22a27f4" />
           <NavigationProperty Name="UserAccountArchives" Relationship="Bec.TargetFramework.Data.fk_UserAccounts_ID" FromRole="UserAccount" ToRole="UserAccountArchives" ed:Guid="666c0f24-b369-483d-85b0-1375dda26cf7" />
           <NavigationProperty Name="UserAccountLoginSessions" Relationship="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk" FromRole="UserAccount" ToRole="UserAccountLoginSessions" ed:Guid="0f5dbab7-df60-40b5-afd5-f9ac738dac0f" />
+          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_fk" FromRole="UserAccount" ToRole="CalloutUserAccounts" ed:Guid="a1e1ab3e-bd0e-4d8c-8420-8eb3ebb684f5" />
         </EntityType>
         <EntityType Name="UserClaim" ed:Guid="b3d568b9-2dca-418b-baf5-9b566ea942f5">
           <Key>
@@ -29619,6 +29640,7 @@
           <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b3452ea6-5856-4d62-b6a1-e575d5a0faf6" />
           <NavigationProperty Name="Callout" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk" FromRole="CalloutUserAccounts" ToRole="Callout" ed:Guid="05d4441c-92b6-4f05-87b6-24b7d2966728" />
           <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="CalloutUserAccounts" ToRole="Role" ed:Guid="1cc9e95f-6b0d-4396-bfeb-da93fcdaf002" />
+          <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_fk" FromRole="CalloutUserAccounts" ToRole="UserAccount" ed:Guid="366e67aa-6427-40ac-a4a5-7f4b1f5e1ddc" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37554,6 +37576,18 @@
             </Principal>
             <Dependent Role="CalloutUserAccounts">
               <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_fk" ed:Guid="f10066c6-7fea-44e0-9ddf-ab020ac962a0">
+          <End Role="UserAccount" Type="Bec.TargetFramework.Data.UserAccount" Multiplicity="1" />
+          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccounts">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

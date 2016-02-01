@@ -578,6 +578,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for CalloutUserAccounts in the schema.
+        /// </summary>
+        public virtual ICollection<CalloutUserAccount> CalloutUserAccounts
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

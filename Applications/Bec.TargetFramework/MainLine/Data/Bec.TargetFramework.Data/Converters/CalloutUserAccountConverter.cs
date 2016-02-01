@@ -40,6 +40,7 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.Callout = source.Callout.ToDtoWithRelated(level - 1);
               target.Role = source.Role.ToDtoWithRelated(level - 1);
+              target.UserAccount = source.UserAccount.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

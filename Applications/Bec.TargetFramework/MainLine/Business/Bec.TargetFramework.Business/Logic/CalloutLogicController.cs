@@ -26,17 +26,13 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class CalloutLogicController : LogicBase
     {
-        //public UserLogicController UserLogic { get; set; }
-        //public IEventPublishLogicClient EventPublishClient { get; set; }
-        //public TFSettingsLogicController Settings { get; set; }
-
         public async Task CreateCalloutAsync(CalloutDTO calloutDTO)
         {
             Ensure.That(calloutDTO).IsNotNull();
+            calloutDTO.CalloutID = Guid.NewGuid();
             using (var scope = DbContextScopeFactory.Create())
             {
                 Callout callout = calloutDTO.ToEntity();
-                //SetAuditFields(contact, true);
                 scope.DbContexts.Get<TargetFrameworkEntities>().Callouts.Add(callout);
                 await scope.SaveChangesAsync();
             }
@@ -48,7 +44,6 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 CalloutUserAccount calloutUserAccount = calloutUserAccountDTO.ToEntity();
-                //SetAuditFields(contact, true);
                 scope.DbContexts.Get<TargetFrameworkEntities>().CalloutUserAccounts.Add(calloutUserAccount);
                 await scope.SaveChangesAsync();
             }

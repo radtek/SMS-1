@@ -11,5 +11,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
         public List<Entities.CalloutDTO> Callouts { get; set; }
 
         public Guid CalloutRoleId { get; set; }
+
+        public List<System.Web.Mvc.SelectListItem> Roles { get; set; }
     }
 }

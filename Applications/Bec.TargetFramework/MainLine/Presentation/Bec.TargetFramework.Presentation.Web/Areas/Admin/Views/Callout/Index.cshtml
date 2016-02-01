@@ -1,5 +1,8 @@
 ﻿<!-- MAIN CONTENT -->
-@model Bec.TargetFramework.Presentation.Web.Areas.Admin.Models.CalloutModel
+@{
+    var roleId = default(Guid);
+    Guid.TryParse(Convert.ToString(TempData["calloutRoleId"]),out roleId);
+}
 <div id="content">
     <div class="row">
         <div class="col-sm-7 col-lg-8">
@@ -8,8 +11,8 @@
         </div>
         <div class="col-sm-5 col-lg-4">
             <div class="input-group margin-top-15 margin-bottom-5 ">
-                @Html.DropDownListFor(m => m.CalloutRoleId, (IList<SelectListItem>)ViewBag.roles, "Select role", new { tabindex = "1", @class = "form-control", id = "roleDropdown", style = "width:200px; margin-top:-3px; margin-right:5px" })
-                <a id="viewCalloutOrder" data-href="@(Model.CalloutRoleId != null && Model.CalloutRoleId != default(Guid) ? Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin", RoleId = Model.CalloutRoleId }) : "")" @(Model.CalloutRoleId != null && Model.CalloutRoleId != default(Guid) ? "" : "disabled")  data-url="@Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>View Callout Order</a>
+                @Html.DropDownListFor(m => roleId, new SelectList(ViewBag.roles, "Value", "Text", roleId), "Select role", new { tabindex = "1", @class = "form-control", id = "roleDropdown", style = "width:200px; margin-top:-3px; margin-right:5px" })
+                <a id="viewCalloutOrder" data-href="@(roleId != null && roleId != default(Guid) ? Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin", RoleId = roleId }) : "")" @(roleId != null && roleId != default(Guid) ? "" : "disabled")  data-url="@Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>View Callout Order</a>
                 @*<input type="text" class="form-control" id="gridSearchInput">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
@@ -19,17 +22,17 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <ul id="myTab1" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">
+            <ul id="tabList" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">
                 <li><a href="#s1">Callouts </a></li>
-                <li><a href="#s2"> History </a></li>
+                <li><a href="#s2">History </a></li>
             </ul>
-            <div id="myTabContent1" class="tab-content padding-10">
+            <div id="tabContent" class="tab-content padding-10">
 
                 <div class="tab-pane fade in active" id="s1" role="tabpanel">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <div id="cGrid" data-url="@Url.Action("GetCallouts", "Callout", new { area = "Admin"})" data-jumpto="@TempData["CalloutId"]" data-jumptopage="@TempData["pageNumber"]"></div>
+                                <div id="callGrid" data-url="@Url.Action("GetCallouts", "Callout", new { area = "Admin"})" data-jumpto="@TempData["CalloutId"]" data-jumptopage="@TempData["pageNumber"]"></div>
                             </div>
                         </div>
                     </div>
@@ -76,7 +79,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <div id="uGrid" data-url="@Url.Action("GetViewedCallouts", "Callout", new { area = "Admin" })"></div>
+                                <div id="hisGrid" data-url="@Url.Action("GetViewedCallouts", "Callout", new { area = "Admin" })"></div>
                             </div>
                         </div>
                     </div>
@@ -85,15 +88,16 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="editButtonViewedCallout" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEditViewedCallout", "Callout", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Edit ViewedCallout</a>
-                                <h5>Selected ViewedCallout</h5>
+                                <h5>Selected Viewed Callout</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Callout:</dt>
-                                    <dd><p id="ddeName"></p></dd>
+                                    <dt>Title:</dt>
+                                    <dd><p id="ddeTitle"></p></dd>
                                     <dt>Role:</dt>
                                     <dd><p id="ddeRole"></p></dd>
-                                    <dt>ViewedCallout:</dt>
-                                    <dd><p id="ddeViewedCallout"></p></dd>
+                                    <dt>User:</dt>
+                                    <dd><p id="ddeUser"></p></dd>
+                                    <dt>Viewed Date:</dt>
+                                    <dd><p id="ddeViewedDate"></p></dd>
                                 </dl>
                             </div>
                         </div>

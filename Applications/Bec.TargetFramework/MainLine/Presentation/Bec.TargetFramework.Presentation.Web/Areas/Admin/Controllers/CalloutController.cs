@@ -24,36 +24,33 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public ICalloutLogicClient calloutClient { get; set; }
         public async Task<ActionResult> Index()
         {
+            await GetRoles();
+            return View();
+        }
+
+        private async Task GetRoles()
+        {
             var selectRole = ODataHelper.Select<RoleDTO>(x => new
             {
                 x.RoleID,
                 x.IsActive,
                 x.RoleName,
                 x.IsDeleted
-
             }, false);
 
             var filterRole = ODataHelper.Filter<RoleDTO>(x =>
-                !x.IsDeleted
+                !x.IsDeleted && x.IsActive
                );
             var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
             var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
-            var allRoles1 = allRoles.Select(f => new SelectListItem
+            ViewBag.roles = allRoles.Select(f => new SelectListItem
             {
                 Value = f.RoleID.ToString(),
                 Text = f.RoleName
-            });
-            ViewBag.roles = allRoles1.ToList();
-            var calloutModel = new CalloutModel();
-            if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["calloutRoleId"])))
-                calloutModel.CalloutRoleId = Guid.Parse(Convert.ToString(TempData["calloutRoleId"]));
-            else
-                calloutModel.CalloutRoleId = default(Guid);
-
-            return View(calloutModel);
+            }).ToList();
         }
 
-        public async Task<ActionResult> GetCallouts(string search)
+        public async Task<ActionResult> GetCallouts(string calloutRoleId)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var select = ODataHelper.Select<CalloutDTO>(x => new
@@ -69,18 +66,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 x.Selector,
                 x.CreatedBy,
                 x.ModifiedBy,
-                x.EffectiveOn, x.Position
+                x.EffectiveOn,
+                x.Position,
+                x.DisplayOrder
             }, false);
 
             var where = ODataHelper.Expression<CalloutDTO>(x => !x.IsDeleted);
-
-            if (!string.IsNullOrEmpty(search))
+            Guid roleId = default(Guid);
+            Guid.TryParse(calloutRoleId, out roleId);
+            if (roleId != default(Guid))
             {
-                search = search.Trim().ToLower();
-                where = Expression.And(where, ODataHelper.Expression<CalloutDTO>(x =>
-                    x.Role.RoleName.ToLower().Contains(search) ||
-                    x.Title.ToLower().Contains(search)
-                    ));
+                where = Expression.And(where, ODataHelper.Expression<CalloutDTO>(x => x.RoleID == roleId));
             }
             var filter = ODataHelper.Filter(where);
 
@@ -90,28 +86,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> ViewAddCallout()
         {
-            TempData["version"] = Settings.OctoVersion;
-            var selectRole = ODataHelper.Select<RoleDTO>(x => new
-            {
-                x.RoleID,
-                x.IsActive,
-                x.RoleName,
-                x.IsDeleted
-
-            }, false);
-
-            var filterRole = ODataHelper.Filter<RoleDTO>(x =>
-                !x.IsDeleted
-               );
-            var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
-            var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
-            var allRoles1 = allRoles.Select(f => new SelectListItem
-            {
-                Value = f.RoleID.ToString(),
-                Text = f.RoleName
-            });
-            ViewBag.roles = allRoles1.ToList();
-         
+            await GetRoles();
             return PartialView("_AddCallout");
         }
 
@@ -120,9 +95,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> AddCallout(CalloutDTO callout)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            callout.CalloutID = Guid.NewGuid();
             callout.IsActive = true;
-            //callout.EffectiveOn = Convert.ToDateTime(Request.Form["EffectiveOn"]) ;
             callout.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
             await calloutClient.CreateCalloutAsync(callout);
             TempData["CalloutId"] = callout.CalloutID;
@@ -133,30 +106,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             ViewBag.CalloutId = CalloutId;
             ViewBag.pageNumber = pageNumber;
-            var selectRole = ODataHelper.Select<RoleDTO>(x => new
-            {
-                x.RoleID,
-                x.IsActive,
-                x.RoleName,
-                x.IsDeleted
-
-            }, false);
-
-            var filterRole = ODataHelper.Filter<RoleDTO>(x =>
-                !x.IsDeleted
-               );
-            var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
-            var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
-            var allRoles1 = allRoles.Select(f => new SelectListItem
-            {
-                Value = f.RoleID.ToString(),
-                Text = f.RoleName
-            });
-            ViewBag.roles = allRoles1.ToList();
-
-          
+            await GetRoles();
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-
             var select = ODataHelper.Select<CalloutDTO>(x => new
             {
                 x.CalloutID,
@@ -166,17 +117,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 x.Description,
                 x.IsDeleted,
                 x.RoleID,
-               x.EffectiveOn,
-               x.DisplayOrder,
-               x.Selector, x.Position
-              
+                x.EffectiveOn,
+                x.DisplayOrder,
+                x.Selector,
+                x.Position
             });
             var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == CalloutId);
             var res = await queryClient.QueryAsync<CalloutDTO>("Callouts", select + filter);
-            var fo = res.First();
-            //TempData["version"] = fo.Version;
-
-            return PartialView("_EditCallout", Edit.MakeModel(fo));
+            var callout = res.First();
+            return PartialView("_EditCallout", Edit.MakeModel(callout));
         }
 
         [HttpPost]
@@ -184,23 +133,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> EditCallout(Guid calloutId, int pageNumber = 1)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            
-
             try
             {
-                var select = ODataHelper.Select<CalloutDTO>(x => new
-                {
-                    x.CalloutID,
-                    x.IsActive,
-                    x.RoleID,
-                    x.IsDeleted,
-                    x.Role.RoleName
-
-                });
                 var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
-
                 var data = Edit.fromD(Request.Form,
-
                     "Description",
                     "Title",
                    "EffectiveOn",
@@ -211,7 +147,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 await queryClient.UpdateGraphAsync("Callouts", data, filter);
                 TempData["CalloutId"] = calloutId;
                 TempData["pageNumber"] = pageNumber;
-
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -233,7 +168,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 x.IsActive,
                 x.Title,
                 x.EffectiveOn
-
             }, false);
 
             var filterCallout = ODataHelper.Filter<CalloutDTO>(x =>
@@ -250,34 +184,29 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> OrderCallout()
+        public async Task<ActionResult> OrderCallout(string calloutOrderList = "", string calloutRoleId = "")
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             try
             {
-               
-                  var calloutOrderList = Convert.ToString(HttpContext.Request.Form["calloutOrderList"]);
-                  var calloutRoleId = HttpContext.Request.Form["calloutRoleId"];
-                  if (!string.IsNullOrWhiteSpace(calloutOrderList))
-                  {
-                      var allCallouts = calloutOrderList.Split(new[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
-                      if (allCallouts != null && allCallouts.Any())
-                      {
-                          foreach (var item in allCallouts)
-                          {
-                              var tmpCallout = item.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[1];
-                              var calloutId =Guid.Parse(tmpCallout);
-                              var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
-                              var data = Edit.fromD(Request.Form);
-                              data.Add("DisplayOrder", item.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0]);
-                              data.Add("ModifiedBy", WebUserHelper.GetWebUserObject(HttpContext).Email);
-                              await queryClient.UpdateGraphAsync("Callouts", data, filter);
-                          }
-                      }
-
-                  }
-                  TempData["calloutRoleId"] = calloutRoleId;
-
+                if (!string.IsNullOrWhiteSpace(calloutOrderList))
+                {
+                    var allCallouts = calloutOrderList.Split(new[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (allCallouts != null && allCallouts.Any())
+                    {
+                        foreach (var item in allCallouts)
+                        {
+                            var tmpCallout = item.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[1];
+                            var calloutId = Guid.Parse(tmpCallout);
+                            var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
+                            var data = Edit.fromD(Request.Form);
+                            data.Add("DisplayOrder", item.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0]);
+                            data.Add("ModifiedBy", WebUserHelper.GetWebUserObject(HttpContext).Email);
+                            await queryClient.UpdateGraphAsync("Callouts", data, filter);
+                        }
+                    }
+                }
+                TempData["calloutRoleId"] = calloutRoleId;
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -301,8 +230,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             });
             var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
             var res = await queryClient.QueryAsync<CalloutDTO>("Callouts", select + filter);
-            var fo = res.First();
-            ViewBag.title = fo.Title;
+            var callout = res.First();
+            ViewBag.title = callout.Title;
             return PartialView("_DeleteCallout");
         }
 
@@ -316,6 +245,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             data.Add("ModifiedOn", DateTime.Now);
             await queryClient.UpdateGraphAsync("Callouts", data, filter);
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> GetViewedCallouts()
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var select = ODataHelper.Select<CalloutUserAccountDTO>(x => new
+            {
+                x.CalloutUserAccountID,
+                x.CalloutID,
+                x.Callout.Title,
+                x.Role.RoleName,
+                x.IsDeleted,
+                x.CreatedOn,
+                x.UserAccount.Email
+            }, false);
+
+            var where = ODataHelper.Expression<CalloutDTO>(x => !x.IsDeleted);
+            var filter = ODataHelper.Filter(where);
+
+            JObject res = await queryClient.QueryAsync("CalloutUserAccounts", ODataHelper.RemoveParameters(Request) + select + filter);
+            return Content(res.ToString(Formatting.None), "application/json");
         }
     }
 }

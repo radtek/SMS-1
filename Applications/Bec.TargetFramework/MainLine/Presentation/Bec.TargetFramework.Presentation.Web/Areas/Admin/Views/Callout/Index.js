@@ -1,22 +1,25 @@
-﻿var cGrid
+﻿var callGrid
 $(function () {
 
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-     cGrid = new gridItem(
+     callGrid = new gridItem(
         {
-            gridElementId: 'cGrid',
-            url: $('#cGrid').data("url"),
+            gridElementId: 'callGrid',
+            url: $('#callGrid').data("url"),
             schema: { data: "Items", total: "Count", model: { id: "CalloutID" } },
             type: 'odata-v4',
             serverSorting: true,
             serverPaging: true,
-            defaultSort: { field: "Role.RoleName", dir: "asc" },
+            defaultSort: [{ field: 'Role.RoleName', dir: 'asc' }, { field: 'DisplayOrder', dir: 'asc' }],
             panels: ['nPanel'],
             change: nChange,
-            jumpToId: $('#cGrid').data("jumpto"),
-            jumpToPage: $('#cGrid').data("jumptopage"),
+            jumpToId: $('#callGrid').data("jumpto"),
+            jumpToPage: $('#callGrid').data("jumptopage"),
             searchElementId: 'gridSearchInput',
             searchButtonId: 'gridSearchButton',
+            extraParameters: function () {
+                return "&calloutRoleId=" + $('#roleDropdown').val()
+            },
             columns: [
                     {
                         field: "CalloutID",
@@ -45,29 +48,28 @@ $(function () {
                         title: "Modified",
                         template: function (dataItem) { if (dataItem.ModifiedOn != null) return dateString(dataItem.ModifiedOn); else return ""; }
                     }
-
             ]
         });
 
-    var uGrid = new gridItem(
+    var hisGrid = new gridItem(
         {
-            gridElementId: 'uGrid',
-            url: $('#uGrid').data("url"),
-            schema: { data: "Items", total: "Count", model: { id: "CalloutSelectorID" } },
+            gridElementId: 'hisGrid',
+            url: $('#hisGrid').data("url"),
+            schema: { data: "Items", total: "Count", model: { id: "CalloutUserAccountID" } },
             type: 'odata-v4',
             serverSorting: true,
             serverPaging: true,
-            defaultSort: { field: "Callout.Name", dir: "des" },
+            defaultSort: { field: "Callout.Title", dir: "des" },
             panels: ['ePanel'],
             change: eChange,
-            jumpToId: $('#uGrid').data("jumpto"),
+            jumpToId: $('#hisGrid').data("jumpto"),
             columns: [
                     {
-                        field: "CalloutSelectorID",
+                        field: "CalloutUserAccountID",
                         hidden: true,
                     },
                     {
-                        field: "Callout.Name",
+                        field: "Callout.Title",
                         title: "Callout"
                     },
                     {
@@ -75,37 +77,28 @@ $(function () {
                         title: "Role"
                     },
                     {
-                        field: "Feature.Name",
-                        title: "Feature"
-                    },
-                    {
-                        field: "Selector",
+                        field: "UserAccount.Email",
                         title: "User"
                     },
                     {
-                        field: "Selector",
-                        title: "Version"
-                    },
-                    {
-                        field: "Selector",
-                        title: "Viewed Date"
+                        field: "CreatedOn",
+                        title: "Viewed Date",
+                        template: function (dataItem) { if (dataItem.CreatedOn != null) return dateString(dataItem.CreatedOn); else return ""; }
                     }
             ]
         });
 
-    var tabs = new tabItem("myTab1",
+    var tabs = new tabItem("tabList",
     {
         s1: {
-            grids: [cGrid]
+            grids: [callGrid]
         },
         s2: {
-            grids: [uGrid]
+            grids: [hisGrid]
         }
     });
-
-
     tabs.makeTab();
-    tabs.showTab($('#myTab1').data("selected"));
+    tabs.showTab($('#tabList').data("selected"));
     findModalLinks();
 });
 
@@ -120,11 +113,14 @@ function nChange(dataItem) {
     $("p#ddnModifiedOn").text(dateString(dataItem.ModifiedOn) || "");
     $("p#ddnModifiedBy").text(dataItem.ModifiedBy || "");
     $("div#ddnDescription").text(dataItem.Description || "");
-    $("#editButtonCallout").data('href', $("#editButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + cGrid.grid.dataSource.page());
-    $("#deleteButtonCallout").data('href', $("#deleteButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + cGrid.grid.dataSource.page());
+    $("#editButtonCallout").data('href', $("#editButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + callGrid.grid.dataSource.page());
+    $("#deleteButtonCallout").data('href', $("#deleteButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + callGrid.grid.dataSource.page());
 }
 function eChange(dataItem) {
-   
+    $("p#ddeTitle").text(dataItem.Callout.Title || "");
+    $("p#ddeRole").text(dataItem.Role.RoleName);
+    $("p#ddeUser").text(dataItem.UserAccount.Email);
+    $("p#ddeViewedDate").text(dateString(dataItem.CreatedOn) || "");
 }
 
 function displayPosition(value) {
@@ -145,6 +141,7 @@ $('#roleDropdown').on('change', function () {
         $("#viewCalloutOrder").data('href', '');
         $("#viewCalloutOrder").attr("disabled", true);
     }
+    callGrid.refreshGrid();
 
 })
 
