@@ -68,7 +68,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 SroSalutation = org.OrganisationAdminSalutation,
                 SroFirstName = org.OrganisationAdminFirstName,
                 SroLastName = org.OrganisationAdminLastName,
-                SroEmail = org.OrganisationAdminEmail
+                SroEmail = org.OrganisationAdminEmail,
+                OrganisationType = org.OrganisationTypeDescription
             };
             return PartialView("_Verify", dto);
         }
