@@ -1,4 +1,5 @@
-﻿var uGrid, vGrid, rGrid;
+﻿var notesTemplatePromise;
+var uGrid, vGrid, rGrid;
 var promises;
 $(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
@@ -110,6 +111,13 @@ $(function () {
                     title: "Created On",
                     template: function (dataItem) {
                         return dateString(dataItem.CreatedOn);
+                    }
+                },
+                {
+                    field: "VerifiedOn",
+                    title: "Verified On",
+                    template: function (dataItem) {
+                        return dateString(dataItem.VerifiedOn);
                     }
                 }
             ]
@@ -244,6 +252,13 @@ $(function () {
     tabs.makeTab();
     tabs.showTab($('#myTab1').data("selected"));
 
+    notesTemplatePromise = $.Deferred();
+    ajaxWrapper(
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_orgNotesTmpl', 'Shared', 'Admin') }
+    ).done(function (res) {
+        notesTemplatePromise.resolve(Handlebars.compile(res));
+    });
+
     findModalLinks();
 
     promises = new defTmpl('Company/DetailTemplates/Provisional/',
@@ -272,6 +287,18 @@ function verifiedChange(dataItem) {
         var html = template(dataItem);
         $('#verifiedPanel').html(html);
         $("#pinButton").data('href', $("#pinButton").data("url") + "&orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
+        $('#addNotesButton').data('href', $('#addNotesButton').data('url') + "?orgID=" + dataItem.OrganisationID);
+
+        ajaxWrapper({ url: $('#verifiedPanel').data('url') + "?orgID=" + dataItem.OrganisationID }).done(function (notes) {
+            notesTemplatePromise.done(function (template) {
+
+                $.each(notes, function (i, item) {
+                    item.DateTime = dateString(item.DateTime);
+                });
+                var html = template(notes);
+                $('#verifiedNotes').html(html);
+            });
+        });
     });
 }
 
@@ -289,5 +316,5 @@ function expiredChange(dataItem) {
         var html = template(dataItem);
         $('#expiredPanel').html(html);
         $("#expiredPinButton").data('href', $("#expiredPinButton").data("url") + "&orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
-    });   
+    });
 }

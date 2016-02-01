@@ -111,6 +111,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_GeneratePin").Include("~/Areas/Admin/Views/Shared/_GeneratePin.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_Verify").Include("~/Areas/Admin/Views/Shared/_Verify.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RejectTempCompany").Include("~/Areas/Admin/Views/Shared/_RejectTempCompany.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddNotes").Include("~/Areas/Admin/Views/Shared/_AddNotes.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RegisterLender").Include("~/Areas/Admin/Views/Shared/_RegisterLender.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Account/Index").Include("~/Areas/BankAccount/Views/Account/Index.js"));

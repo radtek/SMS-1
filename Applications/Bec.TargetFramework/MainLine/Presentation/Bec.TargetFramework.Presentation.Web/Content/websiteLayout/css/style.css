@@ -746,6 +746,25 @@ fieldset[disabled] .form-control.hasDatepicker {
 .faq-container .faq-question p {
   margin-bottom: 0;
 }
+.howto-vid {
+  height: 347px;
+  box-shadow: #f3f3f3 1px 1px 4px 4px;
+  margin-bottom: 20px;
+}
+.drop-shadow {
+  box-shadow: #ddd 0 0 10px 6px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100% !important;
+}
+@media (max-width: 992px) {
+  .body-content img.drop-shadow {
+    max-width: 100%;
+  }
+}
+ol {
+  padding-left: 15px;
+}
 ::-ms-reveal {
   display: none;
 }

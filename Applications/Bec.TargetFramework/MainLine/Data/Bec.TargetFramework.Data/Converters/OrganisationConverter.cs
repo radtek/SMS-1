@@ -100,6 +100,7 @@ namespace Bec.TargetFramework.Entities
               target.SmsTransactions = source.SmsTransactions.ToDtosWithRelated(level - 1);
               target.ClassificationType = source.ClassificationType.ToDtoWithRelated(level - 1);
               target.LegalOrganisationDetail = source.LegalOrganisationDetail.ToDtoWithRelated(level - 1);
+              target.OrganisationNotes = source.OrganisationNotes.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

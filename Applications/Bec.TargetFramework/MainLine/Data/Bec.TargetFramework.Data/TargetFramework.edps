@@ -399,6 +399,7 @@
         <File Name="TargetFramework.VMessageRead.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VConversationUnread.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.File.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.OrganisationNote.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetConversationActivityResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1189,6 +1190,8 @@
         <File Name="VConversationUnreadDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FileDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FileDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="OrganisationNoteDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="OrganisationNoteDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetConversationActivityResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1587,6 +1590,7 @@
         <File Name="VMessageReadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VConversationUnreadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FileConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="OrganisationNoteConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetConversationActivityResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
@@ -1752,29 +1756,5 @@
         </AttributeType>
       </AttributeAssembly>
     </AttributeAssemblies>
-    <UpdateFromDatabaseExcludes>
-      <Exclude Name="SmsUserAccountOrganisationTransactionID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsTransactionID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsUserAccountOrganisationTransactionTypeID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="AddressID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ContactID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="IsActive" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="IsDeleted" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="CreatedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="CreatedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ModifiedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ModifiedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="Confirmed" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="LatestBankAccountCheckID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_pkey" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_Address_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_Contact_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransactionTypeID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-    </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

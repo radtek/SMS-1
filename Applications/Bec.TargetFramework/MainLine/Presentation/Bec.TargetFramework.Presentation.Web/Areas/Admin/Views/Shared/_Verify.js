@@ -8,17 +8,17 @@ $("#verify-form").validate({
     ignore: '.skip',
     // Rules for form validation
     rules: {
-        notes: {
+        PhoneNumber: {
             required: true
         },
-        name: {
+        OrganisationName: {
             required: true
         },
-        filesPerMonth: {
+        FilesPerMonth: {
             required: true,
             digits: true
         },
-        regulatorNumber: {
+        RegulatorNumber: {
             required: true,
             number: true,
             remote: {
@@ -34,7 +34,27 @@ $("#verify-form").validate({
                 dataType: 'json',
                 error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
             }
-        }
+        },
+        SroSalutation: {
+            required: true
+        },
+        SroFirstName: {
+            required: true
+        },
+        SroLastName: {
+            required: true
+        },
+        SroEmail: {
+            required: true,
+            email: true,
+            remote: {
+                cache: false,
+                url: $('#SroEmail').data("url"),
+                data: { email: function () { return $('#SroEmail').val(); } },
+                dataType: 'json',
+                error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+            }
+        },
     },
 
     // Do not change code below

@@ -995,19 +995,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Decimal GetBalanceAsAt(Guid accountID,DateTime date);
 
-		/// <param name="orgID"></param>
-		/// <param name="orgName"></param>
-		/// <param name="filesPerMonth"></param>
-		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		Task VerifyOrganisationAsync(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber);
+		Task VerifyOrganisationAsync(VerifyCompanyDTO dto);
 
-		/// <param name="orgID"></param>
-		/// <param name="orgName"></param>
-		/// <param name="filesPerMonth"></param>
-		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		void VerifyOrganisation(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber);
+		void VerifyOrganisation(VerifyCompanyDTO dto);
 
 		/// <param name="orgID"></param>
 		/// <param name="txID"></param>
@@ -1018,6 +1010,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="txID"></param>
 		/// <returns></returns>
 		Int32 GetSmsTransactionRank(Guid orgID,Guid txID);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		Task AddNotesAsync(Guid orgID,Guid uaoID,String notes);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		void AddNotes(Guid orgID,Guid uaoID,String notes);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -4075,32 +4079,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="orgName"></param>
-		/// <param name="filesPerMonth"></param>
-		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		public virtual Task VerifyOrganisationAsync(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber)
+		public virtual Task VerifyOrganisationAsync(VerifyCompanyDTO dto)
 		{
-			orgName = orgName.UrlEncode();
-			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/VerifyOrganisation?orgID=" + orgID + "&orgName=" + orgName + "&filesPerMonth=" + filesPerMonth + "&regulatorNumber=" + regulatorNumber, null, _user);
+			return PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/VerifyOrganisation", dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="orgName"></param>
-		/// <param name="filesPerMonth"></param>
-		/// <param name="regulatorNumber"></param>
-		public virtual void VerifyOrganisation(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber)
+		public virtual void VerifyOrganisation(VerifyCompanyDTO dto)
 		{
-			orgName = orgName.UrlEncode();
-			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/VerifyOrganisation?orgID=" + orgID + "&orgName=" + orgName + "&filesPerMonth=" + filesPerMonth + "&regulatorNumber=" + regulatorNumber, null, _user)).Wait();
+			Task.Run(() => PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/VerifyOrganisation", dto, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4124,6 +4116,33 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/OrganisationLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		public virtual Task AddNotesAsync(Guid orgID,Guid uaoID,String notes)
+		{
+			notes = notes.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/AddNotes?orgID=" + orgID + "&uaoID=" + uaoID + "&notes=" + notes, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="notes"></param>
+		public virtual void AddNotes(Guid orgID,Guid uaoID,String notes)
+		{
+			notes = notes.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddNotes?orgID=" + orgID + "&uaoID=" + uaoID + "&notes=" + notes, null, _user)).Wait();
 		}
 
 		#endregion

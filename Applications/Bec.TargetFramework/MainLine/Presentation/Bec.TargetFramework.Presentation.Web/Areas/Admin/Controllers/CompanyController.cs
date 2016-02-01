@@ -4,7 +4,6 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +19,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public INotificationLogicClient NotificationClient { get; set; }
         public IUserLogicClient UserLogicClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
-
-        public CompanyController()
-        {
-        }
 
         public ActionResult Provisional()
         {
@@ -64,22 +59,30 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var org = await OrganisationClient.GetOrganisationWithStatusAndAdminAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
-            ViewBag.orgId = orgId;
-            ViewBag.companyName = org.Name;
-            ViewBag.regNumber = org.RegulatorNumber;
-            ViewBag.orgType = org.OrganisationTypeDescription;
-            return PartialView("_Verify");
+            var dto = new VerifyCompanyDTO
+            {
+                OrganisationID = orgId,
+                SroUaoID = org.UserAccountOrganisationID,
+                OrganisationName = org.Name,
+                RegulatorNumber = org.RegulatorNumber,
+                SroSalutation = org.OrganisationAdminSalutation,
+                SroFirstName = org.OrganisationAdminFirstName,
+                SroLastName = org.OrganisationAdminLastName,
+                SroEmail = org.OrganisationAdminEmail
+            };
+            return PartialView("_Verify", dto);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Verify(Guid orgId, string notes, string name, int? filesPerMonth, string regulatorNumber)
+        public async Task<ActionResult> Verify(VerifyCompanyDTO dto)
         {
+            await EnsureSroUaoIsInOrg(dto.SroUaoID, dto.OrganisationID, queryClient);
             //set org status
-            await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
-            if(filesPerMonth.HasValue) await OrganisationClient.VerifyOrganisationAsync(orgId, name, filesPerMonth.Value, regulatorNumber);
+            await OrganisationClient.AddOrganisationStatusAsync(dto.OrganisationID, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, dto.PhoneNumber);
+            await OrganisationClient.VerifyOrganisationAsync(dto);
 
-            TempData["VerifiedCompanyId"] = orgId;
+            TempData["VerifiedCompanyId"] = dto.OrganisationID;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Provisional");
         }
@@ -109,6 +112,39 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Provisional");
+        }
+
+        public ActionResult ViewAddNotes(Guid orgID)
+        {
+            ViewBag.orgID = orgID;
+            return PartialView("_AddNotes");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddNotes(Guid orgID, string notes)
+        {
+            await OrganisationClient.AddNotesAsync(orgID, WebUserHelper.GetWebUserObject(HttpContext).UaoID, notes);
+            TempData["VerifiedCompanyId"] = orgID;
+            TempData["tabIndex"] = 1;
+            return RedirectToAction("Provisional");
+        }
+
+        public async Task<ActionResult> GetNotes(Guid orgID)
+        {
+            var select = ODataHelper.Select<OrganisationNoteDTO>(x => new { x.Notes, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName, x.DateTime });
+            var filter = ODataHelper.Filter<OrganisationNoteDTO>(x => x.OrganisationID == orgID);
+            var order = ODataHelper.OrderBy<OrganisationNoteDTO>(x => new { x.DateTime }) + " desc";
+            var res = await queryClient.QueryAsync<OrganisationNoteDTO>("OrganisationNotes", select + filter + order);
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        internal static async Task EnsureSroUaoIsInOrg(Guid uaoID, Guid orgID, IQueryLogicClient client)
+        {
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.OrganisationID });
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID && x.OrganisationID == orgID && x.Contact.IsPrimaryContact);
+            var result = await client.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
+            if (!result.Any()) throw new AccessViolationException("Operation failed");
         }
 
         public ActionResult ViewRegisterLender()

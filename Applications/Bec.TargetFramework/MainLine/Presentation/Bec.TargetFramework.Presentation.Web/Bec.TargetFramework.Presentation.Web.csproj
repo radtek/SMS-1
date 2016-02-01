@@ -260,6 +260,7 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Areas\Admin\Views\Shared\_AddNotes.js" />
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
@@ -273,6 +274,25 @@
       <DependentUpon>sms-font.css</DependentUpon>
     </Content>
     <Content Include="Content\Fonts\sms-font.svg" />
+    <Content Include="Content\websiteLayout\images\flow1.jpg" />
+    <Content Include="Content\websiteLayout\images\flow2.jpg" />
+    <Content Include="Content\websiteLayout\images\flow3.jpg" />
+    <Content Include="Content\websiteLayout\video\General\Forgotten Password.jpg" />
+    <Content Include="Content\websiteLayout\video\General\Forgotten Password.mp4" />
+    <Content Include="Content\websiteLayout\video\General\How to Check you are on the Secure Safe Move Scheme Website.jpg" />
+    <Content Include="Content\websiteLayout\video\General\How to Check you are on the Secure Safe Move Scheme Website.mp4" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional User – Inviting Users to the Safe Move Scheme.jpg" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional User – Inviting Users to the Safe Move Scheme.mp4" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional User – Next Steps After registration.jpg" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional User – Next Steps After registration.mp4" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional Users – How to Order the Safe Buyer Product.jpg" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional Users – How to Order the Safe Buyer Product.mp4" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Create Your Account.jpg" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Create Your Account.mp4" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.jpg" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.mp4" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.jpg" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.mp4" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
     <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
@@ -880,6 +900,8 @@
     <Content Include="Areas\SmsTransaction\Views\Transaction\_PushProduct.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AddNotes.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_orgNotesTmpl.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1827,7 +1849,6 @@
     <Content Include="Views\Home\HowItWorks.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\LendersCompliance.cshtml" />
-    <Content Include="Views\Home\NewAMLSolution.cshtml" />
     <Content Include="Views\Home\SafeBuyerSpecification.cshtml" />
     <Content Include="Views\Home\SafeMoveSchemeBenefits.cshtml" />
     <Content Include="Views\Home\ThreatsExplained.cshtml" />
@@ -1836,6 +1857,8 @@
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
     <Content Include="Views\Home\ConveyancingFirmFaq.cshtml" />
+    <Content Include="Views\Home\Tutorials.cshtml" />
+    <Content Include="Views\Home\HowTheSMSHelpsConveyancingFirms.cshtml" />
     <Content Include="Views\Home\MortgageBrokerRegistration.cshtml" />
     <Content Include="Views\App\Index.cshtml" />
     <Content Include="Views\Shared\_AutofillFix.cshtml" />

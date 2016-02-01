@@ -40,5 +40,10 @@
             <dd><p>{{PinCreatedDisplay}}</p></dd>
             {{/if}}
         </dl>
+        <span class="pull-right">
+            <a id="addNotesButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Notes" data-url="@Url.Action("ViewAddNotes", "Company", new { area = "Admin" })"><i class="fa fa-plus margin-right-5"></i>Add Notes</a>
+        </span>
+        <h5>Notes</h5>
+        <div id="verifiedNotes" class="notes"></div>
     </div>
 </div>

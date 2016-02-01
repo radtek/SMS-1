@@ -415,6 +415,7 @@
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
           <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.Store.File" store:Type="Tables" Schema="public" Table="File" />
+          <EntitySet Name="OrganisationNotes" EntityType="Bec.TargetFramework.Data.Store.OrganisationNote" store:Type="Tables" Schema="public" Table="OrganisationNote" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -2970,6 +2971,14 @@
           <AssociationSet Name="File_fk_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.File_fk_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="OrganisationNote_Organisation_fk" Association="Bec.TargetFramework.Data.Store.OrganisationNote_Organisation_fk">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="OrganisationNote" EntitySet="OrganisationNotes" />
+          </AssociationSet>
+          <AssociationSet Name="OrganisationNote_UserAccountOrganisation_fk" Association="Bec.TargetFramework.Data.Store.OrganisationNote_UserAccountOrganisation_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="OrganisationNote" EntitySet="OrganisationNotes" />
           </AssociationSet>
           <AssociationSet Name="SmsTransaction_Invoice_fk" Association="Bec.TargetFramework.Data.Store.SmsTransaction_Invoice_fk">
             <End Role="Invoice" EntitySet="Invoices" />
@@ -10054,6 +10063,16 @@
           <Property Name="Type" Type="varchar" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" />
           <Property Name="Temporary" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="OrganisationNote">
+          <Key>
+            <PropertyRef Name="OrganisationNoteID" />
+          </Key>
+          <Property Name="OrganisationNoteID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="DateTime" Type="timestamptz" Nullable="false" />
+          <Property Name="Notes" Type="text" Nullable="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18279,6 +18298,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="OrganisationNote_Organisation_fk">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="1" />
+          <End Role="OrganisationNote" Type="Bec.TargetFramework.Data.Store.OrganisationNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="OrganisationNote">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrganisationNote_UserAccountOrganisation_fk">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="OrganisationNote" Type="Bec.TargetFramework.Data.Store.OrganisationNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="OrganisationNote">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="SmsTransaction_Invoice_fk">
           <End Role="Invoice" Type="Bec.TargetFramework.Data.Store.Invoice" Multiplicity="0..1" />
           <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="*" />
@@ -18754,6 +18797,7 @@
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
           <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.File" />
+          <EntitySet Name="OrganisationNotes" EntityType="Bec.TargetFramework.Data.OrganisationNote" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -21250,6 +21294,14 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Files" EntitySet="Files" />
           </AssociationSet>
+          <AssociationSet Name="OrganisationNote_Organisation_fkSet" Association="Bec.TargetFramework.Data.OrganisationNote_Organisation_fk">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="OrganisationNotes" EntitySet="OrganisationNotes" />
+          </AssociationSet>
+          <AssociationSet Name="OrganisationNote_UserAccountOrganisation_fkSet" Association="Bec.TargetFramework.Data.OrganisationNote_UserAccountOrganisation_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="OrganisationNotes" EntitySet="OrganisationNotes" />
+          </AssociationSet>
           <AssociationSet Name="SmsTransaction_Invoice_fkSet" Association="Bec.TargetFramework.Data.SmsTransaction_Invoice_fk">
             <End Role="Invoice" EntitySet="Invoices" />
             <End Role="SmsTransactions" EntitySet="SmsTransactions" />
@@ -21646,6 +21698,7 @@
           <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="ConversationParticipants" ed:Guid="c1cb4daa-fc4b-478b-ab7e-1b3ec2ad0735" />
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_CreatedByUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Notifications" ed:Guid="65f99910-9375-4611-9d84-0381177b95e7" />
           <NavigationProperty Name="Files" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Files" ed:Guid="674e1d85-14db-4a9c-8300-00380ac58949" />
+          <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_UserAccountOrganisation_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationNotes" ed:Guid="6d48d822-e4df-4307-9b2a-ef989d240401" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -29104,6 +29157,7 @@
           <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="Organisation" ToRole="SmsTransactions" ed:Guid="407e3ad1-f64a-4ac7-8f99-0ef11fbf274a" />
           <NavigationProperty Name="ClassificationType" Relationship="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk" FromRole="Organisations" ToRole="ClassificationType" ed:Guid="851eadd4-06e9-46cc-bfe5-2c235bf9a4e5" />
           <NavigationProperty Name="LegalOrganisationDetail" Relationship="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation" FromRole="Organisation" ToRole="LegalOrganisationDetail" ed:Guid="7835c877-7c6b-490a-83ad-13c637567b3b" />
+          <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_Organisation_fk" FromRole="Organisation" ToRole="OrganisationNotes" ed:Guid="4fcad52b-104e-4115-941e-7484cac266c1" />
         </EntityType>
         <EntityType Name="VOrganisationWithStatusAndAdmin" ed:Guid="bfc8d9b7-97cf-4558-9215-bbe4a81f5d25">
           <Key>
@@ -29482,6 +29536,18 @@
           <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="30e77c6d-e4bc-4c99-9f53-52c6ce6d3992" />
           <Property Name="Temporary" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="91815814-b87c-47b7-affc-47742e4729c1" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="Files" ToRole="UserAccountOrganisation" ed:Guid="fc10697c-d6af-4995-a560-91aa3d5faf31" />
+        </EntityType>
+        <EntityType Name="OrganisationNote" ed:Guid="5b1df67a-982a-4c23-bb1b-e4ba725892c7">
+          <Key>
+            <PropertyRef Name="OrganisationNoteID" />
+          </Key>
+          <Property Name="OrganisationNoteID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="03daafc0-4e81-4589-ae32-15197b40f620" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d4accdf3-7414-422f-9e27-18ca6a8020c3" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3ed396e0-4660-4e9a-9e7c-c25998c93d1a" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="f578eef3-68f3-42a8-b696-89c8ef015a10" />
+          <Property Name="Notes" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="b4dac982-95b8-4695-ba5b-2bd01d95a77c" />
+          <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.OrganisationNote_Organisation_fk" FromRole="OrganisationNotes" ToRole="Organisation" ed:Guid="77000506-236f-4fda-ad0b-9f60b40d90bb" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.OrganisationNote_UserAccountOrganisation_fk" FromRole="OrganisationNotes" ToRole="UserAccountOrganisation" ed:Guid="4358b50c-fc4b-4d8d-8757-179535af3daf" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37372,6 +37438,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="OrganisationNote_Organisation_fk" ed:Guid="44c2a0ac-9e4e-43b9-ba83-58e807644a6e">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="1" />
+          <End Role="OrganisationNotes" Type="Bec.TargetFramework.Data.OrganisationNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="OrganisationNotes">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrganisationNote_UserAccountOrganisation_fk" ed:Guid="b1aa8ec4-337a-4644-a4b4-5c9274695802">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="OrganisationNotes" Type="Bec.TargetFramework.Data.OrganisationNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="OrganisationNotes">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="SmsTransaction_Invoice_fk" ed:Guid="ebc83c0b-f9c8-431c-b24c-ddb3f11a3e95">
           <End Role="Invoice" Type="Bec.TargetFramework.Data.Invoice" Multiplicity="0..1" />
           <End Role="SmsTransactions" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="*" />
@@ -44242,6 +44332,17 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="Temporary" ColumnName="Temporary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrganisationNotes">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.OrganisationNote">
+              <MappingFragment StoreEntitySet="OrganisationNotes">
+                <ScalarProperty Name="OrganisationNoteID" ColumnName="OrganisationNoteID" />
+                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
