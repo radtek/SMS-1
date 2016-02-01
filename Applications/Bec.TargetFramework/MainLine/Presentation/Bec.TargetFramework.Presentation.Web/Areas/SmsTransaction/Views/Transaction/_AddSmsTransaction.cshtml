@@ -93,9 +93,10 @@
                                             <div class="row">
                                                 <section class="col col-sm-8">
                                                     <label class="checkbox">
+                                                        <label>Select this option in order to recommend the Safe Buyer product to your client on behalf of your firm:</label>
                                                         @Html.CheckBoxFor(m => m.SmsTransactionDTO.IsProductAdvised, new { tabindex = "7", @checked = true })
                                                         <i></i>
-                                                        <label for="@Html.IdFor(m => m.SmsTransactionDTO.IsProductAdvised)">Advise Buyer To Use Save Buyer Product</label>
+                                                        <label for="@Html.IdFor(m => m.SmsTransactionDTO.IsProductAdvised)">Recommend buyer to use Safe Buyer product</label>
                                                     </label>
                                                 </section>
                                             </div>
