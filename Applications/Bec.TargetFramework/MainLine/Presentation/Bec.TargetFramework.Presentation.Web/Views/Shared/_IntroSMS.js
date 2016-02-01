@@ -1,7 +1,7 @@
 ﻿function runPageIntro() {
     console.log('run smh');
     var ajaxOptions = {
-        url: "/App/GetSMHItemOnPage",
+        url: "/App/GetSmhItemOnPage",
         data: { pageUrl: window.location.pathname },
         cache: false
     };

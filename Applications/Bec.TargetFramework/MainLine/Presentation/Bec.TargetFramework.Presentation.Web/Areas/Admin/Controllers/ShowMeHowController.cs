@@ -18,7 +18,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     public class ShowMeHowController : Controller
     {
         public IQueryLogicClient queryClient { get; set; }
-        public ISMHLogicClient smhClient { get; set; }
+        public ISmhLogicClient smhClient { get; set; }
 
         // GET: Admin/ShowMeHow
         public async Task<ActionResult> Index()
@@ -34,7 +34,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var select = ODataHelper.Select<RoleDTO>(x => new { x.RoleID, x.RoleName });
             var roles = await queryClient.QueryAsync<RoleDTO>("Roles", select);
             ViewBag.roles = roles.Select(x => new SelectListItem { Text = x.RoleName, Value = x.RoleID.ToString() }).ToList();
-            return PartialView("_AddSMHPage");
+            return PartialView("_AddSmhPage");
         }
 
         public async Task<ActionResult> ViewAddSysPage()
@@ -42,14 +42,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var select = ODataHelper.Select<RoleDTO>(x => new { x.RoleID, x.RoleName });
             var roles = await queryClient.QueryAsync<RoleDTO>("Roles", select);
             ViewBag.roles = roles.Select(x => new SelectListItem { Text = x.RoleName, Value = x.RoleID.ToString() }).ToList();
-            return PartialView("_AddSMHSysPage");
+            return PartialView("_AddSmhSysPage");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPage(SMHPageDTO page)
         {
-            var result = await smhClient.AddSMHPageAsync(page);
+            var result = await smhClient.AddSmhPageAsync(page);
             TempData["PageId"] = result.PageID;
             TempData["tabIndex"] = 0;
             return RedirectToAction("Index");
@@ -60,7 +60,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> AddSysPage(SMHPageDTO page)
         {
             page.PageURL = "SMH";//Default Value
-            var result = await smhClient.AddSMHPageAsync(page);
+            var result = await smhClient.AddSmhPageAsync(page);
             TempData["SysPageId"] = result.PageID;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Index");
@@ -84,7 +84,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     RoleName = r.RoleName,
                     IsSystemSMH = false
                 }).ToList().FirstOrDefault();
-            return PartialView("_EditSMHPage", data);
+            return PartialView("_EditSmhPage", data);
         }
 
         public async Task<ActionResult> ViewEditSysPage(Guid pageId)
@@ -105,7 +105,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     RoleName = r.RoleName,
                     IsSystemSMH = true
                 }).ToList().FirstOrDefault();
-            return PartialView("_EditSMHPage", data);
+            return PartialView("_EditSmhPage", data);
         }
 
         [HttpPost]
@@ -119,7 +119,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 PageURL = page.PageUrl,
                 RoleId = page.RoleId
             };
-            await smhClient.EditSMHPageAsync(pageDTO);
+            await smhClient.EditSmhPageAsync(pageDTO);
             if (page.IsSystemSMH)
             {
                 TempData["SysPageId"] = page.PageId;
@@ -151,7 +151,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     RoleName = r.RoleName,
                     IsSystemSMH = false
                 }).ToList().FirstOrDefault();
-            return PartialView("_DeleteSMHPage", data);
+            return PartialView("_DeleteSmhPage", data);
         }
 
         public async Task<ActionResult> ViewDeleteSysPage(Guid pageId)
@@ -172,7 +172,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     RoleName = r.RoleName,
                     IsSystemSMH = true
                 }).ToList().FirstOrDefault();
-            return PartialView("_DeleteSMHPage", data);
+            return PartialView("_DeleteSmhPage", data);
         }
 
         [HttpPost]
@@ -186,7 +186,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 PageURL = page.PageUrl,
                 RoleId = page.RoleId
             };
-            await smhClient.DeleteSMHPageAsync(pageDTO);
+            await smhClient.DeleteSmhPageAsync(pageDTO);
             if (page.IsSystemSMH)
             {
                 TempData["SysPageId"] = null;
@@ -272,14 +272,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             var itemsOnPage = (items == null ? 0 : items.Count());
             SMHItemDTO item = new SMHItemDTO { PageID = pageId, ItemOrder = itemsOnPage + 1 };
-            return PartialView("_AddSMHItem", item);
+            return PartialView("_AddSmhItem", item);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddItem(SMHItemDTO itemDto)
         {
-            var result = await smhClient.AddSMHItemAsync(itemDto);
+            var result = await smhClient.AddSmhItemAsync(itemDto);
             var pageId = itemDto.PageID;
             var selectPage = ODataHelper.Select<SMHPageDTO>(x => new { x.PageID, x.PageName, x.PageURL, x.RoleId });
             var filterPage = ODataHelper.Filter<SMHPageDTO>(x => x.PageID == pageId);
@@ -313,14 +313,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filterItem = ODataHelper.Filter<SMHItemDTO>(x => x.ItemID == itemId);
             var items = await queryClient.QueryAsync<SMHItemDTO>("SMHItems", selectItem + filterItem);
 
-            return PartialView("_EditSMHItem", items.FirstOrDefault());
+            return PartialView("_EditSmhItem", items.FirstOrDefault());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditItem(SMHItemDTO itemDto)
         {
-            await smhClient.EditSMHItemAsync(itemDto);
+            await smhClient.EditSmhItemAsync(itemDto);
 
             var pageId = itemDto.PageID;
             var selectPage = ODataHelper.Select<SMHPageDTO>(x => new { x.PageID, x.PageName, x.PageURL, x.RoleId });
@@ -353,14 +353,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filterItem = ODataHelper.Filter<SMHItemDTO>(x => x.ItemID == itemId);
             var items = await queryClient.QueryAsync<SMHItemDTO>("SMHItems", selectItem + filterItem);
 
-            return PartialView("_DeleteSMHItem", items.FirstOrDefault());
+            return PartialView("_DeleteSmhItem", items.FirstOrDefault());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteItem(SMHItemDTO itemDto)
         {
-            await smhClient.DeleteSMHItemAsync(itemDto);
+            await smhClient.DeleteSmhItemAsync(itemDto);
 
             var pageId = itemDto.PageID;
             var selectPage = ODataHelper.Select<SMHPageDTO>(x => new { x.PageID, x.PageName, x.PageURL, x.RoleId });
@@ -411,7 +411,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             if (itemDto != null)
                             {
                                 itemDto.ItemOrder = int.Parse(index) + 1;
-                                await smhClient.EditSMHItemAsync(itemDto);
+                                await smhClient.EditSmhItemAsync(itemDto);
                             }
                         }
                     }

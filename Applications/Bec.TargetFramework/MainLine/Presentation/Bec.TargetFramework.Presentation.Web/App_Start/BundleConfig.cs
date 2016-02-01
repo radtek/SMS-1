@@ -124,13 +124,13 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_OrderCallout").Include("~/Areas/Admin/Views/Shared/_OrderCallout.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Admin/ShowMeHow/Index").Include("~/Areas/Admin/Views/ShowMeHow/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSMHPage").Include("~/Areas/Admin/Views/Shared/_AddSMHPage.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSMHSysPage").Include("~/Areas/Admin/Views/Shared/_AddSMHSysPage.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSMHItem").Include("~/Areas/Admin/Views/Shared/_AddSMHItem.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditSMHPage").Include("~/Areas/Admin/Views/Shared/_EditSMHPage.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditSMHItem").Include("~/Areas/Admin/Views/Shared/_EditSMHItem.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteSMHPage").Include("~/Areas/Admin/Views/Shared/_DeleteSMHPage.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteSMHItem").Include("~/Areas/Admin/Views/Shared/_DeleteSMHItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhPage").Include("~/Areas/Admin/Views/Shared/_AddSmhPage.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhSysPage").Include("~/Areas/Admin/Views/Shared/_AddSmhSysPage.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhItem").Include("~/Areas/Admin/Views/Shared/_AddSmhItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditSmhPage").Include("~/Areas/Admin/Views/Shared/_EditSmhPage.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditSmhItem").Include("~/Areas/Admin/Views/Shared/_EditSmhItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteSmhPage").Include("~/Areas/Admin/Views/Shared/_DeleteSmhPage.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteSmhItem").Include("~/Areas/Admin/Views/Shared/_DeleteSmhItem.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Account/Index").Include("~/Areas/BankAccount/Views/Account/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Check/Index").Include("~/Areas/BankAccount/Views/Check/Index.js"));
@@ -152,6 +152,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_Purchase").Include("~/Areas/SmsTransaction/Views/Shared/_Purchase.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewGeneratePIN").Include("~/Areas/SmsTransaction/Views/Shared/_ViewGeneratePIN.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include("~/Areas/SmsTransaction/Views/Transaction/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Welcome").Include("~/Areas/SmsTransaction/Views/Transaction/Welcome.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Index").Include("~/Areas/Buyer/Views/SafeBuyer/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/IndexSelectTransaction").Include("~/Areas/Buyer/Views/SafeBuyer/IndexSelectTransaction.js"));
@@ -159,10 +160,11 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_NoMatch").Include("~/Areas/Buyer/Views/SafeBuyer/_NoMatch.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Match").Include("~/Areas/Buyer/Views/SafeBuyer/_Match.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Welcome").Include("~/Areas/Buyer/Views/SafeBuyer/Welcome.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSysSMS").Include("~/Views/Shared/_IntroSysSMS.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSMS").Include("~/Views/Shared/_IntroSMS.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSysSms").Include("~/Views/Shared/_IntroSysSms.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSms").Include("~/Views/Shared/_IntroSms.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));

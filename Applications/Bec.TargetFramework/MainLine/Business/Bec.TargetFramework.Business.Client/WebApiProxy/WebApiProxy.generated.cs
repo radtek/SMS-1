@@ -1112,25 +1112,25 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void RemoveProductFromShoppingCart(Guid cartID,Guid itemID);
 	}
 
-	public partial interface ISMHLogicClient : IClientBase	{	
+	public partial interface ISmhLogicClient : IClientBase	{	
 
 		/// <returns></returns>
-		Task<SMHPageDTO> AddSMHPageAsync(SMHPageDTO smhPageDto);
+		Task<SMHPageDTO> AddSmhPageAsync(SMHPageDTO smhPageDto);
 
 		/// <returns></returns>
-		SMHPageDTO AddSMHPage(SMHPageDTO smhPageDto);
+		SMHPageDTO AddSmhPage(SMHPageDTO smhPageDto);
 
 		/// <returns></returns>
-		Task EditSMHPageAsync(SMHPageDTO smhPageDto);
+		Task EditSmhPageAsync(SMHPageDTO smhPageDto);
 
 		/// <returns></returns>
-		void EditSMHPage(SMHPageDTO smhPageDto);
+		void EditSmhPage(SMHPageDTO smhPageDto);
 
 		/// <returns></returns>
-		Task DeleteSMHPageAsync(SMHPageDTO smhPageDto);
+		Task DeleteSmhPageAsync(SMHPageDTO smhPageDto);
 
 		/// <returns></returns>
-		void DeleteSMHPage(SMHPageDTO smhPageDto);
+		void DeleteSmhPage(SMHPageDTO smhPageDto);
 
 		/// <param name="pageID"></param>
 		/// <returns></returns>
@@ -1141,22 +1141,22 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		List<SMHItemDTO> GetItemOnPage(Guid pageID);
 
 		/// <returns></returns>
-		Task<SMHItemDTO> AddSMHItemAsync(SMHItemDTO smhItemDto);
+		Task<SMHItemDTO> AddSmhItemAsync(SMHItemDTO smhItemDto);
 
 		/// <returns></returns>
-		SMHItemDTO AddSMHItem(SMHItemDTO smhItemDto);
+		SMHItemDTO AddSmhItem(SMHItemDTO smhItemDto);
 
 		/// <returns></returns>
-		Task EditSMHItemAsync(SMHItemDTO smhItemDto);
+		Task EditSmhItemAsync(SMHItemDTO smhItemDto);
 
 		/// <returns></returns>
-		void EditSMHItem(SMHItemDTO smhItemDto);
+		void EditSmhItem(SMHItemDTO smhItemDto);
 
 		/// <returns></returns>
-		Task DeleteSMHItemAsync(SMHItemDTO smhItemDto);
+		Task DeleteSmhItemAsync(SMHItemDTO smhItemDto);
 
 		/// <returns></returns>
-		void DeleteSMHItem(SMHItemDTO smhItemDto);
+		void DeleteSmhItem(SMHItemDTO smhItemDto);
 
 		/// <param name="uaoID"></param>
 		/// <param name="ogrId"></param>
@@ -4488,19 +4488,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class SMHLogicClient : ClientBase, Interfaces.ISMHLogicClient	{		
+	public partial class SmhLogicClient : ClientBase, Interfaces.ISmhLogicClient	{		
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public SMHLogicClient(string url) : base(url)
+		public SmhLogicClient(string url) : base(url)
 		{
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public SMHLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		public SmhLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
@@ -4509,57 +4509,57 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task<SMHPageDTO> AddSMHPageAsync(SMHPageDTO smhPageDto)
+		public virtual Task<SMHPageDTO> AddSmhPageAsync(SMHPageDTO smhPageDto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<SMHPageDTO, SMHPageDTO>("api/SMHLogic/AddSMHPage", smhPageDto, _user);
+			return PostAsync<SMHPageDTO, SMHPageDTO>("api/SmhLogic/AddSmhPage", smhPageDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual SMHPageDTO AddSMHPage(SMHPageDTO smhPageDto)
+		public virtual SMHPageDTO AddSmhPage(SMHPageDTO smhPageDto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SMHPageDTO, SMHPageDTO>("api/SMHLogic/AddSMHPage", smhPageDto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task EditSMHPageAsync(SMHPageDTO smhPageDto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<SMHPageDTO>("api/SMHLogic/EditSMHPage", smhPageDto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void EditSMHPage(SMHPageDTO smhPageDto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<SMHPageDTO>("api/SMHLogic/EditSMHPage", smhPageDto, _user)).Wait();
+			return Task.Run(() => PostAsync<SMHPageDTO, SMHPageDTO>("api/SmhLogic/AddSmhPage", smhPageDto, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task DeleteSMHPageAsync(SMHPageDTO smhPageDto)
+		public virtual Task EditSmhPageAsync(SMHPageDTO smhPageDto)
 		{
 			string _user = getHttpContextUser();
-			return DeleteAsync<SMHPageDTO>("api/SMHLogic/DeleteSMHPage", smhPageDto, _user);
+			return PostAsync<SMHPageDTO>("api/SmhLogic/EditSmhPage", smhPageDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void DeleteSMHPage(SMHPageDTO smhPageDto)
+		public virtual void EditSmhPage(SMHPageDTO smhPageDto)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => DeleteAsync<SMHPageDTO>("api/SMHLogic/DeleteSMHPage", smhPageDto, _user)).Wait();
+			Task.Run(() => PostAsync<SMHPageDTO>("api/SmhLogic/EditSmhPage", smhPageDto, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task DeleteSmhPageAsync(SMHPageDTO smhPageDto)
+		{
+			string _user = getHttpContextUser();
+			return DeleteAsync<SMHPageDTO>("api/SmhLogic/DeleteSmhPage", smhPageDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void DeleteSmhPage(SMHPageDTO smhPageDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => DeleteAsync<SMHPageDTO>("api/SmhLogic/DeleteSmhPage", smhPageDto, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4570,7 +4570,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task<List<SMHItemDTO>> GetItemOnPageAsync(Guid pageID)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<SMHItemDTO>>("api/SMHLogic/GetItemOnPage?pageID=" + pageID, _user);
+			return GetAsync<List<SMHItemDTO>>("api/SmhLogic/GetItemOnPage?pageID=" + pageID, _user);
 		}
 
 		/// <summary>
@@ -4580,64 +4580,64 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual List<SMHItemDTO> GetItemOnPage(Guid pageID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<SMHItemDTO>>("api/SMHLogic/GetItemOnPage?pageID=" + pageID, _user)).Result;
+			return Task.Run(() => GetAsync<List<SMHItemDTO>>("api/SmhLogic/GetItemOnPage?pageID=" + pageID, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task<SMHItemDTO> AddSMHItemAsync(SMHItemDTO smhItemDto)
+		public virtual Task<SMHItemDTO> AddSmhItemAsync(SMHItemDTO smhItemDto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<SMHItemDTO, SMHItemDTO>("api/SMHLogic/AddSMHItem", smhItemDto, _user);
+			return PostAsync<SMHItemDTO, SMHItemDTO>("api/SmhLogic/AddSmhItem", smhItemDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual SMHItemDTO AddSMHItem(SMHItemDTO smhItemDto)
+		public virtual SMHItemDTO AddSmhItem(SMHItemDTO smhItemDto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SMHItemDTO, SMHItemDTO>("api/SMHLogic/AddSMHItem", smhItemDto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task EditSMHItemAsync(SMHItemDTO smhItemDto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<SMHItemDTO>("api/SMHLogic/EditSMHItem", smhItemDto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void EditSMHItem(SMHItemDTO smhItemDto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<SMHItemDTO>("api/SMHLogic/EditSMHItem", smhItemDto, _user)).Wait();
+			return Task.Run(() => PostAsync<SMHItemDTO, SMHItemDTO>("api/SmhLogic/AddSmhItem", smhItemDto, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task DeleteSMHItemAsync(SMHItemDTO smhItemDto)
+		public virtual Task EditSmhItemAsync(SMHItemDTO smhItemDto)
 		{
 			string _user = getHttpContextUser();
-			return DeleteAsync<SMHItemDTO>("api/SMHLogic/DeleteSMHItem", smhItemDto, _user);
+			return PostAsync<SMHItemDTO>("api/SmhLogic/EditSmhItem", smhItemDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void DeleteSMHItem(SMHItemDTO smhItemDto)
+		public virtual void EditSmhItem(SMHItemDTO smhItemDto)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => DeleteAsync<SMHItemDTO>("api/SMHLogic/DeleteSMHItem", smhItemDto, _user)).Wait();
+			Task.Run(() => PostAsync<SMHItemDTO>("api/SmhLogic/EditSmhItem", smhItemDto, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task DeleteSmhItemAsync(SMHItemDTO smhItemDto)
+		{
+			string _user = getHttpContextUser();
+			return DeleteAsync<SMHItemDTO>("api/SmhLogic/DeleteSmhItem", smhItemDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void DeleteSmhItem(SMHItemDTO smhItemDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => DeleteAsync<SMHItemDTO>("api/SmhLogic/DeleteSmhItem", smhItemDto, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4651,7 +4651,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			pageUrl = pageUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<List<SMHItemDTO>>("api/SMHLogic/GetItemOnPageForCurrentUser?uaoID=" + uaoID + "&ogrId=" + ogrId + "&pageUrl=" + pageUrl, _user);
+			return GetAsync<List<SMHItemDTO>>("api/SmhLogic/GetItemOnPageForCurrentUser?uaoID=" + uaoID + "&ogrId=" + ogrId + "&pageUrl=" + pageUrl, _user);
 		}
 
 		/// <summary>
@@ -4664,7 +4664,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			pageUrl = pageUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<SMHItemDTO>>("api/SMHLogic/GetItemOnPageForCurrentUser?uaoID=" + uaoID + "&ogrId=" + ogrId + "&pageUrl=" + pageUrl, _user)).Result;
+			return Task.Run(() => GetAsync<List<SMHItemDTO>>("api/SmhLogic/GetItemOnPageForCurrentUser?uaoID=" + uaoID + "&ogrId=" + ogrId + "&pageUrl=" + pageUrl, _user)).Result;
 		}
 
 		#endregion
