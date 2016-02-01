@@ -7,7 +7,7 @@
     <div class="modal-dialog" id="d1" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addTransactionLabel">Add Transaction and Advise Safe Buyer Product</h4>
+                <h4 class="modal-title" id="addTransactionLabel">Add Transaction and Offer Safe Buyer Product</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -93,10 +93,10 @@
                                             <div class="row">
                                                 <section class="col col-sm-8">
                                                     <label class="checkbox">
-                                                        <label>Select this option in order to recommend the Safe Buyer product to your client on behalf of your firm:</label>
+                                                        <label>Select this option in order to advise your client about the Safe Buyer product on behalf of your firm:</label>
                                                         @Html.CheckBoxFor(m => m.SmsTransactionDTO.IsProductAdvised, new { tabindex = "7", @checked = true })
                                                         <i></i>
-                                                        <label for="@Html.IdFor(m => m.SmsTransactionDTO.IsProductAdvised)">Recommend buyer to use Safe Buyer product</label>
+                                                        <label for="@Html.IdFor(m => m.SmsTransactionDTO.IsProductAdvised)">Advise Buyer To Use Safe Buyer Product</label>
                                                     </label>
                                                 </section>
                                             </div>

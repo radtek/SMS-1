@@ -71,9 +71,9 @@
 {{/if}}
 {{#xif "this.SmsTransaction.IsProductAdvised == false && this.SmsTransaction.InvoiceID == null"}}
 <div class="pull-right">
-    <a class="btn btn-sm btn-primary" data-modallink="true" title="Recommend Buyer To Use Safe Buyer Product"
+    <a class="btn btn-sm btn-primary" data-modallink="true" title="Advise Buyer To Use Safe Buyer Product"
        data-href="@Url.Action("ViewAdviseProduct", "Transaction", new { area = "SmsTransaction" })?transactionId={{SmsTransactionID}}&primaryBuyerUaoId={{UserAccountOrganisationID}}&&pageNumber={{pageNumber}}">
-        <i class="fa fa-bullhorn margin-right-5"></i>Recommend Buyer To Use Safe Buyer Product
+        <i class="fa fa-bullhorn margin-right-5"></i>Advise Buyer To Use Safe Buyer Product
     </a>
 </div>
 {{/xif}}
@@ -83,11 +83,11 @@
     <dd>
         <p>Safe Buyer</p>
     </dd>
-    <dt>Product Advised:</dt>
+    <dt>Product Offered:</dt>
     <dd>
         <p>{{transactionCreated}}</p>
     </dd>
-    <dt>Product Recommended:</dt>
+    <dt>Product Advised:</dt>
     <dd>
         <p>
             {{#if SmsTransaction.IsProductAdvised}}
