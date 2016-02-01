@@ -1,7 +1,7 @@
 ﻿function runSystemIntro() {
     console.log('run sys smh');
     var ajaxOptions = {
-        url: "/App/GetSystemSMHItem",
+        url: "/App/GetSystemSmhItem",
         cache: false
     };
     ajaxWrapper(ajaxOptions)
@@ -24,28 +24,12 @@ function getPosition(pos) {
 function getSteps(items) {
     var steps = [];
     $.each(items, function (i, item) {
-        //console.log(item.ItemSelector);
-
         steps.push({
             element: item.ItemSelector,
             intro: item.ItemDescription,
             position: getPosition(item.ItemPosition),
-            onbeforechange: function (e, t) {
-                //if (item.TabContainerId != null) {
-                //    $('[href=#' + item.TabContainerId + ']').parent().addClass('active');
-                //    $('#' + item.TabContainerId).addClass('active');
-                //    var containerId = $('[href=#' + item.TabContainerId + ']').parent().parent().attr('id');
-                //    $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
-                //    $('.active', $('#' + containerId).parent()).removeClass('active');
-                //    $('[href=#' + item.TabContainerId + ']').click();
-                //}
-
-                //var isHidden = $(item.ItemSelector).is(':hidden');
-                //if (isHidden) { $(item.ItemSelector).css('visibility', 'visible'); }
-            },
         });
     });
-    //console.log(steps);
     return steps;
 }
 
@@ -63,21 +47,34 @@ function startSysSMH(items) {
         })
     });
 
-    var createStepEvents = function (guideObject, eventList) {
-        _.each(eventList, function (event) {
-            guideObject[event](function () {
-                var steps = this._options.steps,
-                    currentStep = this._currentStep;
-                if (_.isFunction(steps[currentStep][event])) {
-                    steps[currentStep][event]();
+    intro.oncomplete(function () {
+        if (elementHidden != "") {
+            $(elementHidden).closest('ul').css("display", "none");
+            elementHidden = "";
+        }
+    });
+    intro.onexit(function () {
+        if (elementHidden != "") {
+            $(elementHidden).closest('ul').css("display", "none");
+            elementHidden = "";
+        }
+    });
+    intro.onchange(function (targetElement) {
+        if ($(targetElement).closest('ul').css("display") == 'none') {
+            $(targetElement).closest('ul').css("display", "block");
+            elementHidden = targetElement;
+        }
+        else {
+            if (elementHidden != "") {
+                if ($(elementHidden).closest('ul').is($(targetElement).closest('ul'))) {
+                    $(elementHidden).closest('ul').css("display", "block");
                 }
-            });
-
-        }, this);
-    }
-
-    createStepEvents(intro, ['onbeforechange']);
-    var tempShow = false;
-    var tempElement = null;
+                else {
+                    $(elementHidden).closest('ul').css("display", "none");
+                    elementHidden = "";
+                }
+            }
+        }
+    });
     intro.start();
 }

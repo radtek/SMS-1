@@ -21,7 +21,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public IUserLogicClient UserClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
         public ICalloutLogicClient calloutClient { get; set; }
-        public ISMHLogicClient smhClient { get; set; }
+        public ISmhLogicClient smhClient { get; set; }
 
         public ActionResult Index()
         {
@@ -191,7 +191,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         }
 
 
-        public async Task<ActionResult> GetSMHItemOnPage(string pageUrl)
+        public async Task<ActionResult> GetSmhItemOnPage(string pageUrl)
         {
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);
@@ -200,7 +200,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> GetSystemSMHItem()
+        public async Task<ActionResult> GetSystemSmhItem()
         {
             string pageUrl = "SMH";
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);

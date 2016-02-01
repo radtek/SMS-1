@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Bec.TargetFramework.Business.Logic
 {
     [Trace(TraceExceptionsOnly = true)]
-    public class SMHLogicController : LogicBase
+    public class SmhLogicController : LogicBase
     {
         public UserLogicController UserLogic { get; set; }
 
@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Business.Logic
         //    }
         //}
 
-        public async Task<SMHPageDTO> AddSMHPage(SMHPageDTO smhPageDto)
+        public async Task<SMHPageDTO> AddSmhPage(SMHPageDTO smhPageDto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -38,7 +38,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task EditSMHPage(SMHPageDTO smhPageDto)
+        public async Task EditSmhPage(SMHPageDTO smhPageDto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -57,7 +57,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task DeleteSMHPage(SMHPageDTO smhPageDto)
+        public async Task DeleteSmhPage(SMHPageDTO smhPageDto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -87,7 +87,7 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
 
-        public async Task<SMHItemDTO> AddSMHItem(SMHItemDTO smhItemDto)
+        public async Task<SMHItemDTO> AddSmhItem(SMHItemDTO smhItemDto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -99,7 +99,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task EditSMHItem(SMHItemDTO smhItemDto)
+        public async Task EditSmhItem(SMHItemDTO smhItemDto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -122,7 +122,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task DeleteSMHItem(SMHItemDTO smhItemDto)
+        public async Task DeleteSmhItem(SMHItemDTO smhItemDto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
