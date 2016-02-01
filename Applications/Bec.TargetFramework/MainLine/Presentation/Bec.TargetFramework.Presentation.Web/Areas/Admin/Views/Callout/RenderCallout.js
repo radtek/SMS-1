@@ -12,7 +12,7 @@ $(document).ready(function () {
     getCallout();
 })
 
-function getSteps(callouts) {
+function getStepCallouts(callouts) {
     var step = [];
     if (callouts != null && callouts.length > 0) {
         step.push( {
@@ -35,7 +35,7 @@ function startIntro(callouts) {
     var intro = introJs();
     intro.setOptions({
         showStepNumbers: false, overlayOpacity: 0.3,
-        steps: getSteps(callouts)
+        steps: getStepCallouts(callouts)
     });
     intro.oncomplete(function () {
         if (elementHidden != "") {
