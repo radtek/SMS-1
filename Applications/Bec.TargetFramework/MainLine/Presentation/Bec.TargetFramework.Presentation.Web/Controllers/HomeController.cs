@@ -54,6 +54,16 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
+        public ActionResult SafeBuyerProduct()
+        {
+            return View();
+        }
+
+        public ActionResult HowTheSmsHelpsLenders()
+        {
+            return View();
+        }
+
         public ActionResult FreeTrial()
         {
             return View();
@@ -89,7 +99,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
-        public ActionResult ForThePublic()
+        public ActionResult ForThePublicIntroduction()
         {
             return View();
         }
@@ -100,6 +110,11 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         }
 
         public ActionResult Tutorials()
+        {
+            return View();
+        }
+
+        public ActionResult HowToKeepConsumersSafe()
         {
             return View();
         }
