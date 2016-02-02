@@ -54,7 +54,7 @@
             }
             else {
                 $('#declineButton').show();
-                $('#checkBankAccountBtn').attr("disabled", "disabled");
+                $('#checkBankAccountBtn').hide();
                 if (advised)
                     $('#infoAdviceMessage').show();
                 else
