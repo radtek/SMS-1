@@ -114,7 +114,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var filterCua = ODataHelper.Filter<CalloutUserAccountDTO>(x =>
                 !x.IsDeleted && x.UserID == userID
                );
-            var allCuas = (await QueryClient.QueryAsync<CalloutUserAccountDTO>("CalloutUserAccounts", selectCua + filterCua)).ToList();
+            var allCuas = await QueryClient.QueryAsync<CalloutUserAccountDTO>("CalloutUserAccounts", selectCua + filterCua);
             var filteredCuas = allCuas.ToList();
 
             var selectUaoRole = ODataHelper.Select<UserAccountOrganisationRoleDTO>(x => new
@@ -130,7 +130,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var filterUaoRole = ODataHelper.Filter<UserAccountOrganisationRoleDTO>(x =>
                 !x.IsDeleted && x.UserAccountOrganisationID == uaoID
                );
-            var allUaoRoles = (await QueryClient.QueryAsync<UserAccountOrganisationRoleDTO>("UserAccountOrganisationRoles", selectUaoRole + filterUaoRole)).ToList();
+            var allUaoRoles = await QueryClient.QueryAsync<UserAccountOrganisationRoleDTO>("UserAccountOrganisationRoles", selectUaoRole + filterUaoRole);
             var filteredRoles = allUaoRoles.ToList();
 
             var select = ODataHelper.Select<CalloutDTO>(x => new
@@ -145,26 +145,26 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
                 x.CreatedOn
             }, false);
             var now = DateTime.Now;
-            var where2 = ODataHelper.Expression<CalloutDTO>(x => !x.IsDeleted && x.EffectiveOn < now && x.CreatedOn > createDate);
+            var whereFirst = ODataHelper.Expression<CalloutDTO>(x => !x.IsDeleted && x.EffectiveOn < now && x.CreatedOn > createDate);
             if (filteredCuas != null && filteredCuas.Any())
             {
                 foreach (var cuaItem in filteredCuas)
                 {
                     var callOutId = cuaItem.CalloutID;
-                    where2 = Expression.And(where2, ODataHelper.Expression<CalloutDTO>(x => x.CalloutID != callOutId));
+                    whereFirst = Expression.And(whereFirst, ODataHelper.Expression<CalloutDTO>(x => x.CalloutID != callOutId));
                 }
             }
-            var where1 = ODataHelper.Expression<CalloutDTO>(x => false);
+            var whereSecond = ODataHelper.Expression<CalloutDTO>(x => false);
 
             if (filteredRoles != null && filteredRoles.Any())
             {
                 foreach (var roleItem in filteredRoles)
                 {
                     var roleName = roleItem.OrganisationRole.RoleName.ToLower();
-                    where1 = Expression.Or(where1, ODataHelper.Expression<CalloutDTO>(x => x.Role.RoleName.ToLower() == roleName));
+                    whereSecond = Expression.Or(whereSecond, ODataHelper.Expression<CalloutDTO>(x => x.Role.RoleName.ToLower() == roleName));
                 }
             }
-            var where = Expression.And(where2, where1);
+            var where = Expression.And(whereFirst, whereSecond);
             var filter = ODataHelper.Filter(where);
             var orderbyCallout = ODataHelper.OrderBy<CalloutDTO>(x => new { x.RoleID, x.DisplayOrder });
 
@@ -188,7 +188,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             }
 
             return Json(new { result = true, callOuts = res.Select(x => new { x.Title, x.Description, x.Selector, x.Position }) }, JsonRequestBehavior.AllowGet);
-            // return PartialView("_RenderCallout", calloutModel);
         }
 
 

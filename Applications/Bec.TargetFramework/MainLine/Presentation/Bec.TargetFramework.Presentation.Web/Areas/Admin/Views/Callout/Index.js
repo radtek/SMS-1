@@ -1,6 +1,5 @@
 ﻿var callGrid
 $(function () {
-
     //set up grid options for the three grids. most are passed straight on to kendo grid.
      callGrid = new gridItem(
         {
@@ -106,7 +105,7 @@ $(function () {
 function nChange(dataItem) {
     $("p#ddnTitle").text(dataItem.Title || "");
     $("p#ddnRole").text(dataItem.Role.RoleName);
-    $("p#ddnPosition").text(displayPosition(dataItem.Position));
+    $("p#ddnPosition").text(getPosition(dataItem.Position));
     $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
     $("p#ddnEffectiveOn").text(dateString(dataItem.EffectiveOn) || "");
     $("p#ddnCreatedBy").text(dataItem.CreatedBy || "");
@@ -123,14 +122,6 @@ function eChange(dataItem) {
     $("p#ddeViewedDate").text(dateString(dataItem.CreatedOn) || "");
 }
 
-function displayPosition(value) {
-    if (value == 1) return "Right";
-    if (value == 2) return "Left";
-    if (value == 3) return "Top";
-    if (value == 4) return "Bottom";
-    return "";
-}
-
 $('#roleDropdown').on('change', function () {
     var valOfThis = $(this).val();
     if (valOfThis.trim().length > 10) {
@@ -142,7 +133,6 @@ $('#roleDropdown').on('change', function () {
         $("#viewCalloutOrder").attr("disabled", true);
     }
     callGrid.refreshGrid();
-
 })
 
 

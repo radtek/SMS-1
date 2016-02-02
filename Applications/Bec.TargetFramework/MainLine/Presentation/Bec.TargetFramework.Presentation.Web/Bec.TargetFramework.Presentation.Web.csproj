@@ -891,7 +891,6 @@
     <Content Include="Areas\Admin\Views\Shared\_AddCallout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EditCallout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_OrderCallout.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_RenderCallout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_DeleteCallout.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Welcome.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />

@@ -173,7 +173,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 !x.IsDeleted && x.RoleID == RoleId
                );
             var orderbyCallout = ODataHelper.OrderBy<CalloutDTO>(x => new { x.DisplayOrder });
-            var allCallouts = (await queryClient.QueryAsync<CalloutDTO>("Callouts", selectCallout + filterCallout + orderbyCallout)).ToList();
+            var allCallouts = await queryClient.QueryAsync<CalloutDTO>("Callouts", selectCallout + filterCallout + orderbyCallout);
 
             var calloutModel = new CalloutModel();
             calloutModel.Callouts = allCallouts.ToList();

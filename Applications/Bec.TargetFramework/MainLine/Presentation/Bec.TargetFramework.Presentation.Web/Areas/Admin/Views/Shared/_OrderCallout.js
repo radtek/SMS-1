@@ -1,4 +1,4 @@
-﻿
+﻿$(function () {
     $("#sortable").sortable();
     $("#submitOrderCallout").on("click", function (event, ui) {
         var valList = '';
@@ -10,7 +10,7 @@
         })
         $('#calloutOrderList').val(valList);
         $('#calloutRoleId').val($('#roleDropdown').val());
-        
+
         $("#submitOrderCallout").prop('disabled', true);
         var formData = $("#orderCallout-form").serializeArray();
         ajaxWrapper({
@@ -39,4 +39,6 @@
         });
 
     });
+})
+    
    

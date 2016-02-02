@@ -13,10 +13,6 @@
             <div class="input-group margin-top-15 margin-bottom-5 ">
                 @Html.DropDownListFor(m => roleId, new SelectList(ViewBag.roles, "Value", "Text", roleId), "Select role", new { tabindex = "1", @class = "form-control", id = "roleDropdown", style = "width:200px; margin-top:-3px; margin-right:5px" })
                 <a id="viewCalloutOrder" data-href="@(roleId != null && roleId != default(Guid) ? Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin", RoleId = roleId }) : "")" @(roleId != null && roleId != default(Guid) ? "" : "disabled")  data-url="@Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>View Callout Order</a>
-                @*<input type="text" class="form-control" id="gridSearchInput">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
-                    </span>*@
             </div>
         </div>
     </div>
