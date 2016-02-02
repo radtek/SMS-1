@@ -60,3 +60,6 @@ values (uuid_generate_v1(), 'SupportFunctions', 'SupportFunctions: Only BEC Supp
 
 insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
 values (uuid_generate_v1(), 'ShowMeHow', 'ShowMeHow: Only BEC Support user can work with management SMH on the system', TRUE);
+
+insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
+values (uuid_generate_v1(), 'Callout', 'Callout', TRUE);
