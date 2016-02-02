@@ -8,6 +8,7 @@ using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -193,6 +194,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return PartialView("_PurchaseProduct");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> PurchaseProduct(Guid txID)//, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO orderRequest)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -246,6 +249,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsTransaction.InvoiceID,
                 x.SmsTransaction.IsProductAdvised,
+                x.SmsTransaction.ProductDeclinedOn,
                 x.SmsUserAccountOrganisationTransactionTypeID,
                 x.SmsUserAccountOrganisationTransactionID,
                 Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
@@ -301,6 +305,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             {
                 throw new AccessViolationException("Operation failed");
             }
+        }
+
+        public async Task<ActionResult> ViewDeclineProduct(Guid txID)
+        {
+            var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
+            ViewBag.txID = txID;
+            return PartialView("_DeclineProduct");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeclineProduct(Guid txID)
+        {
+            var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
+
+            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
+            await QueryClient.UpdateGraphAsync("SmsTransactions", JObject.FromObject(new { ProductDeclinedOn = DateTime.Now }), filter);
+
+            return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = txID });
         }
     }
 }

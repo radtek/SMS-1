@@ -5,7 +5,7 @@
     showAudit(0);
     setupDates();
     setupTabs();
-
+    setupState();
 
     function setupDates() {
         $('.format-date').each(function () {
@@ -33,6 +33,36 @@
             return false;
         });
     }
+
+    function setupState() {
+        var advised = $('#content').data('advised') == "Trdue";
+        var purchased = $('#content').data('purchased') == "True";
+        var declined = $('#content').data('declined') == "True";
+
+        console.log("advised: " + advised + ", purchased: " + purchased + ", declined: " + declined);
+
+        if (!purchased) {
+            $('#purchaseProductBtn').show();
+            $('#infoBankAccountCheck').hide();
+
+            if (declined) {
+                $('#checkBankAccountBtn').hide();
+                if(advised)
+                    $('#declineAdvisedMessage').show();
+                else
+                    $('#declineMessage').show();
+            }
+            else {
+                $('#declineButton').show();
+                $('#checkBankAccountBtn').attr("disabled", "disabled");
+                if (advised)
+                    $('#infoAdviceMessage').show();
+                else
+                    $('#infoMessage').show();
+            }
+        }
+    }
+
 });
 
 // Publicly available!!! Used by _ConfirmDetails.js too
