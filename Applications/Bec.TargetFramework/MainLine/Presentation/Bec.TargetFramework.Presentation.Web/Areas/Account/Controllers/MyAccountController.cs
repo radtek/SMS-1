@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
-    [Authorize]
     public class MyAccountController : ApplicationControllerBase
     {
         public IUserLogicClient UserLogicClient { get; set; }
