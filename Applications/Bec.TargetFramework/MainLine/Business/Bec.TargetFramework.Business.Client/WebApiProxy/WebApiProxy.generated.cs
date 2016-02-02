@@ -184,10 +184,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	public partial interface ICalloutLogicClient : IClientBase	{	
 
 		/// <returns></returns>
-		Task CreateCalloutAsync(CalloutDTO calloutDTO);
+		Task<Guid> CreateCalloutAsync(CalloutDTO calloutDTO);
 
 		/// <returns></returns>
-		void CreateCallout(CalloutDTO calloutDTO);
+		Guid CreateCallout(CalloutDTO calloutDTO);
 
 		/// <returns></returns>
 		Task CreateCalloutUserAccountAsync(CalloutUserAccountDTO calloutUserAccountDTO);
@@ -2164,19 +2164,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task CreateCalloutAsync(CalloutDTO calloutDTO)
+		public virtual Task<Guid> CreateCalloutAsync(CalloutDTO calloutDTO)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<CalloutDTO>("api/CalloutLogic/CreateCalloutAsync", calloutDTO, _user);
+			return PostAsync<CalloutDTO, Guid>("api/CalloutLogic/CreateCalloutAsync", calloutDTO, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void CreateCallout(CalloutDTO calloutDTO)
+		public virtual Guid CreateCallout(CalloutDTO calloutDTO)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<CalloutDTO>("api/CalloutLogic/CreateCalloutAsync", calloutDTO, _user)).Wait();
+			return Task.Run(() => PostAsync<CalloutDTO, Guid>("api/CalloutLogic/CreateCalloutAsync", calloutDTO, _user)).Result;
 		}
 
 		/// <summary>

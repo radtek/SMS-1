@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class CalloutLogicController : LogicBase
     {
-        public async Task CreateCalloutAsync(CalloutDTO calloutDTO)
+        public async Task<Guid> CreateCalloutAsync(CalloutDTO calloutDTO)
         {
             Ensure.That(calloutDTO).IsNotNull();
             calloutDTO.CalloutID = Guid.NewGuid();
@@ -36,6 +36,7 @@ namespace Bec.TargetFramework.Business.Logic
                 scope.DbContexts.Get<TargetFrameworkEntities>().Callouts.Add(callout);
                 await scope.SaveChangesAsync();
             }
+            return calloutDTO.CalloutID;
         }
 
         public async Task CreateCalloutUserAccountAsync(CalloutUserAccountDTO calloutUserAccountDTO)
@@ -43,6 +44,7 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(calloutUserAccountDTO).IsNotNull();
             using (var scope = DbContextScopeFactory.Create())
             {
+                calloutUserAccountDTO.CalloutUserAccountID = Guid.NewGuid();
                 CalloutUserAccount calloutUserAccount = calloutUserAccountDTO.ToEntity();
                 scope.DbContexts.Get<TargetFrameworkEntities>().CalloutUserAccounts.Add(calloutUserAccount);
                 await scope.SaveChangesAsync();

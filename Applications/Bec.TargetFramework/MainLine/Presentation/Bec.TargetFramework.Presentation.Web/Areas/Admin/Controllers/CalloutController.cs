@@ -24,11 +24,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public ICalloutLogicClient calloutClient { get; set; }
         public async Task<ActionResult> Index()
         {
-            await GetRoles();
+            ViewBag.roles = await GetRoles();
             return View();
         }
 
-        private async Task GetRoles()
+        private async Task<List<SelectListItem>> GetRoles()
         {
             var selectRole = ODataHelper.Select<RoleDTO>(x => new
             {
@@ -43,7 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                );
             var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
             var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
-            ViewBag.roles = allRoles.Select(f => new SelectListItem
+            return allRoles.Select(f => new SelectListItem
             {
                 Value = f.RoleID.ToString(),
                 Text = f.RoleName
@@ -86,7 +86,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> ViewAddCallout()
         {
-            await GetRoles();
+            ViewBag.roles = await GetRoles();
             return PartialView("_AddCallout");
         }
 
@@ -97,8 +97,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             callout.IsActive = true;
             callout.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
-            await calloutClient.CreateCalloutAsync(callout);
-            TempData["CalloutId"] = callout.CalloutID;
+            TempData["CalloutId"] = await calloutClient.CreateCalloutAsync(callout);
             return RedirectToAction("Index");
         }
 
@@ -106,7 +105,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             ViewBag.CalloutId = CalloutId;
             ViewBag.pageNumber = pageNumber;
-            await GetRoles();
+            ViewBag.roles = await GetRoles();
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var select = ODataHelper.Select<CalloutDTO>(x => new
             {
