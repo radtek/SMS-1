@@ -109,7 +109,12 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
-        public ActionResult Tutorials()
+        public ActionResult TutorialsForProfessionals()
+        {
+            return View();
+        }
+
+        public ActionResult TutorialsForPublic()
         {
             return View();
         }

@@ -1853,7 +1853,7 @@
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
     <Content Include="Views\Home\ConveyancingFirmFaq.cshtml" />
-    <Content Include="Views\Home\Tutorials.cshtml" />
+    <Content Include="Views\Home\TutorialsForPublic.cshtml" />
     <Content Include="Views\Home\HowTheSMSHelpsConveyancingFirms.cshtml" />
     <Content Include="Views\Home\MortgageBrokerRegistration.cshtml" />
     <Content Include="Views\App\Index.cshtml" />
@@ -1861,6 +1861,7 @@
     <Content Include="Views\Home\SafeBuyerProduct.cshtml" />
     <Content Include="Views\Home\HowTheSmsHelpsLenders.cshtml" />
     <Content Include="Views\Home\HowToKeepConsumersSafe.cshtml" />
+    <Content Include="Views\Home\TutorialsForProfessionals.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

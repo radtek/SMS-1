@@ -8,7 +8,7 @@
 }
 
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-6 col-lg-offset-3">
+    <div class="col-sm-6 col-sm-offset-3">
         <div class="tabbable custom-tabs shadow">
             <ul class="nav nav-tabs" id="loginTabs" data-selected="@selectedTabBtn">
                 <li class="active"><a href="#loginPanel" data-toggle="tab" id="loginPanelBtn"><i class="fa fa-lock margin-right-10"></i><span>Login</span></a></li>
@@ -50,11 +50,7 @@
                                                 <a href="@Url.Action("Password", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Password</a>
                                             </div>
                                         </div>
-                                        @*<div class="row">
-                                            <div class="col-sm-12">
-                                                <a href="@Url.Action("Conveyancer", "RegisterAdmin", new { Area = "Account" })" class="pull-right" tabindex="-1">Professional Users - Not yet Registered?</a>
-                                            </div>
-                                        </div>*@
+
                                     </div>
                                 </div>
                             </fieldset>
@@ -90,7 +86,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
@@ -156,6 +152,14 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <label>
+            Professional users - not yet registered?
+            <a href="@Url.Action("Conveyancer", "RegisterAdmin", new { Area = "Account" })" tabindex="-1">Register now.</a>
+        </label>
     </div>
 </div>
 <div class="row">
