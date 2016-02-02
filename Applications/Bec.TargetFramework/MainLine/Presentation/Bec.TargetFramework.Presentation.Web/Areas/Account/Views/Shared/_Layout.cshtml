@@ -58,26 +58,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "ThreatsExplained", "BuyersAtRisk", "ConveyancersAtRisk")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fraud Threat <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "ConveyancersAtRisk", "SafeBuyerProduct", "HowTheSmsHelpsLenders", "ConveyancingFirmFaq", "FreeTrial", "HowTheSMSHelpsConveyancingFirms", "ConveyancersCompliance", "LendersCompliance", "ConveyancingFirmRegistration", "Tutorials")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="@Html.Conditional("selected", "action", "ThreatsExplained")">@Html.ActionLink("Threats Explained", "ThreatsExplained", new { Area = "", Controller = "Home" })</li>
-                            <li class="@Html.Conditional("selected", "action", "BuyersAtRisk")">@Html.ActionLink("Buyers at Risk", "BuyersAtRisk", new { Area = "", Controller = "Home" })</li>
                             <li class="@Html.Conditional("selected", "action", "ConveyancersAtRisk")">@Html.ActionLink("Conveyancers At Risk", "ConveyancersAtRisk", new { Area = "", Controller = "Home" })</li>
-                        </ul>
-                    </li>
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "HowItWorks", "SafeBuyerSpecification", "SafeMoveSchemeBenefits")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Safe Buyer Product <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li class="@Html.Conditional("selected", "action", "HowItWorks")">@Html.ActionLink("How It Works", "HowItWorks", new { Area = "", Controller = "Home" })</li>
-                            <li class="@Html.Conditional("selected", "action", "SafeBuyerSpecification")">@Html.ActionLink("Safe Buyer Specification", "SafeBuyerSpecification", new { Area = "", Controller = "Home" })</li>
-                            <li class="@Html.Conditional("selected", "action", "SafeMoveSchemeBenefits")">@Html.ActionLink("Safe Move Scheme Benefits", "SafeMoveSchemeBenefits", new { Area = "", Controller = "Home" })</li>
-                        </ul>
-                    </li>
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "FreeTrial", "HowTheSMSHelpsConveyancingFirms", "ConveyancersCompliance", "LendersCompliance", "ConveyancingFirmRegistration", "Tutorials")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "SafeBuyerProduct")">@Html.ActionLink("Safe Buyer Product", "SafeBuyerProduct", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "HowTheSmsHelpsLenders")">@Html.ActionLink("How the SMS Helps Lenders", "HowTheSmsHelpsLenders", new { Area = "", Controller = "Home" })</li>
                             <li class="@Html.Conditional("selected", "action", "ConveyancingFirmFaq")">@Html.ActionLink("Frequently Asked Questions", "ConveyancingFirmFaq", new { Area = "", Controller = "Home" })</li>
                             <li class="@Html.Conditional("selected", "action", "FreeTrial")">@Html.ActionLink("** Free Safe Buyer Trial **", "FreeTrial", new { Area = "", Controller = "Home" })</li>
                             <li class="@Html.Conditional("selected", "action", "HowTheSMSHelpsConveyancingFirms")">@Html.ActionLink("How The SMS Helps Conveyancing Firms", "HowTheSMSHelpsConveyancingFirms", new { Area = "", Controller = "Home" })</li>
@@ -87,10 +72,18 @@
                             <li class="@Html.Conditional("selected", "action", "Tutorials")">@Html.ActionLink("Tutorials", "Tutorials", new { Area = "", Controller = "Home" })</li>
                         </ul>
                     </li>
-                    <li class="@Html.Conditional("selected", "action", "ForThePublic")">@Html.ActionLink("For the Public", "ForThePublic", new { Area = "", Controller = "Home" })</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "ForThePublicIntroduction", "Tutorials", "HowToKeepConsumersSafe", "BuyersAtRisk")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For the Public <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "ForThePublicIntroduction")">@Html.ActionLink("Introduction", "ForThePublicIntroduction", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "Tutorials")">@Html.ActionLink("Tutorials", "Tutorials", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "HowToKeepConsumersSafe")">@Html.ActionLink("How To Keep Consumers Safe", "HowToKeepConsumersSafe", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "BuyersAtRisk")">@Html.ActionLink("Buyers At Risk", "BuyersAtRisk", new { Area = "", Controller = "Home" })</li>
+                        </ul>
+                    </li>
+
                     <li class="@Html.Conditional("selected", "action", "AboutUs")">@Html.ActionLink("About Us", "AboutUs", new { Area = "", Controller = "Home" })</li>
                     <li class="@Html.Conditional("selected", "controller", "Search")"><a href="@Url.Action("Index", "Search", new { Area = "Account" })">Search the Register</a></li>
-
                     <li class="@Html.Conditional("selected", "controller", "Login") nav-login"><a href="@Url.Action("Index", "Login", new { Area = "Account" })">Login&nbsp;<i class="fa fa-sign-in"></i></a></li>
                 </ul>
             </div>

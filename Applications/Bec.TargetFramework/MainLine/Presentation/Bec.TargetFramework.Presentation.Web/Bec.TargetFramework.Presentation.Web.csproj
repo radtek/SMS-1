@@ -1844,14 +1844,10 @@
     <Content Include="Views\Home\ConveyancersAtRisk.cshtml" />
     <Content Include="Views\Home\ConveyancersCompliance.cshtml" />
     <Content Include="Views\Home\ConveyancingFirmRegistration.cshtml" />
-    <Content Include="Views\Home\ForThePublic.cshtml" />
+    <Content Include="Views\Home\ForThePublicIntroduction.cshtml" />
     <Content Include="Views\Home\FreeTrial.cshtml" />
-    <Content Include="Views\Home\HowItWorks.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\LendersCompliance.cshtml" />
-    <Content Include="Views\Home\SafeBuyerSpecification.cshtml" />
-    <Content Include="Views\Home\SafeMoveSchemeBenefits.cshtml" />
-    <Content Include="Views\Home\ThreatsExplained.cshtml" />
     <Content Include="Views\Shared\_Toastr.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_srcFundsBankAccountTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
@@ -1862,6 +1858,9 @@
     <Content Include="Views\Home\MortgageBrokerRegistration.cshtml" />
     <Content Include="Views\App\Index.cshtml" />
     <Content Include="Views\Shared\_AutofillFix.cshtml" />
+    <Content Include="Views\Home\SafeBuyerProduct.cshtml" />
+    <Content Include="Views\Home\HowTheSmsHelpsLenders.cshtml" />
+    <Content Include="Views\Home\HowToKeepConsumersSafe.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
