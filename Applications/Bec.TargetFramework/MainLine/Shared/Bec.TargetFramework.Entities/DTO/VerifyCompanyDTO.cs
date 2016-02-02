@@ -26,5 +26,6 @@ namespace Bec.TargetFramework.Entities
         public string SroLastName { get; set; }
         [DataMember]
         public string SroEmail { get; set; }
+        public string OrganisationType { get; set; }
     }
 }

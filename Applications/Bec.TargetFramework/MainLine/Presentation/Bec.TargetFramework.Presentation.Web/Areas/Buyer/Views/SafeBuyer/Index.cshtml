@@ -7,6 +7,7 @@
     var personaName = ((UserAccountOrganisationTransactionType)Model.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
     var companyName = Model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
     var tel = Model.SmsTransaction.Organisation.OrganisationStatus.First(s => s.StatusTypeValue.Name == "Verified").Notes;
+    var heading = "";
 }
 
 <div id="content" class="buyer-transactions">
@@ -15,18 +16,19 @@
             <i class="fa fa-home fa-lg margin-right-10"></i>
             @if (!string.IsNullOrEmpty(Model.SmsTransaction.Address.Line1))
             {
-                <text>Purchase of Property </text>@(Model.SmsTransaction.Address.Line1 + ", " + Model.SmsTransaction.Address.PostalCode)<text> added by </text>@companyName<text>.</text>
+                heading = "Purchase of Property " + Model.SmsTransaction.Address.Line1 + ", " + Model.SmsTransaction.Address.PostalCode + " added by " + companyName + ".";
             }
             else
             {
-                <text>Purchase of Property TBC added by </text>@companyName<text>.</text>
+                heading = "Purchase of Property TBC added by " + companyName + ".";
             }
+            @heading;
         </h2>
         <div class="col-sm-12">
             <div class="well">
                 <div id="transactionContainer" data-url="@Url.Action("ViewMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = Model.SmsUserAccountOrganisationTransactionID, companyName = companyName })"
-                        data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = Model.SmsUserAccountOrganisationTransactionID })"
-                        data-companyname="@companyName" data-phone="@tel">
+                     data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = Model.SmsUserAccountOrganisationTransactionID })"
+                     data-companyname="@companyName" data-phone="@tel">
                     <div id="transactionTabs" class="tabbable custom-tabs shadow margin-top-10">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#transactionDetailsPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Safe Buyer</span></a></li>
@@ -34,19 +36,19 @@
                         </ul>
                         <div class="tab-content padding-top-10">
                             <div class="tab-pane active" id="transactionDetailsPanel">
-                                
+
                                 @*//TODO: 'toggle' off
-                                    if (TempData["PaymentSuccessful"] != null)
-                                {
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10">
-                                                <i class="fa fa-info margin-right-5"></i><strong>Payment Successful </strong>
-                                                <p>Safe Buyer was successfully purchased. Please follow the instructions below.</p>
+                                        if (TempData["PaymentSuccessful"] != null)
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10">
+                                                    <i class="fa fa-info margin-right-5"></i><strong>Payment Successful </strong>
+                                                    <p>Safe Buyer was successfully purchased. Please follow the instructions below.</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }*@
+                                    }*@
                                 <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Confirmed? "block" : "none")">
                                     <div id="detailsRowTransactionAddress" class="col-sm-6 col-lg-4" style="display:@(!string.IsNullOrWhiteSpace(Model.SmsTransaction.Address.Line1) ? "block" : "none")">
                                         <dl>
@@ -112,7 +114,7 @@
 
                                 @if (Model.SmsTransaction.InvoiceID == null)
                                 {
-                                    var purchaseMessage = Model.SmsTransaction.IsProductAdvised 
+                                    var purchaseMessage = Model.SmsTransaction.IsProductAdvised
                                         ? "The Safe Buyer product was ordered by your conveyancer. You can purchase it now."
                                         : "In order to use the Safe Buyer product, you have to purchase it.";
                                     <div class="row">
