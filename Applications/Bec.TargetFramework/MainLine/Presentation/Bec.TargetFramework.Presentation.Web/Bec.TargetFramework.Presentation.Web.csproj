@@ -263,6 +263,7 @@
     <Content Include="Areas\Admin\Views\Shared\_AddNotes.js" />
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AdviseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
@@ -902,6 +903,7 @@
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AddNotes.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_orgNotesTmpl.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

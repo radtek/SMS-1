@@ -1,11 +1,8 @@
-﻿ALTER TABLE sms."SmsTransaction"
-  ADD COLUMN "IsProductAdvised" BOOLEAN DEFAULT true NOT NULL;
-  
-ALTER TABLE sms."SmsTransaction"
-  ADD COLUMN "InvoiceID" UUID;
-  
-ALTER TABLE sms."SmsTransaction"
-  ADD COLUMN "ProductAdvisedOn" TIMESTAMP(0) WITH TIME ZONE;
+﻿ALTER TABLE sms."SmsTransaction" ADD COLUMN "IsProductAdvised" BOOLEAN DEFAULT true NOT NULL;
+ALTER TABLE sms."SmsTransaction" ADD COLUMN "InvoiceID" UUID;
+ALTER TABLE sms."SmsTransaction" ADD COLUMN "ShoppingCartID" UUID;
+ALTER TABLE sms."SmsTransaction" ADD COLUMN "ProductAdvisedOn" TIMESTAMP(0) WITH TIME ZONE;
+ALTER TABLE sms."SmsTransaction" ADD COLUMN "ProductDeclinedOn" TIMESTAMP(0) WITH TIME ZONE;
 
 ALTER TABLE sms."SmsTransaction"
   ADD CONSTRAINT "SmsTransaction_Invoice_fk" FOREIGN KEY ("InvoiceID")
@@ -14,9 +11,6 @@ ALTER TABLE sms."SmsTransaction"
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 
-
-
-ALTER TABLE sms."SmsTransaction" ADD COLUMN "ShoppingCartID" UUID;
 
 ALTER TABLE sms."SmsTransaction"
   ADD CONSTRAINT "SmsTransaction_fk" FOREIGN KEY ("ShoppingCartID")

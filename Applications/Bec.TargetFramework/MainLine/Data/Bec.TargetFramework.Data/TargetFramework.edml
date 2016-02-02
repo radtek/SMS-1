@@ -9824,6 +9824,7 @@
           <Property Name="ProductAdvisedOn" Type="timestamptz" />
           <Property Name="ShoppingCartID" Type="uuid" />
           <Property Name="InvoiceID" Type="uuid" />
+          <Property Name="ProductDeclinedOn" Type="timestamptz" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
           <Key>
@@ -29269,6 +29270,7 @@
           <Property Name="ProductAdvisedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7c4a4acd-4ab4-4d84-b9fc-c06b56412c9f" />
           <Property Name="ShoppingCartID" Type="Guid" ed:ValidateRequired="False" ed:Guid="49a8f39d-afe8-4801-afbd-f5458a51c720" />
           <Property Name="InvoiceID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3890bf34-13ba-4b58-8736-db96c6c02239" />
+          <Property Name="ProductDeclinedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="af7fd9e0-c3f4-4fc6-a897-955631f038d1" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsTransaction" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="0e527fdd-2527-424b-a66c-bdc5f6c950bd" />
@@ -44096,6 +44098,7 @@
                 <ScalarProperty Name="IsProductAdvised" ColumnName="IsProductAdvised" />
                 <ScalarProperty Name="ProductAdvisedOn" ColumnName="ProductAdvisedOn" />
                 <ScalarProperty Name="ShoppingCartID" ColumnName="ShoppingCartID" />
+                <ScalarProperty Name="ProductDeclinedOn" ColumnName="ProductDeclinedOn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
