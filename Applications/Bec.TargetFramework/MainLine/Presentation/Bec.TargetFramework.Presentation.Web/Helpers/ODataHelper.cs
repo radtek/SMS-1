@@ -37,7 +37,13 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
 
             if (Expand.Any())
             {
-                if (key == "orderby") throw new Exception("orderby doesn't support navigation properties yet.");
+                if (key == "orderby")
+                    throw new Exception("orderby doesn't support navigation properties yet.");
+                else
+                {
+                    //nothing in select list - stick something in there to prevent all columns being returned
+                    if (!list.Any()) sb.Append(string.Join(",", Expand.Select(x => x.Key)));
+                }
                 sb.Append(root ? "&" : ";");
                 sb.Append("$expand=");
 
