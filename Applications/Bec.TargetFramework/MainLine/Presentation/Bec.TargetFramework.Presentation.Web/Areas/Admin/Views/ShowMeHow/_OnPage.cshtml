@@ -13,7 +13,7 @@
                     @{
                         var roles = (List<SelectListItem>)ViewData["Roles"];
                     }
-                    @Html.DropDownList("Role", roles, "------------ Please Select ------------", new { tabindex = "1", maxlength = 50, @class = "form-control", id = "roleOnPage" })
+                    @Html.DropDownList("Role", roles, "Please Select", new { tabindex = "1", maxlength = 50, @class = "form-control", id = "roleOnPage" })
                     <i></i>
                 </label>
             </div>

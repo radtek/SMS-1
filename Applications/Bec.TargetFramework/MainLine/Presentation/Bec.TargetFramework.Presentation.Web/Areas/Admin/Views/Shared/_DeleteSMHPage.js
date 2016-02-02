@@ -1,28 +1,30 @@
-﻿
-function ignore(e) {
-    if (e) e.preventDefault();
-}
+﻿$(function () {
 
-// submit from when Save button clicked
-$("#submitDeletePage").click(function () {
-    $("#deletePage-form").submit();
-});
+    function ignore(e) {
+        if (e) e.preventDefault();
+    }
 
-$("#deletePage-form").validate({
-    ignore: '.skip',
-    // Rules for form validation
-    rules: {
-    },
+    // submit from when Save button clicked
+    $("#submitDeletePage").click(function () {
+        $("#deletePage-form").submit();
+    });
 
-    // Do not change code below
-    errorPlacement: function (error, element) {
-        error.insertAfter(element.parent());
-    },
+    $("#deletePage-form").validate({
+        ignore: '.skip',
+        // Rules for form validation
+        rules: {
+        },
 
-    submitHandler: validateSubmit
-});
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
 
-function validateSubmit(form) {
-    $("#submitDeletePage").prop('disabled', true);
-    form.submit();
-}
+        submitHandler: validateSubmit
+    });
+
+    function validateSubmit(form) {
+        $("#submitDeletePage").prop('disabled', true);
+        form.submit();
+    }
+})

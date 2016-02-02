@@ -4,15 +4,7 @@
 @model SMHItemDTO
 
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addItemLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <!--
-                <div class="help help-container help-sm">
-                    <div class="help-vert">HELP</div>
-                    <div class="help help-inner">
-                        <div>Help goes here</div>
-                    </div>
-                </div>
-        -->
+    <div class="modal-dialog">       
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="addItemLabel">Add Item</h4>
@@ -50,14 +42,12 @@
                                 <section>
                                     <label class="label">Description:</label>
                                     <label class="input">
-                                        @*<i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>*@
                                         @Html.TextAreaFor(m => m.ItemDescription, new { tabindex = "4", rows = 5, style = "width:100%; resize:none;" })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">Position:</label>
-                                    <label class="input">
-                                        @*<i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>*@                                        
+                                    <label class="input">                                       
                                         @Html.DropDownListFor(m => m.ItemPosition, EnumHelper.GetSelectList(typeof(HtmlPositionEnum)), null, new { tabindex = "5", style = "width:100%; min-height:25px;" })
                                     </label>
                                 </section>

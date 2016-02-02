@@ -1,7 +1,7 @@
 ﻿$(function () {
 
     function runSystemIntro() {
-        console.log('run sys smh');
+        //console.log('run sys smh');
         var ajaxOptions = {
             url: "/App/GetSystemSmhItem",
             cache: false

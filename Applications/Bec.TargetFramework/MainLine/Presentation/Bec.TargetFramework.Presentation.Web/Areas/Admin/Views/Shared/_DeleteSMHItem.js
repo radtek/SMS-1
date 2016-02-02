@@ -1,37 +1,30 @@
-﻿
-function ignore(e) {
-    if (e) e.preventDefault();
-}
+﻿$(function () {
 
-// submit from when Save button clicked
-$("#submitDeleteItem").click(function () {
-    $("#deleteItem-form").submit();
-});
+    function ignore(e) {
+        if (e) e.preventDefault();
+    }
 
-$("#deleteItem-form").validate({
-    ignore: '.skip',
-    // Rules for form validation
-    rules: {
-        //PageID: {
-        //    required: true
-        //},
-        //ItemName: {
-        //    required: true
-        //},
-        //ItemSelector: {
-        //    required: true
-        //}
-    },
+    // submit from when Save button clicked
+    $("#submitDeleteItem").click(function () {
+        $("#deleteItem-form").submit();
+    });
 
-    // Do not change code below
-    errorPlacement: function (error, element) {
-        error.insertAfter(element.parent());
-    },
+    $("#deleteItem-form").validate({
+        ignore: '.skip',
+        // Rules for form validation
+        rules: {
+        },
 
-    submitHandler: validateSubmit
-});
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
 
-function validateSubmit(form) {
-    $("#submitDeleteItem").prop('disabled', true);
-    form.submit();
-}
+        submitHandler: validateSubmit
+    });
+
+    function validateSubmit(form) {
+        $("#submitDeleteItem").prop('disabled', true);
+        form.submit();
+    }
+})

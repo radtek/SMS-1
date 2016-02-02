@@ -390,7 +390,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             try
             {
                 string[] list = listId.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-                if (list != null && list.Length > 0)
+                if (list != null)
                 {
                     for (int i = 0; i < list.Length; i++)
                     {

@@ -68,13 +68,8 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var listItem = scope.DbContexts.Get<TargetFrameworkEntities>().SMHItems
+                return scope.DbContexts.Get<TargetFrameworkEntities>().SMHItems
                     .Where(i => (i.PageID.Equals(pageID))).ToDtos();
-                if (listItem != null && listItem.Count > 0)
-                {
-                    return listItem;
-                }
-                return null;
             }
         }
 
@@ -139,9 +134,7 @@ namespace Bec.TargetFramework.Business.Logic
                 foreach (var userOgrRole in userOgrRoles)
                 {
                     var orgRole = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoles
-                                .FirstOrDefault(r => (r.OrganisationID == ogrId)
-                                        && (r.OrganisationRoleID == userOgrRole.OrganisationRoleID)
-                                        && !r.RoleName.Equals("Temporary User"));
+                                .FirstOrDefault(r => (r.OrganisationID == ogrId) && (r.OrganisationRoleID == userOgrRole.OrganisationRoleID));
 
                     if (orgRole != null && orgRole.ParentID != null)
                     {
@@ -150,12 +143,8 @@ namespace Bec.TargetFramework.Business.Logic
                                                     && (p.RoleId == orgRole.ParentID));
                         if (page != null)
                         {
-                            var listItem = scope.DbContexts.Get<TargetFrameworkEntities>().SMHItems
+                            return scope.DbContexts.Get<TargetFrameworkEntities>().SMHItems
                                     .Where(i => (i.PageID == page.PageID)).ToDtos();
-                            if (listItem != null && listItem.Count > 0)
-                            {
-                                return listItem;
-                            }
                         }
                     }
                 }
