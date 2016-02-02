@@ -7,8 +7,6 @@ ALTER TABLE sms."SmsTransaction" ADD COLUMN "ShoppingCartID" UUID;
 ALTER TABLE sms."SmsTransaction" ADD COLUMN "ProductAdvisedOn" TIMESTAMP(0) WITH TIME ZONE;
 ALTER TABLE sms."SmsTransaction" ADD COLUMN "ProductDeclinedOn" TIMESTAMP(0) WITH TIME ZONE;
 
-
-
 ALTER TABLE sms."SmsTransaction"
   ADD CONSTRAINT "SmsTransaction_Invoice_fk" FOREIGN KEY ("InvoiceID")
     REFERENCES public."Invoice"("InvoiceID")
@@ -23,6 +21,13 @@ ALTER TABLE sms."SmsTransaction"
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
+
+
+update sms."SmsTransaction" tx set "InvoiceID" = 
+(select "InvoiceID" from "Invoice" inv 
+   where abs(extract(epoch from inv."CreatedOn") - extract (epoch from tx."CreatedOn")) < 2 or
+    abs((extract(epoch from inv."CreatedOn")-3600) - extract (epoch from tx."CreatedOn")) < 2)
+
 
 
 INSERT INTO public."ClassificationTypeCategory"("ClassificationTypeCategoryID", "Name")

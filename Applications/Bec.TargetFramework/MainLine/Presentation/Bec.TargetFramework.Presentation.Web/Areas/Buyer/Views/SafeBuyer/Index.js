@@ -35,7 +35,7 @@
     }
 
     function setupState() {
-        var advised = $('#content').data('advised') == "Trdue";
+        var advised = $('#content').data('advised') == "True";
         var purchased = $('#content').data('purchased') == "True";
         var declined = $('#content').data('declined') == "True";
 
