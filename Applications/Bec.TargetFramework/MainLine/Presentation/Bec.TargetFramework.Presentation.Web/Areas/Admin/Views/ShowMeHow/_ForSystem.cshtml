@@ -7,16 +7,16 @@
             <div class="col-sm-6">
                 <a data-href="@Url.Action("ViewAddSysPage", "ShowMeHow", new { area  = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Page</a>
             </div>
-            @*<div class="col-sm-6" style="text-align:right">
-                    <span>User Role: </span>
-                    <label class="select">
-                        @{
-                            var roles = (List<SelectListItem>)ViewData["Roles"];
-                        }
-                        @Html.DropDownList("Role", roles, "------------ Please Select ------------", new { tabindex = "1", maxlength = 50, @class = "form-control" })
-                        <i></i>
-                    </label>
-                </div>*@
+            <div class="col-sm-6" style="text-align:right">
+                <span>User Role: </span>
+                <label class="select">
+                    @{
+                        var roles = (List<SelectListItem>)ViewData["Roles"];
+                    }
+                    @Html.DropDownList("Role", roles, "------------ Please Select ------------", new { tabindex = "1", maxlength = 50, @class = "form-control", id = "roleForSystem" })
+                    <i></i>
+                </label>
+            </div>
             <div class="row"></div>
             <div id="forSystemGrid" data-url="@Url.Action("GetSysPages", "ShowMeHow", new { area = "Admin", temporary = true, loginAllowed = true })" data-jumpto="@TempData["sysPageId"]"></div>
         </div>
@@ -53,7 +53,7 @@
             </div>
             <span>
                 @Html.AntiForgeryToken()
-                <a id="saveItemOrder2" data-url="@Url.Action("SaveItemOrder", "ShowMeHow", new { area = "Admin" })" class="btn btn-sm btn-default" onclick="SendUpdateOrder2();">Save Change</a>
+                <a id="saveItemOrder2" data-url="@Url.Action("SaveItemOrder", "ShowMeHow", new { area = "Admin" })" class="btn btn-sm btn-default">Save Change</a>
                 <label id="saveOrderStatus2" style="display:none; color:green">Save successfully</label>
             </span>
         </div>

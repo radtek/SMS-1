@@ -201,14 +201,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> GetPages()
+        public async Task<ActionResult> GetPages(Guid? roleId)
         {
             var selectPage = ODataHelper.Select<SMHPageDTO>(x => new { x.PageID, x.PageName, x.PageURL, x.RoleId });
             var filterPage = ODataHelper.Filter<SMHPageDTO>(x => x.PageURL != _defaultSystemUrl);
             var pages = await queryClient.QueryAsync<SMHPageDTO>("SMHPages", selectPage + filterPage);
 
             var selectRoles = ODataHelper.Select<RoleDTO>(x => new { x.RoleID, x.RoleName });
-            var roles = await queryClient.QueryAsync<RoleDTO>("Roles", selectRoles);
+            var filterRole = roleId != null ? ODataHelper.Filter<RoleDTO>(x => x.RoleID == roleId) : String.Empty;
+            var roles = await queryClient.QueryAsync<RoleDTO>("Roles", selectRoles + filterRole);
 
             var list = pages.Join(roles, p => p.RoleId, r => r.RoleID
                 , (p, r) => new SMHPageModel
@@ -221,20 +222,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             IsSystemSMH = false
                         }).ToList();
 
-            //var res = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(list, Formatting.None));            
-            //return Content(res, "application/json");
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> GetSysPages()
+        public async Task<ActionResult> GetSysPages(Guid? roleId)
         {
             var selectPage = ODataHelper.Select<SMHPageDTO>(x => new { x.PageID, x.PageName, x.PageURL, x.RoleId });
             var filterPage = ODataHelper.Filter<SMHPageDTO>(x => x.PageURL == _defaultSystemUrl);
             var pages = await queryClient.QueryAsync<SMHPageDTO>("SMHPages", selectPage + filterPage);
 
             var selectRoles = ODataHelper.Select<RoleDTO>(x => new { x.RoleID, x.RoleName });
-            var roles = await queryClient.QueryAsync<RoleDTO>("Roles", selectRoles);
+            var filterRole = roleId != null ? ODataHelper.Filter<RoleDTO>(x => x.RoleID == roleId) : String.Empty;
+            var roles = await queryClient.QueryAsync<RoleDTO>("Roles", selectRoles + filterRole);
 
             var list = pages.Join(roles, p => p.RoleId, r => r.RoleID
                 , (p, r) => new SMHPageModel
@@ -247,8 +247,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     IsSystemSMH = true
                 }).ToList();
 
-            //var res = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(list, Formatting.None));            
-            //return Content(res, "application/json");
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
@@ -259,9 +257,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filterItem = ODataHelper.Filter<SMHItemDTO>(x => x.PageID == pageId);
             var orderItem = ODataHelper.OrderBy<SMHItemDTO>(x => new { x.ItemOrder });
             var items = await queryClient.QueryAsync<SMHItemDTO>("SMHItems", selectItem + filterItem + orderItem);
-
-            var res = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(items, Formatting.None));
-            //return Content(res, "application/json");
+                        
             return Json(new { data = items }, JsonRequestBehavior.AllowGet);
         }
 
@@ -304,7 +300,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 }
             }
 
-            //var index = TempData["tabIndex"];
             return RedirectToAction("Index");
         }
 
