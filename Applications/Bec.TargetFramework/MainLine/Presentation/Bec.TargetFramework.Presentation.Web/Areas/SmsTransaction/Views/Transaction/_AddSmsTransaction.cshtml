@@ -116,7 +116,7 @@
 
                                                 <section class="col">
                                                     <label class="label">&nbsp;</label>
-                                                    <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "App", new {Area = ""})" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
+                                                    <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
                                                 </section>
                                             </div>
 

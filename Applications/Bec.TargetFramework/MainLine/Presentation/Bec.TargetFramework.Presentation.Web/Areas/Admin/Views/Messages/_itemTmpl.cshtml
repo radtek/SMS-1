@@ -5,12 +5,12 @@
             <div class="col-sm-1 hidden-xs no-padding">
                 <div class="thumbnail" title="{{Message.UserType}}">
                     <i class="fa {{icon}} fa-2x"></i>
-                </div>
+                </div>                
                 <p class="usertype" title="{{Message.UserType}}">{{Message.UserType}}</p>
                 {{#if Files}}
-                <div class="thumbnail">
-                    <i class="fa fa-paperclip fa-2x"></i>
-                </div>
+                    <div class="thumbnail">
+                        <i class="fa fa-paperclip fa-2x"></i>
+                    </div>
                 {{/if}}
             </div>
             <div class="col-sm-11">
@@ -23,35 +23,35 @@
                 </div>
                 {{#if isMessage}}
                     <pre>{{Content.Message}}</pre>
-                    {{#each Files}}
+                {{#each Files}}
                     <a class="attachment" href="{{Link}}">{{Name}}</a>
-                    {{/each}}
+                {{/each}}
                 {{else if isBaSafe}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsSafeNotificationDTO}}
-                    <pre>Bank account {{SortCode}}, {{AccountNumber}} has been marked as safe - <strong>you can now order Safe Buyer</strong> so that clients can check this bank account.</pre>
-                    <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                        <pre>Bank account {{SortCode}}, {{AccountNumber}} has been marked as safe - you can now add transactions to the Safe Move Scheme. For further details please see the <a href="@Url.Action("Index", "Downloads", new { area = "ProOrganisation" })">Downloads</a> section.</pre>
+                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
                     {{/with}}
                 {{else if isBaFraud}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsFraudSuspiciousNotificationDTO}}
-                    <pre>The following bank account was marked as <strong>Fraud Suspicious</strong>:</pre>
-                    <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
-                    <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
-                    <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                        <pre>The following bank account was marked as <strong>Fraud Suspicious</strong>:</pre>
+                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
                     {{/with}}
                 {{else if isBaNoMatch}}
                     {{#with Content.NotificationDictionary.BankAccountCheckNoMatchNotificationDTO}}
-                    <pre>The following bank account details were submitted by a user. <strong>The details did not match an active safe bank account.</strong></pre>
-                    <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
-                    <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
-                    <pre>Checked By: <strong>{{MarkedBy}}</strong></pre>
-                    <pre>Details: <strong>{{Reason}}</strong></pre>
+                        <pre>The following bank account details were submitted by a user. <strong>The details did not match an active safe bank account.</strong></pre>
+                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                        <pre>Checked By: <strong>{{MarkedBy}}</strong></pre>
+                        <pre>Details: <strong>{{Reason}}</strong></pre>
                     {{/with}}
                 {{else if isBaPotFraud}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsPotentialFraudNotificationDTO}}
-                    <pre>The following bank account was marked as <strong>Potential Fraud</strong>:</pre>
-                    <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
-                    <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
-                    <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                        <pre>The following bank account was marked as <strong>Potential Fraud</strong>:</pre>
+                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
                     {{/with}}
                 {{else if isProductAdvised}}
                     {{#with Content.NotificationDictionary.ProductAdvisedNotificationDTO}}
