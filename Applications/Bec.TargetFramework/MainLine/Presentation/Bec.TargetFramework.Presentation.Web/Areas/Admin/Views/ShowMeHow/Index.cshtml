@@ -5,7 +5,7 @@
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Presentation.Web.App_Helpers
 <style>
-    #ItemList, #ItemList2 {
+    #ItemList, #SysItemList {
         list-style-type: none;
         margin-bottom: 9px;
         box-sizing: border-box;
@@ -14,7 +14,7 @@
         margin-left: 0px;
     }
 
-        #ItemList li, #ItemList2 li {
+        #ItemList li, #SysItemList li {
             display: list-item;
             border: 1px solid #ccc;
             padding: 5px;
@@ -23,11 +23,11 @@
             cursor: pointer;
         }
 
-            #ItemList li.highlights, #ItemList2 li.highlights {
+            #ItemList li.highlights, #SysItemList li.highlights {
                 background-color: gray;
             }
 
-            #ItemList li span:nth-child(2), #ItemList2 li span:nth-child(2) {
+            #ItemList li span:nth-child(2), #SysItemList li span:nth-child(2) {
                 float: right;
                 margin-right: 10px;
                 color: #ccc;
@@ -37,7 +37,7 @@
 <!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
-        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-bank margin-right-10"></i>Show Me How On Page</h2>
+        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-bank margin-right-10"></i>Show Me How Management</h2>
 
         <div class="col-sm-12">
             <ul id="myTab1" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">

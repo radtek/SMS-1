@@ -277,6 +277,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for SMHPages in the schema.
+        /// </summary>
+        public virtual ICollection<SMHPage> SMHPages
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

@@ -1769,6 +1769,15 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
+      <Exclude Name="CalloutUserAccountID" Table="public.CalloutUserAccount" Type="Column" />
+      <Exclude Name="CalloutID" Table="public.CalloutUserAccount" Type="Column" />
+      <Exclude Name="RoleID" Table="public.CalloutUserAccount" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.CalloutUserAccount" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.CalloutUserAccount" Type="Column" />
+      <Exclude Name="UserID" Table="public.CalloutUserAccount" Type="Column" />
+      <Exclude Name="pkCalloutUserAccount" Table="public.CalloutUserAccount" Type="Constraint" />
+      <Exclude Name="CalloutUserAccount_Callout_fk" Table="public.CalloutUserAccount" Type="Constraint" />
+      <Exclude Name="CalloutUserAccount_UserType_fk" Table="public.CalloutUserAccount" Type="Constraint" />
       <Exclude Name="ConversationID" Table="public.Conversation" Type="Column" />
       <Exclude Name="Subject" Table="public.Conversation" Type="Column" />
       <Exclude Name="ActivityType" Table="public.Conversation" Type="Column" />
@@ -1819,21 +1828,6 @@
       <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="ItemID" Table="public.SMHItem" Type="Column" />
-      <Exclude Name="PageID" Table="public.SMHItem" Type="Column" />
-      <Exclude Name="ItemName" Table="public.SMHItem" Type="Column" />
-      <Exclude Name="ItemSelector" Table="public.SMHItem" Type="Column" />
-      <Exclude Name="ItemDescription" Table="public.SMHItem" Type="Column" />
-      <Exclude Name="ItemPosition" Table="public.SMHItem" Type="Column" />
-      <Exclude Name="ItemOrder" Table="public.SMHItem" Type="Column" />
-      <Exclude Name="TabContainerId" Table="public.SMHItem" Type="Column" />
-      <Exclude Name="" Table="public.SMHItem" Type="Constraint" />
-      <Exclude Name="fk_SMHItem_SMHPage" Table="public.SMHItem" Type="Constraint" />
-      <Exclude Name="PageID" Table="public.SMHPage" Type="Column" />
-      <Exclude Name="PageName" Table="public.SMHPage" Type="Column" />
-      <Exclude Name="PageURL" Table="public.SMHPage" Type="Column" />
-      <Exclude Name="RoleId" Table="public.SMHPage" Type="Column" />
-      <Exclude Name="" Table="public.SMHPage" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1945,6 +1939,7 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="CalloutUserAccount_fk" Table="public.CalloutUserAccount" Type="Constraint" />
       <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
       <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />

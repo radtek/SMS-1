@@ -58,6 +58,7 @@ namespace Bec.TargetFramework.Entities
               target.ActorClaimRoleMappings = source.ActorClaimRoleMappings.ToDtosWithRelated(level - 1);
               target.Callouts = source.Callouts.ToDtosWithRelated(level - 1);
               target.CalloutUserAccounts = source.CalloutUserAccounts.ToDtosWithRelated(level - 1);
+              target.SMHPages = source.SMHPages.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

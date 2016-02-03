@@ -79,6 +79,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for Role in the schema.
+        /// </summary>
+        public virtual Role Role
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

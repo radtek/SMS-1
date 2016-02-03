@@ -29,14 +29,14 @@
         <div class="well">
             <h5>Page Information</h5>
             <div style="text-align:right; margin-bottom:18px">
-                <a id="delPage2" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewDeleteSysPage", "ShowMeHow", new { area = "Admin" })"><i class="fa fa-times margin-right-5"></i>Delete</a>
-                <a id="editPage2" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEditSysPage", "ShowMeHow", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+                <a id="delSysPage" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewDeleteSysPage", "ShowMeHow", new { area = "Admin" })"><i class="fa fa-times margin-right-5"></i>Delete</a>
+                <a id="editSysPage" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEditSysPage", "ShowMeHow", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
             </div>
             <dl class="dl-horizontal">
                 <dt>Page Name:</dt>
-                <dd><p id="ddnName2"></p></dd>
+                <dd><p id="ddnSysName"></p></dd>
                 <dt>User Role:</dt>
-                <dd><p id="ddnRole2"></p></dd>
+                <dd><p id="ddnSysRole"></p></dd>
             </dl>
         </div>
     </div>
@@ -44,17 +44,17 @@
         <!-- well -->
         <div class="well">
             <h5>Intro Items</h5>
-            <div id="listItem2" data-url="@Url.Action("GetItemOnPage", "ShowMeHow", new { area = "Admin" })" style=" text-align:right; margin-bottom:18px;">
-                <a id="btnAddPageItem2" data-url="@Url.Action("ViewAddItem", "ShowMeHow", new { area  = "Admin" })" class="btn btn-sm btn-primary" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Item</a>
+            <div id="listSysItem" data-url="@Url.Action("GetItemOnPage", "ShowMeHow", new { area = "Admin" })" style=" text-align:right; margin-bottom:18px;">
+                <a id="btnAddSysPageItem" data-url="@Url.Action("ViewAddItem", "ShowMeHow", new { area  = "Admin" })" class="btn btn-sm btn-primary" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Item</a>
             </div>
             <div style="visibility:hidden">
-                <i id="editItemLink2" data-url="@Url.Action("ViewEditItem", "ShowMeHow", new { area = "Admin" })"></i>
-                <i id="deleteItemLink2" data-url="@Url.Action("ViewDeleteItem", "ShowMeHow", new { area = "Admin" })"></i>
+                <i id="editSysItemLink" data-url="@Url.Action("ViewEditItem", "ShowMeHow", new { area = "Admin" })"></i>
+                <i id="delSysItemLink" data-url="@Url.Action("ViewDeleteItem", "ShowMeHow", new { area = "Admin" })"></i>
             </div>
             <span>
                 @Html.AntiForgeryToken()
-                <a id="saveItemOrder2" data-url="@Url.Action("SaveItemOrder", "ShowMeHow", new { area = "Admin" })" class="btn btn-sm btn-default">Save Change</a>
-                <label id="saveOrderStatus2" style="display:none; color:green">Save successfully</label>
+                <a id="saveSysItemOrder" data-url="@Url.Action("SaveItemOrder", "ShowMeHow", new { area = "Admin" })" class="btn btn-sm btn-default">Save Change</a>
+                <label id="saveSysOrderStatus" style="display:none; color:green">Save successfully</label>
             </span>
         </div>
     </div>

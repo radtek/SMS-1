@@ -22,13 +22,14 @@ namespace Bec.TargetFramework.Entities
         public SMHPageDTO() {
         }
 
-        public SMHPageDTO(global::System.Guid pageID, string pageName, string pageURL, global::System.Nullable<System.Guid> roleId, List<SMHItemDTO> sMHItems) {
+        public SMHPageDTO(global::System.Guid pageID, string pageName, string pageURL, global::System.Nullable<System.Guid> roleId, List<SMHItemDTO> sMHItems, RoleDTO role) {
 
           this.PageID = pageID;
           this.PageName = pageName;
           this.PageURL = pageURL;
           this.RoleId = roleId;
           this.SMHItems = sMHItems;
+          this.Role = role;
         }
 
         #endregion
@@ -53,6 +54,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<SMHItemDTO> SMHItems { get; set; }
+
+        [DataMember]
+        public RoleDTO Role { get; set; }
 
         #endregion
     }
