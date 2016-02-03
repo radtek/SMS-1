@@ -162,28 +162,5 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["tabIndex"] = 0;
             return RedirectToAction("Provisional");
         }
-
-        // todo: ZM ucomment when enable login comes back to life
-        //public async Task<ActionResult> ViewEditCompany(Guid orgID)
-        //{
-        //    ViewBag.orgID = orgID;
-        //    var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID, x.IsActive }, true);
-        //    var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-        //    var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
-        //    return PartialView("_EditCompany", Edit.MakeModel(res.First()));
-        //}
-
-        // todo: ZM ucomment when enable login comes back to life
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> EditCompany(Guid orgID)
-        //{
-        //    var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-        //    var data = Edit.fromD(Request.Form,
-        //        "IsActive",
-        //        "RowVersion");
-        //    await queryClient.UpdateGraphAsync("Organisations", data, filter);
-        //    return RedirectToAction("Qualified");
-        //}
     }
 }

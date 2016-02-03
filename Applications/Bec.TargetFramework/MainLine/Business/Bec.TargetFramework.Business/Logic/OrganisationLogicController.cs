@@ -881,32 +881,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public Guid GetCreditAccountId(Guid orgID)
-        {
-            return GetCreditAccount(orgID).OrganisationLedgerAccountID;
-        }
-
-        public OrganisationLedgerAccountDTO GetCreditAccount(Guid orgId)
-        {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
-                return scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgId && x.LedgerAccountTypeID == creditType).ToDto();
-            }
-        }
-
-        public async Task<decimal> GetBalanceAsAt(Guid accountID, DateTime date)
-        {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                var record = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationLedgerTransactionBalances.Where(x => x.OrganisationLedgerAccountID == accountID && x.BalanceOn < date).OrderByDescending(x => x.BalanceOn).FirstOrDefault();
-                if (record == null)
-                    return 0;
-                else
-                    return record.Balance;
-            }
-        }
-
         public async Task VerifyOrganisation(VerifyCompanyDTO dto)
         {
             using (var scope = DbContextScopeFactory.Create())

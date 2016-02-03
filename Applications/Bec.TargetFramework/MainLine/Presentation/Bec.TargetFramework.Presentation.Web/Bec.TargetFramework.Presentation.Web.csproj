@@ -194,9 +194,7 @@
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
-    <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
     <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
-    <Compile Include="Areas\ProOrganisation\Controllers\CreditController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
@@ -309,12 +307,9 @@
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
     <Content Include="Areas\BankAccount\Views\Account\Index.js" />
-    <Content Include="Areas\BankAccount\Views\Check\Index.js" />
     <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_Match.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_NoMatch.js" />
-    <Content Include="Areas\ProOrganisation\Views\Credit\Index.js" />
-    <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.js" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_AddUser.js" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.js" />
@@ -1041,10 +1036,7 @@
     <Content Include="Content\css\your_style.css.map">
       <DependentUpon>your_style.css</DependentUpon>
     </Content>
-    <Content Include="Areas\ProOrganisation\Views\Credit\Index.cshtml" />
-    <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.cshtml" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
-    <Content Include="Areas\BankAccount\Views\Check\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />

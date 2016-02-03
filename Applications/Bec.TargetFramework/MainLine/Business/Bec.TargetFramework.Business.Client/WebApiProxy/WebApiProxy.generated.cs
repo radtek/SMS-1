@@ -969,32 +969,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
 
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Task<Guid> GetCreditAccountIdAsync(Guid orgID);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Guid GetCreditAccountId(Guid orgID);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<OrganisationLedgerAccountDTO> GetCreditAccountAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		OrganisationLedgerAccountDTO GetCreditAccount(Guid orgId);
-
-		/// <param name="accountID"></param>
-		/// <param name="date"></param>
-		/// <returns></returns>
-		Task<Decimal> GetBalanceAsAtAsync(Guid accountID,DateTime date);
-
-		/// <param name="accountID"></param>
-		/// <param name="date"></param>
-		/// <returns></returns>
-		Decimal GetBalanceAsAt(Guid accountID,DateTime date);
-
 		/// <returns></returns>
 		Task VerifyOrganisationAsync(VerifyCompanyDTO dto);
 
@@ -4009,71 +3983,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount + "&rowVersion=" + rowVersion, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		public virtual Task<Guid> GetCreditAccountIdAsync(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<Guid>("api/OrganisationLogic/GetCreditAccountId?orgID=" + orgID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		public virtual Guid GetCreditAccountId(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Guid>("api/OrganisationLogic/GetCreditAccountId?orgID=" + orgID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual Task<OrganisationLedgerAccountDTO> GetCreditAccountAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<OrganisationLedgerAccountDTO>("api/OrganisationLogic/GetCreditAccount?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual OrganisationLedgerAccountDTO GetCreditAccount(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<OrganisationLedgerAccountDTO>("api/OrganisationLogic/GetCreditAccount?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="date"></param>
-		/// <returns></returns>
-		public virtual Task<Decimal> GetBalanceAsAtAsync(Guid accountID,DateTime date)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<Decimal>("api/OrganisationLogic/GetBalanceAsAt?accountID=" + accountID + "&date=" + date.ToString("O"), _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="date"></param>
-		public virtual Decimal GetBalanceAsAt(Guid accountID,DateTime date)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Decimal>("api/OrganisationLogic/GetBalanceAsAt?accountID=" + accountID + "&date=" + date.ToString("O"), _user)).Result;
 		}
 
 		/// <summary>
