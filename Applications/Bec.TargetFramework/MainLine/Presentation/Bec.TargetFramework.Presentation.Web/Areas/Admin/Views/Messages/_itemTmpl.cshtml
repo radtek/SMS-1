@@ -5,12 +5,12 @@
             <div class="col-sm-1 hidden-xs no-padding">
                 <div class="thumbnail" title="{{Message.UserType}}">
                     <i class="fa {{icon}} fa-2x"></i>
-                </div>                
+                </div>
                 <p class="usertype" title="{{Message.UserType}}">{{Message.UserType}}</p>
                 {{#if Files}}
-                    <div class="thumbnail">
-                        <i class="fa fa-paperclip fa-2x"></i>
-                    </div>
+                <div class="thumbnail">
+                    <i class="fa fa-paperclip fa-2x"></i>
+                </div>
                 {{/if}}
             </div>
             <div class="col-sm-11">
@@ -23,35 +23,43 @@
                 </div>
                 {{#if isMessage}}
                     <pre>{{Content.Message}}</pre>
-                {{#each Files}}
+                    {{#each Files}}
                     <a class="attachment" href="{{Link}}">{{Name}}</a>
-                {{/each}}
+                    {{/each}}
                 {{else if isBaSafe}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsSafeNotificationDTO}}
-                        <pre>Bank account {{SortCode}}, {{AccountNumber}} has been marked as safe - <strong>you can now order Safe Buyer</strong> so that clients can check this bank account.</pre>
-                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                    <pre>Bank account {{SortCode}}, {{AccountNumber}} has been marked as safe - <strong>you can now order Safe Buyer</strong> so that clients can check this bank account.</pre>
+                    <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
                     {{/with}}
                 {{else if isBaFraud}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsFraudSuspiciousNotificationDTO}}
-                        <pre>The following bank account was marked as <strong>Fraud Suspicious</strong>:</pre>
-                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
-                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
-                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                    <pre>The following bank account was marked as <strong>Fraud Suspicious</strong>:</pre>
+                    <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                    <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                    <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
                     {{/with}}
                 {{else if isBaNoMatch}}
                     {{#with Content.NotificationDictionary.BankAccountCheckNoMatchNotificationDTO}}
-                        <pre>The following bank account details were submitted by a user. <strong>The details did not match an active safe bank account.</strong></pre>
-                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
-                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
-                        <pre>Checked By: <strong>{{MarkedBy}}</strong></pre>
-                        <pre>Details: <strong>{{Reason}}</strong></pre>
+                    <pre>The following bank account details were submitted by a user. <strong>The details did not match an active safe bank account.</strong></pre>
+                    <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                    <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                    <pre>Checked By: <strong>{{MarkedBy}}</strong></pre>
+                    <pre>Details: <strong>{{Reason}}</strong></pre>
                     {{/with}}
                 {{else if isBaPotFraud}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsPotentialFraudNotificationDTO}}
-                        <pre>The following bank account was marked as <strong>Potential Fraud</strong>:</pre>
-                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
-                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
-                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                    <pre>The following bank account was marked as <strong>Potential Fraud</strong>:</pre>
+                    <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                    <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                    <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                    {{/with}}
+                {{else if isProductAdvised}}
+                    {{#with Content.NotificationDictionary.ProductAdvisedNotificationDTO}}
+                    <pre>WARNING: The latest City of London Police stats show that customer payment fraud is costing property buyers like you over £1m per month as a result of theft of sensitive information and identity theft.</pre>
+                    <pre>Safe Buyer is a product that protects property buyers from fraud.</pre>
+                    <pre>You are receiving this message because <strong>{{CompanyName}}</strong> is advising you to purchase Safe Buyer, which is also endorsed by some mortgage lenders, to protect you from fraud.</pre>
+                    <pre>Safe Buyer enables you to check {{CompanyName}}'s bank account details before you send money to them and provides a secure messaging and attachment feature called Safe Send so you can communicate safely with {{CompanyName}} avoiding email, which isn’t safe.</pre>
+                    <pre><a href="@Url.Action("HowToKeepConsumersSafe", new { Area = "", Controller = "Home" })">Click here</a> for more information on why Safe Buyer is recommended by conveyancers and mortgage lenders.</pre>
                     {{/with}}
                 {{/if}}
                 <div class="read-status">

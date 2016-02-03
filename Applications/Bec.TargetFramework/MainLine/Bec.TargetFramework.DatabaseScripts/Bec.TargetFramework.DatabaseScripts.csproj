@@ -35,6 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Development\ProductPurchaseChange\01_SchemaChange.sql" />
+    <None Include="Development\ProductPurchaseChange\02_ProductAdvisedNotification.sql" />
+    <None Include="Development\ProductPurchaseChange\03_CORE_BusEvent.sql" />
     <Content Include="Development\Sprint22_Brokers_Lenders\01_OrganisationTypes.sql" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

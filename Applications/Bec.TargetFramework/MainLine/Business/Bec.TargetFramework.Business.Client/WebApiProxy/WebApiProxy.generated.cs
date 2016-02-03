@@ -887,6 +887,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
 
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyUaoIdsAsync(Guid txID);
+
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID);
+
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -3806,6 +3814,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			phoneNumber = phoneNumber.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		public virtual Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyUaoIdsAsync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<IEnumerable<Guid>>("api/OrganisationLogic/GetSmsTransactionRelatedPartyUaoIds?txID=" + txID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		public virtual IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/OrganisationLogic/GetSmsTransactionRelatedPartyUaoIds?txID=" + txID, _user)).Result;
 		}
 
 		/// <summary>

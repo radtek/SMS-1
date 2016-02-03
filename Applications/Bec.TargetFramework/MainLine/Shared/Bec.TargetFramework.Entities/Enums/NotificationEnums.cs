@@ -45,6 +45,8 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("TcMortgageBroker")]
         TcMortgageBroker = 19,
         [StringValue("TcLender")]
-        TcLender = 20
+        TcLender = 20,
+        [StringValue("ProductAdvised")]
+        ProductAdvised = 21
     }
 }

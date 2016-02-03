@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventHandlers\AddNewUserHandler.cs" />
+    <Compile Include="EventHandlers\ProductAdvisedHandler.cs" />
     <Compile Include="EventHandlers\BankAccountCheckNoMatchHandler.cs" />
     <Compile Include="EventHandlers\BankAccountMarkedAsPotentialFraudHandler.cs" />
     <Compile Include="EventHandlers\NewInternalMessagesHandler.cs" />

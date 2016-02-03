@@ -553,6 +553,17 @@ namespace Bec.TargetFramework.Business.Logic
             return buyerUaoDto.UserAccountOrganisationID;
         }
 
+        public IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
+                    .Where(x => x.SmsTransactionID == txID)
+                    .Select(x => x.UserAccountOrganisationID)
+                    .ToList();
+            }
+        }
+
         private async Task AddNewContactAndSetAsPrimary(Guid uaoId, string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
         {
             using (var scope = DbContextScopeFactory.Create())
@@ -705,6 +716,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task AdviseProduct(Guid txID, Guid orgID, Guid primaryBuyerUaoID)
         {
+            var requiresNotification = false;
             using (var scope = DbContextScopeFactory.Create())
             {
                 var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
@@ -720,6 +732,35 @@ namespace Bec.TargetFramework.Business.Logic
                 transaction.ModifiedOn = DateTime.Now;
                 transaction.ModifiedBy = UserNameService.UserName;
                 await scope.SaveChangesAsync();
+                requiresNotification = transaction.ProductDeclinedOn.HasValue;
+            }
+
+            if (requiresNotification)
+            {
+                await PublishProductAdvisedNotification(txID, orgID);
+            }
+        }
+
+        private async Task PublishProductAdvisedNotification(Guid txID, Guid orgID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var organisation = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.FirstOrDefault(x => x.OrganisationID == orgID);
+                Ensure.That(organisation).IsNotNull();
+                var notificationDto = new ProductAdvisedNotificationDTO
+                {
+                    TransactionID = txID,
+                    CompanyName = organisation.Name
+                };
+                string payLoad = JsonHelper.SerializeData(new object[] { notificationDto });
+                var dto = new EventPayloadDTO
+                {
+                    EventName = NotificationConstructEnum.ProductAdvised.GetStringValue(),
+                    EventSource = AppDomain.CurrentDomain.FriendlyName,
+                    EventReference = "0005",
+                    PayloadAsJson = payLoad
+                };
+                await EventPublishClient.PublishEventAsync(dto);
             }
         }
 

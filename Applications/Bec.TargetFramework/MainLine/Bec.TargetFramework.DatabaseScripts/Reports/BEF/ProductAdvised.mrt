@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <CacheAllData>True</CacheAllData>
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="2">
+      <NotificationSettingDTO Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>NotificationSettingDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="10">
+          <value>ExportFormat,System.Nullable`1[System.Int32]</value>
+          <value>NotificationConstructID,System.Guid</value>
+          <value>NotificationConstructVersionNumber,System.Int32</value>
+          <value>NotificiationSentFromParentID,System.Guid</value>
+          <value>ServerLogoImageFileNameWithExtension,System.String</value>
+          <value>ServerNotificationImageContentURLFolder,System.String</value>
+          <value>ServerURL,System.String</value>
+          <value>LoginRoute,System.String</value>
+          <value>Subject,System.String</value>
+          <value>Title,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
+        <Name>NotificationSettingDTO</Name>
+      </NotificationSettingDTO>
+      <BankAccountCheckNoMatchNotificationDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>BankAccountCheckNoMatchNotificationDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="6">
+          <value>AccountNumber,System.String</value>
+          <value>DetailsUrl,System.String</value>
+          <value>MarkedBy,System.String</value>
+          <value>OrganisationId,System.Guid</value>
+          <value>Reason,System.String</value>
+          <value>SortCode,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>44f8d67b23c44cc0be50ebaa3a9ba35c</Guid>
+        <Name>BankAccountCheckNoMatchNotificationDTO</Name>
+      </BankAccountCheckNoMatchNotificationDTO>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="1">
+      <value>General</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="1">
+        <TextContent Ref="5" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0,13.2,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Microsoft Sans Serif,11</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>TextContent</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Text>&lt;h2&gt;&lt;line-height="1.5"&gt;Test.&lt;/line-height&gt;&lt;/h2&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+        </TextContent>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>1b83758dda4046518274d0b090f93e62</Guid>
+      <Hyperlink>#{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>10</PageHeight>
+      <PageWidth>17</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="6" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="7" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>2/3/2016 10:33:40 AM</ReportChanged>
+  <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
+  <ReportFile>ProductAdvised.mrt</ReportFile>
+  <ReportGuid>2c080c97d28641b18c563245d1a76f2a</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2015.1.8</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>
