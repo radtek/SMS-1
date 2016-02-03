@@ -58,13 +58,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return PartialView("_Cancel");
         }
 
-        public async Task<ActionResult> FindAddress(string postcode)
-        {
-            var list = await AddressClient.FindAddressesByPostCodeAsync(postcode, null);
-
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
         public async Task<ActionResult> CheckEmailProfessional(string email, Guid? uaoID)
         {
             var canEmailBeUsed = await UserClient.CanEmailBeUsedAsProfessionalAsync(email, uaoID);
