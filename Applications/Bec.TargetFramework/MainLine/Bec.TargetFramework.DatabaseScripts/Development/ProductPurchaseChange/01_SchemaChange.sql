@@ -23,7 +23,7 @@ ALTER TABLE sms."SmsTransaction"
 update sms."SmsTransaction" tx set "InvoiceID" = 
 (select "InvoiceID" from "Invoice" inv 
    where abs(extract(epoch from inv."CreatedOn") - extract (epoch from tx."CreatedOn")) < 2 or
-    abs((extract(epoch from inv."CreatedOn")-3600) - extract (epoch from tx."CreatedOn")) < 2)
+    abs((extract(epoch from inv."CreatedOn")-3600) - extract (epoch from tx."CreatedOn")) < 2);
 
 
 
