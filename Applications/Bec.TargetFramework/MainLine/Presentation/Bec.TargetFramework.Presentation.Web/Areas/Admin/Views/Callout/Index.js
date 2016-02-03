@@ -39,12 +39,12 @@ $(function () {
                     },
                     {
                         field: "CreatedOn",
-                        title: "Created",
+                        title: "Created On",
                         template: function (dataItem) { return dateString(dataItem.CreatedOn); }
                     },
                     {
                         field: "ModifiedOn",
-                        title: "Modified",
+                        title: "Modified On",
                         template: function (dataItem) { if (dataItem.ModifiedOn != null) return dateString(dataItem.ModifiedOn); else return ""; }
                     }
             ]
