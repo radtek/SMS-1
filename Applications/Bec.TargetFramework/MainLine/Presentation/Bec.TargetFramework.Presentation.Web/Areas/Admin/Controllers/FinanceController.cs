@@ -66,15 +66,5 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("OutstandingBankAccounts");
         }
-
-        public async Task<ActionResult> SearchCompany(string search)
-        {
-            search = search.ToLower();
-            if (string.IsNullOrWhiteSpace(search)) return null;
-            var select = ODataHelper.Select<OrganisationDetailDTO>(x => new { x.Name, x.OrganisationID });
-            var filter = ODataHelper.Filter<OrganisationDetailDTO>(x => x.Organisation.OrganisationType.Name == "Professional" && x.Name.ToLower().Contains(search));
-            JObject res = await queryClient.QueryAsync("OrganisationDetails", ODataHelper.RemoveParameters(Request) + select + filter);
-            return Content(res.ToString(Formatting.None), "application/json");
-        }
     }
 }
