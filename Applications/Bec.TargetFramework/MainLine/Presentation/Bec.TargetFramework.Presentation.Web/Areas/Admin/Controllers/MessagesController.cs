@@ -93,7 +93,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetMessages(Guid conversationId, int page, int pageSize)
         {
-            //if (!await CanAccessConversation(conversationId)) return NotAuthorised();
+            if (!await CanAccessConversation(conversationId)) return NotAuthorised();
 
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
@@ -113,7 +113,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetParticipants(Guid conversationId)
         {
-            //if (!await CanAccessConversation(conversationId)) return NotAuthorised();
+            if (!await CanAccessConversation(conversationId)) return NotAuthorised();
 
             var professionalOrganisationTypeId = OrganisationTypeEnum.Professional.GetIntValue();
             var select = ODataHelper.Select<ConversationParticipantDTO>(x => new
