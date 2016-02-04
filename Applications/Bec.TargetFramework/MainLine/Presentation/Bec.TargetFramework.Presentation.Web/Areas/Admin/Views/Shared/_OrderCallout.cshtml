@@ -6,11 +6,33 @@
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="orderCalloutLabel" aria-hidden="true">
     <div class="modal-dialog">
         <style>
-            #sortable {list-style-type: none;margin: 0;padding: 0;width: 99%;}
-             #sortable li {margin: 0 3px 3px 3px;padding: 0.4em;padding-left: 1.5em;font-size: 1.0em; text-overflow: ellipsis;}
-            #sortable li span {position: absolute;margin-left: -1.3em;}
-            #sortable li {background: #E8E8E8;}
-            #sortable li:nth-child(odd) {background: #D5E4E1;}
+            #sortable {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                width: 99%;
+            }
+
+                #sortable li {
+                    margin: 0 3px 3px 3px;
+                    padding: 0.4em;
+                    padding-left: 1.5em;
+                    font-size: 1.0em;
+                    height:18px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    background: #E8E8E8;
+                    text-overflow: ellipsis;
+                }
+
+                    #sortable li span {
+                        position: absolute;
+                        margin-left: -1.3em;
+                    }
+
+                    #sortable li:nth-child(odd) {
+                        background: #D5E4E1;
+                    }
         </style>
         <div class="modal-content">
             <div class="modal-header">
