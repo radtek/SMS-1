@@ -755,6 +755,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void RejectOrganisation(RejectCompanyDTO dto);
 
+		/// <returns></returns>
+		Task UnverifyOrganisationAsync(RejectCompanyDTO dto);
+
+		/// <returns></returns>
+		void UnverifyOrganisation(RejectCompanyDTO dto);
+
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
 		Task ActivateOrganisationAsync(Guid organisationID);
@@ -3499,6 +3505,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<RejectCompanyDTO>("api/OrganisationLogic/RejectOrganisationAsync", dto, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task UnverifyOrganisationAsync(RejectCompanyDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<RejectCompanyDTO>("api/OrganisationLogic/UnverifyOrganisationAsync", dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void UnverifyOrganisation(RejectCompanyDTO dto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<RejectCompanyDTO>("api/OrganisationLogic/UnverifyOrganisationAsync", dto, _user)).Wait();
 		}
 
 		/// <summary>

@@ -92,12 +92,28 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Unverified.GetStringValue());
+                var unverified = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Unverified.GetStringValue()).StatusTypeValueID;
+                var verified = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue()).StatusTypeValueID;
                 var org = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == dto.OrganisationId);
-                if (org.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot reject a company of status '{0}'. Please go back and try again.", org.StatusValueName));
+                if (org.StatusTypeValueID != unverified && org.StatusTypeValueID != verified) throw new Exception(string.Format("Cannot reject a company of status '{0}'. Please go back and try again.", org.StatusValueName));
 
                 await AddOrganisationStatusAsync(dto.OrganisationId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Rejected, dto.Reason, dto.Notes);
 
+                UserAccount ua = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Single(x => x.Email == org.OrganisationAdminEmail);
+                ua.Username = ua.Email = string.Format("Rejected {0}: {1}", DateTime.Now, org.OrganisationAdminEmail);
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task UnverifyOrganisationAsync(RejectCompanyDTO dto)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var verified = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue()).StatusTypeValueID;
+                var org = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == dto.OrganisationId);
+                if (org.StatusTypeValueID != verified) throw new Exception(string.Format("Cannot unverify a company of status '{0}'. Please go back and try again.", org.StatusValueName));
+
+                await AddOrganisationStatusAsync(dto.OrganisationId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Unverified, dto.Reason, dto.Notes);
                 await scope.SaveChangesAsync();
             }
         }

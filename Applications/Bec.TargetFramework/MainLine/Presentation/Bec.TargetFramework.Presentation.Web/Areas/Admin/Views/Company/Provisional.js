@@ -287,6 +287,9 @@ function verifiedChange(dataItem) {
         var html = template(dataItem);
         $('#verifiedPanel').html(html);
         $("#pinButton").data('href', $("#pinButton").data("url") + "&orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
+
+        $("#unverifyButton").data('href', $("#unverifyButton").data("url") + "?orgId=" + dataItem.OrganisationID);
+        $("#rejectVerifiedButton").data('href', $("#rejectVerifiedButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&returnTab=1");
         $('#addNotesButton').data('href', $('#addNotesButton').data('url') + "?orgID=" + dataItem.OrganisationID);
 
         ajaxWrapper({ url: $('#verifiedPanel').data('url') + "?orgID=" + dataItem.OrganisationID }).done(function (notes) {
