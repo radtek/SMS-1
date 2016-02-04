@@ -1,4 +1,4 @@
--- BankAccountCheckNoMatch
+-- ProductAdvised
 INSERT INTO
   public."BusEvent"
 (
