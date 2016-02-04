@@ -1,15 +1,9 @@
-﻿function dupeCheck() {
-    //just used for jquery validation remote check cache
-    $('#combined').val($('#ac').val() + ":" + $('#sc').val());
-    $("#addBankAccount-form").validate().element('#combined');
-}
-
-$(function () {
+﻿$(function () {
     // submit from when Save button clicked
     $("#submitAddBankAccount").click(function () {
         $("#addBankAccount-form").submit();
     });
-
+    $('#ac, #sc').change(dupeCheck);
     $.validator.addMethod('bankAccountIsAvailable', function (value, element) {
         return !$('#ac').val() || !$('#sc').val() || $("#addBankAccount-form").validate().check('#combined');
     }, "");
@@ -67,5 +61,11 @@ $(function () {
     function validateSubmit(form) {
         $("#submitAddBankAccount").prop('disabled', true);
         form.submit();
+    }
+
+    function dupeCheck() {
+        //just used for jquery validation remote check cache
+        $('#combined').val($('#ac').val() + ":" + $('#sc').val());
+        $("#addBankAccount-form").validate().element('#combined');
     }
 });

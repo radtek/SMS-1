@@ -17,5 +17,7 @@ namespace Bec.TargetFramework.Entities
         public int Reason { get; set; }
         [DataMember]
         public string Notes { get; set; }
+        public string CompanyName { get; set; }
+        public int ReturnTab { get; set; }
     }
 }

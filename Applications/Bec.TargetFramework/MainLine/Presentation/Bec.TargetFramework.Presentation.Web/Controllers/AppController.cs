@@ -38,9 +38,13 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             {
                 return RedirectToAction("Provisional", "Company", new { area = "Admin" });
             }
-            else
+            else if (ClaimsHelper.UserHasClaim("View", "MyTransactions"))
             {
                 return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer" });
+            }
+            else
+            {
+                return View();
             }
         }
 
@@ -52,13 +56,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public ActionResult ViewCancel()
         {
             return PartialView("_Cancel");
-        }
-
-        public async Task<ActionResult> FindAddress(string postcode)
-        {
-            var list = await AddressClient.FindAddressesByPostCodeAsync(postcode, null);
-
-            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> CheckEmailProfessional(string email, Guid? uaoID)

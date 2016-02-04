@@ -54,6 +54,16 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
+        public ActionResult SafeBuyerProduct()
+        {
+            return View();
+        }
+
+        public ActionResult HowTheSmsHelpsLenders()
+        {
+            return View();
+        }
+
         public ActionResult FreeTrial()
         {
             return View();
@@ -84,7 +94,12 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
-        public ActionResult ForThePublic()
+        public ActionResult MortgageBrokerRegistration()
+        {
+            return View();
+        }
+
+        public ActionResult ForThePublicIntroduction()
         {
             return View();
         }
@@ -94,7 +109,17 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
-        public ActionResult Tutorials()
+        public ActionResult TutorialsForProfessionals()
+        {
+            return View();
+        }
+
+        public ActionResult TutorialsForPublic()
+        {
+            return View();
+        }
+
+        public ActionResult HowToKeepConsumersSafe()
         {
             return View();
         }

@@ -5,6 +5,9 @@
 .padding-top-5 {
   padding-top: 5px !important;
 }
+.padding-top-20 {
+  padding-top: 20px !important;
+}
 .padding-bottom-0 {
   padding-bottom: 0 !important;
 }
@@ -31,6 +34,9 @@
 }
 .margin-top-10 {
   margin-top: 10px !important;
+}
+.margin-top-15 {
+  margin-top: 15px !important;
 }
 .margin-top-20 {
   margin-top: 20px !important;
@@ -61,6 +67,9 @@
 }
 .margin-right-15 {
   margin-right: 15px !important;
+}
+.margin-right-20 {
+  margin-right: 20px !important;
 }
 /*Zenon changes*/
 form input[type='text'].form-control,
@@ -260,6 +269,9 @@ em.invalid {
   line-height: 2;
   text-align: left;
   padding: 0;
+}
+.foot-note {
+  margin-bottom: 20px;
 }
 .foot-note label {
   font-weight: normal !important;
@@ -764,5 +776,12 @@ fieldset[disabled] .form-control.hasDatepicker {
 }
 ol {
   padding-left: 15px;
+}
+::-ms-reveal {
+  display: none;
+}
+.register-btn {
+  margin-top: 33px;
+  margin-right: 20px;
 }
 /*# sourceMappingURL=style.css.map */

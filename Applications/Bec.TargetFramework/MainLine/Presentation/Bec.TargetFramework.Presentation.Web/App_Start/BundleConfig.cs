@@ -12,8 +12,6 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/content/css/bootstrap.min.css",
                 "~/content/css/font-awesome.min.css",
                 "~/content/css/smartadmin-production-plugins.min.css"
-                //"~/Scripts/dropzone/basic.css",
-                //"~/Scripts/dropzone/dropzone.css"
                 ));
 
             bundles.Add(new StyleBundle("~/content/smartadmin").Include(
@@ -38,7 +36,6 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/notification/SmartNotification.min.js",
                 "~/Scripts/smartwidgets/jarvis.widget.min.js",
                 "~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
-                "~/Scripts/plugin/masked-input/jquery.maskedinput.min.js",
                 "~/Scripts/plugin/select2/select2.min.js",
                 "~/Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js",
                 "~/Scripts/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js",
@@ -46,7 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/fastclick/fastclick.min.js",
                 "~/Scripts/plugin/moment/moment.min.js",
                 "~/Scripts/app.js",
-                "~/Scripts/Libs/handlebars-v3.0.3.js",
+                "~/Scripts/Libs/handlebars-v4.0.5.js",
                 "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
@@ -62,7 +59,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/bootstrap/bootstrap.min.js",
                 "~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
                 "~/Scripts/site.js",
-                "~/Scripts/Libs/handlebars-v3.0.3.js",
+                "~/Scripts/Libs/handlebars-v4.0.5.js",
                 "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Bec/bec.jquery.validate.rules.js"
                 ));
@@ -92,14 +89,14 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Reset").Include("~/Areas/Account/Views/Forgot/Reset.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Username").Include("~/Areas/Account/Views/Forgot/Username.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Register/Index").Include("~/Areas/Account/Views/Register/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/Index").Include("~/Areas/Account/Views/RegisterAdmin/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/Conveyancer").Include("~/Areas/Account/Views/RegisterAdmin/Conveyancer.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/MortgageBroker").Include("~/Areas/Account/Views/RegisterAdmin/MortgageBroker.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Search/Index").Include("~/Areas/Account/Views/Search/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/MyAccount/ChangePassword").Include("~/Areas/Account/Views/MyAccount/ChangePassword.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Company/Provisional").Include("~/Areas/Admin/Views/Company/Provisional.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Company/Qualified").Include("~/Areas/Admin/Views/Company/Qualified.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/_AmendCredit").Include("~/Areas/Admin/Views/Finance/_AmendCredit.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/CreditHistory").Include("~/Areas/Admin/Views/Finance/CreditHistory.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/OutstandingBankAccounts").Include("~/Areas/Admin/Views/Finance/OutstandingBankAccounts.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Messages/Index").Include("~/Areas/Admin/Views/Messages/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Messages/_Conversations").Include("~/Areas/Admin/Views/Messages/_Conversations.js"));
@@ -115,13 +112,14 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_Verify").Include("~/Areas/Admin/Views/Shared/_Verify.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RejectTempCompany").Include("~/Areas/Admin/Views/Shared/_RejectTempCompany.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddNotes").Include("~/Areas/Admin/Views/Shared/_AddNotes.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RegisterLender").Include("~/Areas/Admin/Views/Shared/_RegisterLender.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_Unverify").Include("~/Areas/Admin/Views/Shared/_Unverify.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Account/Index").Include("~/Areas/BankAccount/Views/Account/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Check/Index").Include("~/Areas/BankAccount/Views/Check/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Shared/_AddBankAccount").Include("~/Areas/BankAccount/Views/Shared/_AddBankAccount.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Credit/_TopUpCredit").Include("~/Areas/ProOrganisation/Views/Credit/_TopUpCredit.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Products/_AddSmsTransaction").Include("~/Areas/ProOrganisation/Views/Products/_AddSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Products/Index").Include("~/Areas/ProOrganisation/Views/Products/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Shared/_AddUser").Include("~/Areas/ProOrganisation/Views/Shared/_AddUser.js"));
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Shared/_EditUser").Include("~/Areas/ProOrganisation/Views/Shared/_EditUser.js"));
@@ -132,10 +130,13 @@ namespace Bec.TargetFramework.Presentation.Web
 
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/AdditionalBuyer/_AddAdditionalBuyer").Include("~/Areas/SmsTransaction/Views/AdditionalBuyer/_AddAdditionalBuyer.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Giftor/_AddGiftor").Include("~/Areas/SmsTransaction/Views/Giftor/_AddGiftor.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AddSmsTransaction").Include("~/Areas/SmsTransaction/Views/Transaction/_AddSmsTransaction.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AdviseProduct").Include("~/Areas/SmsTransaction/Views/Transaction/_AdviseProduct.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_EditSmsTransaction").Include("~/Areas/SmsTransaction/Views/Shared/_EditSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_Purchase").Include("~/Areas/SmsTransaction/Views/Shared/_Purchase.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewGeneratePIN").Include("~/Areas/SmsTransaction/Views/Shared/_ViewGeneratePIN.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include("~/Areas/SmsTransaction/Views/Transaction/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewSendQuote").Include("~/Areas/SmsTransaction/Views/Shared/_ViewSendQuote.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Index").Include("~/Areas/Buyer/Views/SafeBuyer/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/IndexSelectTransaction").Include("~/Areas/Buyer/Views/SafeBuyer/IndexSelectTransaction.js"));
@@ -143,6 +144,8 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_NoMatch").Include("~/Areas/Buyer/Views/SafeBuyer/_NoMatch.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Match").Include("~/Areas/Buyer/Views/SafeBuyer/_Match.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_PurchaseProduct").Include("~/Areas/Buyer/Views/SafeBuyer/_PurchaseProduct.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_DeclineProduct").Include("~/Areas/Buyer/Views/SafeBuyer/_DeclineProduct.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));

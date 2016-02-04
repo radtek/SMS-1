@@ -12,9 +12,9 @@ namespace Bec.TargetFramework.Entities
     public class AddCompanyDTO
     {
         [DataMember]
-        public string CompanyName { get; set; }
+        public OrganisationTypeEnum OrganisationType { get; set; }
         [DataMember]
-        public string TradingName { get; set; }
+        public string CompanyName { get; set; }
         [DataMember]
         public string Line1 { get; set; }
         [DataMember]
@@ -45,5 +45,15 @@ namespace Bec.TargetFramework.Entities
         public bool Manual { get; set; }
         [DataMember]
         public OrganisationRecommendationSource? OrganisationRecommendationSource { get; set; }
+
+        //broker specific
+        [DataMember]
+        public BrokerTypeEnum? BrokerType { get; set; }
+        [DataMember]
+        public BrokerBusinessTypeEnum? BrokerBusinessType { get; set; }
+
+        //lender specific
+        [DataMember]
+        public List<string> TradingNames { get; set; }
     }
 }

@@ -38,13 +38,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> ViewRejectTempCompany(Guid orgId)
+        public async Task<ActionResult> ViewRejectTempCompany(Guid orgId, int? returnTab)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
-            ViewBag.orgId = orgId;
-            ViewBag.companyName = org.Name;
-            return PartialView("_RejectTempCompany");
+            return PartialView("_RejectTempCompany", new RejectCompanyDTO { OrganisationId = orgId, CompanyName = org.Name, ReturnTab = returnTab ?? 0 });
         }
 
         [HttpPost]
@@ -52,6 +50,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> RejectTempCompany(RejectCompanyDTO model)
         {
             await OrganisationClient.RejectOrganisationAsync(model);
+            TempData["tabIndex"] = model.ReturnTab;
+            return RedirectToAction("Provisional");
+        }
+
+        public async Task<ActionResult> ViewUnverify(Guid orgId)
+        {
+            var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
+            if (org == null) return new HttpNotFoundResult("Organisation not found");
+            return PartialView("_Unverify", new RejectCompanyDTO { OrganisationId = orgId, CompanyName = org.Name, ReturnTab = 0 });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Unverify(RejectCompanyDTO model)
+        {
+            await OrganisationClient.UnverifyOrganisationAsync(model);
             return RedirectToAction("Provisional");
         }
 
@@ -64,11 +78,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 OrganisationID = orgId,
                 SroUaoID = org.UserAccountOrganisationID,
                 OrganisationName = org.Name,
+                RegulatorName = org.Regulator,
                 RegulatorNumber = org.RegulatorNumber,
                 SroSalutation = org.OrganisationAdminSalutation,
                 SroFirstName = org.OrganisationAdminFirstName,
                 SroLastName = org.OrganisationAdminLastName,
-                SroEmail = org.OrganisationAdminEmail
+                SroEmail = org.OrganisationAdminEmail,
+                OrganisationType = org.OrganisationTypeDescription
             };
             return PartialView("_Verify", dto);
         }
@@ -147,27 +163,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             if (!result.Any()) throw new AccessViolationException("Operation failed");
         }
 
-        // todo: ZM ucomment when enable login comes back to life
-        //public async Task<ActionResult> ViewEditCompany(Guid orgID)
-        //{
-        //    ViewBag.orgID = orgID;
-        //    var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID, x.IsActive }, true);
-        //    var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-        //    var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
-        //    return PartialView("_EditCompany", Edit.MakeModel(res.First()));
-        //}
+        public ActionResult ViewRegisterLender()
+        {
+            return PartialView("_RegisterLender", new AddCompanyDTO { OrganisationType = OrganisationTypeEnum.Lender });
+        }
 
-        // todo: ZM ucomment when enable login comes back to life
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> EditCompany(Guid orgID)
-        //{
-        //    var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-        //    var data = Edit.fromD(Request.Form,
-        //        "IsActive",
-        //        "RowVersion");
-        //    await queryClient.UpdateGraphAsync("Organisations", data, filter);
-        //    return RedirectToAction("Qualified");
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterLender(AddCompanyDTO model)
+        {
+            var orgId = await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(model);
+            TempData["AddTempCompanyId"] = orgId;
+            TempData["tabIndex"] = 0;
+            return RedirectToAction("Provisional");
+        }
     }
 }

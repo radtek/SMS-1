@@ -4,8 +4,15 @@
 <div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })" data-welcome="@TempData["WelcomeMessage"]" data-welcomeurl="@Url.Action("Welcome", "Transaction", new { Area = "SmsTransaction" })">
     <div class="row">
         <div class="col-sm-8 col-lg-9">
-            <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-home margin-right-10"></i>View Transactions</h2>
+            <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-home margin-right-10"></i>Transactions</h2>
+            @if (ViewBag.HasOrganisationAnySafeBankAccounts)
+            {
+                <a data-href="@Url.Action("ViewAddSmsTransaction", "Transaction", new { area  = "SmsTransaction" })" data-modallink="true" class="btn btn-primary btn-sm inline-heading">
+                    <i class="fa fa-plus margin-right-5"></i>Add Transaction
+                </a>
+            }
         </div>
+
         <div class="col-sm-4 col-lg-3">
             <div class="input-group margin-top-15 margin-bottom-5">
                 <input type="text" class="form-control" id="gridSearchInput">
@@ -19,6 +26,22 @@
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12 well">
+                    @if (!ViewBag.HasOrganisationAnySafeBankAccounts)
+                    {
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="alert alert-info fade in">
+                                    <h5><i class="fa-fw fa fa-info"></i><strong>Information</strong></h5>
+                                    <p>
+                                        Please note that you are unable to add transactions at this time as @ViewBag.OrganisationName does not have a verified bank account added to their Safe Move Scheme account.
+                                    </p>
+                                    <p>
+                                        Please contact your organisation administrator who can add a bank account.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
                     <div id="txGrid" data-url="@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })" data-jumpto="@TempData["SmsTransactionID"]" data-jumptopage="@TempData["pageNumber"]" data-jumptorow="@TempData["rowNumber"]" data-resetsort="@TempData["resetSort"]"></div>
                 </div>
             </div>

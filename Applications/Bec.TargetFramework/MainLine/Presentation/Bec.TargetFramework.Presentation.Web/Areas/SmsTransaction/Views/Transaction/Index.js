@@ -72,6 +72,10 @@ $(function () {
         { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         transactionDetailsTemplatePromise.resolve(Handlebars.compile(res));
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
     });
 
     primaryBuyerTemplatePromise = $.Deferred();
@@ -79,6 +83,10 @@ $(function () {
         { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_primaryBuyerDetailsTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         primaryBuyerTemplatePromise.resolve(Handlebars.compile(res));
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
     });
 
     relatedPartiesTemplatePromise = $.Deferred();
@@ -86,6 +94,10 @@ $(function () {
         { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_relatedPartiesTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         relatedPartiesTemplatePromise.resolve(Handlebars.compile(res));
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
     });
 
     if ($('#content').data("welcome") == "True") {
@@ -130,14 +142,29 @@ function txChange(dataItem) {
 
     $('#transactionConversationContainer')
         .data('activity-id', dataItem.SmsTransactionID)
-        .trigger('activitychange', dataItem.SmsTransactionID);
+        .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.SmsTransaction.InvoiceID != null]);
     areConversationsLoaded = false;
+
+    $('#quoteButton').data('href', $('#quoteButton').data("url") + "?txID=" + dataItem.SmsTransactionID);
 }
 
 function showTransactionDetails(dataItem) {
+    var orderedByContact = dataItem.SmsTransaction.Invoice
+        ? dataItem.SmsTransaction.Invoice.UserAccountOrganisation.Contact
+        : null;
     var data = _.extend({}, dataItem, {
         purchasePrice: formatCurrency(dataItem.SmsTransaction.Price),
-        pageNumber:  txGrid.grid.dataSource.page()
+        pageNumber: txGrid.grid.dataSource.page(),
+        transactionCreated: dateString(dataItem.SmsTransaction.CreatedOn),
+        productAdvisedOn: dataItem.SmsTransaction.ProductAdvisedOn
+            ? dateString(dataItem.SmsTransaction.ProductAdvisedOn)
+            : null,
+        safeBuyerOrderedBy: orderedByContact
+            ? orderedByContact.Salutation + " " + orderedByContact.FirstName + " " + orderedByContact.LastName
+            : null,
+        safeBuyerOrderedOn: dataItem.SmsTransaction.Invoice
+            ? dateString(dataItem.SmsTransaction.Invoice.CreatedOn)
+            : null
     });
     transactionDetailsTemplatePromise.done(function (template) {
         var html = template(data);
@@ -171,8 +198,7 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
         data: {
             transactionID: dataItem.SmsTransactionID
         }
-    })
-    .success(function (data) {
+    }).success(function (data) {
         var items = data.Items;
         items = _.map(items, function (item) {
             var contact = item.Contact;
@@ -197,11 +223,11 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
             var html = template(templateData);
             $('#' + targetElementId).html(html);
         });        
-    })
-    .error(function (data) {
-        console.log(data);
-    })
-    .always(function () {
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
+    }).always(function () {
         $('#' + spinnerId).hide();
     });
 }

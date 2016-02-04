@@ -40,6 +40,15 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
 (select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
  NULL, NULL, NULL, True, False, True);
 
+INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
+VALUES (uuid_generate_v1(), E'Broker Administrator', E'Broker Administrator Role',
+(select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
+ NULL, NULL, NULL, True, False, True);
+
+INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
+VALUES (uuid_generate_v1(), E'Lender Administrator', E'Lender Administrator Role',
+(select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
+ NULL, NULL, NULL, True, False, True);
 
 --user
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
@@ -214,4 +223,19 @@ insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive
  values (
   (select "RoleID" from "Role" where "RoleName" = 'Support Administrator' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'InternalNotifications' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
+
+
+ --view homepage
+    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Broker Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'Home' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
+
+ --view homepage
+    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Lender Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'Home' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);

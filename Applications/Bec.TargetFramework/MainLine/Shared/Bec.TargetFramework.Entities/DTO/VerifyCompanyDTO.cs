@@ -17,6 +17,8 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public int? FilesPerMonth { get; set; }
         [DataMember]
+        public string RegulatorName { get; set; }
+        [DataMember]
         public string RegulatorNumber { get; set; }
         [DataMember]
         public string SroSalutation { get; set; }
@@ -26,5 +28,6 @@ namespace Bec.TargetFramework.Entities
         public string SroLastName { get; set; }
         [DataMember]
         public string SroEmail { get; set; }
+        public string OrganisationType { get; set; }
     }
 }

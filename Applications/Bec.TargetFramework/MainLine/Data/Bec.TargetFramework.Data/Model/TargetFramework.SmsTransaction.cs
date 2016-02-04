@@ -25,6 +25,7 @@ namespace Bec.TargetFramework.Data
         {
           this.IsActive = true;
           this.IsDeleted = false;
+          this.IsProductAdvised = true;
         }
 
         #region Properties
@@ -178,6 +179,56 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for IsProductAdvised in the schema.
+        /// </summary>
+        public virtual bool IsProductAdvised
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ProductAdvisedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> ProductAdvisedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ShoppingCartID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> ShoppingCartID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for InvoiceID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> InvoiceID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ProductDeclinedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> ProductDeclinedOn
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -205,6 +256,24 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsUserAccountOrganisationTransactions in the schema.
         /// </summary>
         public virtual ICollection<SmsUserAccountOrganisationTransaction> SmsUserAccountOrganisationTransactions
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Invoice in the schema.
+        /// </summary>
+        public virtual Invoice Invoice
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ShoppingCart in the schema.
+        /// </summary>
+        public virtual ShoppingCart ShoppingCart
         {
             get;
             set;

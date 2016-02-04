@@ -1,4 +1,5 @@
 ﻿var uGrid;
+var promises;
 $(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
     uGrid = new gridItem(
@@ -13,6 +14,10 @@ $(function () {
                     {
                         field: "OrganisationID",
                         hidden: true,
+                    },
+                    {
+                        field: "OrganisationTypeDescription",
+                        title: "Type"
                     },
                     {
                         field: "Name",
@@ -65,36 +70,23 @@ $(function () {
     tabs.showTab($('#myTab1').data("selected"));
 
     findModalLinks();
+
+    promises = new defTmpl('Company/DetailTemplates/Qualified/',
+        ['active'],
+        [
+            { name: 'Conveyancer', description: 'Professional Organisation' },
+            { name: 'Broker', description: 'Mortgage Broker' },
+            { name: 'Lender', description: 'Lender' }
+        ]);
 });
 
 //data binding for the panes beneath each grid
 function activeChange(dataItem) {
-    $("p#ddaCompanyName").text(dataItem.Name || "");
-    $("p#ddaCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
-    $("p#ddaCompanyCounty").text(dataItem.County || "");
-    $("p#ddaCompanyPostCode").text(dataItem.PostalCode || "");
-    $("p#ddaCompanyTownCity").text(dataItem.Town || "");
-    $("p#ddaCompanyAddress2").text(dataItem.Line2 || "");
-    $("p#ddaCompanyAddress1").text(dataItem.Line1 || "");
-    $("p#ddaAdditional").text(dataItem.AdditionalAddressInformation || "");
-    $("p#ddaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-    $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
-    $("p#ddaReferrer").text(dataItem.Referrer || "");
-    $("p#ddaSchemeID").text(dataItem.SchemeID || "");
-    $("p#ddafpm").text(dataItem.FilesPerMonth || "");
-    $("p#ddaSafeActiveAccounts").text(dataItem.ActiveSafeAccounts);
-
-    var regulatorName = dataItem.Regulator || "";
-    if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-    $("p#ddaRegulator").text(regulatorName);
-    $("p#ddaRegulatorNumber").text(dataItem.RegulatorNumber);
-    $("p#ddaRegisteredAsName").text(dataItem.RegisteredAsName);
-
-    $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
-    $("p#ddaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
-    $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
-
-    //update reject & generate links
-    // todo: ZM ucomment when enable login comes back to life
-    //$("#editButton").data('href', $("#editButton").data("url") + "?orgId=" + dataItem.OrganisationID);
+    populateCompany(dataItem);
+    promises.active[dataItem.OrganisationTypeDescription].done(function (template) {
+        var html = template(dataItem);
+        $('#activePanel').html(html);
+        //todo: ZM ucomment when enable login comes back to life
+        //$("#editButton").data('href', $("#editButton").data("url") + "?orgId=" + dataItem.OrganisationID);
+    });
 }

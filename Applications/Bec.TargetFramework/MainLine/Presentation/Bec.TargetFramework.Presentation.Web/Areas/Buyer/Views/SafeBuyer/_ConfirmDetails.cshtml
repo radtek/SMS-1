@@ -5,6 +5,7 @@
 @{
     var canEditTransactionDetails = Model.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue();
     var personaName = ((UserAccountOrganisationTransactionType)Model.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
+    var birthDateInputId = (bool)ViewBag.canEditBirthDate ? "birthDateInput" : "disabledBirthDateInput";
 }
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="confirmDetailsLabel" aria-hidden="true">
     <div class="modal-dialog" id="d1" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })">
@@ -85,7 +86,7 @@
                                                     <label class="label">Date of Birth</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { tabindex = "4", id = "birthDateInput", @readonly = true })
+                                                        @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { tabindex = "4", id = birthDateInputId, @readonly = true })
                                                     </label>
                                                 </section>
                                             </div>
@@ -102,7 +103,7 @@
 
                                                 <section class="col">
                                                     <label class="label">&nbsp;</label>
-                                                    <button id="primaryBuyerFindAddressButton" data-url="@Url.Action("FindAddress", "App", new {Area = ""})" type="button" class="btn btn-primary btn-sm" tabindex="7">Find Address</button>
+                                                    <button id="primaryBuyerFindAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="7">Find Address</button>
                                                 </section>
                                             </div>
 
@@ -213,7 +214,7 @@
 
                                                     <section class="col">
                                                         <label class="label">&nbsp;</label>
-                                                        <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "App", new {Area = ""})" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
+                                                        <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
                                                     </section>
                                                 </div>
 

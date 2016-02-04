@@ -16,10 +16,11 @@
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>
-                                @Html.HiddenFor(model => model.OrganisationId, new { Value = ViewBag.orgId })
+                                @Html.HiddenFor(model => model.OrganisationId)
+                                @Html.HiddenFor(model => model.ReturnTab)
                                 <div class="row">
                                     <section class="col">
-                                        <label class="label">Are you sure you want to reject @ViewBag.companyName?</label>
+                                        <label class="label">Are you sure you want to reject @Model.CompanyName?</label>
                                     </section>
                                 </div>
                                 <div class="row">

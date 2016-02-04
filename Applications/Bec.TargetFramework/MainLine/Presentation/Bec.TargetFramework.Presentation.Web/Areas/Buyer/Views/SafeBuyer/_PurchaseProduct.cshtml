@@ -1,0 +1,201 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model OrderRequestDTO
+@{
+    var months = Enumerable.Range(1, 12).Select(s => new SelectListItem { Text = s.ToString(), Value = s.ToString() });
+    CartPricingDTO cartPricing = ViewBag.cartPricing;
+}
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="purchaseProductLabel" aria-hidden="true">
+    <div class="modal-dialog" id="d1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="purchaseProductLabel">Safe Buyer Product</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col-xs-12">
+                        <form id="purchaseProductForm" class="smart-form margin-top-10"
+                              data-url="@Url.Action("PurchaseProduct", "SafeBuyer", new { area = "Buyer" })"
+                              data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })"
+                              data-redirectto="@Url.Action("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = ViewBag.txID })">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("txID", (object)ViewBag.txID)
+                            <fieldset>
+                                <label>Thank you for proceeding. You can now select 'Check Bank Account' to use the Safe Buyer product.</label>
+                            </fieldset>
+                            @*<fieldset>
+        <label>Purchase Summary</label>
+        <div class="row">
+            <div class="col col-md-12">
+                <section>
+                    <table>
+                        <tr><td style="width:100%;"><label>Safe Buyer:</label></td><td class="pull-right"><label><strong>£@(cartPricing.CartTotalExcludingDiscountsAndTaxAndDeduct.ToString("N"))</strong></label></td></tr>
+                        <tr><td style="width:100%;"><label>VAT:</label></td><td class="pull-right"><label><strong>£@(cartPricing.Tax.ToString("N"))</strong></label></td></tr>
+                        <tr><td style="width:100%;"><label>Total:</label></td><td class="pull-right"><label><strong>£@(cartPricing.CartFinalPrice.ToString("N"))</strong></label></td></tr>
+                    </table>
+                    <hr />
+                </section>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-12">
+                <section>
+                    <label class="label">Card Number</label>
+                    <label class="input ">
+                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                        @Html.TextBoxFor(m => m.CardNumber, new { tabindex = "2", maxlength = 16 })
+                    </label>
+                </section>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <section>
+                    <label class="label">Expiry Month</label>
+                    <label class="select">
+                        @Html.DropDownListFor(m => m.CardExpiryMonth, months, new { tabindex = "3" })
+                        <i></i>
+                    </label>
+                </section>
+            </div>
+            <div class="col col-md-4">
+                <section>
+                    <label class="label">Expiry Year</label>
+                    <label class="input ">
+                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                        @Html.TextBoxFor(m => m.CardExpiryYear, new { tabindex = "4", maxlength = "2", placeholder = "YY" })
+                    </label>
+                </section>
+            </div>
+            <div class="col col-md-4">
+                <section>
+                    <label class="label">CVV</label>
+                    <label class="input ">
+                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                        @Html.TextBoxFor(m => m.CVVNumber, new { tabindex = "5", maxlength = "5" })
+                    </label>
+                </section>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <section>
+                    <label class="label">Card Type</label>
+                    <label class="select">
+                        @Html.DropDownList("cardType", Html.EnumList<PaymentCardTypeIDEnum>(), new { tabindex = "6" })
+                        <i></i>
+                    </label>
+                </section>
+            </div>
+            <div class="col col-md-4">
+                <section>
+                    <label class="label">Payment Method</label>
+                    <label class="select">
+                        @Html.DropDownList("methodType", Html.EnumList<PaymentMethodTypeIDEnum>(), new { tabindex = "7" })
+                        <i></i>
+                    </label>
+                </section>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-12">
+                <div class="row">
+                    <section class="col col-4">
+                        <label class="label">Lookup Postcode</label>
+                        <label class="input">
+                            <input id="postcodelookup" type="text" tabindex="8" maxlength="10" />
+                        </label>
+                    </section>
+
+                    <section class="col">
+                        <label class="label">&nbsp;</label>
+                        <button id="findaddressbutton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="9">Find Address</button>
+                    </section>
+                </div>
+
+                <section>
+                    <label class="select">
+                        <select id="addressresults" tabindex="10"></select>
+                        <i></i>
+                    </label>
+                </section>
+
+
+                <div class="row">
+                    <section class="col" id="noMatch">
+                        <em style="color:#d56161">No matches found, please enter address below</em>
+                    </section>
+                </div>
+
+                <div class="row" id="manAddRow">
+                    <section class="col">
+                        <input type="checkbox" id="manualAddress" tabindex="11" />
+                        <label for="manualAddress">Edit Address Details</label>
+                    </section>
+                </div>
+
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="label">Cardholder Address</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                            @Html.TextBoxFor(m => m.Line1, new { id = "Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "12", maxlength = 50 })
+                        </label>
+                    </section>
+                </div>
+
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="input">
+                            @Html.TextBoxFor(m => m.Line2, new { id = "Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "13", maxlength = 50 })
+                        </label>
+                    </section>
+                </div>
+
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="input">
+                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                            @Html.TextBoxFor(m => m.Town, new { id = "Town", @readonly = "readonly", placeholder = "Town", tabindex = "14", maxlength = 50 })
+                        </label>
+                    </section>
+                </div>
+
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="input">
+                            @Html.TextBoxFor(m => m.County, new { id = "County", @readonly = "readonly", placeholder = "County", tabindex = "15", maxlength = 50 })
+                        </label>
+                    </section>
+                </div>
+
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="input">
+                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                            @Html.TextBoxFor(m => m.PostalCode, new { id = "PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "16", maxlength = 50 })
+                        </label>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </fieldset>*@
+                        </form>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer" id="footer">
+                <button type="button" id="cancelPurchase" class="btn btn-default" data-dismiss="modal" tabindex="28">Cancel</button>
+                <button type="button" id="submitPurchase" class="btn btn-primary" tabindex="30">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_PurchaseProduct")"></script>

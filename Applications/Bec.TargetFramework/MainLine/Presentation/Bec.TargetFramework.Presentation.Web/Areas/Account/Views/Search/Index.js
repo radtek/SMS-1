@@ -45,15 +45,16 @@ $(function () {
                 if (res.message) {
                     $('#searchResult').empty();
                     $('#searchResult').append('<p><strong>' + res.message + '</strong></p>');
-                    appendRetryButton();
                 }
                 else {
                     showSearchResult(res);
-                    appendRetryButton();
                 }
-            })
-            .always(function () {
+            }).fail(function (res) {
+                $('#searchResult').empty();
+                $('#searchResult').append('<p>An error has occured</p>');
+            }).always(function () {
                 $('#formSubmit').hide();
+                appendRetryButton();
             });
         }
     });

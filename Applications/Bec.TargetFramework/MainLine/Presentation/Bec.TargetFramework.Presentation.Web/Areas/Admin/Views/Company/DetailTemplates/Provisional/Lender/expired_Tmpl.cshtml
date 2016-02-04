@@ -1,0 +1,36 @@
+﻿<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <a id="expiredPinButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewGeneratePin", "Company", new { area = "Admin", setVerified = true })">Regenerate PIN</a>
+        <h5>Company</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{Name}}</p></dd>
+            <dt>Trading Names:</dt>
+            <dd>
+                {{#each TradingNamesDisplay}}
+                <p>{{this}}</p>
+                {{/each}}
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <h5>Organisation Administrator</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{SystemAdminNameDisplay}}</p></dd>
+            <dt>Email:</dt>
+            <dd><p>{{OrganisationAdminEmail}}</p></dd>
+            <dt>Verified Phone Number:</dt>
+            <dd><p>{{Notes}}</p></dd>
+        </dl>
+        <h5>Other Details</h5>
+        <dl class="dl-horizontal">
+            <dt>Created On:</dt>
+            <dd><p>{{CreatedOnDisplay}}</p></dd>
+        </dl>
+    </div>
+</div>

@@ -11,5 +11,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
         public Guid? ActivityId { get; set; }
         public Guid? SelectedConversationId { get; set; }
         public Guid CurrentUaoId { get; set; }
+        public bool Enabled { get; set; }
     }
 }

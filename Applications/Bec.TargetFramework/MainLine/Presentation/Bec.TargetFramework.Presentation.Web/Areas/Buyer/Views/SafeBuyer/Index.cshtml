@@ -7,20 +7,22 @@
     var personaName = ((UserAccountOrganisationTransactionType)Model.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
     var companyName = Model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
     var tel = Model.SmsTransaction.Organisation.OrganisationStatus.First(s => s.StatusTypeValue.Name == "Verified").Notes;
+    var heading = "";
 }
 
-<div id="content" class="buyer-transactions">
+<div id="content" class="buyer-transactions" data-advised="@Model.SmsTransaction.IsProductAdvised" data-purchased="@Model.SmsTransaction.InvoiceID.HasValue" data-declined="@Model.SmsTransaction.ProductDeclinedOn.HasValue">
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
             <i class="fa fa-home fa-lg margin-right-10"></i>
             @if (!string.IsNullOrEmpty(Model.SmsTransaction.Address.Line1))
             {
-                <text>Purchase of Property </text>@(Model.SmsTransaction.Address.Line1 + ", " + Model.SmsTransaction.Address.PostalCode)<text> added by </text>@companyName<text>.</text>
+                heading = "Purchase of Property " + Model.SmsTransaction.Address.Line1 + ", " + Model.SmsTransaction.Address.PostalCode + " added by " + companyName + ".";
             }
             else
             {
-                <text>Purchase of Property TBC added by </text>@companyName<text>.</text>
+                heading = "Purchase of Property TBC added by " + companyName + ".";
             }
+            @heading
         </h2>
         <div class="col-sm-12">
             <div class="well">
@@ -29,11 +31,24 @@
                      data-companyname="@companyName" data-phone="@tel">
                     <div id="transactionTabs" class="tabbable custom-tabs shadow margin-top-10">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#transactionDetailsPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Transaction</span></a></li>
+                            <li class="active"><a href="#transactionDetailsPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Safe Buyer</span></a></li>
                             <li><a href="#safeSendPanel" data-toggle="tab"><i class="sms sms-safe-send margin-right-10"></i><span>Safe Send</span></a></li>
                         </ul>
                         <div class="tab-content padding-top-10">
                             <div class="tab-pane active" id="transactionDetailsPanel">
+
+                                @*//TODO: 'toggle' off
+                                        if (TempData["PaymentSuccessful"] != null)
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10">
+                                                    <i class="fa fa-info margin-right-5"></i><strong>Payment Successful </strong>
+                                                    <p>Safe Buyer was successfully purchased. Please follow the instructions below.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }*@
                                 <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Confirmed? "block" : "none")">
                                     <div id="detailsRowTransactionAddress" class="col-sm-6 col-lg-4" style="display:@(!string.IsNullOrWhiteSpace(Model.SmsTransaction.Address.Line1) ? "block" : "none")">
                                         <dl>
@@ -84,10 +99,10 @@
                                                         <tbody>
                                                             @foreach (var item in Model.SmsSrcFundsBankAccounts)
                                                             {
-                                                            <tr>
-                                                                <td>@item.AccountNumber</td>
-                                                                <td>@item.SortCode</td>
-                                                            </tr>
+                                                                <tr>
+                                                                    <td>@item.AccountNumber</td>
+                                                                    <td>@item.SortCode</td>
+                                                                </tr>
                                                             }
                                                         </tbody>
                                                     </table>
@@ -101,15 +116,38 @@
                                     <div class="col-sm-12">
                                         <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
                                             <i class="fa fa-info margin-right-5"></i><strong>Information </strong>
-                                            <p>When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase. Until then, no further action is required.</p>
+                                            <p id="infoBankAccountCheck">When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase. Until then, no further action is required.</p>
+
+                                            <div id="infoAdviceMessage" style="display:none;">
+                                                <p>WARNING: The latest City of London Police stats show that customer payment fraud is costing property buyers like you over £1m per month as a result of theft of sensitive information and identity theft.</p>
+                                                <p>Safe Buyer is a product that protects property buyers from fraud. You are receiving this message because @companyName is advising you to use Safe Buyer, which is also endorsed by some mortgage lenders, to protect you from fraud.</p>
+                                                <p>Safe Buyer is currently free to use as part of a free trial. Safe Buyer enables you to check @companyName's bank account details before you send money to them and provides a secure messaging and attachment feature called Safe Send so you can communicate safely with @companyName avoiding email, which isn’t safe.</p>
+                                                <p><a href="@Url.Action("HowToKeepConsumersSafe", new { Area = "", Controller = "Home" })">Click here</a> for more information on why Safe Buyer is recommended by conveyancers and mortgage lenders.</p>
+                                            </div>
+                                            <div id="infoMessage" style="display:none;">
+                                                <p>WARNING: The latest City of London Police stats show that customer payment fraud is costing property buyers like you over £1m per month as a result of theft of sensitive information and identity theft.</p>
+                                                <p>Safe Buyer, which is endorsed by some mortgage lenders and conveyancers, is a product that protects property buyers from fraud.</p>
+                                                <p>Safe Buyer enables you to check your conveyancer’s bank account details before you send money to them and provides a secure messaging and attachment feature called Safe Send so you can communicate safely with your conveyancer avoiding email, which isn’t safe.</p>
+                                                <p><a href="@Url.Action("HowToKeepConsumersSafe", new { Area = "", Controller = "Home" })">Click here</a> for more information on why Safe Buyer is recommended by mortgage lenders and conveyancers.</p>
+                                            </div>
+
+                                            <p id="declineAdvisedMessage" style="display:none;">You have declined the advice given to you and you acknowledge that @companyName cannot be held liable for any financial loss you may suffer from customer payment fraud. If you change your mind, click the button below.</p>
+                                            <p id="declineMessage" style="display:none;">You have decided to proceed at your own risk. If you change your mind, click the button below.</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a id="conf" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewConfirmDetails", "SafeBuyer" , new { area = "Buyer", txID = Model.SmsTransactionID })">
+                                        <a id="checkBankAccountBtn" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewConfirmDetails", "SafeBuyer" , new { area = "Buyer", txID = Model.SmsTransactionID })">
                                             Check Bank Account
+                                            <i class="fa fa-chevron-right margin-left-5"></i>
+                                        </a>
+                                        <a id="declineButton" style="display:none;" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewDeclineProduct", "SafeBuyer" , new { area = "Buyer", txID = Model.SmsTransactionID })">
+                                            No, I’ll decline the advice and proceed at my own risk
+                                        </a>
+                                        <a id="purchaseProductBtn" style="display:none;" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewPurchaseProduct", "SafeBuyer" , new { area = "Buyer", txID = Model.SmsTransactionID })">
+                                            Yes, I want to use Safe Buyer for free
                                             <i class="fa fa-chevron-right margin-left-5"></i>
                                         </a>
                                     </div>
@@ -131,7 +169,7 @@
                             </div>
 
                             <div class="tab-pane padding-10" id="safeSendPanel">
-                                @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false, CanCreateNewConversation = true, ActivityId = Model.SmsTransactionID, ActivityType = ActivityType.SmsTransaction })
+                                @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false, CanCreateNewConversation = true, ActivityId = Model.SmsTransactionID, ActivityType = ActivityType.SmsTransaction, Enabled = Model.SmsTransaction.InvoiceID.HasValue })
                             </div>
                         </div>
                     </div>

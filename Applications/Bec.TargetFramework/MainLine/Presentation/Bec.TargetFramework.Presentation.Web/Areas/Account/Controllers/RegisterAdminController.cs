@@ -15,9 +15,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             _captchaService = new CaptchaService();
         }
 
-        public ActionResult Index()
+        public ActionResult Conveyancer()
         {
-            return View();
+            return View(new AddCompanyDTO { OrganisationType = OrganisationTypeEnum.Professional });
+        }
+
+        public ActionResult MortgageBroker()
+        {
+            return View(new AddCompanyDTO { OrganisationType = OrganisationTypeEnum.MortgageBroker });
         }
 
         [HttpPost]
@@ -27,7 +32,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var response = await _captchaService.ValidateCaptcha(Request);
             if (ModelState.IsValid && response.success)
             {
-                await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum.Conveyancing, model);
+                await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(model);
                 return RedirectToAction("RegistrationSuccess");
             }
 

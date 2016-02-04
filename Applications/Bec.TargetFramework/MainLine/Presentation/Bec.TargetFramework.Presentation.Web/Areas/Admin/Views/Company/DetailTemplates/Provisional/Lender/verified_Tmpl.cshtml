@@ -1,0 +1,51 @@
+﻿<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <a id="pinButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewGeneratePin", "Company", new { area = "Admin", setVerified = false })">Generate PIN</a>
+        <a id="unverifyButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewUnverify", "Company", new { area = "Admin" })"><i class="fa fa-undo margin-right-5"></i>Unverify</a>
+        <a id="rejectVerifiedButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })"><i class="fa fa-thumbs-down margin-right-5"></i>Reject</a>
+        <h5>Company</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{Name}}</p></dd>
+            <dt>Trading Names:</dt>
+            <dd>
+                {{#each TradingNamesDisplay}}
+                <p>{{this}}</p>
+                {{/each}}
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <h5>Organisation Administrator</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{SystemAdminNameDisplay}}</p></dd>
+            <dt>Email:</dt>
+            <dd><p>{{OrganisationAdminEmail}}</p></dd>
+        </dl>
+        <h5>Other Details</h5>
+        <dl class="dl-horizontal">
+            <dt>Created On:</dt>
+            <dd><p>{{CreatedOnDisplay}}</p></dd>
+
+            {{#if PinCode}}
+            <dt>PIN Number:</dt>
+            <dd><p>{{PinCode}}</p></dd>
+            {{/if}}
+
+            {{#if PinCreated}}
+            <dt>PIN Created On:</dt>
+            <dd><p>{{PinCreatedDisplay}}</p></dd>
+            {{/if}}
+        </dl>
+        <span class="pull-right">
+            <a id="addNotesButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Notes" data-url="@Url.Action("ViewAddNotes", "Company", new { area = "Admin" })"><i class="fa fa-plus margin-right-5"></i>Add Notes</a>
+        </span>
+        <h5>Notes</h5>
+        <div id="verifiedNotes" class="notes"></div>
+    </div>
+</div>

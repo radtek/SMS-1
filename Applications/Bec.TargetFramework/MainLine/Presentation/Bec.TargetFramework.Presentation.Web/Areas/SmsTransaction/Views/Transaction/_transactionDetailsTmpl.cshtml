@@ -1,27 +1,41 @@
-﻿{{#xif "this.SmsTransaction.Address.Line1 || this.SmsTransaction.Address.Line2 || this.SmsTransaction.Address.Town || this.SmsTransaction.Address.County || this.SmsTransaction.Address.PostalCode"}}
-<h5>Transaction Address</h5>
-{{/xif}}
+﻿{{#unless SmsTransaction.InvoiceID}}
+@*<span class="pull-right">
+        <a id="quoteButton" class="btn btn-sm btn-primary" data-modallink="true" title="Send Quote" data-url="@Url.Action("ViewSendQuote", "Transaction", new { area = "SmsTransaction" })"><i class="sms-fw sms-safe-send margin-right-5"></i>Send Quote</a>
+    </span>*@
+{{/unless}}
 
+<h5>Transaction Address</h5>
 <dl class="dl-horizontal">
     {{#if SmsTransaction.Address.Line1}}
     <dt>Address Line 1:</dt>
-    <dd><p>{{SmsTransaction.Address.Line1}}</p></dd>
-    {{/if}}
-    {{#if SmsTransaction.Address.Line2}}
-    <dt>Address Line 2:</dt>
-    <dd><p>{{SmsTransaction.Address.Line2}}</p></dd>
-    {{/if}}
-    {{#if SmsTransaction.Address.Town}}
-    <dt>Town:</dt>
-    <dd><p>{{SmsTransaction.Address.Town}}</p></dd>
-    {{/if}}
-    {{#if SmsTransaction.Address.County}}
-    <dt>County:</dt>
-    <dd><p>{{SmsTransaction.Address.County}}</p></dd>
-    {{/if}}
-    {{#if SmsTransaction.Address.PostalCode}}
-    <dt>Post Code:</dt>
-    <dd><p>{{SmsTransaction.Address.PostalCode}}</p></dd>
+    <dd>
+        <p>{{SmsTransaction.Address.Line1}}</p>
+    </dd>
+        {{#if SmsTransaction.Address.Line2}}
+        <dt>Address Line 2:</dt>
+        <dd><p>{{SmsTransaction.Address.Line2}}</p></dd>
+        {{/if}}
+        {{#if SmsTransaction.Address.Town}}
+        <dt>Town:</dt>
+        <dd>
+            <p>{{SmsTransaction.Address.Town}}</p>
+        </dd>
+        {{/if}}
+        {{#if SmsTransaction.Address.County}}
+        <dt>County:</dt>
+        <dd><p>{{SmsTransaction.Address.County}}</p></dd>
+        {{/if}}
+        {{#if SmsTransaction.Address.PostalCode}}
+        <dt>Post Code:</dt>
+        <dd>
+            <p>{{SmsTransaction.Address.PostalCode}}</p>
+        </dd>
+        {{/if}}
+    {{else}}
+    <dt>Address:</dt>
+    <dd>
+        <p>TBC</p>
+    </dd>
     {{/if}}
 </dl>
 {{#xif "this.SmsTransaction.LenderName || this.SmsTransaction.MortgageApplicationNumber || this.SmsTransaction.Price"}}
@@ -33,9 +47,9 @@
     <dd>
         <p>
             {{#if SmsTransaction.LenderName}}
-                {{SmsTransaction.LenderName}}
+            {{SmsTransaction.LenderName}}
             {{else}}
-                None
+            None
             {{/if}}
         </p>
     </dd>
@@ -43,9 +57,9 @@
     <dd>
         <p>
             {{#if SmsTransaction.MortgageApplicationNumber}}
-                {{SmsTransaction.MortgageApplicationNumber}}
+            {{SmsTransaction.MortgageApplicationNumber}}
             {{else}}
-                None
+            None
             {{/if}}
         </p>
     </dd>
@@ -55,10 +69,32 @@
     {{/if}}
 </dl>
 {{/if}}
-<h5>Product</h5>
+{{#xif "this.SmsTransaction.IsProductAdvised == false && this.SmsTransaction.InvoiceID == null"}}
+<div class="pull-right">
+    <a class="btn btn-sm btn-primary" data-modallink="true" title="Advise Buyer To Use Safe Buyer Product"
+       data-href="@Url.Action("ViewAdviseProduct", "Transaction", new { area = "SmsTransaction" })?transactionId={{SmsTransactionID}}&primaryBuyerUaoId={{UserAccountOrganisationID}}&&pageNumber={{pageNumber}}">
+        <i class="fa fa-bullhorn margin-right-5"></i>Advise Buyer To Use Safe Buyer Product
+    </a>
+</div>
+{{/xif}}
+<h5>Product Details</h5>
 <dl class="dl-horizontal">
     <dt>Product Name:</dt>
     <dd>
         <p>Safe Buyer</p>
+    </dd>
+    <dt>Product Offered:</dt>
+    <dd>
+        <p>{{transactionCreated}}</p>
+    </dd>
+    <dt>Product Advised:</dt>
+    <dd>
+        <p>
+            {{#if SmsTransaction.IsProductAdvised}}
+                {{productAdvisedOn}}
+            {{else}}
+                No
+            {{/if}}
+        </p>
     </dd>
 </dl>

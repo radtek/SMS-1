@@ -463,6 +463,8 @@
   padding: 3px 0;
   margin: 0;
   white-space: pre-wrap;
+  -ms-word-break: normal;
+  word-break: normal;
   overflow: hidden;
 }
 .view-messages-container .messages-container .messages-list .message-item .read-status {

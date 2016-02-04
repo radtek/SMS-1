@@ -43,7 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             var take = Request["$top"] == null ? 0 : int.Parse(Request["$top"]);
-            var skip = Request["$skip"] == null? 0 : int.Parse(Request["$skip"]);
+            var skip = Request["$skip"] == null ? 0 : int.Parse(Request["$skip"]);
             var res = await NotificationClient.GetConversationsAsync(uaoId, activityType, activityId, take, skip);
 
             foreach (var conversationDto in res.Items)
@@ -93,7 +93,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetMessages(Guid conversationId, int page, int pageSize)
         {
-            //if (!await CanAccessConversation(conversationId)) return NotAuthorised();
+            if (!await CanAccessConversation(conversationId)) return NotAuthorised();
 
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
@@ -113,7 +113,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetParticipants(Guid conversationId)
         {
-            //if (!await CanAccessConversation(conversationId)) return NotAuthorised();
+            if (!await CanAccessConversation(conversationId)) return NotAuthorised();
 
             var professionalOrganisationTypeId = OrganisationTypeEnum.Professional.GetIntValue();
             var select = ODataHelper.Select<ConversationParticipantDTO>(x => new
@@ -127,7 +127,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filter = ODataHelper.Filter<ConversationParticipantDTO>(x => x.ConversationID == conversationId);
             var data = await QueryClient.QueryAsync<ConversationParticipantDTO>("ConversationParticipants", select + filter);
 
-            var dtos = data.Select(x => new ParticipantDTO {
+            var dtos = data.Select(x => new ParticipantDTO
+            {
                 FirstName = x.UserAccountOrganisation.Contact.FirstName,
                 LastName = x.UserAccountOrganisation.Contact.LastName,
                 IsProfessionalOrganisation = x.UserAccountOrganisation.Organisation.OrganisationTypeID == professionalOrganisationTypeId,
@@ -138,7 +139,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetRecipients(ActivityType activityType, Guid activityId)
         {
-            if (!await CanAccessConversationInActivity(activityId, activityType)) return NotAuthorised();
+            if (!await CanAccessConversationInActivity(activityId, activityType, false, true)) return NotAuthorised();
 
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
             var uaoID = HttpContext.GetWebUserObject().UaoID;
@@ -166,9 +167,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> Reply(Guid conversationId, Guid attachmentsID, string message)
         {
-            if (!await CanReply(conversationId)) return NotAuthorised();            
+            if (!await CanReply(conversationId)) return NotAuthorised();
 
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, attachmentsID, message);
@@ -178,15 +180,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> CreateConversation(CreateConversationDTO addConversationDto)
         {
-            if (!await CanAccessConversationInActivity(addConversationDto.ActivityId, addConversationDto.ActivityType)) return NotAuthorised();
+            if (!await CanAccessConversationInActivity(addConversationDto.ActivityId, addConversationDto.ActivityType, false, true)) return NotAuthorised();
 
             try
             {
                 var orgID = HttpContext.GetWebUserObject().OrganisationID;
                 var uaoID = HttpContext.GetWebUserObject().UaoID;
-                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.RecipientUaoIds.ToArray());
+                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, false, addConversationDto.RecipientUaoIds.ToArray());
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -227,7 +230,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             // get conversation
-            var selectConv = ODataHelper.Select<ConversationDTO>(x => new { x.ActivityID, x.ActivityType });
+            var selectConv = ODataHelper.Select<ConversationDTO>(x => new { x.ActivityID, x.ActivityType, x.IsSystemMessage });
             var filterConv = ODataHelper.Filter<ConversationDTO>(x => x.ConversationID == conversationId);
             var resultConv = await QueryClient.QueryAsync<ConversationDTO>("Conversations", selectConv + filterConv);
             var conversation = resultConv.FirstOrDefault();
@@ -242,7 +245,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             if (!participants.Any(x => x.UserAccountOrganisation.OrganisationID == orgId)) return false;
 
             if (conversation.ActivityType.HasValue &&
-                !await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType)) return false;
+                !await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType, conversation.IsSystemMessage, reply)) return false;
 
             return true;
         }
@@ -256,7 +259,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return false;
         }
 
-        private async Task<bool> CanAccessConversationInActivity(Guid? activityId, ActivityType activityType)
+        private async Task<bool> CanAccessConversationInActivity(Guid? activityId, ActivityType activityType, bool isSystemMessage, bool reply)
         {
             var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -271,10 +274,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 case ActivityType.SmsTransaction:
                     // get transaction for conversation
-                    var selectTx = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID });
+                    var selectTx = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID, x.InvoiceID });
                     var filterTx = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == activityId);
                     var resultTx = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", selectTx + filterTx);
                     var tx = resultTx.FirstOrDefault();
+
+                    if (!CanAccessSmsTransactionConversation(tx, isSystemMessage, reply)) return false;
 
                     switch ((OrganisationTypeEnum)org.OrganisationTypeID)
                     {
@@ -302,6 +307,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return false;
         }
 
+        private bool CanAccessSmsTransactionConversation(SmsTransactionDTO tx, bool isSystemMessage, bool reply)
+        {
+            if (reply)
+            {
+                return tx.InvoiceID.HasValue;
+            }
+            else
+            {
+                return tx.InvoiceID.HasValue || isSystemMessage;
+            }
+        }
+
         public async Task<string> UploadFile(Guid id, HttpPostedFileBase file)
         {
             string name = null;
@@ -321,10 +338,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         switch (res.Result)
                         {
                             case nClam.ClamScanResults.Clean:
-                                if (HttpContext.Response.ClientDisconnectedToken.IsCancellationRequested) 
+                                if (HttpContext.Response.ClientDisconnectedToken.IsCancellationRequested)
                                     await RemovePendingUpload(id, name);
                                 return FormatMessage("{0}: uploaded", name);
-                            case nClam.ClamScanResults.VirusDetected: 
+                            case nClam.ClamScanResults.VirusDetected:
                                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                                 return FormatMessage("Virus detected: {0}", name);
                         }

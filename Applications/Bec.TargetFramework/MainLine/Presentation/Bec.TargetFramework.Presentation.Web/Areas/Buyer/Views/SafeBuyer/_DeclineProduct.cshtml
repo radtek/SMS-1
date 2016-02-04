@@ -1,0 +1,38 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model OrderRequestDTO
+@{
+    var months = Enumerable.Range(1, 12).Select(s => new SelectListItem { Text = s.ToString(), Value = s.ToString() });
+    CartPricingDTO cartPricing = ViewBag.cartPricing;
+}
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="declineProductLabel" aria-hidden="true">
+    <div class="modal-dialog" id="d1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="declineProductLabel">Decline Safe Buyer Product</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col-xs-12">
+                        <form id="declineProductForm" class="smart-form margin-top-10" action="@Url.Action("DeclineProduct", "SafeBuyer", new { area = "Buyer" })" method="post">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("txID", (object)ViewBag.txID)
+                            <fieldset>
+                                <label>Are you sure you wish to decline?</label>
+                            </fieldset>
+                        </form>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer" id="footer">
+                <button type="button" id="cancelDecline" class="btn btn-default" data-dismiss="modal" tabindex="28">Cancel</button>
+                <button type="button" id="submitDecline" class="btn btn-primary" tabindex="30">Decline</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_DeclineProduct")"></script>

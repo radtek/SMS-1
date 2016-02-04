@@ -3,24 +3,9 @@
 
     findModalLinks();
     showAudit(0);
-    setupNotifyButton();
     setupDates();
     setupTabs();
-
-    function setupNotifyButton() {
-        $('.notify-button').each(function () {
-            $(this).on('click', function () {
-                var url = $(this).data('href');
-                $('#post-no-match').show();
-                $('#notify-button').hide();
-
-                ajaxWrapper({
-                    url: url + "&accountNumber=" + $('#accountNumberNoMatch').text() + "&sortCode=" + $('#sortCodeNoMatch').text(),
-                    method: "POST"
-                });
-            });
-        });
-    }
+    setupState();
 
     function setupDates() {
         $('.format-date').each(function () {
@@ -48,6 +33,36 @@
             return false;
         });
     }
+
+    function setupState() {
+        var advised = $('#content').data('advised') == "True";
+        var purchased = $('#content').data('purchased') == "True";
+        var declined = $('#content').data('declined') == "True";
+
+        console.log("advised: " + advised + ", purchased: " + purchased + ", declined: " + declined);
+
+        if (!purchased) {
+            $('#purchaseProductBtn').show();
+            $('#infoBankAccountCheck').hide();
+
+            if (declined) {
+                $('#checkBankAccountBtn').hide();
+                if(advised)
+                    $('#declineAdvisedMessage').show();
+                else
+                    $('#declineMessage').show();
+            }
+            else {
+                $('#declineButton').show();
+                $('#checkBankAccountBtn').hide();
+                if (advised)
+                    $('#infoAdviceMessage').show();
+                else
+                    $('#infoMessage').show();
+            }
+        }
+    }
+
 });
 
 // Publicly available!!! Used by _ConfirmDetails.js too
@@ -92,7 +107,6 @@ function showAudit() {
         }
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
-            console.log(e);
             $('#result-server-error').show();
         }
     });;

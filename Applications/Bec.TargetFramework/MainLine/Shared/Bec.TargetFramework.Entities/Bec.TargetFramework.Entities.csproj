@@ -1707,6 +1707,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\Notification\ProductAdvisedNotificationDTO.cs" />
     <Compile Include="DTO\VerifyCompanyDTO.cs" />
     <Compile Include="DTO\CreateConversationDTO.cs" />
     <Compile Include="DTO\CertificateDetailsDTO.cs" />
@@ -1955,9 +1956,11 @@
     <Compile Include="DTO\vOrganisationDTO.cs" />
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
+    <Compile Include="Enums\BrokerBusinessTypeEnum.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
+    <Compile Include="Enums\BrokerTypeEnum.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />

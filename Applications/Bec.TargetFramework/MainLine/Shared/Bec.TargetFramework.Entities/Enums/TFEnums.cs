@@ -1106,7 +1106,9 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("No match to regulator")]
         No_match_to_regulator = 5231,
         [StringValue("Failed to validate callback")]
-        Failed_to_validate_callback = 5232
+        Failed_to_validate_callback = 5232,
+        [StringValue("Decline to participate")]
+        Decline_to_participate = 5243
     }
 
     public enum TenureTypeIDEnum : int

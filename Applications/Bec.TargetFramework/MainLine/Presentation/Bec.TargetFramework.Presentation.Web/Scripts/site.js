@@ -618,3 +618,41 @@ function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
       s4() + '-' + s4() + s4() + s4();
 }
+
+function populateCompany(dataItem) {
+    if (!!dataItem.CreatedOn) dataItem.CreatedOnDisplay = dateString(dataItem.CreatedOn);
+    if (!!dataItem.PinCreated) dataItem.PinCreatedDisplay = dateString(dataItem.PinCreated);
+    if (dataItem.TradingNames.length > 0) {
+        dataItem.TradingNamesDisplay = dataItem.TradingNames.slice();
+        console.log(dataItem.TradingNamesDisplay);
+    }
+    dataItem.SystemAdminNameDisplay = (dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || "");
+    dataItem.RegulatorNameDisplay = dataItem.Regulator || "";
+    if (dataItem.RegulatorNameDisplay.toLowerCase() == 'other') dataItem.RegulatorNameDisplay = dataItem.RegulatorOther;
+    dataItem.StatusChangedOnDisplay = dateString(dataItem.StatusChangedOn);
+    if (!!dataItem.VerifiedOn) dataItem.VerifiedOnDisplay = dateString(dataItem.VerifiedOn);
+}
+
+var defTmpl = function (path, states, types) {
+    for (var i = 0; i < states.length; i++) {
+        this[states[i]] = {};
+        for (var j = 0; j < types.length; j++) {
+            this[states[i]][types[j].description] = $.Deferred();
+            getIt(this[states[i]][types[j].description], states, types, i, j);
+        }
+    }
+
+    function getIt(d, states, types, i, j) {
+        ajaxWrapper({ url: $('#content').data("templateurl") + '?view=' + getRazorViewPath(states[i] + '_Tmpl', path + types[j].name, 'Admin') })
+            .done(function (res) { d.resolve(Handlebars.compile(res)); });
+    }
+}
+
+function showtoastrError(){
+    toastr.error("Sorry, something went wrong. This issue has been logged and will be investigated by our team.<br />In the meantime, please go back and try again.", "Error",
+        {
+            timeOut: 0,
+            extendedTimeOut: 0,
+            closeButton: true
+        });
+}

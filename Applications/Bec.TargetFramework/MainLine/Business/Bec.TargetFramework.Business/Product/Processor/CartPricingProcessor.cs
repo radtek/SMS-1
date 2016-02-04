@@ -16,7 +16,7 @@ namespace Bec.TargetFramework.Business.Product.Processor
 {
     public static class CartPricingProcessor
     {
-        public static CartPricingDTO CalculateCartPrice(IDbContextReadOnlyScope scope, Guid cartID, Guid? organisationId = null)
+        public static CartPricingDTO CalculateCartPrice(IDbContextReadOnlyScope scope, Guid cartID)
         {
             Ensure.That(cartID).IsNot(Guid.Empty);
 

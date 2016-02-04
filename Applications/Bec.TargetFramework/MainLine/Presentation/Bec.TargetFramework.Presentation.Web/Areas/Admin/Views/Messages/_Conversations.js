@@ -8,6 +8,7 @@
         conversationsError = $('#conversationsError'),
         messagesContainer = $('#messagesContainer'),
         messagesList = $('#messagesList'),
+        disabledContainer = $('#disabledContainer'),
         getMessagesSpinner = function () { return $('#messagesSpinner'); },
         getNewConversationError = function () { return $('#newConversationError'); },
         createConversationButton = $('#createConversationButton'),
@@ -21,7 +22,8 @@
     };
     var currentActivity = {
         activityType: viewMessagesContainer.data('activity-type'),
-        activityId: viewMessagesContainer.data('activity-id')
+        activityId: viewMessagesContainer.data('activity-id'),
+        enabled: viewMessagesContainer.data('enabled')
     };
     var urls = {
         templateUrl: viewMessagesContainer.data("templateurl"),
@@ -114,11 +116,21 @@
     }
 
     function loadConversations() {
-        conversationsSpinner.show();
-        conversationsError.hide();
-        dataSource.read();
-        if (canCreateNewConversation()) {
-            getRecipientsPromise = getRecipients();
+        if (!currentActivity.enabled) {
+            $('#conversationsContainer').hide();
+            $('#messagesContainer').hide();
+            $('#disabledContainer').show();
+        }
+        else {
+            $('#conversationsContainer').show();
+            $('#messagesContainer').show();
+            $('#disabledContainer').hide();
+            conversationsSpinner.show();
+            conversationsError.hide();
+            dataSource.read();
+            if (canCreateNewConversation()) {
+                getRecipientsPromise = getRecipients();
+            }
         }
     }
 
@@ -154,6 +166,7 @@
                     case 'BankAccountMarkedAsFraudSuspicious': item.isBaFraud = true; break;
                     case 'BankAccountCheckNoMatch': item.isBaNoMatch = true; break;
                     case 'BankAccountMarkedAsPotentialFraud': item.isBaPotFraud = true; break;
+                    case 'ProductAdvised': item.isProductAdvised = true; break;
                 }
 
                 switch (item.Message.OrganisationType) {
@@ -183,9 +196,10 @@
                 });
             });
             ret.resolve(items);
-        })
-        .error(function (data) {
-            console.log(data);
+        }).fail(function (e) {
+            if(!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
         return ret;
     }
@@ -336,6 +350,10 @@
                 }).success(function (data) {
                     var page = getPageFromRow(data, messagesPageSize);
                     pager.page(page);
+                }).fail(function (e) {
+                    if (!hasRedirect(e.responseJSON)) {
+                        showtoastrError();
+                    }
                 });
             }
         } else {
@@ -383,7 +401,7 @@
                     replyForm.find('textarea').val('');
                 }).fail(function (e) {
                     if (!hasRedirect(e.responseJSON)) {
-                        console.log(e);
+                        showtoastrError();
                     }
                 });
             }
@@ -411,10 +429,11 @@
     function setupDataReload() {
         if (isActivitySpecificView()) {
             // capturing the event from any parent views and refresh the view
-            viewMessagesContainer.parent().on('activitychange', function (event, activityId) {
+            viewMessagesContainer.parent().on('activitychange', function (event, activityId, enabled) {
                 resetCurrentConversation();
                 cleanConversationsAndMessages();
                 currentActivity.activityId = activityId;
+                currentActivity.enabled = enabled;
 
                 if (canLoadConversations()) {
                     loadConversations();
@@ -434,6 +453,10 @@
                 activityId: currentActivity.activityId,
                 activityType: currentActivity.activityType
             }
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
     }
 
@@ -446,6 +469,10 @@
             }
         }).then(function (res) {
             def.resolve(Handlebars.compile(res));
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
         return def;
     }
@@ -510,6 +537,10 @@
             url: urls.participantsUrl,
             data: {
                 conversationId: currentConversation.id
+            }
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
             }
         });
     }
@@ -705,6 +736,10 @@
                 id: attachmentsID
             },
             method: 'POST'
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
     }
 

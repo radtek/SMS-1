@@ -730,7 +730,19 @@ namespace Bec.TargetFramework.Business.Logic
 
         private string CreatePin(int length)
         {
-            char[] excludedChars = new[] { '0', 'O', '1', 'I' };
+            // base for the further calculation on ASCII table
+            int[] excludedRandomNumbers = new[]
+            {
+                0, // 0 (48 ASCII)
+                1, // 1 (49 ASCII)
+                2, // 2 (32 ASCII)
+                5, // 5 (35 ASCII)
+                18, // I (73 ASCII)
+                24, // O (79 ASCII)
+                28, // S (83 ASCII)
+                35, // Z (90 ASCII)
+            };
+
             Random r = new Random();
             StringBuilder pin = new StringBuilder(length);
             int thisNum;
@@ -743,9 +755,8 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         thisNum = r.Next(0, 36);
                     } while (
-                        prevNum.HasValue &&
-                        (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1) && //avoid repeated or consecutive characters
-                        excludedChars.Contains((char)thisNum));
+                        (prevNum.HasValue && (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1)) || //avoid repeated or consecutive characters
+                        excludedRandomNumbers.Contains(thisNum));
                     prevNum = thisNum;
                     pin.Append((char)(thisNum > 9 ? thisNum + 55 : thisNum + 48)); //convert to 0-9 A-Z
                 }

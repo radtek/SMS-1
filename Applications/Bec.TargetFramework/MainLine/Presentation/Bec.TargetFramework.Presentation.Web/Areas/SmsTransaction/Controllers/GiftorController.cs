@@ -25,9 +25,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
+                x.UserAccountOrganisation.UserAccountOrganisationID,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
                 x.UserAccountOrganisation.UserAccount.LastLogin,
+                x.UserAccountOrganisation.PinCode,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,

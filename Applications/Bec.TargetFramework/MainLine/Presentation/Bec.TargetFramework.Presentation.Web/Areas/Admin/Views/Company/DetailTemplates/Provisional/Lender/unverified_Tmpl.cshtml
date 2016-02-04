@@ -1,0 +1,30 @@
+﻿<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <a id="rejectButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })"><i class="fa fa-thumbs-down margin-right-5"></i>Reject Company</a>
+        <a id="verifyButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewVerify", "Company", new { area = "Admin" })"><i class="fa fa-thumbs-up margin-right-5"></i>Verify Company</a>
+        <h5>Company</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{Name}}</p></dd>
+            <dt>Trading Names:</dt>
+            <dd>
+                {{#each TradingNamesDisplay}}
+                <p>{{this}}</p>
+                {{/each}}
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <h5>Organisation Administrator</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{SystemAdminNameDisplay}}</p></dd>
+            <dt>Email:</dt>
+            <dd><p>{{OrganisationAdminEmail}}</p></dd>
+        </dl>
+    </div>
+</div>

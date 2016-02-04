@@ -2161,7 +2161,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for FnCreateOrganisationFromDefault in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> FnCreateOrganisationFromDefault (global::System.Nullable<int> organisationtypeid, global::System.Nullable<System.Guid> defaultorganisationid, global::System.Nullable<int> organisationversionnumber, string organisationname, string tradingname, string organisationdescription, string createdby, global::System.Nullable<int> organisationrecommendationsourceid)
+        public virtual global::System.Nullable<System.Guid> FnCreateOrganisationFromDefault (global::System.Nullable<int> organisationtypeid, global::System.Nullable<System.Guid> defaultorganisationid, global::System.Nullable<int> organisationversionnumber, string organisationname, string tradingname, string organisationdescription, string createdby, global::System.Nullable<int> organisationrecommendationsourceid, global::System.Nullable<int> brokertype, global::System.Nullable<int> brokerbusinesstype)
         {
             EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
             bool needClose = false;
@@ -2211,6 +2211,14 @@ namespace Bec.TargetFramework.Data
                 if (organisationrecommendationsourceid.HasValue)
                     organisationrecommendationsourceidParameter.Value = organisationrecommendationsourceid;
                 command.Parameters.Add(organisationrecommendationsourceidParameter);
+                EntityParameter brokertypeParameter = new EntityParameter("brokertype", System.Data.DbType.Int32);
+                if (brokertype.HasValue)
+                    brokertypeParameter.Value = brokertype;
+                command.Parameters.Add(brokertypeParameter);
+                EntityParameter brokerbusinesstypeParameter = new EntityParameter("brokerbusinesstype", System.Data.DbType.Int32);
+                if (brokerbusinesstype.HasValue)
+                    brokerbusinesstypeParameter.Value = brokerbusinesstype;
+                command.Parameters.Add(brokerbusinesstypeParameter);
                 result = (global::System.Nullable<System.Guid>)command.ExecuteScalar();
               }
             }

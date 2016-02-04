@@ -28,7 +28,7 @@
                 {{/each}}
                 {{else if isBaSafe}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsSafeNotificationDTO}}
-                        <pre>Bank account {{SortCode}}, {{AccountNumber}} has been marked as safe - <strong>you can now order Safe Buyer</strong> so that clients can check this bank account.</pre>
+                        <pre>Bank account {{SortCode}}, {{AccountNumber}} has been marked as safe - you can now add transactions to the Safe Move Scheme. For further details please see the <a href="@Url.Action("Index", "Downloads", new { area = "ProOrganisation" })">Downloads</a> section.</pre>
                         <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
                     {{/with}}
                 {{else if isBaFraud}}
@@ -52,6 +52,14 @@
                         <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
                         <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
                         <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                    {{/with}}
+                {{else if isProductAdvised}}
+                    {{#with Content.NotificationDictionary.ProductAdvisedNotificationDTO}}
+                    <pre>WARNING: The latest City of London Police stats show that customer payment fraud is costing property buyers like you over £1m per month as a result of theft of sensitive information and identity theft.</pre>
+                    <pre>Safe Buyer is a product that protects property buyers from fraud.</pre>
+                    <pre>You are receiving this message because <strong>{{CompanyName}}</strong> is advising you to purchase Safe Buyer, which is also endorsed by some mortgage lenders, to protect you from fraud.</pre>
+                    <pre>Safe Buyer enables you to check {{CompanyName}}'s bank account details before you send money to them and provides a secure messaging and attachment feature called Safe Send so you can communicate safely with {{CompanyName}} avoiding email, which isn’t safe.</pre>
+                    <pre><a href="@Url.Action("HowToKeepConsumersSafe", new { Area = "", Controller = "Home" })">Click here</a> for more information on why Safe Buyer is recommended by conveyancers and mortgage lenders.</pre>
                     {{/with}}
                 {{/if}}
                 <div class="read-status">

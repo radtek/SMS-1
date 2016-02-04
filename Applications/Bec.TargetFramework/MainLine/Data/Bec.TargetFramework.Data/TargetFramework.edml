@@ -2980,6 +2980,14 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="OrganisationNote" EntitySet="OrganisationNotes" />
           </AssociationSet>
+          <AssociationSet Name="SmsTransaction_Invoice_fk" Association="Bec.TargetFramework.Data.Store.SmsTransaction_Invoice_fk">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="SmsTransaction" EntitySet="SmsTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsTransaction_fk" Association="Bec.TargetFramework.Data.Store.SmsTransaction_fk">
+            <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
+            <End Role="SmsTransaction" EntitySet="SmsTransactions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -5425,7 +5433,7 @@
           <Key>
             <PropertyRef Name="OrganisationTradingNameID" />
           </Key>
-          <Property Name="OrganisationTradingNameID" Type="int" Nullable="false" />
+          <Property Name="OrganisationTradingNameID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
@@ -9703,13 +9711,14 @@
           <Property Name="OrganisationRecommendationSourceID" Type="int" />
           <Property Name="SchemeID" Type="int" />
           <Property Name="FilesPerMonth" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="BrokerType" Type="int" />
+          <Property Name="BrokerBusinessType" Type="int" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
           <Key>
             <PropertyRef Name="OrganisationID" />
             <PropertyRef Name="Name" />
             <PropertyRef Name="CreatedOn" />
-            <PropertyRef Name="Line1" />
             <PropertyRef Name="StatusTypeID" />
             <PropertyRef Name="StatusTypeValueID" />
             <PropertyRef Name="StatusTypeVersionNumber" />
@@ -9755,6 +9764,9 @@
           <Property Name="SchemeID" Type="int" />
           <Property Name="FilesPerMonth" Type="int" Nullable="false" />
           <Property Name="ActiveSafeAccounts" Type="bigint" />
+          <Property Name="OrganisationTypeDescription" Type="varchar" MaxLength="2000" />
+          <Property Name="BrokerType" Type="int" />
+          <Property Name="BrokerBusinessType" Type="int" />
         </EntityType>
         <EntityType Name="vNotificationInternalUnread">
           <Key>
@@ -9808,6 +9820,11 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="IsProductAdvised" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="ProductAdvisedOn" Type="timestamptz" />
+          <Property Name="ShoppingCartID" Type="uuid" />
+          <Property Name="InvoiceID" Type="uuid" />
+          <Property Name="ProductDeclinedOn" Type="timestamptz" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
           <Key>
@@ -18306,6 +18323,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SmsTransaction_Invoice_fk">
+          <End Role="Invoice" Type="Bec.TargetFramework.Data.Store.Invoice" Multiplicity="0..1" />
+          <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceID" />
+            </Principal>
+            <Dependent Role="SmsTransaction">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsTransaction_fk">
+          <End Role="ShoppingCart" Type="Bec.TargetFramework.Data.Store.ShoppingCart" Multiplicity="0..1" />
+          <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShoppingCart">
+              <PropertyRef Name="ShoppingCartID" />
+            </Principal>
+            <Dependent Role="SmsTransaction">
+              <PropertyRef Name="ShoppingCartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18329,6 +18370,8 @@
           <Parameter Name="organisationdescription" Type="varchar" Mode="In" />
           <Parameter Name="createdby" Type="varchar" Mode="In" />
           <Parameter Name="organisationrecommendationsourceid" Type="int" Mode="In" />
+          <Parameter Name="brokertype" Type="int" Mode="In" />
+          <Parameter Name="brokerbusinesstype" Type="int" Mode="In" />
         </Function>
         <Function Name="fn_ConversationRank" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_ConversationRank">
           <Parameter Name="uaoid" Type="uuid" Mode="In" />
@@ -21260,6 +21303,14 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="OrganisationNotes" EntitySet="OrganisationNotes" />
           </AssociationSet>
+          <AssociationSet Name="SmsTransaction_Invoice_fkSet" Association="Bec.TargetFramework.Data.SmsTransaction_Invoice_fk">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="SmsTransactions" EntitySet="SmsTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsTransaction_fkSet" Association="Bec.TargetFramework.Data.SmsTransaction_fk">
+            <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
+            <End Role="SmsTransactions" EntitySet="SmsTransactions" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21283,6 +21334,8 @@
             <Parameter Name="organisationdescription" Mode="In" Type="String" />
             <Parameter Name="createdby" Mode="In" Type="String" />
             <Parameter Name="organisationrecommendationsourceid" Mode="In" Type="Int32" />
+            <Parameter Name="brokertype" Mode="In" Type="Int32" />
+            <Parameter Name="brokerbusinesstype" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="FnConversationRank" ReturnType="Collection(Int32)" ed:Guid="91b96071-f06f-406a-859a-1161c0dd28a1">
             <Parameter Name="uaoid" Mode="In" Type="Guid" />
@@ -22534,6 +22587,7 @@
           <NavigationProperty Name="OrganisationAccountingPeriod" Relationship="Bec.TargetFramework.Data.fk_Invoice_OrganisationAccountingPeriod" FromRole="Invoices" ToRole="OrganisationAccountingPeriod" ed:Guid="808e974e-34f5-443d-91bb-79cc7c5c37b6" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.fk_Invoice_UserAccountOrganisation" FromRole="Invoices" ToRole="UserAccountOrganisation" ed:Guid="8823c979-084e-4752-9b2c-4a559ddbc7ae" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_Invoice_Organisation" FromRole="Invoices" ToRole="Organisation" ed:Guid="e74aed50-21fd-4961-87ef-4b825c13075d" />
+          <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.SmsTransaction_Invoice_fk" FromRole="Invoice" ToRole="SmsTransactions" ed:Guid="7343eaf8-81d4-409f-9005-f89fab304322" />
         </EntityType>
         <EntityType Name="ProductDiscount" ed:Guid="4d3ed315-04a8-4fe7-ae07-98214160316e">
           <Key>
@@ -23908,6 +23962,7 @@
           <NavigationProperty Name="GlobalPaymentMethod" Relationship="Bec.TargetFramework.Data.fk_ShoppingCart_GlobalPaymentMethod" FromRole="ShoppingCarts" ToRole="GlobalPaymentMethod" ed:Guid="bdc6f768-69b1-4190-b769-88b5896d1941" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.fk_ShoppingCart_UserAccountOrganisation" FromRole="ShoppingCarts" ToRole="UserAccountOrganisation" ed:Guid="7d030405-6515-4007-a965-a88672cad996" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_ShoppingCart_Organisation" FromRole="ShoppingCarts" ToRole="Organisation" ed:Guid="289516ae-8bb7-4872-9edb-353c7fb6a817" />
+          <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.SmsTransaction_fk" FromRole="ShoppingCart" ToRole="SmsTransactions" ed:Guid="0d527e27-c9aa-47f5-b370-8769d9a79a35" />
         </EntityType>
         <EntityType Name="AttachmentDetail" ed:Guid="e55c8b50-cfd3-4015-93c6-306b867cc328">
           <Key>
@@ -24266,7 +24321,7 @@
           <Key>
             <PropertyRef Name="OrganisationTradingNameID" />
           </Key>
-          <Property Name="OrganisationTradingNameID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="03a5a3e4-bd89-4ade-b105-1f9f7f3b73f9" />
+          <Property Name="OrganisationTradingNameID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="03a5a3e4-bd89-4ade-b105-1f9f7f3b73f9" />
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0f53bfa5-1e3a-4a62-bb78-ca150301dd05" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="74b2a435-c3b4-483a-a9a5-488409812ef6" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="b2b90860-9386-43e3-93a6-654e24413b49" />
@@ -29061,6 +29116,8 @@
           <Property Name="OrganisationRecommendationSourceID" Type="Int32" ed:ValidateRequired="False" ed:Guid="1f4d262c-7e42-4f67-88b6-4800c5480646" />
           <Property Name="SchemeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="7999df8c-98f3-4a6f-b89c-84983e4c3799" />
           <Property Name="FilesPerMonth" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="2619b439-89fc-441d-a64e-68cad6ed6553" />
+          <Property Name="BrokerType" Type="Int32" ed:ValidateRequired="False" ed:Guid="bdde3f56-7f7c-4522-8bb2-5731df2185a6" />
+          <Property Name="BrokerBusinessType" Type="Int32" ed:ValidateRequired="False" ed:Guid="359a1f27-9ac0-4af3-bf49-68659d339c47" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="Organisations" ToRole="OrganisationType" ed:Guid="225b1679-ada9-478c-b51a-cf9324e9bb73" />
@@ -29108,7 +29165,6 @@
             <PropertyRef Name="OrganisationID" />
             <PropertyRef Name="Name" />
             <PropertyRef Name="CreatedOn" />
-            <PropertyRef Name="Line1" />
             <PropertyRef Name="StatusTypeID" />
             <PropertyRef Name="StatusTypeValueID" />
             <PropertyRef Name="StatusTypeVersionNumber" />
@@ -29154,6 +29210,9 @@
           <Property Name="SchemeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="54ed2928-6e91-4b4c-b6d1-b611970d78a8" />
           <Property Name="FilesPerMonth" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="c68bab9a-6b4f-40cd-bf39-0a7f27b19d28" />
           <Property Name="ActiveSafeAccounts" Type="Int64" ed:ValidateRequired="False" ed:Guid="19c2486c-c667-4364-b086-a75b85ff2f9f" />
+          <Property Name="OrganisationTypeDescription" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="9d46e0a0-96b1-4e37-b6e1-9cddd5237d22" />
+          <Property Name="BrokerType" Type="Int32" ed:ValidateRequired="False" ed:Guid="c1356857-4958-47d4-a5f6-ba2701ee960e" />
+          <Property Name="BrokerBusinessType" Type="Int32" ed:ValidateRequired="False" ed:Guid="9c7b8ca3-b059-4f99-a496-06c605ccdc2e" />
         </EntityType>
         <EntityType Name="VNotificationInternalUnread" ed:Guid="3b0fcde2-57a4-46ea-8cad-824161f44eb6">
           <Key>
@@ -29207,9 +29266,16 @@
           <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a7b58fb5-297e-4763-8543-b8dde014a79f" />
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="68e91921-de9e-4379-9ce5-1c9a4d18e6ad" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="12ec530e-6dc1-42b8-9740-f1b4521a21d0" />
+          <Property Name="IsProductAdvised" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="483bf8af-0b11-4d65-8feb-b8c35457d3cc" />
+          <Property Name="ProductAdvisedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7c4a4acd-4ab4-4d84-b9fc-c06b56412c9f" />
+          <Property Name="ShoppingCartID" Type="Guid" ed:ValidateRequired="False" ed:Guid="49a8f39d-afe8-4801-afbd-f5458a51c720" />
+          <Property Name="InvoiceID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3890bf34-13ba-4b58-8736-db96c6c02239" />
+          <Property Name="ProductDeclinedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="af7fd9e0-c3f4-4fc6-a897-955631f038d1" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsTransaction" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="0e527fdd-2527-424b-a66c-bdc5f6c950bd" />
+          <NavigationProperty Name="Invoice" Relationship="Bec.TargetFramework.Data.SmsTransaction_Invoice_fk" FromRole="SmsTransactions" ToRole="Invoice" ed:Guid="9581c506-0c35-481e-92b7-9280dc5d9369" />
+          <NavigationProperty Name="ShoppingCart" Relationship="Bec.TargetFramework.Data.SmsTransaction_fk" FromRole="SmsTransactions" ToRole="ShoppingCart" ed:Guid="45a12998-ef34-449e-b36c-231f3d3445d4" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus" ed:Guid="87c44c9e-5f30-45e7-bda3-e5d28f150d26">
           <Key>
@@ -37398,6 +37464,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SmsTransaction_Invoice_fk" ed:Guid="ebc83c0b-f9c8-431c-b24c-ddb3f11a3e95">
+          <End Role="Invoice" Type="Bec.TargetFramework.Data.Invoice" Multiplicity="0..1" />
+          <End Role="SmsTransactions" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceID" />
+            </Principal>
+            <Dependent Role="SmsTransactions">
+              <PropertyRef Name="InvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsTransaction_fk" ed:Guid="d27c2b7a-ede7-4812-870d-10e62feaa6f7">
+          <End Role="ShoppingCart" Type="Bec.TargetFramework.Data.ShoppingCart" Multiplicity="0..1" />
+          <End Role="SmsTransactions" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShoppingCart">
+              <PropertyRef Name="ShoppingCartID" />
+            </Principal>
+            <Dependent Role="SmsTransactions">
+              <PropertyRef Name="ShoppingCartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -43904,6 +43994,8 @@
                 <ScalarProperty Name="OrganisationRecommendationSourceID" ColumnName="OrganisationRecommendationSourceID" />
                 <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
                 <ScalarProperty Name="FilesPerMonth" ColumnName="FilesPerMonth" />
+                <ScalarProperty Name="BrokerType" ColumnName="BrokerType" />
+                <ScalarProperty Name="BrokerBusinessType" ColumnName="BrokerBusinessType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43950,6 +44042,9 @@
                 <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
                 <ScalarProperty Name="FilesPerMonth" ColumnName="FilesPerMonth" />
                 <ScalarProperty Name="ActiveSafeAccounts" ColumnName="ActiveSafeAccounts" />
+                <ScalarProperty Name="OrganisationTypeDescription" ColumnName="OrganisationTypeDescription" />
+                <ScalarProperty Name="BrokerType" ColumnName="BrokerType" />
+                <ScalarProperty Name="BrokerBusinessType" ColumnName="BrokerBusinessType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43999,6 +44094,11 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="IsProductAdvised" ColumnName="IsProductAdvised" />
+                <ScalarProperty Name="ProductAdvisedOn" ColumnName="ProductAdvisedOn" />
+                <ScalarProperty Name="ShoppingCartID" ColumnName="ShoppingCartID" />
+                <ScalarProperty Name="ProductDeclinedOn" ColumnName="ProductDeclinedOn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
