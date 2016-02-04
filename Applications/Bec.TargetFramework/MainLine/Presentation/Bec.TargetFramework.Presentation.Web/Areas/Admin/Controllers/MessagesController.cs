@@ -43,7 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             var take = Request["$top"] == null ? 0 : int.Parse(Request["$top"]);
-            var skip = Request["$skip"] == null? 0 : int.Parse(Request["$skip"]);
+            var skip = Request["$skip"] == null ? 0 : int.Parse(Request["$skip"]);
             var res = await NotificationClient.GetConversationsAsync(uaoId, activityType, activityId, take, skip);
 
             foreach (var conversationDto in res.Items)
@@ -127,7 +127,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filter = ODataHelper.Filter<ConversationParticipantDTO>(x => x.ConversationID == conversationId);
             var data = await QueryClient.QueryAsync<ConversationParticipantDTO>("ConversationParticipants", select + filter);
 
-            var dtos = data.Select(x => new ParticipantDTO {
+            var dtos = data.Select(x => new ParticipantDTO
+            {
                 FirstName = x.UserAccountOrganisation.Contact.FirstName,
                 LastName = x.UserAccountOrganisation.Contact.LastName,
                 IsProfessionalOrganisation = x.UserAccountOrganisation.Organisation.OrganisationTypeID == professionalOrganisationTypeId,
@@ -169,7 +170,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> Reply(Guid conversationId, Guid attachmentsID, string message)
         {
-            if (!await CanReply(conversationId)) return NotAuthorised();            
+            if (!await CanReply(conversationId)) return NotAuthorised();
 
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, attachmentsID, message);
@@ -233,7 +234,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filterConv = ODataHelper.Filter<ConversationDTO>(x => x.ConversationID == conversationId);
             var resultConv = await QueryClient.QueryAsync<ConversationDTO>("Conversations", selectConv + filterConv);
             var conversation = resultConv.FirstOrDefault();
-            
+
             if (reply && conversation.ActivityType.HasValue && !checkReply((ActivityType)conversation.ActivityType)) return false;
 
             // get participants
@@ -277,7 +278,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var filterTx = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == activityId);
                     var resultTx = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", selectTx + filterTx);
                     var tx = resultTx.FirstOrDefault();
-                    
+
                     if (!CanAccessSmsTransactionConversation(tx, isSystemMessage, reply)) return false;
 
                     switch ((OrganisationTypeEnum)org.OrganisationTypeID)
@@ -308,8 +309,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         private bool CanAccessSmsTransactionConversation(SmsTransactionDTO tx, bool isSystemMessage, bool reply)
         {
-            return 
-                (reply && tx.InvoiceID.HasValue) || 
+            return
+                (reply && tx.InvoiceID.HasValue) ||
                 (!reply && isSystemMessage);
         }
 
@@ -332,10 +333,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         switch (res.Result)
                         {
                             case nClam.ClamScanResults.Clean:
-                                if (HttpContext.Response.ClientDisconnectedToken.IsCancellationRequested) 
+                                if (HttpContext.Response.ClientDisconnectedToken.IsCancellationRequested)
                                     await RemovePendingUpload(id, name);
                                 return FormatMessage("{0}: uploaded", name);
-                            case nClam.ClamScanResults.VirusDetected: 
+                            case nClam.ClamScanResults.VirusDetected:
                                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                                 return FormatMessage("Virus detected: {0}", name);
                         }
