@@ -1880,7 +1880,6 @@
     <Compile Include="DTO\Notification\BankAccountMarkedAsPotentialFraudNotificationDTO.cs" />
     <Compile Include="DTO\Notification\ConversationDetailsDTO.cs" />
     <Compile Include="DTO\Notification\NewInternalMessagesNotificationDTO.cs" />
-    <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsSafeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsFraudSuspiciousNotificationDTO.cs" />

@@ -69,7 +69,6 @@
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddBankAccountMarkedAsFraudSuspiciousNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddBankAccountMarkedAsSafeNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddCompanySystemAdminNotification.sql" />
-    <Content Include="Scripts\BE Framework Scripts\Notifications\AddCreditAdjustmentNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddForgotPasswordNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddNewInternalMessagesNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddUsernameReminderNotification.sql" />
