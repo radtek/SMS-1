@@ -309,9 +309,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         private bool CanAccessSmsTransactionConversation(SmsTransactionDTO tx, bool isSystemMessage, bool reply)
         {
-            return
-                (reply && tx.InvoiceID.HasValue) ||
-                (!reply && isSystemMessage);
+            if (reply)
+            {
+                return tx.InvoiceID.HasValue;
+            }
+            else
+            {
+                return tx.InvoiceID.HasValue || isSystemMessage;
+            }
         }
 
         public async Task<string> UploadFile(Guid id, HttpPostedFileBase file)
