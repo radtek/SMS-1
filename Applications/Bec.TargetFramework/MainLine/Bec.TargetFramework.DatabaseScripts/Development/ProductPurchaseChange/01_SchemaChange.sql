@@ -1,4 +1,6 @@
-﻿ALTER TABLE sms."SmsTransaction" ADD COLUMN "IsProductAdvised" BOOLEAN DEFAULT true NOT NULL;
+﻿INSERT INTO public."ClassificationType" ("ClassificationTypeID", "Name", "ClassificationTypeCategoryID") VALUES (5243, E'Declined to participate', 8504);
+
+ALTER TABLE sms."SmsTransaction" ADD COLUMN "IsProductAdvised" BOOLEAN DEFAULT true NOT NULL;
 ALTER TABLE sms."SmsTransaction" ADD COLUMN "InvoiceID" UUID;
 ALTER TABLE sms."SmsTransaction" ADD COLUMN "ShoppingCartID" UUID;
 ALTER TABLE sms."SmsTransaction" ADD COLUMN "ProductAdvisedOn" TIMESTAMP(0) WITH TIME ZONE;

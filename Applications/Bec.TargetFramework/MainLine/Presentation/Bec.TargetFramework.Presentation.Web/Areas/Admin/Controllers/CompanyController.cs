@@ -38,13 +38,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> ViewRejectTempCompany(Guid orgId)
+        public async Task<ActionResult> ViewRejectTempCompany(Guid orgId, int? returnTab)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
-            ViewBag.orgId = orgId;
-            ViewBag.companyName = org.Name;
-            return PartialView("_RejectTempCompany");
+            return PartialView("_RejectTempCompany", new RejectCompanyDTO { OrganisationId = orgId, CompanyName = org.Name, ReturnTab = returnTab ?? 0 });
         }
 
         [HttpPost]
@@ -52,6 +50,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> RejectTempCompany(RejectCompanyDTO model)
         {
             await OrganisationClient.RejectOrganisationAsync(model);
+            TempData["tabIndex"] = model.ReturnTab;
+            return RedirectToAction("Provisional");
+        }
+
+        public async Task<ActionResult> ViewUnverify(Guid orgId)
+        {
+            var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
+            if (org == null) return new HttpNotFoundResult("Organisation not found");
+            return PartialView("_Unverify", new RejectCompanyDTO { OrganisationId = orgId, CompanyName = org.Name, ReturnTab = 0 });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Unverify(RejectCompanyDTO model)
+        {
+            await OrganisationClient.UnverifyOrganisationAsync(model);
             return RedirectToAction("Provisional");
         }
 

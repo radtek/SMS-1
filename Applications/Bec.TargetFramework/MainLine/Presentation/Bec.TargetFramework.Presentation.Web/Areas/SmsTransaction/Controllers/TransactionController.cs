@@ -45,7 +45,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var orgs = await QueryClient.QueryAsync<VOrganisationWithStatusAndAdminDTO>("VOrganisationWithStatusAndAdmins", select + filter);
             var org = orgs.First();
             ViewBag.OrganisationName = org.Name;
-            ViewBag.OrgAdminName = string.Join(" ", org.OrganisationAdminSalutation, org.OrganisationAdminFirstName, org.OrganisationAdminLastName);
             ViewBag.HasOrganisationAnySafeBankAccounts = BankAccountClient.HasOrganisationAnySafeBankAccount(orgID);
 
             return View();
