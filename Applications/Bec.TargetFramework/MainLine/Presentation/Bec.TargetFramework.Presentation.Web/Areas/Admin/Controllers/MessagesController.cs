@@ -311,7 +311,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             return
                 (reply && tx.InvoiceID.HasValue) ||
-                (!reply && isSystemMessage);
+                (!reply && (tx.InvoiceID.HasValue || isSystemMessage));
         }
 
         public async Task<string> UploadFile(Guid id, HttpPostedFileBase file)
