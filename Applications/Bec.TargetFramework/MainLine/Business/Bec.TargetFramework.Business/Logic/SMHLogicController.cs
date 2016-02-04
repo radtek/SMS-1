@@ -144,7 +144,7 @@ namespace Bec.TargetFramework.Business.Logic
                         if (page != null)
                         {
                             return scope.DbContexts.Get<TargetFrameworkEntities>().SMHItems
-                                    .Where(i => (i.PageID == page.PageID)).ToDtos();
+                                    .Where(i => (i.PageID == page.PageID)).OrderBy(i => i.ItemOrder).ToDtos();
                         }
                     }
                 }
