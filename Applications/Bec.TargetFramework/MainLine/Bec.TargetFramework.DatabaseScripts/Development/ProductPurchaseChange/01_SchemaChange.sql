@@ -1,5 +1,9 @@
 ﻿INSERT INTO public."ClassificationType" ("ClassificationTypeID", "Name", "ClassificationTypeCategoryID") VALUES (5243, E'Declined to participate', 8504);
 
+update "StatusTypeValue" set "Description" = 'Please note that at least one validated bank account is required to add transactions.' where
+"StatusTypeID" = (select "StatusTypeID" from "StatusType" where "Name" = 'Bank Account Status') and
+"Name" = 'Pending Validation'
+
 ALTER TABLE sms."SmsTransaction" ADD COLUMN "IsProductAdvised" BOOLEAN DEFAULT true NOT NULL;
 ALTER TABLE sms."SmsTransaction" ADD COLUMN "InvoiceID" UUID;
 ALTER TABLE sms."SmsTransaction" ADD COLUMN "ShoppingCartID" UUID;
