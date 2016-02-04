@@ -26,12 +26,12 @@
                 position: getPosition(item.ItemPosition),
                 onbeforechange: function (e, t) {
                     if (item.TabContainerId != null) {
-                        $('[href=#' + item.TabContainerId + ']').parent().addClass('active');
-                        $('#' + item.TabContainerId).addClass('active');
-                        var containerId = $('[href=#' + item.TabContainerId + ']').parent().parent().attr('id');
-                        $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
-                        $('.active', $('#' + containerId).parent()).removeClass('active');
-                        $('[href=#' + item.TabContainerId + ']').click();
+                        $('[href=' + item.TabContainerId + ']').parent().addClass('active');
+                        $(item.TabContainerId).addClass('active');
+                        var containerId = $('[href=' + item.TabContainerId + ']').parent().parent().attr('id');
+                        $(containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
+                        $('.active', $(containerId).parent()).removeClass('active');
+                        $('[href=' + item.TabContainerId + ']').click();
                     }
                 },
             });
@@ -41,34 +41,39 @@
 
     function startSMHOnPage(items) {
         var intro = introJs();
-        intro.setOptions({
-            exitOnOverlayClick: false,
-            showProgress: false,
-            showBullets: false,
-            showStepNumbers: false,
-            scrollToElement: false,
-            disableInteraction: false,
-            steps: getSteps(items).filter(function (obj) {
-                return $(obj.element).length;
-            })
+        var stepList = getSteps(items).filter(function (obj) {
+            return $(obj.element).length;
         });
+        if (stepList.length > 0) {
 
-        var createStepEvents = function (guideObject, eventList) {
-            _.each(eventList, function (event) {
-                guideObject[event](function () {
-                    var steps = this._options.steps,
-                        currentStep = this._currentStep;
-                    if (_.isFunction(steps[currentStep][event])) {
-                        steps[currentStep][event]();
-                    }
-                });
+            intro.setOptions({
+                exitOnOverlayClick: false,
+                showProgress: false,
+                showBullets: false,
+                showStepNumbers: false,
+                scrollToElement: false,
+                disableInteraction: false,
+                steps: stepList
+            });
 
-            }, this);
+            var createStepEvents = function (guideObject, eventList) {
+                _.each(eventList, function (event) {
+                    guideObject[event](function () {
+                        var steps = this._options.steps,
+                            currentStep = this._currentStep;
+                        if (_.isFunction(steps[currentStep][event])) {
+                            steps[currentStep][event]();
+                        }
+                    });
+
+                }, this);
+            }
+
+            createStepEvents(intro, ['onbeforechange']);
+            var tempShow = false;
+            var tempElement = null;
+
+            intro.start();
         }
-
-        createStepEvents(intro, ['onbeforechange']);
-        var tempShow = false;
-        var tempElement = null;
-        intro.start();
     }
 });

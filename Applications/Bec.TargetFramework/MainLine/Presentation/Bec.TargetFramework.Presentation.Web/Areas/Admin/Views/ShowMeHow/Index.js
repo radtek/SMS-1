@@ -271,10 +271,10 @@ $(function () {
             });
     }
     function setDefaultButton(btn) {        
-        $(btn).addClass('disabled');
+        $(btn).attr('disabled', 'disabled');
     }
     function enableButton(btn) {
-        $(btn).removeClass('disabled');
+        $(btn).removeAttr('disabled');
     }
 
     //data binding for the panes beneath each grid

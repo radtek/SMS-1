@@ -25,7 +25,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         private async Task<List<SelectListItem>> GetRoles()
         {
             var select = ODataHelper.Select<RoleDTO>(x => new { x.RoleID, x.RoleName });
-            var roles = await queryClient.QueryAsync<RoleDTO>("Roles", select);
+            var filter = ODataHelper.Filter<RoleDTO>(x => x.RoleName != "Temporary User" && x.RoleName != "Organisation Branch Administrator");
+            var roles = await queryClient.QueryAsync<RoleDTO>("Roles", select + filter);
             return roles.Select(x => new SelectListItem { Text = x.RoleName, Value = x.RoleID.ToString() }).ToList();
         }
 
@@ -96,7 +97,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         // GET: Admin/ShowMeHow
 
         public ActionResult RemoveParamBeforeIndex(Guid? pageId, bool? isSysPage)
-        {            
+        {
             if (pageId != null && isSysPage != null)
             {
                 if (isSysPage.Value)
@@ -114,7 +115,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
         public async Task<ActionResult> Index()
         {
-            ViewBag.roles = await GetRoles();            
+            ViewBag.roles = await GetRoles();
             return View();
         }
 
