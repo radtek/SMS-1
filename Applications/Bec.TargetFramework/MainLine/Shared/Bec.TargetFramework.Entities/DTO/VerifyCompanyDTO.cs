@@ -17,6 +17,8 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public int? FilesPerMonth { get; set; }
         [DataMember]
+        public string RegulatorName { get; set; }
+        [DataMember]
         public string RegulatorNumber { get; set; }
         [DataMember]
         public string SroSalutation { get; set; }
