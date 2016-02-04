@@ -342,7 +342,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         internal static async Task EnsureEmailNotInUse(string email, Guid? uaoID, IUserLogicClient userLogic)
         {
             var isEmailAvailable = await userLogic.CanEmailBeUsedAsProfessionalAsync(email, uaoID);
-            if (!isEmailAvailable) throw new InvalidOperationException("The e-mail cannot be used.");
+            if (!isEmailAvailable) throw new InvalidOperationException("The email cannot be used.");
         }
 
         internal static async Task EnsureCanGeneratePin(Guid txID, Guid uaoID, IQueryLogicClient queryClient)

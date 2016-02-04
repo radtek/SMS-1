@@ -86,7 +86,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 {
                     if (string.IsNullOrWhiteSpace(errorMessage))
                     {
-                        errorMessage = "Invalid E-mail or Password";
+                        errorMessage = "Invalid Email or Password";
                     }
 
                     ModelState.AddModelError("", errorMessage);
