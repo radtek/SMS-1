@@ -46,4 +46,10 @@ CREATE TABLE public."CalloutUserAccount" (
 ) 
 WITH (oids = false);
 
+ALTER TABLE public."CalloutUserAccount"
+  ADD COLUMN "Visible" BOOLEAN;
+
+ALTER TABLE public."CalloutUserAccount"
+  ALTER COLUMN "Visible" SET DEFAULT FALSE;
+
 
