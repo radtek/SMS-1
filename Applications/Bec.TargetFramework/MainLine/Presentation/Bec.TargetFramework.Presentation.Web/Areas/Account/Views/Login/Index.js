@@ -20,7 +20,7 @@
         // Messages for form validation
         messages: {
             "LoginDTO.Email": {
-                required: 'Please enter your e-mail'
+                required: 'Please enter your email'
             },
             "LoginDTO.Password": {
                 required: 'Please enter your password'

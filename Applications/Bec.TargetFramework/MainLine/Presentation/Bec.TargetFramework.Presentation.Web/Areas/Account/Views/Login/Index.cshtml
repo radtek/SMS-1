@@ -27,7 +27,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="@Html.IdFor(m => m.LoginDTO.Email)">E-mail</label>
+                                            <label for="@Html.IdFor(m => m.LoginDTO.Email)">Email</label>
                                             <i class="icon-append fa fa-user"></i>
                                             @Html.TextBoxFor(m => m.LoginDTO.Email, new { autocomplete = "off", type = "email", @class = "form-control" })
                                         </div>
@@ -80,7 +80,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="@Html.IdFor(m => m.CreatePermanentLoginModel.RegistrationEmail)">E-mail</label>
+                                            <label for="@Html.IdFor(m => m.CreatePermanentLoginModel.RegistrationEmail)">Email</label>
                                             <i class="icon-append fa fa-user"></i>
                                             @Html.TextBoxFor(m => m.CreatePermanentLoginModel.RegistrationEmail, new { type = "email", autocomplete = "off", @class = "form-control", data_url = Url.Action("EmailCanBeRegistered", "Login", new { area = "Account" }) })
                                         </div>
