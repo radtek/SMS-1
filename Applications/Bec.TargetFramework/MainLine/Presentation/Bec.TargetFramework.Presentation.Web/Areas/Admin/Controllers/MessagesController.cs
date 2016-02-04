@@ -138,7 +138,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetRecipients(ActivityType activityType, Guid activityId)
         {
-            if (!await CanAccessConversationInActivity(activityId, activityType)) return NotAuthorised();
+            if (!await CanAccessConversationInActivity(activityId, activityType, false, true)) return NotAuthorised();
 
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
             var uaoID = HttpContext.GetWebUserObject().UaoID;
@@ -182,7 +182,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> CreateConversation(CreateConversationDTO addConversationDto)
         {
-            if (!await CanAccessConversationInActivity(addConversationDto.ActivityId, addConversationDto.ActivityType)) return NotAuthorised();
+            if (!await CanAccessConversationInActivity(addConversationDto.ActivityId, addConversationDto.ActivityType, false, true)) return NotAuthorised();
 
             try
             {
@@ -229,11 +229,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             // get conversation
-            var selectConv = ODataHelper.Select<ConversationDTO>(x => new { x.ActivityID, x.ActivityType });
+            var selectConv = ODataHelper.Select<ConversationDTO>(x => new { x.ActivityID, x.ActivityType, x.IsSystemMessage });
             var filterConv = ODataHelper.Filter<ConversationDTO>(x => x.ConversationID == conversationId);
             var resultConv = await QueryClient.QueryAsync<ConversationDTO>("Conversations", selectConv + filterConv);
             var conversation = resultConv.FirstOrDefault();
-
+            
             if (reply && conversation.ActivityType.HasValue && !checkReply((ActivityType)conversation.ActivityType)) return false;
 
             // get participants
@@ -244,7 +244,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             if (!participants.Any(x => x.UserAccountOrganisation.OrganisationID == orgId)) return false;
 
             if (conversation.ActivityType.HasValue &&
-                !await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType)) return false;
+                !await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType, conversation.IsSystemMessage, reply)) return false;
 
             return true;
         }
@@ -258,7 +258,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return false;
         }
 
-        private async Task<bool> CanAccessConversationInActivity(Guid? activityId, ActivityType activityType)
+        private async Task<bool> CanAccessConversationInActivity(Guid? activityId, ActivityType activityType, bool isSystemMessage, bool reply)
         {
             var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -278,7 +278,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var resultTx = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", selectTx + filterTx);
                     var tx = resultTx.FirstOrDefault();
                     
-                    if (!tx.InvoiceID.HasValue) return false;
+                    if (!CanAccessSmsTransactionConversation(tx, isSystemMessage, reply)) return false;
 
                     switch ((OrganisationTypeEnum)org.OrganisationTypeID)
                     {
@@ -304,6 +304,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             }
 
             return false;
+        }
+
+        private bool CanAccessSmsTransactionConversation(SmsTransactionDTO tx, bool isSystemMessage, bool reply)
+        {
+            return 
+                (reply && tx.InvoiceID.HasValue) || 
+                (!reply && isSystemMessage);
         }
 
         public async Task<string> UploadFile(Guid id, HttpPostedFileBase file)
