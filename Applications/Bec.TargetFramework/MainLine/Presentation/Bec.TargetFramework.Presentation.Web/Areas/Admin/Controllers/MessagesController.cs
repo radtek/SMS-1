@@ -138,7 +138,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetRecipients(ActivityType activityType, Guid activityId)
         {
-            if (!await CanAccessConversationInActivity(activityId, activityType, false, true)) return NotAuthorised();
+            if (!await CanAccessConversationInActivity(activityId, activityType)) return NotAuthorised();
 
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
             var uaoID = HttpContext.GetWebUserObject().UaoID;
@@ -182,7 +182,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> CreateConversation(CreateConversationDTO addConversationDto)
         {
-            if (!await CanAccessConversationInActivity(addConversationDto.ActivityId, addConversationDto.ActivityType, false, true)) return NotAuthorised();
+            if (!await CanAccessConversationInActivity(addConversationDto.ActivityId, addConversationDto.ActivityType)) return NotAuthorised();
 
             try
             {
@@ -243,8 +243,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             if (!participants.Any(x => x.UserAccountOrganisation.OrganisationID == orgId)) return false;
 
-            if (conversation.ActivityType.HasValue &&
-                !await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType, conversation.IsSystemMessage, reply)) return false;
+            if (//(!reply && !conversation.IsSystemMessage) &&
+                conversation.ActivityType.HasValue &&
+                !await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType)) return false;
 
             return true;
         }
@@ -258,7 +259,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return false;
         }
 
-        private async Task<bool> CanAccessConversationInActivity(Guid? activityId, ActivityType activityType, bool isSystemMessage, bool reply)
+        private async Task<bool> CanAccessConversationInActivity(Guid? activityId, ActivityType activityType)
         {
             var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -277,8 +278,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var filterTx = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == activityId);
                     var resultTx = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", selectTx + filterTx);
                     var tx = resultTx.FirstOrDefault();
-                    
-                    if (!CanAccessSmsTransactionConversation(tx, isSystemMessage, reply)) return false;
+
+                    if (!tx.InvoiceID.HasValue) return false;
 
                     switch ((OrganisationTypeEnum)org.OrganisationTypeID)
                     {
