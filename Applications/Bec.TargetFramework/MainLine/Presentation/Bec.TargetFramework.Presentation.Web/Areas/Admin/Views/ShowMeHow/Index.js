@@ -112,23 +112,18 @@ $(function () {
         ajaxWrapper({
             url: $("#saveItemOrder").data("url"),
             data: {
-                listId: postData,
+                listId : postData,
+                pageId: $('#pageId').val(),
+                isSysPage : false,
                 __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
             },
             type: 'POST'
-        })
-                .always(function () {
-                })
-                .done(function (result) {
-                    if (result.data != null || result.data != undefined) {
-                        $('#saveItemOrder').addClass('btn-default');
-                        $('#saveItemOrder').removeClass('btn-primary');
-                        $('#saveOrderStatus').css('display', 'inline-block').fadeIn(1000).delay(3000).fadeOut(1000);
+        })               
+                .done(function (response) {
+                    if (response != null || response != undefined) {
+                        window.location.href = response.Url;
                     }
                 })
-                .fail(function (err) {
-                    if (!hasRedirect(err.responseJSON)) self.lookupFailed();
-                });
     }
 
     function SendUpdateSysOrder() {
@@ -144,22 +139,17 @@ $(function () {
             url: $("#saveSysItemOrder").data("url"),
             data: {
                 listId: postData,
+                pageId: $('#sysPageId').val(),
+                isSysPage: true,
                 __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
             },
             type: 'POST'
         })
-                .always(function () {
-                })
-                .done(function (result) {
-                    if (result.data != null || result.data != undefined) {
-                        $('#saveSysItemOrder').addClass('btn-default');
-                        $('#saveSysItemOrder').removeClass('btn-primary');
-                        $('#saveSysOrderStatus').css('display', 'inline-block').fadeIn(1000).delay(3000).fadeOut(1000);
+                .done(function (response) {
+                    if (response != null || response != undefined) {
+                        window.location.href = response.Url;
                     }
                 })
-                .fail(function (err) {
-                    if (!hasRedirect(err.responseJSON)) self.lookupFailed();
-                });
     }
 
     $('#saveItemOrder').click(function () {
@@ -214,9 +204,8 @@ $(function () {
                             ui.item.data('start_index', start_pos + 1);
                             ui.item.data('end_index', index + 1);
                         }
-
-                        $('#saveItemOrder').removeClass('btn-default');
-                        $('#saveItemOrder').addClass('btn-primary');
+                                                
+                        enableButton($('#saveItemOrder'));
                     },
                     update: function (event, ui) {
                         $('#ItemList li').removeClass('highlights');
@@ -271,8 +260,7 @@ $(function () {
                             ui.item.data('end_index', index + 1);
                         }
 
-                        $('#saveSysItemOrder').removeClass('btn-default');
-                        $('#saveSysItemOrder').addClass('btn-primary');
+                        enableButton($('#saveSysItemOrder'));
                     },
                     update: function (event, ui) {
                         $('#SysItemList li').removeClass('highlights');
@@ -282,16 +270,25 @@ $(function () {
                 console.log("ERR");
             });
     }
+    function setDefaultButton(btn) {        
+        $(btn).addClass('disabled');
+    }
+    function enableButton(btn) {
+        $(btn).removeClass('disabled');
+    }
 
     //data binding for the panes beneath each grid
     function onPageChange(dataItem) {
         $("p#ddnName").text(dataItem.PageName);
         $("p#ddnRole").text(dataItem.RoleName || "");
         $("p#ddnURL").text(dataItem.PageUrl || "");
+        $('#pageId').val(dataItem.PageId);
 
         $("#editPage").data('href', $("#editPage").data("url") + "?pageId=" + dataItem.PageId);
         $("#delPage").data('href', $("#delPage").data("url") + "?pageId=" + dataItem.PageId);
         $("#btnAddPageItem").data('href', $("#btnAddPageItem").data("url") + "?pageId=" + dataItem.PageId);
+        setDefaultButton($('#saveItemOrder'));
+        setDefaultButton($('#saveSysItemOrder'));
 
         loadItemForPage(dataItem.PageId, $("#listItem").data("url"));
     }
@@ -299,10 +296,13 @@ $(function () {
     function forSystemChange(dataItem) {
         $("p#ddnSysName").text(dataItem.PageName);
         $("p#ddnSysRole").text(dataItem.RoleName || "");
+        $('#sysPageId').val(dataItem.PageId);
 
         $("#editSysPage").data('href', $("#editSysPage").data("url") + "?pageId=" + dataItem.PageId);
         $("#delSysPage").data('href', $("#delSysPage").data("url") + "?pageId=" + dataItem.PageId);
         $("#btnAddSysPageItem").data('href', $("#btnAddSysPageItem").data("url") + "?pageId=" + dataItem.PageId);
+        setDefaultButton($('#saveItemOrder'));
+        setDefaultButton($('#saveSysItemOrder'));
 
         loadItemForPage2(dataItem.PageId, $("#listSysItem").data("url"));
     }

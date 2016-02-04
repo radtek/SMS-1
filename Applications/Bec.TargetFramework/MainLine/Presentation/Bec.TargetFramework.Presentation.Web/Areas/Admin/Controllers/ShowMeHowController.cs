@@ -3,6 +3,7 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
+using Bec.TargetFramework.Presentation.Web.Models.ToastrNotification;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -93,9 +94,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/ShowMeHow
+
+        public ActionResult RemoveParamBeforeIndex(Guid? pageId, bool? isSysPage)
+        {            
+            if (pageId != null && isSysPage != null)
+            {
+                if (isSysPage.Value)
+                {
+                    TempData["sysPageId"] = pageId;
+                    TempData["tabIndex"] = 1;
+                }
+                else
+                {
+                    TempData["pageId"] = pageId;
+                    TempData["tabIndex"] = 0;
+                }
+            }
+            return RedirectToAction("Index");
+        }
         public async Task<ActionResult> Index()
         {
-            ViewBag.roles = await GetRoles();
+            ViewBag.roles = await GetRoles();            
             return View();
         }
 
@@ -312,10 +331,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SaveItemOrder(string listId)
+        public async Task<ActionResult> SaveItemOrder(string listId, bool isSysPage, Guid pageID)
         {
             try
             {
+
                 string[] list = listId.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
                 if (list != null)
                 {
@@ -332,15 +352,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             {
                                 itemDto.ItemOrder = int.Parse(index) + 1;
                                 await smhClient.EditSmhItemAsync(itemDto);
+
                             }
                         }
                     }
                 }
-                return Json(new { data = "OK" }, JsonRequestBehavior.AllowGet);
+                this.AddToastMessage("Save successfully", "The order has been changed", ToastType.Success, false);
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("RemoveParamBeforeIndex", "ShowMeHow", new { area = "Admin", pageId = pageID, isSysPage = isSysPage });
+                return Json(new { Url = redirectUrl });
             }
             catch (Exception)
             {
-                return Json(new { data = "Not OK" }, JsonRequestBehavior.AllowGet);
+                this.AddToastMessage("Save fail", "The order has not been saved", ToastType.Error, false);
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("RemoveParamBeforeIndex", "ShowMeHow", new { area = "Admin", pageId = pageID, isSysPage = isSysPage });
+                return Json(new { Url = redirectUrl });
             }
         }
     }

@@ -37,6 +37,7 @@
                 <dd><p id="ddnSysName"></p></dd>
                 <dt>User Role:</dt>
                 <dd><p id="ddnSysRole"></p></dd>
+                @Html.Hidden("sysPageId", @TempData["sysPageId"])
             </dl>
         </div>
     </div>
@@ -53,8 +54,7 @@
             </div>
             <span>
                 @Html.AntiForgeryToken()
-                <a id="saveSysItemOrder" data-url="@Url.Action("SaveItemOrder", "ShowMeHow", new { area = "Admin" })" class="btn btn-sm btn-default">Save Change</a>
-                <label id="saveSysOrderStatus" style="display:none; color:green">Save successfully</label>
+                <a id="saveSysItemOrder" data-url="@Url.Action("SaveItemOrder", "ShowMeHow", new { area = "Admin" })" class="btn btn-sm btn-primary disabled">Save Change</a>                
             </span>
         </div>
     </div>
