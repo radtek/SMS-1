@@ -239,7 +239,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(new { data = items }, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> ViewAddItem(Guid pageId)
+        public async Task<ActionResult> ViewAddItem(Guid pageId, bool isSysPage)
         {
             var selectItem = ODataHelper.Select<SMHItemDTO>(x => new { x.PageID, x.ItemID, x.ItemName, x.ItemDescription, x.ItemPosition, x.ItemSelector, x.TabContainerId, x.ItemOrder });
             var filterItem = ODataHelper.Filter<SMHItemDTO>(x => x.PageID == pageId);
@@ -247,6 +247,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             var itemsOnPage = (items == null ? 0 : items.Count());
             SMHItemDTO item = new SMHItemDTO { PageID = pageId, ItemOrder = itemsOnPage + 1 };
+            TempData["isSysPage"] = isSysPage;
             return PartialView("_AddSmhItem", item);
         }
 
@@ -274,8 +275,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> ViewEditItem(Guid itemId)
+        public async Task<ActionResult> ViewEditItem(Guid itemId, bool isSysPage)
         {
+            TempData["isSysPage"] = isSysPage;
             return PartialView("_EditSmhItem", await GetItemDto(itemId));
         }
 
@@ -302,8 +304,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> ViewDeleteItem(Guid itemId)
+        public async Task<ActionResult> ViewDeleteItem(Guid itemId, bool isSysPage)
         {
+            TempData["isSysPage"] = isSysPage;
             return PartialView("_DeleteSmhItem", await GetItemDto(itemId));
         }
 

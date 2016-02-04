@@ -27,13 +27,16 @@
                                         <dd><p>@Html.DisplayFor(m => m.ItemName)</p></dd>
                                         <dt>Item Selector:</dt>
                                         <dd><p>@Html.DisplayFor(m => m.ItemSelector)</p></dd>
-                                        <dt>Item belong to Tab id:</dt>
-                                        <dd><p>@Html.DisplayFor(m => m.TabContainerId)</p></dd>
+                                        @if (TempData["isSysPage"] != null && !((bool)TempData["isSysPage"]))
+                                        {
+                                            <dt>Item belong to Tab id:</dt>
+                                            <dd><p>@Html.DisplayFor(m => m.TabContainerId)</p></dd>
+                                        }
                                         <dt>Description:</dt>
                                         <dd><p>@Html.DisplayFor(m => m.ItemDescription)</p></dd>
                                     </dl>
                                 </section>
-                               
+
                             </fieldset>
                         </form>
                     </div>

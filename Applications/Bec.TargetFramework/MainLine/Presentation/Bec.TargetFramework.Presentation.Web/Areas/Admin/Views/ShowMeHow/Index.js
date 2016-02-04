@@ -175,8 +175,8 @@ $(function () {
                 $.each(result.data, function (i, item) {
                     items.push("<li data-itemid='" + item.ItemID + "'>"
                         + "<span>" + item.ItemName + "</span>"
-                        + "<span>| <a data-href=\"" + editLink + "?itemId=" + item.ItemID + "\" data-modallink=\"true\">Edit</a>"
-                        + " | <a data-href=\"" + deleteLink + "?itemId=" + item.ItemID + "\" data-modallink=\"true\">Delete</a></span>"
+                        + "<span>| <a data-href=\"" + editLink + "?itemId=" + item.ItemID + "&isSysPage=false\" data-modallink=\"true\">Edit</a>"
+                        + " | <a data-href=\"" + deleteLink + "?itemId=" + item.ItemID + "&isSysPage=false\" data-modallink=\"true\">Delete</a></span>"
                     + "</li>");
                 });
 
@@ -231,8 +231,8 @@ $(function () {
                 $.each(result.data, function (i, item) {
                     items.push("<li data-itemid='" + item.ItemID + "'>"
                         + "<span>" + item.ItemName + "</span>"
-                        + "<span>| <a data-href=\"" + editLink + "?itemId=" + item.ItemID + "\" data-modallink=\"true\">Edit</a>"
-                        + " | <a data-href=\"" + deleteLink + "?itemId=" + item.ItemID + "\" data-modallink=\"true\">Delete</a></span>"
+                        + "<span>| <a data-href=\"" + editLink + "?itemId=" + item.ItemID + "&isSysPage=true\" data-modallink=\"true\">Edit</a>"
+                        + " | <a data-href=\"" + deleteLink + "?itemId=" + item.ItemID + "&isSysPage=true\" data-modallink=\"true\">Delete</a></span>"
                     + "</li>");
                 });
 
@@ -286,7 +286,7 @@ $(function () {
 
         $("#editPage").data('href', $("#editPage").data("url") + "?pageId=" + dataItem.PageId);
         $("#delPage").data('href', $("#delPage").data("url") + "?pageId=" + dataItem.PageId);
-        $("#btnAddPageItem").data('href', $("#btnAddPageItem").data("url") + "?pageId=" + dataItem.PageId);
+        $("#btnAddPageItem").data('href', $("#btnAddPageItem").data("url") + "?pageId=" + dataItem.PageId + "&isSysPage=false");
         setDefaultButton($('#saveItemOrder'));
         setDefaultButton($('#saveSysItemOrder'));
 
@@ -298,9 +298,9 @@ $(function () {
         $("p#ddnSysRole").text(dataItem.RoleName || "");
         $('#sysPageId').val(dataItem.PageId);
 
-        $("#editSysPage").data('href', $("#editSysPage").data("url") + "?pageId=" + dataItem.PageId);
-        $("#delSysPage").data('href', $("#delSysPage").data("url") + "?pageId=" + dataItem.PageId);
-        $("#btnAddSysPageItem").data('href', $("#btnAddSysPageItem").data("url") + "?pageId=" + dataItem.PageId);
+        $("#editSysPage").data('href', $("#editSysPage").data("url") + "?pageId=" + dataItem.PageId );
+        $("#delSysPage").data('href', $("#delSysPage").data("url") + "?pageId=" + dataItem.PageId );
+        $("#btnAddSysPageItem").data('href', $("#btnAddSysPageItem").data("url") + "?pageId=" + dataItem.PageId + "&isSysPage=true");        
         setDefaultButton($('#saveItemOrder'));
         setDefaultButton($('#saveSysItemOrder'));
 

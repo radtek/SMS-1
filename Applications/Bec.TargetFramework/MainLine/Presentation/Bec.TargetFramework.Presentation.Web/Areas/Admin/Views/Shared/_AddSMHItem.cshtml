@@ -32,13 +32,16 @@
                                         @Html.TextBoxFor(m => m.ItemSelector, new { tabindex = "2", maxlength = 50 })
                                     </label>
                                 </section>
-                                <section>
-                                    <label class="label">Item belong to Tab id: (Eg. #tabId)</label>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50 })
-                                    </label>
-                                </section>
+                                @if (TempData["isSysPage"] != null && !((bool)TempData["isSysPage"]))
+                                {
+                                    <section>
+                                        <label class="label">Item belong to Tab id: (Eg. #tabId)</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                }                                
                                 <section>
                                     <label class="label">Description:</label>
                                     <label class="input">

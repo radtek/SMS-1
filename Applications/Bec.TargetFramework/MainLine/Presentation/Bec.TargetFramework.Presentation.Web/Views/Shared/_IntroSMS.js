@@ -29,8 +29,8 @@
                         $('[href=' + item.TabContainerId + ']').parent().addClass('active');
                         $(item.TabContainerId).addClass('active');
                         var containerId = $('[href=' + item.TabContainerId + ']').parent().parent().attr('id');
-                        $(containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
-                        $('.active', $(containerId).parent()).removeClass('active');
+                        $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
+                        $('.active', $('#' + containerId).parent()).removeClass('active');
                         $('[href=' + item.TabContainerId + ']').click();
                     }
                 },
