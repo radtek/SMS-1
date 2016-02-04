@@ -304,8 +304,6 @@
     <Content Include="Scripts\Libs\handlebars-v4.0.5.js" />
     <Content Include="Scripts\Libs\jquery.scrollTo.js" />
     <Content Include="Areas\Admin\Views\Messages\_Conversations.js" />
-    <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
-    <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
     <Content Include="Areas\BankAccount\Views\Account\Index.js" />
     <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.js" />
@@ -325,9 +323,7 @@
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
     <Content Include="Content\ajax\email-compose.html" />
     <Content Include="Content\ajax\email-opened.html" />
@@ -1011,12 +1007,10 @@
     <Content Include="sitemap.txt" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
-    <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Username.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Password.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_EmailLog.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\web.config" />
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Users\Registered.cshtml" />
@@ -1039,7 +1033,6 @@
       <DependentUpon>your_style.css</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
-    <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
@@ -1699,21 +1692,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\Libs\jquery-2.1.1.min.map" />
     <Content Include="Views\Shared\_Aside.cshtml" />
-    <Content Include="Views\Shared\_CurrentUser.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
-    <Content Include="Views\Shared\_Ribbon.cshtml" />
-    <Content Include="Views\Shared\_TermsAndConditions.cshtml" />
     <Content Include="Views\Shared\_Tiles.cshtml" />
     <Content Include="Views\Shared\_TopRight.cshtml" />
     <Content Include="Scripts\kendo\jquery.min.map" />

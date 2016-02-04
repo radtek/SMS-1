@@ -93,7 +93,6 @@
     <Compile Include="Mutators\BankAccountCheckNoMatchMutator.cs" />
     <Compile Include="Mutators\BankAccountMarkedAsPotentialFraudMutator.cs" />
     <Compile Include="Mutators\NewInternalMessagesMutator.cs" />
-    <Compile Include="Mutators\CreditAdjustmentMutator.cs" />
     <Compile Include="Mutators\BankAccountMarkedAsSafeMutator.cs" />
     <Compile Include="Mutators\BankAccountMarkedAsFraudSuspiciousMutator.cs" />
     <Compile Include="Mutators\ForgotPasswordMutator.cs" />

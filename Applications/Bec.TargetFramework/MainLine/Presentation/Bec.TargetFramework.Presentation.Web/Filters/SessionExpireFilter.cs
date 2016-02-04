@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Bec.TargetFramework.Entities;
+using System;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
-using Bec.TargetFramework.Entities;
-using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Presentation.Web.Filters
 {

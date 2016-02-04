@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
         public async Task<ActionResult> Index(Guid? selectedTransactionID, int? pageNumber)
         {
-                var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             await PrepareIndexTempData(selectedTransactionID, orgID, pageNumber);
 
             var select = ODataHelper.Select<VOrganisationWithStatusAndAdminDTO>(x => new { x.Name, x.OrganisationAdminSalutation, x.OrganisationAdminFirstName, x.OrganisationAdminLastName });
@@ -64,7 +64,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     TempData["rowNumber"] = await OrganisationClient.GetSmsTransactionRankAsync(orgID, selectedTransactionID.Value);
                     TempData["resetSort"] = true;
                 }
-            TempData["SmsTransactionID"] = selectedTransactionID;
+                TempData["SmsTransactionID"] = selectedTransactionID;
             }
             else
             {
@@ -230,7 +230,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 await EnsureSmsTransactionIsNotConfirmed(txID, uaoID, QueryClient);
                 var modelEmail = Request.Form["Model.UserAccountOrganisation.UserAccount.Email"];
                 await EnsureEmailNotInUse(modelEmail, uaoID, UserClient);
-                
+
                 var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
                 var data = Edit.fromD(Request.Form,
                     "Contact.Salutation",
@@ -268,7 +268,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 ViewBag.title = "Information";
                 ViewBag.message = "The PIN cannot be generated for that user. Most probably the user has already logged in to the system. Refresh the page and check the details again.";
                 ViewBag.button = "Close";
-                
+
                 return PartialView("_Message");
             }
 

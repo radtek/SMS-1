@@ -53,11 +53,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View("Denied");
         }
 
-        public ActionResult ViewCancel()
-        {
-            return PartialView("_Cancel");
-        }
-
         public async Task<ActionResult> CheckEmailProfessional(string email, Guid? uaoID)
         {
             var canEmailBeUsed = await UserClient.CanEmailBeUsedAsProfessionalAsync(email, uaoID);
