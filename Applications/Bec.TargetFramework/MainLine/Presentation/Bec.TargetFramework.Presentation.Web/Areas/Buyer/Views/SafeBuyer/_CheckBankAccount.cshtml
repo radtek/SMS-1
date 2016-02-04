@@ -15,7 +15,6 @@
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.Hidden("smsUserAccountOrganisationTransactionID", Model.SmsUserAccountOrganisationTransactionID)
-                        @Html.Hidden("orgID", Model.SmsTransaction.OrganisationID)
                         @Html.Hidden("index", (object)ViewBag.index)
                         <section class="col-xs-12">
                             <fieldset>

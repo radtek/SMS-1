@@ -116,7 +116,10 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID).ToDto();
+                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Single(x => 
+                    x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID &&
+                    x.OrganisationID == bankAccountStatusChangeRequest.RequestedByOrganisationID
+                    ).ToDto();
 
                 var currentStatus = EnumExtensions.GetEnumValue<BankAccountStatusEnum>(bankAccount.Status).Value;
                 if (bankAccountStatusChangeRequest.BankAccountStatus == currentStatus) return;

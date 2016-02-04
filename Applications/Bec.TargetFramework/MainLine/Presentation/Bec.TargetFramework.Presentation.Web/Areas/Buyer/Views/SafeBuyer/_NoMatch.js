@@ -10,6 +10,7 @@
             $('#continueButton').prop('disabled', true);
             ajaxWrapper({
                 url: $('#confirmDetails-form').data("url"),
+                data: $('#confirmDetails-form').serializeArray(),
                 method: "POST"
             }).done(function () {
                 showAudit();

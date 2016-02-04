@@ -191,6 +191,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID, int pageNumber)
         {
+            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);
             ViewBag.txId = txID;
             ViewBag.uaoId = uaoID;
             ViewBag.pageNumber = pageNumber;
@@ -278,6 +279,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return PartialView("_ViewGeneratePIN");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID, int pageNumber)
         {
             await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);

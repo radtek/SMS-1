@@ -63,12 +63,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddAdditionalBuyer(AddSmsClientDTO model)
         {
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             try
             {
-                var additionalBuyerUaoID = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email, model.PhoneNumber, model.BirthDate.Value);
+                var additionalBuyerUaoID = await orgClient.AddSmsClientAsync(model.Salutation, model.FirstName, model.LastName, model.Email, model.PhoneNumber, model.BirthDate.Value);
                 var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
                 {
                     UaoID = additionalBuyerUaoID,

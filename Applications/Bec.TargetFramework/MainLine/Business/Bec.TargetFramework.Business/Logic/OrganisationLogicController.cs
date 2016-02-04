@@ -514,7 +514,7 @@ namespace Bec.TargetFramework.Business.Logic
             return false;
         }
 
-        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
+        public async Task<Guid> AddSmsClient(string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
         {
             //add becky personal org & user
             UserAccountOrganisationDTO existingUaoDto = null;
@@ -619,7 +619,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             if (dto.BuyerUaoID == null)
             {
-                dto.BuyerUaoID = await AddSmsClient(orgID, uaoID, dto.Salutation, dto.FirstName, dto.LastName, dto.Email, dto.PhoneNumber, dto.BirthDate.Value);
+                dto.BuyerUaoID = await AddSmsClient(dto.Salutation, dto.FirstName, dto.LastName, dto.Email, dto.PhoneNumber, dto.BirthDate.Value);
             }
             var transactionId = await SaveSmsTransaction(dto.SmsTransactionDTO, orgID);
             var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO

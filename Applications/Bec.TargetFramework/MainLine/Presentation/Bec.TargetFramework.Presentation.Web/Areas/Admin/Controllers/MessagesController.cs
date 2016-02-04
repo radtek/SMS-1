@@ -104,7 +104,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 foreach (var file in item.Files)
                 {
-                    file.Link = Url.Action("DownloadFile", "Messages", new { area = "Admin", fileID = file.FileID });
+                    file.Link = Url.Action("DownloadFile", "Messages", new { area = "Admin", fileID = file.FileID, parentID = file.ParentID });
                 }
             }
 
@@ -358,10 +358,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return JObject.FromObject(new { Message = string.Format(message, filename), FileName = filename }).ToString();
         }
 
-        public async Task<object> DownloadFile(Guid fileID)
+        public async Task<object> DownloadFile(Guid fileID, Guid parentID)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var file = await FileClient.DownloadFileAsync(uaoId, fileID);
+
+            var select = ODataHelper.Select<NotificationDTO>(x => new { x.ConversationID });
+            var filter = ODataHelper.Filter<NotificationDTO>(x => x.NotificationID == parentID);
+            var message = (await QueryClient.QueryAsync<NotificationDTO>("Notifications", select + filter)).FirstOrDefault();
+
+            if (!await CanAccessConversation(message.ConversationID.Value)) return NotAuthorised();
+            var file = await FileClient.DownloadFileAsync(fileID, parentID);
             var ext = System.IO.Path.GetExtension(file.Name);
             return File(file.Data, file.Type, file.Name);
         }

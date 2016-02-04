@@ -232,15 +232,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ClearUnusedFiles(Guid uaoID);
 
-		/// <param name="uaoID"></param>
 		/// <param name="fileID"></param>
+		/// <param name="parentID"></param>
 		/// <returns></returns>
-		Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID);
+		Task<FileDTO> DownloadFileAsync(Guid fileID,Guid parentID);
 
-		/// <param name="uaoID"></param>
 		/// <param name="fileID"></param>
+		/// <param name="parentID"></param>
 		/// <returns></returns>
-		FileDTO DownloadFile(Guid uaoID,Guid fileID);
+		FileDTO DownloadFile(Guid fileID,Guid parentID);
 
 		/// <param name="uaoID"></param>
 		/// <param name="id"></param>
@@ -573,12 +573,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Byte[] RetrieveNotificationConstructData(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
 
 		/// <param name="notificationID"></param>
+		/// <param name="userID"></param>
 		/// <returns></returns>
-		Task MarkAcceptedAsync(Guid notificationID);
+		Task MarkAcceptedAsync(Guid notificationID,Guid userID);
 
 		/// <param name="notificationID"></param>
+		/// <param name="userID"></param>
 		/// <returns></returns>
-		void MarkAccepted(Guid notificationID);
+		void MarkAccepted(Guid notificationID,Guid userID);
 
 		/// <param name="eventStatusID"></param>
 		/// <param name="status"></param>
@@ -871,8 +873,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean CheckDuplicateUserSmsTransaction(Guid orgID,String email,SmsTransactionDTO dto);
 
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
 		/// <param name="salutation"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
@@ -880,10 +880,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="phoneNumber"></param>
 		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
+		Task<Guid> AddSmsClientAsync(String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
 
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
 		/// <param name="salutation"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
@@ -891,7 +889,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="phoneNumber"></param>
 		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
+		Guid AddSmsClient(String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
@@ -2239,24 +2237,24 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
 		/// <param name="fileID"></param>
+		/// <param name="parentID"></param>
 		/// <returns></returns>
-		public virtual Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID)
+		public virtual Task<FileDTO> DownloadFileAsync(Guid fileID,Guid parentID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user);
+			return PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?fileID=" + fileID + "&parentID=" + parentID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
 		/// <param name="fileID"></param>
-		public virtual FileDTO DownloadFile(Guid uaoID,Guid fileID)
+		/// <param name="parentID"></param>
+		public virtual FileDTO DownloadFile(Guid fileID,Guid parentID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?fileID=" + fileID + "&parentID=" + parentID, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -3094,21 +3092,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="notificationID"></param>
+		/// <param name="userID"></param>
 		/// <returns></returns>
-		public virtual Task MarkAcceptedAsync(Guid notificationID)
+		public virtual Task MarkAcceptedAsync(Guid notificationID,Guid userID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID, null, _user);
+			return PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID + "&userID=" + userID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="notificationID"></param>
-		public virtual void MarkAccepted(Guid notificationID)
+		/// <param name="userID"></param>
+		public virtual void MarkAccepted(Guid notificationID,Guid userID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID + "&userID=" + userID, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3799,8 +3799,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
 		/// <param name="salutation"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
@@ -3808,7 +3806,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="phoneNumber"></param>
 		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
+		public virtual Task<Guid> AddSmsClientAsync(String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
 		{
 			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
@@ -3816,21 +3814,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			email = email.UrlEncode();
 			phoneNumber = phoneNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user);
+			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
 		/// <param name="salutation"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
 		/// <param name="phoneNumber"></param>
 		/// <param name="birthDate"></param>
-		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
+		public virtual Guid AddSmsClient(String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
 		{
 			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
@@ -3838,7 +3834,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			email = email.UrlEncode();
 			phoneNumber = phoneNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
 		}
 
 		/// <summary>

@@ -203,7 +203,8 @@ namespace Bec.TargetFramework.Business.Logic
                     n.NotificationConstructID.Equals(organisationNotificationConstructID) &&
                     n.IsActive.Equals(true) &&
                     n.IsDeleted.Equals(false) &&
-                    n.NotificationConstructVersionNumber.Equals(versionNumber));
+                    n.NotificationConstructVersionNumber.Equals(versionNumber) &&
+                    n.Name != "Message");
 
                 dto = construct.ToDtoWithRelated(2);
             }
@@ -410,11 +411,11 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task MarkAcceptedAsync(Guid notificationID)
+        public async Task MarkAcceptedAsync(Guid notificationID, Guid userID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var nu in scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationInternalUnreads.Where(x => x.NotificationID == notificationID))
+                foreach (var nu in scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationInternalUnreads.Where(x => x.NotificationID == notificationID && x.UserID == userID))
                 {
                     var nr = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients.Single(x => x.NotificationRecipientID == nu.NotificationRecipientID);
                     nr.IsAccepted = true;

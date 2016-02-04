@@ -90,7 +90,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
             var canEditBirthDate = await CanEditBirthDate(uaoID);
 
-            ViewBag.orgID = model.SmsTransaction.OrganisationID;
             ViewBag.smsUserAccountOrganisationTransactionID = model.SmsUserAccountOrganisationTransactionID;
             ViewBag.canEditBirthDate = canEditBirthDate;
 
@@ -101,29 +100,32 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ConfirmDetails(SmsUserAccountOrganisationTransactionDTO dto, string accountNumber, string sortCode, Guid orgID)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ConfirmDetails(SmsUserAccountOrganisationTransactionDTO dto, string accountNumber, string sortCode)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await EnsureCanConfirmDetailsAndCheckBankAccount(dto.SmsUserAccountOrganisationTransactionID, uaoID, QueryClient);
+            var txOrgID = await EnsureCanConfirmDetailsAndCheckBankAccount(dto.SmsUserAccountOrganisationTransactionID, uaoID, QueryClient);
             //update tx
             dto = await OrganisationClient.UpdateSmsUserAccountOrganisationTransactionAsync(uaoID, accountNumber, sortCode, dto);
             //check bank account
-            var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, uaoID, dto.SmsUserAccountOrganisationTransactionID, accountNumber, sortCode);
+            var isMatch = await BankAccountClient.CheckBankAccountAsync(txOrgID, uaoID, dto.SmsUserAccountOrganisationTransactionID, accountNumber, sortCode);
             return Json(new { result = isMatch, data = dto, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CheckBankAccount(Guid orgID, Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CheckBankAccount(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await EnsureCanConfirmDetailsAndCheckBankAccount(smsUserAccountOrganisationTransactionID, uaoID, QueryClient);
+            var txOrgID = await EnsureCanConfirmDetailsAndCheckBankAccount(smsUserAccountOrganisationTransactionID, uaoID, QueryClient);
 
             //check bank account
-            var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, uaoID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
+            var isMatch = await BankAccountClient.CheckBankAccountAsync(txOrgID, uaoID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
             return Json(new { result = isMatch, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> NotifyOrganisationNoMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -132,12 +134,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        public async Task<ActionResult> GetAudit(Guid uaotxID, Guid orgID)
+        public async Task<ActionResult> GetAudit(Guid uaotxID)
         {
             //check for ownership via the uao
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
-            var aSelect = ODataHelper.Select<SmsBankAccountCheckDTO>(a => new { a.CheckedOn, a.IsMatch, a.BankAccountNumber, a.SortCode });
+            var aSelect = ODataHelper.Select<SmsBankAccountCheckDTO>(a => new { a.CheckedOn, a.IsMatch, a.BankAccountNumber, a.SortCode, a.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.SmsTransaction.OrganisationID });
             var aFilter = ODataHelper.Filter<SmsBankAccountCheckDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaotxID && x.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.UserAccountOrganisationID == uaoID);
 
             var r = new List<object>();
@@ -149,6 +151,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
                 if (res.IsMatch)
                 {
+                    var orgID = res.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.SmsTransaction.OrganisationID;
                     result = "warn";
                     var bSelect = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.IsActive, Status = x.OrganisationBankAccountStatus.Select(y => new { y.StatusChangedOn, y.StatusTypeValue.Name }) });
                     var bFilter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
@@ -291,9 +294,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             }
         }
 
-        internal static async Task EnsureCanConfirmDetailsAndCheckBankAccount(Guid uaoTxID, Guid uaoID, IQueryLogicClient queryClient)
+        internal static async Task<Guid> EnsureCanConfirmDetailsAndCheckBankAccount(Guid uaoTxID, Guid uaoID, IQueryLogicClient queryClient)
         {
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID, x.SmsTransaction.OrganisationID });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
                 x.UserAccountOrganisationID == uaoID && // uao has transaction
                 x.SmsUserAccountOrganisationTransactionID == uaoTxID &&
@@ -305,6 +308,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             {
                 throw new AccessViolationException("Operation failed");
             }
+            return model.SmsTransaction.OrganisationID;
         }
 
         public async Task<ActionResult> ViewDeclineProduct(Guid txID)
