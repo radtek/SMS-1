@@ -9,9 +9,6 @@
             }
         })
     }
-    $(document).ready(function () {
-        getCallout();
-    })
 
     function getStepCallouts(callouts) {
         var step = [];
@@ -70,5 +67,6 @@
         intro.start();
     }
 
-   
+    getCallout();
+
 });

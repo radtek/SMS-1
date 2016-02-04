@@ -144,6 +144,26 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 data.Add("ModifiedOn", DateTime.Now);
                 data.Add("ModifiedBy", WebUserHelper.GetWebUserObject(HttpContext).Email);
                 await queryClient.UpdateGraphAsync("Callouts", data, filter);
+
+                var selectCua = ODataHelper.Select<CalloutUserAccountDTO>(x => new
+                {
+                    x.CalloutUserAccountID
+                }, false);
+                var filterCuas = ODataHelper.Filter<CalloutUserAccountDTO>(x => x.CalloutID == calloutId);
+                var result = await queryClient.QueryAsync<CalloutUserAccountDTO>("CalloutUserAccounts", selectCua + filterCuas);
+                var allCuas = result.ToList();
+                if (allCuas != null && allCuas.Any())
+                {
+                    foreach (var item in allCuas)
+                    {
+                        var cuaId = item.CalloutUserAccountID;
+                        var filterCua = ODataHelper.Filter<CalloutUserAccountDTO>(x => x.CalloutUserAccountID == cuaId);
+                        data.RemoveAll();
+                        data.Add("Visible", "true");
+                        await queryClient.UpdateGraphAsync("CalloutUserAccounts", data, filterCua);
+                    }
+                }
+
                 TempData["CalloutId"] = calloutId;
                 TempData["pageNumber"] = pageNumber;
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
@@ -200,7 +220,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
                             var data = Edit.fromD(Request.Form);
                             data.Add("DisplayOrder", item.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0]);
-                            data.Add("ModifiedBy", WebUserHelper.GetWebUserObject(HttpContext).Email);
                             await queryClient.UpdateGraphAsync("Callouts", data, filter);
                         }
                     }
@@ -241,8 +260,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filter = ODataHelper.Filter<CalloutDTO>(x => x.CalloutID == calloutId);
             var data = Edit.fromD(Request.Form);
             data.Add("IsDeleted", "true");
-            data.Add("ModifiedOn", DateTime.Now);
             await queryClient.UpdateGraphAsync("Callouts", data, filter);
+
+            var selectCua = ODataHelper.Select<CalloutUserAccountDTO>(x => new
+            {
+                x.CalloutUserAccountID
+            }, false);
+            var filterCuas = ODataHelper.Filter<CalloutUserAccountDTO>(x => x.CalloutID == calloutId);
+            var result = await queryClient.QueryAsync<CalloutUserAccountDTO>("CalloutUserAccounts", selectCua + filterCuas);
+            var allCuas = result.ToList();
+            if (allCuas != null && allCuas.Any())
+            {
+                foreach (var item in allCuas)
+                {
+                    var cuaId = item.CalloutUserAccountID;
+                    var filterCua = ODataHelper.Filter<CalloutUserAccountDTO>(x => x.CalloutUserAccountID == cuaId);
+                    data.RemoveAll();
+                    data.Add("IsDeleted", "true");
+                    await queryClient.UpdateGraphAsync("CalloutUserAccounts", data, filterCua);
+                }
+            }
+
             return RedirectToAction("Index");
         }
 

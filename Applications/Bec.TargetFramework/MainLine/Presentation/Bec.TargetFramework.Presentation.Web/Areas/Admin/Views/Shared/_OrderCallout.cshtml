@@ -7,9 +7,9 @@
     <div class="modal-dialog">
         <style>
             #sortable {list-style-type: none;margin: 0;padding: 0;width: 99%;}
-            #sortable li {margin: 0 3px 3px 3px;padding: 0.4em;padding-left: 1.5em;font-size: 1.0em;}
+             #sortable li {margin: 0 3px 3px 3px;padding: 0.4em;padding-left: 1.5em;font-size: 1.0em; text-overflow: ellipsis;}
             #sortable li span {position: absolute;margin-left: -1.3em;}
-            #sortable li {background: ##E8E8E8;}
+            #sortable li {background: #E8E8E8;}
             #sortable li:nth-child(odd) {background: #D5E4E1;}
         </style>
         <div class="modal-content">
@@ -44,7 +44,7 @@
                 <button type="button" id="cancelOderCallout" class="btn btn-default" data-dismiss="modal">
                     Cancel
                 </button>
-                <button type="button" id="submitOrderCallout" class="btn btn-primary" tabindex="5" @(Model.Callouts == null || !Model.Callouts.Any() ? "disabled":"")>
+                <button type="button" id="submitOrderCallout" class="btn btn-primary" tabindex="5" @(Model.Callouts == null || !Model.Callouts.Any() ? "disabled" : "")>
                     Save
                 </button>
             </div>

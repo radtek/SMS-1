@@ -51,7 +51,7 @@
         form.submit();
     }
     makeDatePicker("#effectiveDateInput", {
-        minDate: new Date()
+        minDate: new Date(), yearRange: "-110:+1"
     }, {
         onSelect: function (date, inst) {
             var birthDateField = $('#EffectiveOn');

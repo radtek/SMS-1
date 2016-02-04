@@ -28,10 +28,15 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         {
             TempData["WelcomeMessage"] = TempData["JustRegistered"];
             TempData["JustRegistered"] = false;
+            var urlReferer = Request.UrlReferrer;
+            if (urlReferer != null && urlReferer.AbsoluteUri.ToLower().Contains("account/login"))
+            {
+                TempData["JustLoggined"] = 1;
+            }
 
             if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
             {
-                return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
+                return RedirectToAction("Index", "Transaction", new { area = "SmsTransaction" });
             }
             else if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
             {
@@ -112,7 +117,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
             }, false);
             var filterCua = ODataHelper.Filter<CalloutUserAccountDTO>(x =>
-                !x.IsDeleted && x.UserID == userID
+                !x.IsDeleted && x.UserID == userID && x.Visible != true
                );
             var allCuas = await QueryClient.QueryAsync<CalloutUserAccountDTO>("CalloutUserAccounts", selectCua + filterCua);
             var filteredCuas = allCuas.ToList();
@@ -140,7 +145,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
                 x.Description,
                 x.Selector,
                 x.EffectiveOn,
-                x.Position, 
+                x.Position,
                 x.RoleID,
                 x.CreatedOn
             }, false);
@@ -176,14 +181,39 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             {
                 foreach (var item in viewedCallouts)
                 {
-                    var calloutUserAccount = new CalloutUserAccountDTO();
-                    calloutUserAccount.CalloutUserAccountID = Guid.NewGuid();
-                    calloutUserAccount.CalloutID = item.CalloutID;
-                    calloutUserAccount.RoleID = item.RoleID;
-                    calloutUserAccount.IsDeleted = false;
-                    calloutUserAccount.CreatedOn = DateTime.Now;
-                    calloutUserAccount.UserID = userID;
-                    await calloutClient.CreateCalloutUserAccountAsync(calloutUserAccount);
+                    var coId = item.CalloutID;
+                    var selectExistedCuas = ODataHelper.Select<CalloutUserAccountDTO>(x => new
+                    {
+                        x.CalloutUserAccountID, x.CalloutID
+                    }, false);
+                    var filterExistedCuas = ODataHelper.Filter<CalloutUserAccountDTO>(x => x.CalloutID == coId && x.UserID == userID);
+                    var result = await QueryClient.QueryAsync<CalloutUserAccountDTO>("CalloutUserAccounts", selectExistedCuas + filterExistedCuas);
+                    var allExistedCuass = result.ToList();
+                    if (allExistedCuass != null && allExistedCuass.Any())
+                    {
+                        foreach (var element in allExistedCuass)
+                        {
+                            var cuaId = element.CalloutUserAccountID;
+                            var filterCuas = ODataHelper.Filter<CalloutUserAccountDTO>(x => x.CalloutUserAccountID == cuaId);
+                            var data = Edit.fromD(Request.Form);
+                            data.RemoveAll();
+                            data.Add("Visible", "false");
+                            await QueryClient.UpdateGraphAsync("CalloutUserAccounts", data, filterCuas);
+                        }
+                        
+                    }
+                    else
+                    {
+                        var calloutUserAccount = new CalloutUserAccountDTO();
+                        calloutUserAccount.CalloutUserAccountID = Guid.NewGuid();
+                        calloutUserAccount.CalloutID = item.CalloutID;
+                        calloutUserAccount.RoleID = item.RoleID;
+                        calloutUserAccount.IsDeleted = false;
+                        calloutUserAccount.CreatedOn = DateTime.Now;
+                        calloutUserAccount.UserID = userID;
+                        await calloutClient.CreateCalloutUserAccountAsync(calloutUserAccount);
+                    }
+                   
                 }
             }
 
@@ -194,7 +224,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public async Task<ActionResult> GetSmhItemOnPage(string pageUrl)
         {
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
-            var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);           
+            var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
@@ -206,6 +236,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
-        
+
     }
 }

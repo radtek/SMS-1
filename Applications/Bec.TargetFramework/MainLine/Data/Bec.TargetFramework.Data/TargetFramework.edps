@@ -1769,15 +1769,6 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
-      <Exclude Name="CalloutUserAccountID" Table="public.CalloutUserAccount" Type="Column" />
-      <Exclude Name="CalloutID" Table="public.CalloutUserAccount" Type="Column" />
-      <Exclude Name="RoleID" Table="public.CalloutUserAccount" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.CalloutUserAccount" Type="Column" />
-      <Exclude Name="CreatedOn" Table="public.CalloutUserAccount" Type="Column" />
-      <Exclude Name="UserID" Table="public.CalloutUserAccount" Type="Column" />
-      <Exclude Name="pkCalloutUserAccount" Table="public.CalloutUserAccount" Type="Constraint" />
-      <Exclude Name="CalloutUserAccount_Callout_fk" Table="public.CalloutUserAccount" Type="Constraint" />
-      <Exclude Name="CalloutUserAccount_UserType_fk" Table="public.CalloutUserAccount" Type="Constraint" />
       <Exclude Name="ConversationID" Table="public.Conversation" Type="Column" />
       <Exclude Name="Subject" Table="public.Conversation" Type="Column" />
       <Exclude Name="ActivityType" Table="public.Conversation" Type="Column" />
@@ -1939,7 +1930,6 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="CalloutUserAccount_fk" Table="public.CalloutUserAccount" Type="Constraint" />
       <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
       <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />

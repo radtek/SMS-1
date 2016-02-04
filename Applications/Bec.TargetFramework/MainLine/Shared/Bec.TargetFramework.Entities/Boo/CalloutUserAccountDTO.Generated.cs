@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public CalloutUserAccountDTO() {
         }
 
-        public CalloutUserAccountDTO(global::System.Guid calloutUserAccountID, global::System.Guid calloutID, global::System.Guid roleID, bool isDeleted, global::System.DateTime createdOn, global::System.Guid userID, CalloutDTO callout, RoleDTO role, UserAccountDTO userAccount) {
+        public CalloutUserAccountDTO(global::System.Guid calloutUserAccountID, global::System.Guid calloutID, global::System.Guid roleID, bool isDeleted, global::System.DateTime createdOn, global::System.Guid userID, global::System.Nullable<bool> visible, CalloutDTO callout, RoleDTO role, UserAccountDTO userAccount) {
 
           this.CalloutUserAccountID = calloutUserAccountID;
           this.CalloutID = calloutID;
@@ -30,6 +30,7 @@ namespace Bec.TargetFramework.Entities
           this.IsDeleted = isDeleted;
           this.CreatedOn = createdOn;
           this.UserID = userID;
+          this.Visible = visible;
           this.Callout = callout;
           this.Role = role;
           this.UserAccount = userAccount;
@@ -56,6 +57,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Guid UserID { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<bool> Visible { get; set; }
 
         #endregion
 

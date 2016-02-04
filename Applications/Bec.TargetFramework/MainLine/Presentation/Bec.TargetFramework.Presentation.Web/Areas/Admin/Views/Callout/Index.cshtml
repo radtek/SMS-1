@@ -1,18 +1,19 @@
 ﻿<!-- MAIN CONTENT -->
 @{
     var roleId = default(Guid);
-    Guid.TryParse(Convert.ToString(TempData["calloutRoleId"]),out roleId);
+    Guid.TryParse(Convert.ToString(TempData["calloutRoleId"]), out roleId);
 }
 <div id="content">
     <div class="row">
-        <div class="col-sm-7 col-lg-8">
+        <div class="col-sm-5 col-lg-6">
             <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-user margin-right-10"></i>View Callouts</h2>
             <a data-href="@Url.Action("ViewAddCallout", "Callout", new { area  = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Callout</a>
         </div>
-        <div class="col-sm-5 col-lg-4">
-            <div class="input-group margin-top-15 margin-bottom-5 ">
-                @Html.DropDownListFor(m => roleId, new SelectList(ViewBag.roles, "Value", "Text", roleId), "Select role", new { tabindex = "1", @class = "form-control", id = "roleDropdown", style = "width:200px; margin-top:-3px; margin-right:5px" })
-                <a id="viewCalloutOrder" data-href="@(roleId != null && roleId != default(Guid) ? Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin", RoleId = roleId }) : "")" @(roleId != null && roleId != default(Guid) ? "" : "disabled")  data-url="@Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>View Callout Order</a>
+        <div class="col-sm-7 col-lg-6">
+            <div class="input-group margin-top-15 margin-bottom-5" style="float:right;">
+                <a id="viewCalloutOrder" data-href="@(roleId != null && roleId != default(Guid) ? Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin", RoleId = roleId }) : "")" @(roleId != null && roleId != default(Guid) ? "" : "disabled") data-url="@Url.Action("ViewCalloutOrder", "Callout", new { area = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true" style="float:right"><i class="fa fa-plus margin-right-5"></i>View Callout Order</a>
+                @Html.DropDownListFor(m => roleId, new SelectList(ViewBag.roles, "Value", "Text", roleId), "Please select", new { tabindex = "1", @class = "form-control", id = "roleDropdown", style = "width:200px; margin-top:-3px; margin-right:5px; float:right" })
+                <label for="roleDropdown" style="float:right;color:#808080; margin-right:5px; margin-top:5px">User Role</label>
             </div>
         </div>
     </div>
@@ -45,6 +46,8 @@
                                     <dd><p id="ddnTitle"></p></dd>
                                     <dt>Role:</dt>
                                     <dd><p id="ddnRole"></p></dd>
+                                    <dt>Selector:</dt>
+                                    <dd><p id="ddnSelector"></p></dd>
                                     <dt>Position:</dt>
                                     <dd><p id="ddnPosition" style="text-transform: capitalize"></p></dd>
                                     <dt>Effective On:</dt>

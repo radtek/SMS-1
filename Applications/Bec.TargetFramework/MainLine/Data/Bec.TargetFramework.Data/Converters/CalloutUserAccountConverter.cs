@@ -35,6 +35,7 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.CreatedOn = source.CreatedOn;
             target.UserID = source.UserID;
+            target.Visible = source.Visible;
 
             // Navigation Properties
             if (level > 0) {
@@ -63,6 +64,7 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.CreatedOn = source.CreatedOn;
             target.UserID = source.UserID;
+            target.Visible = source.Visible;
 
             // User-defined partial method
             OnEntityCreating(source, target);

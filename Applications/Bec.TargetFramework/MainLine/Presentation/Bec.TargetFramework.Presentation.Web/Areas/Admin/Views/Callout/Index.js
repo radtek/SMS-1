@@ -1,54 +1,54 @@
 ﻿var callGrid
 $(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-     callGrid = new gridItem(
-        {
-            gridElementId: 'callGrid',
-            url: $('#callGrid').data("url"),
-            schema: { data: "Items", total: "Count", model: { id: "CalloutID" } },
-            type: 'odata-v4',
-            serverSorting: true,
-            serverPaging: true,
-            defaultSort: [{ field: 'Role.RoleName', dir: 'asc' }, { field: 'DisplayOrder', dir: 'asc' }],
-            panels: ['nPanel'],
-            change: nChange,
-            jumpToId: $('#callGrid').data("jumpto"),
-            jumpToPage: $('#callGrid').data("jumptopage"),
-            searchElementId: 'gridSearchInput',
-            searchButtonId: 'gridSearchButton',
-            extraParameters: function () {
-                return "&calloutRoleId=" + $('#roleDropdown').val()
-            },
-            columns: [
-                    {
-                        field: "CalloutID",
-                        hidden: true,
-                    },
-                    {
-                        field: "Role.RoleName",
-                        title: "Role"
-                    },
-                    {
-                        field: "Title",
-                        title: "Title"
-                    },
-                    {
-                        field: "EffectiveOn",
-                        title: "Effective Date",
-                        template: function (dataItem) { return dateString(dataItem.EffectiveOn); }
-                    },
-                    {
-                        field: "CreatedOn",
-                        title: "Created On",
-                        template: function (dataItem) { return dateString(dataItem.CreatedOn); }
-                    },
-                    {
-                        field: "ModifiedOn",
-                        title: "Modified On",
-                        template: function (dataItem) { if (dataItem.ModifiedOn != null) return dateString(dataItem.ModifiedOn); else return ""; }
-                    }
-            ]
-        });
+    callGrid = new gridItem(
+       {
+           gridElementId: 'callGrid',
+           url: $('#callGrid').data("url"),
+           schema: { data: "Items", total: "Count", model: { id: "CalloutID" } },
+           type: 'odata-v4',
+           serverSorting: true,
+           serverPaging: true,
+           defaultSort: [{ field: 'Role.RoleName', dir: 'asc' }, { field: 'DisplayOrder', dir: 'asc' }],
+           panels: ['nPanel'],
+           change: nChange,
+           jumpToId: $('#callGrid').data("jumpto"),
+           jumpToPage: $('#callGrid').data("jumptopage"),
+           searchElementId: 'gridSearchInput',
+           searchButtonId: 'gridSearchButton',
+           extraParameters: function () {
+               return "&calloutRoleId=" + $('#roleDropdown').val()
+           },
+           columns: [
+                   {
+                       field: "CalloutID",
+                       hidden: true,
+                   },
+                   {
+                       field: "Role.RoleName",
+                       title: "Role"
+                   },
+                   {
+                       field: "Title",
+                       title: "Title"
+                   },
+                   {
+                       field: "EffectiveOn",
+                       title: "Effective Date",
+                       template: function (dataItem) { return dateStringNoTime(dataItem.EffectiveOn); }
+                   },
+                   {
+                       field: "CreatedOn",
+                       title: "Created On",
+                       template: function (dataItem) { return dateString(dataItem.CreatedOn); }
+                   },
+                   {
+                       field: "ModifiedOn",
+                       title: "Modified On",
+                       template: function (dataItem) { if (dataItem.ModifiedOn != null) return dateString(dataItem.ModifiedOn); else return ""; }
+                   }
+           ]
+       });
 
     var hisGrid = new gridItem(
         {
@@ -105,11 +105,12 @@ $(function () {
 function nChange(dataItem) {
     $("p#ddnTitle").text(dataItem.Title || "");
     $("p#ddnRole").text(dataItem.Role.RoleName);
+    $("p#ddnSelector").text(dataItem.Selector);
     $("p#ddnPosition").text(getPosition(dataItem.Position));
     $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
-    $("p#ddnEffectiveOn").text(dateString(dataItem.EffectiveOn) || "");
+    $("p#ddnEffectiveOn").text(dateStringNoTime(dataItem.EffectiveOn) || "");
     $("p#ddnCreatedBy").text(dataItem.CreatedBy || "");
-    $("p#ddnModifiedOn").text(dateString(dataItem.ModifiedOn) || "");
+    $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? dateString(dataItem.ModifiedOn) : "");
     $("p#ddnModifiedBy").text(dataItem.ModifiedBy || "");
     $("div#ddnDescription").text(dataItem.Description || "");
     $("#editButtonCallout").data('href', $("#editButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + callGrid.grid.dataSource.page());

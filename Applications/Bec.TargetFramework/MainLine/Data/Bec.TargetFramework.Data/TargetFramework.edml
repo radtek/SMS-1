@@ -10118,6 +10118,7 @@
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="uuid" Nullable="false" />
+          <Property Name="Visible" Type="boolean" DefaultValue="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -25480,7 +25481,7 @@
           <NavigationProperty Name="ActorClaimRoleMappings" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Role" FromRole="Role" ToRole="ActorClaimRoleMappings" ed:Guid="b7871133-2654-4a69-8524-685d07076476" />
           <NavigationProperty Name="Callouts" Relationship="Bec.TargetFramework.Data.Callout_Role_fk" FromRole="Role" ToRole="Callouts" ed:Guid="6b5b4c90-c24a-49ff-94ba-98674bc7a5cd" />
           <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="Role" ToRole="CalloutUserAccounts" ed:Guid="d4acf0b1-5bd8-4808-a5a4-294bf7cee436" />
-          <NavigationProperty Name="SMHPages" Relationship="Bec.TargetFramework.Data.SMHPage_Role_fk" FromRole="Role" ToRole="SMHPages" ed:Guid="d52bef80-afa7-4c3d-a83e-bc48936ab4ea" />
+          <NavigationProperty Name="SMHPages" Relationship="Bec.TargetFramework.Data.SMHPage_Role_fk" FromRole="Role" ToRole="SMHPages" ed:Guid="f4bd1ed9-bba9-4875-bdb6-d0fbcb73b12a" />
         </EntityType>
         <EntityType Name="ArtefactNotificationConstructTemplate" ed:Guid="e750caa7-7e55-4341-997e-0781986ad75e">
           <Key>
@@ -29613,7 +29614,7 @@
           <Property Name="PageURL" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="a260ed70-20de-4ff8-be7e-144fba988047" />
           <Property Name="RoleId" Type="Guid" ed:ValidateRequired="False" ed:Guid="d12e7a11-e2f3-4f33-b75f-ac6582a94a4f" />
           <NavigationProperty Name="SMHItems" Relationship="Bec.TargetFramework.Data.fk_SMHItem_SMHPage" FromRole="SMHPage" ToRole="SMHItems" ed:Guid="e288d868-91c1-47fb-9e9d-f5f23afc303c" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.SMHPage_Role_fk" FromRole="SMHPages" ToRole="Role" ed:Guid="e06a3ed6-f3b2-4a66-92b2-fe3733cd0314" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.SMHPage_Role_fk" FromRole="SMHPages" ToRole="Role" ed:Guid="e892be61-058d-4410-a6b3-3238027f203c" />
         </EntityType>
         <EntityType Name="SMHItem" ed:Guid="e2f38093-9b8b-413e-9a41-5f57dc7d6151">
           <Key>
@@ -29660,6 +29661,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="8d1dbc47-eb99-4728-b30b-bd014d4e6160" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="7af3dc3e-2d24-4d6b-bc49-2626ecb5927a" />
           <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b3452ea6-5856-4d62-b6a1-e575d5a0faf6" />
+          <Property Name="Visible" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="4a498f46-b158-43a5-893e-052cc9ea108d" />
           <NavigationProperty Name="Callout" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk" FromRole="CalloutUserAccounts" ToRole="Callout" ed:Guid="05d4441c-92b6-4f05-87b6-24b7d2966728" />
           <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="CalloutUserAccounts" ToRole="Role" ed:Guid="1cc9e95f-6b0d-4396-bfeb-da93fcdaf002" />
           <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_fk" FromRole="CalloutUserAccounts" ToRole="UserAccount" ed:Guid="366e67aa-6427-40ac-a4a5-7f4b1f5e1ddc" />
@@ -37613,7 +37615,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="SMHPage_Role_fk" ed:Guid="5ccbb22a-6753-4e64-9e00-52071813f0e0">
+        <Association Name="SMHPage_Role_fk" ed:Guid="6ebebcc4-aabb-4af6-b188-02e59bbece49">
           <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
           <End Role="SMHPages" Type="Bec.TargetFramework.Data.SMHPage" Multiplicity="*" />
           <ReferentialConstraint>
@@ -44518,6 +44520,7 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

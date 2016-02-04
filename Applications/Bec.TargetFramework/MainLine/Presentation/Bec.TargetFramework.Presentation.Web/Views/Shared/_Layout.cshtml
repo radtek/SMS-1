@@ -33,7 +33,7 @@
 
     <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/kendo.metro.min.css" rel="stylesheet" />
-    
+
 
     <!-- Startup image for web apps -->
     <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
@@ -64,8 +64,11 @@
 
     @Html.Partial("_Toastr")
     <!--smart admin is a bit poor and must live at the end of the body element-->
-    @Scripts.Render("~/bundles/scripts/smartadmin")                
+    @Scripts.Render("~/bundles/scripts/smartadmin")
     <script async src="@Scripts.Url("~/Scripts/Shared/_IntroSms")"></script>
-    @Scripts.Render("~/Scripts/Admin/Callout/RenderCallout")
+    @if (Convert.ToInt16(TempData["JustLoggined"]) == 1)
+    {
+        @Scripts.Render("~/Scripts/Admin/Callout/RenderCallout")
+    }
 </body>
 </html>

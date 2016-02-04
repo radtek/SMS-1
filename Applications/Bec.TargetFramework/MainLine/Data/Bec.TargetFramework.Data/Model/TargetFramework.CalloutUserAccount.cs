@@ -24,6 +24,7 @@ namespace Bec.TargetFramework.Data
         public CalloutUserAccount()
         {
           this.IsDeleted = false;
+          this.Visible = false;
         }
 
         #region Properties
@@ -82,6 +83,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for UserID in the schema.
         /// </summary>
         public virtual global::System.Guid UserID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Visible in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<bool> Visible
         {
             get;
             set;
