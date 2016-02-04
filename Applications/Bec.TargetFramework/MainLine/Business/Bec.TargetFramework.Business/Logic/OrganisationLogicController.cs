@@ -977,7 +977,11 @@ namespace Bec.TargetFramework.Business.Logic
                 adminUaoContact.ModifiedOn = modifiedOn;
 
                 var cReg = orgContact.ContactRegulators.FirstOrDefault();
-                if (cReg != null) cReg.RegulatorNumber = dto.RegulatorNumber;
+                if (cReg != null)
+                {
+                    cReg.RegulatorName = dto.RegulatorName;
+                    cReg.RegulatorNumber = dto.RegulatorNumber;
+                }
                 
                 await scope.SaveChangesAsync();
             }

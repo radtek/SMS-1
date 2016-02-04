@@ -78,6 +78,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 OrganisationID = orgId,
                 SroUaoID = org.UserAccountOrganisationID,
                 OrganisationName = org.Name,
+                RegulatorName = org.Regulator,
                 RegulatorNumber = org.RegulatorNumber,
                 SroSalutation = org.OrganisationAdminSalutation,
                 SroFirstName = org.OrganisationAdminFirstName,
