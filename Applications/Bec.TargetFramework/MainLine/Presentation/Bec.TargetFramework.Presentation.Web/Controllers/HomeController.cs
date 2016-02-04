@@ -1,7 +1,6 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Settings;
-using Bec.TargetFramework.Business.Client.Interfaces;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 

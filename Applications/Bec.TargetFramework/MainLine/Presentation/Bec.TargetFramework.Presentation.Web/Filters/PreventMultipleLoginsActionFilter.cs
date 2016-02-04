@@ -1,13 +1,12 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Entities;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Filters
 {
-    using Bec.TargetFramework.Business.Client.Interfaces;
-    using Bec.TargetFramework.Entities;
-
     public class PreventMultipleLoginsActionFilter : ActionFilterAttribute
     {
         //This stores the time between Requests (in seconds)
