@@ -22,7 +22,7 @@
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.OrganisationID)
-                            @Html.HiddenFor(m => m.SroUaoID)
+                            @Html.HiddenFor(m => m.UaoID)
 
                             @if (Model.OrganisationType == "Professional Organisation")
                             {
@@ -88,7 +88,7 @@
                                         <section class="col col-sm-4">
                                             <label class="label">Title</label>
                                             <label class="select">
-                                                @Html.DropDownListFor(m => m.SroSalutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = 6 })
+                                                @Html.DropDownListFor(m => m.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = 6 })
                                                 <i></i>
                                             </label>
                                         </section>
@@ -96,14 +96,14 @@
                                             <label class="label">First Name</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                @Html.TextBoxFor(m => m.SroFirstName, new { tabindex = 7, maxlength = 50 })
+                                                @Html.TextBoxFor(m => m.FirstName, new { tabindex = 7, maxlength = 50 })
                                             </label>
                                         </section>
                                         <section class="col col-sm-4">
                                             <label class="label">Last Name</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                @Html.TextBoxFor(m => m.SroLastName, new { tabindex = 8, maxlength = 50 })
+                                                @Html.TextBoxFor(m => m.LastName, new { tabindex = 8, maxlength = 50 })
                                             </label>
                                         </section>
                                     </div>
@@ -112,7 +112,7 @@
                                             <label class="label">Email</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                @Html.TextBoxFor(m => m.SroEmail, new { tabindex = 9, maxlength = 100, type = "email", data_url = Url.Action("CheckEmailProfessional", "App", new { Area = "", uaoID = Model.SroUaoID }) })
+                                                @Html.TextBoxFor(m => m.Email, new { tabindex = 9, maxlength = 100, type = "email", data_url = Url.Action("CheckEmailProfessional", "App", new { Area = "", uaoID = Model.UaoID }) })
                                             </label>
                                         </section>
                                     </div>

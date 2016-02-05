@@ -76,14 +76,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var dto = new VerifyCompanyDTO
             {
                 OrganisationID = orgId,
-                SroUaoID = org.UserAccountOrganisationID,
+                UaoID = org.UserAccountOrganisationID,
                 OrganisationName = org.Name,
                 RegulatorName = org.Regulator,
                 RegulatorNumber = org.RegulatorNumber,
-                SroSalutation = org.OrganisationAdminSalutation,
-                SroFirstName = org.OrganisationAdminFirstName,
-                SroLastName = org.OrganisationAdminLastName,
-                SroEmail = org.OrganisationAdminEmail,
+                Salutation = org.OrganisationAdminSalutation,
+                FirstName = org.OrganisationAdminFirstName,
+                LastName = org.OrganisationAdminLastName,
+                Email = org.OrganisationAdminEmail,
                 OrganisationType = org.OrganisationTypeDescription
             };
             return PartialView("_Verify", dto);
@@ -93,7 +93,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Verify(VerifyCompanyDTO dto)
         {
-            await EnsureSroUaoIsInOrg(dto.SroUaoID, dto.OrganisationID, queryClient);
+            await EnsureSroUaoIsInOrg(dto.UaoID, dto.OrganisationID, queryClient);
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(dto.OrganisationID, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, dto.PhoneNumber);
             await OrganisationClient.VerifyOrganisationAsync(dto);
