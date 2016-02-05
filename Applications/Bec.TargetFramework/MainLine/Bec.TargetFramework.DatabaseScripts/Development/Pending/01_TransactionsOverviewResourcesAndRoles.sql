@@ -81,7 +81,6 @@ BEGIN
 	from "DefaultOrganisationUserTargetTemplate"
 	where "DefaultOrganisationTemplateID" = DoTemplateID and "DefaultOrganisationTemplateVersionNumber" = DoVersionNumber;
 
-	 ROLE
 	INSERT INTO 
 	  public."DefaultOrganisationRole"
 	(
