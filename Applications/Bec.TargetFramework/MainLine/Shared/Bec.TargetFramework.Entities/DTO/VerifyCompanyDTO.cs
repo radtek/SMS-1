@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bec.TargetFramework.Entities.Enums;
+using System;
 using System.Runtime.Serialization;
 
 namespace Bec.TargetFramework.Entities
@@ -9,7 +10,7 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public Guid OrganisationID { get; set; }
         [DataMember]
-        public Guid SroUaoID { get; set; }
+        public Guid UaoID { get; set; }
         [DataMember]
         public string PhoneNumber { get; set; }
         [DataMember]
@@ -21,13 +22,13 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string RegulatorNumber { get; set; }
         [DataMember]
-        public string SroSalutation { get; set; }
+        public string Salutation { get; set; }
         [DataMember]
-        public string SroFirstName { get; set; }
+        public string FirstName { get; set; }
         [DataMember]
-        public string SroLastName { get; set; }
+        public string LastName { get; set; }
         [DataMember]
-        public string SroEmail { get; set; }
+        public string Email { get; set; }
         public string OrganisationType { get; set; }
     }
 }

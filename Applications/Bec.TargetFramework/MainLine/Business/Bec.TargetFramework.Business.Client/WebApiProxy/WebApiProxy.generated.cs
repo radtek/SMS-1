@@ -982,10 +982,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
 
 		/// <returns></returns>
-		Task VerifyOrganisationAsync(VerifyCompanyDTO dto);
+		Task UpdateOrganisationDetailsAsync(VerifyCompanyDTO dto);
 
 		/// <returns></returns>
-		void VerifyOrganisation(VerifyCompanyDTO dto);
+		void UpdateOrganisationDetails(VerifyCompanyDTO dto);
 
 		/// <param name="orgID"></param>
 		/// <param name="txID"></param>
@@ -4039,19 +4039,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task VerifyOrganisationAsync(VerifyCompanyDTO dto)
+		public virtual Task UpdateOrganisationDetailsAsync(VerifyCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/VerifyOrganisation", dto, _user);
+			return PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/UpdateOrganisationDetails", dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void VerifyOrganisation(VerifyCompanyDTO dto)
+		public virtual void UpdateOrganisationDetails(VerifyCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/VerifyOrganisation", dto, _user)).Wait();
+			Task.Run(() => PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/UpdateOrganisationDetails", dto, _user)).Wait();
 		}
 
 		/// <summary>

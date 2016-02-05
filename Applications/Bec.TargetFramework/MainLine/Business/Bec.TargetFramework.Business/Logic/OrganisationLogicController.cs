@@ -937,41 +937,51 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task VerifyOrganisation(VerifyCompanyDTO dto)
+        public async Task UpdateOrganisationDetails(VerifyCompanyDTO dto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var adminUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccountOrganisationID == dto.SroUaoID);
+                var adminUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccountOrganisationID == dto.UaoID);
                 Ensure.That(adminUao).IsNotNull();
                 Ensure.That(adminUao.OrganisationID).Is(dto.OrganisationID);
+
+                var org = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == dto.OrganisationID);
+                // update the details of professional organisation only (Ana)
+                if ((OrganisationTypeEnum)org.OrganisationTypeID != OrganisationTypeEnum.Professional)
+                {
+                    return;
+                }
+
+                if (ShouldChangeEmailOnVerification(adminUao, dto))
+                {
+                    await UserLogic.ChangeUsernameAndEmail(adminUao.UserAccountOrganisationID, dto.Email);
+                }
 
                 var modifiedBy = UserNameService.UserName;
                 var modifiedOn = DateTime.Now;
 
-                await UserLogic.ChangeUsernameAndEmail(adminUao.UserAccountOrganisationID, dto.SroEmail);
-                var org = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == dto.OrganisationID);
                 org.FilesPerMonth = dto.FilesPerMonth ?? 0;
                 org.ModifiedBy = modifiedBy;
                 org.ModifiedOn = modifiedOn;
 
                 var detail = org.OrganisationDetails.FirstOrDefault();
                 if (detail != null) detail.Name = dto.OrganisationName;
-                
+
                 var orgContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.SingleOrDefault(c => c.ParentID == dto.OrganisationID && c.IsPrimaryContact);
                 Ensure.That(orgContact).IsNotNull();
-                orgContact.Salutation = dto.SroSalutation;
-                orgContact.FirstName = dto.SroFirstName;
-                orgContact.LastName = dto.SroLastName;
-                orgContact.EmailAddress1 = dto.SroEmail;
+                orgContact.Salutation = dto.Salutation;
+                orgContact.FirstName = dto.FirstName;
+                orgContact.LastName = dto.LastName;
+                orgContact.EmailAddress1 = dto.Email;
                 orgContact.ModifiedBy = modifiedBy;
                 orgContact.ModifiedOn = modifiedOn;
 
-                var adminUaoContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.SingleOrDefault(c => c.ParentID == dto.SroUaoID);
+                var adminUaoContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.SingleOrDefault(c => c.ParentID == dto.UaoID);
                 Ensure.That(adminUaoContact).IsNotNull();
-                adminUaoContact.Salutation = dto.SroSalutation;
-                adminUaoContact.FirstName = dto.SroFirstName;
-                adminUaoContact.LastName = dto.SroLastName;
-                adminUaoContact.EmailAddress1 = dto.SroEmail;
+                adminUaoContact.Salutation = dto.Salutation;
+                adminUaoContact.FirstName = dto.FirstName;
+                adminUaoContact.LastName = dto.LastName;
+                adminUaoContact.EmailAddress1 = dto.Email;
                 adminUaoContact.ModifiedBy = modifiedBy;
                 adminUaoContact.ModifiedOn = modifiedOn;
 
@@ -984,6 +994,11 @@ namespace Bec.TargetFramework.Business.Logic
                 
                 await scope.SaveChangesAsync();
             }
+        }
+
+        private bool ShouldChangeEmailOnVerification(UserAccountOrganisation uao, VerifyCompanyDTO dto)
+        {
+            return !string.IsNullOrWhiteSpace(dto.Email) && !uao.UserAccount.Email.Equals(dto.Email);
         }
 
         public int GetSmsTransactionRank(Guid orgID, Guid txID)
