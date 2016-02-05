@@ -96,7 +96,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             await EnsureSroUaoIsInOrg(dto.UaoID, dto.OrganisationID, queryClient);
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(dto.OrganisationID, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, dto.PhoneNumber);
-            await OrganisationClient.VerifyOrganisationAsync(dto);
+            await OrganisationClient.UpdateOrganisationDetailsAsync(dto);
 
             TempData["VerifiedCompanyId"] = dto.OrganisationID;
             TempData["tabIndex"] = 1;

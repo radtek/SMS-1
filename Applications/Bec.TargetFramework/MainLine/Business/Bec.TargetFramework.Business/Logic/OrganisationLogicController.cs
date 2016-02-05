@@ -938,7 +938,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task VerifyOrganisation(VerifyCompanyDTO dto)
+        public async Task UpdateOrganisationDetails(VerifyCompanyDTO dto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -946,22 +946,28 @@ namespace Bec.TargetFramework.Business.Logic
                 Ensure.That(adminUao).IsNotNull();
                 Ensure.That(adminUao.OrganisationID).Is(dto.OrganisationID);
 
-                var modifiedBy = UserNameService.UserName;
-                var modifiedOn = DateTime.Now;
+                var org = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == dto.OrganisationID);
+                // update the details of professional organisation only (Ana)
+                if ((OrganisationTypeEnum)org.OrganisationTypeID != OrganisationTypeEnum.Professional)
+                {
+                    return;
+                }
 
                 if (ShouldChangeEmailOnVerification(adminUao, dto))
                 {
                     await UserLogic.ChangeUsernameAndEmail(adminUao.UserAccountOrganisationID, dto.Email);
                 }
 
-                var org = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == dto.OrganisationID);
+                var modifiedBy = UserNameService.UserName;
+                var modifiedOn = DateTime.Now;
+
                 org.FilesPerMonth = dto.FilesPerMonth ?? 0;
                 org.ModifiedBy = modifiedBy;
                 org.ModifiedOn = modifiedOn;
 
                 var detail = org.OrganisationDetails.FirstOrDefault();
                 if (detail != null) detail.Name = dto.OrganisationName;
-                
+
                 var orgContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.SingleOrDefault(c => c.ParentID == dto.OrganisationID && c.IsPrimaryContact);
                 Ensure.That(orgContact).IsNotNull();
                 orgContact.Salutation = dto.Salutation;
