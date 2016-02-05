@@ -142,7 +142,7 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     if (item.OrganisationRecommendationSourceID.HasValue)
                         item.Referrer = ((OrganisationRecommendationSource)item.OrganisationRecommendationSourceID.Value).GetStringValue();
-                    item.TradingNames = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationTradingNames.Where(x => x.OrganisationID == item.OrganisationID).Select(x => x.Name).ToList();
+                    fix- item.TradingNames = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationTradingNames.Where(x => x.OrganisationID == item.OrganisationID).Select(x => x.Name).ToList();
                     if (item.BrokerType.HasValue) item.BrokerTypeDescription = ((BrokerTypeEnum)item.BrokerType).GetStringValue();
                     if (item.BrokerBusinessType.HasValue) item.BrokerBusinessTypeDescription = ((BrokerBusinessTypeEnum)item.BrokerBusinessType).GetStringValue();
                     }
@@ -387,14 +387,13 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (dto.OrganisationType == OrganisationTypeEnum.Lender)
                 {
-                    foreach (var tn in dto.TradingNames.Where(x => !string.IsNullOrWhiteSpace(x)))
+                    foreach (var tn in dto.TradingNames.Concat(new string[] { dto.CompanyName }).Where(x => !string.IsNullOrWhiteSpace(x)))
                     {
-                        scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationTradingNames.Add(
-                            new OrganisationTradingName
-                            {
-                                OrganisationID = organisationID.Value,
-                                Name = tn
-                            });
+                        var lender = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.FirstOrDefault(x => x.Name == tn);
+                        if (lender == null)
+                            scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.Add(new Lender { LenderID = Guid.NewGuid(), Name = tn, OrganisationID = organisationID.Value });
+                        else
+                            lender.OrganisationID = organisationID.Value;
                     }
                 }
                 else

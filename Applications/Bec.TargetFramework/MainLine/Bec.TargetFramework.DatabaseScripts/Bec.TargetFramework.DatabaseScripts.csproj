@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Development\lender-mapping\lender-mapping.sql" />
     <Content Include="Development\ProductPurchaseChange\01_SchemaChange.sql" />
     <None Include="Development\ProductPurchaseChange\02_ProductAdvisedNotification.sql" />
     <None Include="Development\ProductPurchaseChange\03_CORE_BusEvent.sql" />

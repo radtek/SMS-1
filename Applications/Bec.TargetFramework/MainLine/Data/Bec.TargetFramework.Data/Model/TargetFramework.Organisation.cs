@@ -688,6 +688,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for Lenders in the schema.
+        /// </summary>
+        public virtual ICollection<Lender> Lenders
+        {
+            get;
+            set;
+        }
 
         #endregion
     }
