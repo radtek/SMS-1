@@ -2988,6 +2988,10 @@
             <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
             <End Role="SmsTransaction" EntitySet="SmsTransactions" />
           </AssociationSet>
+          <AssociationSet Name="Lender_Organisation_fk" Association="Bec.TargetFramework.Data.Store.Lender_Organisation_fk">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="Lender" EntitySet="Lenders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -9944,6 +9948,7 @@
           </Key>
           <Property Name="LenderID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="OrganisationID" Type="uuid" />
         </EntityType>
         <EntityType Name="SmsBankAccountCheck">
           <Key>
@@ -18347,6 +18352,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Lender_Organisation_fk">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="0..1" />
+          <End Role="Lender" Type="Bec.TargetFramework.Data.Store.Lender" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="Lender">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -21310,6 +21327,10 @@
           <AssociationSet Name="SmsTransaction_fkSet" Association="Bec.TargetFramework.Data.SmsTransaction_fk">
             <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
             <End Role="SmsTransactions" EntitySet="SmsTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="Lender_Organisation_fkSet" Association="Bec.TargetFramework.Data.Lender_Organisation_fk">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="Lenders" EntitySet="Lenders" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -29159,6 +29180,7 @@
           <NavigationProperty Name="ClassificationType" Relationship="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk" FromRole="Organisations" ToRole="ClassificationType" ed:Guid="851eadd4-06e9-46cc-bfe5-2c235bf9a4e5" />
           <NavigationProperty Name="LegalOrganisationDetail" Relationship="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation" FromRole="Organisation" ToRole="LegalOrganisationDetail" ed:Guid="7835c877-7c6b-490a-83ad-13c637567b3b" />
           <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_Organisation_fk" FromRole="Organisation" ToRole="OrganisationNotes" ed:Guid="4fcad52b-104e-4115-941e-7484cac266c1" />
+          <NavigationProperty Name="Lenders" Relationship="Bec.TargetFramework.Data.Lender_Organisation_fk" FromRole="Organisation" ToRole="Lenders" ed:Guid="899cdc0c-9223-4f50-9282-8a4023e1af24" />
         </EntityType>
         <EntityType Name="VOrganisationWithStatusAndAdmin" ed:Guid="bfc8d9b7-97cf-4558-9215-bbe4a81f5d25">
           <Key>
@@ -29410,6 +29432,8 @@
           </Key>
           <Property Name="LenderID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="0bd8d35e-3847-4d45-8ad1-dd78e3153fe9" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="fbfdeb6b-584f-44bc-9633-1be45a6978e5" />
+          <Property Name="OrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="055bf466-7372-410d-b251-03eec7c9918e" />
+          <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.Lender_Organisation_fk" FromRole="Lenders" ToRole="Organisation" ed:Guid="d16a0e2f-c882-4906-9fed-e980f8e96232" />
         </EntityType>
         <EntityType Name="SmsBankAccountCheck" ed:Guid="53ab3e40-5a21-44c8-ad06-9049aa0072dd">
           <Key>
@@ -37488,6 +37512,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Lender_Organisation_fk" ed:Guid="e6bea6f9-4713-4df7-a571-3928961d1a60">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="0..1" />
+          <End Role="Lenders" Type="Bec.TargetFramework.Data.Lender" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="Lenders">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -44213,6 +44249,7 @@
               <MappingFragment StoreEntitySet="Lenders">
                 <ScalarProperty Name="LenderID" ColumnName="LenderID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

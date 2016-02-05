@@ -195,6 +195,8 @@
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
+    <Compile Include="Areas\Lender\Controllers\TransactionController.cs" />
+    <Compile Include="Areas\Lender\LenderAreaRegistration.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
@@ -264,6 +266,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
+    <Content Include="Areas\Lender\Views\Transaction\Index.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AdviseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
     <Content Include="BingSiteAuth.xml" />
@@ -897,6 +900,11 @@
     <Content Include="Areas\Admin\Views\Shared\_orgNotesTmpl.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Unverify.cshtml" />
+    <Content Include="Areas\Lender\Views\web.config" />
+    <Content Include="Areas\Lender\Views\Transaction\Index.cshtml" />
+    <Content Include="Areas\Lender\Views\Transaction\_transactionDetailsTmpl.cshtml" />
+    <Content Include="Areas\Lender\Views\Transaction\_partiesDetailsTmpl.cshtml" />
+    <Content Include="Areas\Lender\Views\_ViewStart.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1843,7 +1851,9 @@
     <Content Include="Views\Home\HowToKeepConsumersSafe.cshtml" />
     <Content Include="Views\Home\TutorialsForProfessionals.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Areas\Lender\Views\Shared\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

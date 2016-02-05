@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿var lenders;
+
+$(function () {
     initAddTradingNames();
 });
 
@@ -66,6 +68,22 @@ function validateRegisterSubmit(form) {
 }
 
 function initAddTradingNames() {
+
+    lenders = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: $('#registerlender-form').data("lender-search-url") + '?search=%QUERY',
+            wildcard: '%QUERY',
+            transform: function (response) {
+                return response.Items;
+            }
+        }
+    });
+
+    setupTypeahead('#companyName');
+    setupTypeahead('input[name="TradingNames[0]');
+
     var index = 1;
     var tradingNameTemplatePromise = $.Deferred();
     var addNextTradingNameBtn = $('#addNextTradingNameBtn');
@@ -89,7 +107,9 @@ function initAddTradingNames() {
                 var html = template(templateData);
                 addNextTradingNameRow.before(html);
 
-                $('input[name="TradingNames[' + (index - 1) + ']').focus();
+                var sel = 'input[name="TradingNames[' + (index - 1) + ']';
+                $(sel).focus();
+                setupTypeahead(sel);
             });
         }
 
@@ -114,10 +134,25 @@ function initAddTradingNames() {
     });
 }
 
+function setupTypeahead(selector) {
+    $(selector).typeahead({
+        minLength: 1,
+        highlight: true,
+        hint: false
+    }, {
+        display: 'Name',
+        source: lenders
+    })
+   .on('typeahead:asyncrequest', function () {
+       $('#lenderSearch').parent().siblings('.typeahead-spinner').show();
+   })
+   .on('typeahead:asynccancel typeahead:asyncreceive', function () {
+       $('#lenderSearch').parent().siblings('.typeahead-spinner').hide();
+   });
+}
+
 function renumberInputs(inputsSelector, prefix) {
-    console.log("rn");
     $(inputsSelector).each(function (index) {
-        console.log("rn: " + index);
         var prefixWithIndex = prefix + "[" + index + "]";
         var regExp = new RegExp(prefix + '\\[\\d+\\]');
         this.name = this.name.replace(regExp, prefixWithIndex);

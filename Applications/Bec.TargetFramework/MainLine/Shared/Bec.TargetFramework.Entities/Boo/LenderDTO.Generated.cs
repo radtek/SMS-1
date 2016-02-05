@@ -22,10 +22,12 @@ namespace Bec.TargetFramework.Entities
         public LenderDTO() {
         }
 
-        public LenderDTO(global::System.Guid lenderID, string name) {
+        public LenderDTO(global::System.Guid lenderID, string name, global::System.Nullable<System.Guid> organisationID, OrganisationDTO organisation) {
 
           this.LenderID = lenderID;
           this.Name = name;
+          this.OrganisationID = organisationID;
+          this.Organisation = organisation;
         }
 
         #endregion
@@ -37,6 +39,16 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.Guid> OrganisationID { get; set; }
+
+        #endregion
+
+        #region Navigation Properties
+
+        [DataMember]
+        public OrganisationDTO Organisation { get; set; }
 
         #endregion
     }
