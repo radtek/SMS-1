@@ -252,6 +252,13 @@ insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive
   (select "ResourceID" from "Resource" where "ResourceName" = 'SmsTransactionsOverview' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
 
+-- Lender Administrator Add ProUsers
+     insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Lender Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'ProUsers' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
+
    -- Lender Employee view homepage
     insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (
