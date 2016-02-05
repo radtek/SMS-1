@@ -153,6 +153,8 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/Lender/Transaction/Index").Include("~/Areas/Lender/Views/Transaction/Index.js"));
+
             BundleTable.EnableOptimizations = true;
         }
     }

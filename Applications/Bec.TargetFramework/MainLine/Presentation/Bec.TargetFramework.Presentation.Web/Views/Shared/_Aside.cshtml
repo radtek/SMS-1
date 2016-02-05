@@ -4,6 +4,12 @@
     <aside id="left-panel">
         <nav class="margin-top-5">
             <ul>
+                @if (ClaimsHelper.UserHasClaim("View", "SmsTransactionsOverview"))
+                {
+                    <li class="@Html.RouteIf("active", "Transaction", "Index")">
+                        <a href="@Url.Action("Index", "Transaction", new { Area = "Lender" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
+                    </li>
+                }
                 @if (ClaimsHelper.UserHasClaim("View", "MyTransactions"))
                 {
                     <li class="@Html.RouteIf("active", "SafeBuyer", "Index")">

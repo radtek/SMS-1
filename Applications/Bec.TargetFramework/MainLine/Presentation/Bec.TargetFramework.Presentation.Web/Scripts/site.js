@@ -162,7 +162,7 @@ function hideCurrentModal() {
 
 function dateString(date) {
     try {
-        if (date == "") return "";
+        if (date == "" || date == null) return "";
         var ret = new Date(date).toLocaleString();
         if (ret == "Invalid Date") ret = new Date(date.replace(' ', 'T')).toLocaleString(); //IE...
         return ret;
@@ -174,7 +174,7 @@ function dateString(date) {
 
 function dateStringNoTime(date) {
     try {
-        if (date == "") return "";
+        if (date == "" || date == null) return "";
         var ret = new Date(date).toLocaleDateString();
         if (ret == "Invalid Date") ret = new Date(date.replace(' ', 'T')).toLocaleString(); //IE...
         return ret;

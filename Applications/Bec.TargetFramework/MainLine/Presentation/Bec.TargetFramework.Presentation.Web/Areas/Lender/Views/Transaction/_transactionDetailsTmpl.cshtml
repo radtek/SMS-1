@@ -1,0 +1,59 @@
+﻿<h5>Transaction Address</h5>
+<dl class="dl-horizontal">
+    {{#if Address.Line1}}
+        <dt>Address Line 1:</dt>
+        <dd><p>{{Address.Line1}}</p></dd>
+        {{#if Address.Line2}}
+            <dt>Address Line 2:</dt>
+            <dd><p>{{Address.Line2}}</p></dd>
+        {{/if}}
+        {{#if Address.Town}}
+            <dt>Town:</dt>
+            <dd><p>{{Address.Town}}</p></dd>
+        {{/if}}
+        {{#if Address.County}}
+            <dt>County:</dt>
+            <dd><p>{{Address.County}}</p></dd>
+        {{/if}}
+        {{#if Address.PostalCode}}
+            <dt>Post Code:</dt>
+            <dd><p>{{Address.PostalCode}}</p></dd>
+        {{/if}}
+    {{else}}
+        <dt>Address:</dt>
+        <dd><p>TBC</p></dd>
+    {{/if}}
+</dl>
+
+{{#xif "this.MortgageApplicationNumber || this.Price"}}
+<h5>Other Details</h5>
+{{/xif}}
+
+<dl class="dl-horizontal">
+    {{#if MortgageApplicationNumber}}
+    <dt>Mortgage Application No:</dt>
+    <dd><p>{{MortgageApplicationNumber}}</p></dd>
+    {{/if}}
+    {{#if Price}}
+        <dt>Purchase Price:</dt>
+        <dd><p>{{purchasePrice}}</p></dd>
+    {{/if}}
+</dl>
+
+<h5>Product Details</h5>
+<dl class="dl-horizontal">
+    <dt>Product Name:</dt>
+    <dd><p>Safe Buyer</p></dd>
+    <dt>Product Offered:</dt>
+    <dd><p>{{transactionCreated}}</p></dd>
+    <dt>Product Advised:</dt>
+    <dd>
+        <p>
+            {{#if IsProductAdvised}}
+                {{productAdvisedOn}}
+            {{else}}
+                No
+            {{/if}}
+        </p>
+    </dd>
+</dl>
