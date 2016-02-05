@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("RegisterLender", "Company", new { area = "Admin" })" method="POST" id="registerlender-form" class="smart-form">
+                        <form action="@Url.Action("RegisterLender", "Company", new { area = "Admin" })" method="POST" id="registerlender-form" class="smart-form" data-lender-search-url="@Url.Action("searchlenders", "App" , new { area="" })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.OrganisationType)
@@ -22,7 +22,8 @@
                                         <label class="label">Lender Name</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.CompanyName, new { tabindex = "1", maxlength = 50, @class = "form-control" })
+                                            @Html.TextBoxFor(m => m.CompanyName, new { tabindex = "1", maxlength = 50, @class = "form-control", id = "companyName" })
+                                            <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
                                         </label>
                                     </section>
                                     <section class="col col-6">
@@ -39,7 +40,8 @@
                                         <label class="label">Trading Names</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            <input type="text" name="TradingNames[0]" maxlength="200" />
+                                            <input type="text" name="TradingNames[0]" maxlength="200" class="form-control" data-url="@Url.Action("SearchLenders", "App", new { Area = "" })" />
+                                            <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
                                         </label>
                                     </section>
                                     <section class="col-sm-1">
@@ -120,4 +122,5 @@
         </div>
     </div>
 </div>
+@Scripts.Render("~/Scripts/typeahead")
 <script async src="@Scripts.Url("~/Scripts/Admin/Shared/_RegisterLender")"></script>
