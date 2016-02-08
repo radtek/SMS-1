@@ -1858,6 +1858,8 @@
     <Content Include="Views\Home\HowTheSmsHelpsLenders.cshtml" />
     <Content Include="Views\Home\HowToKeepConsumersSafe.cshtml" />
     <Content Include="Views\Home\TutorialsForProfessionals.cshtml" />
+    <Content Include="Views\Home\News.cshtml" />
+    <Content Include="Views\Home\Article.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
