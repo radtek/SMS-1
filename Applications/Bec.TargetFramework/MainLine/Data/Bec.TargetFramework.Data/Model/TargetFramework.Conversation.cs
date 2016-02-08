@@ -109,6 +109,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for ConversationFunctionParticipants in the schema.
+        /// </summary>
+        public virtual ICollection<ConversationFunctionParticipant> ConversationFunctionParticipants
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

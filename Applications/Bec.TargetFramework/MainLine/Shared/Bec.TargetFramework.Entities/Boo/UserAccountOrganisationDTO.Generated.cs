@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public UserAccountOrganisationDTO() {
         }
 
-        public UserAccountOrganisationDTO(global::System.Guid userID, global::System.Nullable<int> organisationUnitID, global::System.Guid organisationID, string jobTitle, string nickName, bool isActive, bool isDeleted, global::System.Nullable<int> userSubTypeID, global::System.Nullable<int> userCategoryID, global::System.Guid userAccountOrganisationID, global::System.Nullable<int> userJobTypeID, global::System.Nullable<System.Guid> primaryContactID, global::System.Guid userTypeID, global::System.Nullable<System.Guid> parentID, string pinCode, global::System.Nullable<System.DateTime> pinCreated, short pinAttempts, global::System.Nullable<long> rowVersion, OrganisationUnitDTO organisationUnit, UserTypeDTO userType, UserAccountDTO userAccount, List<UserAccountOrganisationTeamDTO> userAccountOrganisationTeams, List<UserAccountOrganisationRoleDTO> userAccountOrganisationRoles, List<UserAccountOrganisationGroupDTO> userAccountOrganisationGroups, List<UserAccountOrganisationStatusDTO> userAccountOrganisationStatus, List<NotificationRecipientDTO> notificationRecipients, List<ShoppingCartDTO> shoppingCarts, List<InvoiceDTO> invoices, ContactDTO contact, OrganisationDTO organisation, List<OrganisationLedgerTransactionDTO> organisationLedgerTransactions, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, List<ConversationParticipantDTO> conversationParticipants, List<NotificationDTO> notifications, List<FileDTO> files, List<OrganisationNoteDTO> organisationNotes) {
+        public UserAccountOrganisationDTO(global::System.Guid userID, global::System.Nullable<int> organisationUnitID, global::System.Guid organisationID, string jobTitle, string nickName, bool isActive, bool isDeleted, global::System.Nullable<int> userSubTypeID, global::System.Nullable<int> userCategoryID, global::System.Guid userAccountOrganisationID, global::System.Nullable<int> userJobTypeID, global::System.Nullable<System.Guid> primaryContactID, global::System.Guid userTypeID, global::System.Nullable<System.Guid> parentID, string pinCode, global::System.Nullable<System.DateTime> pinCreated, short pinAttempts, global::System.Nullable<long> rowVersion, OrganisationUnitDTO organisationUnit, UserTypeDTO userType, UserAccountDTO userAccount, List<UserAccountOrganisationTeamDTO> userAccountOrganisationTeams, List<UserAccountOrganisationRoleDTO> userAccountOrganisationRoles, List<UserAccountOrganisationGroupDTO> userAccountOrganisationGroups, List<UserAccountOrganisationStatusDTO> userAccountOrganisationStatus, List<NotificationRecipientDTO> notificationRecipients, List<ShoppingCartDTO> shoppingCarts, List<InvoiceDTO> invoices, ContactDTO contact, OrganisationDTO organisation, List<OrganisationLedgerTransactionDTO> organisationLedgerTransactions, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, List<ConversationParticipantDTO> conversationParticipants, List<NotificationDTO> notifications, List<FileDTO> files, List<OrganisationNoteDTO> organisationNotes, List<FunctionDTO> functions) {
 
           this.UserID = userID;
           this.OrganisationUnitID = organisationUnitID;
@@ -60,6 +60,7 @@ namespace Bec.TargetFramework.Entities
           this.Notifications = notifications;
           this.Files = files;
           this.OrganisationNotes = organisationNotes;
+          this.Functions = functions;
         }
 
         #endregion
@@ -177,6 +178,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<OrganisationNoteDTO> OrganisationNotes { get; set; }
+
+        [DataMember]
+        public List<FunctionDTO> Functions { get; set; }
 
         #endregion
     }

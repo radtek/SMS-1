@@ -238,6 +238,10 @@
     <Compile Include="Boo\ConversationDTO.Generated.cs">
       <DependentUpon>ConversationDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\ConversationFunctionParticipantDTO.cs" />
+    <Compile Include="Boo\ConversationFunctionParticipantDTO.Generated.cs">
+      <DependentUpon>ConversationFunctionParticipantDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ConversationParticipantDTO.cs" />
     <Compile Include="Boo\ConversationParticipantDTO.Generated.cs">
       <DependentUpon>ConversationParticipantDTO.cs</DependentUpon>
@@ -500,6 +504,10 @@
     <Compile Include="Boo\FnGetUserClaimResultDTO.cs" />
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
       <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\FunctionDTO.cs" />
+    <Compile Include="Boo\FunctionDTO.Generated.cs">
+      <DependentUpon>FunctionDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\GlobalAccountingPeriodDTO.cs" />
     <Compile Include="Boo\GlobalAccountingPeriodDTO.Generated.cs">

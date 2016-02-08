@@ -102,6 +102,7 @@ namespace Bec.TargetFramework.Entities
               target.LegalOrganisationDetail = source.LegalOrganisationDetail.ToDtoWithRelated(level - 1);
               target.OrganisationNotes = source.OrganisationNotes.ToDtosWithRelated(level - 1);
               target.Lenders = source.Lenders.ToDtosWithRelated(level - 1);
+              target.ConversationFunctionParticipants = source.ConversationFunctionParticipants.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
