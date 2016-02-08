@@ -108,6 +108,7 @@
     <Compile Include="Extensions\TransactionHelper.cs" />
     <Compile Include="Extensions\DeductionHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
+    <Compile Include="Logic\MiscLogicController.cs" />
     <Compile Include="Logic\FileLogicController.cs" />
     <Compile Include="Logic\InvoiceLogicController.cs" />
     <Compile Include="Logic\BankAccountLogicController.cs" />

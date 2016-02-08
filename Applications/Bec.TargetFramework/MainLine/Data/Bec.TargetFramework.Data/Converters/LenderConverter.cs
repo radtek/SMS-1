@@ -31,6 +31,12 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.LenderID = source.LenderID;
             target.Name = source.Name;
+            target.OrganisationID = source.OrganisationID;
+
+            // Navigation Properties
+            if (level > 0) {
+              target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
+            }
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -48,6 +54,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.LenderID = source.LenderID;
             target.Name = source.Name;
+            target.OrganisationID = source.OrganisationID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

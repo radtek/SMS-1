@@ -160,7 +160,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsAccepted in the schema.
         /// </summary>
-        public virtual global::System.Nullable<bool> IsAccepted
+        public virtual bool IsAccepted
         {
             get;
             set;

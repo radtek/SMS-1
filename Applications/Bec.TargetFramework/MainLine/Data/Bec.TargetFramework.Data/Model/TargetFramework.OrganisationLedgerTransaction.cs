@@ -70,7 +70,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for CreatedBy in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> CreatedBy
+        public virtual global::System.Guid CreatedBy
         {
             get;
             set;

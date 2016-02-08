@@ -50,6 +50,7 @@ namespace Bec.TargetFramework.Entities
             target.IsPaymentProvider = source.IsPaymentProvider;
             target.PrimaryContactID = source.PrimaryContactID;
             target.IsCompanyVerified = source.IsCompanyVerified;
+            target.IsCompanyPinCreated = source.IsCompanyPinCreated;
             target.ReturnUrl = source.ReturnUrl;
             target.RowVersion = source.RowVersion;
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
@@ -101,6 +102,7 @@ namespace Bec.TargetFramework.Entities
               target.ClassificationType = source.ClassificationType.ToDtoWithRelated(level - 1);
               target.LegalOrganisationDetail = source.LegalOrganisationDetail.ToDtoWithRelated(level - 1);
               target.OrganisationNotes = source.OrganisationNotes.ToDtosWithRelated(level - 1);
+              target.Lenders = source.Lenders.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -138,6 +140,7 @@ namespace Bec.TargetFramework.Entities
             target.IsPaymentProvider = source.IsPaymentProvider;
             target.PrimaryContactID = source.PrimaryContactID;
             target.IsCompanyVerified = source.IsCompanyVerified;
+            target.IsCompanyPinCreated = source.IsCompanyPinCreated;
             target.ReturnUrl = source.ReturnUrl;
             target.RowVersion = source.RowVersion;
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
