@@ -63,9 +63,21 @@
                                             <label for="role-@role.OrganisationRoleID">@role.RoleDescription</label>
                                         </label>
                                     }
-                                    
                                 </section>
-
+                                @if (((IEnumerable<FunctionDTO>)ViewBag.Functions).Any())
+                                {
+                                    <section>
+                                        <label class="label">Functions</label>
+                                        @foreach (FunctionDTO function in ViewBag.Functions)
+                                        {
+                                            <label class="checkbox ">
+                                                <input type="checkbox" id="function-@function.FunctionID" name="function-@function.FunctionID" />
+                                                <i></i>
+                                                <label for="function-@function.FunctionID">@function.Name</label>
+                                            </label>
+                                        }
+                                    </section>
+                                }
                             </fieldset>
                         </form>
                     </div>

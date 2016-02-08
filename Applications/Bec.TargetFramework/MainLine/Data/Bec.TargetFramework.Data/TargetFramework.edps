@@ -400,6 +400,7 @@
         <File Name="TargetFramework.VConversationUnread.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.File.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationNote.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.Function.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetConversationActivityResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1192,6 +1193,8 @@
         <File Name="FileDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationNoteDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="OrganisationNoteDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="FunctionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="FunctionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetConversationActivityResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1591,6 +1594,7 @@
         <File Name="VConversationUnreadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FileConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationNoteConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="FunctionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetConversationActivityResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
@@ -1757,6 +1761,13 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
+      <Exclude Name="ConversationID" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Subject" Table="public.Conversation" Type="Column" />
+      <Exclude Name="ActivityType" Table="public.Conversation" Type="Column" />
+      <Exclude Name="ActivityID" Table="public.Conversation" Type="Column" />
+      <Exclude Name="IsSystemMessage" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Conversation_pkey" Table="public.Conversation" Type="Constraint" />
       <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
@@ -1810,15 +1821,6 @@
       <Exclude Name="OrganisationNote_pkey" Table="public.OrganisationNote" Type="Constraint" />
       <Exclude Name="OrganisationNote_Organisation_fk" Table="public.OrganisationNote" Type="Constraint" />
       <Exclude Name="OrganisationNote_UserAccountOrganisation_fk" Table="public.OrganisationNote" Type="Constraint" />
-      <Exclude Name="UserAccountID" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserSessionID" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserIPAddress" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserHostAddress" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserLocation" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserLoginDate" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserLogoutDate" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserHasLoggedOut" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserAccountLoginSession_pkey" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1930,10 +1932,10 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
       <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="DateTime" Table="public.OrganisationNote" Type="Column" />
-      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />

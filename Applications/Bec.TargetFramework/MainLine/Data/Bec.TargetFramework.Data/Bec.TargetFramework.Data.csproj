@@ -166,6 +166,7 @@
     <Compile Include="Converters\FileConverter.cs" />
     <Compile Include="Converters\FnGetConversationActivityResultConverter.cs" />
     <Compile Include="Converters\FnGetUserClaimResultConverter.cs" />
+    <Compile Include="Converters\FunctionConverter.cs" />
     <Compile Include="Converters\GlobalAccountingPeriodConverter.cs" />
     <Compile Include="Converters\GlobalDirectDebitCollectionPeriodConverter.cs" />
     <Compile Include="Converters\GlobalPaymentMethodConverter.cs" />
@@ -563,6 +564,7 @@
     <Compile Include="Model\TargetFramework.File.cs" />
     <Compile Include="Model\TargetFramework.FnGetConversationActivityResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetUserClaimResult.cs" />
+    <Compile Include="Model\TargetFramework.Function.cs" />
     <Compile Include="Model\TargetFramework.GlobalAccountingPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalDirectDebitCollectionPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalPaymentMethod.cs" />

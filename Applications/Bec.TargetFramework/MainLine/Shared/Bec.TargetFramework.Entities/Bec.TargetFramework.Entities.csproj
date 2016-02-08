@@ -501,6 +501,10 @@
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
       <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\FunctionDTO.cs" />
+    <Compile Include="Boo\FunctionDTO.Generated.cs">
+      <DependentUpon>FunctionDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\GlobalAccountingPeriodDTO.cs" />
     <Compile Include="Boo\GlobalAccountingPeriodDTO.Generated.cs">
       <DependentUpon>GlobalAccountingPeriodDTO.cs</DependentUpon>
@@ -1707,6 +1711,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\AddNewUserToOrganisationDTO.cs" />
     <Compile Include="DTO\Notification\ProductAdvisedNotificationDTO.cs" />
     <Compile Include="DTO\VerifyCompanyDTO.cs" />
     <Compile Include="DTO\CreateConversationDTO.cs" />
