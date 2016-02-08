@@ -598,6 +598,12 @@ a.removeupload {
   word-break: normal;
   white-space: pre-wrap;
 }
+.match {
+  color: #7d981c;
+}
+.error {
+  color: red;
+}
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
     cursor: pointer;

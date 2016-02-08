@@ -130,7 +130,9 @@ function showPartiesDetails(dataItem) {
         return _.extend({}, uaot, {
             fullName: uaot.Contact.Salutation + " " + uaot.Contact.FirstName + " " + uaot.Contact.LastName,
             formattedBirthDate: dateStringNoTime(uaot.Contact.BirthDate),
-            formattedLatestBankAccountCheckOn: uaot.Contact.LatestBankAccountCheck ? dateString(uaot.Contact.LatestBankAccountCheck.CheckedOn) : null
+            formattedLatestBankAccountCheckOn: uaot.LatestBankAccountCheck ? dateString(uaot.LatestBankAccountCheck.CheckedOn) : null,
+            latestCheckResult: uaot.LatestBankAccountCheck == null ? null : (uaot.LatestBankAccountCheck.IsMatch ? "Match" : "No Match"),
+            matchClass: uaot.LatestBankAccountCheck == null ? null : (uaot.LatestBankAccountCheck.IsMatch ? "match" : "error")
         });
     });
 

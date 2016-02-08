@@ -68,7 +68,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                     y.Address.AdditionalAddressInformation,
                     y.LatestBankAccountCheck.CheckedOn,
                     y.LatestBankAccountCheck.BankAccountNumber,
-                    y.LatestBankAccountCheck.SortCode
+                    y.LatestBankAccountCheck.SortCode,
+                    y.LatestBankAccountCheck.IsMatch
                 })
             });
 

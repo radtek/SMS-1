@@ -2,7 +2,6 @@
     <!-- well -->
     <div class="well">
         <a id="pinButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewGeneratePin", "Company", new { area = "Admin", setVerified = false })">Generate PIN</a>
-        <a id="unverifyButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewUnverify", "Company", new { area = "Admin" })"><i class="fa fa-undo margin-right-5"></i>Unverify</a>
         <a id="rejectVerifiedButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })"><i class="fa fa-thumbs-down margin-right-5"></i>Reject</a>
         <h5>Company</h5>
         <dl class="dl-horizontal">
@@ -26,6 +25,8 @@
             <dd><p>{{SystemAdminNameDisplay}}</p></dd>
             <dt>Email:</dt>
             <dd><p>{{OrganisationAdminEmail}}</p></dd>
+            <dt>Telephone:</dt>
+            <dd><p>{{OrganisationAdminTelephone}}</p></dd>
         </dl>
         <h5>Other Details</h5>
         <dl class="dl-horizontal">
