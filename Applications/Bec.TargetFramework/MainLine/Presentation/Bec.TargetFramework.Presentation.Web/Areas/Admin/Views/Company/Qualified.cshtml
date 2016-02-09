@@ -1,10 +1,7 @@
-﻿<!-- MAIN CONTENT -->
-<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
+﻿<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
     <div class="row">
         <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-inbox margin-right-10"></i>View Qualified Companies</h2>
         <div class="col-sm-12">
-            <!-- Widget ID (each widget will need unique ID)-->
-
             <ul id="myTab1" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">
                 <li><a href="#s1"> Active </a></li>
             </ul>
@@ -17,13 +14,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row hidden" id="activePanel">
-
-                    </div>
+                    <div class="row hidden" id="activePanel"></div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

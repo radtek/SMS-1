@@ -52,6 +52,22 @@ $(function () {
                         template: function (dataItem) {
                             return dateString(dataItem.CreatedOn);
                         }
+                    },
+                    {
+                        field: "BankAccountStatus",
+                        title: "Bank Account Status",
+                        template: function (dataItem) {
+
+                            console.log(dataItem.OrganisationAdminEmail);
+                            console.log(dataItem);
+                            if (dataItem.ActiveSafeAccounts > 0) {
+                                return 'Approved';
+                            } else if (dataItem.PendingValidationAccounts > 0) {
+                                return 'Submitted';
+                            } else {
+                                return 'None';
+                            }
+                        }
                     }
             ]
         });
@@ -86,7 +102,5 @@ function activeChange(dataItem) {
     promises.active[dataItem.OrganisationTypeDescription].done(function (template) {
         var html = template(dataItem);
         $('#activePanel').html(html);
-        //todo: ZM ucomment when enable login comes back to life
-        //$("#editButton").data('href', $("#editButton").data("url") + "?orgId=" + dataItem.OrganisationID);
     });
 }

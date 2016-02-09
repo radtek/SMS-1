@@ -69,6 +69,7 @@ namespace Bec.TargetFramework.Entities
             target.SchemeID = source.SchemeID;
             target.FilesPerMonth = source.FilesPerMonth;
             target.ActiveSafeAccounts = source.ActiveSafeAccounts;
+            target.PendingValidationAccounts = source.PendingValidationAccounts;
             target.OrganisationTypeDescription = source.OrganisationTypeDescription;
             target.BrokerType = source.BrokerType;
             target.BrokerBusinessType = source.BrokerBusinessType;
@@ -127,6 +128,7 @@ namespace Bec.TargetFramework.Entities
             target.SchemeID = source.SchemeID;
             target.FilesPerMonth = source.FilesPerMonth;
             target.ActiveSafeAccounts = source.ActiveSafeAccounts;
+            target.PendingValidationAccounts = source.PendingValidationAccounts;
             target.OrganisationTypeDescription = source.OrganisationTypeDescription;
             target.BrokerType = source.BrokerType;
             target.BrokerBusinessType = source.BrokerBusinessType;

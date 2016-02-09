@@ -9766,6 +9766,7 @@
           <Property Name="SchemeID" Type="int" />
           <Property Name="FilesPerMonth" Type="int" Nullable="false" />
           <Property Name="ActiveSafeAccounts" Type="bigint" />
+          <Property Name="PendingValidationAccounts" Type="bigint" />
           <Property Name="OrganisationTypeDescription" Type="varchar" MaxLength="2000" />
           <Property Name="BrokerType" Type="int" />
           <Property Name="BrokerBusinessType" Type="int" />
@@ -29223,6 +29224,7 @@
           <Property Name="SchemeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="54ed2928-6e91-4b4c-b6d1-b611970d78a8" />
           <Property Name="FilesPerMonth" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="c68bab9a-6b4f-40cd-bf39-0a7f27b19d28" />
           <Property Name="ActiveSafeAccounts" Type="Int64" ed:ValidateRequired="False" ed:Guid="19c2486c-c667-4364-b086-a75b85ff2f9f" />
+          <Property Name="PendingValidationAccounts" Type="Int64" ed:ValidateRequired="False" ed:Guid="df21acc2-6940-4954-bad8-6a6cc6fbf3fc" />
           <Property Name="OrganisationTypeDescription" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="9d46e0a0-96b1-4e37-b6e1-9cddd5237d22" />
           <Property Name="BrokerType" Type="Int32" ed:ValidateRequired="False" ed:Guid="c1356857-4958-47d4-a5f6-ba2701ee960e" />
           <Property Name="BrokerBusinessType" Type="Int32" ed:ValidateRequired="False" ed:Guid="9c7b8ca3-b059-4f99-a496-06c605ccdc2e" />
@@ -44070,6 +44072,7 @@
                 <ScalarProperty Name="OrganisationTypeDescription" ColumnName="OrganisationTypeDescription" />
                 <ScalarProperty Name="BrokerType" ColumnName="BrokerType" />
                 <ScalarProperty Name="BrokerBusinessType" ColumnName="BrokerBusinessType" />
+                <ScalarProperty Name="PendingValidationAccounts" ColumnName="PendingValidationAccounts" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
