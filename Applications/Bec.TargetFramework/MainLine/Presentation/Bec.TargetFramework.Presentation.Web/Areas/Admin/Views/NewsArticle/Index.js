@@ -22,7 +22,8 @@ $(function () {
             },
             {
                 field: "DateTime",
-                template: function (dataItem) { return dateString(dataItem.DateTime); }
+                title: "Date",
+                template: function (dataItem) { return dateStringNoTime(dataItem.DateTime); }
             },
         ]
     });
