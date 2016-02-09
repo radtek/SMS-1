@@ -36,7 +36,8 @@ namespace Bec.TargetFramework.Entities
             // Navigation Properties
             if (level > 0) {
               target.OrganisationType = source.OrganisationType.ToDtoWithRelated(level - 1);
-              target.UserAccountOrganisations = source.UserAccountOrganisations.ToDtosWithRelated(level - 1);
+              target.ConversationFunctionParticipants = source.ConversationFunctionParticipants.ToDtosWithRelated(level - 1);
+              target.UserAccountOrganisationFunctions = source.UserAccountOrganisationFunctions.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

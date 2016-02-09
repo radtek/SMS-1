@@ -71,9 +71,18 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for UserAccountOrganisations in the schema.
+        /// There are no comments for ConversationFunctionParticipants in the schema.
         /// </summary>
-        public virtual ICollection<UserAccountOrganisation> UserAccountOrganisations
+        public virtual ICollection<ConversationFunctionParticipant> ConversationFunctionParticipants
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationFunctions in the schema.
+        /// </summary>
+        public virtual ICollection<UserAccountOrganisationFunction> UserAccountOrganisationFunctions
         {
             get;
             set;

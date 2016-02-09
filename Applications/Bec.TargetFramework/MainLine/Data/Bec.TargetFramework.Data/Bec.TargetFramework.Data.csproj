@@ -405,6 +405,7 @@
     <Compile Include="Converters\UserAccountLoginSessionConverter.cs" />
     <Compile Include="Converters\UserAccountLoginSessionDatumConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationConverter.cs" />
+    <Compile Include="Converters\UserAccountOrganisationFunctionConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationGroupConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationRoleConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationSecondaryUserTypeConverter.cs" />
@@ -807,6 +808,7 @@
     <Compile Include="Model\TargetFramework.UserAccountLoginSession.cs" />
     <Compile Include="Model\TargetFramework.UserAccountLoginSessionDatum.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisation.cs" />
+    <Compile Include="Model\TargetFramework.UserAccountOrganisationFunction.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationGroup.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationRole.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationSecondaryUserType.cs" />

@@ -18943,6 +18943,7 @@
           <EntitySet Name="OrganisationNotes" EntityType="Bec.TargetFramework.Data.OrganisationNote" />
           <EntitySet Name="Functions" EntityType="Bec.TargetFramework.Data.Function" />
           <EntitySet Name="ConversationFunctionParticipants" EntityType="Bec.TargetFramework.Data.ConversationFunctionParticipant" />
+          <EntitySet Name="UserAccountOrganisationFunctions" EntityType="Bec.TargetFramework.Data.UserAccountOrganisationFunction" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -21475,9 +21476,13 @@
             <End Role="Function" EntitySet="Functions" />
             <End Role="ConversationFunctionParticipants" EntitySet="ConversationFunctionParticipants" />
           </AssociationSet>
-          <AssociationSet Name="UserAccountOrganisation_FunctionSet" Association="Bec.TargetFramework.Data.UserAccountOrganisation_Function">
-            <End Role="UserAccountOrganisations" EntitySet="UserAccountOrganisations" />
-            <End Role="Functions" EntitySet="Functions" />
+          <AssociationSet Name="Function_UserAccountOrganisationFunctionSet" Association="Bec.TargetFramework.Data.Function_UserAccountOrganisationFunction">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="UserAccountOrganisationFunctions" EntitySet="UserAccountOrganisationFunctions" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisation_UserAccountOrganisationFunctionSet" Association="Bec.TargetFramework.Data.UserAccountOrganisation_UserAccountOrganisationFunction">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="UserAccountOrganisationFunctions" EntitySet="UserAccountOrganisationFunctions" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -21868,7 +21873,7 @@
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_CreatedByUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Notifications" ed:Guid="65f99910-9375-4611-9d84-0381177b95e7" />
           <NavigationProperty Name="Files" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Files" ed:Guid="674e1d85-14db-4a9c-8300-00380ac58949" />
           <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_UserAccountOrganisation_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationNotes" ed:Guid="6d48d822-e4df-4307-9b2a-ef989d240401" />
-          <NavigationProperty Name="Functions" Relationship="Bec.TargetFramework.Data.UserAccountOrganisation_Function" FromRole="UserAccountOrganisations" ToRole="Functions" ed:Guid="4417f6df-974c-4118-958a-3a74aea36b44" />
+          <NavigationProperty Name="UserAccountOrganisationFunctions" Relationship="Bec.TargetFramework.Data.UserAccountOrganisation_UserAccountOrganisationFunction" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationFunctions" ed:Guid="eb8fec3b-15a1-4065-a5ef-ce4b32975300" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -29735,7 +29740,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="ac0ea247-5daf-42ad-843e-07dd76d47a51" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.Function_OrganisationType_fk" FromRole="Functions" ToRole="OrganisationType" ed:Guid="c242b987-d870-4bee-94d2-d113e2793d0d" />
           <NavigationProperty Name="ConversationFunctionParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk" FromRole="Function" ToRole="ConversationFunctionParticipants" ed:Guid="4f675d80-f665-4c48-994e-31c96c9f56ed" />
-          <NavigationProperty Name="UserAccountOrganisations" Relationship="Bec.TargetFramework.Data.UserAccountOrganisation_Function" FromRole="Functions" ToRole="UserAccountOrganisations" ed:Guid="4126feb1-9f50-4e54-90c1-a4328d73e122" />
+          <NavigationProperty Name="UserAccountOrganisationFunctions" Relationship="Bec.TargetFramework.Data.Function_UserAccountOrganisationFunction" FromRole="Function" ToRole="UserAccountOrganisationFunctions" ed:Guid="fd8a9a6e-22e3-4e66-ba00-272ae8794c37" />
         </EntityType>
         <EntityType Name="ConversationFunctionParticipant" ed:Guid="b59c7589-84ef-4e91-9220-1dc4f31f9c5a">
           <Key>
@@ -29749,6 +29754,16 @@
           <NavigationProperty Name="Conversation" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Conversation_fk" FromRole="ConversationFunctionParticipants" ToRole="Conversation" ed:Guid="baf0ed54-0b1f-43d9-b00d-6944aa1acf5c" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Organisation_fk" FromRole="ConversationFunctionParticipants" ToRole="Organisation" ed:Guid="9d059f23-421b-49e3-9fef-9ddd283b0e83" />
           <NavigationProperty Name="Function" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk" FromRole="ConversationFunctionParticipants" ToRole="Function" ed:Guid="961cefb1-aec1-46bd-b360-fcd324c73f95" />
+        </EntityType>
+        <EntityType Name="UserAccountOrganisationFunction" ed:Guid="1f32cfca-c605-433b-aed9-66444b98cc17">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="FunctionID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a0ec9339-ace6-4323-b505-84ae9acfa7d4" />
+          <Property Name="FunctionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="130b3385-a7e4-4760-981a-f98b9fcd659a" />
+          <NavigationProperty Name="Function" Relationship="Bec.TargetFramework.Data.Function_UserAccountOrganisationFunction" FromRole="UserAccountOrganisationFunctions" ToRole="Function" ed:Guid="09779efc-9bbb-4652-9253-ce3ebd5a63c5" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.UserAccountOrganisation_UserAccountOrganisationFunction" FromRole="UserAccountOrganisationFunctions" ToRole="UserAccountOrganisation" ed:Guid="0e01d4cc-0ca9-42ea-986f-74abe5ead5d4" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37699,18 +37714,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Function_OrganisationType_fk" ed:Guid="3e862cb9-6673-41bb-b577-cebd40b34d17">
-          <End Role="OrganisationType" Type="Bec.TargetFramework.Data.OrganisationType" Multiplicity="1" />
-          <End Role="Functions" Type="Bec.TargetFramework.Data.Function" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrganisationType">
-              <PropertyRef Name="OrganisationTypeID" />
-            </Principal>
-            <Dependent Role="Functions">
-              <PropertyRef Name="OrganisationTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Function_OrganisationType_fk" ed:Guid="7f7830f2-be2d-401c-83aa-2742d0c5a572">
           <End Role="OrganisationType" Type="Bec.TargetFramework.Data.OrganisationType" Multiplicity="1" />
           <End Role="Functions" Type="Bec.TargetFramework.Data.Function" Multiplicity="*" />
@@ -37759,9 +37762,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="UserAccountOrganisation_Function" ed:Guid="c3cc892d-f93f-42f3-80de-3c3bbfae40e2">
-          <End Role="UserAccountOrganisations" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="*" />
-          <End Role="Functions" Type="Bec.TargetFramework.Data.Function" Multiplicity="*" />
+        <Association Name="Function_UserAccountOrganisationFunction" ed:Guid="e6605727-9497-41da-bcd6-f65e546c8983">
+          <End Role="Function" Type="Bec.TargetFramework.Data.Function" Multiplicity="1" />
+          <End Role="UserAccountOrganisationFunctions" Type="Bec.TargetFramework.Data.UserAccountOrganisationFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="FunctionID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationFunctions">
+              <PropertyRef Name="FunctionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisation_UserAccountOrganisationFunction" ed:Guid="a3503744-246c-49e3-88a6-e365a4223e90">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="UserAccountOrganisationFunctions" Type="Bec.TargetFramework.Data.UserAccountOrganisationFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationFunctions">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -44644,6 +44667,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserAccountOrganisationFunctions">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.UserAccountOrganisationFunction">
+              <MappingFragment StoreEntitySet="UserAccountOrganisationFunctions">
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="FunctionID" ColumnName="FunctionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <AssociationSetMapping Name="BucketTemplate_DefaultOrganisationTemplateSet" TypeName="Bec.TargetFramework.Data.BucketTemplate_DefaultOrganisationTemplate" StoreEntitySet="DefaultOrganisationBucketTemplates">
             <EndProperty Name="BucketTemplates">
               <ScalarProperty Name="BucketTemplateID" ColumnName="BucketTemplateID" />
@@ -44788,14 +44819,6 @@
             <EndProperty Name="Deductions">
               <ScalarProperty Name="DeductionID" ColumnName="DeductionID" />
               <ScalarProperty Name="DeductionVersionNumber" ColumnName="DeductionVersionNumber" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="UserAccountOrganisation_FunctionSet" TypeName="Bec.TargetFramework.Data.UserAccountOrganisation_Function" StoreEntitySet="UserAccountOrganisationFunctions">
-            <EndProperty Name="UserAccountOrganisations">
-              <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
-            </EndProperty>
-            <EndProperty Name="Functions">
-              <ScalarProperty Name="FunctionID" ColumnName="FunctionID" />
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="FnGetUserClaim" FunctionName="Bec.TargetFramework.Data.Store.fn_GetUserClaims" />
