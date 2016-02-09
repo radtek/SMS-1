@@ -216,14 +216,14 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
-                foreach (var function in dto.Functions)
-                {
-                    //scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions.Add(new UserAccountOrganisationRole
-                    //{
-                    //    UserAccountOrganisationID = userOrgID.Value,
-                    //    OrganisationRoleID = roleID
-                    //});
-                }
+                //foreach (var function in dto.Functions)
+                //{
+                //    scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions.Add(new UserAccountOrganisationRole
+                //    {
+                //        UserAccountOrganisationID = userOrgID.Value,
+                //        OrganisationRoleID = roleID
+                //    });
+                //}
 
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == userOrgID.Value);
 

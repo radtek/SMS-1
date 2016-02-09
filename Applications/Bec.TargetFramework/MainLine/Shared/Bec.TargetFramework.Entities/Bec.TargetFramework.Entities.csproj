@@ -238,6 +238,10 @@
     <Compile Include="Boo\ConversationDTO.Generated.cs">
       <DependentUpon>ConversationDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\ConversationFunctionParticipantDTO.cs" />
+    <Compile Include="Boo\ConversationFunctionParticipantDTO.Generated.cs">
+      <DependentUpon>ConversationFunctionParticipantDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ConversationParticipantDTO.cs" />
     <Compile Include="Boo\ConversationParticipantDTO.Generated.cs">
       <DependentUpon>ConversationParticipantDTO.cs</DependentUpon>

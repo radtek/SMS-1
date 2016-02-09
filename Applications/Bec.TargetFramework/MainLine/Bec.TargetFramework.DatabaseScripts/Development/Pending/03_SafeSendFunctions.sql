@@ -1,6 +1,6 @@
 ﻿
 CREATE TABLE public."Function" (
-  "FunctionID" INTEGER DEFAULT nextval('public.function_functionid_seq'::text),
+  "FunctionID" UUID NOT NULL,
   "OrganisationTypeID" INTEGER NOT NULL,
   "Name" VARCHAR(100) NOT NULL UNIQUE,
   PRIMARY KEY("FunctionID")
@@ -22,7 +22,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE
 
 CREATE TABLE public."UserAccountOrganisationFunction" (
   "UserAccountOrganisationID" UUID NOT NULL,
-  "FunctionID" INTEGER NOT NULL,
+  "FunctionID" UUID NOT NULL,
   PRIMARY KEY("UserAccountOrganisationID", "FunctionID")
 ) ;
 
@@ -34,7 +34,7 @@ ALTER TABLE public."UserAccountOrganisationFunction"
     NOT DEFERRABLE;
 
 ALTER TABLE public."UserAccountOrganisationFunction"
-  ADD CONSTRAINT "UserAccountOrganisationFunction_fk" FOREIGN KEY ("FunctionID")
+  ADD CONSTRAINT "UserAccountOrganisationFunction_Function_fk" FOREIGN KEY ("FunctionID")
     REFERENCES public."Function"("FunctionID")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
@@ -49,11 +49,11 @@ GRANT SELECT, INSERT, UPDATE, DELETE
 
 CREATE TABLE public."ConversationFunctionParticipant" (
   "ConversationID" UUID NOT NULL,
-  "UserAccountOrganisationID" UUID NOT NULL,
-  "FunctionID" INTEGER NOT NULL,
+  "OrganisationID" UUID NOT NULL,
+  "FunctionID" UUID NOT NULL,
   "Added" TIMESTAMP(0) WITH TIME ZONE DEFAULT now() NOT NULL,
-  PRIMARY KEY("ConversationID", "UserAccountOrganisationFunctionID")
-) ;
+  PRIMARY KEY("ConversationID", "FunctionID")
+);
 
 ALTER TABLE public."ConversationFunctionParticipant"
   ADD CONSTRAINT "ConversationFunctionParticipant_Conversation_fk" FOREIGN KEY ("ConversationID")
@@ -63,8 +63,15 @@ ALTER TABLE public."ConversationFunctionParticipant"
     NOT DEFERRABLE;
 
 ALTER TABLE public."ConversationFunctionParticipant"
-  ADD CONSTRAINT "ConversationFunctionParticipant_UserAccountOrganisationFunct_fk" FOREIGN KEY ("UserAccountOrganisationID", "FunctionID")
-    REFERENCES public."UserAccountOrganisationFunction"("UserAccountOrganisationID", "FunctionID")
+  ADD CONSTRAINT "ConversationFunctionParticipant_Organisation_fk" FOREIGN KEY ("OrganisationID")
+    REFERENCES public."Organisation"("OrganisationID")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+    
+ALTER TABLE public."ConversationFunctionParticipant"
+  ADD CONSTRAINT "ConversationFunctionParticipant_Function_fk" FOREIGN KEY ("FunctionID")
+    REFERENCES public."Function"("FunctionID")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;

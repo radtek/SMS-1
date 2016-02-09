@@ -16,14 +16,13 @@ namespace Bec.TargetFramework.Data
 {
 
     /// <summary>
-    /// There are no comments for Bec.TargetFramework.Data.Conversation in the schema.
+    /// There are no comments for Bec.TargetFramework.Data.ConversationFunctionParticipant in the schema.
     /// </summary>
     [System.Serializable]
-    public partial class Conversation    {
+    public partial class ConversationFunctionParticipant    {
 
-        public Conversation()
+        public ConversationFunctionParticipant()
         {
-          this.IsSystemMessage = false;
         }
 
         #region Properties
@@ -39,9 +38,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for Subject in the schema.
+        /// There are no comments for OrganisationID in the schema.
         /// </summary>
-        public virtual string Subject
+        public virtual global::System.Guid OrganisationID
         {
             get;
             set;
@@ -49,9 +48,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for ActivityType in the schema.
+        /// There are no comments for FunctionID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<int> ActivityType
+        public virtual global::System.Guid FunctionID
         {
             get;
             set;
@@ -59,29 +58,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for ActivityID in the schema.
+        /// There are no comments for Added in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> ActivityID
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for IsSystemMessage in the schema.
-        /// </summary>
-        public virtual bool IsSystemMessage
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for Latest in the schema.
-        /// </summary>
-        public virtual global::System.DateTime Latest
+        public virtual global::System.DateTime Added
         {
             get;
             set;
@@ -93,27 +72,27 @@ namespace Bec.TargetFramework.Data
         #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for ConversationParticipants in the schema.
+        /// There are no comments for Conversation in the schema.
         /// </summary>
-        public virtual ICollection<ConversationParticipant> ConversationParticipants
+        public virtual Conversation Conversation
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for Notifications in the schema.
+        /// There are no comments for Organisation in the schema.
         /// </summary>
-        public virtual ICollection<Notification> Notifications
+        public virtual Organisation Organisation
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for ConversationFunctionParticipants in the schema.
+        /// There are no comments for Function in the schema.
         /// </summary>
-        public virtual ICollection<ConversationFunctionParticipant> ConversationFunctionParticipants
+        public virtual Function Function
         {
             get;
             set;

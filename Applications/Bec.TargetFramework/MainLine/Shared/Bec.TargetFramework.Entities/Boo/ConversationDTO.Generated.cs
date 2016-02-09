@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ConversationDTO() {
         }
 
-        public ConversationDTO(global::System.Guid conversationID, string subject, global::System.Nullable<int> activityType, global::System.Nullable<System.Guid> activityID, bool isSystemMessage, global::System.DateTime latest, List<ConversationParticipantDTO> conversationParticipants, List<NotificationDTO> notifications) {
+        public ConversationDTO(global::System.Guid conversationID, string subject, global::System.Nullable<int> activityType, global::System.Nullable<System.Guid> activityID, bool isSystemMessage, global::System.DateTime latest, List<ConversationParticipantDTO> conversationParticipants, List<NotificationDTO> notifications, List<ConversationFunctionParticipantDTO> conversationFunctionParticipants) {
 
           this.ConversationID = conversationID;
           this.Subject = subject;
@@ -32,6 +32,7 @@ namespace Bec.TargetFramework.Entities
           this.Latest = latest;
           this.ConversationParticipants = conversationParticipants;
           this.Notifications = notifications;
+          this.ConversationFunctionParticipants = conversationFunctionParticipants;
         }
 
         #endregion
@@ -65,6 +66,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<NotificationDTO> Notifications { get; set; }
+
+        [DataMember]
+        public List<ConversationFunctionParticipantDTO> ConversationFunctionParticipants { get; set; }
 
         #endregion
     }

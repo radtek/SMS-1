@@ -106,6 +106,7 @@
     <Compile Include="Converters\ContactRegulatorConverter.cs" />
     <Compile Include="Converters\ContainsagadataConverter.cs" />
     <Compile Include="Converters\ConversationConverter.cs" />
+    <Compile Include="Converters\ConversationFunctionParticipantConverter.cs" />
     <Compile Include="Converters\ConversationParticipantConverter.cs" />
     <Compile Include="Converters\CountryCodeConverter.cs" />
     <Compile Include="Converters\CountryDeductionConverter.cs" />
@@ -504,6 +505,7 @@
     <Compile Include="Model\TargetFramework.ContactRegulator.cs" />
     <Compile Include="Model\TargetFramework.Containsagadata.cs" />
     <Compile Include="Model\TargetFramework.Conversation.cs" />
+    <Compile Include="Model\TargetFramework.ConversationFunctionParticipant.cs" />
     <Compile Include="Model\TargetFramework.ConversationParticipant.cs" />
     <Compile Include="Model\TargetFramework.CountryCode.cs" />
     <Compile Include="Model\TargetFramework.CountryDeduction.cs" />
