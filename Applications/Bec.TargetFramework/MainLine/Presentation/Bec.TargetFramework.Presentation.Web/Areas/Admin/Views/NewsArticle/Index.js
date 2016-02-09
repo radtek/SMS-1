@@ -50,9 +50,11 @@ function newsArticleChange(dataItem) {
 }
 
 function showNewsDetails(dataItem) {
-    console.log(dataItem);
+    var data = _.extend({}, dataItem, {
+        contentLines: dataItem.Content.split('\n')
+    });
     newsArticleDetailsTemplatePromise.done(function (template) {
-        var html = template(dataItem);
+        var html = template(data);
         $('#newsArticleDetails').html(html);
     });
 }
