@@ -1,0 +1,64 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model NewsArticleDTO
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addNewsArticleLabel" aria-hidden="true">
+    <div class="modal-dialog" data-redirectto="@Url.Action("Index", "NewsArticle", new { area = "Admin" })">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addNewsArticleLabel">Add News Article</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="@Url.Action("AddNewsArticle", "NewsArticle", new { area = "Admin" })" method="POST" id="addNewsArticleForm" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="label">Title</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Title, new { tabindex = "1" })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="label">Date Time</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.DateTime, "{0:O}", new { tabindex = "2", id = "dateTimeInput", @readonly = true })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="label">Content</label>
+                                        <label class="textarea">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextAreaFor(m => m.Content, new { tabindex = "3", rows = 5 })
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitAddNewsArticle" class="btn btn-primary" tabindex="4">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/NewsArticle/_AddNewsArticle")"></script>

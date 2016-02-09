@@ -1,0 +1,31 @@
+﻿@using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-home margin-right-10"></i>News Articles</h2>
+            <a data-href="@Url.Action("ViewAddNewsArticle", "NewsArticle", new { area  = "Admin" })" data-modallink="true" class="btn btn-primary btn-sm inline-heading">
+                <i class="fa fa-plus margin-right-5"></i>Add News Article
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12 well">
+                    <div id="newsArticlesGrid" data-url="@Url.Action("GetNewsArticles", "NewsArticle", new { area = "Admin" })" data-jumpto="@TempData["NewsArticleID"]"></div>
+                </div>
+            </div>
+            <div class="row hidden" id="newsArticlesPanel">
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h3>News Article Details</h3>
+                        <div id="newsArticleDetails"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script async src="@Scripts.Url("~/Scripts/Admin/NewsArticle/Index")"></script>
+}
