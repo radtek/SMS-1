@@ -11,9 +11,9 @@
         @foreach (var article in Model)
         {
             var bit = article.Content.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)[0];
-            if (bit.Length > 50)
+            if (bit.Length > 100)
             {
-                bit = bit.Substring(0, 50);
+                bit = bit.Substring(0, 100);
             }
             
             <h3><a href="@Url.Action("News", new { articleid = article.NewsArticleID })">@article.Title</a></h3>
