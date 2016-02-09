@@ -258,6 +258,7 @@
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.js" />
     <Content Include="Areas\Admin\Views\NewsArticle\Index.js" />
     <Content Include="Areas\Admin\Views\NewsArticle\_AddNewsArticle.js" />
+    <Content Include="Areas\Admin\Views\NewsArticle\_EditNewsArticle.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
@@ -907,6 +908,7 @@
     <Content Include="Areas\Admin\Views\NewsArticle\Index.cshtml" />
     <Content Include="Areas\Admin\Views\NewsArticle\_AddNewsArticle.cshtml" />
     <Content Include="Areas\Admin\Views\NewsArticle\_newsArticleDetailsTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsArticle\_EditNewsArticle.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

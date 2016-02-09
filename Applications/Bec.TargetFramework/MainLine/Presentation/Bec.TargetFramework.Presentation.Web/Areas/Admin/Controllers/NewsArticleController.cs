@@ -1,4 +1,5 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
+﻿using System.Linq;
+using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
@@ -51,6 +52,50 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var newsArticleID = await MiscClient.AddNewsArticleAsync(dto);
             return RedirectToAction("Index", new { selectedNewsArticleID = newsArticleID });
+        }
+
+        public async Task<ActionResult> ViewEditNewsArticle(Guid newsArticleID)
+        {
+            var select = ODataHelper.Select<NewsArticleDTO>(x => new
+            {
+                x.NewsArticleID,
+                x.DateTime,
+                x.Title,
+                x.Content
+            });
+
+            var filter = ODataHelper.Filter<NewsArticleDTO>(x => x.NewsArticleID == newsArticleID);
+            var res = await QueryClient.QueryAsync<NewsArticleDTO>("NewsArticles", select + filter);
+
+            ViewBag.NewsArticleID = newsArticleID;
+
+            return PartialView("_EditNewsArticle", Edit.MakeModel(res.First()));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditNewsArticle(Guid newsArticleID)
+        {
+            try
+            {
+                var filter = ODataHelper.Filter<NewsArticleDTO>(x => x.NewsArticleID == newsArticleID);
+                var data = Edit.fromD(Request.Form,
+                    "DateTime",
+                    "Title",
+                    "Content");
+
+                await QueryClient.UpdateGraphAsync("NewsArticles", data, filter);
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Edit News Article Failed",
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

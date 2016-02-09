@@ -18,7 +18,12 @@
             <div class="row hidden" id="newsArticlesPanel">
                 <div class="col-sm-6">
                     <div class="well">
-                        <h3>News Article Details</h3>
+                        <h3>
+                            News Article Details
+                            <span class="pull-right">
+                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit News Article" data-url="@Url.Action("ViewEditNewsArticle", "NewsArticle", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+                            </span>
+                        </h3>
                         <div id="newsArticleDetails"></div>
                     </div>
                 </div>
