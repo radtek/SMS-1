@@ -57,16 +57,7 @@ $(function () {
                     },
                     {
                         field: "BankAccountStatus",
-                        title: "Bank Account Status",
-                        template: function (dataItem) {
-                            if (dataItem.ActiveSafeAccounts > 0) {
-                                return 'Approved';
-                            } else if (dataItem.PendingValidationAccounts > 0) {
-                                return 'Submitted';
-                            } else {
-                                return 'None';
-                            }
-                        }
+                        title: "Bank Account Status"
                     }
             ]
         });

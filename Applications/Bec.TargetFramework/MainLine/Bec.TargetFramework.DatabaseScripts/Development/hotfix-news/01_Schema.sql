@@ -227,3 +227,6 @@ FROM "Organisation" org
         orgc."ContactID" IS NOT NULL AND
         (ua."IsDeleted" IS NULL OR
         ua."IsDeleted" = false);
+
+grant select, insert, update, delete on public."vOrganisationWithStatusAndAdmin" to bef;
+grant select, insert, update, delete on public."vOrganisationWithStatusAndAdmin" to postgres;
