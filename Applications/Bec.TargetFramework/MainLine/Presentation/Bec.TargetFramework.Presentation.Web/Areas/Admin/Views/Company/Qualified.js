@@ -59,9 +59,6 @@ $(function () {
                         field: "BankAccountStatus",
                         title: "Bank Account Status",
                         template: function (dataItem) {
-
-                            console.log(dataItem.OrganisationAdminEmail);
-                            console.log(dataItem);
                             if (dataItem.ActiveSafeAccounts > 0) {
                                 return 'Approved';
                             } else if (dataItem.PendingValidationAccounts > 0) {
