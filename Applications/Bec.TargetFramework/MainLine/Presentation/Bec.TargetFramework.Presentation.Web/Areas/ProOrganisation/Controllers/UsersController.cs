@@ -162,8 +162,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var uao = res.First();
 
             var userIsSRO = uao.UserType.Name == sroType;
-            var rolesForEdit = GetRolesForEdit(orgID, uaoID, userIsSRO);
-            var functionsForEdit = GetFunctionsForEdit(orgID, uaoID);
+            var rolesForEdit = await GetRolesForEdit(orgID, uaoID, userIsSRO);
+            var functionsForEdit = await GetFunctionsForEdit(orgID, uaoID);
             ViewBag.UserIsSRO = userIsSRO;
             ViewBag.Roles = rolesForEdit;
             ViewBag.Functions = functionsForEdit;
@@ -176,10 +176,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> EditUser(Guid uaoID)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            var defaultRoles = await GetDefaultRoles(orgID);
             await EnsureUserInOrg(uaoID, orgID, queryClient);
-            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserType.Name });
-            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+            
             var data = Edit.fromD(Request.Form,
                 "Contact.Salutation",
                 "Contact.FirstName",
@@ -188,28 +186,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 "UserAccount.IsActive",
                 "UserAccount.RowVersion",
                 "UserAccountOrganisationRoles[].Selected",
-                "UserAccountOrganisationRoles[].OrganisationRoleID");
+                "UserAccountOrganisationRoles[].OrganisationRoleID",
+                "UserAccountOrganisationFunctions[].Selected",
+                "UserAccountOrganisationFunctions[].FunctionID"
+                );
 
-            var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID });
-            var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID && x.RoleName == adminRole);
-            var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter)).ToList();
-            var ar = allRoles.FirstOrDefault();
-            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
-            var uao = res.FirstOrDefault();
+            data = await PrepareRolesBeforeSave(data, orgID, uaoID);
+            data = PrepareFunctionsBeforeSave(data);
 
-            //manipulate collection of roles to include only selected ones
-            var array = data["UserAccountOrganisationRoles"] as JArray;
-            var toRemove = array.Where(x => x["Selected"] == null).ToList();
-            foreach (var r in toRemove) array.Remove(r);
-            foreach (var r in defaultRoles) array.Add(JObject.FromObject(new { OrganisationRoleID = r, Selected = "on" }));
-
-            if (ar != null && uao != null && uao.UserType.Name == sroType)
-            {
-                //ensure IsActive && adminRole for SRO Anas.
-                data["UserAccount"]["IsActive"] = "true,false";
-                if (!array.Any(x => (Guid)x["OrganisationRoleID"] == ar.OrganisationRoleID)) array.Add(JObject.FromObject(new { OrganisationRoleID = ar.OrganisationRoleID, Selected = "on" }));
-            }
-
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
             await queryClient.UpdateGraphAsync("UserAccountOrganisations", data, filter);
 
             return RedirectToAction("Registered");
@@ -238,7 +223,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return allFunctions;
         }
 
-        private async Task<IEnumerable<OrganisationRoleDTO>> GetAllRoles(Guid orgID)
+        private async Task<List<OrganisationRoleDTO>> GetAllRoles(Guid orgID)
         {
             var select = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName, x.RoleDescription, a = x.UserAccountOrganisationRoles.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.UserAccount.IsTemporaryAccount }) });
             var filter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID && x.IsDefault == false);
@@ -255,9 +240,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return defaultRoles.Select(r => r.OrganisationRoleID);
         }
 
-        private IEnumerable<Tuple<int, string, string, Guid, string>> GetRolesForEdit(Guid orgID, Guid uaoID, bool userIsSRO)
+        private async Task<IEnumerable<Tuple<int, string, string, Guid, string>>> GetRolesForEdit(Guid orgID, Guid uaoID, bool userIsSRO)
         {
-            var allRoles = GetAllRoles(orgID).Result.ToList();
+            var allRoles = await GetAllRoles(orgID);
             var userRoles = userClient.GetRoles(uaoID, 0);
 
             var result = new List<Tuple<int, string, string, Guid, string>>();
@@ -273,11 +258,46 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return result;
         }
 
-        private IEnumerable<FunctionEditEntry> GetFunctionsForEdit(Guid orgID, Guid uaoID)
+        private async Task<JObject> PrepareRolesBeforeSave(JObject data, Guid orgID, Guid uaoID)
         {
-            var allFunctions = GetAllFunctions(orgID).Result.ToList();
-            var userFunctions = userClient.GetFunctions(uaoID);
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserType.Name });
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
+            var uao = res.FirstOrDefault();
 
+            var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID });
+            var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID && x.RoleName == adminRole);
+            var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter)).ToList();
+            var ar = allRoles.FirstOrDefault();
+
+            var defaultRoles = await GetDefaultRoles(orgID);
+            var array = data["UserAccountOrganisationRoles"] as JArray;
+            //manipulate collection of roles to include only selected ones
+            var toRemove = array.Where(x => x["Selected"] == null).ToList();
+            foreach (var r in toRemove) array.Remove(r);
+            foreach (var r in defaultRoles) array.Add(JObject.FromObject(new { OrganisationRoleID = r, Selected = "on" }));
+
+            if (ar != null && uao != null && uao.UserType.Name == sroType)
+            {
+                //ensure IsActive && adminRole for SRO Anas.
+                data["UserAccount"]["IsActive"] = "true,false";
+                if (!array.Any(x => (Guid)x["OrganisationRoleID"] == ar.OrganisationRoleID)) array.Add(JObject.FromObject(new { OrganisationRoleID = ar.OrganisationRoleID, Selected = "on" }));
+            }
+            return data;
+        }
+
+        private JObject PrepareFunctionsBeforeSave(JObject data)
+        {
+            var array = data["UserAccountOrganisationFunctions"] as JArray;
+            var toRemove = array.Where(x => x["Selected"] == null).ToList();
+            foreach (var r in toRemove) array.Remove(r);
+            return data;
+        }
+
+        private async Task<IEnumerable<FunctionEditEntry>> GetFunctionsForEdit(Guid orgID, Guid uaoID)
+        {
+            var allFunctions = await GetAllFunctions(orgID);
+            var userFunctions = userClient.GetFunctions(uaoID);
             var result = allFunctions.Select((f, i) => new FunctionEditEntry
             {
                 FunctionID = f.FunctionID,
@@ -285,7 +305,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 IsChecked = userFunctions.Any(u => u.FunctionID == f.FunctionID),
                 Name = f.Name
             });
-
             return result;
         }
     }
