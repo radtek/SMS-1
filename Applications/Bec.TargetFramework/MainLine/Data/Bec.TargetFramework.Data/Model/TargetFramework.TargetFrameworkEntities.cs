@@ -2041,6 +2041,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for OrganisationNote in the schema.
         /// </summary>
         public virtual DbSet<OrganisationNote> OrganisationNotes { get; set; }
+    
+        /// <summary>
+        /// There are no comments for NewsArticle in the schema.
+        /// </summary>
+        public virtual DbSet<NewsArticle> NewsArticles { get; set; }
 
         #region Methods
 

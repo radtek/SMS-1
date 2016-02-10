@@ -56,6 +56,7 @@
     <None Include="Development\1.3.48-national-pilot-all-firms\09_BankAccountCertificateUpdate.sql" />
     <Content Include="Development\1.3.70-extended-free-trial\Combined\1.3.70-extended-free-trial-tf-core.sql" />
     <Content Include="Development\1.3.70-extended-free-trial\Combined\1.3.70-extended-free-trial-tf.sql" />
+    <Content Include="Development\hotfix-news\01_Schema.sql" />
     <Content Include="Scripts\BE Framework Scripts\AddRowVersion.sql" />
     <Content Include="Scripts\BE Framework Scripts\Core\Setup\Core Application Environment.sql" />
     <Content Include="Scripts\BE Framework Scripts\Core\Setup\Core Lookup.sql" />

@@ -624,7 +624,6 @@ function populateCompany(dataItem) {
     if (!!dataItem.PinCreated) dataItem.PinCreatedDisplay = dateString(dataItem.PinCreated);
     if (dataItem.TradingNames.length > 0) {
         dataItem.TradingNamesDisplay = dataItem.TradingNames.slice();
-        console.log(dataItem.TradingNamesDisplay);
     }
     dataItem.SystemAdminNameDisplay = (dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || "");
     dataItem.RegulatorNameDisplay = dataItem.Regulator || "";

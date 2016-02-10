@@ -202,6 +202,7 @@
     <Compile Include="Converters\ModuleSubscriptionConverter.cs" />
     <Compile Include="Converters\ModuleSubscriptionTemplateConverter.cs" />
     <Compile Include="Converters\ModuleTemplateConverter.cs" />
+    <Compile Include="Converters\NewsArticleConverter.cs" />
     <Compile Include="Converters\NotificationConstructClaimConverter.cs" />
     <Compile Include="Converters\NotificationConstructClaimTemplateConverter.cs" />
     <Compile Include="Converters\NotificationConstructConverter.cs" />
@@ -599,6 +600,7 @@
     <Compile Include="Model\TargetFramework.ModuleSubscription.cs" />
     <Compile Include="Model\TargetFramework.ModuleSubscriptionTemplate.cs" />
     <Compile Include="Model\TargetFramework.ModuleTemplate.cs" />
+    <Compile Include="Model\TargetFramework.NewsArticle.cs" />
     <Compile Include="Model\TargetFramework.Notification.cs" />
     <Compile Include="Model\TargetFramework.NotificationConstruct.cs" />
     <Compile Include="Model\TargetFramework.NotificationConstructClaim.cs" />
