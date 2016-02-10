@@ -821,6 +821,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public List<UserAccountOrganisationFunctionDTO> GetFunctions(Guid uaoID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
+            }
+        }
+
         public async Task ChangeUsernameAndEmail(Guid uaoId, string newUsername)
         {
             UserAccountDTO userAccountDto;

@@ -1,6 +1,7 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Models;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
@@ -161,27 +162,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var uao = res.First();
 
             var userIsSRO = uao.UserType.Name == sroType;
-
-            var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName, x.RoleDescription, a = x.UserAccountOrganisationRoles.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.UserAccount.IsTemporaryAccount }) });
-            var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID && x.IsDefault == false);
-            var rorderby = ODataHelper.OrderBy<OrganisationRoleDTO>(x => new { x.RoleDescription });
-            var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter + rorderby)).ToList();
-
-            var userRoles = userClient.GetRoles(uaoID, 0);
-
-            var r = new List<Tuple<int, string, string, Guid, string>>();
-            for (int i = 0; i < allRoles.Count; i++)
-            {
-                var v = allRoles[i];
-                bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
-                bool disabled = userIsSRO || (v.RoleName == adminRole && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1);
-                if (disabled) v.RoleDescription += " (locked)";
-
-                r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleDescription));
-            }
+            var rolesForEdit = GetRolesForEdit(orgID, uaoID, userIsSRO);
+            var functionsForEdit = GetFunctionsForEdit(orgID, uaoID);
             ViewBag.UserIsSRO = userIsSRO;
-            ViewBag.Roles = r;
-            
+            ViewBag.Roles = rolesForEdit;
+            ViewBag.Functions = functionsForEdit;
 
             return PartialView("_EditUser", Edit.MakeModel(uao));
         }
@@ -268,6 +253,40 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID && x.IsDefault == true);
             var defaultRoles = await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter);
             return defaultRoles.Select(r => r.OrganisationRoleID);
+        }
+
+        private IEnumerable<Tuple<int, string, string, Guid, string>> GetRolesForEdit(Guid orgID, Guid uaoID, bool userIsSRO)
+        {
+            var allRoles = GetAllRoles(orgID).Result.ToList();
+            var userRoles = userClient.GetRoles(uaoID, 0);
+
+            var result = new List<Tuple<int, string, string, Guid, string>>();
+            for (int i = 0; i < allRoles.Count; i++)
+            {
+                var v = allRoles[i];
+                bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
+                bool disabled = userIsSRO || (v.RoleName == adminRole && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1);
+                if (disabled) v.RoleDescription += " (locked)";
+
+                result.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleDescription));
+            }
+            return result;
+        }
+
+        private IEnumerable<FunctionEditEntry> GetFunctionsForEdit(Guid orgID, Guid uaoID)
+        {
+            var allFunctions = GetAllFunctions(orgID).Result.ToList();
+            var userFunctions = userClient.GetFunctions(uaoID);
+
+            var result = allFunctions.Select((f, i) => new FunctionEditEntry
+            {
+                FunctionID = f.FunctionID,
+                Index = i,
+                IsChecked = userFunctions.Any(u => u.FunctionID == f.FunctionID),
+                Name = f.Name
+            });
+
+            return result;
         }
     }
 }

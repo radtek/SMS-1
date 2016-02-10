@@ -1558,6 +1558,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel);
 
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task<List<UserAccountOrganisationFunctionDTO>> GetFunctionsAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		List<UserAccountOrganisationFunctionDTO> GetFunctions(Guid uaoID);
+
 		/// <param name="uaoId"></param>
 		/// <param name="newUsername"></param>
 		/// <returns></returns>
@@ -5629,6 +5637,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task<List<UserAccountOrganisationFunctionDTO>> GetFunctionsAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<UserAccountOrganisationFunctionDTO>>("api/UserLogic/GetFunctions?uaoID=" + uaoID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual List<UserAccountOrganisationFunctionDTO> GetFunctions(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<UserAccountOrganisationFunctionDTO>>("api/UserLogic/GetFunctions?uaoID=" + uaoID, _user)).Result;
 		}
 
 		/// <summary>

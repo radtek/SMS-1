@@ -199,6 +199,7 @@
     <Compile Include="Areas\Lender\LenderAreaRegistration.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
+    <Compile Include="Areas\ProOrganisation\Models\FunctionEditEntry.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
     <Compile Include="Areas\Buyer\Controllers\SafeBuyerController.cs" />

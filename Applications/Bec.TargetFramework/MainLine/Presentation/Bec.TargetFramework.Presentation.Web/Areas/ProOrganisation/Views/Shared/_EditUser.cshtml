@@ -1,4 +1,5 @@
-﻿@using Bec.TargetFramework.Entities
+﻿@using Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Models
+@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Helpers;
@@ -73,6 +74,25 @@
                                     }
 
                                 </section>
+
+                                @if (((IEnumerable<FunctionEditEntry>)ViewBag.Functions).Any())
+                                {
+                                    <section>
+                                        <label class="label">Functions</label>
+                                        @foreach (FunctionEditEntry function in ViewBag.Functions)
+                                        {
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="Model.UserAccountOrganisationFunctions[@function.Index].Selected" 
+                                                       id="Model.UserAccountOrganisationFunctions[@function.Index].Selected" 
+                                                       @(function.IsChecked ? "checked" : "")
+                                                       class="role-checkbox" />
+                                                <input name="Model.UserAccountOrganisationFunctions[@function.Index].FunctionID" type="hidden" value="@function.FunctionID" />
+                                                <i></i>
+                                                <label for="Model.UserAccountOrganisationFunctions[@function.Index].Selected">@function.Name</label>
+                                            </label>
+                                        }
+                                    </section>
+                                }
 
                             </fieldset>
                         </form>
