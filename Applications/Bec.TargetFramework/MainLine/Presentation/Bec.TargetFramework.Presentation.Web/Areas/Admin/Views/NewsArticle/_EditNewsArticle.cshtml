@@ -1,0 +1,67 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@using Bec.TargetFramework.Presentation.Web.Helpers
+@model Edit<NewsArticleDTO>
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="editNewsArticlesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editNewsArticlesLabel">Edit News Article</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form data-url="@Url.Action("EditNewsArticle", "NewsArticle", new { area = "Admin" })" data-redirectto="@Url.Action("Index", "NewsArticle", new { area = "Admin", selectedNewsArticleID = ViewBag.NewsArticleID })"
+                              data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })" id="editNewsArticleForm" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("NewsArticleID", (object)ViewBag.NewsArticleID)
+
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="label">Title</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Model.Title, new { tabindex = "1" })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="label">Date</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Model.DateTime, "{0:O}", new { tabindex = "2", id = "dateTimeInput", @readonly = true })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="label">Content</label>
+                                        <label class="textarea">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextAreaFor(m => m.Model.Content, new { tabindex = "3", rows = 20 })
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelEditNewsArticle" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitEditNewsArticle" class="btn btn-primary" tabindex="15">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/NewsArticle/_EditNewsArticle")"></script>

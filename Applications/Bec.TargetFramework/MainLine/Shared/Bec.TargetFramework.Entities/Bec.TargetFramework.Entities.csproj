@@ -698,6 +698,10 @@
     <Compile Include="Boo\ModuleWorkflowUserStageTemplateDTO.Generated.cs">
       <DependentUpon>ModuleWorkflowUserStageTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\NewsArticleDTO.cs" />
+    <Compile Include="Boo\NewsArticleDTO.Generated.cs">
+      <DependentUpon>NewsArticleDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\NotificationConstructClaimDTO.cs" />
     <Compile Include="Boo\NotificationConstructClaimDTO.Generated.cs">
       <DependentUpon>NotificationConstructClaimDTO.cs</DependentUpon>

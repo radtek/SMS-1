@@ -130,20 +130,29 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
-        public ActionResult ViewAddNotes(Guid orgID)
+        public ActionResult ViewAddNotes(Guid orgID, bool qualified)
         {
             ViewBag.orgID = orgID;
+            ViewBag.qualified = qualified;
             return PartialView("_AddNotes");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddNotes(Guid orgID, string notes)
+        public async Task<ActionResult> AddNotes(Guid orgID, string notes, bool qualified)
         {
             await OrganisationClient.AddNotesAsync(orgID, WebUserHelper.GetWebUserObject(HttpContext).UaoID, notes);
-            TempData["VerifiedCompanyId"] = orgID;
-            TempData["tabIndex"] = 1;
-            return RedirectToAction("Provisional");
+            if (qualified)
+            {
+                TempData["QualifiedCompanyId"] = orgID;
+                return RedirectToAction("Qualified");
+            }
+            else
+            {
+                TempData["VerifiedCompanyId"] = orgID;
+                TempData["tabIndex"] = 1;
+                return RedirectToAction("Provisional");
+            }
         }
 
         public async Task<ActionResult> GetNotes(Guid orgID)

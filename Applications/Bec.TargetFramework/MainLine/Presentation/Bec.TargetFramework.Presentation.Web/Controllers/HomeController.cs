@@ -3,12 +3,18 @@ using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Settings;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System;
+using System.Linq;
+using Bec.TargetFramework.Presentation.Web.Helpers;
+using Bec.TargetFramework.Entities;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
     public class HomeController : Controller
     {
         public ITFSettingsLogicClient SettingsClient { get; set; }
+        public IMiscLogicClient MiscLogicClient { get; set; }
+        public IQueryLogicClient QueryLogicClient { get; set; }
 
         public ActionResult Index()
         {
@@ -121,6 +127,24 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public ActionResult HowToKeepConsumersSafe()
         {
             return View();
+        }
+
+        public async Task<ActionResult> News(Guid? articleID)
+        {
+            if (articleID.HasValue)
+            {
+                var select = ODataHelper.Select<NewsArticleDTO>(x => new { x.NewsArticleID, x.Title, x.DateTime, x.Content });
+                var filter = ODataHelper.Filter<NewsArticleDTO>(x => x.NewsArticleID == articleID);
+                var articles = await QueryLogicClient.QueryAsync<NewsArticleDTO>("NewsArticles", select + filter);
+                return View("Article", articles.FirstOrDefault());
+            }
+            else
+            {
+                var select = ODataHelper.Select<NewsArticleDTO>(x => new { x.NewsArticleID, x.Title, x.DateTime, x.Content });
+                var orderby = ODataHelper.OrderBy<NewsArticleDTO>(x => new { x.DateTime }) + " desc";
+                var articles = await QueryLogicClient.QueryAsync<NewsArticleDTO>("NewsArticles", select + orderby);
+                return View(articles);
+            }
         }
     }
 }

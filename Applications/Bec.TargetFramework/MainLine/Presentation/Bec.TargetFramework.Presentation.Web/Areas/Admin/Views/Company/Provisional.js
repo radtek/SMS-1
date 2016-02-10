@@ -290,7 +290,7 @@ function verifiedChange(dataItem) {
 
         $("#unverifyButton").data('href', $("#unverifyButton").data("url") + "?orgId=" + dataItem.OrganisationID);
         $("#rejectVerifiedButton").data('href', $("#rejectVerifiedButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&returnTab=1");
-        $('#addNotesButton').data('href', $('#addNotesButton').data('url') + "?orgID=" + dataItem.OrganisationID);
+        $('#addNotesButton').data('href', $('#addNotesButton').data('url') + "?orgID=" + dataItem.OrganisationID + "&qualified=false");
 
         ajaxWrapper({ url: $('#verifiedPanel').data('url') + "?orgID=" + dataItem.OrganisationID }).done(function (notes) {
             notesTemplatePromise.done(function (template) {

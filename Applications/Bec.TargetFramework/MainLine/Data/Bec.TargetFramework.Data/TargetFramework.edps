@@ -400,6 +400,7 @@
         <File Name="TargetFramework.VConversationUnread.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.File.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationNote.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.NewsArticle.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetConversationActivityResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1192,6 +1193,8 @@
         <File Name="FileDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationNoteDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="OrganisationNoteDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="NewsArticleDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="NewsArticleDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetConversationActivityResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1591,6 +1594,7 @@
         <File Name="VConversationUnreadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FileConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationNoteConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="NewsArticleConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetConversationActivityResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
@@ -1757,59 +1761,13 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
-      <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationCategoryID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsBranch" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsHeadOffice" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsActive" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsUserOrganisation" Table="public.Organisation" Type="Column" />
-      <Exclude Name="CreatedOn" Table="public.Organisation" Type="Column" />
-      <Exclude Name="CreatedBy" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ModifiedOn" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ModifiedBy" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationSubCategoryID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="DefaultOrganisationID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="DefaultOrganisationVersionNumber" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ParentID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ParentOrganisationID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsPaymentProvider" Table="public.Organisation" Type="Column" />
-      <Exclude Name="PrimaryContactID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsCompanyVerified" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ReturnUrl" Table="public.Organisation" Type="Column" />
-      <Exclude Name="RowVersion" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationRecommendationSourceID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="SchemeID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="FilesPerMonth" Table="public.Organisation" Type="Column" />
-      <Exclude Name="BrokerType" Table="public.Organisation" Type="Column" />
-      <Exclude Name="BrokerBusinessType" Table="public.Organisation" Type="Column" />
-      <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="Organisation_SchemeID_key" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="OrganisationLedgerAccountID" Table="public.OrganisationLedgerTransaction" Type="Column" />
-      <Exclude Name="TransactionOrderID" Table="public.OrganisationLedgerTransaction" Type="Column" />
-      <Exclude Name="BalanceOn" Table="public.OrganisationLedgerTransaction" Type="Column" />
-      <Exclude Name="Amount" Table="public.OrganisationLedgerTransaction" Type="Column" />
-      <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
-      <Exclude Name="Notes" Table="public.OrganisationLedgerTransaction" Type="Column" />
-      <Exclude Name="pkLedgerAccountTransaction" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="OrganisationNoteID" Table="public.OrganisationNote" Type="Column" />
-      <Exclude Name="OrganisationID" Table="public.OrganisationNote" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="public.OrganisationNote" Type="Column" />
-      <Exclude Name="DateTime" Table="public.OrganisationNote" Type="Column" />
-      <Exclude Name="Notes" Table="public.OrganisationNote" Type="Column" />
-      <Exclude Name="OrganisationNote_pkey" Table="public.OrganisationNote" Type="Constraint" />
-      <Exclude Name="OrganisationNote_Organisation_fk" Table="public.OrganisationNote" Type="Constraint" />
-      <Exclude Name="OrganisationNote_UserAccountOrganisation_fk" Table="public.OrganisationNote" Type="Constraint" />
+      <Exclude Name="ConversationID" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Subject" Table="public.Conversation" Type="Column" />
+      <Exclude Name="ActivityType" Table="public.Conversation" Type="Column" />
+      <Exclude Name="ActivityID" Table="public.Conversation" Type="Column" />
+      <Exclude Name="IsSystemMessage" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Conversation_pkey" Table="public.Conversation" Type="Constraint" />
       <Exclude Name="UserAccountID" Table="public.UserAccountLoginSession" Type="Column" />
       <Exclude Name="UserSessionID" Table="public.UserAccountLoginSession" Type="Column" />
       <Exclude Name="UserIPAddress" Table="public.UserAccountLoginSession" Type="Column" />
@@ -1819,6 +1777,7 @@
       <Exclude Name="UserLogoutDate" Table="public.UserAccountLoginSession" Type="Column" />
       <Exclude Name="UserHasLoggedOut" Table="public.UserAccountLoginSession" Type="Column" />
       <Exclude Name="UserAccountLoginSession_pkey" Table="public.UserAccountLoginSession" Type="Constraint" />
+      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1930,9 +1889,7 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
-      <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
-      <Exclude Name="DateTime" Table="public.OrganisationNote" Type="Column" />
+      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
       <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
@@ -1940,7 +1897,6 @@
       <Exclude Name="ConversationID" Table="public.vConversationUnread" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vConversationUnread" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
-      <Exclude Name="IsAccepted" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="UserTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />

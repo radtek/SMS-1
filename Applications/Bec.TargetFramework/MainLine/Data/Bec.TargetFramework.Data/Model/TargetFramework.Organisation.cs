@@ -30,6 +30,7 @@ namespace Bec.TargetFramework.Data
           this.IsUserOrganisation = false;
           this.IsPaymentProvider = false;
           this.IsCompanyVerified = false;
+          this.IsCompanyPinCreated = false;
           this.ReturnUrl = @"";
           this.FilesPerMonth = 0;
         }
@@ -240,6 +241,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for IsCompanyVerified in the schema.
         /// </summary>
         public virtual global::System.Nullable<bool> IsCompanyVerified
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsCompanyPinCreated in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<bool> IsCompanyPinCreated
         {
             get;
             set;

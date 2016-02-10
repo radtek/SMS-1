@@ -184,6 +184,7 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsArticleController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
@@ -257,6 +258,9 @@
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.js" />
+    <Content Include="Areas\Admin\Views\NewsArticle\Index.js" />
+    <Content Include="Areas\Admin\Views\NewsArticle\_AddNewsArticle.js" />
+    <Content Include="Areas\Admin\Views\NewsArticle\_EditNewsArticle.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
@@ -900,6 +904,10 @@
     <Content Include="Areas\Admin\Views\Shared\_orgNotesTmpl.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Unverify.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsArticle\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsArticle\_AddNewsArticle.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsArticle\_newsArticleDetailsTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsArticle\_EditNewsArticle.cshtml" />
     <Content Include="Areas\Lender\Views\web.config" />
     <Content Include="Areas\Lender\Views\Transaction\Index.cshtml" />
     <Content Include="Areas\Lender\Views\Transaction\_transactionDetailsTmpl.cshtml" />
@@ -1850,6 +1858,8 @@
     <Content Include="Views\Home\HowTheSmsHelpsLenders.cshtml" />
     <Content Include="Views\Home\HowToKeepConsumersSafe.cshtml" />
     <Content Include="Views\Home\TutorialsForProfessionals.cshtml" />
+    <Content Include="Views\Home\News.cshtml" />
+    <Content Include="Views\Home\Article.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Lender\Views\Shared\" />
