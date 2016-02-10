@@ -21873,7 +21873,17 @@
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_CreatedByUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Notifications" ed:Guid="65f99910-9375-4611-9d84-0381177b95e7" />
           <NavigationProperty Name="Files" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Files" ed:Guid="674e1d85-14db-4a9c-8300-00380ac58949" />
           <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_UserAccountOrganisation_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationNotes" ed:Guid="6d48d822-e4df-4307-9b2a-ef989d240401" />
-          <NavigationProperty Name="UserAccountOrganisationFunctions" Relationship="Bec.TargetFramework.Data.UserAccountOrganisation_UserAccountOrganisationFunction" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationFunctions" ed:Guid="eb8fec3b-15a1-4065-a5ef-ce4b32975300" />
+          <NavigationProperty Name="UserAccountOrganisationFunctions" Relationship="Bec.TargetFramework.Data.UserAccountOrganisation_UserAccountOrganisationFunction" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationFunctions" ed:Guid="eb8fec3b-15a1-4065-a5ef-ce4b32975300">
+            <ed:Attributes>
+              <ed:Attribute Name="Bec.TargetFramework.Data.Attributes.CollectionUpdateBehaviourAttribute" Assembly="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                <ed:AttributeConstructor>
+                  <ed:PropertyValue Name="behaviour" Type="Bec.TargetFramework.Data.Attributes.UpdateBehaviour, Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                    <UpdateBehaviour xmlns="">Replace</UpdateBehaviour>
+                  </ed:PropertyValue>
+                </ed:AttributeConstructor>
+              </ed:Attribute>
+            </ed:Attributes>
+          </NavigationProperty>
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
