@@ -394,6 +394,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void MarkInvoiceAsPaymentScheduled(Guid invoiceID);
 	}
 
+	public partial interface IMiscLogicClient : IClientBase	{	
+
+		/// <returns></returns>
+		Task<Guid> AddNewsArticleAsync(NewsArticleDTO dto);
+
+		/// <returns></returns>
+		Guid AddNewsArticle(NewsArticleDTO dto);
+	}
+
 	public partial interface INotificationLogicClient : IClientBase	{	
 
 		/// <param name="uaoID"></param>
@@ -2665,6 +2674,47 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaymentScheduledAsync?invoiceID=" + invoiceID, null, _user)).Wait();
+		}
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class MiscLogicClient : ClientBase, Interfaces.IMiscLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public MiscLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public MiscLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<Guid> AddNewsArticleAsync(NewsArticleDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<NewsArticleDTO, Guid>("api/MiscLogic/AddNewsArticle", dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid AddNewsArticle(NewsArticleDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<NewsArticleDTO, Guid>("api/MiscLogic/AddNewsArticle", dto, _user)).Result;
 		}
 
 		#endregion

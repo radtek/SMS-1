@@ -86,7 +86,6 @@ namespace Bec.TargetFramework.Entities
               target.TwoFactorAuthTokens = source.TwoFactorAuthTokens.ToDtosWithRelated(level - 1);
               target.UserClaims = source.UserClaims.ToDtosWithRelated(level - 1);
               target.UserAccountArchives = source.UserAccountArchives.ToDtosWithRelated(level - 1);
-              target.UserAccountLoginSessions = source.UserAccountLoginSessions.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

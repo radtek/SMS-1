@@ -14,7 +14,6 @@ using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
-
     //role for this not finalised yet
     [ClaimsRequired("Add", "Company", Order = 1000)]
     public class ReportingController : ApplicationControllerBase

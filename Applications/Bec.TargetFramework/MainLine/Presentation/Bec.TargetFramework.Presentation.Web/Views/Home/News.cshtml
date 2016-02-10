@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Bec.TargetFramework.Entities.NewsArticleDTO>
+@{
+    Layout = "~/Areas/Account/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "News";
+    ViewBag.Meta = "Since 2006 BE Consultancy has been working with conveyancers and lenders providing bespoke risk solutions to help make conveyancing better for them and their customers.";
+}
+<h2>@ViewBag.Title.</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        @foreach (var article in Model)
+        {
+            var bit = article.Content.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)[0];
+            if (bit.Length > 100)
+            {
+                bit = bit.Substring(0, 100);
+            }
+            
+            <h3><a href="@Url.Action("News", new { articleid = article.NewsArticleID })">@article.Title</a></h3>
+            <p><em>Published on @article.DateTime.ToShortDateString()</em></p>
+            <p>@bit...</p>
+        }
+    </div>
+</div>

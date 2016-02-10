@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VNotificationWithUAOVerificationCodeDTO() {
         }
 
-        public VNotificationWithUAOVerificationCodeDTO(global::System.Guid userAccountOrganisationID, global::System.Guid notificationID, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, string groupName, string groupDescription, string notificationConstructName, string notificationConstructSubject, string notificationConstructTitle, global::System.DateTime dateSent, bool isSent, bool isActive, bool isDeleted, global::System.Nullable<bool> isAccepted, global::System.Nullable<System.DateTime> acceptedDate, global::System.Guid userTypeID, int organisationTypeID, global::System.Nullable<bool> isRead, global::System.DateTime createdOn, global::System.Nullable<bool> errorOccured, global::System.Nullable<System.DateTime> sentOn, string notificationVerificationCode) {
+        public VNotificationWithUAOVerificationCodeDTO(global::System.Guid userAccountOrganisationID, global::System.Guid notificationID, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, string groupName, string groupDescription, string notificationConstructName, string notificationConstructSubject, string notificationConstructTitle, global::System.DateTime dateSent, bool isSent, bool isActive, bool isDeleted, bool isAccepted, global::System.Nullable<System.DateTime> acceptedDate, global::System.Guid userTypeID, int organisationTypeID, global::System.Nullable<bool> isRead, global::System.DateTime createdOn, global::System.Nullable<bool> errorOccured, global::System.Nullable<System.DateTime> sentOn, string notificationVerificationCode) {
 
           this.UserAccountOrganisationID = userAccountOrganisationID;
           this.NotificationID = notificationID;
@@ -92,7 +92,7 @@ namespace Bec.TargetFramework.Entities
         public bool IsDeleted { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsAccepted { get; set; }
+        public bool IsAccepted { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.DateTime> AcceptedDate { get; set; }
