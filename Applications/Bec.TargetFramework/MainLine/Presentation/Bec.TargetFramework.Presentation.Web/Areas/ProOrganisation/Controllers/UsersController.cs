@@ -28,7 +28,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         const string adminRole = "Organisation Administrator";
         const string sroType = "Organisation Administrator";
 
-        // GET: ProOrganisation/Users
         public ActionResult Invited()
         {
             return View();
@@ -240,12 +239,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return defaultRoles.Select(r => r.OrganisationRoleID);
         }
 
-        private async Task<IEnumerable<Tuple<int, string, string, Guid, string>>> GetRolesForEdit(Guid orgID, Guid uaoID, bool userIsSRO)
+        private async Task<IEnumerable<Tuple<int, bool, bool, Guid, string>>> GetRolesForEdit(Guid orgID, Guid uaoID, bool userIsSRO)
         {
             var allRoles = await GetAllRoles(orgID);
             var userRoles = userClient.GetRoles(uaoID, 0);
 
-            var result = new List<Tuple<int, string, string, Guid, string>>();
+            var result = new List<Tuple<int, bool, bool, Guid, string>>();
             for (int i = 0; i < allRoles.Count; i++)
             {
                 var v = allRoles[i];
@@ -253,7 +252,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 bool disabled = userIsSRO || (v.RoleName == adminRole && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1);
                 if (disabled) v.RoleDescription += " (locked)";
 
-                result.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleDescription));
+                result.Add(Tuple.Create(i, check, disabled, v.OrganisationRoleID, v.RoleDescription));
             }
             return result;
         }
