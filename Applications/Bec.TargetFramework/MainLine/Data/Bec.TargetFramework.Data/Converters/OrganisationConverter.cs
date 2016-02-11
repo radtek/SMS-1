@@ -50,7 +50,6 @@ namespace Bec.TargetFramework.Entities
             target.IsPaymentProvider = source.IsPaymentProvider;
             target.PrimaryContactID = source.PrimaryContactID;
             target.IsCompanyVerified = source.IsCompanyVerified;
-            target.IsCompanyPinCreated = source.IsCompanyPinCreated;
             target.ReturnUrl = source.ReturnUrl;
             target.RowVersion = source.RowVersion;
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
@@ -141,7 +140,6 @@ namespace Bec.TargetFramework.Entities
             target.IsPaymentProvider = source.IsPaymentProvider;
             target.PrimaryContactID = source.PrimaryContactID;
             target.IsCompanyVerified = source.IsCompanyVerified;
-            target.IsCompanyPinCreated = source.IsCompanyPinCreated;
             target.ReturnUrl = source.ReturnUrl;
             target.RowVersion = source.RowVersion;
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
