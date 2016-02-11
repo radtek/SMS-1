@@ -174,30 +174,40 @@ namespace Bec.TargetFramework.Business.Logic
                 MobileNumber1 = string.Empty,
                 CreatedBy = "System"
             };
-            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, true);
+            var addNewUserDto = new AddNewUserToOrganisationDTO
+            {
+                OrganisationID = organisationID,
+                ContactDTO = userContactDto,
+                UserType = UserTypeEnum.OrganisationAdministrator,
+                AddDefaultRoles = true,
+                Functions = Enumerable.Empty<Guid>(),
+                Roles = Enumerable.Empty<Guid>()
+            };
+
+            var uaoDto = await AddNewUserToOrganisationAsync(addNewUserDto);
 
             await UserLogic.LockOrUnlockUserAsync(uaoDto.UserID, true);
 
             return organisationID;
         }
 
-        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
+        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(AddNewUserToOrganisationDTO dto)
         {
             string orgTypeName;
             UserAccountOrganisationDTO uaoDto;
             Guid? userOrgID;
-            var ua = await UserLogic.CreateAccountAsync(userContactDto.EmailAddress1, RandomPasswordGenerator.Generate(10), userContactDto.EmailAddress1, userContactDto.MobileNumber1, Guid.NewGuid());
+            var ua = await UserLogic.CreateAccountAsync(dto.ContactDTO.EmailAddress1, RandomPasswordGenerator.Generate(10), dto.ContactDTO.EmailAddress1, dto.ContactDTO.MobileNumber1, Guid.NewGuid());
             Ensure.That(ua).IsNotNull();
 
             using (var scope = DbContextScopeFactory.Create())
             {
-                orgTypeName = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == organisationID).OrganisationType.Name;
+                orgTypeName = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == dto.OrganisationID).OrganisationType.Name;
 
                 // add user to organisation
-                userOrgID = scope.DbContexts.Get<TargetFrameworkEntities>().FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID, addDefaultRoles);
+                userOrgID = scope.DbContexts.Get<TargetFrameworkEntities>().FnAddUserToOrganisation(ua.ID, dto.OrganisationID, dto.UserType.GetGuidValue(), dto.OrganisationID, dto.AddDefaultRoles);
                 Ensure.That(userOrgID).IsNotNull();
 
-                foreach (var roleID in roles)
+                foreach (var roleID in dto.Roles)
                 {
                     scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Add(new UserAccountOrganisationRole
                     {
@@ -206,10 +216,19 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
+                foreach (var functionID in dto.Functions)
+                {
+                    scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions.Add(new UserAccountOrganisationFunction
+                    {
+                        UserAccountOrganisationID = userOrgID.Value,
+                        FunctionID = functionID
+                    });
+                }
+
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == userOrgID.Value);
 
                 // create or update contact
-                if (userContactDto.ContactID == Guid.Empty)
+                if (dto.ContactDTO.ContactID == Guid.Empty)
                 {
                     var contact = new Contact
                     {
@@ -217,12 +236,12 @@ namespace Bec.TargetFramework.Business.Logic
                         ParentID = userOrgID.Value,
                         ContactName = "",
                         IsPrimaryContact = true,
-                        Telephone1 = userContactDto.Telephone1,
-                        FirstName = userContactDto.FirstName,
-                        LastName = userContactDto.LastName,
-                        EmailAddress1 = userContactDto.EmailAddress1,
-                        Salutation = userContactDto.Salutation,
-                        BirthDate = userContactDto.BirthDate,
+                        Telephone1 = dto.ContactDTO.Telephone1,
+                        FirstName = dto.ContactDTO.FirstName,
+                        LastName = dto.ContactDTO.LastName,
+                        EmailAddress1 = dto.ContactDTO.EmailAddress1,
+                        Salutation = dto.ContactDTO.Salutation,
+                        BirthDate = dto.ContactDTO.BirthDate,
                         CreatedBy = UserNameService.UserName
                     };
                     scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
@@ -230,7 +249,7 @@ namespace Bec.TargetFramework.Business.Logic
                 }
                 else
                 {
-                    var existingUserContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Single(c => c.ContactID == userContactDto.ContactID);
+                    var existingUserContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Single(c => c.ContactID == dto.ContactDTO.ContactID);
                     existingUserContact.ParentID = userOrgID.Value;
 
                     uao.PrimaryContactID = existingUserContact.ContactID;
@@ -243,16 +262,16 @@ namespace Bec.TargetFramework.Business.Logic
             switch (orgTypeName)
             {
                 case "Professional":
-                    if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
+                    if (dto.UserType == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
                     break;
                 case "Personal":
                     await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
                     break;
                 case "MortgageBroker":
-                    if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcMortgageBroker);
+                    if (dto.UserType == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcMortgageBroker);
                     break;
                 case "Lender":
-                    if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcLender);
+                    if (dto.UserType == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcLender);
                     break;
             }
 
@@ -562,7 +581,16 @@ namespace Bec.TargetFramework.Business.Logic
                 CreatedBy = UserNameService.UserName
             };
             var personalOrgID = await AddOrganisationAsync(defaultOrganisation, companyDTO);
-            var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, true);
+            var addNewUserDto = new AddNewUserToOrganisationDTO
+            {
+                OrganisationID = personalOrgID.Value,
+                ContactDTO = contactDTO,
+                UserType = UserTypeEnum.User,
+                AddDefaultRoles = true,
+                Functions = Enumerable.Empty<Guid>(),
+                Roles = Enumerable.Empty<Guid>()
+            };
+            var buyerUaoDto = await AddNewUserToOrganisationAsync(addNewUserDto);
             await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
             
             return buyerUaoDto.UserAccountOrganisationID;

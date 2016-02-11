@@ -1,38 +1,41 @@
-﻿
-function ignore(e) {
-    if (e) e.preventDefault();
-}
+﻿$(function () {
+    'use strict';
 
+    $('.readonly').click(function (e) {
+        e.preventDefault();
+        return false;
+    });
 
-// submit from when Save button clicked
-$("#submitEditUser").click(function () {
-    $("#editUser-form").submit();
-});
+    // submit from when Save button clicked
+    $("#submitEditUser").click(function () {
+        $("#editUser-form").submit();
+    });
 
-$("#editUser-form").validate({
-    ignore: '.skip',
-    // Rules for form validation
-    rules: {
-        'Model.Contact.Salutation': {
-            required: true
+    $("#editUser-form").validate({
+        ignore: '.skip',
+        // Rules for form validation
+        rules: {
+            'Model.Contact.Salutation': {
+                required: true
+            },
+            'Model.Contact.FirstName': {
+                required: true
+            },
+            'Model.Contact.LastName': {
+                required: true
+            }
         },
-        'Model.Contact.FirstName': {
-            required: true
+
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
         },
-        'Model.Contact.LastName': {
-            required: true
-        }
-    },
 
-    // Do not change code below
-    errorPlacement: function (error, element) {
-        error.insertAfter(element.parent());
-    },
+        submitHandler: validateSubmit
+    });
 
-    submitHandler: validateSubmit
+    function validateSubmit(form) {
+        $("#submitEditUser").prop('disabled', true);
+        form.submit();
+    }
 });
-
-function validateSubmit(form) {
-    $("#submitEditUser").prop('disabled', true);
-    form.submit();
-}

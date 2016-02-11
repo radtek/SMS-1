@@ -416,6 +416,9 @@
           <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.Store.File" store:Type="Tables" Schema="public" Table="File" />
           <EntitySet Name="OrganisationNotes" EntityType="Bec.TargetFramework.Data.Store.OrganisationNote" store:Type="Tables" Schema="public" Table="OrganisationNote" />
+          <EntitySet Name="Functions" EntityType="Bec.TargetFramework.Data.Store.Function" store:Type="Tables" Schema="public" Table="Function" />
+          <EntitySet Name="ConversationFunctionParticipants" EntityType="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant" store:Type="Tables" Schema="public" Table="ConversationFunctionParticipant" />
+          <EntitySet Name="UserAccountOrganisationFunctions" EntityType="Bec.TargetFramework.Data.Store.UserAccountOrganisationFunction" store:Type="Tables" Schema="public" Table="UserAccountOrganisationFunction" />
           <EntitySet Name="NewsArticles" EntityType="Bec.TargetFramework.Data.Store.NewsArticle" store:Type="Tables" Schema="public" Table="NewsArticle" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
@@ -2988,6 +2991,30 @@
           <AssociationSet Name="Lender_Organisation_fk" Association="Bec.TargetFramework.Data.Store.Lender_Organisation_fk">
             <End Role="Organisation" EntitySet="Organisations" />
             <End Role="Lender" EntitySet="Lenders" />
+          </AssociationSet>
+          <AssociationSet Name="Function_OrganisationType_fk" Association="Bec.TargetFramework.Data.Store.Function_OrganisationType_fk">
+            <End Role="OrganisationType" EntitySet="OrganisationTypes" />
+            <End Role="Function" EntitySet="Functions" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Conversation_fk" Association="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant_Conversation_fk">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="ConversationFunctionParticipant" EntitySet="ConversationFunctionParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Organisation_fk" Association="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant_Organisation_fk">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="ConversationFunctionParticipant" EntitySet="ConversationFunctionParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Function_fk" Association="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant_Function_fk">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="ConversationFunctionParticipant" EntitySet="ConversationFunctionParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisationFunction_UserAccountOrganisation_fk" Association="Bec.TargetFramework.Data.Store.UserAccountOrganisationFunction_UserAccountOrganisation_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="UserAccountOrganisationFunction" EntitySet="UserAccountOrganisationFunctions" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisationFunction_Function_fk" Association="Bec.TargetFramework.Data.Store.UserAccountOrganisationFunction_Function_fk">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="UserAccountOrganisationFunction" EntitySet="UserAccountOrganisationFunctions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -6194,6 +6221,7 @@
           <Property Name="NotificationStatusID" Type="int" />
           <Property Name="ConversationID" Type="uuid" />
           <Property Name="CreatedByUserAccountOrganisationID" Type="uuid" />
+          <Property Name="CreatedByFunctionID" Type="uuid" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -10020,18 +10048,21 @@
           <Property Name="UserType" Type="varchar" />
           <Property Name="OrganisationType" Type="varchar" MaxLength="200" />
           <Property Name="NotificationConstructName" Type="varchar" MaxLength="300" />
+          <Property Name="FunctionName" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="vSafeSendRecipient">
           <Key>
             <PropertyRef Name="SmsTransactionID" />
-            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="RelatedID" />
             <PropertyRef Name="OrganisationID" />
           </Key>
           <Property Name="SmsTransactionID" Type="uuid" Nullable="false" />
-          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="RelatedID" Type="uuid" Nullable="false" />
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="IsFunction" Type="boolean" Nullable="false" />
+          <Property Name="OrganisationTypeName" Type="varchar" />
           <Property Name="OrganisationName" Type="varchar" />
         </EntityType>
         <EntityType Name="vMessageRead">
@@ -10078,6 +10109,34 @@
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="DateTime" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="Notes" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Function">
+          <Key>
+            <PropertyRef Name="FunctionID" />
+          </Key>
+          <Property Name="FunctionID" Type="uuid" Nullable="false" />
+          <Property Name="OrganisationTypeID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ConversationFunctionParticipant">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+            <PropertyRef Name="FunctionID" />
+          </Key>
+          <Property Name="ConversationID" Type="uuid" Nullable="false" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="FunctionID" Type="uuid" Nullable="false" />
+          <Property Name="Added" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="UserAccountOrganisationFunction">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="FunctionID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="FunctionID" Type="uuid" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="NewsArticle">
           <Key>
@@ -18360,6 +18419,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Function_OrganisationType_fk">
+          <End Role="OrganisationType" Type="Bec.TargetFramework.Data.Store.OrganisationType" Multiplicity="1" />
+          <End Role="Function" Type="Bec.TargetFramework.Data.Store.Function" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganisationType">
+              <PropertyRef Name="OrganisationTypeID" />
+            </Principal>
+            <Dependent Role="Function">
+              <PropertyRef Name="OrganisationTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Conversation_fk">
+          <End Role="Conversation" Type="Bec.TargetFramework.Data.Store.Conversation" Multiplicity="1" />
+          <End Role="ConversationFunctionParticipant" Type="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="ConversationFunctionParticipant">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Organisation_fk">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="1" />
+          <End Role="ConversationFunctionParticipant" Type="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="ConversationFunctionParticipant">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Function_fk">
+          <End Role="Function" Type="Bec.TargetFramework.Data.Store.Function" Multiplicity="1" />
+          <End Role="ConversationFunctionParticipant" Type="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="FunctionID" />
+            </Principal>
+            <Dependent Role="ConversationFunctionParticipant">
+              <PropertyRef Name="FunctionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisationFunction_UserAccountOrganisation_fk">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="UserAccountOrganisationFunction" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisationFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationFunction">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisationFunction_Function_fk">
+          <End Role="Function" Type="Bec.TargetFramework.Data.Store.Function" Multiplicity="1" />
+          <End Role="UserAccountOrganisationFunction" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisationFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="FunctionID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationFunction">
+              <PropertyRef Name="FunctionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18812,6 +18943,9 @@
           <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.File" />
           <EntitySet Name="OrganisationNotes" EntityType="Bec.TargetFramework.Data.OrganisationNote" />
+          <EntitySet Name="Functions" EntityType="Bec.TargetFramework.Data.Function" />
+          <EntitySet Name="ConversationFunctionParticipants" EntityType="Bec.TargetFramework.Data.ConversationFunctionParticipant" />
+          <EntitySet Name="UserAccountOrganisationFunctions" EntityType="Bec.TargetFramework.Data.UserAccountOrganisationFunction" />
           <EntitySet Name="NewsArticles" EntityType="Bec.TargetFramework.Data.NewsArticle" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
@@ -21325,6 +21459,30 @@
             <End Role="Organisation" EntitySet="Organisations" />
             <End Role="Lenders" EntitySet="Lenders" />
           </AssociationSet>
+          <AssociationSet Name="Function_OrganisationType_fkSet" Association="Bec.TargetFramework.Data.Function_OrganisationType_fk">
+            <End Role="OrganisationType" EntitySet="OrganisationTypes" />
+            <End Role="Functions" EntitySet="Functions" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Conversation_fkSet" Association="Bec.TargetFramework.Data.ConversationFunctionParticipant_Conversation_fk">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="ConversationFunctionParticipants" EntitySet="ConversationFunctionParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Organisation_fkSet" Association="Bec.TargetFramework.Data.ConversationFunctionParticipant_Organisation_fk">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="ConversationFunctionParticipants" EntitySet="ConversationFunctionParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Function_fkSet" Association="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="ConversationFunctionParticipants" EntitySet="ConversationFunctionParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisationFunction_UserAccountOrganisation_fkSet" Association="Bec.TargetFramework.Data.UserAccountOrganisationFunction_UserAccountOrganisation_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="UserAccountOrganisationFunctions" EntitySet="UserAccountOrganisationFunctions" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisationFunction_Function_fkSet" Association="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk">
+            <End Role="Function" EntitySet="Functions" />
+            <End Role="UserAccountOrganisationFunctions" EntitySet="UserAccountOrganisationFunctions" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21714,6 +21872,7 @@
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_CreatedByUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Notifications" ed:Guid="65f99910-9375-4611-9d84-0381177b95e7" />
           <NavigationProperty Name="Files" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Files" ed:Guid="674e1d85-14db-4a9c-8300-00380ac58949" />
           <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_UserAccountOrganisation_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationNotes" ed:Guid="6d48d822-e4df-4307-9b2a-ef989d240401" />
+          <NavigationProperty Name="UserAccountOrganisationFunctions" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_UserAccountOrganisation_fk" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationFunctions" ed:Guid="2e25c71a-592e-479d-b0d1-963ee71545dd" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -25279,6 +25438,7 @@
           <Property Name="NotificationStatusID" Type="Int32" ed:ValidateRequired="False" ed:Guid="eba51b25-5252-4dab-87ac-d9bc937fedf0" />
           <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b15fe8c6-731d-47ec-8082-110edb4dbe19" />
           <Property Name="CreatedByUserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="28ff451f-2927-479d-83c5-0bdcf2f95c1e" />
+          <Property Name="CreatedByFunctionID" Type="Guid" ed:ValidateRequired="False" ed:Guid="5949a79a-48c7-430c-b758-8bee7863f0d7" />
           <NavigationProperty Name="NotificationRecipients" Relationship="Bec.TargetFramework.Data.fk_NotificationRecipient_Notification" FromRole="Notification" ToRole="NotificationRecipients" ed:Guid="23184bb2-c506-4d15-beeb-e6595a40e4a3" />
           <NavigationProperty Name="NotificationConstruct" Relationship="Bec.TargetFramework.Data.fk_Notification_NotificationConstruct" FromRole="Notifications" ToRole="NotificationConstruct" ed:Guid="2eb4cec1-3b11-4bdc-a1ba-5b665c40ae0a" />
           <NavigationProperty Name="InvoiceProcessLogs" Relationship="Bec.TargetFramework.Data.fk_InvoiceLog_Notification" FromRole="Notification" ToRole="InvoiceProcessLogs" ed:Guid="b74489d0-3005-41c5-a78c-40ff3196e17a" />
@@ -25958,6 +26118,7 @@
           <NavigationProperty Name="NotificationConstructTargets" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructTarget_OrganisationType" FromRole="OrganisationType" ToRole="NotificationConstructTargets" ed:Guid="807feee6-e4e8-4870-8562-1172e429a5ec" />
           <NavigationProperty Name="ResourceOperationTargets" Relationship="Bec.TargetFramework.Data.fk_ClaimTarget_OrganisationType" FromRole="OrganisationType" ToRole="ResourceOperationTargets" ed:Guid="7ce54e55-1d0d-4cd7-9cd6-9890b0906e7e" />
           <NavigationProperty Name="Organisations" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="OrganisationType" ToRole="Organisations" ed:Guid="e9770ec8-114e-4b08-a4e9-c37aa9591769" />
+          <NavigationProperty Name="Functions" Relationship="Bec.TargetFramework.Data.Function_OrganisationType_fk" FromRole="OrganisationType" ToRole="Functions" ed:Guid="725e0666-7409-4c19-8ddb-8f4d5c2b1c5f" />
         </EntityType>
         <EntityType Name="ClassificationTypeCategory" ed:Guid="ae853d14-27d1-4131-852f-e300b176c55d">
           <Key>
@@ -29172,7 +29333,8 @@
           <NavigationProperty Name="ClassificationType" Relationship="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk" FromRole="Organisations" ToRole="ClassificationType" ed:Guid="851eadd4-06e9-46cc-bfe5-2c235bf9a4e5" />
           <NavigationProperty Name="LegalOrganisationDetail" Relationship="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation" FromRole="Organisation" ToRole="LegalOrganisationDetail" ed:Guid="7835c877-7c6b-490a-83ad-13c637567b3b" />
           <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_Organisation_fk" FromRole="Organisation" ToRole="OrganisationNotes" ed:Guid="4fcad52b-104e-4115-941e-7484cac266c1" />
-          <NavigationProperty Name="Lenders" Relationship="Bec.TargetFramework.Data.Lender_Organisation_fk" FromRole="Organisation" ToRole="Lenders" ed:Guid="e3ec9954-908d-42b7-88a6-61939e384649" />
+          <NavigationProperty Name="Lenders" Relationship="Bec.TargetFramework.Data.Lender_Organisation_fk" FromRole="Organisation" ToRole="Lenders" ed:Guid="899cdc0c-9223-4f50-9282-8a4023e1af24" />
+          <NavigationProperty Name="ConversationFunctionParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Organisation_fk" FromRole="Organisation" ToRole="ConversationFunctionParticipants" ed:Guid="c01babb7-94ac-41ec-a412-1f6343e3f006" />
         </EntityType>
         <EntityType Name="VOrganisationWithStatusAndAdmin" ed:Guid="bfc8d9b7-97cf-4558-9215-bbe4a81f5d25">
           <Key>
@@ -29463,6 +29625,7 @@
           <Property Name="Latest" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="3a892711-c79f-43b6-9e65-9682e1a86e89" />
           <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_Conversation" FromRole="Conversation" ToRole="ConversationParticipants" ed:Guid="7282fa43-51e3-4cd1-b3af-691830ce02a2" />
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_Conversation" FromRole="Conversation" ToRole="Notifications" ed:Guid="80be8f08-c9bb-4357-a8a4-dc03fcccc147" />
+          <NavigationProperty Name="ConversationFunctionParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Conversation_fk" FromRole="Conversation" ToRole="ConversationFunctionParticipants" ed:Guid="95485682-da9f-4a0c-b648-a163390dc100" />
         </EntityType>
         <EntityType Name="ConversationParticipant" ed:Guid="e29a70d3-b5b2-4bc4-a1c6-113b3a5bb953">
           <Key>
@@ -29506,18 +29669,21 @@
           <Property Name="UserType" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="13d72811-f698-47b7-9886-1f7b6c5109f7" />
           <Property Name="OrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="f6a5ac46-f542-4091-8383-9132a1302606" />
           <Property Name="NotificationConstructName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="db5d6a9f-c764-4d07-afb0-b20965e37cf4" />
+          <Property Name="FunctionName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="fcfb856c-4b00-4278-9254-8ff616ec7298" />
         </EntityType>
         <EntityType Name="VSafeSendRecipient" ed:Guid="2489ff6f-fdc8-4ed7-8661-0ae9e4d163f5">
           <Key>
             <PropertyRef Name="SmsTransactionID" />
-            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="RelatedID" />
             <PropertyRef Name="OrganisationID" />
           </Key>
           <Property Name="SmsTransactionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="86732692-17bd-4619-982d-6897bede1d4c" />
-          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="148f212c-35bb-4831-a7e7-ea968a58a83e" />
+          <Property Name="RelatedID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d0742e24-9de4-4a06-90ff-ce4fce8834c9" />
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="57424b63-0237-4587-8d12-e6dffb0a52d3" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="651a4c21-d5b9-4a7e-b416-40d10a15426b" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="1ff14bad-3ea5-4167-9381-4cbaa282b98e" />
+          <Property Name="IsFunction" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="79dad6c2-6725-4ce4-be2f-7024d76468f8" />
+          <Property Name="OrganisationTypeName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="7111d786-259c-4e00-b4ec-1edd6eed30c1" />
           <Property Name="OrganisationName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="fd2a5d54-186e-45ee-81eb-96a5d8b7d8ad" />
         </EntityType>
         <EntityType Name="VMessageRead" ed:Guid="d79c309d-6c5a-4c6b-b027-c09a8ed3ab25">
@@ -29567,6 +29733,52 @@
           <Property Name="Notes" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="b4dac982-95b8-4695-ba5b-2bd01d95a77c" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.OrganisationNote_Organisation_fk" FromRole="OrganisationNotes" ToRole="Organisation" ed:Guid="77000506-236f-4fda-ad0b-9f60b40d90bb" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.OrganisationNote_UserAccountOrganisation_fk" FromRole="OrganisationNotes" ToRole="UserAccountOrganisation" ed:Guid="4358b50c-fc4b-4d8d-8757-179535af3daf" />
+        </EntityType>
+        <EntityType Name="Function" ed:Guid="dbea3096-8a5b-461c-ae89-b643d6c6eebf">
+          <Key>
+            <PropertyRef Name="FunctionID" />
+          </Key>
+          <Property Name="FunctionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5d8fbee1-c19a-4b40-81d0-3ccf7b45bd78" />
+          <Property Name="OrganisationTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="74181951-5f67-4541-80ea-0a685e7f62cc" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="ac0ea247-5daf-42ad-843e-07dd76d47a51" />
+          <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.Function_OrganisationType_fk" FromRole="Functions" ToRole="OrganisationType" ed:Guid="c242b987-d870-4bee-94d2-d113e2793d0d" />
+          <NavigationProperty Name="ConversationFunctionParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk" FromRole="Function" ToRole="ConversationFunctionParticipants" ed:Guid="4f675d80-f665-4c48-994e-31c96c9f56ed" />
+          <NavigationProperty Name="UserAccountOrganisationFunctions" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk" FromRole="Function" ToRole="UserAccountOrganisationFunctions" ed:Guid="a636073e-84bf-4d34-92c3-0cd377a888b8">
+            <ed:Attributes>
+              <ed:Attribute Name="Bec.TargetFramework.Data.Attributes.CollectionUpdateBehaviourAttribute" Assembly="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                <ed:AttributeConstructor>
+                  <ed:PropertyValue Name="behaviour" Type="Bec.TargetFramework.Data.Attributes.UpdateBehaviour, Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                    <UpdateBehaviour xmlns="">Replace</UpdateBehaviour>
+                  </ed:PropertyValue>
+                </ed:AttributeConstructor>
+              </ed:Attribute>
+            </ed:Attributes>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="ConversationFunctionParticipant" ed:Guid="b59c7589-84ef-4e91-9220-1dc4f31f9c5a">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+            <PropertyRef Name="FunctionID" />
+          </Key>
+          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="73bca96d-e6ee-4529-814f-5fb65ccca883" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="ca963c5c-4237-431e-b811-6ca595a9429b" />
+          <Property Name="FunctionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="457b714f-e9f1-4c30-a22f-67e91ff51837" />
+          <Property Name="Added" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="b5c65b5d-c302-4638-99e2-7cb89a334675" />
+          <NavigationProperty Name="Conversation" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Conversation_fk" FromRole="ConversationFunctionParticipants" ToRole="Conversation" ed:Guid="baf0ed54-0b1f-43d9-b00d-6944aa1acf5c" />
+          <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Organisation_fk" FromRole="ConversationFunctionParticipants" ToRole="Organisation" ed:Guid="9d059f23-421b-49e3-9fef-9ddd283b0e83" />
+          <NavigationProperty Name="Function" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk" FromRole="ConversationFunctionParticipants" ToRole="Function" ed:Guid="961cefb1-aec1-46bd-b360-fcd324c73f95" />
+        </EntityType>
+        <EntityType Name="UserAccountOrganisationFunction" ed:Guid="a4792c30-60a2-429d-9012-2a5906c9ceea">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="FunctionID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="927d9cce-11fc-4a7f-9045-3bab002c830a" />
+          <Property Name="FunctionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="4addc40e-30bc-40a1-9b78-fc37568e917f" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="561c4a8b-0eeb-40c9-831f-ea0620977310" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="e1a68614-3aae-4ac6-8bf9-7aea52beb7ea" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_UserAccountOrganisation_fk" FromRole="UserAccountOrganisationFunctions" ToRole="UserAccountOrganisation" ed:Guid="9f4970f3-472f-4c72-a3ff-bd47b4a7b936" />
+          <NavigationProperty Name="Function" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk" FromRole="UserAccountOrganisationFunctions" ToRole="Function" ed:Guid="be3bda3f-1256-4190-8f79-714b9b44219b" />
         </EntityType>
         <EntityType Name="NewsArticle" ed:Guid="757b1efb-6acf-44ba-9b67-2ee1cbfb5d66">
           <Key>
@@ -37514,6 +37726,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Function_OrganisationType_fk" ed:Guid="7f7830f2-be2d-401c-83aa-2742d0c5a572">
+          <End Role="OrganisationType" Type="Bec.TargetFramework.Data.OrganisationType" Multiplicity="1" />
+          <End Role="Functions" Type="Bec.TargetFramework.Data.Function" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganisationType">
+              <PropertyRef Name="OrganisationTypeID" />
+            </Principal>
+            <Dependent Role="Functions">
+              <PropertyRef Name="OrganisationTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Conversation_fk" ed:Guid="77c78ca7-50c2-43ce-99a6-9f42d891f1ca">
+          <End Role="Conversation" Type="Bec.TargetFramework.Data.Conversation" Multiplicity="1" />
+          <End Role="ConversationFunctionParticipants" Type="Bec.TargetFramework.Data.ConversationFunctionParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="ConversationFunctionParticipants">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Organisation_fk" ed:Guid="532158a4-a646-4d51-bb0d-bf0764ca4948">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="1" />
+          <End Role="ConversationFunctionParticipants" Type="Bec.TargetFramework.Data.ConversationFunctionParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="ConversationFunctionParticipants">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Function_fk" ed:Guid="eb7a0dc8-3cf4-4487-b87a-ef0a7a9e1409">
+          <End Role="Function" Type="Bec.TargetFramework.Data.Function" Multiplicity="1" />
+          <End Role="ConversationFunctionParticipants" Type="Bec.TargetFramework.Data.ConversationFunctionParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="FunctionID" />
+            </Principal>
+            <Dependent Role="ConversationFunctionParticipants">
+              <PropertyRef Name="FunctionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisationFunction_UserAccountOrganisation_fk" ed:Guid="367870f2-f56f-408f-a4ad-3f6ea16dd1bd">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="UserAccountOrganisationFunctions" Type="Bec.TargetFramework.Data.UserAccountOrganisationFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationFunctions">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisationFunction_Function_fk" ed:Guid="8a7e9fa9-169c-4d43-97d1-bc24f3a6e9ab">
+          <End Role="Function" Type="Bec.TargetFramework.Data.Function" Multiplicity="1" />
+          <End Role="UserAccountOrganisationFunctions" Type="Bec.TargetFramework.Data.UserAccountOrganisationFunction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Function">
+              <PropertyRef Name="FunctionID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationFunctions">
+              <PropertyRef Name="FunctionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -40729,6 +41013,7 @@
                 <ScalarProperty Name="NotificationStatusID" ColumnName="NotificationStatusID" />
                 <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
                 <ScalarProperty Name="CreatedByUserAccountOrganisationID" ColumnName="CreatedByUserAccountOrganisationID" />
+                <ScalarProperty Name="CreatedByFunctionID" ColumnName="CreatedByFunctionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44316,6 +44601,7 @@
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
                 <ScalarProperty Name="NotificationData" ColumnName="NotificationData" />
                 <ScalarProperty Name="NotificationConstructName" ColumnName="NotificationConstructName" />
+                <ScalarProperty Name="FunctionName" ColumnName="FunctionName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44323,11 +44609,13 @@
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VSafeSendRecipient">
               <MappingFragment StoreEntitySet="vSafeSendRecipients">
                 <ScalarProperty Name="SmsTransactionID" ColumnName="SmsTransactionID" />
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
+                <ScalarProperty Name="RelatedID" ColumnName="RelatedID" />
+                <ScalarProperty Name="IsFunction" ColumnName="IsFunction" />
+                <ScalarProperty Name="OrganisationTypeName" ColumnName="OrganisationTypeName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44375,6 +44663,35 @@
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Functions">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Function">
+              <MappingFragment StoreEntitySet="Functions">
+                <ScalarProperty Name="FunctionID" ColumnName="FunctionID" />
+                <ScalarProperty Name="OrganisationTypeID" ColumnName="OrganisationTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConversationFunctionParticipants">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.ConversationFunctionParticipant">
+              <MappingFragment StoreEntitySet="ConversationFunctionParticipants">
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
+                <ScalarProperty Name="FunctionID" ColumnName="FunctionID" />
+                <ScalarProperty Name="Added" ColumnName="Added" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccountOrganisationFunctions">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.UserAccountOrganisationFunction">
+              <MappingFragment StoreEntitySet="UserAccountOrganisationFunctions">
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="FunctionID" ColumnName="FunctionID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

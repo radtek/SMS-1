@@ -168,7 +168,7 @@ BEGIN
 	  left outer join "DefaultOrganisationRoleTemplate" dor on dor."DefaultOrganisationRoleTemplateID" = wt."DefaultOrganisationRoleTemplateID" 
 	  left outer join "DefaultOrganisationRole" rg on rg."RoleName" = dor."RoleName" and rg."DefaultOrganisationID" = DefaultOrganisationID and rg."DefaultOrganisationVersionNumber" = 1
 	  left outer join "DefaultOrganisationRole" rg1 on rg1."RoleID" = dor."RoleID" and rg1."DefaultOrganisationID" = DefaultOrganisationID and rg1."DefaultOrganisationVersionNumber" = 1
-	  left outer join "DefaultOrganisationUserTarget" dut on dut."ParentID" = ut."DefaultOrganisationUserTargetTemplateID"
+	   left outer join "DefaultOrganisationUserTarget" dut on dut."ParentID" = ut."DefaultOrganisationUserTargetTemplateID"
 	  left outer join "Role" r1 on r1."RoleID" = rg."RoleID"
 	  left outer join "Role" r2 on r2."RoleID" = rg1."RoleID"
 	  where ut."DefaultOrganisationTemplateID" = DoTemplateID and ut."DefaultOrganisationTemplateVersionNumber" = DoVersionNumber
@@ -176,5 +176,3 @@ BEGIN
 		 AND (r1."RoleName" = 'Lender Employee' OR r2."RoleName" = 'Lender Employee');
   
 END $$;
-
-  

@@ -238,6 +238,10 @@
     <Compile Include="Boo\ConversationDTO.Generated.cs">
       <DependentUpon>ConversationDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\ConversationFunctionParticipantDTO.cs" />
+    <Compile Include="Boo\ConversationFunctionParticipantDTO.Generated.cs">
+      <DependentUpon>ConversationFunctionParticipantDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ConversationParticipantDTO.cs" />
     <Compile Include="Boo\ConversationParticipantDTO.Generated.cs">
       <DependentUpon>ConversationParticipantDTO.cs</DependentUpon>
@@ -500,6 +504,10 @@
     <Compile Include="Boo\FnGetUserClaimResultDTO.cs" />
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
       <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\FunctionDTO.cs" />
+    <Compile Include="Boo\FunctionDTO.Generated.cs">
+      <DependentUpon>FunctionDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\GlobalAccountingPeriodDTO.cs" />
     <Compile Include="Boo\GlobalAccountingPeriodDTO.Generated.cs">
@@ -1517,6 +1525,10 @@
     <Compile Include="Boo\UserAccountOrganisationDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\UserAccountOrganisationFunctionDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationFunctionDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationFunctionDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\UserAccountOrganisationGroupDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationGroupDTO.cs</DependentUpon>
     </Compile>
@@ -1711,6 +1723,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\AddNewUserToOrganisationDTO.cs" />
     <Compile Include="DTO\Notification\ProductAdvisedNotificationDTO.cs" />
     <Compile Include="DTO\VerifyCompanyDTO.cs" />
     <Compile Include="DTO\CreateConversationDTO.cs" />

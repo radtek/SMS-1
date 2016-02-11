@@ -30,6 +30,10 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             {
                 return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
             }
+            else if (ClaimsHelper.UserHasClaim("View", "SmsTransactionsOverview"))
+            {
+                return RedirectToAction("Index", "Transaction", new { area = "Lender" });
+            }
             else if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
             {
                 return RedirectToAction("OutstandingBankAccounts", "Finance", new { area = "Admin" });

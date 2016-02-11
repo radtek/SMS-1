@@ -30,10 +30,12 @@ namespace Bec.TargetFramework.Entities
 
             // Properties
             target.SmsTransactionID = source.SmsTransactionID;
-            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.RelatedID = source.RelatedID;
             target.OrganisationID = source.OrganisationID;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
+            target.IsFunction = source.IsFunction;
+            target.OrganisationTypeName = source.OrganisationTypeName;
             target.OrganisationName = source.OrganisationName;
 
             // User-defined partial method
@@ -51,10 +53,12 @@ namespace Bec.TargetFramework.Entities
 
             // Properties
             target.SmsTransactionID = source.SmsTransactionID;
-            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.RelatedID = source.RelatedID;
             target.OrganisationID = source.OrganisationID;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
+            target.IsFunction = source.IsFunction;
+            target.OrganisationTypeName = source.OrganisationTypeName;
             target.OrganisationName = source.OrganisationName;
 
             // User-defined partial method

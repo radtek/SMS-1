@@ -1,6 +1,7 @@
 ﻿var transactionDetailsTemplatePromise,
     partiesTemplatePromise,
     txGrid;
+var areConversationsLoaded;
 $(function () {
     txGrid = new gridItem(
     {
@@ -70,6 +71,7 @@ $(function () {
 
     txGrid.makeGrid();
     findModalLinks();
+    setupTabs();
 
     transactionDetailsTemplatePromise = $.Deferred();
     ajaxWrapper(
@@ -93,12 +95,34 @@ $(function () {
         }
     });
 
+    function setupTabs() {
+        areConversationsLoaded = false;
+        $('#rPanel li a').click(function (e) {
+            e.stopPropagation();
+            if (history.pushState) {
+                history.pushState(null, null, $(this).attr('href'));
+            }
+            $(this).tab('show');
+
+            if ($(this).attr('id') == 'safeSendTab' && !areConversationsLoaded) {
+                $('#transactionConversationContainer').trigger('loadConversations');
+                areConversationsLoaded = true;
+            }
+            return false;
+        });
+    }
 });
 
 //data binding for the panes beneath each grid
 function txChange(dataItem) {
     showTransactionDetails(dataItem);
     showPartiesDetails(dataItem);
+
+    $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
+    $('#transactionConversationContainer')
+        .data('activity-id', dataItem.SmsTransactionID)
+        .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.Invoice != null]);
+    areConversationsLoaded = false;
 }
 
 function showTransactionDetails(dataItem) {

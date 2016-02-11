@@ -13,8 +13,12 @@
     <span class="text-muted">Participants:</span>
     <span>
         {{#each conversation.participants}}
-        {{#if IsProfessionalOrganisation}}{{OrganisationName}} > {{/if}}
-        {{FirstName}} {{LastName}};
+            {{#if IsFunction}}
+                {{OrganisationName}} > {{FirstName}};
+            {{else}}
+                {{#if IsProfessionalOrganisation}}{{OrganisationName}} > {{/if}}
+                {{FirstName}} {{LastName}};
+            {{/if}}
         {{/each}}
     </span>
 </div>
@@ -31,6 +35,19 @@
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="AttachmentsID" id="AttachmentsID" />
                     <div class="row display-table">
+                        {{#if showFrom}}
+                            <div class="col-xs-12">
+                                <label class="label">From: </label>
+                                <label class="select">
+                                    <select name="fromHash">
+                                        {{#each from}}
+                                        <option value="{{Hash}}">{{Display}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </div>
+                        {{/if}}
                         <div class="col-xs-11">
                             <fieldset>
                                 <input type="hidden" name="ConversationId" value="{{conversation.id}}" />

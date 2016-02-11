@@ -200,6 +200,7 @@
     <Compile Include="Areas\Lender\LenderAreaRegistration.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
+    <Compile Include="Areas\ProOrganisation\Models\FunctionEditEntry.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
     <Compile Include="Areas\Buyer\Controllers\SafeBuyerController.cs" />
@@ -1019,7 +1020,7 @@
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\Libs\toastr.js" />
     <Content Include="Scripts\Libs\toastr.min.js" />
-    <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="sitemap.txt" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
