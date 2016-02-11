@@ -1012,7 +1012,7 @@
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\Libs\toastr.js" />
     <Content Include="Scripts\Libs\toastr.min.js" />
-    <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="sitemap.txt" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
