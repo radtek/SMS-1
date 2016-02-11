@@ -17,6 +17,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Logic
@@ -65,7 +67,7 @@ namespace Bec.TargetFramework.Business.Logic
                     x.OrganisationID == orgID &&
                     !x.UserAccount.IsTemporaryAccount &&
                     x.UserAccount.IsLoginAllowed);
-                if (!string.IsNullOrWhiteSpace(rolename)) 
+                if (!string.IsNullOrWhiteSpace(rolename))
                     ret = ret.Where(x => x.UserAccountOrganisationRoles.Any(y => y.OrganisationRole.RoleName == rolename));
                 return ret.Select(x => x.UserAccountOrganisationID).ToList();
             }
@@ -164,7 +166,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 notification.NotificationRecipients = recpList;
                 scope.DbContexts.Get<TargetFrameworkEntities>().Notifications.Add(notification);
-                
+
                 await scope.SaveChangesAsync();
 
                 return notification.NotificationID;
@@ -300,7 +302,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
                     .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId && x.Notification.ConversationID != null)
                     .GroupBy(x => x.Notification.Conversation);
-                    
+
                 return ret.Count();
             }
         }
@@ -472,14 +474,20 @@ namespace Bec.TargetFramework.Business.Logic
             await EventPublishClient.PublishEventAsync(eventPayloadDto);
         }
 
-        public async Task<Guid> CreateConversation(Guid orgID, Guid uaoID, Guid attachmentsID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, bool isSystemMessage, Guid[] participantsUaoIDs)
+        public async Task<Guid> CreateConversation(string fromHash, Guid uaoID, Guid attachmentsID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, bool isSystemMessage, string[] participantHashes)
         {
             var date = DateTime.Now;
             var conversationId = Guid.NewGuid();
+
+            //do not currently support conversations outside of activities
+            if (!activityTypeID.HasValue || !activityID.HasValue) throw new Exception("Cannot create conversation");
+            var from = GetSender(fromHash, uaoID); 
+            var recip = GetActivityRecipients(uaoID, activityTypeID.Value, activityID.Value);
+            var participants = recip.Join(participantHashes, x => x.Hash, y => y, (a, b) => a);
+
+            if (participantHashes.Length != participants.Count()) throw new Exception("Cannot create conversation");
             using (var scope = DbContextScopeFactory.Create())
             {
-                await CheckCanCreateMessage(orgID, activityTypeID, activityID, participantsUaoIDs);
-
                 var conv = new Conversation { ConversationID = conversationId, Subject = subject, Latest = date, IsSystemMessage = isSystemMessage };
                 if (activityID.HasValue && activityTypeID.HasValue)
                 {
@@ -488,30 +496,45 @@ namespace Bec.TargetFramework.Business.Logic
                 }
 
                 conv.ConversationParticipants = new List<ConversationParticipant>();
-                conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = uaoID });
-                foreach (var p in participantsUaoIDs) conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p });
+                conv.ConversationFunctionParticipants = new List<ConversationFunctionParticipant>();
+
+                if(from.IsFunction)
+                    conv.ConversationFunctionParticipants.Add(new ConversationFunctionParticipant { OrganisationID = from.OrganisationID, FunctionID = from.Value});
+                else
+                    conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = uaoID });
+
+                foreach (var p in participants)
+                {
+                    if (p.IsFunction)
+                        conv.ConversationFunctionParticipants.Add(new ConversationFunctionParticipant { OrganisationID = p.OrganisationID, FunctionID = p.RelatedID });
+                    else
+                        conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p.RelatedID });
+                }
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
                 await scope.SaveChangesAsync();
             }
-
-            await Reply(uaoID, attachmentsID, conversationId, message, participantsUaoIDs, date);
+            
+            await Reply(from, uaoID, attachmentsID, conversationId, message, participants, date);
             return conversationId;
         }
 
-        public async Task ReplyToConversation(Guid uaoID, Guid conversationID, Guid attachmentsID, string message)
+        public async Task ReplyToConversation(string fromHash, Guid uaoID, Guid conversationID, Guid attachmentsID, string message)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var p = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants
+                var recipients = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants
                     .Where(x => x.ConversationID == conversationID)
-                    .Select(x => x.UserAccountOrganisationID);
+                    .Select(x => new VSafeSendRecipientDTO { IsFunction = false, RelatedID = x.UserAccountOrganisationID, OrganisationID = Guid.Empty });
 
-                //if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
-                var notSender = p.Where(x => x != uaoID).ToArray();
+                recipients = recipients.Concat(scope.DbContexts.Get<TargetFrameworkEntities>().ConversationFunctionParticipants
+                    .Where(x => x.ConversationID == conversationID)
+                    .Select(x => new VSafeSendRecipientDTO { IsFunction = true, RelatedID = x.FunctionID, OrganisationID = x.OrganisationID })
+                    );
 
-                await Reply(uaoID, attachmentsID, conversationID, message, notSender, DateTime.Now);
-                
+                var from = GetSender(fromHash, uaoID);
+                await Reply(from, uaoID, attachmentsID, conversationID, message, recipients, DateTime.Now);
+
                 await scope.SaveChangesAsync();
             }
         }
@@ -530,7 +553,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task Reply(Guid senderUaoID, Guid attachmentsID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
+        private async Task Reply(CreateConversationRecipientDTO from, Guid senderUaoID, Guid attachmentsID, Guid conversationID, string message, IEnumerable<VSafeSendRecipientDTO> recipients, DateTime dateSent)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -547,13 +570,40 @@ namespace Bec.TargetFramework.Business.Logic
                     ConversationID = conversationID
                 };
 
-                n.NotificationRecipients = new List<NotificationRecipientDTO>(recipients.Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }));
+                if (from == null) throw new Exception("Illegal sender");
+                if (from.IsFunction) n.CreatedByFunctionID = from.Value;
+
+                var uaoRecipients = recipients.Where(x => !x.IsFunction).Select(x => x.RelatedID);
+                foreach (var group in recipients.Where(x => x.IsFunction).GroupBy(x => x.OrganisationID).Select(x => new { Org = x.Key, Functions = x.Select(y => y.RelatedID).ToList() }))
+                {
+                    var functionUaoIDs = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions
+                        .Where(x => x.UserAccountOrganisation.OrganisationID == group.Org && group.Functions.Contains(x.FunctionID))
+                        .Select(x => x.UserAccountOrganisationID);
+                    uaoRecipients = uaoRecipients.Concat(functionUaoIDs);
+                }
+
+                uaoRecipients = uaoRecipients.Where(x => x != senderUaoID);
+
+                n.NotificationRecipients = new List<NotificationRecipientDTO>(uaoRecipients.Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }));
 
                 var ret = await SaveNotificationAsync(n);
-                await SendExternalNotification(recipients);
+                await SendExternalNotification(uaoRecipients);
                 scope.DbContexts.Get<TargetFrameworkEntities>().FnAttachUpload(senderUaoID, attachmentsID, ret);
 
                 await scope.SaveChangesAsync();
+            }
+        }
+
+        private CreateConversationRecipientDTO GetSender(string fromHash, Guid senderUaoID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                    var orgId = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).OrganisationID;
+                    var functions = GetUserFunctions(senderUaoID, orgId);
+                    if (fromHash != null)
+                        return functions.SingleOrDefault(x => x.Hash == fromHash);
+                    else
+                        return functions.FirstOrDefault(x => !x.IsFunction && x.Value == senderUaoID);
             }
         }
 
@@ -565,7 +615,7 @@ namespace Bec.TargetFramework.Business.Logic
                 foreach (var recipient in recipientUaoIds)
                 {
                     var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
-                        .SingleOrDefault(x => 
+                        .SingleOrDefault(x =>
                             x.UserAccountOrganisationID == recipient &&
                             x.IsActive == true &&
                             x.UserAccount.IsLoginAllowed == true &&
@@ -595,63 +645,26 @@ namespace Bec.TargetFramework.Business.Logic
             return lastLoginSession == null || (lastLoginSession.UserHasLoggedOut ?? false) || lastLoginSession.UserLoginDate <= sessionExpiredTime;
         }
 
-        private async Task CheckCanCreateMessage(Guid orgID, ActivityType? activityTypeID, Guid? activityID, Guid[] participantsUaoIDs)
+        public List<VSafeSendRecipientDTO> GetActivityRecipients(Guid senderUaoID, ActivityType activityTypeID, Guid activityID)
         {
-            bool valid = true;
-
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                if (!activityTypeID.HasValue || !activityID.HasValue)
+                var userOrgType = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).Organisation.OrganisationType.Name;
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsFunction || x.RelatedID != senderUaoID));
+                switch (userOrgType)
                 {
-                    //limit to org
-                    foreach (var p in participantsUaoIDs)
-                    {
-                        var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
-                            .SingleOrDefault(x => 
-                                x.UserAccountOrganisationID == p &&
-                                x.IsActive &&
-                                x.UserAccount.IsActive &&
-                                x.UserAccount.IsLoginAllowed &&
-                                !x.UserAccount.IsTemporaryAccount);
-                        if (uao == null || uao.OrganisationID != orgID)
-                        {
-                            valid = false;
-                            break;
-                        }
-                    }
+                    case "Personal":
+                        ret = ret.Where(x => x.OrganisationTypeName != "Lender");
+                        break;
+                    case "Lender":
+                        ret = ret.Where(x => x.OrganisationTypeName != "Personal");
+                        break;
                 }
-                else
-                {
-                    switch (activityTypeID.Value)
-                    {
-                        case ActivityType.SmsTransaction:
-                            var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == activityID.Value);
-                            if (tx == null) valid = false;
 
-                            var validPersonalUaoIDs = tx.SmsUserAccountOrganisationTransactions
-                                .Where(x => 
-                                    x.UserAccountOrganisation.IsActive &&
-                                    x.UserAccountOrganisation.UserAccount.IsActive &&
-                                    x.UserAccountOrganisation.UserAccount.IsLoginAllowed)
-                                .Select(x => x.UserAccountOrganisationID).ToList();
-                            var validOrganisationUaoIds = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
-                                .Where(x => 
-                                    x.OrganisationID == tx.OrganisationID && 
-                                    x.IsActive &&
-                                    x.UserAccount.IsActive &&
-                                    x.UserAccount.IsLoginAllowed &&
-                                    !x.UserAccount.IsTemporaryAccount)
-                                .Select(x => x.UserAccountOrganisationID)
-                                .ToList();
-                            foreach (var u in participantsUaoIDs)
-                                if (!validPersonalUaoIDs.Contains(u) && !validOrganisationUaoIds.Contains(u))
-                                    valid = false;
-                            break;
-                    }
-                }
+                var ret2 = ret.ToDtos();
+                foreach (var item in ret2) item.Hash = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(item.OrganisationID.ToString() + item.RelatedID.ToString())).Select(c => c.ToString("x2")));
+                return ret2;
             }
-
-            if (!valid) throw new Exception("Cannot create conversation");
         }
 
         public IEnumerable<MessageDTO> GetMessages(Guid conversationId, Guid uaoId, int page, int pageSize)
@@ -735,12 +748,28 @@ namespace Bec.TargetFramework.Business.Logic
                 var convs = ret.Select(x => x.ConversationID);
                 var q = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreads.Where(x => x.UserAccountOrganisationID == uaoID && convs.Contains(x.ConversationID));
                 var unreads = q.ToDictionary(x => x.ConversationID, x => x.UnreadCount);
-                
+
                 foreach (var item in ret)
                 {
                     item.Unread = unreads.ContainsKey(item.ConversationID.Value) && unreads[item.ConversationID.Value] > 0;
                 }
                 return new ConversationResultDTO<FnGetConversationActivityResultDTO> { Items = ret, Count = count };
+            }
+        }
+
+        public List<CreateConversationRecipientDTO> GetUserFunctions(Guid uaoId, Guid orgId)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId);
+                var functions = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions.Where(x => x.UserAccountOrganisationID == uaoId);
+
+                List<CreateConversationRecipientDTO> ret = new List<CreateConversationRecipientDTO>();
+                ret.Add(new CreateConversationRecipientDTO { Value = uaoId, Display = uao.Contact.FirstName + " " + uao.Contact.LastName });
+                ret.AddRange(functions.Select(x => new CreateConversationRecipientDTO { IsFunction = true, OrganisationID = orgId, Value = x.FunctionID, Display = x.Function.Name }));
+
+                foreach (var item in ret) item.Hash = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(item.OrganisationID.ToString() + item.Value.ToString())).Select(c => c.ToString("x2")));
+                return ret;
             }
         }
 

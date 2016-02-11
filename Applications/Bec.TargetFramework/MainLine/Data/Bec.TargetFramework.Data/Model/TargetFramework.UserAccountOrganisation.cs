@@ -378,9 +378,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for Functions in the schema.
+        /// There are no comments for UserAccountOrganisationFunctions in the schema.
         /// </summary>
-        public virtual ICollection<Function> Functions
+        public virtual ICollection<UserAccountOrganisationFunction> UserAccountOrganisationFunctions
         {
             get;
             set;

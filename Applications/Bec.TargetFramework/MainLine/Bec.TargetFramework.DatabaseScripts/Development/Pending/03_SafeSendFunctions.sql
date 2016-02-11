@@ -23,6 +23,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE
 CREATE TABLE public."UserAccountOrganisationFunction" (
   "UserAccountOrganisationID" UUID NOT NULL,
   "FunctionID" UUID NOT NULL,
+  "IsActive" BOOLEAN DEFAULT true NOT NULL,
+  "IsDeleted" BOOLEAN DEFAULT false NOT NULL,
   PRIMARY KEY("UserAccountOrganisationID", "FunctionID")
 ) ;
 

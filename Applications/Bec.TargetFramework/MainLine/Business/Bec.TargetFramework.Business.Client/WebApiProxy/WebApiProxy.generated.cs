@@ -614,6 +614,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds);
 
+		/// <param name="fromHash"></param>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
@@ -623,8 +624,9 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,Guid[] participantsUaoIDs);
+		Task<Guid> CreateConversationAsync(String fromHash,Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
 
+		/// <param name="fromHash"></param>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
@@ -634,21 +636,23 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		Guid CreateConversation(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,Guid[] participantsUaoIDs);
+		Guid CreateConversation(String fromHash,Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
 
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
+		Task ReplyToConversationAsync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
 
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		void ReplyToConversation(Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
+		void ReplyToConversation(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
 
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
@@ -659,6 +663,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="conversationID"></param>
 		/// <returns></returns>
 		void MarkAsRead(Guid uaoID,Guid conversationID);
+
+		/// <param name="senderUaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <returns></returns>
+		Task<List<VSafeSendRecipientDTO>> GetActivityRecipientsAsync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID);
+
+		/// <param name="senderUaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <returns></returns>
+		List<VSafeSendRecipientDTO> GetActivityRecipients(Guid senderUaoID,ActivityType activityTypeID,Guid activityID);
 
 		/// <param name="conversationId"></param>
 		/// <param name="uaoId"></param>
@@ -717,6 +733,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="skip"></param>
 		/// <returns></returns>
 		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+
+		/// <param name="uaoId"></param>
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		Task<List<CreateConversationRecipientDTO>> GetUserFunctionsAsync(Guid uaoId,Guid orgId);
+
+		/// <param name="uaoId"></param>
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		List<CreateConversationRecipientDTO> GetUserFunctions(Guid uaoId,Guid orgId);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -3197,6 +3223,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="fromHash"></param>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
@@ -3206,17 +3233,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,Guid[] participantsUaoIDs)
+		public virtual Task<Guid> CreateConversationAsync(String fromHash,Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
+			fromHash = fromHash.UrlEncode();
 			subject = subject.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user);
+			return PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="fromHash"></param>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
@@ -3225,41 +3254,46 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
-		public virtual Guid CreateConversation(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,Guid[] participantsUaoIDs)
+		public virtual Guid CreateConversation(String fromHash,Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
+			fromHash = fromHash.UrlEncode();
 			subject = subject.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user)).Result;
+			return Task.Run(() => PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		public virtual Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
+		public virtual Task ReplyToConversationAsync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
+			fromHash = fromHash.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user);
+			return PostAsync<object>("api/NotificationLogic/ReplyToConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
-		public virtual void ReplyToConversation(Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
+		public virtual void ReplyToConversation(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
+			fromHash = fromHash.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3283,6 +3317,31 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="senderUaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <returns></returns>
+		public virtual Task<List<VSafeSendRecipientDTO>> GetActivityRecipientsAsync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VSafeSendRecipientDTO>>("api/NotificationLogic/GetActivityRecipients?senderUaoID=" + senderUaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="senderUaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		public virtual List<VSafeSendRecipientDTO> GetActivityRecipients(Guid senderUaoID,ActivityType activityTypeID,Guid activityID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VSafeSendRecipientDTO>>("api/NotificationLogic/GetActivityRecipients?senderUaoID=" + senderUaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID, _user)).Result;
 		}
 
 		/// <summary>
@@ -3393,6 +3452,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		public virtual Task<List<CreateConversationRecipientDTO>> GetUserFunctionsAsync(Guid uaoId,Guid orgId)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserFunctions?uaoId=" + uaoId + "&orgId=" + orgId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <param name="orgId"></param>
+		public virtual List<CreateConversationRecipientDTO> GetUserFunctions(Guid uaoId,Guid orgId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserFunctions?uaoId=" + uaoId + "&orgId=" + orgId, _user)).Result;
 		}
 
 		#endregion

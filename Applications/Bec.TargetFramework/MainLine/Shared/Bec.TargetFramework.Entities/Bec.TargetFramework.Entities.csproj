@@ -1521,6 +1521,10 @@
     <Compile Include="Boo\UserAccountOrganisationDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\UserAccountOrganisationFunctionDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationFunctionDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationFunctionDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\UserAccountOrganisationGroupDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationGroupDTO.cs</DependentUpon>
     </Compile>

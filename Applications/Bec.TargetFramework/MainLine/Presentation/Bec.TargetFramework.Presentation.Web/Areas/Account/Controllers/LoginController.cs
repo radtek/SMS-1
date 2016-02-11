@@ -127,6 +127,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
 
             string orgName = olc.GetOrganisationDTO(orgID).Name;
+            string orgTypeName = olc.GetOrganisationDTO(orgID).TypeName;
 
             var additionalClaims = ulc.GetUserClaims(ua.ID, orgID)
                 .Select(uc => new Claim(uc.Type, uc.Value))
@@ -136,7 +137,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             bool needsTc = (nlc.GetUnreadNotifications(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
             bool needsPersonalDetails = org.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue(); // require personal details from all admins initially, personal details are checked at the next stage
 
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc, needsPersonalDetails);
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, orgTypeName, needsTc, needsPersonalDetails);
             ulc.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
             fileLogic.ClearUnusedFiles(uaoID);
 

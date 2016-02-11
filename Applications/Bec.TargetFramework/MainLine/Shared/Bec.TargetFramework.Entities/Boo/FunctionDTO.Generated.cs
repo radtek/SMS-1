@@ -22,14 +22,14 @@ namespace Bec.TargetFramework.Entities
         public FunctionDTO() {
         }
 
-        public FunctionDTO(global::System.Guid functionID, int organisationTypeID, string name, OrganisationTypeDTO organisationType, List<ConversationFunctionParticipantDTO> conversationFunctionParticipants, List<UserAccountOrganisationDTO> userAccountOrganisations) {
+        public FunctionDTO(global::System.Guid functionID, int organisationTypeID, string name, OrganisationTypeDTO organisationType, List<ConversationFunctionParticipantDTO> conversationFunctionParticipants, List<UserAccountOrganisationFunctionDTO> userAccountOrganisationFunctions) {
 
           this.FunctionID = functionID;
           this.OrganisationTypeID = organisationTypeID;
           this.Name = name;
           this.OrganisationType = organisationType;
           this.ConversationFunctionParticipants = conversationFunctionParticipants;
-          this.UserAccountOrganisations = userAccountOrganisations;
+          this.UserAccountOrganisationFunctions = userAccountOrganisationFunctions;
         }
 
         #endregion
@@ -56,7 +56,7 @@ namespace Bec.TargetFramework.Entities
         public List<ConversationFunctionParticipantDTO> ConversationFunctionParticipants { get; set; }
 
         [DataMember]
-        public List<UserAccountOrganisationDTO> UserAccountOrganisations { get; set; }
+        public List<UserAccountOrganisationFunctionDTO> UserAccountOrganisationFunctions { get; set; }
 
         #endregion
     }

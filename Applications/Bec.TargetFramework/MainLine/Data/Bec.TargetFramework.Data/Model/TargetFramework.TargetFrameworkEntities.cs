@@ -2051,6 +2051,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ConversationFunctionParticipant in the schema.
         /// </summary>
         public virtual DbSet<ConversationFunctionParticipant> ConversationFunctionParticipants { get; set; }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationFunction in the schema.
+        /// </summary>
+        public virtual DbSet<UserAccountOrganisationFunction> UserAccountOrganisationFunctions { get; set; }
 
         #region Methods
 
