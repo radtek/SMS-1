@@ -126,7 +126,8 @@ function showTransactionDetails(dataItem) {
 }
 
 function showPartiesDetails(dataItem) {
-    var data = _.map(dataItem.SmsUserAccountOrganisationTransactions, function (uaot) {
+    var orderedParties = _.orderBy(dataItem.SmsUserAccountOrganisationTransactions, ['SmsUserAccountOrganisationTransactionType.SmsUserAccountOrganisationTransactionTypeID'], ['asc']);
+    var data = _.map(orderedParties, function (uaot) {
         return _.extend({}, uaot, {
             fullName: uaot.Contact.Salutation + " " + uaot.Contact.FirstName + " " + uaot.Contact.LastName,
             formattedBirthDate: dateStringNoTime(uaot.Contact.BirthDate),

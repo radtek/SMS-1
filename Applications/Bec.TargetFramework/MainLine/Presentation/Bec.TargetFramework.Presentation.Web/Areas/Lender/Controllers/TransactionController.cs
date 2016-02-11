@@ -55,6 +55,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 PurchasedByFirstName = x.Invoice.UserAccountOrganisation.Contact.FirstName,
                 PurchasedByLastName = x.Invoice.UserAccountOrganisation.Contact.LastName,
                 ppl = x.SmsUserAccountOrganisationTransactions.Select(y => new {
+                    y.SmsUserAccountOrganisationTransactionType.SmsUserAccountOrganisationTransactionTypeID,
                     y.SmsUserAccountOrganisationTransactionType.Description,
                     y.Contact.Salutation,
                     y.Contact.FirstName,
