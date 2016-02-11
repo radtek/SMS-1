@@ -380,6 +380,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for UserAccountOrganisationFunctions in the schema.
         /// </summary>
+        [Bec.TargetFramework.Data.Attributes.CollectionUpdateBehaviour(Bec.TargetFramework.Data.Attributes.UpdateBehaviour.Replace)]
         public virtual ICollection<UserAccountOrganisationFunction> UserAccountOrganisationFunctions
         {
             get;
