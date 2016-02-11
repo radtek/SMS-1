@@ -84,3 +84,11 @@ GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."ConversationFunctionParticipant" TO bef;
 
 -- =============
+
+INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Mortgage Offer');
+INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Valuation/Security Risk Reporting');
+INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Fraud Risk Reporting');
+INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Certificate of Title');
+INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Redemption Statement');
+INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Title Information Document');
+INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Requisitions at HMLR');
