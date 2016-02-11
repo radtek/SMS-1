@@ -85,11 +85,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetConversationsActivity(ActivityType activityType, Guid activityId)
         {
-            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var wc = WebUserHelper.GetWebUserObject(HttpContext);
             var take = Request["$top"] == null ? 0 : int.Parse(Request["$top"]);
             var skip = Request["$skip"] == null ? 0 : int.Parse(Request["$skip"]);
-            var res = await NotificationClient.GetConversationsActivityAsync(uaoId, orgId, activityType, activityId, take, skip);
+            var res = await NotificationClient.GetConversationsActivityAsync(wc.UaoID, wc.OrganisationTypeName, wc.OrganisationID, activityType, activityId, take, skip);
             return Json(res, JsonRequestBehavior.AllowGet);
         }
 
@@ -187,7 +186,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 var orgID = HttpContext.GetWebUserObject().OrganisationID;
                 var uaoID = HttpContext.GetWebUserObject().UaoID;
-                await NotificationClient.CreateConversationAsync(addConversationDto.FromHash, orgID, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, false, addConversationDto.RecipientHashes.ToArray());
+                await NotificationClient.CreateConversationAsync(addConversationDto.FromHash, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, false, addConversationDto.RecipientHashes.ToArray());
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

@@ -18531,11 +18531,15 @@
           <Parameter Name="activityid" Type="uuid" Mode="In" />
           <Parameter Name="l" Type="int" Mode="In" />
           <Parameter Name="o" Type="int" Mode="In" />
+          <Parameter Name="userorgtypename" Type="varchar" Mode="In" />
+          <Parameter Name="uaoid" Type="uuid" Mode="In" />
         </Function>
         <Function Name="fn_GetConversationActivityCount" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetConversationActivityCount">
           <Parameter Name="orgid" Type="uuid" Mode="In" />
           <Parameter Name="activitytype" Type="int" Mode="In" />
           <Parameter Name="activityid" Type="uuid" Mode="In" />
+          <Parameter Name="userorgtypename" Type="varchar" Mode="In" />
+          <Parameter Name="uaoid" Type="uuid" Mode="In" />
         </Function>
         <Function Name="fn_AttachUploads" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_AttachUploads">
           <Parameter Name="uaoid" Type="uuid" Mode="In" />
@@ -21523,11 +21527,15 @@
             <Parameter Name="activityid" Mode="In" Type="Guid" />
             <Parameter Name="l" Mode="In" Type="Int32" />
             <Parameter Name="o" Mode="In" Type="Int32" />
+            <Parameter Name="userorgtypename" Mode="In" Type="String" />
+            <Parameter Name="uaoid" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="FnGetConversationActivityCount" ReturnType="Collection(Int64)" ed:Guid="6430b9e5-18b2-42b5-98d0-e837e58b2c59">
             <Parameter Name="orgid" Mode="In" Type="Guid" />
             <Parameter Name="activitytype" Mode="In" Type="Int32" />
             <Parameter Name="activityid" Mode="In" Type="Guid" />
+            <Parameter Name="userorgtypename" Mode="In" Type="String" />
+            <Parameter Name="uaoid" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="FnAttachUpload" ed:Guid="2f44de09-74ab-4945-aa0e-88c5ea7f99cb">
             <Parameter Name="uaoid" Mode="In" Type="Guid" />

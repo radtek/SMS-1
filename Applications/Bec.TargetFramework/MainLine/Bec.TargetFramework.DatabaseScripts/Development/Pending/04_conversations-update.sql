@@ -26,12 +26,17 @@ AS
 
 
 
-CREATE OR REPLACE FUNCTION public."fn_GetConversationActivity" (
+ -- object recreation
+DROP FUNCTION public."fn_GetConversationActivity"(orgid uuid, activitytype integer, activityid uuid, l integer, o integer);
+
+CREATE FUNCTION public."fn_GetConversationActivity" (
   orgid uuid,
   activitytype integer,
   activityid uuid,
   l integer,
-  o integer
+  o integer,
+  userorgtypename varchar,
+  uaoid uuid
 )
 RETURNS TABLE (
   "ConversationID" uuid,
@@ -40,23 +45,45 @@ RETURNS TABLE (
 ) AS
 $body$
 BEGIN
-return query
-  SELECT c."ConversationID",
-         c."Subject",
-         c."Latest"
-  FROM "Conversation" c
+if (userorgtypename = 'Professional') then
+  --anyone in org
+  return query SELECT c."ConversationID", c."Subject", c."Latest" FROM "Conversation" c
+  WHERE (
+   exists (select * from "ConversationParticipant" cp join "UserAccountOrganisation" uao on cp."UserAccountOrganisationID" = uao."UserAccountOrganisationID"
+   where uao."OrganisationID" = orgid and cp."ConversationID" = c."ConversationID")
+  )
+  and 
+  (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false)
+  order by c."Latest" desc
+  limit l offset o;
 
-WHERE (
- exists (select * from "ConversationParticipant" cp join "UserAccountOrganisation" uao on cp."UserAccountOrganisationID" = uao."UserAccountOrganisationID"
- where uao."OrganisationID" = orgid and cp."ConversationID" = c."ConversationID")
-or
- exists (select * from "ConversationFunctionParticipant" cfp
- where cfp."ConversationID" = c."ConversationID" and cfp."OrganisationID" = orgid)
-)
-and 
-(c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false)
-order by c."Latest" desc
-limit l offset o;
+elsif (userorgtypename = 'Lender') then
+  --exact uao or in function
+  return query SELECT c."ConversationID", c."Subject", c."Latest" FROM "Conversation" c
+  WHERE (
+   exists (select * from "ConversationParticipant" cp
+   where cp."UserAccountOrganisationID" = uaoid and cp."ConversationID" = c."ConversationID")
+  or
+   exists (select * from "ConversationFunctionParticipant" cfp join "UserAccountOrganisationFunction" uaof on uaof."FunctionID" = cfp."FunctionID"
+   where cfp."ConversationID" = c."ConversationID" and cfp."OrganisationID" = orgid and uaof."UserAccountOrganisationID" = uaoid)
+  )
+  and 
+  (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false)
+  order by c."Latest" desc
+  limit l offset o;
+else
+  --exact uao
+  return query SELECT c."ConversationID", c."Subject", c."Latest" FROM "Conversation" c
+  WHERE (
+   exists (select * from "ConversationParticipant" cp
+   where cp."UserAccountOrganisationID" = uaoid and cp."ConversationID" = c."ConversationID")
+  )
+  and 
+  (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false)
+  order by c."Latest" desc
+  limit l offset o;
+end if;
+
 
 END;
 $body$
@@ -70,25 +97,51 @@ COST 100 ROWS 1000;
 
 
 
-CREATE OR REPLACE FUNCTION public."fn_GetConversationActivityCount" (
+ -- object recreation
+DROP FUNCTION public."fn_GetConversationActivityCount"(orgid uuid, activitytype integer, activityid uuid);
+
+CREATE FUNCTION public."fn_GetConversationActivityCount" (
   orgid uuid,
   activitytype integer,
-  activityid uuid
+  activityid uuid,
+  userorgtypename varchar,
+  uaoid uuid
 )
 RETURNS integer AS
 $body$
 BEGIN
-return (
-  SELECT count(*)
-  FROM "Conversation" c
+if (userorgtypename = 'Professional') then
+
+return (SELECT count(*) FROM "Conversation" c
 WHERE (
  exists (select * from "ConversationParticipant" cp join "UserAccountOrganisation" uao on cp."UserAccountOrganisationID" = uao."UserAccountOrganisationID"
  where uao."OrganisationID" = orgid and cp."ConversationID" = c."ConversationID")
-or
- exists (select * from "ConversationFunctionParticipant" cfp
- where cfp."ConversationID" = c."ConversationID" and cfp."OrganisationID" = orgid)
 )
 and (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false));
+
+elsif (userorgtypename = 'Lender') then
+
+return (SELECT count(*) FROM "Conversation" c
+WHERE (
+ exists (select * from "ConversationParticipant" cp
+ where cp."UserAccountOrganisationID" = uaoid and cp."ConversationID" = c."ConversationID")
+or
+ exists (select * from "ConversationFunctionParticipant" cfp join "UserAccountOrganisationFunction" uaof on uaof."FunctionID" = cfp."FunctionID"
+ where cfp."ConversationID" = c."ConversationID" and cfp."OrganisationID" = orgid and uaof."UserAccountOrganisationID" = uaoid)
+)
+and (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false));
+
+else
+
+return (SELECT count(*) FROM "Conversation" c
+WHERE (
+ exists (select * from "ConversationParticipant" cp
+ where cp."UserAccountOrganisationID" = uaoid and cp."ConversationID" = c."ConversationID")
+)
+and (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false));
+
+end if;
+
 END;
 $body$
 LANGUAGE 'plpgsql'

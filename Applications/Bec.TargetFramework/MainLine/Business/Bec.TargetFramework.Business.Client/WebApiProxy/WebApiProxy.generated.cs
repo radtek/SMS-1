@@ -624,7 +624,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds);
 
 		/// <param name="fromHash"></param>
-		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
@@ -633,10 +632,9 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		Task<Guid> CreateConversationAsync(String fromHash,Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
+		Task<Guid> CreateConversationAsync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
 
 		/// <param name="fromHash"></param>
-		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
@@ -645,7 +643,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		Guid CreateConversation(String fromHash,Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
+		Guid CreateConversation(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
 
 		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
@@ -726,22 +724,24 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		ConversationResultDTO<VConversationDTO> GetConversations(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip);
 
 		/// <param name="uaoID"></param>
+		/// <param name="userOrgTypeName"></param>
 		/// <param name="orgID"></param>
 		/// <param name="activityType"></param>
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+		Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
 
 		/// <param name="uaoID"></param>
+		/// <param name="userOrgTypeName"></param>
 		/// <param name="orgID"></param>
 		/// <param name="activityType"></param>
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
 
 		/// <param name="uaoId"></param>
 		/// <param name="orgId"></param>
@@ -3274,7 +3274,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="fromHash"></param>
-		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
@@ -3283,20 +3282,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> CreateConversationAsync(String fromHash,Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
+		public virtual Task<Guid> CreateConversationAsync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
 			fromHash = fromHash.UrlEncode();
 			subject = subject.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user);
+			return PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="fromHash"></param>
-		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
@@ -3304,13 +3302,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
-		public virtual Guid CreateConversation(String fromHash,Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
+		public virtual Guid CreateConversation(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
 			fromHash = fromHash.UrlEncode();
 			subject = subject.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user)).Result;
+			return Task.Run(() => PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user)).Result;
 		}
 
 		/// <summary>
@@ -3477,31 +3475,35 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="userOrgTypeName"></param>
 		/// <param name="orgID"></param>
 		/// <param name="activityType"></param>
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		public virtual Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
+		public virtual Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
 		{
+			userOrgTypeName = userOrgTypeName.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user);
+			return GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&userOrgTypeName=" + userOrgTypeName + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="userOrgTypeName"></param>
 		/// <param name="orgID"></param>
 		/// <param name="activityType"></param>
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
-		public virtual ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
+		public virtual ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
 		{
+			userOrgTypeName = userOrgTypeName.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
+			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&userOrgTypeName=" + userOrgTypeName + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
 		}
 
 		/// <summary>

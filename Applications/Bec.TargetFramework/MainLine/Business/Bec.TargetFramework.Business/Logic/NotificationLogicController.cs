@@ -736,15 +736,15 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID, Guid orgID, ActivityType activityType, Guid activityId, int take, int skip)
+        public ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID, string userOrgTypeName, Guid orgID, ActivityType activityType, Guid activityId, int take, int skip)
         {
             int at = activityType.GetIntValue();
 
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var count = scope.DbContexts.Get<TargetFrameworkEntities>().FnGetConversationActivityCount(orgID, at, activityId).Value;
+                var count = scope.DbContexts.Get<TargetFrameworkEntities>().FnGetConversationActivityCount(orgID, at, activityId, userOrgTypeName, uaoID).Value;
 
-                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().FnGetConversationActivity(orgID, at, activityId, take, skip).ToDtos();
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().FnGetConversationActivity(orgID, at, activityId, take, skip, userOrgTypeName, uaoID).ToDtos();
                 var convs = ret.Select(x => x.ConversationID);
                 var q = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreads.Where(x => x.UserAccountOrganisationID == uaoID && convs.Contains(x.ConversationID));
                 var unreads = q.ToDictionary(x => x.ConversationID, x => x.UnreadCount);
