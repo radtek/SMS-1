@@ -811,19 +811,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddNewUnverifiedOrganisationAndAdministrator(AddCompanyDTO dto);
 
-		/// <param name="organisationID"></param>
-		/// <param name="userTypeValue"></param>
-		/// <param name="addDefaultRoles"></param>
-		/// <param name="roles"></param>
 		/// <returns></returns>
-		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
+		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(AddNewUserToOrganisationDTO dto);
 
-		/// <param name="organisationID"></param>
-		/// <param name="userTypeValue"></param>
-		/// <param name="addDefaultRoles"></param>
-		/// <param name="roles"></param>
 		/// <returns></returns>
-		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
+		UserAccountOrganisationDTO AddNewUserToOrganisation(AddNewUserToOrganisationDTO dto);
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
@@ -1591,6 +1583,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
 		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task<List<UserAccountOrganisationFunctionDTO>> GetFunctionsAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		List<UserAccountOrganisationFunctionDTO> GetFunctions(Guid uaoID);
 
 		/// <param name="uaoId"></param>
 		/// <param name="newUsername"></param>
@@ -3672,28 +3672,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="userTypeValue"></param>
-		/// <param name="addDefaultRoles"></param>
-		/// <param name="roles"></param>
 		/// <returns></returns>
-		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
+		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(AddNewUserToOrganisationDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user);
+			return PostAsync<AddNewUserToOrganisationDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync", dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="userTypeValue"></param>
-		/// <param name="addDefaultRoles"></param>
-		/// <param name="roles"></param>
-		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
+		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(AddNewUserToOrganisationDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user)).Result;
+			return Task.Run(() => PostAsync<AddNewUserToOrganisationDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync", dto, _user)).Result;
 		}
 
 		/// <summary>
@@ -5727,6 +5719,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task<List<UserAccountOrganisationFunctionDTO>> GetFunctionsAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<UserAccountOrganisationFunctionDTO>>("api/UserLogic/GetFunctions?uaoID=" + uaoID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual List<UserAccountOrganisationFunctionDTO> GetFunctions(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<UserAccountOrganisationFunctionDTO>>("api/UserLogic/GetFunctions?uaoID=" + uaoID, _user)).Result;
 		}
 
 		/// <summary>

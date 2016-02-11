@@ -29750,7 +29750,17 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="ac0ea247-5daf-42ad-843e-07dd76d47a51" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.Function_OrganisationType_fk" FromRole="Functions" ToRole="OrganisationType" ed:Guid="c242b987-d870-4bee-94d2-d113e2793d0d" />
           <NavigationProperty Name="ConversationFunctionParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk" FromRole="Function" ToRole="ConversationFunctionParticipants" ed:Guid="4f675d80-f665-4c48-994e-31c96c9f56ed" />
-          <NavigationProperty Name="UserAccountOrganisationFunctions" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk" FromRole="Function" ToRole="UserAccountOrganisationFunctions" ed:Guid="a636073e-84bf-4d34-92c3-0cd377a888b8" />
+          <NavigationProperty Name="UserAccountOrganisationFunctions" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk" FromRole="Function" ToRole="UserAccountOrganisationFunctions" ed:Guid="a636073e-84bf-4d34-92c3-0cd377a888b8">
+            <ed:Attributes>
+              <ed:Attribute Name="Bec.TargetFramework.Data.Attributes.CollectionUpdateBehaviourAttribute" Assembly="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                <ed:AttributeConstructor>
+                  <ed:PropertyValue Name="behaviour" Type="Bec.TargetFramework.Data.Attributes.UpdateBehaviour, Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                    <UpdateBehaviour xmlns="">Replace</UpdateBehaviour>
+                  </ed:PropertyValue>
+                </ed:AttributeConstructor>
+              </ed:Attribute>
+            </ed:Attributes>
+          </NavigationProperty>
         </EntityType>
         <EntityType Name="ConversationFunctionParticipant" ed:Guid="b59c7589-84ef-4e91-9220-1dc4f31f9c5a">
           <Key>

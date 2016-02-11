@@ -1,18 +1,11 @@
-﻿@using Bec.TargetFramework.Entities
+﻿@using Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Models
+@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Helpers;
 @model Edit<UserAccountOrganisationDTO>
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
     <div class="modal-dialog">
-
-        @*<div class="help help-container help-sm">
-            <div class="help-vert">HELP</div>
-            <div class="help help-inner">
-                <div>Help goes here</div>
-            </div>
-        </div>*@
-
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="editUserLabel">Edit User</h4>
@@ -65,7 +58,10 @@
                                     @foreach (var role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Item1].Selected" @role.Item2 @role.Item3 class="role-checkbox" />
+                                            <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Item1].Selected"
+                                                   id="Model.UserAccountOrganisationRoles[@role.Item1].Selected"
+                                                   @(role.Item2 ? "checked" : "")
+                                                   class="role-checkbox @(role.Item3 ? "readonly" : "")" />
                                             <input name="Model.UserAccountOrganisationRoles[@role.Item1].OrganisationRoleID" type="hidden" value="@role.Item4" />
                                             <i></i>
                                             <label for="Model.UserAccountOrganisationRoles[@role.Item1].Selected">@role.Item5</label>
@@ -73,6 +69,25 @@
                                     }
 
                                 </section>
+
+                                @if (((IEnumerable<FunctionEditEntry>)ViewBag.Functions).Any())
+                                {
+                                    <section>
+                                        <label class="label">Functions</label>
+                                        @foreach (FunctionEditEntry function in ViewBag.Functions)
+                                        {
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="Model.UserAccountOrganisationFunctions[@function.Index].Selected" 
+                                                       id="Model.UserAccountOrganisationFunctions[@function.Index].Selected" 
+                                                       @(function.IsChecked ? "checked" : "")
+                                                       class="role-checkbox" />
+                                                <input name="Model.UserAccountOrganisationFunctions[@function.Index].FunctionID" type="hidden" value="@function.FunctionID" />
+                                                <i></i>
+                                                <label for="Model.UserAccountOrganisationFunctions[@function.Index].Selected">@function.Name</label>
+                                            </label>
+                                        }
+                                    </section>
+                                }
 
                             </fieldset>
                         </form>
