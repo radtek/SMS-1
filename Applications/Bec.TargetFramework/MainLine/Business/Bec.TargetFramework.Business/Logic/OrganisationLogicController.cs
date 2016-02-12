@@ -145,7 +145,7 @@ namespace Bec.TargetFramework.Business.Logic
                     item.TradingNames = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.Where(x => x.OrganisationID == item.OrganisationID && x.Name != item.Name).Select(x => x.Name).ToList();
                     if (item.BrokerType.HasValue) item.BrokerTypeDescription = ((BrokerTypeEnum)item.BrokerType).GetStringValue();
                     if (item.BrokerBusinessType.HasValue) item.BrokerBusinessTypeDescription = ((BrokerBusinessTypeEnum)item.BrokerBusinessType).GetStringValue();
-                    }
+                }
                 return ret;
             }
         }
@@ -592,7 +592,7 @@ namespace Bec.TargetFramework.Business.Logic
             };
             var buyerUaoDto = await AddNewUserToOrganisationAsync(addNewUserDto);
             await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
-            
+
             return buyerUaoDto.UserAccountOrganisationID;
         }
 
@@ -616,10 +616,10 @@ namespace Bec.TargetFramework.Business.Logic
 
                 var allContacts = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(c => c.ParentID == uaoId && c.IsPrimaryContact == true);
                 foreach (var item in allContacts)
-	            {
-		            item.IsPrimaryContact = false;
+                {
+                    item.IsPrimaryContact = false;
                     birthDate = item.BirthDate ?? birthDate;
-	            }
+                }
 
                 var contact = new Contact
                 {
@@ -742,7 +742,7 @@ namespace Bec.TargetFramework.Business.Logic
                 tx.Contact.Salutation = dto.Contact.Salutation;
                 tx.Contact.FirstName = dto.Contact.FirstName;
                 tx.Contact.LastName = dto.Contact.LastName;
-                
+
                 var existingContacts = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(x => x.ParentID == uaoID);
                 if (existingContacts.Count() <= 1)
                     tx.Contact.BirthDate = dto.Contact.BirthDate;
@@ -815,12 +815,12 @@ namespace Bec.TargetFramework.Business.Logic
                 Ensure.That(tx).IsNotNull();
                 if (tx.ShoppingCartID.HasValue) return CartPricingProcessor.CalculateCartPrice(scope, tx.ShoppingCartID.Value);
             }
-            
+
             var product = ProductLogic.GetBankAccountCheckProduct();
             Ensure.That(product).IsNotNull();
             var cartID = (await ShoppingCartLogic.CreateShoppingCartAsync(uaoID, cardTypeEnum, paymentTypeEnum)).ShoppingCartID;
             await ShoppingCartLogic.AddProductToShoppingCartAsync(cartID, product.ProductID, product.ProductVersionID, 1);
-            
+
             using (var scope = DbContextScopeFactory.Create())
             {
                 var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.SmsTransactionID == txID).FirstOrDefault();
@@ -980,27 +980,27 @@ namespace Bec.TargetFramework.Business.Logic
                     return;
                 }
 
-                if (ShouldChangeEmailOnVerification(adminUao, dto))
-                {
-                    await UserLogic.ChangeUsernameAndEmail(adminUao.UserAccountOrganisationID, dto.Email);
-                }
-
                 var modifiedBy = UserNameService.UserName;
                 var modifiedOn = DateTime.Now;
-
-                Guid? authorityDelegatedByContactID = null;
+                Contact orgAdminContactDetails;
                 if (dto.IsAuthorityDelegated)
                 {
-                    authorityDelegatedByContactID = Guid.NewGuid();
+                    orgAdminContactDetails = new Contact
+                    {
+                        Salutation = dto.AuthorityDelegatedToSalutation,
+                        FirstName = dto.AuthorityDelegatedToFirstName,
+                        LastName = dto.AuthorityDelegatedToLastName,
+                        EmailAddress1 = dto.AuthorityDelegatedToEmail
+                    };
                     var authorityDelegatedByContact = new Contact
                     {
-                        ContactID = authorityDelegatedByContactID.Value,
+                        ContactID = Guid.NewGuid(),
                         ContactName = string.Empty,
-                        Salutation = dto.AuthorityDelegatedBySalutation,
-                        FirstName = dto.AuthorityDelegatedByFirstName,
-                        LastName = dto.AuthorityDelegatedByLastName,
-                        EmailAddress1 = dto.AuthorityDelegatedByEmail,
-                        Description = "Authority Delegated From Contact",
+                        Salutation = dto.Salutation,
+                        FirstName = dto.FirstName,
+                        LastName = dto.LastName,
+                        EmailAddress1 = dto.Email,
+                        Description = "Authority Delegated Contact",
                         ParentID = dto.OrganisationID,
                         Telephone1 = string.Empty,
                         MobileNumber1 = string.Empty,
@@ -1008,31 +1008,43 @@ namespace Bec.TargetFramework.Business.Logic
                         CreatedBy = modifiedBy
                     };
                     scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(authorityDelegatedByContact);
+                    org.AuthorityDelegatedByContactID = authorityDelegatedByContact.ContactID;
+                }
+                else
+                {
+                    orgAdminContactDetails = new Contact
+                    {
+                        Salutation = dto.Salutation,
+                        FirstName = dto.FirstName,
+                        LastName = dto.LastName,
+                        EmailAddress1 = dto.Email
+                    };
+                    org.AuthorityDelegatedByContactID = null;
                 }
 
-                org.AuthorityDelegatedByContactID = authorityDelegatedByContactID;
+                await UserLogic.ChangeUsernameAndEmail(adminUao.UserAccountOrganisationID, orgAdminContactDetails.EmailAddress1);
+
                 org.FilesPerMonth = dto.FilesPerMonth ?? 0;
                 org.ModifiedBy = modifiedBy;
                 org.ModifiedOn = modifiedOn;
-
                 var detail = org.OrganisationDetails.FirstOrDefault();
                 if (detail != null) detail.Name = dto.OrganisationName;
 
                 var orgContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.SingleOrDefault(c => c.ParentID == dto.OrganisationID && c.IsPrimaryContact);
                 Ensure.That(orgContact).IsNotNull();
-                orgContact.Salutation = dto.Salutation;
-                orgContact.FirstName = dto.FirstName;
-                orgContact.LastName = dto.LastName;
-                orgContact.EmailAddress1 = dto.Email;
+                orgContact.Salutation = orgAdminContactDetails.Salutation;
+                orgContact.FirstName = orgAdminContactDetails.FirstName;
+                orgContact.LastName = orgAdminContactDetails.LastName;
+                orgContact.EmailAddress1 = orgAdminContactDetails.EmailAddress1;
                 orgContact.ModifiedBy = modifiedBy;
                 orgContact.ModifiedOn = modifiedOn;
 
                 var adminUaoContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.SingleOrDefault(c => c.ParentID == dto.UaoID);
                 Ensure.That(adminUaoContact).IsNotNull();
-                adminUaoContact.Salutation = dto.Salutation;
-                adminUaoContact.FirstName = dto.FirstName;
-                adminUaoContact.LastName = dto.LastName;
-                adminUaoContact.EmailAddress1 = dto.Email;
+                adminUaoContact.Salutation = orgAdminContactDetails.Salutation;
+                adminUaoContact.FirstName = orgAdminContactDetails.FirstName;
+                adminUaoContact.LastName = orgAdminContactDetails.LastName;
+                adminUaoContact.EmailAddress1 = orgAdminContactDetails.EmailAddress1;
                 adminUaoContact.ModifiedBy = modifiedBy;
                 adminUaoContact.ModifiedOn = modifiedOn;
 
@@ -1047,11 +1059,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private bool ShouldChangeEmailOnVerification(UserAccountOrganisation uao, VerifyCompanyDTO dto)
-        {
-            return !string.IsNullOrWhiteSpace(dto.Email) && !uao.UserAccount.Email.Equals(dto.Email);
-        }
-
         public int GetSmsTransactionRank(Guid orgID, Guid txID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
@@ -1064,7 +1071,8 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationNotes.Add(new OrganisationNote { 
+                scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationNotes.Add(new OrganisationNote
+                {
                     OrganisationID = orgID,
                     UserAccountOrganisationID = uaoID,
                     Notes = notes,

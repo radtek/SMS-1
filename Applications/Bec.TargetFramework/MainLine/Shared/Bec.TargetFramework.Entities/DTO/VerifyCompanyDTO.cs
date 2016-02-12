@@ -33,12 +33,12 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public bool IsAuthorityDelegated { get; set; }
         [DataMember]
-        public string AuthorityDelegatedBySalutation { get; set; }
+        public string AuthorityDelegatedToSalutation { get; set; }
         [DataMember]
-        public string AuthorityDelegatedByFirstName { get; set; }
+        public string AuthorityDelegatedToFirstName { get; set; }
         [DataMember]
-        public string AuthorityDelegatedByLastName { get; set; }
+        public string AuthorityDelegatedToLastName { get; set; }
         [DataMember]
-        public string AuthorityDelegatedByEmail { get; set; }
+        public string AuthorityDelegatedToEmail { get; set; }
     }
 }

@@ -73,19 +73,40 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var org = await OrganisationClient.GetOrganisationWithStatusAndAdminAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
-            var dto = new VerifyCompanyDTO
+
+            VerifyCompanyDTO dto = new VerifyCompanyDTO
             {
                 OrganisationID = orgId,
                 UaoID = org.UserAccountOrganisationID,
                 OrganisationName = org.Name,
                 RegulatorName = org.Regulator,
                 RegulatorNumber = org.RegulatorNumber,
-                Salutation = org.OrganisationAdminSalutation,
-                FirstName = org.OrganisationAdminFirstName,
-                LastName = org.OrganisationAdminLastName,
-                Email = org.OrganisationAdminEmail,
-                OrganisationType = org.OrganisationTypeDescription
+                OrganisationType = org.OrganisationTypeDescription,
+                FilesPerMonth = org.FilesPerMonth > 0 ? org.FilesPerMonth : (int?)null,
+                IsAuthorityDelegated = !string.IsNullOrWhiteSpace(org.AuthorityDelegatedByEmail)
             };
+            // ZM: IMPORTANT! The way the function is presented is different from how it is stored in DB
+            // hence the confusion with AuthorityDelegatedToSalutation and AuthorityDelegatedBySalutation
+            // fields differ with 'To' and 'By'
+            if (dto.IsAuthorityDelegated)
+            {
+                dto.Salutation = org.AuthorityDelegatedBySalutation;
+                dto.FirstName = org.AuthorityDelegatedByFirstName;
+                dto.LastName = org.AuthorityDelegatedByLastName;
+                dto.Email = org.AuthorityDelegatedByEmail;
+                dto.AuthorityDelegatedToSalutation = org.OrganisationAdminSalutation;
+                dto.AuthorityDelegatedToFirstName = org.OrganisationAdminFirstName;
+                dto.AuthorityDelegatedToLastName = org.OrganisationAdminLastName;
+                dto.AuthorityDelegatedToEmail = org.OrganisationAdminEmail;
+            }
+            else
+            {
+                dto.Salutation = org.OrganisationAdminSalutation;
+                dto.FirstName = org.OrganisationAdminFirstName;
+                dto.LastName = org.OrganisationAdminLastName;
+                dto.Email = org.OrganisationAdminEmail;
+            }
+            
             return PartialView("_Verify", dto);
         }
 

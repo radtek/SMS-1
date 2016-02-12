@@ -2,7 +2,9 @@
     'use strict';
 
     $("#IsAuthorityDelegated").change(function () {
-        $('#authorityDelgationDetails').toggle(this.checked);
+        $('#authorityDelgationDetails').find('input, select')
+            .prop('disabled', !this.checked)
+            .parent().toggleClass('state-disabled', !this.checked);
     }).change();
 
     // submit from when Save button clicked
@@ -30,6 +32,9 @@
             FilesPerMonth: {
                 required: true,
                 digits: true
+            },
+            RegulatorName: {
+                required: true
             },
             RegulatorNumber: {
                 required: true,
@@ -68,16 +73,16 @@
                     error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
                 }
             },
-            AuthorityDelegatedBySalutation: {
+            AuthorityDelegatedToSalutation: {
                 required: depnedsOnIsAuthorityDelegated
             },
-            AuthorityDelegatedByFirstName: {
+            AuthorityDelegatedToFirstName: {
                 required: depnedsOnIsAuthorityDelegated
             },
-            AuthorityDelegatedByLastName: {
+            AuthorityDelegatedToLastName: {
                 required: depnedsOnIsAuthorityDelegated
             },
-            AuthorityDelegatedByEmail: {
+            AuthorityDelegatedToEmail: {
                 required: depnedsOnIsAuthorityDelegated,
                 email: true
             },
