@@ -988,6 +988,29 @@ namespace Bec.TargetFramework.Business.Logic
                 var modifiedBy = UserNameService.UserName;
                 var modifiedOn = DateTime.Now;
 
+                Guid? authorityDelegatedByContactID = null;
+                if (dto.IsAuthorityDelegated)
+                {
+                    authorityDelegatedByContactID = Guid.NewGuid();
+                    var authorityDelegatedByContact = new Contact
+                    {
+                        ContactID = authorityDelegatedByContactID.Value,
+                        ContactName = string.Empty,
+                        Salutation = dto.AuthorityDelegatedBySalutation,
+                        FirstName = dto.AuthorityDelegatedByFirstName,
+                        LastName = dto.AuthorityDelegatedByLastName,
+                        EmailAddress1 = dto.AuthorityDelegatedByEmail,
+                        Description = "Authority Delegated From Contact",
+                        ParentID = dto.OrganisationID,
+                        Telephone1 = string.Empty,
+                        MobileNumber1 = string.Empty,
+                        CreatedOn = DateTime.Now,
+                        CreatedBy = modifiedBy
+                    };
+                    scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(authorityDelegatedByContact);
+                }
+
+                org.AuthorityDelegatedByContactID = authorityDelegatedByContactID;
                 org.FilesPerMonth = dto.FilesPerMonth ?? 0;
                 org.ModifiedBy = modifiedBy;
                 org.ModifiedOn = modifiedOn;
@@ -1019,7 +1042,7 @@ namespace Bec.TargetFramework.Business.Logic
                     cReg.RegulatorName = dto.RegulatorName;
                     cReg.RegulatorNumber = dto.RegulatorNumber;
                 }
-                
+
                 await scope.SaveChangesAsync();
             }
         }

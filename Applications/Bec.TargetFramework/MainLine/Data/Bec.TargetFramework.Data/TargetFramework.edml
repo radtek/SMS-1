@@ -3016,6 +3016,10 @@
             <End Role="Function" EntitySet="Functions" />
             <End Role="UserAccountOrganisationFunction" EntitySet="UserAccountOrganisationFunctions" />
           </AssociationSet>
+          <AssociationSet Name="Organisation_Contact_fk" Association="Bec.TargetFramework.Data.Store.Organisation_Contact_fk">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -9743,6 +9747,7 @@
           <Property Name="FilesPerMonth" Type="int" Nullable="false" DefaultValue="0" />
           <Property Name="BrokerType" Type="int" />
           <Property Name="BrokerBusinessType" Type="int" />
+          <Property Name="AuthorityDelegatedByContactID" Type="uuid" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
           <Key>
@@ -9798,6 +9803,10 @@
           <Property Name="OrganisationTypeDescription" Type="varchar" MaxLength="2000" />
           <Property Name="BrokerType" Type="int" />
           <Property Name="BrokerBusinessType" Type="int" />
+          <Property Name="AuthorityDelegatedBySalutation" Type="varchar" MaxLength="100" />
+          <Property Name="AuthorityDelegatedByFirstName" Type="varchar" MaxLength="100" />
+          <Property Name="AuthorityDelegatedByLastName" Type="varchar" MaxLength="100" />
+          <Property Name="AuthorityDelegatedByEmail" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="vNotificationInternalUnread">
           <Key>
@@ -18491,6 +18500,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Organisation_Contact_fk">
+          <End Role="Contact" Type="Bec.TargetFramework.Data.Store.Contact" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="AuthorityDelegatedByContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -21486,6 +21507,10 @@
           <AssociationSet Name="UserAccountOrganisationFunction_Function_fkSet" Association="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk">
             <End Role="Function" EntitySet="Functions" />
             <End Role="UserAccountOrganisationFunctions" EntitySet="UserAccountOrganisationFunctions" />
+          </AssociationSet>
+          <AssociationSet Name="Organisation_Contact_fkSet" Association="Bec.TargetFramework.Data.Organisation_Contact_fk">
+            <End Role="Contact_AuthorityDelegatedByContactID" EntitySet="Contacts" />
+            <End Role="Organisations_AuthorityDelegatedByContactID" EntitySet="Organisations" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -25530,6 +25555,7 @@
           <NavigationProperty Name="Organisations" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Contact" ToRole="Organisations" ed:Guid="737034bc-16e7-41d1-835a-e138d443ae1b" />
           <NavigationProperty Name="Addresses" Relationship="Bec.TargetFramework.Data.Contact_Address" FromRole="Contact" ToRole="Addresses" ed:Guid="c7780a52-9a39-4c6d-984d-cf1f07dd121a" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Contact_fk" FromRole="Contact" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="ae96d7ae-0425-4c5b-b388-7bedda826b39" />
+          <NavigationProperty Name="Organisations_AuthorityDelegatedByContactID" Relationship="Bec.TargetFramework.Data.Organisation_Contact_fk" FromRole="Contact_AuthorityDelegatedByContactID" ToRole="Organisations_AuthorityDelegatedByContactID" ed:Guid="82a4ee9c-c919-47e2-ad35-622059de266a" />
         </EntityType>
         <EntityType Name="ModuleDependencyTemplate" ed:Guid="9a80b3c2-3957-4097-820c-c3e961b47cc9">
           <Key>
@@ -29310,6 +29336,7 @@
           <Property Name="FilesPerMonth" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="2619b439-89fc-441d-a64e-68cad6ed6553" />
           <Property Name="BrokerType" Type="Int32" ed:ValidateRequired="False" ed:Guid="bdde3f56-7f7c-4522-8bb2-5731df2185a6" />
           <Property Name="BrokerBusinessType" Type="Int32" ed:ValidateRequired="False" ed:Guid="359a1f27-9ac0-4af3-bf49-68659d339c47" />
+          <Property Name="AuthorityDelegatedByContactID" Type="Guid" ed:ValidateRequired="False" ed:Guid="cbbbd50f-cce8-4a18-9f83-bacdb10c21f1" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="Organisations" ToRole="OrganisationType" ed:Guid="225b1679-ada9-478c-b51a-cf9324e9bb73" />
@@ -29353,6 +29380,7 @@
           <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_Organisation_fk" FromRole="Organisation" ToRole="OrganisationNotes" ed:Guid="4fcad52b-104e-4115-941e-7484cac266c1" />
           <NavigationProperty Name="Lenders" Relationship="Bec.TargetFramework.Data.Lender_Organisation_fk" FromRole="Organisation" ToRole="Lenders" ed:Guid="899cdc0c-9223-4f50-9282-8a4023e1af24" />
           <NavigationProperty Name="ConversationFunctionParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Organisation_fk" FromRole="Organisation" ToRole="ConversationFunctionParticipants" ed:Guid="c01babb7-94ac-41ec-a412-1f6343e3f006" />
+          <NavigationProperty Name="Contact_AuthorityDelegatedByContactID" Relationship="Bec.TargetFramework.Data.Organisation_Contact_fk" FromRole="Organisations_AuthorityDelegatedByContactID" ToRole="Contact_AuthorityDelegatedByContactID" ed:Guid="ef9e8120-5a19-4936-8dd7-10f7e912cd06" />
         </EntityType>
         <EntityType Name="VOrganisationWithStatusAndAdmin" ed:Guid="bfc8d9b7-97cf-4558-9215-bbe4a81f5d25">
           <Key>
@@ -29408,6 +29436,10 @@
           <Property Name="OrganisationTypeDescription" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="9d46e0a0-96b1-4e37-b6e1-9cddd5237d22" />
           <Property Name="BrokerType" Type="Int32" ed:ValidateRequired="False" ed:Guid="c1356857-4958-47d4-a5f6-ba2701ee960e" />
           <Property Name="BrokerBusinessType" Type="Int32" ed:ValidateRequired="False" ed:Guid="9c7b8ca3-b059-4f99-a496-06c605ccdc2e" />
+          <Property Name="AuthorityDelegatedBySalutation" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="6ca2cad5-18f0-41fa-85cd-6f86788a7abe" />
+          <Property Name="AuthorityDelegatedByFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="cd8750ab-29e8-4efc-aa1f-08aab035b945" />
+          <Property Name="AuthorityDelegatedByLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="aa3218a0-3abf-447c-ac58-ef1e22695e68" />
+          <Property Name="AuthorityDelegatedByEmail" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="ab1ebbec-17cd-4557-b328-2cd6ffb3ad4d" />
         </EntityType>
         <EntityType Name="VNotificationInternalUnread" ed:Guid="3b0fcde2-57a4-46ea-8cad-824161f44eb6">
           <Key>
@@ -37806,6 +37838,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Organisation_Contact_fk" ed:Guid="0e4f801e-9270-4255-b1b3-1f7e4e0e7d30">
+          <End Role="Contact_AuthorityDelegatedByContactID" Type="Bec.TargetFramework.Data.Contact" Multiplicity="0..1" />
+          <End Role="Organisations_AuthorityDelegatedByContactID" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact_AuthorityDelegatedByContactID">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Organisations_AuthorityDelegatedByContactID">
+              <PropertyRef Name="AuthorityDelegatedByContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -44316,6 +44360,7 @@
                 <ScalarProperty Name="BrokerType" ColumnName="BrokerType" />
                 <ScalarProperty Name="BrokerBusinessType" ColumnName="BrokerBusinessType" />
                 <ScalarProperty Name="IsCompanyPinCreated" ColumnName="IsCompanyPinCreated" />
+                <ScalarProperty Name="AuthorityDelegatedByContactID" ColumnName="AuthorityDelegatedByContactID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44366,6 +44411,10 @@
                 <ScalarProperty Name="BrokerType" ColumnName="BrokerType" />
                 <ScalarProperty Name="BrokerBusinessType" ColumnName="BrokerBusinessType" />
                 <ScalarProperty Name="PendingValidationAccounts" ColumnName="PendingValidationAccounts" />
+                <ScalarProperty Name="AuthorityDelegatedBySalutation" ColumnName="AuthorityDelegatedBySalutation" />
+                <ScalarProperty Name="AuthorityDelegatedByFirstName" ColumnName="AuthorityDelegatedByFirstName" />
+                <ScalarProperty Name="AuthorityDelegatedByLastName" ColumnName="AuthorityDelegatedByLastName" />
+                <ScalarProperty Name="AuthorityDelegatedByEmail" ColumnName="AuthorityDelegatedByEmail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

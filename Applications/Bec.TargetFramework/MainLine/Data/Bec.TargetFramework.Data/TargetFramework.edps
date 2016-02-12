@@ -1773,6 +1773,31 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
+<<<<<<< HEAD
+=======
+      <Exclude Name="ConversationID" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Subject" Table="public.Conversation" Type="Column" />
+      <Exclude Name="ActivityType" Table="public.Conversation" Type="Column" />
+      <Exclude Name="ActivityID" Table="public.Conversation" Type="Column" />
+      <Exclude Name="IsSystemMessage" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Conversation_pkey" Table="public.Conversation" Type="Constraint" />
+      <Exclude Name="UserAccountID" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserSessionID" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserIPAddress" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserHostAddress" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLocation" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLoginDate" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLogoutDate" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserHasLoggedOut" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserAccountLoginSession_pkey" Table="public.UserAccountLoginSession" Type="Constraint" />
+      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
+      <Exclude Name="UserAccountOrganisationID" Table="public.UserAccountOrganisationFunction" Type="Column" />
+      <Exclude Name="FunctionID" Table="public.UserAccountOrganisationFunction" Type="Column" />
+      <Exclude Name="UserAccountOrganisationFunction_pkey" Table="public.UserAccountOrganisationFunction" Type="Constraint" />
+      <Exclude Name="UserAccountOrganisationFunction_UserAccountOrganisation_fk" Table="public.UserAccountOrganisationFunction" Type="Constraint" />
+      <Exclude Name="UserAccountOrganisationFunction_fk" Table="public.UserAccountOrganisationFunction" Type="Constraint" />
+>>>>>>> feature_st1/delegating-sro-authority
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1935,6 +1960,13 @@
       <Exclude Name="OrganisationName" Table="public.vSafeSendRecipient" Type="Column" />
       <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipient" Type="Column" />
       <Exclude Name="IsFunction" Table="public.vSafeSendRecipient" Type="Column" />
+<<<<<<< HEAD
+=======
+      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
+      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
+      <Exclude Name="IsActive" Table="public.UserAccountOrganisationFunction" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.UserAccountOrganisationFunction" Type="Column" />
+>>>>>>> feature_st1/delegating-sro-authority
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
