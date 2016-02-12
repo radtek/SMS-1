@@ -39,6 +39,12 @@
             <dd><p>{{VerifiedBy}}</p></dd>
             <dt>Telephone:</dt>
             <dd><p>{{VerifiedNotes}}</p></dd>
+            <dt>Authority Delegated By:</dt>
+            {{#if authorityDelegatedBy}}
+            <dd><p>{{authorityDelegatedBy}}</p></dd>
+            {{else}}
+            <dd><p>Not Delegated</p></dd>
+            {{/if}}
         </dl>
         <h5>Other Details</h5>
         <dl class="dl-horizontal">

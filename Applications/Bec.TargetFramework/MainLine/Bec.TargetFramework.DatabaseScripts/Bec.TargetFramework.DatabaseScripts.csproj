@@ -59,6 +59,7 @@
     <Content Include="Development\1.3.70-extended-free-trial\Combined\1.3.70-extended-free-trial-tf.sql" />
     <Content Include="Development\Pending\01_TransactionsOverviewResourcesAndRoles.sql" />
     <Content Include="Development\Pending\03_SafeSendFunctions.sql" />
+    <Content Include="Development\Pending\04_delegate-sro-authority.sql" />
     <Content Include="Development\Pending\04_conversations-update.sql" />
     <Content Include="Development\1.3.72-hotfix-news\01_Schema.sql" />
     <Content Include="Scripts\BE Framework Scripts\AddRowVersion.sql" />

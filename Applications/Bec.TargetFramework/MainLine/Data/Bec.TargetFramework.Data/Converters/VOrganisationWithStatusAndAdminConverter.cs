@@ -73,6 +73,10 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationTypeDescription = source.OrganisationTypeDescription;
             target.BrokerType = source.BrokerType;
             target.BrokerBusinessType = source.BrokerBusinessType;
+            target.AuthorityDelegatedBySalutation = source.AuthorityDelegatedBySalutation;
+            target.AuthorityDelegatedByFirstName = source.AuthorityDelegatedByFirstName;
+            target.AuthorityDelegatedByLastName = source.AuthorityDelegatedByLastName;
+            target.AuthorityDelegatedByEmail = source.AuthorityDelegatedByEmail;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -132,6 +136,10 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationTypeDescription = source.OrganisationTypeDescription;
             target.BrokerType = source.BrokerType;
             target.BrokerBusinessType = source.BrokerBusinessType;
+            target.AuthorityDelegatedBySalutation = source.AuthorityDelegatedBySalutation;
+            target.AuthorityDelegatedByFirstName = source.AuthorityDelegatedByFirstName;
+            target.AuthorityDelegatedByLastName = source.AuthorityDelegatedByLastName;
+            target.AuthorityDelegatedByEmail = source.AuthorityDelegatedByEmail;
 
             // User-defined partial method
             OnEntityCreating(source, target);

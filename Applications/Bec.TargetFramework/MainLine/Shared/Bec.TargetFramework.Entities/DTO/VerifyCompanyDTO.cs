@@ -30,5 +30,15 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string Email { get; set; }
         public string OrganisationType { get; set; }
+        [DataMember]
+        public bool IsAuthorityDelegated { get; set; }
+        [DataMember]
+        public string AuthorityDelegatedBySalutation { get; set; }
+        [DataMember]
+        public string AuthorityDelegatedByFirstName { get; set; }
+        [DataMember]
+        public string AuthorityDelegatedByLastName { get; set; }
+        [DataMember]
+        public string AuthorityDelegatedByEmail { get; set; }
     }
 }
