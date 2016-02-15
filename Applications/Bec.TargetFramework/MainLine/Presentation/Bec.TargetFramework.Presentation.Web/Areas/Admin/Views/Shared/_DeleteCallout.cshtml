@@ -12,6 +12,7 @@
                         <form action="@Url.Action("DeleteCallout", "Callout", new { area = "Admin", calloutId = ViewBag.calloutId })" method="POST" id="deleteCallouts-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
+                            @Html.Hidden("calloutRoleId", (object)ViewBag.calloutRoleId)
                             <fieldset>
                                 <div class="row">
                                     <section class="col">

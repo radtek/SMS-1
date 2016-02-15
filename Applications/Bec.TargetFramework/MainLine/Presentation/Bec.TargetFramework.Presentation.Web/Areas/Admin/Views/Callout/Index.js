@@ -50,50 +50,10 @@ $(function () {
            ]
        });
 
-    var hisGrid = new gridItem(
-        {
-            gridElementId: 'hisGrid',
-            url: $('#hisGrid').data("url"),
-            schema: { data: "Items", total: "Count", model: { id: "CalloutUserAccountID" } },
-            type: 'odata-v4',
-            serverSorting: true,
-            serverPaging: true,
-            defaultSort: { field: "Callout.Title", dir: "des" },
-            panels: ['ePanel'],
-            change: eChange,
-            jumpToId: $('#hisGrid').data("jumpto"),
-            columns: [
-                    {
-                        field: "CalloutUserAccountID",
-                        hidden: true,
-                    },
-                    {
-                        field: "Callout.Title",
-                        title: "Callout"
-                    },
-                    {
-                        field: "Role.RoleName",
-                        title: "Role"
-                    },
-                    {
-                        field: "UserAccount.Email",
-                        title: "User"
-                    },
-                    {
-                        field: "CreatedOn",
-                        title: "Viewed Date",
-                        template: function (dataItem) { if (dataItem.CreatedOn != null) return dateString(dataItem.CreatedOn); else return ""; }
-                    }
-            ]
-        });
-
     var tabs = new tabItem("tabList",
     {
         s1: {
             grids: [callGrid]
-        },
-        s2: {
-            grids: [hisGrid]
         }
     });
     tabs.makeTab();
@@ -113,25 +73,30 @@ function nChange(dataItem) {
     $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? dateString(dataItem.ModifiedOn) : "");
     $("p#ddnModifiedBy").text(dataItem.ModifiedBy || "");
     $("div#ddnDescription").text(dataItem.Description || "");
-    $("#editButtonCallout").data('href', $("#editButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + callGrid.grid.dataSource.page());
-    $("#deleteButtonCallout").data('href', $("#deleteButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + callGrid.grid.dataSource.page());
-}
-function eChange(dataItem) {
-    $("p#ddeTitle").text(dataItem.Callout.Title || "");
-    $("p#ddeRole").text(dataItem.Role.RoleName);
-    $("p#ddeUser").text(dataItem.UserAccount.Email);
-    $("p#ddeViewedDate").text(dateString(dataItem.CreatedOn) || "");
+     var valOfThis = $('#roleDropdown').val();
+     if (valOfThis.trim().length > 10) {
+         $("#editButtonCallout").data('href', $("#editButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + callGrid.grid.dataSource.page() + "&roleId=" + valOfThis);
+         $("#deleteButtonCallout").data('href', $("#deleteButtonCallout").data("url") + "?CalloutId=" + dataItem.CalloutID + "&pageNumber=" + callGrid.grid.dataSource.page() + "&roleId=" + valOfThis);
+         $("#viewCalloutOrder").data('href', $("#viewCalloutOrder").data("url") + "?RoleId=" + valOfThis);
+         $("#viewCalloutOrder").attr("disabled", false);
+    }
+    else {
+        $("#editButtonCallout").data('href', $("#editButtonCallout").data("url") + "?CalloutId=" +dataItem.CalloutID + "&pageNumber=" +callGrid.grid.dataSource.page());
+        $("#deleteButtonCallout").data('href', $("#deleteButtonCallout").data("url") + "?CalloutId=" +dataItem.CalloutID + "&pageNumber=" +callGrid.grid.dataSource.page());
+        $("#viewCalloutOrder").attr("disabled", true);
+        $("#viewCalloutOrder").data('href', '');
+    }
+    
 }
 
 $('#roleDropdown').on('change', function () {
+    $("#viewCalloutOrder").attr("disabled", true);
     var valOfThis = $(this).val();
     if (valOfThis.trim().length > 10) {
-        $("#viewCalloutOrder").data('href', $("#viewCalloutOrder").data("url") + "?RoleId=" + $(this).val());
-        $("#viewCalloutOrder").attr("disabled", false);
+        $("#addButtonCallout").data('href', $("#addButtonCallout").data("url") + "?RoleId=" + valOfThis);
     }
     else {
-        $("#viewCalloutOrder").data('href', '');
-        $("#viewCalloutOrder").attr("disabled", true);
+        $("#addButtonCallout").data('href', $("#addButtonCallout").data("url"));
     }
     callGrid.refreshGrid();
 })
