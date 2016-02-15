@@ -23,14 +23,24 @@
             cursor: pointer;
         }
 
-            #ItemList li.highlights, #SysItemList li.highlights {
-                background-color: gray;
-            }
-
-            #ItemList li span:nth-child(2), #SysItemList li span:nth-child(2) {
+            #ItemList li span:nth-child(3), #SysItemList li span:nth-child(3) {
                 float: right;
                 margin-right: 10px;
                 color: #ccc;
+            }
+
+                #ItemList li span:nth-child(3) a, #ItemList li span:nth-child(3) a:visited, #ItemList li span:nth-child(3) a:link, #SysItemList li span:nth-child(3) a, #SysItemList li span:nth-child(3) a:visited, #SysItemList li span:nth-child(3) a:link {
+                    color: #3276B1;
+                }
+
+            #ItemList li span:nth-child(1), #SysItemList li span:nth-child(1) {
+                position: absolute;
+                margin-left: -0.3em;
+                color: #333;
+            }
+
+            #ItemList li span:nth-child(2), #SysItemList li span:nth-child(2) {
+                margin-left: 1em;
             }
 </style>
 

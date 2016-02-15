@@ -173,7 +173,8 @@ $(function () {
                 var editLink = $('#editItemLink').data('url');
                 var deleteLink = $('#deleteItemLink').data('url');
                 $.each(result.data, function (i, item) {
-                    items.push("<li data-itemid='" + item.ItemID + "'>"
+                    items.push("<li class=\"ui-state-default\" data-itemid='" + item.ItemID + "'>"
+                        + "<span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>"
                         + "<span>" + item.ItemName + "</span>"
                         + "<span>| <a data-href=\"" + editLink + "?itemId=" + item.ItemID + "&isSysPage=false\" data-modallink=\"true\">Edit</a>"
                         + " | <a data-href=\"" + deleteLink + "?itemId=" + item.ItemID + "&isSysPage=false\" data-modallink=\"true\">Delete</a></span>"
@@ -229,7 +230,8 @@ $(function () {
                 var editLink = $('#editSysItemLink').data('url');
                 var deleteLink = $('#delSysItemLink').data('url');
                 $.each(result.data, function (i, item) {
-                    items.push("<li data-itemid='" + item.ItemID + "'>"
+                    items.push("<li class=\"ui-state-default\" data-itemid='" + item.ItemID + "'>"
+                        + "<span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>"
                         + "<span>" + item.ItemName + "</span>"
                         + "<span>| <a data-href=\"" + editLink + "?itemId=" + item.ItemID + "&isSysPage=true\" data-modallink=\"true\">Edit</a>"
                         + " | <a data-href=\"" + deleteLink + "?itemId=" + item.ItemID + "&isSysPage=true\" data-modallink=\"true\">Delete</a></span>"
