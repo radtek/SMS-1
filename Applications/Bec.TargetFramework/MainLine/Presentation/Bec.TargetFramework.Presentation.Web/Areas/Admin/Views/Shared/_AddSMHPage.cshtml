@@ -29,7 +29,7 @@
                                     <label class="label">Page Name:</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 100 })
                                     </label>
                                 </section>
 
@@ -37,7 +37,7 @@
                                     <label class="label">Page URL:</label>
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.PageURL, new { tabindex = "3", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.PageURL, new { tabindex = "3", maxlength = 100 })
                                     </label>
                                 </section>
 
@@ -47,10 +47,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="cancelAddPage" class="btn btn-default" data-dismiss="modal">
+                <button type="button" id="cancelAddPage" class="btn btn-default" data-dismiss="modal" tabindex="5">
                     Cancel
                 </button>
-                <button type="button" id="submitAddPage" class="btn btn-primary" tabindex="5">
+                <button type="button" id="submitAddPage" class="btn btn-primary" tabindex="4">
                     Add
                 </button>
             </div>

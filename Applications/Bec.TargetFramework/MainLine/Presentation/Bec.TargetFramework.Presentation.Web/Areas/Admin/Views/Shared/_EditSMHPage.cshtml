@@ -25,7 +25,7 @@
                                     <label class="label">Page Name:</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.PageName, new { tabindex = "1", maxlength = 100 })
                                     </label>
                                 </section>
                                 @if (!Model.IsSystemSMH)
@@ -34,7 +34,7 @@
                                         <label class="label">Page URL:</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.PageUrl, new { tabindex = "3", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.PageUrl, new { tabindex = "2", maxlength = 100 })
                                         </label>
                                     </section>
                                 }
@@ -49,10 +49,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="cancelEditPage" class="btn btn-default" data-dismiss="modal">
+                <button type="button" id="cancelEditPage" class="btn btn-default" data-dismiss="modal" tabindex="4">
                     Cancel
                 </button>
-                <button type="button" id="submitEditPage" class="btn btn-primary" tabindex="5">
+                <button type="button" id="submitEditPage" class="btn btn-primary" tabindex="3">
                     Save
                 </button>
             </div>

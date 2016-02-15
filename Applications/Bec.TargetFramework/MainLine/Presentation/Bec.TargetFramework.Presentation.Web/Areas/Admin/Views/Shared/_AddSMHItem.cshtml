@@ -22,22 +22,21 @@
                                     <label class="label">Item Name:</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.ItemName, new { tabindex = "1", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.ItemName, new { tabindex = "1", maxlength = 100 })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">Item Selector:</label>
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.ItemSelector, new { tabindex = "2", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.ItemSelector, new { tabindex = "2", maxlength = 200 })
                                     </label>
                                 </section>
                                 @if (TempData["isSysPage"] != null && !((bool)TempData["isSysPage"]))
                                 {
                                     <section>
                                         <label class="label">Item belong to Tab id: (Eg. #tabId)</label>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        <label class="input">                                            
                                             @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50 })
                                         </label>
                                     </section>
@@ -60,10 +59,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="cancelAddItemr" class="btn btn-default" data-dismiss="modal">
+                <button type="button" id="cancelAddItemr" class="btn btn-default" data-dismiss="modal" tabindex="7">
                     Cancel
                 </button>
-                <button type="button" id="submitAddItem" class="btn btn-primary" tabindex="5">
+                <button type="button" id="submitAddItem" class="btn btn-primary" tabindex="6">
                     Add
                 </button>
             </div>
