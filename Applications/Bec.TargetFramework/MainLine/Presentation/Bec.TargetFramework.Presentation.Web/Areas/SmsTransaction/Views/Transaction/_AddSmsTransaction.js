@@ -102,34 +102,11 @@
                 $("#addTransactionControls button").prop('disabled', false);
             },
             save: function () {
-                doPost(formData);
+                form.submit();
             }
         },
         true,
         "save"); //default action if no duplicate results
-    }
-
-    function doPost(formData) {
-        ajaxWrapper({
-            url: $("#addTransaction-form").data("url"),
-            type: "POST",
-            data: formData
-        }).done(function (res) {
-            if (res.result == true)
-                window.location = $('#d1').data("redirectto") + '?selectedTransactionID=' + res.transactionId;
-            else {
-                $('#buyerUaoID').val(res.buyerUaoID);
-                handleModal({ url: $('#d1').data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
-                    messageButton: function () {
-                        $("#addTransactionControls button").prop('disabled', false);
-                    }
-                }, true);
-            }
-        }).fail(function (e) {
-            if (!hasRedirect(e.responseJSON)) {
-                showtoastrError();
-            }
-        }, true);
     }
 
     makeDatePicker("#birthDateInput", {

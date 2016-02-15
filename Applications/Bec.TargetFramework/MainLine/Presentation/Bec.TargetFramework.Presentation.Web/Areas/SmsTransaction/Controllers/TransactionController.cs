@@ -157,7 +157,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
             var uaoID = HttpContext.GetWebUserObject().UaoID;
             var transactionID = await OrganisationClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
-            return Json(new { result = true, transactionId = transactionID }, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Index", new { selectedTransactionID = transactionID,  area = "SmsTransaction" });
         }
 
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
