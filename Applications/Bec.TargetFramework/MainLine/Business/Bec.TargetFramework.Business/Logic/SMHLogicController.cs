@@ -18,6 +18,17 @@ namespace Bec.TargetFramework.Business.Logic
 
         #region Management
 
+        public SMHPageDTO IsExistPage(SMHPageDTO smhPageDto)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var pageInDb = scope.DbContexts.Get<TargetFrameworkEntities>()
+                    .SMHPages
+                    .FirstOrDefault(p => p.PageURL == smhPageDto.PageURL && p.RoleId == smhPageDto.RoleId);
+                return pageInDb.ToDto();
+            }
+        }
+
         public async Task<SMHPageDTO> AddSmhPage(SMHPageDTO smhPageDto)
         {
             using (var scope = DbContextScopeFactory.Create())

@@ -117,10 +117,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPage(SMHPageDTO page)
         {
-            var result = await smhClient.AddSmhPageAsync(page);
-            TempData["pageId"] = result.PageID;
-            TempData["tabIndex"] = 0;
-            return RedirectToAction("Index");
+            var pageInDb = await smhClient.IsExistPageAsync(page);
+            if (pageInDb == null)
+            {
+                var result = await smhClient.AddSmhPageAsync(page);
+                TempData["pageId"] = result.PageID;
+                TempData["tabIndex"] = 0;
+                this.AddToastMessage("Add Successfully", "The page has been added", ToastType.Success, false);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                this.AddToastMessage("Add fail", "The page has already exists.", ToastType.Error, false);
+                TempData["pageId"] = pageInDb.PageID;
+                TempData["tabIndex"] = 0;
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -128,10 +140,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> AddSysPage(SMHPageDTO page)
         {
             page.PageURL = _defaultSystemUrl;
-            var result = await smhClient.AddSmhPageAsync(page);
-            TempData["sysPageId"] = result.PageID;
-            TempData["tabIndex"] = 1;
-            return RedirectToAction("Index");
+            var pageInDb = await smhClient.IsExistPageAsync(page);
+            if (pageInDb == null)
+            {
+                var result = await smhClient.AddSmhPageAsync(page);
+                TempData["sysPageId"] = result.PageID;
+                TempData["tabIndex"] = 1;
+                this.AddToastMessage("Add Successfully", "The page has been added", ToastType.Success, false);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                this.AddToastMessage("Add fail", "The page has already exists.", ToastType.Error, false);
+                TempData["pageId"] = pageInDb.PageID;
+                TempData["tabIndex"] = 1;
+                return RedirectToAction("Index");
+            }
         }
 
         public async Task<ActionResult> ViewEditPage(Guid pageId)
@@ -151,7 +175,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> EditPage(SMHPageModel page)
         {
             var pageDTO = PageModelToDto(page);
-            await smhClient.EditSmhPageAsync(pageDTO);
+            var pageInDb = await smhClient.IsExistPageAsync(pageDTO);
+            if (pageInDb != null && pageDTO.PageID != pageInDb.PageID)
+            {
+                this.AddToastMessage("Save fail", "The page has already exists.", ToastType.Error, false);                
+            }
+            else
+            {
+                await smhClient.EditSmhPageAsync(pageDTO);
+                this.AddToastMessage("Save Successfully", "The page has been saved successfully", ToastType.Success, false);
+            }
             if (page.IsSystemSMH)
             {
                 TempData["sysPageId"] = page.PageId;
@@ -193,6 +226,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 TempData["pageId"] = null;
                 TempData["tabIndex"] = 0;
             }
+            this.AddToastMessage("Delete Successfully", "The page has been deleted", ToastType.Success, false);
             return RedirectToAction("Index");
         }
 
@@ -253,7 +287,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     TempData["pageId"] = page.PageID;
                 }
             }
-
+            this.AddToastMessage("Add Successfully", "The item has been added", ToastType.Success, false);
             return RedirectToAction("Index");
         }
 
@@ -283,6 +317,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     TempData["pageId"] = page.PageID;
                 }
             }
+            this.AddToastMessage("Save Successfully", "The item has been saved successfully", ToastType.Success, false);
             return RedirectToAction("Index");
         }
 
@@ -312,6 +347,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     TempData["pageId"] = page.PageID;
                 }
             }
+            this.AddToastMessage("Delete Successfully", "The item has been deleted", ToastType.Success, false);
             return RedirectToAction("Index");
         }
 
@@ -357,7 +393,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     }
                 }
                 this.AddToastMessage("Save successfully", "The order has been changed", ToastType.Success, false);
-                var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "ShowMeHow", new { area = "Admin"});
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "ShowMeHow", new { area = "Admin" });
                 return Json(new { Url = redirectUrl });
             }
             catch (Exception)
@@ -376,7 +412,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     }
                 }
                 this.AddToastMessage("Save fail", "The order has not been saved", ToastType.Error, false);
-                var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "ShowMeHow", new { area = "Admin"});
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "ShowMeHow", new { area = "Admin" });
                 return Json(new { Url = redirectUrl });
             }
         }

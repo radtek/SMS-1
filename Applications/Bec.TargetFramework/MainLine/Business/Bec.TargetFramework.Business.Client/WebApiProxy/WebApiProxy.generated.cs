@@ -1115,6 +1115,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	public partial interface ISmhLogicClient : IClientBase	{	
 
 		/// <returns></returns>
+		Task<SMHPageDTO> IsExistPageAsync(SMHPageDTO smhPageDto);
+
+		/// <returns></returns>
+		SMHPageDTO IsExistPage(SMHPageDTO smhPageDto);
+
+		/// <returns></returns>
 		Task<SMHPageDTO> AddSmhPageAsync(SMHPageDTO smhPageDto);
 
 		/// <returns></returns>
@@ -4505,6 +4511,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		}
 
 		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<SMHPageDTO> IsExistPageAsync(SMHPageDTO smhPageDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<SMHPageDTO, SMHPageDTO>("api/SmhLogic/IsExistPage", smhPageDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual SMHPageDTO IsExistPage(SMHPageDTO smhPageDto)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<SMHPageDTO, SMHPageDTO>("api/SmhLogic/IsExistPage", smhPageDto, _user)).Result;
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
