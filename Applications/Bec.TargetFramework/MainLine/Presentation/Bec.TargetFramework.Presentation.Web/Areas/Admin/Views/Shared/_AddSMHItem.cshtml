@@ -44,13 +44,14 @@
                                 <section>
                                     <label class="label">Description:</label>
                                     <label class="input">
-                                        @Html.TextAreaFor(m => m.ItemDescription, new { tabindex = "4", rows = 5, style = "width:100%; resize:none;" })
+                                        @Html.TextAreaFor(m => m.ItemDescription, new { @class="form-control", tabindex = "4", rows = 5, style = "width:100%; resize:none;" })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">Position:</label>
-                                    <label class="input">                                       
+                                    <label class="select">                                       
                                         @Html.DropDownListFor(m => m.ItemPosition, EnumHelper.GetSelectList(typeof(HtmlPositionEnum)), null, new { tabindex = "5", style = "width:100%; min-height:25px;" })
+                                        <i></i>
                                     </label>
                                 </section>
                             </fieldset>
