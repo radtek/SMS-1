@@ -7,15 +7,12 @@
             <div class="col-sm-6" style="padding-left:0px;">
                 <a data-href="@Url.Action("ViewAddSysPage", "ShowMeHow", new { area  = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Page</a>
             </div>
-            <div class="col-sm-6" style="text-align:right; padding-right:0px;">
-                <span>User Role: </span>
-                <label class="select">
-                    @{
-                        var roles = (List<SelectListItem>)ViewData["Roles"];
-                    }
-                    @Html.DropDownList("Role", roles, "Please Select", new { tabindex = "1", maxlength = 50, @class = "form-control", id = "roleForSystem" })
-                    <i></i>
-                </label>
+            <div class="col-sm-6" style="text-align:right; padding-right:0px; margin-bottom:5px; float:right;">
+                @{
+                    var roles = (List<SelectListItem>)ViewData["Roles"];
+                }
+                @Html.DropDownList("Role", roles, "Please Select", new { tabindex = "1", maxlength = 50, @class = "form-control", id = "roleForSystem", style = "width:200px; margin-top:-3px; float:right" })
+                <label for="roleForSystem" style="float:right; margin-top:5px;">User Role:&nbsp;</label>
             </div>
             <div class="row"></div>
             <div id="forSystemGrid" data-url="@Url.Action("GetSysPages", "ShowMeHow", new { area = "Admin", temporary = true, loginAllowed = true })" data-jumpto="@TempData["sysPageId"]"></div>
@@ -43,11 +40,11 @@
     </div>
     <div class="col-sm-6">
         <!-- well -->
-        <div class="well">            
-            <div id="listSysItem" data-url="@Url.Action("GetItemOnPage", "ShowMeHow", new { area = "Admin" })" style=" text-align:left; margin-bottom:18px;">                
+        <div class="well">
+            <div id="listSysItem" data-url="@Url.Action("GetItemOnPage", "ShowMeHow", new { area = "Admin" })" style=" text-align:left; margin-bottom:18px;">
                 <a id="btnAddSysPageItem" data-url="@Url.Action("ViewAddItem", "ShowMeHow", new { area  = "Admin" })" class="btn btn-sm btn-primary" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Item</a>
                 <h5>Items</h5>
-            </div>            
+            </div>
             <div style="visibility:hidden">
                 <i id="editSysItemLink" data-url="@Url.Action("ViewEditItem", "ShowMeHow", new { area = "Admin" })"></i>
                 <i id="delSysItemLink" data-url="@Url.Action("ViewDeleteItem", "ShowMeHow", new { area = "Admin" })"></i>
