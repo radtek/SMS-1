@@ -95,24 +95,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/ShowMeHow
-
-        public ActionResult RemoveParamBeforeIndex(Guid? pageId, bool? isSysPage)
-        {
-            if (pageId != null && isSysPage != null)
-            {
-                if (isSysPage.Value)
-                {
-                    TempData["sysPageId"] = pageId;
-                    TempData["tabIndex"] = 1;
-                }
-                else
-                {
-                    TempData["pageId"] = pageId;
-                    TempData["tabIndex"] = 0;
-                }
-            }
-            return RedirectToAction("Index");
-        }
         public async Task<ActionResult> Index()
         {
             ViewBag.roles = await GetRoles();
@@ -361,14 +343,40 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         }
                     }
                 }
+                if (pageID != null)
+                {
+                    if (isSysPage)
+                    {
+                        TempData["sysPageId"] = pageID;
+                        TempData["tabIndex"] = 1;
+                    }
+                    else
+                    {
+                        TempData["pageId"] = pageID;
+                        TempData["tabIndex"] = 0;
+                    }
+                }
                 this.AddToastMessage("Save successfully", "The order has been changed", ToastType.Success, false);
-                var redirectUrl = new UrlHelper(Request.RequestContext).Action("RemoveParamBeforeIndex", "ShowMeHow", new { area = "Admin", pageId = pageID, isSysPage = isSysPage });
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "ShowMeHow", new { area = "Admin"});
                 return Json(new { Url = redirectUrl });
             }
             catch (Exception)
             {
+                if (pageID != null)
+                {
+                    if (isSysPage)
+                    {
+                        TempData["sysPageId"] = pageID;
+                        TempData["tabIndex"] = 1;
+                    }
+                    else
+                    {
+                        TempData["pageId"] = pageID;
+                        TempData["tabIndex"] = 0;
+                    }
+                }
                 this.AddToastMessage("Save fail", "The order has not been saved", ToastType.Error, false);
-                var redirectUrl = new UrlHelper(Request.RequestContext).Action("RemoveParamBeforeIndex", "ShowMeHow", new { area = "Admin", pageId = pageID, isSysPage = isSysPage });
+                var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index", "ShowMeHow", new { area = "Admin"});
                 return Json(new { Url = redirectUrl });
             }
         }

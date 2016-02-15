@@ -4,10 +4,10 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="well">
-            <div class="col-sm-6">                
+            <div class="col-sm-6" style="padding-left:0px;">                
                 <a data-href="@Url.Action("ViewAddPage", "ShowMeHow", new { area  = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Page</a>
             </div>
-            <div class="col-sm-6" style="text-align:right">
+            <div class="col-sm-6" style="text-align:right; padding-right:0px;">
                 <span>User Role: </span>
                 <label class="select">
                     @{
@@ -27,11 +27,11 @@
     <div class="col-sm-6">
         <!-- well -->
         <div class="well">
-            <h5>Page Information</h5>
-            <div style="text-align:right; margin-bottom:18px">
+            <div style="text-align:left; margin-bottom:18px">
                 <a id="delPage" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewDeletePage", "ShowMeHow", new { area = "Admin" })"><i class="fa fa-times margin-right-5"></i>Delete</a>
                 <a id="editPage" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEditPage", "ShowMeHow", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
             </div>
+            <h5>Page Information</h5>            
             <dl class="dl-horizontal">
                 <dt>Page Name:</dt>
                 <dd><p id="ddnName"></p></dd>
@@ -45,18 +45,18 @@
     </div>
     <div class="col-sm-6">
         <!-- well -->
-        <div class="well">
-            <h5>Intro Items</h5>
-            <div id="listItem" data-url="@Url.Action("GetItemOnPage", "ShowMeHow", new { area = "Admin" })" style=" text-align:right; margin-bottom:18px;">
+        <div class="well">            
+            <div id="listItem" data-url="@Url.Action("GetItemOnPage", "ShowMeHow", new { area = "Admin" })" style=" text-align:left; margin-bottom:18px;">                
                 <a id="btnAddPageItem" data-url="@Url.Action("ViewAddItem", "ShowMeHow", new { area  = "Admin" })" class="btn btn-sm btn-primary" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Item</a>
-            </div>
+                <h5>Items</h5>   
+            </div>                     
             <div style="visibility:hidden">
                 <i id="editItemLink" data-url="@Url.Action("ViewEditItem", "ShowMeHow", new { area = "Admin" })"></i>
                 <i id="deleteItemLink" data-url="@Url.Action("ViewDeleteItem", "ShowMeHow", new { area = "Admin" })"></i>
             </div>
             <span>
                 @Html.AntiForgeryToken()
-                <a id="saveItemOrder" data-url="@Url.Action("SaveItemOrder", "ShowMeHow", new { area = "Admin" })" class="btn btn-sm btn-primary" disabled="disabled">Save Change</a>                
+                <a id="saveItemOrder" data-url="@Url.Action("SaveItemOrder", "ShowMeHow", new { area = "Admin" })" class="btn btn-sm btn-primary" disabled="disabled"><i class="fa fa-check margin-right-5"></i>Save</a>                
             </span>
         </div>
     </div>
