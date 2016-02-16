@@ -187,7 +187,7 @@ $(function () {
                     html: items.join("")
                 }).insertAfter("#listItem");
 
-                $('#ItemList').sortable({
+                $('#ItemList').sortable({ containment: 'parent',
                     start: function (event, ui) {
                         var start_pos = ui.item.index();
                         ui.item.data('start_pos', start_pos);
@@ -243,7 +243,7 @@ $(function () {
                     html: items.join("")
                 }).insertAfter("#listSysItem");
 
-                $('#SysItemList').sortable({
+                $('#SysItemList').sortable({ containment: 'parent',
                     start: function (event, ui) {
                         var start_pos = ui.item.index();
                         ui.item.data('start_pos', start_pos);
