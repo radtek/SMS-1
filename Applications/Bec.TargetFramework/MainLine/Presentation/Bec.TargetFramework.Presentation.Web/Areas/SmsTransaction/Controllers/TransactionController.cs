@@ -109,7 +109,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 PurchasedByFirstName = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.FirstName,
                 PurchasedByLastName = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.LastName,
                 x.LatestBankAccountCheck.CheckedOn,
-                SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
+                SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode }),
+                NoMatch = x.SmsTransaction.SmsUserAccountOrganisationTransactions.Select(y => new
+                {
+                    IsMatch = y.SmsBankAccountChecks.Select(z => new
+                    {
+                        z.IsMatch
+                    })
+                })
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();

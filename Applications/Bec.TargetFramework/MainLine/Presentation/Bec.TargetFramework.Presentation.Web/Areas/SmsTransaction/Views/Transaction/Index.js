@@ -59,6 +59,18 @@ $(function () {
                         ? ""
                         : dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin);
                 }
+            },
+            {
+                field: "",
+                title: "Safe Buyer No Matches",
+                template: function (dataItem) {
+                    var noMatchResultsCount = _.sum(
+                        _.map(dataItem.SmsTransaction.SmsUserAccountOrganisationTransactions, function (item) {
+                            var noMatchesPerPersona = _.filter(item.SmsBankAccountChecks, { IsMatch: false });
+                            return noMatchesPerPersona.length;
+                        }));
+                    return noMatchResultsCount || "";
+                }
             }
         ]
     });

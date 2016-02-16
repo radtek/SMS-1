@@ -65,6 +65,18 @@ $(function () {
             {
                 field: "CreatedBy",
                 title: "Created By"
+            },
+            {
+                field: "",
+                title: "Safe Buyer No Matches",
+                template: function (dataItem) {
+                    var noMatchResultsCount = _.sum(
+                        _.map(dataItem.SmsUserAccountOrganisationTransactions, function (item) {
+                            var noMatchesPerPersona = _.filter(item.SmsBankAccountChecks, { IsMatch: false });
+                            return noMatchesPerPersona.length;
+                        }));
+                    return noMatchResultsCount || "";
+                }
             }
         ]
     });

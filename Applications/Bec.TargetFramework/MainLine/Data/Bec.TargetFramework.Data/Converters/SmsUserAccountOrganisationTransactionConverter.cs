@@ -51,7 +51,7 @@ namespace Bec.TargetFramework.Entities
               target.Address = source.Address.ToDtoWithRelated(level - 1);
               target.Contact = source.Contact.ToDtoWithRelated(level - 1);
               target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
-              target.SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID = source.SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID.ToDtosWithRelated(level - 1);
+              target.SmsBankAccountChecks = source.SmsBankAccountChecks.ToDtosWithRelated(level - 1);
               target.LatestBankAccountCheck = source.LatestBankAccountCheck.ToDtoWithRelated(level - 1);
               target.SmsSrcFundsBankAccounts = source.SmsSrcFundsBankAccounts.ToDtosWithRelated(level - 1);
             }

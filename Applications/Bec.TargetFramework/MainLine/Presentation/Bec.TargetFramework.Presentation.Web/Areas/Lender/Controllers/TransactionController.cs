@@ -71,7 +71,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                     y.LatestBankAccountCheck.BankAccountNumber,
                     y.LatestBankAccountCheck.SortCode,
                     y.LatestBankAccountCheck.IsMatch
-                })
+                }),
+                NoMatch = x.SmsUserAccountOrganisationTransactions.Select(y => new 
+                    {
+                        IsMatch = y.SmsBankAccountChecks.Select(z => new 
+                        {
+                            z.IsMatch
+                        })
+                    })
             });
 
             Expression names = null;
