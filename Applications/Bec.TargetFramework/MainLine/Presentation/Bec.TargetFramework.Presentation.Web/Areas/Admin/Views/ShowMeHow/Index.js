@@ -52,7 +52,7 @@ $(function () {
             jumpToId: $('#forSystemGrid').data("jumpto"),
             extraParameters: function () {
                 return "&roleId=" + $('#roleForSystem').val()
-            },
+            },            
             columns: [
                     {
                         field: "PageId",
@@ -93,10 +93,24 @@ $(function () {
     findModalLinks();
 
     $('#roleOnPage').on('change', function () {
+        var valOfThis = $(this).val();
+        if (valOfThis.trim().length > 10) {
+            $("#btnAddPage").data('href', $("#btnAddPage").data("url") + "?roleId=" + valOfThis);
+        }
+        else {
+            $("#btnAddPage").data('href', $("#btnAddPage").data("url"));
+        }
         onPageGrid.refreshGrid();
     });
 
     $('#roleForSystem').on('change', function () {
+        var valOfThis = $(this).val();
+        if (valOfThis.trim().length > 10) {
+            $("#btnAddSysPage").data('href', $("#btnAddSysPage").data("url") + "?roleId=" + valOfThis);
+        }
+        else {
+            $("#btnAddSysPage").data('href', $("#btnAddSysPage").data("url"));
+        }
         forSystemGrid.refreshGrid();
     });
 

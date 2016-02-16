@@ -97,20 +97,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         // GET: Admin/ShowMeHow
         public async Task<ActionResult> Index()
         {
-            ViewBag.roles = await GetRoles();
+            ViewBag.roles = await GetRoles();  
             return View();
         }
 
-        public async Task<ActionResult> ViewAddPage()
-        {
+        public async Task<ActionResult> ViewAddPage(SMHPageDTO page)
+        {           
             ViewBag.roles = await GetRoles();
-            return PartialView("_AddSmhPage");
+            return PartialView("_AddSmhPage", page);
         }
 
-        public async Task<ActionResult> ViewAddSysPage()
+        public async Task<ActionResult> ViewAddSysPage(SMHPageDTO page)
         {
             ViewBag.roles = await GetRoles();
-            return PartialView("_AddSmhSysPage");
+            return PartialView("_AddSmhSysPage", page);
         }
 
         [HttpPost]
@@ -120,7 +120,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var pageInDb = await smhClient.IsExistPageAsync(page);
             if (pageInDb == null)
             {
-                var result = await smhClient.AddSmhPageAsync(page);
+                var result = await smhClient.AddSmhPageAsync(page);                
                 TempData["pageId"] = result.PageID;
                 TempData["tabIndex"] = 0;
                 this.AddToastMessage("Add Successfully", "The page has been added", ToastType.Success, false);
@@ -143,7 +143,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var pageInDb = await smhClient.IsExistPageAsync(page);
             if (pageInDb == null)
             {
-                var result = await smhClient.AddSmhPageAsync(page);
+                var result = await smhClient.AddSmhPageAsync(page);                
                 TempData["sysPageId"] = result.PageID;
                 TempData["tabIndex"] = 1;
                 this.AddToastMessage("Add Successfully", "The page has been added", ToastType.Success, false);
@@ -151,7 +151,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             }
             else
             {
-                this.AddToastMessage("Add fail", "The page has already exists.", ToastType.Error, false);
+                this.AddToastMessage("Add fail", "You cannot add more that one page with this user role.", ToastType.Error, false);
                 TempData["pageId"] = pageInDb.PageID;
                 TempData["tabIndex"] = 1;
                 return RedirectToAction("Index");
@@ -178,7 +178,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var pageInDb = await smhClient.IsExistPageAsync(pageDTO);
             if (pageInDb != null && pageDTO.PageID != pageInDb.PageID)
             {
-                this.AddToastMessage("Save fail", "The page has already exists.", ToastType.Error, false);                
+                this.AddToastMessage("Save fail", "The page has already exists.", ToastType.Error, false);
             }
             else
             {
@@ -232,6 +232,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetPages(Guid? roleId)
         {
+            TempData["PageRole"] = roleId;
             var list = await GetPageModelByRole(roleId, false);
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -239,8 +240,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetSysPages(Guid? roleId)
         {
+            TempData["SysPageRole"] = roleId;
             var list = await GetPageModelByRole(roleId, true);
-
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }

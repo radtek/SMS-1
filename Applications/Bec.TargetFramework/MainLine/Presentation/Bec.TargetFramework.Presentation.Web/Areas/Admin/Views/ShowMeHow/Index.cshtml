@@ -56,12 +56,11 @@
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
                 <div class="tab-pane fade in active" id="s1" role="tabpanel">
-
-                    @Html.Partial("_OnPage", null, new ViewDataDictionary { { "Roles", (List<SelectListItem>)ViewBag.roles } })
+                    @Html.Partial("_OnPage")
 
                 </div>
                 <div class="tab-pane fade" id="s2" role="tabpanel">
-                    @Html.Partial("_ForSystem", null, new ViewDataDictionary { { "Roles", (List<SelectListItem>)ViewBag.roles } })
+                    @Html.Partial("_ForSystem")
                 </div>
             </div>
         </div>
