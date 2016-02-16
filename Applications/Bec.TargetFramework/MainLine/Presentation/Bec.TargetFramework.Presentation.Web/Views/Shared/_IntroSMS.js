@@ -53,6 +53,7 @@
                 showStepNumbers: false,
                 scrollToElement: false,
                 disableInteraction: false,
+                overlayOpacity: 0.3,
                 steps: stepList
             });
 

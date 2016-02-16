@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $("#sortable").sortable();
+    $("#sortable").sortable({ containment: 'parent' });
     $("#submitOrderCallout").on("click", function (event, ui) {
         var valList = '';
         var items = $('#sortable li');
