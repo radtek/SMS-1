@@ -157,7 +157,7 @@
                                                 <label class="label">Email</label>
                                                 <label class="input">
                                                     <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                    @Html.TextBoxFor(m => m.AuthorityDelegatedToEmail, new { tabindex = 14, maxlength = 100, type = "email" })
+                                                    @Html.TextBoxFor(m => m.AuthorityDelegatedToEmail, new { tabindex = 14, maxlength = 100, type = "email", data_url = Url.Action("CheckEmailProfessional", "App", new { Area = "" }) })
                                                 </label>
                                             </section>
                                         </div>

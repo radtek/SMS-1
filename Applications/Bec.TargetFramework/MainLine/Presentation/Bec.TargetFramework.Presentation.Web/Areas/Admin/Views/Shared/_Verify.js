@@ -17,6 +17,10 @@
             return $('#IsAuthorityDelegated').is(':checked');
         }
     };
+    $.validator.addMethod("differsFromMainEmail",
+        function (value, element) {
+            return value.trim() != $('#Email').val().trim();
+        }, 'Please enter a different email address');
 
     // Validation
     $("#verify-form").validate({
@@ -84,7 +88,15 @@
             },
             AuthorityDelegatedToEmail: {
                 required: depnedsOnIsAuthorityDelegated,
-                email: true
+                email: true,
+                differsFromMainEmail: true,
+                remote: {
+                    cache: false,
+                    url: $('#AuthorityDelegatedToEmail').data("url"),
+                    data: { email: function () { return $('#AuthorityDelegatedToEmail').val(); } },
+                    dataType: 'json',
+                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                }
             },
         },
 
