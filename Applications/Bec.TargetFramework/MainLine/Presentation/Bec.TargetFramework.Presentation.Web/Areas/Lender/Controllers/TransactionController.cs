@@ -25,7 +25,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetSmsTransactions()
+        public async Task<ActionResult> GetSmsTransactions(string search)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
@@ -54,7 +54,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 PurchasedBySalutation = x.Invoice.UserAccountOrganisation.Contact.Salutation,
                 PurchasedByFirstName = x.Invoice.UserAccountOrganisation.Contact.FirstName,
                 PurchasedByLastName = x.Invoice.UserAccountOrganisation.Contact.LastName,
-                ppl = x.SmsUserAccountOrganisationTransactions.Select(y => new {
+                ppl = x.SmsUserAccountOrganisationTransactions.Select(y => new
+                {
                     y.SmsUserAccountOrganisationTransactionType.SmsUserAccountOrganisationTransactionTypeID,
                     y.SmsUserAccountOrganisationTransactionType.Description,
                     y.Contact.Salutation,
@@ -74,16 +75,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 })
             });
 
-            Expression names = null;
+            Expression where = null;
             foreach (var name in tradingNames)
             {
                 var ex = ODataHelper.Expression<SmsTransactionDTO>(x => x.LenderName == name);
-                if (names == null)
-                    names = ex;
+                if (where == null)
+                    where = ex;
                 else
-                    names = Expression.Or(names, ex);
+                    where = Expression.Or(where, ex);
             }
-            var filter = ODataHelper.Filter(names);
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.Trim().ToLower();
+                where = Expression.And(where, ODataHelper.Expression<SmsTransactionDTO>(x =>
+                    x.Reference.ToLower().Contains(search) ||
+                    x.Address.Line1.ToLower().Contains(search) ||
+                    x.Address.PostalCode.ToLower().Contains(search) ||
+                    x.MortgageApplicationNumber.ToLower().Contains(search) ||
+                    x.Organisation.OrganisationDetails.Any(y => y.Name.ToLower().Contains(search))
+                    ));
+            }
+            var filter = ODataHelper.Filter(where);
 
             JObject res = await QueryClient.QueryAsync("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");

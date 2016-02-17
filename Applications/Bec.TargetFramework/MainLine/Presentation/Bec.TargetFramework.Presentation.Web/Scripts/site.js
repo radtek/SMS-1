@@ -289,6 +289,19 @@ var gridItem = function (options) {
             self.refreshGrid();
         });
 
+        $('#' + this.options.searchElementId).bind('keyup change', function () {
+            if ($(this).val().length > 0)
+                $('#' + self.options.clearSearchButtonId).show();
+            else
+                $('#' + self.options.clearSearchButtonId).hide();
+        });
+
+        $('#' + this.options.clearSearchButtonId).click(function () {
+            $('#' + self.options.searchElementId).val('');
+            $('#' + self.options.clearSearchButtonId).hide();
+            self.refreshGrid();
+        });
+
     };
 
     this.refreshGrid = function () {

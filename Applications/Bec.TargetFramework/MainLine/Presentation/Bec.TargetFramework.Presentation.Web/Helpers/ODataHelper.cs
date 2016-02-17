@@ -144,14 +144,14 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
 
         //pre-order tree walk the expression. This currently supports standard odata boolean operators,
         //some string and math functions, arbitrary depth in the object graph and evaluating runtime values in the expression.
-        static string pre(Expression ex, MemberExpression parentExpr = null)
+        static string pre(Expression ex, string prefix = null, MemberExpression parentExpr = null)
         {
             if (ex is BinaryExpression)
             {
                 var bx = ex as BinaryExpression;
-                string l = pre(bx.Left);
+                string l = pre(bx.Left, prefix);
                 string o = getOp(bx.NodeType);
-                string r = pre(bx.Right);
+                string r = pre(bx.Right, prefix);
                 return string.Format("({0} {1} {2})", l, o, r);
             }
             else if (ex is MemberExpression)
@@ -159,7 +159,7 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 var mx = ex as MemberExpression;
                 if (mx.Expression is ConstantExpression)
                 {
-                    return pre(mx.Expression, mx);
+                    return pre(mx.Expression, prefix, mx);
                 }
                 else
                 {
@@ -169,6 +169,8 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                         s.Push(mx.Member.Name);
                         mx = mx.Expression as MemberExpression;
                     }
+
+                    if (prefix != null) s.Push(prefix);
                     return string.Join("/", s);
                 }
             }
@@ -192,13 +194,23 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 string method = getMethod(mex.Method);
                 if (method != null)
                 {
-                    string body = pre(mex.Object);
-                    string args = string.Join(",", mex.Arguments.Select(a => pre(a)));
-                    var b = new List<string>();
-                    if (!string.IsNullOrEmpty(body)) b.Add(body);
-                    if (!string.IsNullOrEmpty(args)) b.Add(args);
-                    var bs = string.Join(",", b);
-                    return string.Format("{0}({1})", method, bs);
+                    if (mex.Method.DeclaringType.Name == "Enumerable")
+                    {
+                        string p = "d";
+                        string a = pre(mex.Arguments[0], prefix);
+                        string b = pre(mex.Arguments[1], p); //new prefix
+                        return string.Format("{0}/{1}({2}%3A{3})", a, method, p, b);
+                    }
+                    else
+                    {
+                        string body = pre(mex.Object, prefix);
+                        string args = string.Join(",", mex.Arguments.Select(a => pre(a, prefix)));
+                        var b = new List<string>();
+                        if (!string.IsNullOrEmpty(body)) b.Add(body);
+                        if (!string.IsNullOrEmpty(args)) b.Add(args);
+                        var bs = string.Join(",", b);
+                        return string.Format("{0}({1})", method, bs);
+                    }
                 }
                 else
                 {
@@ -210,9 +222,14 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
             else if (ex is UnaryExpression)
             {
                 var ux = ex as UnaryExpression;
-                var ret = pre(ux.Operand);
+                var ret = pre(ux.Operand, prefix);
                 if (ux.NodeType == ExpressionType.Not) ret += " eq false";
                 return ret;
+            }
+            else if (ex is LambdaExpression)
+            {
+                var lx = ex as LambdaExpression;
+                return pre(lx.Body, prefix);
             }
             return "";
         }
@@ -221,25 +238,13 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
         {
             if (obj == null) return "null";
             if (t.Name == "String")
-                return string.Format("'{0}'", escape(obj.ToString()));
+                return string.Format("'{0}'", HttpUtility.UrlEncode(obj.ToString()));
             else if (t.Name == "Boolean")
                 return obj.ToString().ToLower();
             else if (t.Name == "DateTime")
                 return ((DateTime)obj).ToUniversalTime().ToString("O");
             else
                 return obj.ToString();
-        }
-
-        private static string escape(string s)
-        {
-            return s
-                .Replace("%", "%25")
-                .Replace("'", "''")
-                .Replace("+", "%2B")
-                .Replace("/", "%2F")
-                .Replace("?", "%3F")
-                .Replace("#", "%22")
-                .Replace("&", "%26");
         }
 
         //return valid OData operators
@@ -292,6 +297,11 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 if (m.Name == "Round") return "round";
                 if (m.Name == "Floor") return "floor";
                 if (m.Name == "Ceiling") return "ceiling";
+            }
+            else if (m.DeclaringType.Name == "Enumerable")
+            {
+                if (m.Name == "Any") return "any";
+                if (m.Name == "All") return "all";
             }
             return null;
         }

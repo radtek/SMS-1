@@ -18,8 +18,9 @@ $(function () {
         //jumpToPage: $('#txGrid').data("jumptopage"),
         //jumpToRow: $('#txGrid').data("jumptorow"),
         change: txChange,
-        //searchElementId: 'gridSearchInput',
-        //searchButtonId: 'gridSearchButton',
+        searchElementId: 'gridSearchInput',
+        searchButtonId: 'gridSearchButton',
+        clearSearchButtonId: 'clearGridSearch',
         columns: [
             {
                 field: "SmsTransactionID",
