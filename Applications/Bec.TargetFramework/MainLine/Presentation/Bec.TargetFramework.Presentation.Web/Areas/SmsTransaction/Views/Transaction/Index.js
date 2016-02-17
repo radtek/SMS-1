@@ -243,6 +243,7 @@
             });
             var orderedBankAccountChecks = _.orderBy(mappedBankAccountChecks, ['CheckedOn'], ['desc']);
             item.SmsBankAccountChecks = _.toArray(orderedBankAccountChecks);
+            item.SmsSrcFundsBankAccounts = _.toArray(item.SmsSrcFundsBankAccounts);
             return item;
         });
         var orderedData = _.orderBy(mappedData, ['SmsUserAccountOrganisationTransactionType.SmsUserAccountOrganisationTransactionTypeID'], ['asc']);

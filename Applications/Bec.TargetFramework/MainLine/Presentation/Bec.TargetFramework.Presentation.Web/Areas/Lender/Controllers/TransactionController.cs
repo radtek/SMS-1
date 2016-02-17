@@ -79,6 +79,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                         z.SortCode,
                         z.CheckedOn,
                         z.IsMatch
+                    }),
+                    SrcOfFunds = y.SmsSrcFundsBankAccounts.Select(z => new
+                    {
+                        z.AccountNumber,
+                        z.SortCode
                     })
                 })
             });

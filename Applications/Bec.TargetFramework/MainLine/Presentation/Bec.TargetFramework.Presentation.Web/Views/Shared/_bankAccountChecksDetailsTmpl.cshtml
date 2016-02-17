@@ -1,39 +1,72 @@
-﻿<div class="row">
-    <div class="col-md-8 col-lg-6">
-        {{#each this}}
-            <h3>{{Contact.Salutation}} {{Contact.FirstName}} {{Contact.LastName}}</h3>
-            {{#if SmsBankAccountChecks}}
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Account Number</th>
-                                <th>Sort Code</th>
-                                <th>Checked On</th>
-                                <th>Result</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each SmsBankAccountChecks}}
-                                <tr {{#unless IsMatch}}class="no-match"{{/unless}}>
-                                    <td>{{BankAccountNumber}}</td>
-                                    <td>{{SortCode}}</td>
-                                    <td>{{CheckedOn}}</td>
-                                    <td>
-                                        {{#if IsMatch}}
-                                            Match
-                                        {{else}}
-                                            No Match
-                                        {{/if}}
-                                    </td>
-                                </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </div>
-            {{else}}
-                <p>This person has not performed the bank account check.</p>
-            {{/if}}
-        {{/each}}
+﻿{{#each this}}
+<div class="row">
+    <div class="col-sm-12">
+        <h3>{{Contact.Salutation}} {{Contact.FirstName}} {{Contact.LastName}} ({{SmsUserAccountOrganisationTransactionType.Description}})</h3>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-8">
+        {{#if SmsBankAccountChecks}}
+        <h5>Performed Target Bank Account Checks</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Account Number</th>
+                        <th>Sort Code</th>
+                        <th>Checked On</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each SmsBankAccountChecks}}
+                    <tr {{#unless IsMatch}} class="no-match" {{/unless}}>
+                        <td>{{BankAccountNumber}}</td>
+                        <td>{{SortCode}}</td>
+                        <td>{{CheckedOn}}</td>
+                        <td>
+                            {{#if IsMatch}}
+                            Match
+                            {{else}}
+                            No Match
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        {{else}}
+        <p>This person has not performed the bank account check.</p>
+        {{/if}}
+    </div>
+    {{#if SmsSrcFundsBankAccounts}}
+    <div class="col-sm-4">
+        <h5>Source of Funds</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Account Number</th>
+                        <th>Sort Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each SmsSrcFundsBankAccounts}}
+                    <tr>
+                        <td>{{AccountNumber}}</td>
+                        <td>{{SortCode}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{/if}}
+    <div class="row">
+        <div class="col-sm-12">
+            <hr />
+        </div>
+    </div>
+</div>
+{{/each}}

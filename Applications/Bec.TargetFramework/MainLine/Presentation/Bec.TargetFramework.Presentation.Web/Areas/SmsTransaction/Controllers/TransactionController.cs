@@ -119,11 +119,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                         z.CheckedOn,
                         z.IsMatch
                     }),
+                    SrcOfFunds = y.SmsSrcFundsBankAccounts.Select(z => new
+                    {
+                        z.AccountNumber,
+                        z.SortCode
+                    }),
                     PersonaSalutation = y.Contact.Salutation,
                     PersonaFirstName = y.Contact.FirstName,
                     PersonaLastName = y.Contact.LastName,
-                    PersonaTypeID = y.SmsUserAccountOrganisationTransactionTypeID
-                })
+                    PersonaTypeID = y.SmsUserAccountOrganisationTransactionTypeID,
+                    PersonaTypeDescription = y.SmsUserAccountOrganisationTransactionType.Description
+                }),
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
