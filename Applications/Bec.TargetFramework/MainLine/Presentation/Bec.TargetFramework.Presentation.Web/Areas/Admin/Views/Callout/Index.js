@@ -26,7 +26,7 @@ $(function () {
                    },
                    {
                        field: "Role.RoleName",
-                       title: "Role"
+                       title: "User Role"
                    },
                    {
                        field: "Title",
@@ -34,7 +34,7 @@ $(function () {
                    },
                    {
                        field: "EffectiveOn",
-                       title: "Effective Date",
+                       title: "Effective On",
                        template: function (dataItem) { return dateStringNoTime(dataItem.EffectiveOn); }
                    },
                    {

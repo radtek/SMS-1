@@ -20,11 +20,11 @@
                             @Html.Hidden("calloutRoleId", (Model.RoleID != null && Model.RoleID != default(Guid) ? Model.RoleID.ToString() : ""))
                             <fieldset>
                                 <section>
-                                    <label class="label">Role</label>
+                                    <label class="label">User Role</label>
                                     <label class="select">
                                         @if (Model.RoleID != null && Model.RoleID != default(Guid))
                                         {
-                                            @Html.DropDownListFor(model => model.RoleID, (IList<SelectListItem>)ViewBag.roles, "Please Select", new { tabindex = "1", disabled = "disabled", style = "background-color: rgba(218, 218, 218, 1);"})
+                                            @Html.DropDownListFor(model => model.RoleID, (IList<SelectListItem>)ViewBag.roles, "Please Select", new { tabindex = "1", disabled = "disabled", style = "background-color: rgba(218, 218, 218, 1);" })
                                             @Html.Hidden("RoleId", Model.RoleID)
                                         }
                                         else
@@ -34,7 +34,7 @@
                                         <i></i>
                                     </label>
                                 </section>
-                               
+
                                 <section>
                                     <label class="label">Title</label>
                                     <label class="input ">
@@ -50,13 +50,6 @@
                                     </label>
                                 </section>
                                 <section>
-                                    <label class="label">Content</label>
-                                    <label class="textarea">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextAreaFor(m => m.Description, new { tabindex = "4", maxlength = "500", rows = 5, id = "description" })
-                                    </label>
-                                </section>
-                                <section>
                                     <label class="label">Effective On</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
@@ -64,7 +57,14 @@
                                         @Html.HiddenFor(m => m.EffectiveOn)
                                     </label>
                                 </section>
-                                <section >
+                                <section>
+                                    <label class="label">Content</label>
+                                    <label class="textarea">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextAreaFor(m => m.Description, new { tabindex = "4", maxlength = "500", rows = 5, id = "description" })
+                                    </label>
+                                </section>
+                                <section>
                                     <label class="label">Position</label>
                                     <label class="select">
                                         @Html.DropDownListFor(m => m.Position, EnumHelper.GetSelectList(typeof(HtmlPositionEnum)), "Please Select", new { tabindex = "6" })

@@ -20,7 +20,7 @@
                             @Html.Hidden("calloutRoleId", (object)ViewBag.calloutRoleId)
                             <fieldset>
                                 <section>
-                                    <label class="label">Role</label>
+                                    <label class="label">User Role</label>
                                     <label class="select">
                                         @Html.DropDownListFor(m => m.Model.RoleID, (IList<SelectListItem>)ViewBag.roles, "Please Select", new { tabindex = "1", disabled = "disabled", style = "background-color: rgba(218, 218, 218, 1);" })
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
@@ -42,17 +42,17 @@
                                     </label>
                                 </section>
                                 <section>
-                                    <label class="label">Content</label>
-                                    <label class="textarea">
-                                        <i class=" icon-append fa fa-asterisk " style="font-size:0.7em;"></i>
-                                        @Html.TextAreaFor(m => m.Model.Description, new { tabindex = "4", maxlength = "500", rows = 5, id = "description" })
-                                    </label>
-                                </section>
-                                <section>
                                     <label class="label">Effective On</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                         @Html.TextBoxFor(m => m.Model.EffectiveOn, "{0:O}", new { tabindex = "5", id = "effectiveDateInput", @readonly = true })
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">Content</label>
+                                    <label class="textarea">
+                                        <i class=" icon-append fa fa-asterisk " style="font-size:0.7em;"></i>
+                                        @Html.TextAreaFor(m => m.Model.Description, new { tabindex = "4", maxlength = "500", rows = 5, id = "description" })
                                     </label>
                                 </section>
                                 <section>
