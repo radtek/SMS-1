@@ -28,6 +28,10 @@ $(function () {
                 hidden: true,
             },
             {
+                field: "OrganisationName",
+                title: "Conveyancer"
+            },
+            {
                 field: "Address.Line1",
                 title: "Address Line 1"
             },

@@ -50,6 +50,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 x.IsProductAdvised,
                 x.ProductAdvisedOn,
                 x.ProductDeclinedOn,
+                OrgNames = x.Organisation.OrganisationDetails.Select(y => new { y.Name }),
                 PurchasedOn = x.Invoice.CreatedOn,
                 PurchasedBySalutation = x.Invoice.UserAccountOrganisation.Contact.Salutation,
                 PurchasedByFirstName = x.Invoice.UserAccountOrganisation.Contact.FirstName,
@@ -92,8 +93,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
             }
             var filter = ODataHelper.Filter(names);
 
-            JObject res = await QueryClient.QueryAsync("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
-            return Content(res.ToString(Formatting.None), "application/json");
+            var res = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            return Json(new { Count = res.Count(), Items = res }, JsonRequestBehavior.AllowGet);
         }
     }
 }
