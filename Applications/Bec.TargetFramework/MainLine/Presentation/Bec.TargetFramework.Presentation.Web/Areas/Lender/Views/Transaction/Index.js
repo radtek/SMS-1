@@ -13,7 +13,7 @@ $(function () {
         type: 'odata-v4',
         serverSorting: true,
         serverPaging: true,
-        defaultSort: { field: "CreatedOn", dir: "desc" },
+        defaultSort: { field: "ProductAdvisedOn", dir: "desc" },
         //resetSort: $('#txGrid').data("resetsort"),
         panels: ['rPanel'],
         //jumpToId: $('#txGrid').data("jumpto"),
@@ -48,21 +48,6 @@ $(function () {
                 field: "ProductAdvisedOn",
                 title: "Advised On",
                 template: function (dataItem) { return dateString(dataItem.ProductAdvisedOn); }
-            },
-            {
-                field: "ProductDeclinedOn",
-                title: "Declined On",
-                template: function (dataItem) { return dateString(dataItem.ProductDeclinedOn); }
-            },
-            {
-                field: "Invoice.CreatedOn",
-                title: "Purchased On",
-                template: function (dataItem) { return dataItem.Invoice ? dateString(dataItem.Invoice.CreatedOn) : ""; }
-            },
-            {
-                field: "CreatedOn",
-                title: "Created On",
-                template: function (dataItem) { return dateString(dataItem.CreatedOn); }
             },
             {
                 field: "CreatedBy",
