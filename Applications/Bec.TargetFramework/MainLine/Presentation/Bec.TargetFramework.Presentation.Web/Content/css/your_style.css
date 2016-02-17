@@ -626,6 +626,10 @@ a.removeupload {
   cursor: pointer;
   display: none;
 }
+.badge {
+  padding: 2px 3px 3px;
+  font-size: 10px;
+}
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
     cursor: pointer;

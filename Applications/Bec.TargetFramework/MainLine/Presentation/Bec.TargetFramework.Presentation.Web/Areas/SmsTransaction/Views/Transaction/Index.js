@@ -73,7 +73,11 @@
                             var noMatchesPerPersona = _.filter(item.SmsBankAccountChecks, { IsMatch: false });
                             return noMatchesPerPersona.length;
                         }));
-                    return noMatchResultsCount || "";
+                    if (noMatchResultsCount > 0) {
+                        return '<b class="badge bg-color-red">' + noMatchResultsCount + '</b>';
+                    } else {
+                        return '';
+                    }
                 }
             }
         ]
