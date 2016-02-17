@@ -15,16 +15,7 @@
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>
-                                <section>
-                                    <label class="label">User Role:</label>
-                                    <label class="select">
-                                        @{
-                                            var roles = (List<SelectListItem>)ViewBag.roles;
-                                        }
-                                        @Html.DropDownListFor(m => m.RoleId, roles, "Please Select", new { tabindex = "1" })
-                                        <i></i>
-                                    </label>
-                                </section>
+                                
                                 <section>
                                     <label class="label">Page Name:</label>
                                     <label class="input ">
@@ -40,7 +31,16 @@
                                         @Html.TextBoxFor(m => m.PageURL, new { tabindex = "3", maxlength = 100 })
                                     </label>
                                 </section>
-
+                                <section>
+                                    <label class="label">User Role:</label>
+                                    <label class="select">
+                                        @{
+                                            var roles = (IList<SelectListItem>)ViewBag.roles;
+                                        }
+                                        @Html.DropDownListFor(m => m.RoleId, roles, "Please Select", new { tabindex = "1" })
+                                        <i></i>
+                                    </label>
+                                </section>
                             </fieldset>
                         </form>
                     </div>

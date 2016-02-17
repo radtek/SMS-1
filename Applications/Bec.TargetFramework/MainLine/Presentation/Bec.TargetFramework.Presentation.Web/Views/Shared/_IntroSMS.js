@@ -47,12 +47,13 @@
         if (stepList.length > 0) {
 
             intro.setOptions({
+                skipLabel: 'Close',
                 exitOnOverlayClick: false,
                 showProgress: false,
-                showBullets: false,
+                showBullets: true,
                 showStepNumbers: false,
                 scrollToElement: false,
-                disableInteraction: false,
+                disableInteraction: true,
                 overlayOpacity: 0.3,
                 steps: stepList
             });

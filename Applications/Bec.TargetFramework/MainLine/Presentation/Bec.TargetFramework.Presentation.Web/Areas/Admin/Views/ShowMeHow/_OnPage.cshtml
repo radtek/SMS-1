@@ -14,6 +14,7 @@
             <div class="col-sm-6 smart-form" style="text-align:right; padding-right:0px; margin-bottom:5px; float:right;">                
                 <label class="select">                    
                     @Html.DropDownListFor(m => roleId, new SelectList(ViewBag.roles, "Value", "Text", roleId), "Please select", new { tabindex = "1", id = "roleOnPage", style = "width:200px;float:right" })
+                    <i></i>
                 </label>
                 <label for="roleOnPage" style="float:right; margin-top:5px; margin-right:5px;">User Role:&nbsp;</label>
             </div>
@@ -34,11 +35,11 @@
             <h5>Page Information</h5>
             <dl class="dl-horizontal">
                 <dt>Page Name:</dt>
-                <dd><p id="ddnName"></p></dd>
+                <dd><p id="ddnName"></p></dd>                
+                <dt>Page URL:</dt>
+                <dd><p id="ddnURL"></p></dd>
                 <dt>User Role:</dt>
                 <dd><p id="ddnRole"></p></dd>
-                <dt>PageURL:</dt>
-                <dd><p id="ddnURL"></p></dd>
                 @Html.Hidden("pageId", @TempData["pageId"])
             </dl>
         </div>

@@ -14,22 +14,22 @@
                         <form action="@Url.Action("AddSysPage", "ShowMeHow", new { area = "Admin" })" method="POST" id="addPage-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
-                            <fieldset>
-                                <section>
-                                    <label class="label">User Role:</label>
-                                    <label class="select">
-                                        @{
-                                            var roles = (List<SelectListItem>)ViewBag.roles;
-                                        }
-                                        @Html.DropDownListFor(m => m.RoleId, roles, "Please Select", new { tabindex = "1" })
-                                        <i></i>
-                                    </label>
-                                </section>
+                            <fieldset>                                
                                 <section>
                                     <label class="label">Page Name:</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                         @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 50 })
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">User Role:</label>
+                                    <label class="select">
+                                        @{
+                                            var roles = (IList<SelectListItem>)ViewBag.roles;
+                                        }
+                                        @Html.DropDownListFor(m => m.RoleId, roles, "Please Select", new { tabindex = "1" })
+                                        <i></i>
                                     </label>
                                 </section>
                             </fieldset>

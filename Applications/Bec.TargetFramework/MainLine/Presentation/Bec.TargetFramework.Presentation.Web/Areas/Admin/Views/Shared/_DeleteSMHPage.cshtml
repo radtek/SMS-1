@@ -22,9 +22,7 @@
                                     <h3><strong>This Page and all its Items will be deleted. Are you sure?</strong></h3>
                                 </section>
                                 <section>
-                                    <dl class="dl-horizontal">
-                                        <dt>User Role:</dt>
-                                        <dd><p>@Html.DisplayFor(m => m.RoleName)</p></dd>
+                                    <dl class="dl-horizontal">                                        
                                         <dt>Page Name:</dt>
                                         <dd><p>@Html.DisplayFor(m => m.PageName)</p></dd>
                                         @if (Model.IsSystemSMH)
@@ -36,6 +34,8 @@
                                             <dt>Page URL:</dt>
                                             <dd><p>@Html.DisplayFor(m => m.PageUrl)</p></dd>
                                         }
+                                        <dt>User Role:</dt>
+                                        <dd><p>@Html.DisplayFor(m => m.RoleName)</p></dd>
                                     </dl>
                                 </section>
                             </fieldset>

@@ -27,7 +27,7 @@ $(function () {
                     },
                     {
                         field: "PageUrl",
-                        title: "URL"
+                        title: "Page URL"
                     },
                     {
                         field: "RoleId",
@@ -35,7 +35,7 @@ $(function () {
                     },
                     {
                         field: "RoleName",
-                        title: "Role"
+                        title: "User Role"
                     }
             ]
         });
@@ -72,7 +72,7 @@ $(function () {
                     },
                     {
                         field: "RoleName",
-                        title: "Role"
+                        title: "User Role"
                     }
             ]
         });

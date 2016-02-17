@@ -160,12 +160,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> ViewEditPage(Guid pageId)
         {
+            ViewBag.roles = await GetRoles();
             var data = await GetPageModel(pageId, false);
             return PartialView("_EditSmhPage", data);
         }
 
         public async Task<ActionResult> ViewEditSysPage(Guid pageId)
         {
+            ViewBag.roles = await GetRoles();
             var data = await GetPageModel(pageId, true);
             return PartialView("_EditSmhPage", data);
         }
