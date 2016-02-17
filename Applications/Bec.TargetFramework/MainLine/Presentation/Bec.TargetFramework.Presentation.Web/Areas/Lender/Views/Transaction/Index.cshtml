@@ -3,7 +3,22 @@
 <!-- MAIN CONTENT -->
 <div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
     <div class="row">
-        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-home margin-right-10"></i>Transactions</h2>
+        <div class="col-sm-8 col-lg-9">
+            <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-home margin-right-10"></i>Transactions</h2>
+        </div>
+        <div class="col-sm-4 col-lg-3 smart-form">
+            <div class="input-group margin-top-15 margin-bottom-5">
+                <label class="input">
+                    <i class="icon-append fa fa-times clear-search-icon" id="clearGridSearch"></i>
+                    <input type="text" class="form-control" id="gridSearchInput">
+                </label>
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-header-search" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12 well">

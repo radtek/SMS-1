@@ -24,6 +24,7 @@
         change: txChange,
         searchElementId: 'gridSearchInput',
         searchButtonId: 'gridSearchButton',
+        clearSearchButtonId: 'clearGridSearch',
         columns: [
             {
                 field: "SmsTransactionID",
