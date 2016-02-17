@@ -786,9 +786,22 @@ a.removeupload{
     color:darken(@primary-color, 10%)
 }
 
+.no-match{
+    border-color: #953b39 !important;
+    color: #fff;
+    background-color: #c26565 !important;
+    text-shadow: none;
+}
+
+.table tr.no-match td {
+    .no-match;
+}
+
 .error{
     color:red;
 }
+
+
 
 // xs and sm
 @media only screen and (max-width: 992px) {

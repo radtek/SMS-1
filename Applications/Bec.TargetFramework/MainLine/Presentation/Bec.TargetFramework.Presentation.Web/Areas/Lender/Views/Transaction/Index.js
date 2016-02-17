@@ -1,9 +1,11 @@
-﻿var transactionDetailsTemplatePromise,
-    partiesTemplatePromise,
-    txGrid;
-var areConversationsLoaded;
+﻿
 $(function () {
-    txGrid = new gridItem(
+    var transactionDetailsTemplatePromise = $.Deferred(),
+        partiesTemplatePromise = $.Deferred(),
+        bankAccountChecksDetailsPromise = $.Deferred();
+    var areConversationsLoaded = false;
+
+    var txGrid = new gridItem(
     {
         gridElementId: 'txGrid',
         url: $('#txGrid').data("url"),
@@ -85,27 +87,9 @@ $(function () {
     findModalLinks();
     setupTabs();
 
-    transactionDetailsTemplatePromise = $.Deferred();
-    ajaxWrapper(
-        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'Lender') }
-    ).done(function (res) {
-        transactionDetailsTemplatePromise.resolve(Handlebars.compile(res));
-    }).fail(function (e) {
-        if (!hasRedirect(e.responseJSON)) {
-            showtoastrError();
-        }
-    });
-
-    partiesTemplatePromise = $.Deferred();
-    ajaxWrapper(
-        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_partiesDetailsTmpl', 'Transaction', 'Lender') }
-    ).done(function (res) {
-        partiesTemplatePromise.resolve(Handlebars.compile(res));
-    }).fail(function (e) {
-        if (!hasRedirect(e.responseJSON)) {
-            showtoastrError();
-        }
-    });
+    setupTemplatePromise(transactionDetailsTemplatePromise, getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'Lender'));
+    setupTemplatePromise(partiesTemplatePromise, getRazorViewPath('_partiesDetailsTmpl', 'Transaction', 'Lender'));
+    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared', ''));
 
     function setupTabs() {
         areConversationsLoaded = false;
@@ -123,58 +107,89 @@ $(function () {
             return false;
         });
     }
-});
 
-//data binding for the panes beneath each grid
-function txChange(dataItem) {
-    showTransactionDetails(dataItem);
-    showPartiesDetails(dataItem);
-
-    $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
-    $('#transactionConversationContainer')
-        .data('activity-id', dataItem.SmsTransactionID)
-        .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.Invoice != null]);
-    areConversationsLoaded = false;
-}
-
-function showTransactionDetails(dataItem) {
-    var orderedByContact = dataItem.Invoice
-        ? dataItem.Invoice.UserAccountOrganisation.Contact
-        : null;
-    var data = _.extend({}, dataItem, {
-        purchasePrice: formatCurrency(dataItem.Price),
-        pageNumber: txGrid.grid.dataSource.page(),
-        transactionCreated: dateString(dataItem.CreatedOn),
-        productAdvisedOn: dataItem.ProductAdvisedOn
-            ? dateString(dataItem.ProductAdvisedOn)
-            : null,
-        safeBuyerOrderedBy: orderedByContact
-            ? orderedByContact.Salutation + " " + orderedByContact.FirstName + " " + orderedByContact.LastName
-            : null,
-        safeBuyerOrderedOn: dataItem.Invoice
-            ? dateString(dataItem.Invoice.CreatedOn)
-            : null
-    });
-    transactionDetailsTemplatePromise.done(function (template) {
-        var html = template(data);
-        $('#transactionDetails').html(html);
-    });
-}
-
-function showPartiesDetails(dataItem) {
-    var orderedParties = _.orderBy(dataItem.SmsUserAccountOrganisationTransactions, ['SmsUserAccountOrganisationTransactionType.SmsUserAccountOrganisationTransactionTypeID'], ['asc']);
-    var data = _.map(orderedParties, function (uaot) {
-        return _.extend({}, uaot, {
-            fullName: uaot.Contact.Salutation + " " + uaot.Contact.FirstName + " " + uaot.Contact.LastName,
-            formattedBirthDate: dateStringNoTime(uaot.Contact.BirthDate),
-            formattedLatestBankAccountCheckOn: uaot.LatestBankAccountCheck ? dateString(uaot.LatestBankAccountCheck.CheckedOn) : null,
-            latestCheckResult: uaot.LatestBankAccountCheck == null ? null : (uaot.LatestBankAccountCheck.IsMatch ? "Match" : "No Match"),
-            matchClass: uaot.LatestBankAccountCheck == null ? null : (uaot.LatestBankAccountCheck.IsMatch ? "match" : "error")
+    function setupTemplatePromise(templatePromise, viewPath) {
+        ajaxWrapper(
+            { url: $('#content').data("templateurl") + '?view=' + viewPath }
+        ).done(function (res) {
+            templatePromise.resolve(Handlebars.compile(res));
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
-    });
+    }
 
-    partiesTemplatePromise.done(function (template) {
-        var html = template(data);
-        $('#partiesDetails').html(html);
-    });
-}
+    //data binding for the panes beneath each grid
+    function txChange(dataItem) {
+        showTransactionDetails(dataItem);
+        showPartiesDetails(dataItem);
+        showBankAccountChecksDetails(dataItem);
+
+        $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
+        $('#transactionConversationContainer')
+            .data('activity-id', dataItem.SmsTransactionID)
+            .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.Invoice != null]);
+        areConversationsLoaded = false;
+    }
+
+    function showTransactionDetails(dataItem) {
+        var orderedByContact = dataItem.Invoice
+            ? dataItem.Invoice.UserAccountOrganisation.Contact
+            : null;
+        var data = _.extend({}, dataItem, {
+            purchasePrice: formatCurrency(dataItem.Price),
+            pageNumber: txGrid.grid.dataSource.page(),
+            transactionCreated: dateString(dataItem.CreatedOn),
+            productAdvisedOn: dataItem.ProductAdvisedOn
+                ? dateString(dataItem.ProductAdvisedOn)
+                : null,
+            safeBuyerOrderedBy: orderedByContact
+                ? orderedByContact.Salutation + " " + orderedByContact.FirstName + " " + orderedByContact.LastName
+                : null,
+            safeBuyerOrderedOn: dataItem.Invoice
+                ? dateString(dataItem.Invoice.CreatedOn)
+                : null
+        });
+        transactionDetailsTemplatePromise.done(function (template) {
+            var html = template(data);
+            $('#transactionDetails').html(html);
+        });
+    }
+
+    function showPartiesDetails(dataItem) {
+        var orderedParties = _.orderBy(dataItem.SmsUserAccountOrganisationTransactions, ['SmsUserAccountOrganisationTransactionType.SmsUserAccountOrganisationTransactionTypeID'], ['asc']);
+        var data = _.map(orderedParties, function (uaot) {
+            return _.extend({}, uaot, {
+                fullName: uaot.Contact.Salutation + " " + uaot.Contact.FirstName + " " + uaot.Contact.LastName,
+                formattedBirthDate: dateStringNoTime(uaot.Contact.BirthDate),
+                formattedLatestBankAccountCheckOn: uaot.LatestBankAccountCheck ? dateString(uaot.LatestBankAccountCheck.CheckedOn) : null,
+                latestCheckResult: uaot.LatestBankAccountCheck == null ? null : (uaot.LatestBankAccountCheck.IsMatch ? "Match" : "No Match"),
+                matchClass: uaot.LatestBankAccountCheck == null ? null : (uaot.LatestBankAccountCheck.IsMatch ? "match" : "error")
+            });
+        });
+
+        partiesTemplatePromise.done(function (template) {
+            var html = template(data);
+            $('#partiesDetails').html(html);
+        });
+    }
+
+    function showBankAccountChecksDetails(dataItem) {
+        var mappedData = _.map(dataItem.SmsUserAccountOrganisationTransactions, function (item) {
+            var mappedBankAccountChecks = _.map(item.SmsBankAccountChecks, function (bankAccountCheck) {
+                bankAccountCheck.CheckedOn = dateString(bankAccountCheck.CheckedOn);
+                return bankAccountCheck;
+            });
+            var orderedBankAccountChecks = _.orderBy(mappedBankAccountChecks, ['CheckedOn'], ['desc']);
+            item.SmsBankAccountChecks = _.toArray(orderedBankAccountChecks);
+            return item;
+        });
+        var orderedData = _.orderBy(mappedData, ['SmsUserAccountOrganisationTransactionTypeID'], ['asc']);
+        var data = _.toArray(orderedData);
+        bankAccountChecksDetailsPromise.done(function (template) {
+            var html = template(data);
+            $('#bankAccountChecksDetails').html(html);
+        });
+    }
+});

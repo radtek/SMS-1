@@ -110,12 +110,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 PurchasedByLastName = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.LastName,
                 x.LatestBankAccountCheck.CheckedOn,
                 SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode }),
-                NoMatch = x.SmsTransaction.SmsUserAccountOrganisationTransactions.Select(y => new
+                BankAccountChecks = x.SmsTransaction.SmsUserAccountOrganisationTransactions.Select(y => new
                 {
-                    IsMatch = y.SmsBankAccountChecks.Select(z => new
+                    Check = y.SmsBankAccountChecks.Select(z => new
                     {
+                        z.BankAccountNumber,
+                        z.SortCode,
+                        z.CheckedOn,
                         z.IsMatch
-                    })
+                    }),
+                    PersonaSalutation = y.Contact.Salutation,
+                    PersonaFirstName = y.Contact.FirstName,
+                    PersonaLastName = y.Contact.LastName,
+                    PersonaTypeID = y.SmsUserAccountOrganisationTransactionTypeID
                 })
             });
 

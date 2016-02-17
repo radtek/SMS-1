@@ -70,15 +70,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                     y.LatestBankAccountCheck.CheckedOn,
                     y.LatestBankAccountCheck.BankAccountNumber,
                     y.LatestBankAccountCheck.SortCode,
-                    y.LatestBankAccountCheck.IsMatch
-                }),
-                NoMatch = x.SmsUserAccountOrganisationTransactions.Select(y => new 
+                    y.LatestBankAccountCheck.IsMatch,
+                    Check = y.SmsBankAccountChecks.Select(z => new
                     {
-                        IsMatch = y.SmsBankAccountChecks.Select(z => new 
-                        {
-                            z.IsMatch
-                        })
+                        z.BankAccountNumber,
+                        z.SortCode,
+                        z.CheckedOn,
+                        z.IsMatch
                     })
+                })
             });
 
             Expression names = null;
