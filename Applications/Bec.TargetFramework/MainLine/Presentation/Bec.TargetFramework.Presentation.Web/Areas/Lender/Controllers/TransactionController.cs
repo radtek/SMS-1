@@ -50,6 +50,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 x.IsProductAdvised,
                 x.ProductAdvisedOn,
                 x.ProductDeclinedOn,
+                OrgNames = x.Organisation.OrganisationDetails.Select(y => new { y.Name }),
                 PurchasedOn = x.Invoice.CreatedOn,
                 PurchasedBySalutation = x.Invoice.UserAccountOrganisation.Contact.Salutation,
                 PurchasedByFirstName = x.Invoice.UserAccountOrganisation.Contact.FirstName,
@@ -71,7 +72,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                     y.LatestBankAccountCheck.CheckedOn,
                     y.LatestBankAccountCheck.BankAccountNumber,
                     y.LatestBankAccountCheck.SortCode,
-                    y.LatestBankAccountCheck.IsMatch
+                    y.LatestBankAccountCheck.IsMatch,
+                    Check = y.SmsBankAccountChecks.Select(z => new
+                    {
+                        z.BankAccountNumber,
+                        z.SortCode,
+                        z.CheckedOn,
+                        z.IsMatch
+                    })
                 })
             });
 
@@ -97,8 +105,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
             }
             var filter = ODataHelper.Filter(where);
 
-            JObject res = await QueryClient.QueryAsync("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
-            return Content(res.ToString(Formatting.None), "application/json");
+            var res = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            return Json(new { Count = res.Count(), Items = res }, JsonRequestBehavior.AllowGet);
         }
     }
 }

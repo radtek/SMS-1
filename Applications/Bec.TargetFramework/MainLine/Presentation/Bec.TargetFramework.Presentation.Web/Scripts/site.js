@@ -1,4 +1,4 @@
-﻿var gridPageSize = 10;
+﻿var gridPageSize = 15;
 
 //checks for a json redirect response instruction
 function checkRedirect(response) {
@@ -266,6 +266,7 @@ var gridItem = function (options) {
             selectable: "row",
             filterable: false,
             sortable: true,
+            navigatable: true,
             columns: options.columns,
             dataBound: this.dataBound,
             change: this.change
@@ -283,7 +284,9 @@ var gridItem = function (options) {
                 messages: { display: "{2} rows" }
             }
         }
-        this.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
+        self.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
+
+        setupUpDownNavigation();
 
         $('#' + this.options.searchButtonId).click(function () {
             self.refreshGrid();
@@ -302,6 +305,17 @@ var gridItem = function (options) {
             self.refreshGrid();
         });
 
+        function setupUpDownNavigation() {
+            var arrows = [38, 40];
+            self.grid.table.on("keydown", function (e) {
+                if (arrows.indexOf(e.keyCode) >= 0) {
+                    setTimeout(function () {
+                        self.grid.select($("#" + self.options.gridElementId + "_active_cell").closest("tr"));
+                    });
+                }
+            })
+            self.grid.table.focus();
+        }
     };
 
     this.refreshGrid = function () {

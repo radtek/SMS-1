@@ -21434,7 +21434,7 @@
           </AssociationSet>
           <AssociationSet Name="SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fkSet" Association="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk">
             <End Role="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" EntitySet="SmsUserAccountOrganisationTransactions" />
-            <End Role="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" EntitySet="SmsBankAccountChecks" />
+            <End Role="SmsBankAccountChecks" EntitySet="SmsBankAccountChecks" />
           </AssociationSet>
           <AssociationSet Name="SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fkSet" Association="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk">
             <End Role="LatestBankAccountCheck" EntitySet="SmsBankAccountChecks" />
@@ -29627,7 +29627,7 @@
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Address" ed:Guid="8935e715-92aa-485a-ba4c-720eb05fb917" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Contact_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Contact" ed:Guid="6fcb6856-21eb-4558-bc7d-5cc270241227" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="UserAccountOrganisation" ed:Guid="6d6a0671-ad57-4a27-9029-7729497aca06" />
-          <NavigationProperty Name="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ToRole="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" ed:Guid="5b652779-bdc4-4316-9b58-22553b54ffe5" />
+          <NavigationProperty Name="SmsBankAccountChecks" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ToRole="SmsBankAccountChecks" ed:Guid="5b652779-bdc4-4316-9b58-22553b54ffe5" />
           <NavigationProperty Name="LatestBankAccountCheck" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" FromRole="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" ToRole="LatestBankAccountCheck" ed:Guid="85c62da9-9178-40eb-b13c-e31dc8e6d7f7" />
           <NavigationProperty Name="SmsSrcFundsBankAccounts" Relationship="Bec.TargetFramework.Data.SmsSrcFundsBankAccount_SmsUaot_fk" FromRole="SmsUserAccountOrganisationTransaction" ToRole="SmsSrcFundsBankAccounts" ed:Guid="76590f11-ff18-489d-a7b3-744feb2e6be6" />
         </EntityType>
@@ -29650,7 +29650,7 @@
           <Property Name="IsMatch" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="1f84cb37-c6f5-4531-9bb7-69c83e318190" />
           <Property Name="BankAccountNumber" Type="String" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="False" ed:Guid="a6ae5a93-8197-405f-a792-651cf8ab7e40" />
           <Property Name="SortCode" Type="String" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="False" ed:Guid="f5afb543-0109-465c-8f67-b2982e22c6a4" />
-          <NavigationProperty Name="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" ToRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ed:Guid="b9fb9028-06fd-4805-93c7-289d3722352c" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsBankAccountChecks" ToRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ed:Guid="b9fb9028-06fd-4805-93c7-289d3722352c" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" FromRole="LatestBankAccountCheck" ToRole="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" ed:Guid="82eb70ec-db58-4dd9-bde4-c3e81e101419" />
         </EntityType>
         <EntityType Name="SmsSrcFundsBankAccount" ed:Guid="163a17e2-997d-4f43-bef8-bf8d7b1c1dbc">
@@ -37612,12 +37612,12 @@
         </Association>
         <Association Name="SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" ed:Guid="48d5e695-3406-4131-94b1-1d9990a081ab">
           <End Role="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="1" />
-          <End Role="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" Type="Bec.TargetFramework.Data.SmsBankAccountCheck" Multiplicity="*" />
+          <End Role="SmsBankAccountChecks" Type="Bec.TargetFramework.Data.SmsBankAccountCheck" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID">
               <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
             </Principal>
-            <Dependent Role="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID">
+            <Dependent Role="SmsBankAccountChecks">
               <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
             </Dependent>
           </ReferentialConstraint>

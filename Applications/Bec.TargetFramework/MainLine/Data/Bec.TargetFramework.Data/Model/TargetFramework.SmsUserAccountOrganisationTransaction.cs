@@ -220,9 +220,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID in the schema.
+        /// There are no comments for SmsBankAccountChecks in the schema.
         /// </summary>
-        public virtual ICollection<SmsBankAccountCheck> SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID
+        public virtual ICollection<SmsBankAccountCheck> SmsBankAccountChecks
         {
             get;
             set;
