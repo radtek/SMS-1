@@ -93,8 +93,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
             }
             var filter = ODataHelper.Filter(names);
 
-            var res = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
-            return Json(new { Count = res.Count(), Items = res }, JsonRequestBehavior.AllowGet);
+            JObject res = await QueryClient.QueryAsync("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            return Content(res.ToString(Formatting.None), "application/json");
         }
     }
 }

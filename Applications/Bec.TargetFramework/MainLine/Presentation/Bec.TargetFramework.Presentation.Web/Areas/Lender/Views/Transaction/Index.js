@@ -28,8 +28,9 @@ $(function () {
                 hidden: true,
             },
             {
-                field: "OrganisationName",
-                title: "Conveyancer"
+                field: "",
+                title: "Conveyancer",
+                template: function (dataItem) { return dataItem.Organisation.OrganisationDetails[0].Name; }
             },
             {
                 field: "Address.Line1",
