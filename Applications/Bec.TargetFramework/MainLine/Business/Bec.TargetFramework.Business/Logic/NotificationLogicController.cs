@@ -651,16 +651,17 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var userOrgType = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).Organisation.OrganisationType.Name;
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsSafeSendGroup || x.RelatedID != senderUaoID));
+                    
                 switch (userOrgType)
                 {
                     case "Personal":
                         ret = ret.Where(x => x.OrganisationTypeName != "Lender");
                         break;
                     case "Lender":
-                        ret = ret.Where(x => x.OrganisationTypeName != "Personal");
+                        ret = ret.Where(x => x.OrganisationTypeName != "Personal" && x.OrganisationTypeName != "Lender");
                         break;
                 }
-
+                ret = ret.OrderBy(x => x.IsSafeSendGroup).ThenByDescending(x => x.OrganisationName).ThenBy(x => x.LastName);
                 var ret2 = ret.ToDtos();
                 foreach (var item in ret2) item.Hash = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(item.OrganisationID.ToString() + item.RelatedID.ToString())).Select(c => c.ToString("x2")));
                 return ret2;
@@ -766,7 +767,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 List<CreateConversationRecipientDTO> ret = new List<CreateConversationRecipientDTO>();
                 ret.Add(new CreateConversationRecipientDTO { Value = uaoId, Display = uao.Contact.FirstName + " " + uao.Contact.LastName });
-                ret.AddRange(safeSendGroups.Select(x => new CreateConversationRecipientDTO { IsSafeSendGroup = true, OrganisationID = orgId, Value = x.SafeSendGroupID, Display = x.SafeSendGroup.Name }));
+                ret.AddRange(safeSendGroups.Select(x => new CreateConversationRecipientDTO { IsSafeSendGroup = true, OrganisationID = orgId, Value = x.SafeSendGroupID, Display = x.SafeSendGroup.Name + " (Safe Send Group)" }));
 
                 foreach (var item in ret) item.Hash = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(item.OrganisationID.ToString() + item.Value.ToString())).Select(c => c.ToString("x2")));
                 return ret;
