@@ -47,6 +47,23 @@
                 minlength: 11,
                 maxlength: 11,
                 ukmobile: true
+            },
+            "BuyingWithMortgageSelect": {
+                required: true
+            },
+            "SmsTransactionDTO.LenderName": {
+                required: {
+                    depends: function (element) {
+                        return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
+                    }
+                }
+            },
+            "SmsTransactionDTO.MortgageApplicationNumber": {
+                required: {
+                    depends: function (element) {
+                        return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
+                    }
+                }
             }
         },
 
@@ -111,5 +128,20 @@
 
     makeDatePicker("#birthDateInput", {
         maxDate: new Date()
+    });
+
+    $("#BuyingWithMortgageSelect").change(function () {
+        $(this).find("option:selected").each(function () {
+            var selectedValue = parseInt($(this).attr("value"));
+            $("#BuyingWithMortgageContainer").toggle(!!selectedValue);
+            if (selectedValue != 1) {
+                $('#lenderSearch').val('');
+                $('#SmsTransactionDTO_MortgageApplicationNumber').val('');
+            }
+        });
+    }).change();
+
+    $('#lenderSearch').lenderSearch({
+        searchUrl: $('#lenderSearch').data("url")
     });
 });
