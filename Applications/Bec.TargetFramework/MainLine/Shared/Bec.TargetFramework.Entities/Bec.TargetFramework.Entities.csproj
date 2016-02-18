@@ -1977,6 +1977,7 @@
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
     <Compile Include="Enums\BrokerTypeEnum.cs" />
+    <Compile Include="Enums\OrganisationSettingName.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />

@@ -371,6 +371,20 @@
 
             border-color: #bdbdbd !important;
         }
+        
+
+    }
+
+    .toggle input:checked+i {
+        border-color: @primary-color;
+    }
+
+    .toggle input+input[type=hidden]+i:before{
+        background-color: #ccc;
+    }
+
+    .toggle input:checked+input[type=hidden]+i:before {
+        background-color: @primary-color;
     }
 
     .checkbox:hover i,

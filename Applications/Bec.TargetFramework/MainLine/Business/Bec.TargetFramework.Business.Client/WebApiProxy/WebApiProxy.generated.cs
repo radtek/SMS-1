@@ -1025,6 +1025,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
 		Boolean IsSafeSendEnabled(Guid organisationID);
+
+		/// <param name="orgID"></param>
+		/// <param name="safeSendEnabled"></param>
+		/// <returns></returns>
+		Task AddOrUpdateSafeSendEnabledAsync(Guid orgID,Boolean safeSendEnabled);
+
+		/// <param name="orgID"></param>
+		/// <param name="safeSendEnabled"></param>
+		/// <returns></returns>
+		void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -4198,6 +4208,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeSendEnabled?organisationID=" + organisationID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="safeSendEnabled"></param>
+		/// <returns></returns>
+		public virtual Task AddOrUpdateSafeSendEnabledAsync(Guid orgID,Boolean safeSendEnabled)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="safeSendEnabled"></param>
+		public virtual void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user)).Wait();
 		}
 
 		#endregion

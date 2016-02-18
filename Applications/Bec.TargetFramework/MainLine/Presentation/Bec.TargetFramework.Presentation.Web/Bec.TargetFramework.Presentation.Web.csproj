@@ -184,6 +184,7 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrganisationSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsArticleController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="App_Helpers\PdfContentResult.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
+    <Compile Include="Areas\Admin\Models\OrganisationSettingsModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
@@ -916,6 +918,7 @@
     <Content Include="Areas\Lender\Views\Transaction\_partiesDetailsTmpl.cshtml" />
     <Content Include="Areas\Lender\Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_bankAccountChecksDetailsTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\OrganisationSetting\EditOrganisationSettings.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

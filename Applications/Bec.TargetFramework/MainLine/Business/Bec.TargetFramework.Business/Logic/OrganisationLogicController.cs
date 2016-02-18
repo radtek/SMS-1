@@ -1103,8 +1103,33 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var setting = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationSettings.Where(x => x.OrganisationID == organisationID && x.Name == "SafeSendEnabled").FirstOrDefault();
+                var safeSendName = OrganisationSettingName.SafeSendEnabled.ToString();
+                var setting = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationSettings.Where(x => x.OrganisationID == organisationID && x.Name == safeSendName).FirstOrDefault();
                 return setting != null && setting.Value == "true";
+            }
+        }
+
+        public async Task AddOrUpdateSafeSendEnabled(Guid orgID, bool safeSendEnabled)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var safeSendName = OrganisationSettingName.SafeSendEnabled.ToString();
+                var setting = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationSettings.Where(x => x.OrganisationID == orgID && x.Name == safeSendName).FirstOrDefault();
+                if (setting == null)
+                {
+                    setting = new OrganisationSetting
+                    {
+                        OrganisationID = orgID,
+                        Name = safeSendName,
+                        Value = safeSendEnabled.ToString()
+                    };
+                    scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationSettings.Add(setting);
+                }
+                else
+                {
+                    setting.Value = safeSendEnabled.ToString();
+                }
+                await scope.SaveChangesAsync();
             }
         }
     }

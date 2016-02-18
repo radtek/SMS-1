@@ -293,6 +293,15 @@
 .smart-form .checkbox input + i:after {
   color: #a1c324;
 }
+.smart-form .toggle input:checked + i {
+  border-color: #a1c324;
+}
+.smart-form .toggle input + input[type=hidden] + i:before {
+  background-color: #ccc;
+}
+.smart-form .toggle input:checked + input[type=hidden] + i:before {
+  background-color: #a1c324;
+}
 .smart-form .checkbox:hover i,
 .smart-form .input:hover input,
 .smart-form .radio:hover i,
