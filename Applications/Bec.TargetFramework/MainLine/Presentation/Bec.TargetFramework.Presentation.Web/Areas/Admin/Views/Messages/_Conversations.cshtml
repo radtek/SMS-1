@@ -16,7 +16,7 @@
      data-target-conversation-id="@(Model.SelectedConversationId.HasValue? Model.SelectedConversationId.Value.ToString("N") : "")"
      data-upload-url="@Url.Action("UploadFile", "Messages", new { area = "Admin" })"
      data-remove-upload-url="@Url.Action("RemovePendingUpload", "Messages", new { area = "Admin" })"
-     data-functions-url="@Url.Action("GetUserFunctions", "Messages", new { Area = "Admin" })">
+     data-safesendgroups-url="@Url.Action("GetUserSafeSendGroups", "Messages", new { Area = "Admin" })">
 
     <div id="disabledContainer" class="col-xs-12 conversations-container" style="display:none">
         @*todo: change Accepted to Purchased*@

@@ -111,9 +111,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for ConversationFunctionParticipants in the schema.
+        /// There are no comments for ConversationSafeSendGroupParticipants in the schema.
         /// </summary>
-        public virtual ICollection<ConversationFunctionParticipant> ConversationFunctionParticipants
+        public virtual ICollection<ConversationSafeSendGroupParticipant> ConversationSafeSendGroupParticipants
         {
             get;
             set;

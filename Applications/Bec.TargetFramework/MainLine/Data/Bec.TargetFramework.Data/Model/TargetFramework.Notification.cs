@@ -214,9 +214,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for CreatedByFunctionID in the schema.
+        /// There are no comments for CreatedBySafeSendGroupID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> CreatedByFunctionID
+        public virtual global::System.Nullable<System.Guid> CreatedBySafeSendGroupID
         {
             get;
             set;

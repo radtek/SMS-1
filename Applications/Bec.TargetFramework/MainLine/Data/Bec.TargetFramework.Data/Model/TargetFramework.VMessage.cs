@@ -148,9 +148,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for FunctionName in the schema.
+        /// There are no comments for SafeSendGroupName in the schema.
         /// </summary>
-        public virtual string FunctionName
+        public virtual string SafeSendGroupName
         {
             get;
             set;

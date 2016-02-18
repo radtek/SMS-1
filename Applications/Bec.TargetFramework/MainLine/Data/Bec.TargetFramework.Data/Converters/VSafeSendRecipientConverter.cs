@@ -34,8 +34,8 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationID = source.OrganisationID;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
-            target.IsFunction = source.IsFunction;
             target.OrganisationTypeName = source.OrganisationTypeName;
+            target.IsSafeSendGroup = source.IsSafeSendGroup;
             target.OrganisationName = source.OrganisationName;
 
             // User-defined partial method
@@ -57,8 +57,8 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationID = source.OrganisationID;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
-            target.IsFunction = source.IsFunction;
             target.OrganisationTypeName = source.OrganisationTypeName;
+            target.IsSafeSendGroup = source.IsSafeSendGroup;
             target.OrganisationName = source.OrganisationName;
 
             // User-defined partial method

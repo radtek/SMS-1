@@ -238,13 +238,13 @@
     <Compile Include="Boo\ConversationDTO.Generated.cs">
       <DependentUpon>ConversationDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\ConversationFunctionParticipantDTO.cs" />
-    <Compile Include="Boo\ConversationFunctionParticipantDTO.Generated.cs">
-      <DependentUpon>ConversationFunctionParticipantDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ConversationParticipantDTO.cs" />
     <Compile Include="Boo\ConversationParticipantDTO.Generated.cs">
       <DependentUpon>ConversationParticipantDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ConversationSafeSendGroupParticipantDTO.cs" />
+    <Compile Include="Boo\ConversationSafeSendGroupParticipantDTO.Generated.cs">
+      <DependentUpon>ConversationSafeSendGroupParticipantDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\CountryCodeDTO.cs" />
     <Compile Include="Boo\CountryCodeDTO.Generated.cs">
@@ -504,10 +504,6 @@
     <Compile Include="Boo\FnGetUserClaimResultDTO.cs" />
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
       <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\FunctionDTO.cs" />
-    <Compile Include="Boo\FunctionDTO.Generated.cs">
-      <DependentUpon>FunctionDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\GlobalAccountingPeriodDTO.cs" />
     <Compile Include="Boo\GlobalAccountingPeriodDTO.Generated.cs">
@@ -1320,6 +1316,10 @@
       <DependentUpon>RoleDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\RoleTemplateClaimDTO.cs" />
+    <Compile Include="Boo\SafeSendGroupDTO.cs" />
+    <Compile Include="Boo\SafeSendGroupDTO.Generated.cs">
+      <DependentUpon>SafeSendGroupDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ServiceBusErrorLogDTO.cs" />
     <Compile Include="Boo\ServiceBusTraceLogDTO.cs" />
     <Compile Include="Boo\ServiceDefinitionDetailDTO.cs" />
@@ -1525,15 +1525,15 @@
     <Compile Include="Boo\UserAccountOrganisationDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\UserAccountOrganisationFunctionDTO.cs" />
-    <Compile Include="Boo\UserAccountOrganisationFunctionDTO.Generated.cs">
-      <DependentUpon>UserAccountOrganisationFunctionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\UserAccountOrganisationGroupDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationGroupDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\UserAccountOrganisationRoleDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationSafeSendGroupDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationSafeSendGroupDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationSafeSendGroupDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\UserAccountOrganisationSecondaryUserTypeDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationSecondaryUserTypeDTO.cs</DependentUpon>

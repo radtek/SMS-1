@@ -2043,24 +2043,24 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<OrganisationNote> OrganisationNotes { get; set; }
     
         /// <summary>
-        /// There are no comments for Function in the schema.
-        /// </summary>
-        public virtual DbSet<Function> Functions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for ConversationFunctionParticipant in the schema.
-        /// </summary>
-        public virtual DbSet<ConversationFunctionParticipant> ConversationFunctionParticipants { get; set; }
-    
-        /// <summary>
-        /// There are no comments for UserAccountOrganisationFunction in the schema.
-        /// </summary>
-        public virtual DbSet<UserAccountOrganisationFunction> UserAccountOrganisationFunctions { get; set; }
-    
-        /// <summary>
         /// There are no comments for NewsArticle in the schema.
         /// </summary>
         public virtual DbSet<NewsArticle> NewsArticles { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ConversationSafeSendGroupParticipant in the schema.
+        /// </summary>
+        public virtual DbSet<ConversationSafeSendGroupParticipant> ConversationSafeSendGroupParticipants { get; set; }
+    
+        /// <summary>
+        /// There are no comments for SafeSendGroup in the schema.
+        /// </summary>
+        public virtual DbSet<SafeSendGroup> SafeSendGroups { get; set; }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationSafeSendGroup in the schema.
+        /// </summary>
+        public virtual DbSet<UserAccountOrganisationSafeSendGroup> UserAccountOrganisationSafeSendGroups { get; set; }
 
         #region Methods
 

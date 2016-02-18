@@ -106,8 +106,8 @@
     <Compile Include="Converters\ContactRegulatorConverter.cs" />
     <Compile Include="Converters\ContainsagadataConverter.cs" />
     <Compile Include="Converters\ConversationConverter.cs" />
-    <Compile Include="Converters\ConversationFunctionParticipantConverter.cs" />
     <Compile Include="Converters\ConversationParticipantConverter.cs" />
+    <Compile Include="Converters\ConversationSafeSendGroupParticipantConverter.cs" />
     <Compile Include="Converters\CountryCodeConverter.cs" />
     <Compile Include="Converters\CountryDeductionConverter.cs" />
     <Compile Include="Converters\CountryDeductionTemplateConverter.cs" />
@@ -167,7 +167,6 @@
     <Compile Include="Converters\FileConverter.cs" />
     <Compile Include="Converters\FnGetConversationActivityResultConverter.cs" />
     <Compile Include="Converters\FnGetUserClaimResultConverter.cs" />
-    <Compile Include="Converters\FunctionConverter.cs" />
     <Compile Include="Converters\GlobalAccountingPeriodConverter.cs" />
     <Compile Include="Converters\GlobalDirectDebitCollectionPeriodConverter.cs" />
     <Compile Include="Converters\GlobalPaymentMethodConverter.cs" />
@@ -345,6 +344,7 @@
     <Compile Include="Converters\ResourceOperationTargetConverter.cs" />
     <Compile Include="Converters\RoleClaimConverter.cs" />
     <Compile Include="Converters\RoleConverter.cs" />
+    <Compile Include="Converters\SafeSendGroupConverter.cs" />
     <Compile Include="Converters\ServiceDefinitionConverter.cs" />
     <Compile Include="Converters\ServiceDefinitionDetailConverter.cs" />
     <Compile Include="Converters\ServiceInterfaceConverter.cs" />
@@ -406,9 +406,9 @@
     <Compile Include="Converters\UserAccountLoginSessionConverter.cs" />
     <Compile Include="Converters\UserAccountLoginSessionDatumConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationConverter.cs" />
-    <Compile Include="Converters\UserAccountOrganisationFunctionConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationGroupConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationRoleConverter.cs" />
+    <Compile Include="Converters\UserAccountOrganisationSafeSendGroupConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationSecondaryUserTypeConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationStatusConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationStructureConverter.cs" />
@@ -507,8 +507,8 @@
     <Compile Include="Model\TargetFramework.ContactRegulator.cs" />
     <Compile Include="Model\TargetFramework.Containsagadata.cs" />
     <Compile Include="Model\TargetFramework.Conversation.cs" />
-    <Compile Include="Model\TargetFramework.ConversationFunctionParticipant.cs" />
     <Compile Include="Model\TargetFramework.ConversationParticipant.cs" />
+    <Compile Include="Model\TargetFramework.ConversationSafeSendGroupParticipant.cs" />
     <Compile Include="Model\TargetFramework.CountryCode.cs" />
     <Compile Include="Model\TargetFramework.CountryDeduction.cs" />
     <Compile Include="Model\TargetFramework.CountryDeductionTemplate.cs" />
@@ -568,7 +568,6 @@
     <Compile Include="Model\TargetFramework.File.cs" />
     <Compile Include="Model\TargetFramework.FnGetConversationActivityResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetUserClaimResult.cs" />
-    <Compile Include="Model\TargetFramework.Function.cs" />
     <Compile Include="Model\TargetFramework.GlobalAccountingPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalDirectDebitCollectionPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalPaymentMethod.cs" />
@@ -746,6 +745,7 @@
     <Compile Include="Model\TargetFramework.ResourceOperationTarget.cs" />
     <Compile Include="Model\TargetFramework.Role.cs" />
     <Compile Include="Model\TargetFramework.RoleClaim.cs" />
+    <Compile Include="Model\TargetFramework.SafeSendGroup.cs" />
     <Compile Include="Model\TargetFramework.ServiceDefinition.cs" />
     <Compile Include="Model\TargetFramework.ServiceDefinitionDetail.cs" />
     <Compile Include="Model\TargetFramework.ServiceInterface.cs" />
@@ -810,9 +810,9 @@
     <Compile Include="Model\TargetFramework.UserAccountLoginSession.cs" />
     <Compile Include="Model\TargetFramework.UserAccountLoginSessionDatum.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisation.cs" />
-    <Compile Include="Model\TargetFramework.UserAccountOrganisationFunction.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationGroup.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationRole.cs" />
+    <Compile Include="Model\TargetFramework.UserAccountOrganisationSafeSendGroup.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationSecondaryUserType.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationStatus.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationStructure.cs" />

@@ -746,12 +746,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoId"></param>
 		/// <param name="orgId"></param>
 		/// <returns></returns>
-		Task<List<CreateConversationRecipientDTO>> GetUserFunctionsAsync(Guid uaoId,Guid orgId);
+		Task<List<CreateConversationRecipientDTO>> GetUserSafeSendGroupsAsync(Guid uaoId,Guid orgId);
 
 		/// <param name="uaoId"></param>
 		/// <param name="orgId"></param>
 		/// <returns></returns>
-		List<CreateConversationRecipientDTO> GetUserFunctions(Guid uaoId,Guid orgId);
+		List<CreateConversationRecipientDTO> GetUserSafeSendGroups(Guid uaoId,Guid orgId);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -1595,11 +1595,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		Task<List<UserAccountOrganisationFunctionDTO>> GetFunctionsAsync(Guid uaoID);
+		Task<List<UserAccountOrganisationSafeSendGroupDTO>> GetSafeSendGroupsAsync(Guid uaoID);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		List<UserAccountOrganisationFunctionDTO> GetFunctions(Guid uaoID);
+		List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroups(Guid uaoID);
 
 		/// <param name="uaoId"></param>
 		/// <param name="newUsername"></param>
@@ -3512,10 +3512,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoId"></param>
 		/// <param name="orgId"></param>
 		/// <returns></returns>
-		public virtual Task<List<CreateConversationRecipientDTO>> GetUserFunctionsAsync(Guid uaoId,Guid orgId)
+		public virtual Task<List<CreateConversationRecipientDTO>> GetUserSafeSendGroupsAsync(Guid uaoId,Guid orgId)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserFunctions?uaoId=" + uaoId + "&orgId=" + orgId, _user);
+			return GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserSafeSendGroups?uaoId=" + uaoId + "&orgId=" + orgId, _user);
 		}
 
 		/// <summary>
@@ -3523,10 +3523,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoId"></param>
 		/// <param name="orgId"></param>
-		public virtual List<CreateConversationRecipientDTO> GetUserFunctions(Guid uaoId,Guid orgId)
+		public virtual List<CreateConversationRecipientDTO> GetUserSafeSendGroups(Guid uaoId,Guid orgId)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserFunctions?uaoId=" + uaoId + "&orgId=" + orgId, _user)).Result;
+			return Task.Run(() => GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserSafeSendGroups?uaoId=" + uaoId + "&orgId=" + orgId, _user)).Result;
 		}
 
 		#endregion
@@ -5781,20 +5781,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		public virtual Task<List<UserAccountOrganisationFunctionDTO>> GetFunctionsAsync(Guid uaoID)
+		public virtual Task<List<UserAccountOrganisationSafeSendGroupDTO>> GetSafeSendGroupsAsync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<UserAccountOrganisationFunctionDTO>>("api/UserLogic/GetFunctions?uaoID=" + uaoID, _user);
+			return GetAsync<List<UserAccountOrganisationSafeSendGroupDTO>>("api/UserLogic/GetSafeSendGroups?uaoID=" + uaoID, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual List<UserAccountOrganisationFunctionDTO> GetFunctions(Guid uaoID)
+		public virtual List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroups(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<UserAccountOrganisationFunctionDTO>>("api/UserLogic/GetFunctions?uaoID=" + uaoID, _user)).Result;
+			return Task.Run(() => GetAsync<List<UserAccountOrganisationSafeSendGroupDTO>>("api/UserLogic/GetSafeSendGroups?uaoID=" + uaoID, _user)).Result;
 		}
 
 		/// <summary>

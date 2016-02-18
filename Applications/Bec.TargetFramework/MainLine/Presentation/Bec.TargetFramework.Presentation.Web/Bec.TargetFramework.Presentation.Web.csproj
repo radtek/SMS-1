@@ -919,6 +919,7 @@
     <Content Include="Areas\Lender\Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_bankAccountChecksDetailsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\OrganisationSetting\EditOrganisationSettings.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Users\_RegisteredDetailsTmpl.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

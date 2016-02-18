@@ -21,7 +21,7 @@ namespace Bec.TargetFramework.Entities
     {
         public Guid OrganisationID { get; set; }
         public Guid Value { get; set; }
-        public bool IsFunction { get; set; }
+        public bool IsSafeSendGroup { get; set; }
 
         public string Display { get; set; }
         public string Hash { get; set; }

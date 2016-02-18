@@ -47,7 +47,7 @@ namespace Bec.TargetFramework.Entities
             target.NotificationStatusID = source.NotificationStatusID;
             target.ConversationID = source.ConversationID;
             target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
-            target.CreatedByFunctionID = source.CreatedByFunctionID;
+            target.CreatedBySafeSendGroupID = source.CreatedBySafeSendGroupID;
 
             // Navigation Properties
             if (level > 0) {
@@ -91,7 +91,7 @@ namespace Bec.TargetFramework.Entities
             target.NotificationStatusID = source.NotificationStatusID;
             target.ConversationID = source.ConversationID;
             target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
-            target.CreatedByFunctionID = source.CreatedByFunctionID;
+            target.CreatedBySafeSendGroupID = source.CreatedBySafeSendGroupID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

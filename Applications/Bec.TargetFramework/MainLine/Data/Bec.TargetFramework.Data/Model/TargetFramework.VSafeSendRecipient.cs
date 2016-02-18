@@ -78,9 +78,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for IsFunction in the schema.
+        /// There are no comments for OrganisationTypeName in the schema.
         /// </summary>
-        public virtual bool IsFunction
+        public virtual string OrganisationTypeName
         {
             get;
             set;
@@ -88,9 +88,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for OrganisationTypeName in the schema.
+        /// There are no comments for IsSafeSendGroup in the schema.
         /// </summary>
-        public virtual string OrganisationTypeName
+        public virtual bool IsSafeSendGroup
         {
             get;
             set;

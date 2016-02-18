@@ -40,7 +40,7 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.ConversationParticipants = source.ConversationParticipants.ToDtosWithRelated(level - 1);
               target.Notifications = source.Notifications.ToDtosWithRelated(level - 1);
-              target.ConversationFunctionParticipants = source.ConversationFunctionParticipants.ToDtosWithRelated(level - 1);
+              target.ConversationSafeSendGroupParticipants = source.ConversationSafeSendGroupParticipants.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

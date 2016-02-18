@@ -34,7 +34,7 @@
         participantsUrl: viewMessagesContainer.data("participants-url"),
         uploadUrl: viewMessagesContainer.data("upload-url"),
         removeUploadUrl: viewMessagesContainer.data("remove-upload-url"),
-        functionsUrl: viewMessagesContainer.data("functions-url")
+        safesendgroupsUrl: viewMessagesContainer.data("safesendgroups-url")
     };
 
     var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
@@ -44,8 +44,8 @@
     var createConversationTemplatePromise = getTemplatePromise('_createConversationTmpl');
 
     var getRecipientsPromise = $.Deferred();
-    var getFunctionsPromise = ajaxWrapper({
-        url: urls.functionsUrl
+    var getSafeSendGroupsPromise = ajaxWrapper({
+        url: urls.safesendgroupsUrl
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
             showtoastrError();
@@ -235,14 +235,14 @@
             }
             var messagesSpinner = getMessagesSpinner();
             messagesSpinner.show();
-            getFunctionsPromise.done(function (functions) {
+            getSafeSendGroupsPromise.done(function (safesendgroups) {
                 $.when(createConversationTemplatePromise, getRecipientsPromise).done(function (template, recipientsResponse) {
                     var templateData = {
                         activityType: currentActivity.activityType,
                         activityId: currentActivity.activityId,
                         recipients: recipientsResponse[0],
-                        showFrom: functions.length > 1,
-                        from: functions
+                        showFrom: safesendgroups.length > 1,
+                        from: safesendgroups
                     };
                     var html = template(templateData);
                     messagesList.html(html);
@@ -564,12 +564,12 @@
 
     function compileTemplates(participantsAjax, messages) {
         currentConversation.participants = participantsAjax[0];
-        getFunctionsPromise.done(function (functions) {
+        getSafeSendGroupsPromise.done(function (safesendgroups) {
             messagesTemplatePromise.done(function (template) {
                 var html = $(template({
                     conversation: currentConversation,
-                    showFrom: functions.length > 1,
-                    from: functions
+                    showFrom: safesendgroups.length > 1,
+                    from: safesendgroups
                 }));
                 populateContainer(html.find('#itemsContainer'), messages);
                 messagesList.html(html);
