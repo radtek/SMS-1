@@ -61,6 +61,19 @@ $(function () {
             },
             {
                 field: "",
+                title: "Decision",
+                template: function (dataItem) {
+                    if (dataItem.Invoice) {
+                        return 'Purchased';
+                    } else if (dataItem.ProductDeclinedOn) {
+                        return 'Declined';
+                    } else {
+                        return '';
+                    }
+                }
+            },
+            {
+                field: "",
                 title: "Safe Buyer No Matches",
                 template: function (dataItem) {
                     var noMatchResultsCount = _.sum(
