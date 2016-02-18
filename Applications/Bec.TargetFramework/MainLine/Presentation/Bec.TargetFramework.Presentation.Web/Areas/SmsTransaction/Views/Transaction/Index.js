@@ -66,6 +66,19 @@
             },
             {
                 field: "",
+                title: "Decision",
+                template: function (dataItem) {
+                    if (dataItem.SmsTransaction.Invoice) {
+                        return 'Purchased';
+                    } else if (dataItem.SmsTransaction.ProductDeclinedOn) {
+                        return 'Declined';
+                    } else {
+                        return '';
+                    }
+                }
+            },
+            {
+                field: "",
                 title: "Safe Buyer No Matches",
                 template: function (dataItem) {
                     var noMatchResultsCount = _.sum(
