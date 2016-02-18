@@ -1098,5 +1098,14 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveChangesAsync();
             }
         }
+
+        public bool IsSafeSendEnabled(Guid organisationID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var setting = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationSettings.Where(x => x.OrganisationID == organisationID && x.Name == "SafeSendEnabled").FirstOrDefault();
+                return setting != null && setting.Value == "true";
+            }
+        }
     }
 }

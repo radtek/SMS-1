@@ -32,7 +32,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             if (selectedTransactionId.HasValue)
             {
                 var model = await GetUaots(selectedTransactionId.Value);
-                return View(model.FirstOrDefault());
+                var uaot = model.FirstOrDefault();
+                ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
+                return View(uaot);
             }
             else
             {

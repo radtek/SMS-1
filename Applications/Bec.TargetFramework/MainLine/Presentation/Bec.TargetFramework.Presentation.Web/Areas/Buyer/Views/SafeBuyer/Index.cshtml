@@ -169,7 +169,7 @@
                             </div>
 
                             <div class="tab-pane padding-10" id="safeSendPanel">
-                                @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false, CanCreateNewConversation = true, ActivityId = Model.SmsTransactionID, ActivityType = ActivityType.SmsTransaction, Enabled = Model.SmsTransaction.InvoiceID.HasValue })
+                                @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false, CanCreateNewConversation = true, ActivityId = Model.SmsTransactionID, ActivityType = ActivityType.SmsTransaction, Enabled = Model.SmsTransaction.InvoiceID.HasValue && (bool)ViewBag.OrganisationSafeSendEnabled })
                             </div>
                         </div>
                     </div>
