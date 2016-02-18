@@ -9,18 +9,19 @@
             }
         })
     }
-
     function getStepCallouts(callouts) {
         var step = [];
         if (callouts != null && callouts.length > 0) {
             step.push({
-                intro: "<h4>There are some changes in this version</h4>. <p> Click next to see details",
+                intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title" style="font-size:15px">There are some changes in this version</h4></div><div class="modal-body"  style="padding: 5px !important;">Click next to see details</div><div class="modal-footer"  style="padding: 5px !important;"></div>',
+                position: 'top'
+               
             })
             for (i = 0; i < callouts.length; i++) {
                 if ($(callouts[i].Selector).length > 0) {
                     step.push({
                         element: callouts[i].Selector,
-                        intro: '<h4>' + callouts[i].Title + '</h4><p>' + callouts[i].Description + '</p>',
+                        intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + callouts[i].Title + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + callouts[i].Description + '</div><div class="modal-footer"  style="padding: 5px !important;"></div>',
                         position: getPosition(callouts[i].Position)
                     })
                 }
@@ -32,7 +33,8 @@
     function startIntro(callouts) {
         var intro = introJs();
         intro.setOptions({
-            showStepNumbers: false, overlayOpacity: 0.3,
+            showStepNumbers: false, disableInteraction: true, exitOnOverlayClick: false,
+            overlayOpacity: 0.1,
             steps: getStepCallouts(callouts)
         });
         intro.oncomplete(function () {

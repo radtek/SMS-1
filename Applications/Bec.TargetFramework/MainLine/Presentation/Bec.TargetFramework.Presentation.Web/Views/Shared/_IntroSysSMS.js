@@ -18,7 +18,7 @@ function getSteps(items) {
     $.each(items, function (i, item) {
         steps.push({
             element: item.ItemSelector,
-            intro: item.ItemDescription,
+            intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + 'The title of this' + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + item.ItemDescription + '</div><div class="modal-footer"  style="padding: 5px !important;"></div>',
             position: getPosition(item.ItemPosition),
         });
     });
@@ -40,7 +40,7 @@ function startSysSMH(items) {
             showStepNumbers: false,
             scrollToElement: false,
             disableInteraction: false,
-            overlayOpacity: 0.3,
+            overlayOpacity: 0.1,
             steps: stepList
         });
 
