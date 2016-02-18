@@ -42,7 +42,7 @@
 <h5>Other Details</h5>
 {{/xif}}
 <dl class="dl-horizontal">
-    {{#if Confirmed}}
+    {{#if SmsTransaction.LenderName}}
     <dt>Mortgage Lender:</dt>
     <dd>
         <p>
@@ -53,6 +53,8 @@
             {{/if}}
         </p>
     </dd>
+    {{/if}}
+    {{#if SmsTransaction.MortgageApplicationNumber}}
     <dt>Mortgage Application No:</dt>
     <dd>
         <p>
@@ -63,12 +65,12 @@
             {{/if}}
         </p>
     </dd>
+    {{/if}}
     {{#if SmsTransaction.Price}}
     <dt>Purchase Price:</dt>
     <dd><p>{{purchasePrice}}</p></dd>
     {{/if}}
 </dl>
-{{/if}}
 {{#xif "this.SmsTransaction.IsProductAdvised == false && this.SmsTransaction.InvoiceID == null"}}
 <div class="pull-right">
     <a class="btn btn-sm btn-primary" data-modallink="true" title="Advise Buyer To Use Safe Buyer Product"

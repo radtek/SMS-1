@@ -68,21 +68,11 @@ function validateRegisterSubmit(form) {
 }
 
 function initAddTradingNames() {
-
-    lenders = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: $('#registerlender-form').data("lender-search-url") + '?search=%QUERY',
-            wildcard: '%QUERY',
-            transform: function (response) {
-                return response.Items;
-            }
-        }
+    
+    var lenderSearchUrl = $('#registerlender-form').data("lender-search-url");
+    $('#companyName, input[name="TradingNames[0]').lenderSearch({
+        searchUrl: lenderSearchUrl
     });
-
-    setupTypeahead('#companyName');
-    setupTypeahead('input[name="TradingNames[0]');
 
     var index = 1;
     var tradingNameTemplatePromise = $.Deferred();
@@ -109,7 +99,10 @@ function initAddTradingNames() {
 
                 var sel = 'input[name="TradingNames[' + (index - 1) + ']';
                 $(sel).focus();
-                setupTypeahead(sel);
+
+                $(sel).lenderSearch({
+                    searchUrl: lenderSearchUrl
+                });
             });
         }
 
@@ -132,23 +125,6 @@ function initAddTradingNames() {
         event.preventDefault();
         return false;
     });
-}
-
-function setupTypeahead(selector) {
-    $(selector).typeahead({
-        minLength: 1,
-        highlight: true,
-        hint: false
-    }, {
-        display: 'Name',
-        source: lenders
-    })
-   .on('typeahead:asyncrequest', function () {
-       $('#lenderSearch').parent().siblings('.typeahead-spinner').show();
-   })
-   .on('typeahead:asynccancel typeahead:asyncreceive', function () {
-       $('#lenderSearch').parent().siblings('.typeahead-spinner').hide();
-   });
 }
 
 function renumberInputs(inputsSelector, prefix) {

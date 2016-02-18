@@ -281,10 +281,11 @@
                                                     <section class="col col-sm-6">
                                                         <label class="label">Buying with Mortgage</label>
                                                         <label class="select">
+                                                            @{ var buyingWithMortgage = !string.IsNullOrWhiteSpace(Model.SmsTransaction.LenderName); }
                                                             <select name="BuyingWithMortgageSelect" id="BuyingWithMortgageSelect">
                                                                 <option value="">Please Select</option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="0">No</option>
+                                                                <option value="1" @(buyingWithMortgage ? "selected=\"selected\"" : "")>Yes</option>
+                                                                <option value="0" @(!buyingWithMortgage ? "selected=\"selected\"" : "")>No</option>
                                                             </select>
                                                             <i></i>
                                                         </label>
@@ -376,4 +377,5 @@
 </div>
 
 @Scripts.Render("~/Scripts/typeahead")
+@Scripts.Render("~/Scripts/lendersearch")
 <script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_ConfirmDetails")"></script>
