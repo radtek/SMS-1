@@ -900,24 +900,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean CheckDuplicateUserSmsTransaction(Guid orgID,String email,SmsTransactionDTO dto);
 
-		/// <param name="salutation"></param>
-		/// <param name="firstName"></param>
-		/// <param name="lastName"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="birthDate"></param>
-		/// <returns></returns>
-		Task<Guid> AddSmsClientAsync(String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
-
-		/// <param name="salutation"></param>
-		/// <param name="firstName"></param>
-		/// <param name="lastName"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="birthDate"></param>
-		/// <returns></returns>
-		Guid AddSmsClient(String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
-
 		/// <param name="txID"></param>
 		/// <returns></returns>
 		Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyUaoIdsAsync(Guid txID);
@@ -1035,6 +1017,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notes"></param>
 		/// <returns></returns>
 		void AddNotes(Guid orgID,Guid uaoID,String notes);
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Task<Boolean> IsSafeSendEnabledAsync(Guid organisationID);
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Boolean IsSafeSendEnabled(Guid organisationID);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -3925,47 +3915,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="salutation"></param>
-		/// <param name="firstName"></param>
-		/// <param name="lastName"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="birthDate"></param>
-		/// <returns></returns>
-		public virtual Task<Guid> AddSmsClientAsync(String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
-		{
-			salutation = salutation.UrlEncode();
-			firstName = firstName.UrlEncode();
-			lastName = lastName.UrlEncode();
-			email = email.UrlEncode();
-			phoneNumber = phoneNumber.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="salutation"></param>
-		/// <param name="firstName"></param>
-		/// <param name="lastName"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="birthDate"></param>
-		public virtual Guid AddSmsClient(String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
-		{
-			salutation = salutation.UrlEncode();
-			firstName = firstName.UrlEncode();
-			lastName = lastName.UrlEncode();
-			email = email.UrlEncode();
-			phoneNumber = phoneNumber.UrlEncode();
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="txID"></param>
 		/// <returns></returns>
 		public virtual Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyUaoIdsAsync(Guid txID)
@@ -4228,6 +4177,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddNotes?orgID=" + orgID + "&uaoID=" + uaoID + "&notes=" + notes, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> IsSafeSendEnabledAsync(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeSendEnabled?organisationID=" + organisationID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		public virtual Boolean IsSafeSendEnabled(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeSendEnabled?organisationID=" + organisationID, null, _user)).Result;
 		}
 
 		#endregion
