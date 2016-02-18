@@ -1,4 +1,5 @@
 ﻿var iGrid;
+var registeredTemplatePromise;
 $(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
     iGrid = new gridItem(
@@ -34,6 +35,12 @@ $(function () {
             ]
         });
 
+    registeredTemplatePromise = $.Deferred();
+    ajaxWrapper(
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_RegisteredDetailsTmpl', 'Users', 'ProOrganisation') }
+    ).done(function (res) {
+        registeredTemplatePromise.resolve(Handlebars.compile(res));
+    });
 
     iGrid.makeGrid();
     findModalLinks();
@@ -41,8 +48,9 @@ $(function () {
 
 //data binding for the panes beneath each grid
 function rChange(dataItem) {
-    $("p#ddName").text(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
-    $("p#ddEmail").text(dataItem.UserAccount.Email || "");
-
-    $("#editButton").data('href', $("#editButton").data("url") + "?uaoID=" + dataItem.UserAccountOrganisationID);
+    dataItem.Contact.FullName = dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName;
+    registeredTemplatePromise.done(function (template) {
+        var html = template(dataItem);
+        $('#rPanel').html(html);
+    });
 }

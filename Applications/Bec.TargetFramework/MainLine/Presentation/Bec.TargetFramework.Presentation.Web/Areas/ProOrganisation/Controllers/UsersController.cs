@@ -53,8 +53,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.UserAccount.Created,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
-                x.Contact.LastName
-            }, true);
+                x.Contact.LastName,
+                rv1 = x.RowVersion,
+                rv2 = x.UserAccount.RowVersion,
+                rv3 = x.Contact.RowVersion,
+                roles = x.UserAccountOrganisationRoles.Select(y => new { y.OrganisationRole.RoleName }),
+                groups = x.UserAccountOrganisationSafeSendGroups.Select(y => new { y.SafeSendGroup.Name })
+            });
 
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x =>
                 !x.UserAccount.IsDeleted &&
