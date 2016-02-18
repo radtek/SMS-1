@@ -1,94 +1,94 @@
 ﻿
-CREATE TABLE public."Function" (
-  "FunctionID" UUID NOT NULL,
+CREATE TABLE public."SafeSendGroup" (
+  "SafeSendGroupID" UUID NOT NULL,
   "OrganisationTypeID" INTEGER NOT NULL,
   "Name" VARCHAR(100) NOT NULL UNIQUE,
-  PRIMARY KEY("FunctionID")
+  PRIMARY KEY("SafeSendGroupID")
 );
 
-ALTER TABLE public."Function"
-  ADD CONSTRAINT "Function_OrganisationType_fk" FOREIGN KEY ("OrganisationTypeID")
+ALTER TABLE public."SafeSendGroup"
+  ADD CONSTRAINT "SafeSendGroup_OrganisationType_fk" FOREIGN KEY ("OrganisationTypeID")
     REFERENCES public."OrganisationType"("OrganisationTypeID")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
-  ON public."Function" TO postgres;
+  ON public."SafeSendGroup" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
-  ON public."Function" TO bef;
+  ON public."SafeSendGroup" TO bef;
 
 -- =============
 
-CREATE TABLE public."UserAccountOrganisationFunction" (
+CREATE TABLE public."UserAccountOrganisationSafeSendGroup" (
   "UserAccountOrganisationID" UUID NOT NULL,
-  "FunctionID" UUID NOT NULL,
+  "SafeSendGroupID" UUID NOT NULL,
   "IsActive" BOOLEAN DEFAULT true NOT NULL,
   "IsDeleted" BOOLEAN DEFAULT false NOT NULL,
-  PRIMARY KEY("UserAccountOrganisationID", "FunctionID")
+  PRIMARY KEY("UserAccountOrganisationID", "SafeSendGroupID")
 ) ;
 
-ALTER TABLE public."UserAccountOrganisationFunction"
-  ADD CONSTRAINT "UserAccountOrganisationFunction_UserAccountOrganisation_fk" FOREIGN KEY ("UserAccountOrganisationID")
+ALTER TABLE public."UserAccountOrganisationSafeSendGroup"
+  ADD CONSTRAINT "UserAccountOrganisationSafeSendGroup_UserAccountOrganisation_fk" FOREIGN KEY ("UserAccountOrganisationID")
     REFERENCES public."UserAccountOrganisation"("UserAccountOrganisationID")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 
-ALTER TABLE public."UserAccountOrganisationFunction"
-  ADD CONSTRAINT "UserAccountOrganisationFunction_Function_fk" FOREIGN KEY ("FunctionID")
-    REFERENCES public."Function"("FunctionID")
+ALTER TABLE public."UserAccountOrganisationSafeSendGroup"
+  ADD CONSTRAINT "UserAccountOrganisationSafeSendGroup_SafeSendGroup_fk" FOREIGN KEY ("SafeSendGroupID")
+    REFERENCES public."SafeSendGroup"("SafeSendGroupID")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
-  ON public."UserAccountOrganisationFunction" TO postgres;
+  ON public."UserAccountOrganisationSafeSendGroup" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
-  ON public."UserAccountOrganisationFunction" TO bef;
+  ON public."UserAccountOrganisationSafeSendGroup" TO bef;
 
 -- =============
 
-CREATE TABLE public."ConversationFunctionParticipant" (
+CREATE TABLE public."ConversationSafeSendGroupParticipant" (
   "ConversationID" UUID NOT NULL,
   "OrganisationID" UUID NOT NULL,
-  "FunctionID" UUID NOT NULL,
+  "SafeSendGroupID" UUID NOT NULL,
   "Added" TIMESTAMP(0) WITH TIME ZONE DEFAULT now() NOT NULL,
-  PRIMARY KEY("ConversationID", "FunctionID")
+  PRIMARY KEY("ConversationID", "SafeSendGroupID")
 );
 
-ALTER TABLE public."ConversationFunctionParticipant"
-  ADD CONSTRAINT "ConversationFunctionParticipant_Conversation_fk" FOREIGN KEY ("ConversationID")
+ALTER TABLE public."ConversationSafeSendGroupParticipant"
+  ADD CONSTRAINT "ConversationSafeSendGroupParticipant_Conversation_fk" FOREIGN KEY ("ConversationID")
     REFERENCES public."Conversation"("ConversationID")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 
-ALTER TABLE public."ConversationFunctionParticipant"
-  ADD CONSTRAINT "ConversationFunctionParticipant_Organisation_fk" FOREIGN KEY ("OrganisationID")
+ALTER TABLE public."ConversationSafeSendGroupParticipant"
+  ADD CONSTRAINT "ConversationSafeSendGroupParticipant_Organisation_fk" FOREIGN KEY ("OrganisationID")
     REFERENCES public."Organisation"("OrganisationID")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
     
-ALTER TABLE public."ConversationFunctionParticipant"
-  ADD CONSTRAINT "ConversationFunctionParticipant_Function_fk" FOREIGN KEY ("FunctionID")
-    REFERENCES public."Function"("FunctionID")
+ALTER TABLE public."ConversationSafeSendGroupParticipant"
+  ADD CONSTRAINT "ConversationSafeSendGroupParticipant_SafeSendGroup_fk" FOREIGN KEY ("SafeSendGroupID")
+    REFERENCES public."SafeSendGroup"("SafeSendGroupID")
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
-  ON public."ConversationFunctionParticipant" TO postgres;
+  ON public."ConversationSafeSendGroupParticipant" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
-  ON public."ConversationFunctionParticipant" TO bef;
+  ON public."ConversationSafeSendGroupParticipant" TO bef;
 
 -- =============
 
-INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Mortgage Offer');
-INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Valuation/Security Risk Reporting');
-INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Fraud Risk Reporting');
-INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Certificate of Title');
-INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Redemption Statement');
-INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Title Information Document');
-INSERT INTO public."Function"("FunctionID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Requisitions at HMLR');
+INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Mortgage Offer');
+INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Valuation/Security Risk Reporting');
+INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Fraud Risk Reporting');
+INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Certificate of Title');
+INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Redemption Statement');
+INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Title Information Document');
+INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Requisitions at HMLR');

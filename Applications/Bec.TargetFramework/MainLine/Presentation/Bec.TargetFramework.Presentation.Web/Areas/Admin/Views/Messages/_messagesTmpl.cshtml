@@ -13,7 +13,7 @@
     <span class="text-muted">Participants:</span>
     <span>
         {{#each conversation.participants}}
-            {{#if IsFunction}}
+            {{#if IsSafeSendGroup}}
                 {{OrganisationName}} > {{FirstName}};
             {{else}}
                 {{#if IsProfessionalOrganisation}}{{OrganisationName}} > {{/if}}

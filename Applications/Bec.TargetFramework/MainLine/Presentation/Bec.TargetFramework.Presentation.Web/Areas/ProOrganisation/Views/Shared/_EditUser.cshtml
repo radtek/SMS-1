@@ -70,20 +70,20 @@
 
                                 </section>
 
-                                @if (((IEnumerable<FunctionEditEntry>)ViewBag.Functions).Any())
+                                @if (((IEnumerable<SafeSendGroupEditEntry>)ViewBag.SafeSendGroups).Any())
                                 {
                                     <section>
-                                        <label class="label">Functions</label>
-                                        @foreach (FunctionEditEntry function in ViewBag.Functions)
+                                        <label class="label">Safe Send Groups</label>
+                                        @foreach (SafeSendGroupEditEntry safesendgroup in ViewBag.SafeSendGroups)
                                         {
                                             <label class="checkbox">
-                                                <input type="checkbox" name="Model.UserAccountOrganisationFunctions[@function.Index].Selected" 
-                                                       id="Model.UserAccountOrganisationFunctions[@function.Index].Selected" 
-                                                       @(function.IsChecked ? "checked" : "")
+                                                <input type="checkbox" name="Model.UserAccountOrganisationSafeSendGroups[@safesendgroup.Index].Selected" 
+                                                       id="Model.UserAccountOrganisationSafeSendGroups[@safesendgroup.Index].Selected" 
+                                                       @(safesendgroup.IsChecked ? "checked" : "")
                                                        class="role-checkbox" />
-                                                <input name="Model.UserAccountOrganisationFunctions[@function.Index].FunctionID" type="hidden" value="@function.FunctionID" />
+                                                <input name="Model.UserAccountOrganisationSafeSendGroups[@safesendgroup.Index].SafeSendGroupID" type="hidden" value="@safesendgroup.SafeSendGroupID" />
                                                 <i></i>
-                                                <label for="Model.UserAccountOrganisationFunctions[@function.Index].Selected">@function.Name</label>
+                                                <label for="Model.UserAccountOrganisationSafeSendGroups[@safesendgroup.Index].Selected">@safesendgroup.Name</label>
                                             </label>
                                         }
                                     </section>

@@ -127,13 +127,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filter = ODataHelper.Filter<ConversationParticipantDTO>(x => x.ConversationID == conversationId);
             var data = await QueryClient.QueryAsync<ConversationParticipantDTO>("ConversationParticipants", select + filter);
 
-            var selectF = ODataHelper.Select<ConversationFunctionParticipantDTO>(x => new
+            var selectF = ODataHelper.Select<ConversationSafeSendGroupParticipantDTO>(x => new
             {
-                x.Function.Name,
+                x.SafeSendGroup.Name,
                 Names = x.Organisation.OrganisationDetails.Select(y => new { y.Name })
             });
-            var filterF = ODataHelper.Filter<ConversationFunctionParticipantDTO>(x => x.ConversationID == conversationId);
-            var dataF = await QueryClient.QueryAsync<ConversationFunctionParticipantDTO>("ConversationFunctionParticipants", selectF + filterF);
+            var filterF = ODataHelper.Filter<ConversationSafeSendGroupParticipantDTO>(x => x.ConversationID == conversationId);
+            var dataF = await QueryClient.QueryAsync<ConversationSafeSendGroupParticipantDTO>("ConversationSafeSendGroupParticipants", selectF + filterF);
 
             //then: ui changes (from drop down if applicable)
             //then: GetRecipients lender <--> conveyancer + ui
@@ -146,8 +146,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 OrganisationName = x.UserAccountOrganisation.Organisation.OrganisationDetails.First().Name
             }).Concat(dataF.Select(x => new ParticipantDTO
             {
-                IsFunction = true,
-                FirstName = x.Function.Name,
+                IsSafeSendGroup = true,
+                FirstName = x.SafeSendGroup.Name,
                 OrganisationName = x.Organisation.OrganisationDetails.First().Name
             }));
             return Json(dtos, JsonRequestBehavior.AllowGet);
@@ -249,11 +249,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     if (!participants.Any(x => x.UserAccountOrganisation.OrganisationID == orgId)) return false;
                     break;
                 case "Lender":
-                    //exact uao or in function
-                    var selectF = ODataHelper.Select<ConversationFunctionParticipantDTO>(x => new { x.OrganisationID, uaos = x.Function.UserAccountOrganisationFunctions.Select(y=>new{y.UserAccountOrganisationID, y.UserAccountOrganisation.OrganisationID}) });
-                    var filterF = ODataHelper.Filter<ConversationFunctionParticipantDTO>(x => x.ConversationID == conversationId);
-                    var participantsF = await QueryClient.QueryAsync<ConversationFunctionParticipantDTO>("ConversationFunctionParticipants", selectF + filterF);
-                    if (!participants.Any(x => x.UserAccountOrganisationID == uaoID) && !participantsF.Any(x => x.OrganisationID == orgId && x.Function.UserAccountOrganisationFunctions.Any(y => y.UserAccountOrganisationID == uaoID && y.UserAccountOrganisation.OrganisationID == orgId))) return false;
+                    //exact uao or in SafeSendGroup
+                    var selectF = ODataHelper.Select<ConversationSafeSendGroupParticipantDTO>(x => new { x.OrganisationID, uaos = x.SafeSendGroup.UserAccountOrganisationSafeSendGroups.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.OrganisationID }) });
+                    var filterF = ODataHelper.Filter<ConversationSafeSendGroupParticipantDTO>(x => x.ConversationID == conversationId);
+                    var participantsF = await QueryClient.QueryAsync<ConversationSafeSendGroupParticipantDTO>("ConversationSafeSendGroupParticipants", selectF + filterF);
+                    if (!participants.Any(x => x.UserAccountOrganisationID == uaoID) && !participantsF.Any(x => x.OrganisationID == orgId && x.SafeSendGroup.UserAccountOrganisationSafeSendGroups.Any(y => y.UserAccountOrganisationID == uaoID && y.UserAccountOrganisation.OrganisationID == orgId))) return false;
                     break;
                 default:
                     //only exact uao
@@ -406,10 +406,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             await FileClient.RemovePendingUploadAsync(uaoId, id, filename);
         }
 
-        public async Task<ActionResult> GetUserFunctions()
+        public async Task<ActionResult> GetUserSafeSendGroups()
         {
             var wc = WebUserHelper.GetWebUserObject(HttpContext);
-            var ret = await NotificationClient.GetUserFunctionsAsync(wc.UaoID, wc.OrganisationID);
+            var ret = await NotificationClient.GetUserSafeSendGroupsAsync(wc.UaoID, wc.OrganisationID);
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
 

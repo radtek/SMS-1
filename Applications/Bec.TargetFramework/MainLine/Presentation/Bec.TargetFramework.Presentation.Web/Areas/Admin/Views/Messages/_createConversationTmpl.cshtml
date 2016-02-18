@@ -29,7 +29,7 @@
                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 <select class="select2 form-control" id="conversationRecipients" multiple name="RecipientHashes" tabindex="1">
                     {{#each recipients}}
-                    {{#if FunctionID}}
+                    {{#if SafeSendGroupID}}
                         <option value="{{Hash}}">{{OrganisationName}} > {{FirstName}}</option>
                     {{else}}
                         <option value="{{Hash}}">{{#if OrganisationName}}{{OrganisationName}} > {{/if}}{{FirstName}} {{LastName}}</option>

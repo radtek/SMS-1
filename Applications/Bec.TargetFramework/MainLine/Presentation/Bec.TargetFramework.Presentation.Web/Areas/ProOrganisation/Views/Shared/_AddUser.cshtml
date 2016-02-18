@@ -64,16 +64,16 @@
                                         </label>
                                     }
                                 </section>
-                                @if (((IEnumerable<FunctionDTO>)ViewBag.Functions).Any())
+                                @if (((IEnumerable<SafeSendGroupDTO>)ViewBag.SafeSendGroups).Any())
                                 {
                                     <section>
-                                        <label class="label">Functions</label>
-                                        @foreach (FunctionDTO function in ViewBag.Functions)
+                                        <label class="label">Safe Send Groups</label>
+                                        @foreach (SafeSendGroupDTO safesendgroup in ViewBag.SafeSendGroups)
                                         {
                                             <label class="checkbox ">
-                                                <input type="checkbox" id="function-@function.FunctionID" name="function-@function.FunctionID" />
+                                                <input type="checkbox" id="safesendgroup-@safesendgroup.SafeSendGroupID" name="safesendgroup-@safesendgroup.SafeSendGroupID" />
                                                 <i></i>
-                                                <label for="function-@function.FunctionID">@function.Name</label>
+                                                <label for="safesendgroup-@safesendgroup.SafeSendGroupID">@safesendgroup.Name</label>
                                             </label>
                                         }
                                     </section>

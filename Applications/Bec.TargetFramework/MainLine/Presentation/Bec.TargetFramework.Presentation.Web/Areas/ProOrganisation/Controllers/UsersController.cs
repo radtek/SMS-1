@@ -70,9 +70,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var allRoles = await GetAllRoles(orgID);
-            var allFunctions = await GetAllFunctions(orgID);
+            var allSafeSendGroups = await GetAllSafeSendGroups(orgID);
             ViewBag.Roles = allRoles;
-            ViewBag.Functions = allFunctions;
+            ViewBag.SafeSendGroup = allSafeSendGroups;
             return PartialView("_AddUser");
         }
 
@@ -85,7 +85,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var roles = Edit.ReadFormValues(Request, "role-", s => Guid.Parse(s), v => v == "on")
                 .Where(x => x.Value)
                 .Select(x => x.Key);
-            var functions = Edit.ReadFormValues(Request, "function-", s => Guid.Parse(s), v => v == "on")
+            var safeSendGroups = Edit.ReadFormValues(Request, "safesendgroup-", s => Guid.Parse(s), v => v == "on")
                 .Where(x => x.Value)
                 .Select(x => x.Key);
             var addNewUserDto = new AddNewUserToOrganisationDTO
@@ -94,7 +94,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 ContactDTO = contact,
                 UserType = UserTypeEnum.User,
                 AddDefaultRoles = false,
-                Functions = functions,
+                SafeSendGroups = safeSendGroups,
                 Roles = defaultRoles.Concat(roles)
             };
             var uao = await orgClient.AddNewUserToOrganisationAsync(addNewUserDto);
@@ -162,10 +162,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var userIsSRO = uao.UserType.Name == sroType;
             var rolesForEdit = await GetRolesForEdit(orgID, uaoID, userIsSRO);
-            var functionsForEdit = await GetFunctionsForEdit(orgID, uaoID);
+            var safeSendGroupsForEdit = await GetSafeSendGroupsForEdit(orgID, uaoID);
             ViewBag.UserIsSRO = userIsSRO;
             ViewBag.Roles = rolesForEdit;
-            ViewBag.Functions = functionsForEdit;
+            ViewBag.SafeSendGroups = safeSendGroupsForEdit;
 
             return PartialView("_EditUser", Edit.MakeModel(uao));
         }
@@ -186,12 +186,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 "UserAccount.RowVersion",
                 "UserAccountOrganisationRoles[].Selected",
                 "UserAccountOrganisationRoles[].OrganisationRoleID",
-                "UserAccountOrganisationFunctions[].Selected",
-                "UserAccountOrganisationFunctions[].FunctionID"
+                "UserAccountOrganisationSafeSendGroups[].Selected",
+                "UserAccountOrganisationSafeSendGroups[].SafeSendGroupID"
                 );
 
             data = await PrepareRolesBeforeSave(data, orgID, uaoID);
-            data = PrepareFunctionsBeforeSave(data);
+            data = PrepareSafeSendGroupsBeforeSave(data);
 
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
             await queryClient.UpdateGraphAsync("UserAccountOrganisations", data, filter);
@@ -207,19 +207,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             if (ret.Items.First.OrganisationID != orgID) throw new AccessViolationException("Operation failed");
         }
 
-        private async Task<IEnumerable<FunctionDTO>> GetAllFunctions(Guid orgID)
+        private async Task<IEnumerable<SafeSendGroupDTO>> GetAllSafeSendGroups(Guid orgID)
         {
             var orgSelect = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationTypeID });
             var orgFilter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
             var org = (await queryClient.QueryAsync<OrganisationDTO>("Organisations", orgSelect + orgFilter)).Single();
 
             var orgTypeID = org.OrganisationTypeID;
-            var select = ODataHelper.Select<FunctionDTO>(x => new { x.FunctionID, x.Name });
-            var filter = ODataHelper.Filter<FunctionDTO>(x => x.OrganisationTypeID == orgTypeID);
-            var orderby = ODataHelper.OrderBy<FunctionDTO>(x => new { x.Name });
-            var allFunctions = (await queryClient.QueryAsync<FunctionDTO>("Functions", select + filter + orderby)).ToList();
+            var select = ODataHelper.Select<SafeSendGroupDTO>(x => new { x.SafeSendGroupID, x.Name });
+            var filter = ODataHelper.Filter<SafeSendGroupDTO>(x => x.OrganisationTypeID == orgTypeID);
+            var orderby = ODataHelper.OrderBy<SafeSendGroupDTO>(x => new { x.Name });
+            var allSafeSendGroups = (await queryClient.QueryAsync<SafeSendGroupDTO>("SafeSendGroups", select + filter + orderby)).ToList();
 
-            return allFunctions;
+            return allSafeSendGroups;
         }
 
         private async Task<List<OrganisationRoleDTO>> GetAllRoles(Guid orgID)
@@ -285,23 +285,23 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return data;
         }
 
-        private JObject PrepareFunctionsBeforeSave(JObject data)
+        private JObject PrepareSafeSendGroupsBeforeSave(JObject data)
         {
-            var array = data["UserAccountOrganisationFunctions"] as JArray;
+            var array = data["UserAccountOrganisationSafeSendGroups"] as JArray;
             var toRemove = array.Where(x => x["Selected"] == null).ToList();
             foreach (var r in toRemove) array.Remove(r);
             return data;
         }
 
-        private async Task<IEnumerable<FunctionEditEntry>> GetFunctionsForEdit(Guid orgID, Guid uaoID)
+        private async Task<IEnumerable<SafeSendGroupEditEntry>> GetSafeSendGroupsForEdit(Guid orgID, Guid uaoID)
         {
-            var allFunctions = await GetAllFunctions(orgID);
-            var userFunctions = userClient.GetFunctions(uaoID);
-            var result = allFunctions.Select((f, i) => new FunctionEditEntry
+            var allSafeSendGroups = await GetAllSafeSendGroups(orgID);
+            var userSafeSendGroups = userClient.GetSafeSendGroups(uaoID);
+            var result = allSafeSendGroups.Select((f, i) => new SafeSendGroupEditEntry
             {
-                FunctionID = f.FunctionID,
+                SafeSendGroupID = f.SafeSendGroupID,
                 Index = i,
-                IsChecked = userFunctions.Any(u => u.FunctionID == f.FunctionID),
+                IsChecked = userSafeSendGroups.Any(u => u.SafeSendGroupID == f.SafeSendGroupID),
                 Name = f.Name
             });
             return result;

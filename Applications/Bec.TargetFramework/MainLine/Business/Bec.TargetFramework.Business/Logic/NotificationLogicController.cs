@@ -496,17 +496,17 @@ namespace Bec.TargetFramework.Business.Logic
                 }
 
                 conv.ConversationParticipants = new List<ConversationParticipant>();
-                conv.ConversationFunctionParticipants = new List<ConversationFunctionParticipant>();
+                conv.ConversationSafeSendGroupParticipants = new List<ConversationSafeSendGroupParticipant>();
 
-                if(from.IsFunction)
-                    conv.ConversationFunctionParticipants.Add(new ConversationFunctionParticipant { OrganisationID = from.OrganisationID, FunctionID = from.Value});
+                if (from.IsSafeSendGroup)
+                    conv.ConversationSafeSendGroupParticipants.Add(new ConversationSafeSendGroupParticipant { OrganisationID = from.OrganisationID, SafeSendGroupID = from.Value });
                 else
                     conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = uaoID });
 
                 foreach (var p in participants)
                 {
-                    if (p.IsFunction)
-                        conv.ConversationFunctionParticipants.Add(new ConversationFunctionParticipant { OrganisationID = p.OrganisationID, FunctionID = p.RelatedID });
+                    if (p.IsSafeSendGroup)
+                        conv.ConversationSafeSendGroupParticipants.Add(new ConversationSafeSendGroupParticipant { OrganisationID = p.OrganisationID, SafeSendGroupID = p.RelatedID });
                     else
                         conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p.RelatedID });
                 }
@@ -525,11 +525,11 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var recipients = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants
                     .Where(x => x.ConversationID == conversationID)
-                    .Select(x => new VSafeSendRecipientDTO { IsFunction = false, RelatedID = x.UserAccountOrganisationID, OrganisationID = Guid.Empty });
+                    .Select(x => new VSafeSendRecipientDTO { IsSafeSendGroup = false, RelatedID = x.UserAccountOrganisationID, OrganisationID = Guid.Empty });
 
-                recipients = recipients.Concat(scope.DbContexts.Get<TargetFrameworkEntities>().ConversationFunctionParticipants
+                recipients = recipients.Concat(scope.DbContexts.Get<TargetFrameworkEntities>().ConversationSafeSendGroupParticipants
                     .Where(x => x.ConversationID == conversationID)
-                    .Select(x => new VSafeSendRecipientDTO { IsFunction = true, RelatedID = x.FunctionID, OrganisationID = x.OrganisationID })
+                    .Select(x => new VSafeSendRecipientDTO { IsSafeSendGroup = true, RelatedID = x.SafeSendGroupID, OrganisationID = x.OrganisationID })
                     );
 
                 var from = GetSender(fromHash, uaoID);
@@ -571,15 +571,15 @@ namespace Bec.TargetFramework.Business.Logic
                 };
 
                 if (from == null) throw new Exception("Illegal sender");
-                if (from.IsFunction) n.CreatedByFunctionID = from.Value;
+                if (from.IsSafeSendGroup) n.CreatedBySafeSendGroupID = from.Value;
 
-                var uaoRecipients = recipients.Where(x => !x.IsFunction).Select(x => x.RelatedID);
-                foreach (var group in recipients.Where(x => x.IsFunction).GroupBy(x => x.OrganisationID).Select(x => new { Org = x.Key, Functions = x.Select(y => y.RelatedID).ToList() }))
+                var uaoRecipients = recipients.Where(x => !x.IsSafeSendGroup).Select(x => x.RelatedID);
+                foreach (var group in recipients.Where(x => x.IsSafeSendGroup).GroupBy(x => x.OrganisationID).Select(x => new { Org = x.Key, SafeSendGroups = x.Select(y => y.RelatedID).ToList() }))
                 {
-                    var functionUaoIDs = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions
-                        .Where(x => x.UserAccountOrganisation.OrganisationID == group.Org && group.Functions.Contains(x.FunctionID))
+                    var safeSendGroupUaoIDs = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationSafeSendGroups
+                        .Where(x => x.UserAccountOrganisation.OrganisationID == group.Org && group.SafeSendGroups.Contains(x.SafeSendGroupID))
                         .Select(x => x.UserAccountOrganisationID);
-                    uaoRecipients = uaoRecipients.Concat(functionUaoIDs);
+                    uaoRecipients = uaoRecipients.Concat(safeSendGroupUaoIDs);
                 }
 
                 uaoRecipients = uaoRecipients.Where(x => x != senderUaoID);
@@ -599,11 +599,11 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                     var orgId = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).OrganisationID;
-                    var functions = GetUserFunctions(senderUaoID, orgId);
+                    var safeSendGroups = GetUserSafeSendGroups(senderUaoID, orgId);
                     if (fromHash != null)
-                        return functions.SingleOrDefault(x => x.Hash == fromHash);
+                        return safeSendGroups.SingleOrDefault(x => x.Hash == fromHash);
                     else
-                        return functions.FirstOrDefault(x => !x.IsFunction && x.Value == senderUaoID);
+                        return safeSendGroups.FirstOrDefault(x => !x.IsSafeSendGroup && x.Value == senderUaoID);
             }
         }
 
@@ -650,7 +650,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var userOrgType = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).Organisation.OrganisationType.Name;
-                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsFunction || x.RelatedID != senderUaoID));
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsSafeSendGroup || x.RelatedID != senderUaoID));
                 switch (userOrgType)
                 {
                     case "Personal":
@@ -757,16 +757,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<CreateConversationRecipientDTO> GetUserFunctions(Guid uaoId, Guid orgId)
+        public List<CreateConversationRecipientDTO> GetUserSafeSendGroups(Guid uaoId, Guid orgId)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId);
-                var functions = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions.Where(x => x.UserAccountOrganisationID == uaoId);
+                var safeSendGroups = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationSafeSendGroups.Where(x => x.UserAccountOrganisationID == uaoId);
 
                 List<CreateConversationRecipientDTO> ret = new List<CreateConversationRecipientDTO>();
                 ret.Add(new CreateConversationRecipientDTO { Value = uaoId, Display = uao.Contact.FirstName + " " + uao.Contact.LastName });
-                ret.AddRange(functions.Select(x => new CreateConversationRecipientDTO { IsFunction = true, OrganisationID = orgId, Value = x.FunctionID, Display = x.Function.Name }));
+                ret.AddRange(safeSendGroups.Select(x => new CreateConversationRecipientDTO { IsSafeSendGroup = true, OrganisationID = orgId, Value = x.SafeSendGroupID, Display = x.SafeSendGroup.Name }));
 
                 foreach (var item in ret) item.Hash = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(item.OrganisationID.ToString() + item.Value.ToString())).Select(c => c.ToString("x2")));
                 return ret;

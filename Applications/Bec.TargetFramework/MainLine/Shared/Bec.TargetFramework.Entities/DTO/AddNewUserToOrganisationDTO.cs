@@ -11,7 +11,7 @@ namespace Bec.TargetFramework.Entities
         public ContactDTO ContactDTO { get; set; }
         public UserTypeEnum UserType { get; set; }
         public bool AddDefaultRoles { get; set; }
-        public IEnumerable<Guid> Functions { get; set; }
+        public IEnumerable<Guid> SafeSendGroups { get; set; }
         public IEnumerable<Guid> Roles { get; set; }
     }
 }

@@ -720,18 +720,18 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for ConversationFunctionParticipants in the schema.
+        /// There are no comments for Contact_AuthorityDelegatedByContactID in the schema.
         /// </summary>
-        public virtual ICollection<ConversationFunctionParticipant> ConversationFunctionParticipants
+        public virtual Contact Contact_AuthorityDelegatedByContactID
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for Contact_AuthorityDelegatedByContactID in the schema.
+        /// There are no comments for ConversationSafeSendGroupParticipants in the schema.
         /// </summary>
-        public virtual Contact Contact_AuthorityDelegatedByContactID
+        public virtual ICollection<ConversationSafeSendGroupParticipant> ConversationSafeSendGroupParticipants
         {
             get;
             set;

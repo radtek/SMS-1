@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public NotificationDTO() {
         }
 
-        public NotificationDTO(global::System.Guid notificationID, global::System.Nullable<System.Guid> fromParentID, global::System.DateTime dateSent, global::System.Nullable<System.Guid> parentID, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, global::System.Nullable<System.Guid> moduleNotificationConstructID, global::System.Nullable<int> moduleNotificationConstructVersionNumber, bool isSent, bool isActive, bool isDeleted, bool isInternal, bool isExternal, bool isVisible, string notificationData, global::System.Nullable<int> notificationStatusID, global::System.Nullable<System.Guid> conversationID, global::System.Nullable<System.Guid> createdByUserAccountOrganisationID, global::System.Nullable<System.Guid> createdByFunctionID, List<NotificationRecipientDTO> notificationRecipients, NotificationConstructDTO notificationConstruct, List<InvoiceProcessLogDTO> invoiceProcessLogs, List<OrganisationDirectDebitMandateDTO> organisationDirectDebitMandates, ConversationDTO conversation, UserAccountOrganisationDTO userAccountOrganisation) {
+        public NotificationDTO(global::System.Guid notificationID, global::System.Nullable<System.Guid> fromParentID, global::System.DateTime dateSent, global::System.Nullable<System.Guid> parentID, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, global::System.Nullable<System.Guid> moduleNotificationConstructID, global::System.Nullable<int> moduleNotificationConstructVersionNumber, bool isSent, bool isActive, bool isDeleted, bool isInternal, bool isExternal, bool isVisible, string notificationData, global::System.Nullable<int> notificationStatusID, global::System.Nullable<System.Guid> conversationID, global::System.Nullable<System.Guid> createdByUserAccountOrganisationID, global::System.Nullable<System.Guid> createdBySafeSendGroupID, List<NotificationRecipientDTO> notificationRecipients, NotificationConstructDTO notificationConstruct, List<InvoiceProcessLogDTO> invoiceProcessLogs, List<OrganisationDirectDebitMandateDTO> organisationDirectDebitMandates, ConversationDTO conversation, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.NotificationID = notificationID;
           this.FromParentID = fromParentID;
@@ -42,7 +42,7 @@ namespace Bec.TargetFramework.Entities
           this.NotificationStatusID = notificationStatusID;
           this.ConversationID = conversationID;
           this.CreatedByUserAccountOrganisationID = createdByUserAccountOrganisationID;
-          this.CreatedByFunctionID = createdByFunctionID;
+          this.CreatedBySafeSendGroupID = createdBySafeSendGroupID;
           this.NotificationRecipients = notificationRecipients;
           this.NotificationConstruct = notificationConstruct;
           this.InvoiceProcessLogs = invoiceProcessLogs;
@@ -110,7 +110,7 @@ namespace Bec.TargetFramework.Entities
         public global::System.Nullable<System.Guid> CreatedByUserAccountOrganisationID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> CreatedByFunctionID { get; set; }
+        public global::System.Nullable<System.Guid> CreatedBySafeSendGroupID { get; set; }
 
         #endregion
 

@@ -180,7 +180,7 @@ namespace Bec.TargetFramework.Business.Logic
                 ContactDTO = userContactDto,
                 UserType = UserTypeEnum.OrganisationAdministrator,
                 AddDefaultRoles = true,
-                Functions = Enumerable.Empty<Guid>(),
+                SafeSendGroups = Enumerable.Empty<Guid>(),
                 Roles = Enumerable.Empty<Guid>()
             };
 
@@ -217,12 +217,12 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
-                foreach (var functionID in dto.Functions)
+                foreach (var safeSendGroupID in dto.SafeSendGroups)
                 {
-                    scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions.Add(new UserAccountOrganisationFunction
+                    scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationSafeSendGroups.Add(new UserAccountOrganisationSafeSendGroup
                     {
                         UserAccountOrganisationID = userOrgID.Value,
-                        FunctionID = functionID
+                        SafeSendGroupID = safeSendGroupID
                     });
                 }
 
@@ -588,7 +588,7 @@ namespace Bec.TargetFramework.Business.Logic
                 ContactDTO = contactDTO,
                 UserType = UserTypeEnum.User,
                 AddDefaultRoles = true,
-                Functions = Enumerable.Empty<Guid>(),
+                SafeSendGroups = Enumerable.Empty<Guid>(),
                 Roles = Enumerable.Empty<Guid>()
             };
             var buyerUaoDto = await AddNewUserToOrganisationAsync(addNewUserDto);

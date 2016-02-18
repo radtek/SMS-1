@@ -19,9 +19,9 @@ AS
   (SELECT cp."ConversationID", cp."UserAccountOrganisationID" FROM "ConversationParticipant" cp
    UNION
   SELECT cfp."ConversationID" ,uaof."UserAccountOrganisationID"
-   FROM "UserAccountOrganisationFunction" uaof
+   FROM "UserAccountOrganisationSafeSendGroup" uaof
    JOIN "UserAccountOrganisation" uao ON uao."UserAccountOrganisationID" = uaof."UserAccountOrganisationID"
-   JOIN "ConversationFunctionParticipant" cfp ON cfp."FunctionID" = uaof."FunctionID" AND cfp."OrganisationID" = uao."OrganisationID")
+   JOIN "ConversationSafeSendGroupParticipant" cfp ON cfp."SafeSendGroupID" = uaof."SafeSendGroupID" AND cfp."OrganisationID" = uao."OrganisationID")
   v on v."ConversationID" = c."ConversationID";
 
 
@@ -58,13 +58,13 @@ if (userorgtypename = 'Professional') then
   limit l offset o;
 
 elsif (userorgtypename = 'Lender') then
-  --exact uao or in function
+  --exact uao or in SafeSendGroup
   return query SELECT c."ConversationID", c."Subject", c."Latest" FROM "Conversation" c
   WHERE (
    exists (select * from "ConversationParticipant" cp
    where cp."UserAccountOrganisationID" = uaoid and cp."ConversationID" = c."ConversationID")
   or
-   exists (select * from "ConversationFunctionParticipant" cfp join "UserAccountOrganisationFunction" uaof on uaof."FunctionID" = cfp."FunctionID"
+   exists (select * from "ConversationSafeSendGroupParticipant" cfp join "UserAccountOrganisationSafeSendGroup" uaof on uaof."SafeSendGroupID" = cfp."SafeSendGroupID"
    where cfp."ConversationID" = c."ConversationID" and cfp."OrganisationID" = orgid and uaof."UserAccountOrganisationID" = uaoid)
   )
   and 
@@ -126,7 +126,7 @@ WHERE (
  exists (select * from "ConversationParticipant" cp
  where cp."UserAccountOrganisationID" = uaoid and cp."ConversationID" = c."ConversationID")
 or
- exists (select * from "ConversationFunctionParticipant" cfp join "UserAccountOrganisationFunction" uaof on uaof."FunctionID" = cfp."FunctionID"
+ exists (select * from "ConversationSafeSendGroupParticipant" cfp join "UserAccountOrganisationSafeSendGroup" uaof on uaof."SafeSendGroupID" = cfp."SafeSendGroupID"
  where cfp."ConversationID" = c."ConversationID" and cfp."OrganisationID" = orgid and uaof."UserAccountOrganisationID" = uaoid)
 )
 and (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false));
@@ -163,7 +163,7 @@ CREATE VIEW public."vSafeSendRecipient"(
     "LastName",
     "OrganisationName",
     "OrganisationTypeName",
-    "IsFunction")
+    "IsSafeSendGroup")
 AS
   SELECT uaot."SmsTransactionID",
          uao."UserAccountOrganisationID" AS "RelatedID",
@@ -172,7 +172,7 @@ AS
          c."LastName",
          NULL::character varying AS "OrganisationName",
          'Personal' as "OrganisationTypeName",
-         false AS "IsFunction"
+         false AS "IsSafeSendGroup"
   FROM sms."SmsUserAccountOrganisationTransaction" uaot
        JOIN "UserAccountOrganisation" uao ON uaot."UserAccountOrganisationID" =
          uao."UserAccountOrganisationID"
@@ -190,7 +190,7 @@ AS
          c."LastName",
          od."Name" AS "OrganisationName",
 		 ot."Name" as "OrganisationTypeName",
-         false AS "IsFunction"
+         false AS "IsSafeSendGroup"
   FROM sms."SmsTransaction" t
        JOIN "Organisation" o ON t."OrganisationID" = o."OrganisationID"
        JOIN "OrganisationDetail" od ON o."OrganisationID" = od."OrganisationID"
@@ -206,20 +206,20 @@ AS
         ua."IsTemporaryAccount" = false
   UNION
   SELECT t."SmsTransactionID",
-         f."FunctionID" AS "RelatedID",
+         f."SafeSendGroupID" AS "RelatedID",
          o."OrganisationID",
          f."Name" AS "FirstName",
          NULL::character varying (100) AS "LastName",
          od."Name" AS "OrganisationName",
 		 ot."Name" as "OrganisationTypeName",
-         true AS "IsFunction"
+         true AS "IsSafeSendGroup"
   FROM sms."SmsTransaction" t
        JOIN "Lender" l ON l."Name"::text = t."LenderName"::text
        JOIN "Organisation" o ON l."OrganisationID" = o."OrganisationID"
        JOIN "OrganisationDetail" od ON o."OrganisationID" = od."OrganisationID"
        JOIN "OrganisationType" ot ON o."OrganisationTypeID" =
          ot."OrganisationTypeID"
-       JOIN "Function" f ON ot."OrganisationTypeID" = f."OrganisationTypeID";
+       JOIN "SafeSendGroup" f ON ot."OrganisationTypeID" = f."OrganisationTypeID";
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vSafeSendRecipient" TO postgres;
@@ -227,7 +227,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vSafeSendRecipient" TO bef;
 
 
-ALTER TABLE public."Notification" ADD COLUMN "CreatedByFunctionID" UUID;
+ALTER TABLE public."Notification" ADD COLUMN "CreatedBySafeSendGroupID" UUID;
 
 
  -- object recreation
@@ -246,7 +246,7 @@ CREATE VIEW public."vMessage"(
     "UserType",
     "OrganisationType",
     "NotificationConstructName",
-    "FunctionName")
+    "SafeSendGroupName")
 AS
   SELECT n."ConversationID",
          n."NotificationID",
@@ -285,7 +285,7 @@ AS
          END AS "UserType",
          ot."Name" AS "OrganisationType",
          nc."Name" AS "NotificationConstructName",
-         f."Name" as "FunctionName"
+         f."Name" as "SafeSendGroupName"
   FROM "Notification" n
        JOIN "Conversation" conv ON conv."ConversationID" = n."ConversationID"
        JOIN "NotificationConstruct" nc ON nc."NotificationConstructID" =
@@ -313,7 +313,7 @@ AS
        LEFT JOIN sms."SmsUserAccountOrganisationTransactionType" txt ON
          txt."SmsUserAccountOrganisationTransactionTypeID" =
          tx."SmsUserAccountOrganisationTransactionTypeID"
-       left join "Function" f on f."FunctionID" = n."CreatedByFunctionID" and f."OrganisationTypeID" = ot."OrganisationTypeID";
+       left join "SafeSendGroup" f on f."SafeSendGroupID" = n."CreatedBySafeSendGroupID" and f."OrganisationTypeID" = ot."OrganisationTypeID";
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vMessage" TO postgres;

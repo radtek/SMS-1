@@ -821,11 +821,11 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<UserAccountOrganisationFunctionDTO> GetFunctions(Guid uaoID)
+        public List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroups(Guid uaoID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationFunctions.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationSafeSendGroups.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
             }
         }
 

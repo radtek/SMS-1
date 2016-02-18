@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Models
 {
-    public class FunctionEditEntry
+    public class SafeSendGroupEditEntry
     {
-        public Guid FunctionID { get; set; }
+        public Guid SafeSendGroupID { get; set; }
         public string Name { get; set; }
         public int Index { get; set; }
         public bool IsChecked { get; set; }
