@@ -797,18 +797,25 @@ a.removeupload{
 }
 
 .match{
-    color:darken(@primary-color, 10%)
+    color:darken(@primary-color, 10%);
 }
 
-.no-match{
-    border-color: #953b39 !important;
+.match-bg{
+    .bg-color-primary !important;
+    color: #fff;
+}
+.table tr.match-bg td {
+    .match-bg !important;
+}
+
+.no-match-bg{
     color: #fff;
     background-color: #c26565 !important;
     text-shadow: none;
 }
 
-.table tr.no-match td {
-    .no-match;
+.table tr.no-match-bg td {
+    .no-match-bg;
 }
 
 .error{

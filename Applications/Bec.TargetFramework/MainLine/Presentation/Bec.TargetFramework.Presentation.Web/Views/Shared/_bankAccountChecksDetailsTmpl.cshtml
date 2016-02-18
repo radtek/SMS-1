@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-sm-8">
         {{#if SmsBankAccountChecks}}
-        <h5>Performed Target Bank Account Checks</h5>
+        <h5>Performed Bank Account Checks</h5>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                     {{#each SmsBankAccountChecks}}
-                    <tr {{#unless IsMatch}} class="no-match" {{/unless}}>
+                    <tr class="{{#if IsMatch}}match-bg{{else}}no-match-bg{{/if}}">
                         <td>{{BankAccountNumber}}</td>
                         <td>{{SortCode}}</td>
                         <td>{{CheckedOn}}</td>
@@ -37,7 +37,7 @@
             </table>
         </div>
         {{else}}
-        <p>This person has not performed the bank account check.</p>
+        <p>The user is yet to use Safe Buyer.</p>
         {{/if}}
     </div>
     {{#if SmsSrcFundsBankAccounts}}

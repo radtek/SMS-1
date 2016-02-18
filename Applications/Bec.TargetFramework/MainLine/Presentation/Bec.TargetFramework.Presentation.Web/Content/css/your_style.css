@@ -613,14 +613,20 @@ a.removeupload {
 .match {
   color: #7d981c;
 }
-.no-match {
-  border-color: #953b39 !important;
+.match-bg {
+  background-color: #a1c324 !important;
+  color: #fff;
+}
+.table tr.match-bg td {
+  background-color: #a1c324 !important;
+  color: #fff !important;
+}
+.no-match-bg {
   color: #fff;
   background-color: #c26565 !important;
   text-shadow: none;
 }
-.table tr.no-match td {
-  border-color: #953b39 !important;
+.table tr.no-match-bg td {
   color: #fff;
   background-color: #c26565 !important;
   text-shadow: none;
