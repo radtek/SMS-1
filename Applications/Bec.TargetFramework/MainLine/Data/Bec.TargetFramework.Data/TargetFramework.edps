@@ -1773,6 +1773,23 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
+      <Exclude Name="ConversationID" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Subject" Table="public.Conversation" Type="Column" />
+      <Exclude Name="ActivityType" Table="public.Conversation" Type="Column" />
+      <Exclude Name="ActivityID" Table="public.Conversation" Type="Column" />
+      <Exclude Name="IsSystemMessage" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
+      <Exclude Name="Conversation_pkey" Table="public.Conversation" Type="Constraint" />
+      <Exclude Name="UserAccountID" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserSessionID" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserIPAddress" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserHostAddress" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLocation" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLoginDate" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLogoutDate" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserHasLoggedOut" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserAccountLoginSession_pkey" Table="public.UserAccountLoginSession" Type="Constraint" />
+      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1884,6 +1901,16 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="SmsTransactionID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="RelatedID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="FirstName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="LastName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
+      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
@@ -1896,6 +1923,8 @@
       <Exclude Name="Balance" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="RelatedID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

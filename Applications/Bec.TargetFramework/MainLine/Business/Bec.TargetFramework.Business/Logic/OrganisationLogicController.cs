@@ -1105,7 +1105,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var safeSendName = OrganisationSettingName.SafeSendEnabled.ToString();
                 var setting = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationSettings.Where(x => x.OrganisationID == organisationID && x.Name == safeSendName).FirstOrDefault();
-                return setting != null && setting.Value == "true";
+                return setting != null && bool.Parse(setting.Value) == true;
             }
         }
 
@@ -1119,6 +1119,7 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     setting = new OrganisationSetting
                     {
+                        OrganisationSettingID = Guid.NewGuid(),
                         OrganisationID = orgID,
                         Name = safeSendName,
                         Value = safeSendEnabled.ToString()

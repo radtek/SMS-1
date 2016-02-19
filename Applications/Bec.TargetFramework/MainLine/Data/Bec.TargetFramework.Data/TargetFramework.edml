@@ -5454,7 +5454,7 @@
           <Key>
             <PropertyRef Name="OrganisationSettingID" />
           </Key>
-          <Property Name="OrganisationSettingID" Type="int" Nullable="false" />
+          <Property Name="OrganisationSettingID" Type="uuid" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Value" Type="varchar" Nullable="false" MaxLength="2000" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
@@ -24524,7 +24524,7 @@
           <Key>
             <PropertyRef Name="OrganisationSettingID" />
           </Key>
-          <Property Name="OrganisationSettingID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="02746080-00b5-40d1-994d-01227d6aa4bd" />
+          <Property Name="OrganisationSettingID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="02746080-00b5-40d1-994d-01227d6aa4bd" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="52ae21e9-965a-4594-bf51-5b7e69bff0f0" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="True" ed:Guid="bc8aa7da-0fa4-48c9-ad12-cf87a0bde38d" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="c1394143-6a98-433b-aebe-3e668e358b93" />
