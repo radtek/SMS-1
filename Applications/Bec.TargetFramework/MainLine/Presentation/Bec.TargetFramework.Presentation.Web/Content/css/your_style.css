@@ -645,9 +645,19 @@ a.removeupload {
   padding: 2px 3px 3px;
   font-size: 10px;
 }
+.alert-info,
+.alert-warning {
+  color: #444;
+  border-width: 1px;
+  border-left-width: 5px;
+  padding: 20px 25px;
+  background-color: inherit;
+}
 .alert-info {
-  color: black;
-  background-color: #a6e4ff;
+  border-color: #6EB0DF;
+}
+.alert-warning {
+  border-color: #dfb56c;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
