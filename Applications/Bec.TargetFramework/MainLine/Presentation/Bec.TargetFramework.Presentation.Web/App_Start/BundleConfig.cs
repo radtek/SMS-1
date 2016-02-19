@@ -124,6 +124,9 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_OrderCallout").Include("~/Areas/Admin/Views/Shared/_OrderCallout.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Admin/ShowMeHow/Index").Include("~/Areas/Admin/Views/ShowMeHow/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/Index").Include("~/Areas/Admin/Views/Help/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditHelp").Include("~/Areas/Admin/Views/Help/_EditHelp.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddHelp").Include("~/Areas/Admin/Views/Help/_AddHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhPage").Include("~/Areas/Admin/Views/Shared/_AddSmhPage.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhSysPage").Include("~/Areas/Admin/Views/Shared/_AddSmhSysPage.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhItem").Include("~/Areas/Admin/Views/Shared/_AddSmhItem.js"));
