@@ -219,7 +219,20 @@ AS
        JOIN "OrganisationDetail" od ON o."OrganisationID" = od."OrganisationID"
        JOIN "OrganisationType" ot ON o."OrganisationTypeID" =
          ot."OrganisationTypeID"
-       JOIN "SafeSendGroup" f ON ot."OrganisationTypeID" = f."OrganisationTypeID";
+       JOIN "SafeSendGroup" f ON ot."OrganisationTypeID" = f."OrganisationTypeID"
+  WHERE EXISTS(
+  	SELECT *
+    FROM "UserAccountOrganisation" uao
+    JOIN "UserAccounts" ua ON uao."UserID" = ua."ID"
+    JOIN "UserAccountOrganisationSafeSendGroup" uaossg ON uao."UserAccountOrganisationID" = uaossg."UserAccountOrganisationID"
+    WHERE
+    	uao."OrganisationID" = o."OrganisationID" and
+        uaossg."SafeSendGroupID" = f."SafeSendGroupID" and
+    	uao."IsActive" = true and 
+    	uao."IsDeleted" = false and
+        ua."IsLoginAllowed" = true and
+        ua."IsActive" = true and
+        ua."IsTemporaryAccount" = false);
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vSafeSendRecipient" TO postgres;
