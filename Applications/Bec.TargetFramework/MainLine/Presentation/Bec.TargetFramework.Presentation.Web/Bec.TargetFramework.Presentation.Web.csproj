@@ -185,6 +185,7 @@
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CalloutController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HelpController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
@@ -262,6 +263,9 @@
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
+    <Content Include="Areas\Admin\Views\Help\Index.js" />
+    <Content Include="Areas\Admin\Views\Help\_AddHelp.js" />
+    <Content Include="Areas\Admin\Views\Help\_EditHelp.js" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
@@ -893,6 +897,9 @@
     <Content Include="Areas\Admin\Views\Shared\_OrderCallout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_DeleteCallout.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Welcome.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_AddHelp.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_EditHelp.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
