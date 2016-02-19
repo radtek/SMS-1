@@ -722,7 +722,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (sendToMobilePhone && !string.IsNullOrWhiteSpace(uao.UserAccount.MobilePhoneNumber) && !string.IsNullOrWhiteSpace(uao.PinCode))
                 {
-                    var message = string.Format("Please create your online Safe Movhe Scheme account now using PIN: {0}", uao.PinCode);
+                    var message = string.Format("Please create your online Safe Move Scheme account now using PIN: {0}", uao.PinCode);
                     SendTextMessage(uao.UserAccount.MobilePhoneNumber, message);
                 }
             }
