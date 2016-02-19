@@ -99,7 +99,14 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 switch (pageType)
                 {
-                    case PageType.Tour:
+                    case PageType.Tour: 
+                        var pageTour = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
+                                  .FirstOrDefault(p => (p.PageType == (int)PageType.Tour));
+                        if (pageTour != null)
+                        {
+                            return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
+                                    .Where(i => (i.HelpPageID == pageTour.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
+                        }
                         return null;
                     case PageType.ShowMeHow:
                         var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages

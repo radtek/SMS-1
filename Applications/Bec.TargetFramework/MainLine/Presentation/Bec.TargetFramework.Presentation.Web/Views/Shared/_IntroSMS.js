@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $('#smh').click(function () {
+    $('#smh').click(function () {        
         runPageIntro();
     })
 
@@ -22,7 +22,7 @@
         $.each(items, function (i, item) {
             steps.push({
                 element: item.Selector,
-                intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + item.Title + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + item.Description + '</div><div class="modal-footer"  style="padding: 5px !important;"></div>',
+                intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + item.Title + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + item.Description + '</div>',
                 position: getPosition(item.Position),
                 tabId: item.TabContainerId
             });

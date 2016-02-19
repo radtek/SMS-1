@@ -23,7 +23,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public IQueryLogicClient QueryClient { get; set; }
         public ICalloutLogicClient calloutClient { get; set; }
         public IHelpLogicClient helpClient { get; set; }
-        const string _defaultSystemUrl = "SMH";
 
         public ActionResult Index()
         {
@@ -228,13 +227,11 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
-        //public async Task<ActionResult> GetSystemSmhItem()
-        //{
-        //    string pageUrl = _defaultSystemUrl;
-        //    var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
-        //    var list = await smhClient.GetItemOnPageForCurrentUserAsync(currentUser.UaoID, currentUser.OrganisationID, pageUrl);
-        //    return Json(new { data = list }, JsonRequestBehavior.AllowGet);
-        //}
+        public async Task<ActionResult> GetSystemSmhItem()
+        {
+            var list = await helpClient.GetHelpItemsAsync(PageType.Tour, null);
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
 
 
     }
