@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class HelpLogicController : LogicBase
     {
-        public async Task<Guid> CreateHelpPageAsync(HelpPageDTO HelpPageDTO)
+        public async Task<Guid> CreateHelpPage(HelpPageDTO HelpPageDTO)
         {
             Ensure.That(HelpPageDTO).IsNotNull();
             HelpPageDTO.HelpPageID = Guid.NewGuid();
@@ -39,7 +39,7 @@ namespace Bec.TargetFramework.Business.Logic
             return HelpPageDTO.HelpPageID;
         }
 
-        public async Task<Guid> CreateHelpItemAsync(HelpItemDTO HelpItemDTO)
+        public async Task<Guid> CreateHelpItem(HelpItemDTO HelpItemDTO)
         {
             Ensure.That(HelpItemDTO).IsNotNull();
             HelpItemDTO.HelpItemID = Guid.NewGuid();
@@ -52,7 +52,7 @@ namespace Bec.TargetFramework.Business.Logic
             return HelpItemDTO.HelpItemID;
         }
 
-        public async Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO HelpItemUserAccountDTO)
+        public async Task<Guid> CreateHelpItemUserAccount(HelpItemUserAccountDTO HelpItemUserAccountDTO)
         {
             Ensure.That(HelpItemUserAccountDTO).IsNotNull();
             HelpItemUserAccountDTO.HelpItemUserAccountID = Guid.NewGuid();
@@ -91,6 +91,33 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+
+        #region Client using
+        public List<HelpItemDTO> GetHelpItems(PageType pageType, string pageUrl)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                switch (pageType)
+                {
+                    case PageType.Tour:
+                        return null;
+                    case PageType.ShowMeHow:
+                        var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
+                                 .FirstOrDefault(p => (p.PageUrl.ToLower().Equals(pageUrl.ToLower())) && (p.PageType == (int)PageType.ShowMeHow));
+                        if (page != null)
+                        {
+                            return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
+                                    .Where(i => (i.HelpPageID == page.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
+                        }
+                        return null;
+                    case PageType.Callout:
+                        return null;
+                    default :
+                        return null;
+                }
+            }
+        }
+        #endregion
     }
 }
 

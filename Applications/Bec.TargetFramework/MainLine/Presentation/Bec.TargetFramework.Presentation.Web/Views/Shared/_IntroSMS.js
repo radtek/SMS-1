@@ -21,24 +21,84 @@
         var steps = [];
         $.each(items, function (i, item) {
             steps.push({
-                element: item.ItemSelector,
-                intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + 'The title of this' + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + item.ItemDescription + '</div><div class="modal-footer"  style="padding: 5px !important;"></div>',
-                position: getPosition(item.ItemPosition),
-                onbeforechange: function (e, t) {
-                    if (item.TabContainerId != null) {
-                        $('[href=' + item.TabContainerId + ']').parent().addClass('active');
-                        $(item.TabContainerId).addClass('active');
-                        var containerId = $('[href=' + item.TabContainerId + ']').parent().parent().attr('id');
-                        $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
-                        $('.active', $('#' + containerId).parent()).removeClass('active');
-                        $('[href=' + item.TabContainerId + ']').click();
-                    }
-                },
+                element: item.Selector,
+                intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + item.Title + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + item.Description + '</div><div class="modal-footer"  style="padding: 5px !important;"></div>',
+                position: getPosition(item.Position),
+                tabId: item.TabContainerId
             });
         });
         return steps;
     }
+    function checkStart(intro) {
+        if (intro._options.steps.length > 0) {
+            var item0 = intro._options.steps[0];
 
+            var SelectedTabHeader = undefined;
+            var SelectedTab = undefined;
+            var isChanged = false;
+
+            if (item0.tabId != 'undefined') {
+
+                var containerId = $('[href=' + item0.tabId + ']').parent().parent().attr('id');
+                var e1 = $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]');
+                var e2 = $('[href=' + item0.tabId + ']').parent();
+
+                if (!e1.is(e2)) {
+                    $('[href=' + item0.tabId + ']').parent().addClass('active');
+                    $(item0.tabId).addClass('active');
+
+                    SelectedTabHeader = $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]');
+                    SelectedTab = $('.active', $('#' + containerId).parent());
+                    $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
+                    $('.active', $('#' + containerId).parent()).removeClass('active');
+                    $('[href=' + item0.tabId + ']').click();
+
+                    isChanged = true;
+                }
+            }
+
+            var isVisible = $(item0.element).is(":visible");
+
+            if (!isVisible) {
+                if (isChanged && SelectedTabHeader != undefined && SelectedTab != undefined) {
+                    SelectedTabHeader.addClass('active');
+                    SelectedTab.addClass('active');
+                    $('[href=' + item0.tabId + ']').parent().removeClass('active');
+                    $(item0.tabId).removeClass('active');
+                }
+                intro._options.steps.splice(0, 1);
+                checkStart(intro);
+            } else {
+                intro.goToStep(1).start().onbeforechange(function (_targetElement) {
+
+                    var item = intro._introItems[intro._currentStep];
+                    var wait = true;
+                    if (item.tabId != 'undefined') {
+                        var containerId = $('[href=' + item.tabId + ']').parent().parent().attr('id');
+                        var e1 = $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]');
+                        var e2 = $('[href=' + item.tabId + ']').parent();
+                        if (!e1.is(e2)) {
+                            $('[href=' + item.tabId + ']').parent().addClass('active');
+                            $(item.tabId).addClass('active');
+
+                            $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
+                            $('.active', $('#' + containerId).parent()).removeClass('active');                           
+                            $('[href=' + item.tabId + ']').click();
+
+                        }
+                    }
+                    
+                    var isVisible = $(item.element).is(":visible");
+                    console.log(isVisible);
+                    if (!isVisible) {
+                        intro.nextStep();
+                        introJs().refresh().setOptions(intro._options);
+                    }
+               
+                });
+            }
+        }
+    }
     function startSMHOnPage(items) {
         var intro = introJs();
         var stepList = getSteps(items).filter(function (obj) {
@@ -57,25 +117,7 @@
                 overlayOpacity: 0.1,
                 steps: stepList
             });
-
-            var createStepEvents = function (guideObject, eventList) {
-                _.each(eventList, function (event) {
-                    guideObject[event](function () {
-                        var steps = this._options.steps,
-                            currentStep = this._currentStep;
-                        if (_.isFunction(steps[currentStep][event])) {
-                            steps[currentStep][event]();
-                        }
-                    });
-
-                }, this);
-            }
-
-            createStepEvents(intro, ['onbeforechange']);
-            var tempShow = false;
-            var tempElement = null;
-
-            intro.start();
+            checkStart(intro);
         }
     }
 });
