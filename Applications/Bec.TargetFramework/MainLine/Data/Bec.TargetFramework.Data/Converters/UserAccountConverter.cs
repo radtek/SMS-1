@@ -88,6 +88,7 @@ namespace Bec.TargetFramework.Entities
               target.UserAccountArchives = source.UserAccountArchives.ToDtosWithRelated(level - 1);
               target.UserAccountLoginSessions = source.UserAccountLoginSessions.ToDtosWithRelated(level - 1);
               target.CalloutUserAccounts = source.CalloutUserAccounts.ToDtosWithRelated(level - 1);
+              target.HelpItemUserAccounts = source.HelpItemUserAccounts.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

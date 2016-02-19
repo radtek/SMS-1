@@ -530,6 +530,18 @@
       <DependentUpon>GroupRoleDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\GroupTemplateRoleDTO.cs" />
+    <Compile Include="Boo\HelpItemDTO.cs" />
+    <Compile Include="Boo\HelpItemDTO.Generated.cs">
+      <DependentUpon>HelpItemDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\HelpItemUserAccountDTO.cs" />
+    <Compile Include="Boo\HelpItemUserAccountDTO.Generated.cs">
+      <DependentUpon>HelpItemUserAccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\HelpPageDTO.cs" />
+    <Compile Include="Boo\HelpPageDTO.Generated.cs">
+      <DependentUpon>HelpPageDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\IdentityCheckProviderDTO.cs" />
     <Compile Include="Boo\InterfacePanelTemplateDTO.cs" />
     <Compile Include="Boo\InterfacePanelTemplateDTO.Generated.cs">

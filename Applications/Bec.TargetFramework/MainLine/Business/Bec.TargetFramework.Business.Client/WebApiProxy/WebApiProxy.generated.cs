@@ -276,6 +276,39 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		ClamScanResult ScanForVirus(ScanBytesDTO data);
 	}
 
+	public partial interface IHelpLogicClient : IClientBase	{	
+
+		/// <returns></returns>
+		Task<Guid> CreateHelpPageAsync(HelpPageDTO HelpPageDTO);
+
+		/// <returns></returns>
+		Guid CreateHelpPage(HelpPageDTO HelpPageDTO);
+
+		/// <returns></returns>
+		Task<Guid> CreateHelpItemAsync(HelpItemDTO HelpItemDTO);
+
+		/// <returns></returns>
+		Guid CreateHelpItem(HelpItemDTO HelpItemDTO);
+
+		/// <returns></returns>
+		Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO HelpItemUserAccountDTO);
+
+		/// <returns></returns>
+		Guid CreateHelpItemUserAccount(HelpItemUserAccountDTO HelpItemUserAccountDTO);
+
+		/// <returns></returns>
+		Task DeleteHelpPageAsync(HelpPageDTO helpPageDto);
+
+		/// <returns></returns>
+		void DeleteHelpPage(HelpPageDTO helpPageDto);
+
+		/// <returns></returns>
+		Task DeleteHelpItemAsync(HelpItemDTO helpItemDto);
+
+		/// <returns></returns>
+		void DeleteHelpItem(HelpItemDTO helpItemDto);
+	}
+
 	public partial interface IInvoiceLogicClient : IClientBase	{	
 
 		/// <param name="shoppingCartId"></param>
@@ -2445,6 +2478,123 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<ScanBytesDTO, ClamScanResult>("api/FileLogic/ScanForVirus", data, _user)).Result;
+		}
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class HelpLogicClient : ClientBase, Interfaces.IHelpLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public HelpLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public HelpLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<Guid> CreateHelpPageAsync(HelpPageDTO HelpPageDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPageAsync", HelpPageDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid CreateHelpPage(HelpPageDTO HelpPageDTO)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPageAsync", HelpPageDTO, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<Guid> CreateHelpItemAsync(HelpItemDTO HelpItemDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<HelpItemDTO, Guid>("api/HelpLogic/CreateHelpItemAsync", HelpItemDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid CreateHelpItem(HelpItemDTO HelpItemDTO)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<HelpItemDTO, Guid>("api/HelpLogic/CreateHelpItemAsync", HelpItemDTO, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO HelpItemUserAccountDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<HelpItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccountAsync", HelpItemUserAccountDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid CreateHelpItemUserAccount(HelpItemUserAccountDTO HelpItemUserAccountDTO)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<HelpItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccountAsync", HelpItemUserAccountDTO, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task DeleteHelpPageAsync(HelpPageDTO helpPageDto)
+		{
+			string _user = getHttpContextUser();
+			return DeleteAsync<HelpPageDTO>("api/HelpLogic/DeleteHelpPage", helpPageDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void DeleteHelpPage(HelpPageDTO helpPageDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => DeleteAsync<HelpPageDTO>("api/HelpLogic/DeleteHelpPage", helpPageDto, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task DeleteHelpItemAsync(HelpItemDTO helpItemDto)
+		{
+			string _user = getHttpContextUser();
+			return DeleteAsync<HelpItemDTO>("api/HelpLogic/DeleteHelpItem", helpItemDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void DeleteHelpItem(HelpItemDTO helpItemDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => DeleteAsync<HelpItemDTO>("api/HelpLogic/DeleteHelpItem", helpItemDto, _user)).Wait();
 		}
 
 		#endregion

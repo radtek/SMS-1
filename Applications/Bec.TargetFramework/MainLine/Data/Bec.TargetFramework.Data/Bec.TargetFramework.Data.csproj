@@ -173,6 +173,9 @@
     <Compile Include="Converters\GlobalPaymentMethodConverter.cs" />
     <Compile Include="Converters\GroupConverter.cs" />
     <Compile Include="Converters\GroupRoleConverter.cs" />
+    <Compile Include="Converters\HelpItemConverter.cs" />
+    <Compile Include="Converters\HelpItemUserAccountConverter.cs" />
+    <Compile Include="Converters\HelpPageConverter.cs" />
     <Compile Include="Converters\InterfacePanelTemplateConverter.cs" />
     <Compile Include="Converters\InvoiceConverter.cs" />
     <Compile Include="Converters\InvoiceLineItemConverter.cs" />
@@ -573,6 +576,9 @@
     <Compile Include="Model\TargetFramework.GlobalPaymentMethod.cs" />
     <Compile Include="Model\TargetFramework.Group.cs" />
     <Compile Include="Model\TargetFramework.GroupRole.cs" />
+    <Compile Include="Model\TargetFramework.HelpItem.cs" />
+    <Compile Include="Model\TargetFramework.HelpItemUserAccount.cs" />
+    <Compile Include="Model\TargetFramework.HelpPage.cs" />
     <Compile Include="Model\TargetFramework.InterfacePanelTemplate.cs" />
     <Compile Include="Model\TargetFramework.Invoice.cs" />
     <Compile Include="Model\TargetFramework.InvoiceLineItem.cs" />
