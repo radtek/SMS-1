@@ -228,10 +228,6 @@ $(function () {
     tabs.showTab($('#myTab1').data("selected"));
 
     findModalLinks();
-
-    if ($('#content').data("welcome") == "True") {
-        runSystemIntro();
-    }
 });
 
 //data binding for the panes beneath each grid

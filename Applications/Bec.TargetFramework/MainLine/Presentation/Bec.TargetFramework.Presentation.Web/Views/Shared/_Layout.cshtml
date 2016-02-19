@@ -63,10 +63,11 @@
     @RenderSection("pagespecific", false)
 
     @Html.Partial("_Toastr")
+    @Html.Partial("_Tour")
     <!--smart admin is a bit poor and must live at the end of the body element-->
-    @Scripts.Render("~/bundles/scripts/smartadmin")
-    <script async src="@Scripts.Url("~/Scripts/Shared/_IntroSms")"></script>
-    <script src="@Scripts.Url("~/Scripts/Shared/_IntroSysSms")"></script>
+    @Scripts.Render("~/bundles/scripts/smartadmin")    
+    @Scripts.Render("~/Scripts/Help/ShowMeHow")
+    
     @if (Convert.ToInt16(TempData["JustLoggined"]) == 1)
     {
         @Scripts.Render("~/Scripts/Admin/Callout/RenderCallout")

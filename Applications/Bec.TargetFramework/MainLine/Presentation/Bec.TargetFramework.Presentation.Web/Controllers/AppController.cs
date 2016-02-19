@@ -117,7 +117,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> GetSystemSmhItem()
+        public async Task<ActionResult> GetTourItem()
         {
             var list = await helpClient.GetHelpItemsAsync(PageType.Tour, null);
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
