@@ -77,7 +77,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var allRoles = await GetAllRoles(orgID);
             var allSafeSendGroups = await GetAllSafeSendGroups(orgID);
             ViewBag.Roles = allRoles;
-            ViewBag.SafeSendGroup = allSafeSendGroups;
+            ViewBag.SafeSendGroups = allSafeSendGroups;
             return PartialView("_AddUser");
         }
 
@@ -293,8 +293,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         private JObject PrepareSafeSendGroupsBeforeSave(JObject data)
         {
             var array = data["UserAccountOrganisationSafeSendGroups"] as JArray;
-            var toRemove = array.Where(x => x["Selected"] == null).ToList();
-            foreach (var r in toRemove) array.Remove(r);
+            if (array != null)
+            {
+                var toRemove = array.Where(x => x["Selected"] == null).ToList();
+                foreach (var r in toRemove) array.Remove(r);
+            }
             return data;
         }
 
