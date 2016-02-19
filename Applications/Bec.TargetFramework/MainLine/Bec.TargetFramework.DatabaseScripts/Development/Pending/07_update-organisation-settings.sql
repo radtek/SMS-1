@@ -16,3 +16,8 @@ CREATE TABLE public."OrganisationSetting" (
     NOT DEFERRABLE
 ) 
 WITH (oids = false);
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."OrganisationSetting" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."OrganisationSetting" TO bef;
