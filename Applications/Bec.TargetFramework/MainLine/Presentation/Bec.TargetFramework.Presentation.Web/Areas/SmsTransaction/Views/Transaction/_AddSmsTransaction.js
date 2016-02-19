@@ -1,5 +1,4 @@
 ﻿$(function () {
-
     new findAddress({
         postcodelookup: '#sms_postcodelookup',
         line1: '#sms_Line1',
@@ -104,23 +103,46 @@
     });
 
     function validateSubmit(form) {
-        $("#addTransactionControls button").prop('disabled', true);
-        var formData = $("#addTransaction-form").serializeArray();
+        var formElement = $("#addTransaction-form");
+        var formButtons = $("#addTransactionControls button");
+        formButtons.prop('disabled', true);
+        var formData = formElement.serializeArray();
         fixDate(formData, 'BirthDate', "#birthDateInput");
+
+        var saveTransaction = function () {
+            ajaxWrapper({
+                url: formElement.data("url"),
+                type: "POST",
+                data: formData
+            }).done(function (res) {
+                if (res.result === true)
+                    window.location = formElement.data("redirectto") + "?selectedTransactionID=" + res.txID;
+                else {
+                    handleModal({ url: formElement.data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                        messageButton: function () {
+                            formButtons.prop('disabled', false);
+                        }
+                    }, true);
+                }
+            }).fail(function (e) {
+                if (!hasRedirect(e.responseJSON)) {
+                    showtoastrError();
+                }
+            });
+        }
+
         //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
         handleModal(
         {
-            url: $("#addTransaction-form").data("check"),
+            url: formElement.data("check"),
             data: formData,
             method: 'POST'
         },
         {
             cancel: function () {
-                $("#addTransactionControls button").prop('disabled', false);
+                formButtons.prop('disabled', false);
             },
-            save: function () {
-                form.submit();
-            }
+            save: saveTransaction
         },
         true,
         "save"); //default action if no duplicate results

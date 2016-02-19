@@ -177,8 +177,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
             var uaoID = HttpContext.GetWebUserObject().UaoID;
-            var transactionID = await OrganisationClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
-            return RedirectToAction("Index", new { selectedTransactionID = transactionID,  area = "SmsTransaction" });
+            try
+            {
+                var transactionID = await OrganisationClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
+                return Json(new { result = true, txID = transactionID }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Adding Transaction Failed",
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]

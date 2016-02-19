@@ -11,8 +11,11 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="addTransaction-form" class="smart-form margin-top-10" autocomplete="off" action="@Url.Action("AddSmsTransaction", "Transaction", new { area = "SmsTransaction" })" method="post"
-                          data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Transaction", new { Area = "SmsTransaction" })">
+                    <form id="addTransaction-form" class="smart-form margin-top-10" autocomplete="off"
+                          data-url="@Url.Action("AddSmsTransaction", "Transaction", new { area = "SmsTransaction" })"
+                          data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })"
+                          data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Transaction", new { Area = "SmsTransaction" })"
+                          data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.PreventAutofill()
