@@ -6,6 +6,7 @@
     var canEditTransactionDetails = Model.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue();
     var personaName = ((UserAccountOrganisationTransactionType)Model.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
     var birthDateInputId = (bool)ViewBag.canEditBirthDate ? "birthDateInput" : "disabledBirthDateInput";
+    var conveyancerName = Model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
 }
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="confirmDetailsLabel" aria-hidden="true">
     <div class="modal-dialog" id="d1" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })">
@@ -325,7 +326,7 @@
                                         <fieldset>
                                             <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
                                                 <p>
-                                                    This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to your conveyancing firm, actually belong to that firm.
+                                                    This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to <strong>@conveyancerName</strong>, actually belong to that firm.
                                                 </p>
                                                 <p>
                                                     Please enter the Account Number and Sort Code of the bank account you have received from the above firm.

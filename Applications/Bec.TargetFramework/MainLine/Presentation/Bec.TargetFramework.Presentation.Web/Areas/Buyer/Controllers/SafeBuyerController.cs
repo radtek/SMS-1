@@ -74,6 +74,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.Address.City,
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
+                CompanyNames = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
                 x.SmsUserAccountOrganisationTransactionID,
                 x.SmsUserAccountOrganisationTransactionTypeID,
                 x.Contact.Salutation,
