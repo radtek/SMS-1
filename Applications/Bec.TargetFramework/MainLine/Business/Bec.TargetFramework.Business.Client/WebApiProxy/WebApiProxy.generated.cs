@@ -317,6 +317,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="pageUrl"></param>
 		/// <returns></returns>
 		List<HelpItemDTO> GetHelpItems(PageType pageType,String pageUrl);
+
+		/// <param name="userId"></param>
+		/// <param name="createDate"></param>
+		/// <returns></returns>
+		Task<List<HelpItemDTO>> GetHelpItemsForCalloutAsync(Guid userId,DateTime createDate);
+
+		/// <param name="userId"></param>
+		/// <param name="createDate"></param>
+		/// <returns></returns>
+		List<HelpItemDTO> GetHelpItemsForCallout(Guid userId,DateTime createDate);
 	}
 
 	public partial interface IInvoiceLogicClient : IClientBase	{	
@@ -2630,6 +2640,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			pageUrl = pageUrl.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="createDate"></param>
+		/// <returns></returns>
+		public virtual Task<List<HelpItemDTO>> GetHelpItemsForCalloutAsync(Guid userId,DateTime createDate)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItemsForCallout?userId=" + userId + "&createDate=" + createDate.ToString("O"), _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="createDate"></param>
+		public virtual List<HelpItemDTO> GetHelpItemsForCallout(Guid userId,DateTime createDate)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItemsForCallout?userId=" + userId + "&createDate=" + createDate.ToString("O"), _user)).Result;
 		}
 
 		#endregion

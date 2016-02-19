@@ -117,6 +117,52 @@ namespace Bec.TargetFramework.Business.Logic
                 }
             }
         }
+
+        public async Task<List<HelpItemDTO>> GetHelpItemsForCallout(Guid userId, DateTime createDate)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var helpItemUas = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.Where(x => x.UserID == userId && x.Visible != true).ToList();
+                var now = DateTime.Now;
+                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(x => x.EffectiveOn < now && x.CreatedOn > createDate).ToList();
+                if (helpItemUas != null && helpItemUas.Any() && helpItems != null && helpItems.Any())
+                {
+                    helpItems = helpItems.FindAll(x => !helpItemUas.Any(z => z.HelpItemID == x.HelpItemID));
+                }
+                if (helpItems != null && helpItems.Any())
+                {
+                    foreach (var item in helpItems)
+                    {
+                        var hiId = item.HelpItemID;
+
+                        var existedHiuas = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.Where(x => x.HelpItemID == hiId && x.UserID == userId).ToList();
+                        if (existedHiuas != null && existedHiuas.Any())
+                        {
+                            foreach (var element in existedHiuas)
+                            {
+                                var helpItemUserAccountId = element.HelpItemUserAccountID;
+                                var helpItemUc = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.FirstOrDefault(p => p.HelpItemUserAccountID == helpItemUserAccountId);
+                                if (helpItemUc != null)
+                                {
+                                    helpItemUc.Visible = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var helpItemUserAccount = new HelpItemUserAccount();
+                            helpItemUserAccount.HelpItemUserAccountID = Guid.NewGuid();
+                            helpItemUserAccount.HelpItemID = item.HelpItemID;
+                            helpItemUserAccount.CreatedOn = DateTime.Now;
+                            helpItemUserAccount.UserID = userId;
+                            scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.Add(helpItemUserAccount);
+                        }
+                    }
+                    await scope.SaveChangesAsync();
+                }
+                return helpItems.ToDtos();
+            }
+        }
         #endregion
     }
 }
