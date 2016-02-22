@@ -25,6 +25,10 @@
         searchElementId: 'gridSearchInput',
         searchButtonId: 'gridSearchButton',
         clearSearchButtonId: 'clearGridSearch',
+        extraFilters: [
+            { selector: '#decisionFilter', parameter: 'decisionFilter' },
+            { selector: '#noMatchFilter', parameter: 'noMatchFilter' }
+        ],
         columns: [
             {
                 field: "SmsTransactionID",
@@ -33,6 +37,10 @@
             {
                 field: "UserAccountOrganisation.UserAccount.Email",
                 title: "Primary Buyer's Email"
+            },
+            {
+                field: "Contact.LastName",
+                title: "Surname"
             },
             {
                 field: "SmsTransaction.Reference",
@@ -158,7 +166,7 @@
 
         $('#transactionConversationContainer')
             .data('activity-id', dataItem.SmsTransactionID)
-            .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.SmsTransaction.InvoiceID != null]);
+            .trigger('activitychange', [dataItem.SmsTransactionID, true]);
         areConversationsLoaded = false;
 
         $('#quoteButton').data('href', $('#quoteButton').data("url") + "?txID=" + dataItem.SmsTransactionID);

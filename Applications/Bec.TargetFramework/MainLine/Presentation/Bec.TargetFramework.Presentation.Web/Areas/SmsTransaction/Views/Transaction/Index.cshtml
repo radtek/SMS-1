@@ -23,8 +23,15 @@
                     <button class="btn btn-default btn-header-search" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
                 </span>
             </div>
+            <div>
+                <p class="pull-left">Decision: @Html.DropDownList("decisionFilter", Html.EnumListString<SmsTransactionDecisionEnum>(), new { id = "decisionFilter" })</p>
+                <p class="pull-right">No Matches: @Html.DropDownList("noMatchFilter", Html.EnumListString<SmsTransactionNoMatchEnum>(), new { id = "noMatchFilter" })</p>
+            </div>
         </div>
     </div>
+
+    <br />
+
     <div class="row">
         <div class="col-sm-12">
             <div class="row">

@@ -651,7 +651,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var userOrgType = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).Organisation.OrganisationType.Name;
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsSafeSendGroup || x.RelatedID != senderUaoID));
-                    
+                
                 switch (userOrgType)
                 {
                     case "Personal":
@@ -659,6 +659,10 @@ namespace Bec.TargetFramework.Business.Logic
                         break;
                     case "Lender":
                         ret = ret.Where(x => x.OrganisationTypeName != "Personal" && x.OrganisationTypeName != "Lender");
+                        break;
+                    case "Professional":
+                        var purchased = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Any(x => x.SmsTransactionID == activityID && x.InvoiceID != null);
+                        if (!purchased) ret = ret.Where(x => x.OrganisationTypeName != "Personal");
                         break;
                 }
                 ret = ret.OrderBy(x => x.IsSafeSendGroup).ThenByDescending(x => x.OrganisationName).ThenBy(x => x.LastName);

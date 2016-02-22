@@ -53,6 +53,13 @@ function dataMap(data, gridOptions) {
     if (gridOptions.searchElementId) {
         d.search = $('#' + gridOptions.searchElementId).val();
     }
+
+    if (gridOptions.extraFilters) {
+        $.each(gridOptions.extraFilters, function (i, item) {
+            d[item.parameter] = $(item.selector).val();
+        });
+    }
+
     return d;
 }
 
@@ -304,6 +311,15 @@ var gridItem = function (options) {
             $('#' + self.options.clearSearchButtonId).hide();
             self.refreshGrid();
         });
+
+        //extra filters
+        if (self.options.extraFilters) {
+            $.each(self.options.extraFilters, function (i, item) {
+                $(item.selector).bind('keyup change', function () {
+                    self.refreshGrid();
+                });
+            });
+        }
 
         function setupUpDownNavigation() {
             var arrows = [38, 40];

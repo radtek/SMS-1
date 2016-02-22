@@ -23,6 +23,10 @@ $(function () {
         searchElementId: 'gridSearchInput',
         searchButtonId: 'gridSearchButton',
         clearSearchButtonId: 'clearGridSearch',
+        extraFilters:[
+            { selector: '#decisionFilter', parameter: 'decisionFilter' },
+            { selector: '#noMatchFilter', parameter: 'noMatchFilter' }
+        ],
         columns: [
             {
                 field: "SmsTransactionID",
@@ -44,7 +48,7 @@ $(function () {
             {
                 field: "Price",
                 title: "Price",
-                template: function (dataItem) { return formatCurrency(dataItem.Price); }
+                template: function (dataItem) { return dataItem.Price > 0 ? formatCurrency(dataItem.Price) : ""; }
             },
             {
                 field: "MortgageApplicationNumber",
@@ -137,7 +141,7 @@ $(function () {
         $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
         $('#transactionConversationContainer')
             .data('activity-id', dataItem.SmsTransactionID)
-            .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.Invoice != null]);
+            .trigger('activitychange', [dataItem.SmsTransactionID, true]);
         areConversationsLoaded = false;
     }
 
