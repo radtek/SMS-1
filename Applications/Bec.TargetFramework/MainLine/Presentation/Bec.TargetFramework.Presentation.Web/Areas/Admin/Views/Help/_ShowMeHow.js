@@ -11,7 +11,9 @@
         };
         ajaxWrapper(ajaxOptions)
             .then(function (result) {
-                startSMHOnPage(result.data);
+                if (result.data != undefined && result.data.length>0) {
+                    startSMHOnPage(result.data);
+                }                
             }, function (data) {
                 console.log("ERR");
             });

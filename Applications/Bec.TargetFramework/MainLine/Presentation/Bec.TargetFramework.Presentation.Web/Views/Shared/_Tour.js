@@ -1,17 +1,14 @@
 ﻿$(function () {
-    $('#tour').click(function () {        
-        runSystemIntro();
-    })
-    function runSystemIntro() {
-        //console.log('run sys smh');
+    function startTour() {
         var ajaxOptions = {
-            url: "/App/GetSystemSmhItem",
+            url: "/App/GetTourItem",
             cache: false
         };
         ajaxWrapper(ajaxOptions)
             .then(function (result) {
-                //console.log(result.data);
-                startSysSMH(result.data);
+                if (result.data != undefined && result.data.length > 0) {
+                    startSysSMH(result.data);
+                }
             }, function (data) {
                 console.log("ERR");
             });
@@ -25,7 +22,7 @@
                 intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + item.Title + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + item.Description + '</div>',
                 position: getPosition(item.Position),
             });
-            console.log(item.Selector);
+            //console.log(item.Selector);
         });
         return steps;
     }
@@ -83,4 +80,15 @@
             intro.start();
         }
     }
+
+
+    $('#tour').click(function () {
+        startTour();
+    })
+
+    $(document).ready(function () {
+        if ($('#firstLogin').data("welcome") == "True") {            
+            startTour();
+        }
+    })
 })

@@ -1010,8 +1010,8 @@
     <Content Include="Scripts\Libs\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="sitemap.txt" />
-    <Content Include="Views\Shared\_IntroSms.js" />
-    <Content Include="Views\Shared\_IntroSysSms.js" />
+    <Content Include="Areas\Admin\Views\Help\_ShowMeHow.js" />
+    <Content Include="Views\Shared\_Tour.js" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
@@ -2186,6 +2186,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\_srcFundsBankAccountTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
+    <Content Include="Views\Shared\_Tour.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

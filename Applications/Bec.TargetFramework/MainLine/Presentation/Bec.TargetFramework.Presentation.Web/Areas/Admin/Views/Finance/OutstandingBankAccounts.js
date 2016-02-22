@@ -55,11 +55,7 @@ $(function () {
 
     baGrid.makeGrid();
 
-    findModalLinks();
-
-    if ($('#content').data("welcome") == "True") {
-        runSystemIntro();
-    }
+    findModalLinks();       
 });
 
 //data binding for the panes beneath each grid

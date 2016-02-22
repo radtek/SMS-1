@@ -166,9 +166,10 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Welcome").Include("~/Areas/Buyer/Views/SafeBuyer/Welcome.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSysSms").Include("~/Views/Shared/_IntroSysSms.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSms").Include("~/Views/Shared/_IntroSms.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Help/ShowMeHow").Include("~/Areas/Admin/Views/Help/_ShowMeHow.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_Tour").Include("~/Views/Shared/_Tour.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));
