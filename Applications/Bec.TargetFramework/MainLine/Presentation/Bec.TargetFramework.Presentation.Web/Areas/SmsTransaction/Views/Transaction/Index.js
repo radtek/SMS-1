@@ -39,6 +39,10 @@
                 title: "Primary Buyer's Email"
             },
             {
+                field: "Contact.LastName",
+                title: "Surname"
+            },
+            {
                 field: "SmsTransaction.Reference",
                 title: "Your Reference"
             },
