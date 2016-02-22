@@ -106,6 +106,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 dto.LastName = org.OrganisationAdminLastName;
                 dto.Email = org.OrganisationAdminEmail;
             }
+
+            ViewBag.Notes = org.OrganisationAdminTelephone;
             
             return PartialView("_Verify", dto);
         }
