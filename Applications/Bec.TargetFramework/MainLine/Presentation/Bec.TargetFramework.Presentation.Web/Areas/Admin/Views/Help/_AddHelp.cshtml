@@ -2,61 +2,123 @@
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model HelpPageDTO
 
-<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addPageLabel" aria-hidden="true">
-    <div class="modal-dialog">
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addTransactionLabel" aria-hidden="true">
+    <div class="modal-dialog" id="d1">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addPageLabel">Add Page</h4>
+                <h4 class="modal-title" id="addTransactionLabel">Add Page</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <form action="@Url.Action("AddPage", "ShowMeHow", new { area = "Admin" })" method="POST" id="addPage-form" class="smart-form">
-                            @Html.ValidationBootstrap()
-                            @Html.AntiForgeryToken()
-                            <fieldset>
-                                <section>
-                                    <label class="label">Page Type:</label>
-                                    <label class="select">
-                                        @{
-                                            var types = (IList<SelectListItem>)ViewBag.Types;
-                                        }
-                                        @Html.DropDownListFor(m => m.PageType, types, "Please Select", new { tabindex = "1" })
-                                        <i></i>
-                                    </label>
-                                </section>
-                                <section>
-                                    <label class="label">Page Name:</label>
-                                    <label class="input ">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 100 })
-                                    </label>
-                                </section>
+                    <form id="addTransaction-form" class="smart-form margin-top-0" data-url="@Url.Action("AddSmsTransaction", "Products", new { area = "ProOrganisation" })" data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })">
+                        @Html.ValidationBootstrap()
+                        @Html.AntiForgeryToken()
+                        @*@Html.HiddenFor(m => m.BuyerUaoID)*@
+                        <section class="col-xs-12">
+                            <div id="addTransactionWizard">
+                                <div class="form-bootstrapWizard margin-left-10 margin-right-10">
+                                    <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                                        <li class="active" data-target="#step1">
+                                            <a href="#step1" data-toggle="tab">
+                                                <h4 class="list-group-item-heading">Step 1</h4>
+                                                <p class="list-group-item-text">Page Information</p>
+                                            </a>
+                                        </li>
+                                        <li data-target="#step2">
+                                            <a href="#step2" data-toggle="tab">
+                                                <h4 class="list-group-item-heading">Step 2</h4>
+                                                <p class="list-group-item-text">Items</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
 
-                                <section>
-                                    <label class="label">Page URL:</label>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.PageUrl, new { tabindex = "3", maxlength = 100 })
-                                    </label>
-                                </section>
-                                
-                            </fieldset>
-                        </form>
-                    </div>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="step1">
+                                        <fieldset>
+                                            <legend>Page Information</legend>
+                                            <div class="row">
+                                                <section>
+                                                    <label class="label">Type:</label>
+                                                    <label class="select">
+                                                        @{
+                                                            var types = (IList<SelectListItem>)ViewBag.Types;
+                                                        }
+                                                        @Html.DropDownListFor(m => m.PageType, types, "Please Select", new { tabindex = "1" })
+                                                        <i></i>
+                                                    </label>
+                                                </section>
+                                                <section>
+                                                    <label class="label">Page Name:</label>
+                                                    <label class="input ">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 100 })
+                                                    </label>
+                                                </section>
+
+                                                <section>
+                                                    <label class="label">Page URL:</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.PageUrl, new { tabindex = "3", maxlength = 100 })
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="tab-pane" id="step2">
+                                        <fieldset>
+                                            <legend>Items</legend>
+                                            <section>
+                                                <label class="label">Page Name:</label>
+                                                <label class="input ">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 100 })
+                                                </label>
+                                            </section>
+                                            <div style="border-left:1px solid #000;height:500px"></div>
+                                            <section>
+                                                <label class="label">Page URL:</label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.PageUrl, new { tabindex = "3", maxlength = 100 })
+                                                </label>
+                                            </section>
+                                        </fieldset>
+                                        
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </section>
+                    </form>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="cancelAddPage" class="btn btn-default" data-dismiss="modal" tabindex="5">
+            <div class="modal-footer" id="addTransactionControls">
+                <!--
+                <button type="button" class="btn btn-sm btn-default pull-left" onclick="updateBalance()" tabindex="19">Refresh</button>
+                <button type="button" class="btn btn-sm btn-default pull-left" onclick="topUp()" tabindex="18">Top Up Credit</button>
+                    -->
+                <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal" tabindex="28">
                     Cancel
                 </button>
-                <button type="button" id="submitAddPage" class="btn btn-primary" tabindex="4">
-                    Add
+                <button type="button" id="stepBack" class="btn btn-primary" style="display:none;" tabindex="29">
+                    <i class="fa fa-chevron-left margin-right-5"></i>Back
+                </button>
+                <button type="button" id="stepNext" class="btn btn-primary" tabindex="30">
+                    Next<i class="fa fa-chevron-right margin-left-5"></i>
+                </button>
+                <button type="button" id="submitAddTransaction" class="btn btn-primary" style="display:none;" tabindex="30">
+                    Add Page
                 </button>
             </div>
         </div>
     </div>
 </div>
 
+@Scripts.Render("~/Scripts/typeahead")
 <script async src="@Scripts.Url("~/Scripts/Admin/Help/_AddHelp")"></script>
 

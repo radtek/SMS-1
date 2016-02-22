@@ -117,10 +117,7 @@
                         <ul>
                             <li class="@Html.RouteIf("active", "Help", "Index")">
                                 <a href="@Url.Action("Index", "Help", new { area = "Admin" })">Help</a>
-                            </li>
-                            <li class="@Html.RouteIf("active", "ShowMeHow", "Index")">
-                                <a href="@Url.Action("Index", "ShowMeHow", new { area = "Admin" })">Show Me How</a>
-                            </li>
+                            </li>                           
                         </ul>
                     </li>
                 }

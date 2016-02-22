@@ -59,6 +59,7 @@
                     {
                         field: "PageType",
                         title: "Page Type",
+                        template: function (dataItem) { return (dataItem.PageType == 1 ? "Tour" : (dataItem.PageType == 2 ? "Show Me How" : "Callout")); }
                     },
                     {
                         field: "CreatedOn",
@@ -85,12 +86,12 @@
 
     $('#typeList').on('change', function () {
         var valOfThis = $(this).val();
-        console.log(valOfThis != undefined);
-        console.log(valOfThis != 0);
-        if (valOfThis != undefined || valOfThis != 0) {
+        console.log(valOfThis.length);
+        if (valOfThis.length > 0) {
             $("#btnAddPage").data('href', $("#btnAddPage").data("url") + "?PageType=" + valOfThis);
         }
         else {
+            console.log('a');
             $("#btnAddPage").data('href', $("#btnAddPage").data("url"));
         }
         helpGrid.refreshGrid();
