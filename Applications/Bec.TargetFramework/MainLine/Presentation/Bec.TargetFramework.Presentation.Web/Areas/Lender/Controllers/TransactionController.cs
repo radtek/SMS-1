@@ -58,7 +58,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 PurchasedByLastName = x.Invoice.UserAccountOrganisation.Contact.LastName,
                 ppl = x.SmsUserAccountOrganisationTransactions.Select(y => new
                 {
-                    y.SmsUserAccountOrganisationTransactionType.SmsUserAccountOrganisationTransactionTypeID,
+                    y.SmsUserAccountOrganisationTransactionTypeID,
                     y.SmsUserAccountOrganisationTransactionType.Description,
                     y.Contact.Salutation,
                     y.Contact.FirstName,
@@ -70,10 +70,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                     y.Address.County,
                     y.Address.PostalCode,
                     y.Address.AdditionalAddressInformation,
-                    y.LatestBankAccountCheck.CheckedOn,
-                    y.LatestBankAccountCheck.BankAccountNumber,
-                    y.LatestBankAccountCheck.SortCode,
-                    y.LatestBankAccountCheck.IsMatch,
                     Check = y.SmsBankAccountChecks.Select(z => new
                     {
                         z.BankAccountNumber,

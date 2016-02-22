@@ -11,12 +11,6 @@
             <dt>Last Logged In:</dt>
             <dd><p>{{formattedLastLogin}}</p></dd>
         {{/if}}
-        <dt>Bank Account Check:</dt>
-        {{#if formattedLatestBankAccountCheckOn}}
-            <dd><p>{{formattedLatestBankAccountCheckOn}}: <span class="{{matchClass}}">{{latestCheckResult}}</span></p></dd>
-        {{else}}
-            <dd><p>N/A</p></dd>
-        {{/if}}
         {{#if Address.Line1}}
         <dt>Address:</dt>
         <dd>

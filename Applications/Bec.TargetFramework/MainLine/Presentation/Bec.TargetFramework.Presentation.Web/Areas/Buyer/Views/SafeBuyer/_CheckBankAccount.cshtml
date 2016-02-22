@@ -1,7 +1,11 @@
-﻿@using Bec.TargetFramework.Entities
+﻿@model SmsUserAccountOrganisationTransactionDTO
+@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
-@model SmsUserAccountOrganisationTransactionDTO
+@{
+    var conveyancerName = Model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+    var shortenedConveyancerName = conveyancerName.Length > 50 ? conveyancerName.Substring(0, 50) + "..." : conveyancerName;
+}
 
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="confirmDetailsLabel" aria-hidden="true">
     <div class="modal-dialog" id="d1">
@@ -21,7 +25,7 @@
                                 <legend>Bank Account Check</legend>
                                 <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
                                     <p>
-                                        This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to your conveyancing firm, actually belong to that firm.
+                                        This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to <strong>@conveyancerName</strong>, actually belong to that firm.
                                     </p>
                                     <p>
                                         Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
@@ -34,7 +38,7 @@
                                     <section class="col col-sm-12">
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" autocomplete="off" />
+                                            <input type="text" name="accountNumber" id="accountNumber" placeholder="@shortenedConveyancerName's Account Number" maxlength="8" autocomplete="off" />
                                         </label>
                                     </section>
                                 </div>
@@ -43,7 +47,7 @@
                                     <section class="col col-sm-12">
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" autocomplete="off" />
+                                            <input type="text" name="sortCode" id="sortCode" placeholder="@shortenedConveyancerName's Sort Code" maxlength="6" autocomplete="off" />
                                         </label>
                                     </section>
                                 </div>
