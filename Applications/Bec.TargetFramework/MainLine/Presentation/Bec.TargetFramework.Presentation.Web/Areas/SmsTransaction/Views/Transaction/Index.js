@@ -194,7 +194,6 @@
             fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
             formattedBirthDate: dateStringNoTime(contact.BirthDate),
             formattedLastLogin: dataItem.UserAccountOrganisation.UserAccount.LastLogin ? dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin) : null,
-            formattedLatestBankAccountCheckOn: dataItem.LatestBankAccountCheck ? dateString(dataItem.LatestBankAccountCheck.CheckedOn) : null,
             pageNumber: txGrid.grid.dataSource.page(),
             srcFundsBankAccounts: _.toArray(dataItem.SmsSrcFundsBankAccounts)
         });
@@ -224,7 +223,6 @@
                     transactionId: item.SmsTransactionID,
                     formattedBirthDate: dateStringNoTime(contact.BirthDate),
                     formattedLastLogin: item.UserAccountOrganisation.UserAccount.LastLogin ? dateString(item.UserAccountOrganisation.UserAccount.LastLogin) : null,
-                    formattedLatestBankAccountCheckOn: item.LatestBankAccountCheck ? dateString(item.LatestBankAccountCheck.CheckedOn) : null,
                     srcFundsBankAccounts: _.toArray(item.SmsSrcFundsBankAccounts)
                 });
             });
@@ -259,7 +257,7 @@
             item.SmsSrcFundsBankAccounts = _.toArray(item.SmsSrcFundsBankAccounts);
             return item;
         });
-        var orderedData = _.orderBy(mappedData, ['SmsUserAccountOrganisationTransactionType.SmsUserAccountOrganisationTransactionTypeID'], ['asc']);
+        var orderedData = _.orderBy(mappedData, ['SmsUserAccountOrganisationTransactionTypeID'], ['asc']);
         var data = _.toArray(orderedData);
         bankAccountChecksDetailsPromise.done(function (template) {
             var html = template(data);
