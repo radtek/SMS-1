@@ -131,7 +131,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var helpItemUas = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.Where(x => x.UserID == userId && x.Visible != true).ToList();
                 var now = DateTime.Now;
-                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(x => x.EffectiveOn < now && x.CreatedOn > createDate).ToList();
+                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(x => x.EffectiveOn < now && x.CreatedOn > createDate && x.HelpPage.PageType == (int)PageType.Callout).ToList();
                 if (helpItemUas != null && helpItemUas.Any() && helpItems != null && helpItems.Any())
                 {
                     helpItems = helpItems.FindAll(x => !helpItemUas.Any(z => z.HelpItemID == x.HelpItemID));

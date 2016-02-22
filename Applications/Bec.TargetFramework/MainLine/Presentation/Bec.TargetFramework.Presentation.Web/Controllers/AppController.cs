@@ -106,7 +106,9 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         {
             var userID = WebUserHelper.GetWebUserObject(HttpContext).UserID;
             var createdDate = WebUserHelper.GetWebUserObject(HttpContext).Created;
-            var helpItems = await helpClient.GetHelpItemsForCalloutAsync(userID, createdDate);
+            string dateTime = createdDate.ToString("dd/MM/yyyy");
+            DateTime dt = DateTime.Parse(dateTime);
+            var helpItems = await helpClient.GetHelpItemsForCalloutAsync(userID, dt);
             return Json(new { result = true, callOuts = helpItems.Select(x => new { x.Title, x.Description, x.Selector, x.Position }) }, JsonRequestBehavior.AllowGet);
         }
 
