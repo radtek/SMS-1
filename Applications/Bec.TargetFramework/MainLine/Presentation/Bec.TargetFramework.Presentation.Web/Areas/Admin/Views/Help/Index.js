@@ -69,7 +69,7 @@
                     {
                         field: "ModifiedOn",
                         title: "Modified On",
-                        template: function (dataItem) { return dateString(dataItem.ModifiedOn); }
+                        template: function (dataItem) { if (dataItem.ModifiedOn != null) return dateString(dataItem.ModifiedOn); else return ""; }
                     }
             ]
         });
@@ -116,12 +116,11 @@
     }
 
     function onPageChange(dataItem) {
-
         $("p#ddnName").text(dataItem.PageName);
         $("p#ddnUrl").text(dataItem.PageUrl != null ? dataItem.PageUrl : "");
         $("p#ddnType").text((dataItem.PageType == 1 ? "Tour" : (dataItem.PageType == 2 ? "Show Me How" : "Callout")) || "");
         $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
-        $("p#ddnModifiedOn").text(dateString(dataItem.ModifiedOn) || "");
+        $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? dateString(dataItem.ModifiedOn) : "");
         btnEdit.data('href', urls.editHelpUrl + "?pageId=" + dataItem.HelpPageID);
         btnDelete.data('href', urls.deleteHelpUrl + "?pageId=" + dataItem.HelpPageID);
         loadItemForPage(dataItem.HelpPageID, urls.getHelpItemsUrl);

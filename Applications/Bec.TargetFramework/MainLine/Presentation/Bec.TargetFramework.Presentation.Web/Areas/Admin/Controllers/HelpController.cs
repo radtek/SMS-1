@@ -5,6 +5,8 @@ using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,9 +48,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.PageType, x.CreatedOn, x.ModifiedOn });
 
             var filterPage = val != 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.PageType == val) : String.Empty;
-            var pages = await queryClient.QueryAsync<HelpPageDTO>("HelpPages", selectPage + filterPage);
-            var jsonData = new { Count = pages.Count(), Items = pages };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
+            JObject res = await queryClient.QueryAsync("HelpPages", ODataHelper.RemoveParameters(Request) + selectPage + filterPage);
+            return Content(res.ToString(Formatting.None), "application/json");
 
         }
 
