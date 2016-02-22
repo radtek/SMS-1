@@ -41,7 +41,7 @@
             change: onPageChange,
             jumpToId: $('#helpGrid').data("jumpto"),
             extraParameters: function () {
-                return "&type=" + typeDropdown.val()
+                return "&type=" + $('#typeList').val()
             },
             columns: [
                     {
@@ -83,6 +83,19 @@
     tabs.showTab($('#helpTab').data("selected"));
     findModalLinks();
 
+    $('#typeList').on('change', function () {
+        var valOfThis = $(this).val();
+        console.log(valOfThis != undefined);
+        console.log(valOfThis != 0);
+        if (valOfThis != undefined || valOfThis != 0) {
+            $("#btnAddPage").data('href', $("#btnAddPage").data("url") + "?PageType=" + valOfThis);
+        }
+        else {
+            $("#btnAddPage").data('href', $("#btnAddPage").data("url"));
+        }
+        helpGrid.refreshGrid();
+    });
+
     function loadItemForPage(pageId, url) {
         var ajaxOptions = {
             url: url,
@@ -102,14 +115,15 @@
     }
 
     function onPageChange(dataItem) {
+
         $("p#ddnName").text(dataItem.PageName);
-        $("p#ddnUrl").text(dataItem.PageUrl || "");
+        $("p#ddnUrl").text(dataItem.PageUrl != null ? dataItem.PageUrl : "");
         $("p#ddnType").text((dataItem.PageType == 1 ? "Tour" : (dataItem.PageType == 2 ? "Show Me How" : "Callout")) || "");
         $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
         $("p#ddnModifiedOn").text(dateString(dataItem.ModifiedOn) || "");
         btnEdit.data('href', urls.editHelpUrl + "?pageId=" + dataItem.HelpPageID);
         btnDelete.data('href', urls.deleteHelpUrl + "?pageId=" + dataItem.HelpPageID);
-        loadItemForPage(dataItem.PageId, urls.getHelpItemsUrl);
+        loadItemForPage(dataItem.HelpPageID, urls.getHelpItemsUrl);
     }
 });
 

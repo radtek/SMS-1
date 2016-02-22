@@ -1,7 +1,9 @@
-﻿using Bec.TargetFramework.Entities;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,46 +15,51 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
     public class HelpController : Controller
     {
+        public IQueryLogicClient queryClient { get; set; }
+        public IHelpLogicClient helpClient { get; set; }
+        public IList<SelectListItem> GetTypes()
+        {
+            return new List<SelectListItem> {
+                new SelectListItem { Value = PageType.Tour.GetIntValue().ToString(), Text=PageType.Tour.GetStringValue()},
+                new SelectListItem { Value = PageType.ShowMeHow.GetIntValue().ToString(), Text=PageType.ShowMeHow.GetStringValue()},
+                new SelectListItem { Value = PageType.Callout.GetIntValue().ToString(), Text=PageType.Callout.GetStringValue()}
+            };
+        }
         public ActionResult Index()
         {
-            ViewBag.Types = new List<SelectListItem> {
-                new SelectListItem { Value = PageType.Tour.ToString(), Text=PageType.Tour.GetStringValue() },
-                new SelectListItem { Value = PageType.ShowMeHow.ToString(), Text=PageType.ShowMeHow.GetStringValue() },
-                new SelectListItem { Value = PageType.Callout.ToString(), Text=PageType.Callout.GetStringValue() }
-            };
-            var pageId = Guid.NewGuid();
-            TempData["HelpPageId"] = pageId.ToString();
-            TempData.Keep("HelpPageId");
+            ViewBag.Types = GetTypes();
             return View();
         }
 
-        public ActionResult ViewAddHelp()
+        public ActionResult ViewAddHelp(HelpPageDTO page)
         {
-            return PartialView("_AddHelp");
+            ViewBag.Types = GetTypes();
+            return PartialView("_AddHelp", page);
         }
 
         public async Task<ActionResult> GetHelps(PageType? type)
         {
+
+            var val = type == null ? 0 : type.GetIntValue();
             TempData["CurrentType"] = type;
-            var pageId = Guid.Parse(TempData["HelpPageId"].ToString());
-            TempData.Keep("HelpPageId");
-            var list = new List<HelpPageDTO> { 
-                new HelpPageDTO { HelpPageID = pageId, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now, PageName = "Test", PageUrl = "/Admin/Test", PageType = PageType.Tour.GetIntValue() } ,
-                new HelpPageDTO { HelpPageID = pageId, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now, PageName = "Test 1", PageUrl = "/Admin/Test1", PageType = PageType.Tour.GetIntValue() } 
-            };
-            var jsonData = new { Count = list.Count, Items = list };
+
+            var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.PageType, x.CreatedOn, x.ModifiedOn });
+
+            var filterPage = val != 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.PageType == val) : String.Empty;
+            var pages = await queryClient.QueryAsync<HelpPageDTO>("HelpPages", selectPage + filterPage);
+            var jsonData = new { Count = pages.Count(), Items = pages };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+
         }
 
-        public async Task<ActionResult> GetHelpItems(Guid? pageId)
+        public async Task<ActionResult> GetHelpItems(Guid pageId)
         {
-            pageId = Guid.Parse(TempData["HelpPageId"].ToString());
-            var list = new List<HelpItemDTO>
-            {
-                new HelpItemDTO { HelpItemID = Guid.NewGuid(), HelpPageID = pageId.Value, Title = "Test 1" },
-                new HelpItemDTO { HelpItemID = Guid.NewGuid(), HelpPageID = pageId.Value, Title = "Test 1" }
-            };
-            var jsonData = new { IsEmpty = list.Count == 0, Items = list, IsSortable = false };
+            var selectItem = ODataHelper.Select<HelpItemDTO>(x => new { x.HelpItemID, x.HelpPageID, x.Title });
+            var filterItem = ODataHelper.Filter<HelpItemDTO>(x => x.HelpPageID == pageId);
+            var orderItem = ODataHelper.OrderBy<HelpItemDTO>(x => new { x.DisplayOrder });
+            var list = await queryClient.QueryAsync<HelpItemDTO>("HelpItems", selectItem + filterItem + orderItem);
+
+            var jsonData = new { IsEmpty = list.Count() == 0, Items = list, IsSortable = false };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
     }

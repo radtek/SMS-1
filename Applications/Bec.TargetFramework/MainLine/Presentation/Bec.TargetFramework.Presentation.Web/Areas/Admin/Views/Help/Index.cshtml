@@ -4,12 +4,13 @@
 @{
     var type = default(int);
     int.TryParse(Convert.ToString(TempData["CurrentType"]), out type);
+    TempData.Keep("CurrentType");
 }
 <div id="content">
     <div class="row">
         <div class="col-sm-5 col-lg-6">
             <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-support margin-right-10"></i>Help Management</h2>
-            <a data-href="@Url.Action("ViewAddHelp", "Help", new { area  = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Help</a>
+            <a id="btnAddPage" data-href="@Url.Action("ViewAddHelp", "Help", new { area = "Admin", PageType = type })" data-url="@Url.Action("ViewAddHelp", "Help", new { area = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Help</a>
         </div>
         <div class="col-sm-7 col-lg-6 margin-top-15 margin-bottom-5">
             <div class="col-md-12 smart-form">
