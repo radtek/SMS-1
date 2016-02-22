@@ -1,9 +1,74 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Help Management";
 }
-
-<div id="content"></div>
+@{
+    var type = default(int);
+    int.TryParse(Convert.ToString(TempData["CurrentType"]), out type);
+}
+<div id="content">
+    <div class="row">
+        <div class="col-sm-5 col-lg-6">
+            <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-support margin-right-10"></i>Help Management</h2>
+            <a data-href="@Url.Action("ViewAddHelp", "Help", new { area  = "Admin" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Help</a>
+        </div>
+        <div class="col-sm-7 col-lg-6 margin-top-15 margin-bottom-5">
+            <div class="col-md-12 smart-form">
+                <label class="select">
+                    @Html.DropDownListFor(m => type, new SelectList(ViewBag.Types, "Value", "Text", type), "Please select", new { tabindex = "1", id = "typeList", style = "width:200px;float:right" })
+                    <i></i>
+                </label>
+                <label for="typeList" style="float:right;color:#808080; margin-right:5px; margin-top:5px">Type:&nbsp;</label>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <ul id="helpTab" class="nav nav-tabs bordered" role="tablist">
+                <li><a href="#helpGridWrapper"> Help </a></li>
+            </ul>
+            <div id="helpTabContent" class="tab-content padding-10">
+                <div class="tab-pane fade in active" id="helpGridWrapper" role="tabpanel">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well">
+                                <div id="helpGrid" data-url="@Url.Action("GetHelps", "Help", new { area = "Admin" })" data-jumpto="@TempData["HelpPageId"]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row hidden" id="helpDetailPanel">
+                        <div class="col-sm-6">
+                            <!-- well -->
+                            <div class="well">
+                                <a id="btnEditHelp" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEditHelp", "Help", new { area = "Admin" })"><i class="fa fa-edit margin-right-5"></i>Edit</a>
+                                <a id="btnDeleteHelp" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewDeleteHelp", "Help", new { area = "Admin" })"><i class="fa fa-times margin-right-5"></i>Delete</a>
+                                <h5>Selected Help</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Page Name:</dt>
+                                    <dd><p id="ddnName"></p></dd>
+                                    <dt>Page URL:</dt>
+                                    <dd><p id="ddnUrl"></p></dd>
+                                    <dt>Type:</dt>
+                                    <dd><p id="ddnType"></p></dd>
+                                    <dt>Created On:</dt>
+                                    <dd><p id="ddnCreatedOn"></p></dd>
+                                    <dt>Modified On:</dt>
+                                    <dd><p id="ddnModifiedOn"></p></dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="well">
+                                <h5>Items</h5>
+                                <div id="helpItemList" data-helps-url="@Url.Action("GetHelps", "Help", new { area = "Admin" })"
+                                     data-template-url="@Url.Action("GetTemplate", "App", new { area = "" })"
+                                     data-items-url="@Url.Action("GetHelpItems", "Help", new { area = "Admin" })">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script async src="@Scripts.Url("~/Scripts/Admin/Help/Index")"></script>
 

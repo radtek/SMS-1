@@ -900,6 +900,7 @@
     <Content Include="Areas\Admin\Views\Help\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_AddHelp.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_EditHelp.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_ItemList.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

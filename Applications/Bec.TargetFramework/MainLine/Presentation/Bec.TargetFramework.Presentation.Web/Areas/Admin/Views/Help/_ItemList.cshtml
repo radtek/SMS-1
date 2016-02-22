@@ -1,0 +1,62 @@
+﻿<style>
+    .helpItemList {
+        list-style-type: none;
+        margin-bottom: 9px;
+        box-sizing: border-box;
+        display: block;
+        padding: 0px;
+        margin-left: 0px;
+    }
+
+        .helpItemList > li {
+            display: list-item;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-bottom: 8px;
+            margin-left: 0px;
+            cursor: default;
+        }
+
+            .helpItemList > li > span.ui-icon {
+                position: absolute;
+                margin-left: -0.3em;
+                color: #333;
+            }
+
+    .help-item-btn > a {
+        padding: 0 9px !important;
+        color: #fff !important;
+        float: right;
+        margin-left: 5px;
+    }
+
+    .help-item-title {
+        margin-left: 1em;
+    }
+</style>
+
+<ul class="helpItemList">
+    {{#if data.IsEmpty}}
+    <li>
+        <div>Selected Help does not have any items.</div>
+    </li>
+    {{/if}}
+    {{#if data.IsSortable}}
+    {{#each data.Items}}
+    <li class="ui-state-default" data-item-id="{{HelpItemID}}">
+        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+        <span class="help-item-title">{{Title}}</span>
+        <span class="help-item-btn">
+            <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
+            <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
+        </span>
+    </li>
+    {{/each}}
+    {{else}}
+    {{#each data.Items}}
+    <li class="ui-state-default" data-item-id="{{HelpItemID}}">
+        <span class="help-item-title">{{Title}}</span>
+    </li>
+    {{/each}}
+    {{/if}}
+</ul>
