@@ -25,6 +25,10 @@
         searchElementId: 'gridSearchInput',
         searchButtonId: 'gridSearchButton',
         clearSearchButtonId: 'clearGridSearch',
+        extraFilters: [
+            { selector: '#decisionFilter', parameter: 'decisionFilter' },
+            { selector: '#noMatchFilter', parameter: 'noMatchFilter' }
+        ],
         columns: [
             {
                 field: "SmsTransactionID",

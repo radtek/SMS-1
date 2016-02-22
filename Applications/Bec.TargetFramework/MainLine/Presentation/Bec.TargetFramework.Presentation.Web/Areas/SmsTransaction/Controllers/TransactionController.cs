@@ -72,7 +72,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             }
         }
 
-        public async Task<ActionResult> GetSmsTransactions(string search)
+        public async Task<ActionResult> GetSmsTransactions(string search, SmsTransactionDecisionEnum decisionFilter, SmsTransactionNoMatchEnum noMatchFilter)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
@@ -151,6 +151,26 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     x.SmsTransaction.Address.Line1.ToLower().Contains(search) ||
                     x.SmsTransaction.Address.PostalCode.ToLower().Contains(search)
                     ));
+            }
+
+            switch (decisionFilter)
+            {
+                case SmsTransactionDecisionEnum.Declined:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.ProductDeclinedOn != null && x.SmsTransaction.Invoice == null));
+                    break;
+                case SmsTransactionDecisionEnum.Purchased:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.InvoiceID != null));
+                    break;
+            }
+
+            switch (noMatchFilter)
+            {
+                case SmsTransactionNoMatchEnum.None:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => !x.SmsTransaction.SmsUserAccountOrganisationTransactions.Any(y => y.SmsBankAccountChecks.Any(z => !z.IsMatch))));
+                    break;
+                case SmsTransactionNoMatchEnum.Present:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.SmsUserAccountOrganisationTransactions.Any(y => y.SmsBankAccountChecks.Any(z => !z.IsMatch))));
+                    break;
             }
             var filter = ODataHelper.Filter(where);
 
