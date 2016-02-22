@@ -162,7 +162,7 @@
 
         $('#transactionConversationContainer')
             .data('activity-id', dataItem.SmsTransactionID)
-            .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.SmsTransaction.InvoiceID != null]);
+            .trigger('activitychange', [dataItem.SmsTransactionID, true]);
         areConversationsLoaded = false;
 
         $('#quoteButton').data('href', $('#quoteButton').data("url") + "?txID=" + dataItem.SmsTransactionID);

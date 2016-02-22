@@ -141,7 +141,7 @@ $(function () {
         $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
         $('#transactionConversationContainer')
             .data('activity-id', dataItem.SmsTransactionID)
-            .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.Invoice != null]);
+            .trigger('activitychange', [dataItem.SmsTransactionID, true]);
         areConversationsLoaded = false;
     }
 

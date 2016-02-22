@@ -295,8 +295,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var resultTx = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", selectTx + filterTx);
                     var tx = resultTx.FirstOrDefault();
 
-                    if (!CanAccessSmsTransactionConversation(tx, isSystemMessage, reply)) return false;
-
                     switch ((OrganisationTypeEnum)org.OrganisationTypeID)
                     {
                         case OrganisationTypeEnum.Personal:
@@ -305,7 +303,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             var filterTxUaot = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == activityId && x.UserAccountOrganisationID == uaoId);
                             var resultTxUaot = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", selectTxUaot + filterTxUaot);
                             var txUaot = resultTxUaot.FirstOrDefault();
-
+                            if (!CanAccessSmsTransactionConversation(tx, isSystemMessage, reply)) return false;
                             return txUaot != null && ClaimsAuthorization.CheckAccess("View", "MyTransactions");
                         case OrganisationTypeEnum.Professional:
                             return tx.OrganisationID == orgId && ClaimsAuthorization.CheckAccess("View", "SmsTransaction");
