@@ -113,7 +113,7 @@
                 @if (ClaimsHelper.UserHasClaim("Add", "SupportFunctions"))
                 {
                     <li class="@Html.RouteIf("open", "SupportFunctions")">
-                        <a href="#"><i class="fa fa-lg fa-fw fa-support"></i> <span class="menu-item-parent">Help Management</span></a>
+                        <a href="#"><i class="fa fa-lg fa-fw fa-question-circle"></i> <span class="menu-item-parent">Help Management</span></a>
                         <ul>
                             <li class="@Html.RouteIf("active", "Help", "Index")">
                                 <a href="@Url.Action("Index", "Help", new { area = "Admin" })">Help</a>
