@@ -265,6 +265,7 @@
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\Help\Index.js" />
     <Content Include="Areas\Admin\Views\Help\_AddHelp.js" />
+    <Content Include="Areas\Admin\Views\Help\_DeleteHelpPage.js" />
     <Content Include="Areas\Admin\Views\Help\_EditHelp.js" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
@@ -901,6 +902,7 @@
     <Content Include="Areas\Admin\Views\Help\_AddHelp.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_EditHelp.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_ItemList.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_DeleteHelpPage.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
