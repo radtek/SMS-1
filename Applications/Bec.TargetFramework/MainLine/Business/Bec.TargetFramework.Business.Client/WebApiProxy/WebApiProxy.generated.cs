@@ -279,22 +279,22 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	public partial interface IHelpLogicClient : IClientBase	{	
 
 		/// <returns></returns>
-		Task<Guid> CreateHelpPageAsync(HelpPageDTO HelpPageDTO);
+		Task<Guid> CreateHelpPageAsync(HelpPageDTO helpPageDto);
 
 		/// <returns></returns>
-		Guid CreateHelpPage(HelpPageDTO HelpPageDTO);
+		Guid CreateHelpPage(HelpPageDTO helpPageDto);
 
 		/// <returns></returns>
-		Task<Guid> CreateHelpItemAsync(HelpItemDTO HelpItemDTO);
+		Task<Guid> CreateHelpItemAsync(HelpItemDTO helpItemDto);
 
 		/// <returns></returns>
-		Guid CreateHelpItem(HelpItemDTO HelpItemDTO);
+		Guid CreateHelpItem(HelpItemDTO helpItemDto);
 
 		/// <returns></returns>
-		Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO HelpItemUserAccountDTO);
+		Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO helpItemUserAccountDTO);
 
 		/// <returns></returns>
-		Guid CreateHelpItemUserAccount(HelpItemUserAccountDTO HelpItemUserAccountDTO);
+		Guid CreateHelpItemUserAccount(HelpItemUserAccountDTO helpItemUserAccountDTO);
 
 		/// <returns></returns>
 		Task DeleteHelpPageAsync(HelpPageDTO helpPageDto);
@@ -2526,57 +2526,57 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task<Guid> CreateHelpPageAsync(HelpPageDTO HelpPageDTO)
+		public virtual Task<Guid> CreateHelpPageAsync(HelpPageDTO helpPageDto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPage", HelpPageDTO, _user);
+			return PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPage", helpPageDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Guid CreateHelpPage(HelpPageDTO HelpPageDTO)
+		public virtual Guid CreateHelpPage(HelpPageDTO helpPageDto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPage", HelpPageDTO, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task<Guid> CreateHelpItemAsync(HelpItemDTO HelpItemDTO)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<HelpItemDTO, Guid>("api/HelpLogic/CreateHelpItem", HelpItemDTO, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual Guid CreateHelpItem(HelpItemDTO HelpItemDTO)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<HelpItemDTO, Guid>("api/HelpLogic/CreateHelpItem", HelpItemDTO, _user)).Result;
+			return Task.Run(() => PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPage", helpPageDto, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO HelpItemUserAccountDTO)
+		public virtual Task<Guid> CreateHelpItemAsync(HelpItemDTO helpItemDto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<HelpItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccount", HelpItemUserAccountDTO, _user);
+			return PostAsync<HelpItemDTO, Guid>("api/HelpLogic/CreateHelpItem", helpItemDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Guid CreateHelpItemUserAccount(HelpItemUserAccountDTO HelpItemUserAccountDTO)
+		public virtual Guid CreateHelpItem(HelpItemDTO helpItemDto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<HelpItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccount", HelpItemUserAccountDTO, _user)).Result;
+			return Task.Run(() => PostAsync<HelpItemDTO, Guid>("api/HelpLogic/CreateHelpItem", helpItemDto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO helpItemUserAccountDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<HelpItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccount", helpItemUserAccountDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid CreateHelpItemUserAccount(HelpItemUserAccountDTO helpItemUserAccountDTO)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<HelpItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccount", helpItemUserAccountDTO, _user)).Result;
 		}
 
 		/// <summary>

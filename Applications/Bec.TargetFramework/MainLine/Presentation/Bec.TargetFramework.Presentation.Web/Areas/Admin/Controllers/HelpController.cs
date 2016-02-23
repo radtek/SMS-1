@@ -49,6 +49,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddHelp(HelpPageDTO page)
+        {
+            List<HelpItemDTO> items;
+            if (TempData["Items"] != null)
+            {
+                items = (List<HelpItemDTO>)TempData["Items"];
+                page.HelpItems = items;
+            }
+            TempData["HelpPageId"] = await helpClient.CreateHelpPageAsync(page);
+            this.AddToastMessage("Add Successfully", "The help has been added", ToastType.Success, false);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteHelp(HelpPageDTO page)
         {
             await helpClient.DeleteHelpPageAsync(page);

@@ -33,23 +33,10 @@
 
     function validateSubmit(form) {        
         $("#submitAddItem").prop('disabled', true);
-        //$.ajax({
-        //    cache: false,
-        //    async: true,
-        //    type: "POST",
-        //    url: $(form).attr('action'),
-        //    data: $(form).serialize(),
-        //    success: function (data) {
-        //        console.log(data);
-        //        $("#submitAddItem").prop('disabled', false);
-        //    }
-        //});
-        //form.submit();
         ajaxWrapper({
             url: $(form).attr('action'),            
             data: $(form).serializeArray(),
             type: 'POST'
-            //contentType: 'application/json; charset=utf-8'
         })
                 .done(function (response) {
                     if (response != null || response != undefined) {
