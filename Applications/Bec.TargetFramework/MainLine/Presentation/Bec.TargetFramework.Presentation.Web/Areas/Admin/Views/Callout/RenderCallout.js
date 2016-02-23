@@ -33,7 +33,7 @@
     function startIntro(callouts) {
         var intro = introJs();
         intro.setOptions({
-            showStepNumbers: false, disableInteraction: true, exitOnOverlayClick: false,
+            showStepNumbers: false, disableInteraction: true, exitOnOverlayClick: false, skipLabel: 'Close',
             overlayOpacity: 0.1,
             steps: getStepCallouts(callouts)
         });

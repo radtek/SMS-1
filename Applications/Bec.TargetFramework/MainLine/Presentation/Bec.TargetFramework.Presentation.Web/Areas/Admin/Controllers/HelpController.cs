@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Bec.TargetFramework.Presentation.Web.Models.ToastrNotification;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
@@ -38,6 +39,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["Items"] = null;
             ViewBag.Types = GetTypes();
             return PartialView("_AddHelp", page);
+        }
+
+        public async Task<ActionResult> ViewDeleteHelp(Guid pageId)
+        {
+            var pages = await GetHelpDtos(pageId);
+            return PartialView("_DeleteHelpPage", pages.FirstOrDefault());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteHelp(HelpPageDTO page)
+        {
+            await helpClient.DeleteHelpPageAsync(page);
+            this.AddToastMessage("Delete Successfully", "The help has been deleted", ToastType.Success, false);
+            return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> GetHelps(PageType? type)
@@ -71,6 +87,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             var jsonData = new { IsEmpty = list.Count() == 0, Items = list, IsSortable = false };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+
+        private async Task<List<HelpPageDTO>> GetHelpDtos(Guid? pageId)
+        {
+            var select = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.PageType, x.CreatedOn, x.ModifiedOn });
+            var filter = string.Empty;
+            if (pageId.HasValue)
+            {
+                var val = pageId.Value;
+                filter = ODataHelper.Filter<HelpPageDTO>(x => x.HelpPageID == val);
+            }
+            var list = await queryClient.QueryAsync<HelpPageDTO>("HelpPages", select + filter);
+            return list.ToList();
         }
 
         [HttpPost]

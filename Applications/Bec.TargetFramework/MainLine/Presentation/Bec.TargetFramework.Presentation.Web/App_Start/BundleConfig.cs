@@ -69,7 +69,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Bec/bec.jquery.validate.rules.js"
                 ));
 
-          
+
             bundles.Add(new ScriptBundle("~/bundles/scripts/site").Include(
                 "~/Scripts/admin.js",
                 "~/Scripts/site.js",
@@ -127,6 +127,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/Index").Include("~/Areas/Admin/Views/Help/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditHelp").Include("~/Areas/Admin/Views/Help/_EditHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddHelp").Include("~/Areas/Admin/Views/Help/_AddHelp.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_DeleteHelpPage").Include("~/Areas/Admin/Views/Help/_DeleteHelpPage.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddItem").Include("~/Areas/Admin/Views/Help/_AddItem.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhPage").Include("~/Areas/Admin/Views/Shared/_AddSmhPage.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhSysPage").Include("~/Areas/Admin/Views/Shared/_AddSmhSysPage.js"));
