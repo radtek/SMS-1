@@ -1,0 +1,69 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model HelpItemDTO
+
+
+<div data--url="@Url.Action("AddItem", "Help", new { area = "Admin" })" id="addItem-form" class="smart-form">
+    @Html.ValidationBootstrap()
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.HelpPageID)
+    @Html.HiddenFor(m => m.DisplayOrder)
+    <div class="modal-header">
+        <button type="button" id="cancelAddItem" class="btn btn-default" data-dismiss="modal" tabindex="7">
+            Cancel
+        </button>
+        <button type="button" id="submitAddItem" class="btn btn-primary" tabindex="6">
+            Add
+        </button>
+    </div>
+    <fieldset>
+        <section>
+            <label class="label">Item Title:</label>
+            <label class="input ">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                @Html.TextBoxFor(m => m.Title, new { tabindex = "1", maxlength = 100 })
+            </label>
+        </section>
+        <section>
+            <label class="label">Item Selector:</label>
+            <label class="input">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                @Html.TextBoxFor(m => m.Selector, new { tabindex = "2", maxlength = 200 })
+            </label>
+        </section>
+        @if (TempData["isShowMeHowItem"] != null)
+        {
+            <section>
+                <label class="label">Item belong to Tab id: (Eg. #tabId)</label>
+                <label class="input">
+                    @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50 })
+                </label>
+            </section>
+        }
+        @if (TempData["isCalloutItem"] != null)
+        {
+            <section>
+                <label class="label">Effective On</label>
+                <label class="input">
+                    @Html.TextBoxFor(m => m.EffectiveOn, new { tabindex = "3", maxlength = 50 })
+                </label>
+            </section>
+        }
+        <section>
+            <label class="label">Description:</label>
+            <label class="textarea">
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", tabindex = "4", rows = 5, style = "width:100%; resize:none;" })
+            </label>
+        </section>
+        <section>
+            <label class="label">Position:</label>
+            <label class="select">
+                @Html.DropDownListFor(m => m.Position, EnumHelper.GetSelectList(typeof(HtmlPositionEnum)), null, new { tabindex = "5", style = "width:100%; min-height:25px;" })
+                <i></i>
+            </label>
+        </section>
+    </fieldset>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Help/_AddItem")"></script>

@@ -35,6 +35,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public ActionResult ViewAddHelp(HelpPageDTO page)
         {
+            TempData["Items"] = null;
             ViewBag.Types = GetTypes();
             return PartialView("_AddHelp", page);
         }
@@ -45,8 +46,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var val = type == null ? 0 : type.GetIntValue();
             TempData["CurrentType"] = type;
 
-            var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.PageType, x.CreatedOn, x.ModifiedOn });
+            if (val == 2)
+            {
+                TempData["isShowMeHowItem"] = true;
+            }
+            if (val == 3)
+            {
+                TempData["isCalloutItem"] = true;
+            }
 
+            var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.PageType, x.CreatedOn, x.ModifiedOn });
             var filterPage = val != 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.PageType == val) : String.Empty;
             JObject res = await queryClient.QueryAsync("HelpPages", ODataHelper.RemoveParameters(Request) + selectPage + filterPage);
             return Content(res.ToString(Formatting.None), "application/json");
@@ -61,6 +70,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var list = await queryClient.QueryAsync<HelpItemDTO>("HelpItems", selectItem + filterItem + orderItem);
 
             var jsonData = new { IsEmpty = list.Count() == 0, Items = list, IsSortable = false };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public JsonResult AddItem(HelpItemDTO item)
+        {
+            IList<HelpItemDTO> list = null;
+            if (TempData["Items"] != null)
+            {
+                list = (IList<HelpItemDTO>)TempData["Items"];
+                item.DisplayOrder = list.Count + 1;
+            }
+            else
+            {
+                list = new List<HelpItemDTO>();
+                item.DisplayOrder = 1;
+            }
+            list.Add(item);
+            TempData["Items"] = list;
+            var jsonData = new { IsEmpty = list.Count == 0, Items = list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
     }
