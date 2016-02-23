@@ -74,7 +74,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public JsonResult AddItem(HelpItemDTO item)
         {
             IList<HelpItemDTO> list = null;

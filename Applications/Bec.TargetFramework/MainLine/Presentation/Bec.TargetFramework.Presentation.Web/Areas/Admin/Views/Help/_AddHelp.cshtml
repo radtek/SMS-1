@@ -46,29 +46,29 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="addHelp-form" class="smart-form margin-top-0" data-url="@Url.Action("AddHelp", "Help", new { area = "Admin" })" data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })">
-                        @Html.ValidationBootstrap()
-                        @Html.AntiForgeryToken()
-                        <section class="col-xs-12">
-                            <div id="addHelpWizard">
-                                <div class="form-bootstrapWizard margin-left-10 margin-right-10">
-                                    <ul class="nav nav-pills nav-justified thumbnail setup-panel">
-                                        <li class="active" data-target="#step1">
-                                            <a href="#step1" data-toggle="tab">
-                                                <h4 class="list-group-item-heading">Step 1</h4>
-                                                <p class="list-group-item-text">Page Information</p>
-                                            </a>
-                                        </li>
-                                        <li data-target="#step2">
-                                            <a href="#step2" data-toggle="tab">
-                                                <h4 class="list-group-item-heading">Step 2</h4>
-                                                <p class="list-group-item-text">Items</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="tab-content">
-                                    <div class="tab-pane active col-md-12" id="step1">
+                    <section class="col-xs-12">
+                        <div id="addHelpWizard">
+                            <div class="form-bootstrapWizard margin-left-10 margin-right-10">
+                                <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                                    <li class="active" data-target="#step1">
+                                        <a href="#step1" data-toggle="tab">
+                                            <h4 class="list-group-item-heading">Step 1</h4>
+                                            <p class="list-group-item-text">Page Information</p>
+                                        </a>
+                                    </li>
+                                    <li data-target="#step2">
+                                        <a href="#step2" data-toggle="tab">
+                                            <h4 class="list-group-item-heading">Step 2</h4>
+                                            <p class="list-group-item-text">Items</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane active col-md-12" id="step1">
+                                    <form id="addHelp-form" class="smart-form margin-top-0" data-url="@Url.Action("AddHelp", "Help", new { area = "Admin" })" data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })">
+                                        @Html.ValidationBootstrap()
+                                        @Html.AntiForgeryToken()
                                         <fieldset>
                                             <legend>Page Information</legend>
                                             <section>
@@ -97,57 +97,47 @@
                                                 </label>
                                             </section>
                                         </fieldset>
-                                    </div>
+                                    </form>
+                                </div>
 
-                                    <div class="tab-pane col-md-12" id="step2">
-                                        <fieldset>
-                                            <legend>Items</legend>
-                                        </fieldset>
-                                        <div class="col-md-5" style="margin-right:15px; padding-top:10px">
-                                            <div id="addListItem" style="margin-left: 20px;">
-                                                <ul class="helpItemList">
-                                                    <li class="ui-state-default" data-item-id="">
-                                                        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-                                                        <span class="help-item-title">Item 1</span>
-                                                        <span class="help-item-btn">
-                                                            <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
-                                                            <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
-                                                        </span>
-                                                    </li>
-                                                    <li class="ui-state-default" data-item-id="">
-                                                        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-                                                        <span class="help-item-title">Item 2</span>
-                                                        <span class="help-item-btn">
-                                                            <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
-                                                            <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                <div class="tab-pane col-md-12" id="step2">
+                                    <fieldset>
+                                        <legend>Items</legend>
+                                    </fieldset>
+                                    <div class="col-md-5" style="margin-right:15px; padding-top:10px">
+                                        <div id="addListItem" style="margin-left: 20px;">
+                                            <ul class="helpItemList">
+                                                <li class="ui-state-default" data-item-id="">
+                                                    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                                    <span class="help-item-title">Item 1</span>
+                                                    <span class="help-item-btn">
+                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
+                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
+                                                    </span>
+                                                </li>
+                                                <li class="ui-state-default" data-item-id="">
+                                                    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                                    <span class="help-item-title">Item 2</span>
+                                                    <span class="help-item-btn">
+                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
+                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
+                                                    </span>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <div class="col-md-6" style="border-left: 1px solid rgb(189, 189, 189);">
-                                            @{var item = new HelpItemDTO();}
-                                            @Html.Partial("_AddItem", @item)
-                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="border-left: 1px solid rgb(189, 189, 189);">
+                                        @{var item = new HelpItemDTO();}
+                                        @Html.Partial("_AddItem", @item)
                                     </div>
                                 </div>
                             </div>
-                        </section>
-                    </form>
+                        </div>
+                    </section>
+
                 </div>
             </div>
-            <div style="visibility:hidden">
-                <form id="itemOutside" action="/" method="post">
-                    <input type="text" name="Title" value="A" />
-                    <input type="text" name="Description" value="B" />
-                    @Html.AntiForgeryToken()
-                </form>
-            </div>
-            <div class="modal-footer" id="addHelpControls">
-                <!--
-                <button type="button" class="btn btn-sm btn-default pull-left" onclick="updateBalance()" tabindex="19">Refresh</button>
-                <button type="button" class="btn btn-sm btn-default pull-left" onclick="topUp()" tabindex="18">Top Up Credit</button>
-                    -->
+            <div class="modal-footer" id="addHelpControls">                
                 <button type="button" id="cancelAddHelp" class="btn btn-default" data-dismiss="modal" tabindex="28">
                     Cancel
                 </button>
