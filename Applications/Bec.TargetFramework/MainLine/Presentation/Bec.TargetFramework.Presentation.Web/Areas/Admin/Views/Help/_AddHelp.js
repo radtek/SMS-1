@@ -1,5 +1,5 @@
 ﻿$(function () {
-    var wizard = $('#addTransactionWizard').bootstrapWizard({
+    var wizard = $('#addHelpWizard').bootstrapWizard({
         tabClass: 'form-wizard',
         onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
@@ -7,17 +7,17 @@
             if ($current >= $total) {
                 $('#stepBack').show();
                 $('#stepNext').hide();
-                $('#submitAddTransaction').show();
-                $('#submitAddTransaction').removeClass('disabled');
+                $('#submitAddHelp').show();
+                $('#submitAddHelp').removeClass('disabled');
             } else {
                 $('#stepBack').hide();
                 $('#stepNext').show();
-                $('#submitAddTransaction').hide();
+                $('#submitAddHelp').hide();
             }
         }
     });
 
-    $("#submitAddTransaction").click(checkWizardValid(wizard, "#addTransaction-form"));
+    //$("#submitAddHelp").click(checkWizardValid(wizard, "#addHelp-form"));
 
     $("#stepNext").click(function () {
         wizard.bootstrapWizard('next');
@@ -25,5 +25,5 @@
 
     $("#stepBack").click(function () {
         wizard.bootstrapWizard('previous');
-    });
+    });    
 });
