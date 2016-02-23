@@ -7,12 +7,14 @@
         <dl class="dl-horizontal">
             <dt>Name:</dt>
             <dd><p>{{Name}}</p></dd>
+            {{#if TradingNamesDisplay}}
             <dt>Trading Names:</dt>
             <dd>
                 {{#each TradingNamesDisplay}}
                 <p>{{this}}</p>
                 {{/each}}
             </dd>
+            {{/if}}
         </dl>
     </div>
 </div>
