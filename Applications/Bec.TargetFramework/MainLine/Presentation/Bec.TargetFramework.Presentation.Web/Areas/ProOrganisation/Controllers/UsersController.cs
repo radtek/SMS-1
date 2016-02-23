@@ -33,12 +33,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return View();
         }
 
-        public ActionResult Registered()
+        public async Task<ActionResult> Registered()
         {
-            return View();
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var ssg = await GetAllSafeSendGroups(orgID);
+            return View(ssg);
         }
 
-        public async Task<ActionResult> GetUsers(bool temporary, bool loginAllowed)
+        public async Task<ActionResult> GetSafeSendGroups()
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            return Json(await GetAllSafeSendGroups(orgID), JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> GetUsers(bool temporary, bool loginAllowed, Guid? safeSendGroupId)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
@@ -61,11 +69,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 groups = x.UserAccountOrganisationSafeSendGroups.Select(y => new { y.SafeSendGroup.Name })
             });
 
-            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x =>
+            var where = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
                 !x.UserAccount.IsDeleted &&
                 x.OrganisationID == orgID &&
                 x.UserAccount.IsTemporaryAccount == temporary &&
                 x.UserAccount.IsLoginAllowed == loginAllowed);
+
+            if (safeSendGroupId.HasValue) where = Expression.And(where, ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationSafeSendGroups.Any(y => y.SafeSendGroupID == safeSendGroupId)));
+
+            var filter = ODataHelper.Filter(where);
 
             JObject res = await queryClient.QueryAsync("UserAccountOrganisations", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");

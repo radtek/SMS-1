@@ -1,19 +1,50 @@
-﻿<!-- MAIN CONTENT -->
-<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
+﻿@model IEnumerable<Bec.TargetFramework.Entities.SafeSendGroupDTO>
+<!-- MAIN CONTENT -->
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })" data-groups-url="@Url.Action("GetSafeSendGroups", "Users", new { AreaReference = "ProOrganisation"})">
     <div class="row">
         <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-user margin-right-10"></i>View Registered Users</h2>
         <div class="col-sm-12">
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="well">
-                        <div id="regGrid" data-url="@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true })"></div>
-                    </div>
+            @if (Model.Count() == 0)
+            {
+                <div class="well">
+                    <div id="regGrid-all" data-url="@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true })"></div>
                 </div>
-            </div>
 
-            <div class="row hidden" id="rPanel">
-            </div>
+                <div class="row hidden" id="rPanel-all">
+                </div>
+            }
+            else
+            {
+                <ul id="myTab1" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">
+                    <li><a href="#tab-all"> All </a></li>
+                    @foreach (var group in Model)
+                    {
+                        <li><a href="#tab-@group.SafeSendGroupID.ToString("N")"> @group.Name </a></li>
+                    }
+                </ul>
+
+                <div id="myTabContent1" class="tab-content padding-10">
+                    <div class="tab-pane active" id="tab-all" role="tabpanel">
+                        <div class="well">
+                            <div id="regGrid-all" data-url="@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true })"></div>
+                        </div>
+                        <div class="row hidden" id="rPanel-all">
+                        </div>
+                    </div>
+                    @foreach (var group in Model)
+                    {
+                        <div class="tab-pane" id="tab-@group.SafeSendGroupID.ToString("N")" role="tabpanel">
+                            <div class="well">
+                                <div id="regGrid-@group.SafeSendGroupID.ToString("N")" data-url="@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true, safeSendGroupId = group.SafeSendGroupID })"></div>
+                            </div>
+                            <div class="row hidden" id="rPanel-@group.SafeSendGroupID.ToString("N")">
+                            </div>
+                        </div>
+                        
+                    }
+                </div>
+            }
 
         </div>
     </div>
