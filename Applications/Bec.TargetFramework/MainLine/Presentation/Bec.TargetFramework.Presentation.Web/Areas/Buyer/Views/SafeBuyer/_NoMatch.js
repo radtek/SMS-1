@@ -24,7 +24,7 @@
             });
         }
         else {
-            $('#conf').click();
+            $('#checkBankAccountBtn').click();
             hideCurrentModal();
         }
     });
