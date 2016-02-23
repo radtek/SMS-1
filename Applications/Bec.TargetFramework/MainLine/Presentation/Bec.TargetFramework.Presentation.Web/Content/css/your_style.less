@@ -361,6 +361,14 @@
     -moz-box-shadow: 0 -2px 0 @primary-color;
     box-shadow: 0 -2px 0 @primary-color;
 }
+.nav-tabs > li {
+    & > a > .sms {
+        opacity: .5;
+    }
+    &.active > a > .sms {
+        opacity: 1;
+    }
+}
 
 .smart-form {
     .checkbox {

@@ -287,6 +287,12 @@
   -moz-box-shadow: 0 -2px 0 #a1c324;
   box-shadow: 0 -2px 0 #a1c324;
 }
+.nav-tabs > li > a > .sms {
+  opacity: .5;
+}
+.nav-tabs > li.active > a > .sms {
+  opacity: 1;
+}
 .smart-form .checkbox input + i {
   border-color: #bdbdbd !important;
 }
