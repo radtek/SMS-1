@@ -179,7 +179,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var userAccount = await UserLogicClient.GetUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
             if (!CanContinueRegistration(userAccount))
             {
-                ModelState.AddModelError("CreatePermanentLoginModel.RegistrationEmail", "This email cannot be registered at the moment. Please contact your Conveyancer/Organisation administrator.");
+                ModelState.AddModelError("CreatePermanentLoginModel.RegistrationEmail", "This email cannot be registered at the moment. Please contact your Conveyancer/Organisation Administrator.");
                 return View("Index", model);
             }
 
@@ -196,9 +196,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 //if pincount >=3, expire organisation
                 if (await UserLogicClient.IncrementInvalidPINAsync(uaoDto.UserAccountOrganisationID))
                 {
-                    var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
-                    ViewBag.Message = string.Format("Your PIN has now expired due to three invalid attempts. Please contact support at ");
-                    ViewBag.Email = SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportEmailAddress;
                     return View("PINExpired");
                 }
                 else
@@ -243,7 +240,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (!canRegister)
             {
-                return Json("This email cannot be registered at the moment. Please contact your Conveyancer/Organisation administrator.", JsonRequestBehavior.AllowGet);
+                return Json("This email cannot be registered at the moment. Please contact your Conveyancer/Organisation Administrator.", JsonRequestBehavior.AllowGet);
             }
             else
             {
