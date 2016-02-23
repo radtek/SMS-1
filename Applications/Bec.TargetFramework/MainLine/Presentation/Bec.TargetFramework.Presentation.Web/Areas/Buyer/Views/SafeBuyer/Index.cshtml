@@ -32,7 +32,10 @@
                     <div id="transactionTabs" class="tabbable custom-tabs shadow margin-top-10">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#transactionDetailsPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Safe Buyer</span></a></li>
-                            <li><a href="#safeSendPanel" data-toggle="tab"><i class="sms sms-safe-send margin-right-10"></i><span>Safe Send</span></a></li>
+                            @if ((bool)ViewBag.OrganisationSafeSendEnabled)
+                            {
+                                <li><a href="#safeSendPanel" data-toggle="tab"><i class="sms sms-safe-send margin-right-10"></i><span>Safe Send</span></a></li>
+                            }
                         </ul>
                         <div class="tab-content padding-top-10">
                             <div class="tab-pane active" id="transactionDetailsPanel">
@@ -174,9 +177,12 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane padding-10" id="safeSendPanel">
-                                @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false, CanCreateNewConversation = true, ActivityId = Model.SmsTransactionID, ActivityType = ActivityType.SmsTransaction, Enabled = Model.SmsTransaction.InvoiceID.HasValue && (bool)ViewBag.OrganisationSafeSendEnabled })
-                            </div>
+                            @if ((bool)ViewBag.OrganisationSafeSendEnabled)
+                            {
+                                <div class="tab-pane padding-10" id="safeSendPanel">
+                                    @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false, CanCreateNewConversation = true, ActivityId = Model.SmsTransactionID, ActivityType = ActivityType.SmsTransaction, Enabled = Model.SmsTransaction.InvoiceID.HasValue })
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

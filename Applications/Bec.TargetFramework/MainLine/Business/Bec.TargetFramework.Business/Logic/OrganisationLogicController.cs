@@ -407,7 +407,12 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (dto.OrganisationType == OrganisationTypeEnum.Lender)
                 {
-                    foreach (var tn in dto.TradingNames.Concat(new string[] { dto.CompanyName }).Where(x => !string.IsNullOrWhiteSpace(x)))
+                    var lendersToAdd = dto.TradingNames
+                        .Select(x => x.Trim())
+                        .Concat(new string[] { dto.CompanyName })
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .Distinct();
+                    foreach (var tn in lendersToAdd)
                     {
                         var lender = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.FirstOrDefault(x => x.Name == tn);
                         if (lender == null)
