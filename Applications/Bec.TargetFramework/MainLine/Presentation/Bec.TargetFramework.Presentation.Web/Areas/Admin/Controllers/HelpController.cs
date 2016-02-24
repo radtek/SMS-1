@@ -122,21 +122,62 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult AddItem(HelpItemDTO item)
         {
-            IList<HelpItemDTO> list = null;
-            if (TempData["Items"] != null)
+            if (item.HelpItemID == default(Guid))
             {
-                list = (IList<HelpItemDTO>)TempData["Items"];
-                item.DisplayOrder = list.Count + 1;
+                IList<HelpItemDTO> list = null;
+                if (TempData["Items"] != null)
+                {
+                    list = (IList<HelpItemDTO>)TempData["Items"];
+                    item.DisplayOrder = list.Count + 1;
+                }
+                else
+                {
+                    list = new List<HelpItemDTO>();
+                    item.DisplayOrder = 1;
+                }
+                item.HelpItemID = Guid.NewGuid();
+                list.Add(item);
+                TempData["Items"] = list;
+                var jsonData = new { IsEmpty = list.Count == 0, Items = list };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                list = new List<HelpItemDTO>();
-                item.DisplayOrder = 1;
+                if (TempData["Items"] != null)
+                {
+                    var list = (IList<HelpItemDTO>)TempData["Items"];
+                    var itemHelp = list.FirstOrDefault(x => x.HelpItemID == item.HelpItemID);
+                    if (item != null)
+                    {
+                        itemHelp.Title = item.Title;
+                        itemHelp.Selector = item.Selector;
+                        itemHelp.Description = item.Description;
+                        itemHelp.Position = item.Position;
+                        itemHelp.TabContainerId = item.TabContainerId;
+                    }
+                    TempData["Items"] = list;
+                    var jsonData = new { IsEmpty = list.Count == 0, Items = list };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+                return null;
             }
-            list.Add(item);
-            TempData["Items"] = list;
-            var jsonData = new { IsEmpty = list.Count == 0, Items = list };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
+            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult GetItem(Guid? id)
+        {
+
+            if (TempData["Items"] != null)
+            {
+                var list = (IList<HelpItemDTO>)TempData["Items"];
+                var item = list.FirstOrDefault(x => x.HelpItemID == id);
+                var jsonData = new { Item = item };
+                TempData["Items"] = list;
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            return null;
         }
 
         [HttpPost]

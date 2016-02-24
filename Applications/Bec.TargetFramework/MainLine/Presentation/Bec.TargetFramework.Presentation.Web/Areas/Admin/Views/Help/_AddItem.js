@@ -46,11 +46,36 @@
                         '<span class="help-item-title">' + item.Title + '</span>' +
                         ' <span class="help-item-btn">' +
                          ' <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>' +
-                         ' <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a> ' +
+                         ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
                         '</span>' +
                       ' </li>';
         return itemHtml
     }
+
+    $(document).delegate(".help-item-element", "click", function () {
+        var itemId = $(this).attr('id');
+        $('.help-item-element').prop('disabled', false);
+        $(this).prop('disabled', true);
+        $('#helpItemEditId').val(itemId);
+        ajaxWrapper({
+            url: $("#getItem-form").attr('action'),
+            data: $("#getItem-form").serializeArray(),
+            type: 'POST'
+        })
+        .done(function (response) {
+            if (response != null || response != undefined) {
+                if (response.Item != null) {
+                    $('#helpItemId').val(itemId);
+                    $("#submitAddItem").text("Save");
+                    $('#helpItemTitle').val(response.Item.Title)
+                    $('#helpItemSelector').val(response.Item.Selector)
+                    $('#helpItemDescription').val(response.Item.Description)
+                    $('#helpItemPosition').val(response.Item.Position)
+                    $('#helpItemTabContainerId').val(response.Item.TabContainerId)
+                }
+            }
+        })
+    });
 
     function validateSubmit(form) {
         btnAddItem.prop('disabled', true);
@@ -71,6 +96,8 @@
         $("#addItem-form select").prop('selectedIndex', '0');
         $("#addItem-form textarea").val('');
         $("#addItem-form input[type=text]").first().focus();
+        $("#submitAddItem").text("Add");
+        $('.help-item-element').prop('disabled', false);
     }
 
     function updateItemOrder() {
