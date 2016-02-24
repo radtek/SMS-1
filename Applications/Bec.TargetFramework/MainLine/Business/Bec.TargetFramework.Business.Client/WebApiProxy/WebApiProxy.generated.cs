@@ -1035,6 +1035,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="safeSendEnabled"></param>
 		/// <returns></returns>
 		void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled);
+
+		/// <param name="lenderName"></param>
+		/// <returns></returns>
+		Task<Boolean> CanLenderNameBeUsedAsync(String lenderName);
+
+		/// <param name="lenderName"></param>
+		/// <returns></returns>
+		Boolean CanLenderNameBeUsed(String lenderName);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -4231,6 +4239,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="lenderName"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> CanLenderNameBeUsedAsync(String lenderName)
+		{
+			lenderName = lenderName.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/CanLenderNameBeUsed?lenderName=" + lenderName, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="lenderName"></param>
+		public virtual Boolean CanLenderNameBeUsed(String lenderName)
+		{
+			lenderName = lenderName.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/CanLenderNameBeUsed?lenderName=" + lenderName, null, _user)).Result;
 		}
 
 		#endregion

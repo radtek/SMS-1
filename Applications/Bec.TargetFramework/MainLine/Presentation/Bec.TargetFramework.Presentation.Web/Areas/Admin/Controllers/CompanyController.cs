@@ -204,10 +204,35 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterLender(AddCompanyDTO model)
         {
+            EnsureNoDuplicateLenders(model);
             var orgId = await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(model);
             TempData["AddTempCompanyId"] = orgId;
             TempData["tabIndex"] = 0;
             return RedirectToAction("Provisional");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CheckLenderExists(string lenderName)
+        {
+            var canLenderNameBeUsed = await OrganisationClient.CanLenderNameBeUsedAsync(lenderName);
+            return Json(canLenderNameBeUsed, JsonRequestBehavior.AllowGet);
+        }
+
+        private void EnsureNoDuplicateLenders(AddCompanyDTO model)
+        {
+            var requestedLenderNames = model.TradingNames
+                .Select(x => x.Trim())
+                .Concat(new string[] { model.CompanyName })
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Distinct();
+            foreach (var lenderName in requestedLenderNames)
+            {
+                if (!OrganisationClient.CanLenderNameBeUsed(lenderName))
+                {
+                    throw new InvalidOperationException(string.Format("The lender {0} is already registered in the system.", lenderName));
+                }
+            }
         }
     }
 }
