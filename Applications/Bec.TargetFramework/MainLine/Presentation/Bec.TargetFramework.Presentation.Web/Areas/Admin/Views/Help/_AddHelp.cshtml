@@ -77,7 +77,7 @@
                                                     @{
                                                         var types = (IList<SelectListItem>)ViewBag.Types;
                                                     }
-                                                    @Html.DropDownListFor(m => m.PageType, types, "Please Select", new { tabindex = "1" })
+                                                    @Html.DropDownListFor(m => m.PageType, types, "Please Select", new { tabindex = "1", id ="pageType" })
                                                     <i></i>
                                                 </label>
                                             </section>

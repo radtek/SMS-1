@@ -5,7 +5,6 @@
     function ignore(e) {
         if (e) e.preventDefault();
     }
-
     // submit from when Save button clicked
     btnAddItem.click(function () {
         $("#addItem-form").submit();
@@ -26,6 +25,9 @@
                 required: true
             },
             Description: {
+                required: true
+            },
+            EffectiveOn: {
                 required: true
             }
         },
@@ -109,5 +111,18 @@
     itemListContainer.sortable({
         containment: 'parent',
         stop: updateItemOrder
+    });
+
+    makeDatePicker("#effectiveDateInput", {
+        minDate: new Date(), yearRange: "-110:+1"
+    }, {
+        onSelect: function (date, inst) {
+            var birthDateField = $('#EffectiveOn');
+            birthDateField.val(inst.input.data("val"));
+            birthDateField.valid();
+            console.log(inst);
+            console.log(inst.input);
+            console.log(inst.input.data("val"));
+        }
     });
 })

@@ -55,7 +55,33 @@
     });
 
     function validateSubmit(form) {
-        $("#submitAddHelp").prop('disabled', true);        
+        $("#submitAddHelp").prop('disabled', true);
         form.submit();
     }
+
+    $('#pageType').on('change', function () {
+
+        var valOfThis = $('#pageType option:selected').val();
+        if (valOfThis === "2") {
+            $("#tabIdSection").css('display', 'block');
+            $("#tourSection").css('display', 'none');
+        }
+        else {
+            if (valOfThis === "3") {
+                $("#tabIdSection").css('display', 'none');
+                $("#tourSection").css('display', 'block');
+                $("#effectiveDateInput").val("");
+                $('#EffectiveOn').val("");
+            } else {
+                $("#tabIdSection").css('display', 'none');
+                $("#tourSection").css('display', 'none');
+            }
+        }
+
+        if (valOfThis === "1" || valOfThis === "2") {
+            $("#effectiveDateInput").datepicker('setDate', new Date());
+            $('#EffectiveOn').val($("#effectiveDateInput").val());
+            $('#EffectiveOn').valid();
+        }
+    });
 });

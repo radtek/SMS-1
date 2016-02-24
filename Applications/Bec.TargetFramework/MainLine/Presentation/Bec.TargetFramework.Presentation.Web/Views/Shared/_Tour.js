@@ -6,11 +6,10 @@
         };
         ajaxWrapper(ajaxOptions)
             .then(function (result) {
-                if (result.data != undefined && result.data.length > 0) {
+                if (result.data !== undefined && result.data.length > 0) {
                     startSysSMH(result.data);
                 }
-            }, function (data) {
-                console.log("ERR");
+            }, function () {
             });
     }
 
@@ -20,9 +19,8 @@
             steps.push({
                 element: item.Selector,
                 intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + item.Title + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + item.Description + '</div>',
-                position: getPosition(item.Position),
+                position: getPosition(item.Position)
             });
-            //console.log(item.Selector);
         });
         return steps;
     }
@@ -48,24 +46,24 @@
             });
 
             intro.oncomplete(function () {
-                if (elementHidden != "") {
+                if (elementHidden !== "") {
                     $(elementHidden).closest('ul').css("display", "none");
                     elementHidden = "";
                 }
             });
             intro.onexit(function () {
-                if (elementHidden != "") {
+                if (elementHidden !== "") {
                     $(elementHidden).closest('ul').css("display", "none");
                     elementHidden = "";
                 }
             });
             intro.onchange(function (targetElement) {
-                if ($(targetElement).closest('ul').css("display") == 'none') {
+                if ($(targetElement).closest('ul').css("display") === 'none') {
                     $(targetElement).closest('ul').css("display", "block");
                     elementHidden = targetElement;
                 }
                 else {
-                    if (elementHidden != "") {
+                    if (elementHidden !== "") {
                         if ($(elementHidden).closest('ul').is($(targetElement).closest('ul'))) {
                             $(elementHidden).closest('ul').css("display", "block");
                         }
@@ -84,11 +82,11 @@
 
     $('#tour').click(function () {
         startTour();
-    })
+    });
 
     $(document).ready(function () {
-        if ($('#firstLogin').data("welcome") == "True") {            
+        if ($('#firstLogin').data("welcome") === "True") {
             startTour();
         }
-    })
+    });
 })

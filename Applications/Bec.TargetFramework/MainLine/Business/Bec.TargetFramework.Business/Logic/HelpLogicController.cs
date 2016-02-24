@@ -16,7 +16,6 @@ using Omu.ValueInjecter;
 using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -124,7 +123,7 @@ namespace Bec.TargetFramework.Business.Logic
                         return null;
                     case PageType.ShowMeHow:
                         var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
-                                 .FirstOrDefault(p => (p.PageUrl.ToLower(CultureInfo.InvariantCulture).Equals(pageUrl.ToLower(CultureInfo.InvariantCulture))) && (p.PageType == (int)PageType.ShowMeHow));
+                                 .FirstOrDefault(p => (p.PageUrl.ToLower().Equals(pageUrl.ToLower())) && (p.PageType == (int)PageType.ShowMeHow));
                         if (page != null)
                         {
                             return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems

@@ -14,7 +14,7 @@
     @Html.ValidationBootstrap()
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.HelpPageID)
-    @Html.HiddenFor(m => m.DisplayOrder)    
+    @Html.HiddenFor(m => m.DisplayOrder)
     <fieldset>
         <section>
             <label class="label">Item Title:</label>
@@ -30,24 +30,21 @@
                 @Html.TextBoxFor(m => m.Selector, new { tabindex = "2", maxlength = 200 })
             </label>
         </section>
-        @if (TempData["isShowMeHowItem"] != null)
-        {
-            <section>
-                <label class="label">Item belong to Tab id: (Eg. #tabId)</label>
-                <label class="input">
-                    @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50 })
-                </label>
-            </section>
-        }
-        @if (TempData["isCalloutItem"] != null)
-        {
-            <section>
-                <label class="label">Effective On</label>
-                <label class="input">
-                    @Html.TextBoxFor(m => m.EffectiveOn, new { tabindex = "3", maxlength = 50 })
-                </label>
-            </section>
-        }
+
+        <section id="tabIdSection" style="display:none">
+            <label class="label">Item belong to Tab id: (Eg. #tabId)</label>
+            <label class="input">
+                @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50 })
+            </label>
+        </section>
+
+        <section id="tourSection" style="display:none">
+            <label class="label">Effective On</label>
+            <label class="input">
+                <input type="text" id="effectiveDateInput" tabindex="3" readonly="readonly" />
+                @Html.HiddenFor(m => m.EffectiveOn)
+            </label>
+        </section>
         <section>
             <label class="label">Description:</label>
             <label class="textarea">
