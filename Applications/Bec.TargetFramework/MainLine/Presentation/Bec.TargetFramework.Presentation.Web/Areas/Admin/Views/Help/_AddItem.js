@@ -31,6 +31,18 @@
         submitHandler: validateSubmit
     });
 
+    function createItem(item){
+        var itemHtml = '<li class="ui-state-default" data-item-id="">' +
+                        '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
+                        '<span class="help-item-title">' + item.Title + '</span>' +
+                        ' <span class="help-item-btn">' +
+                         ' <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>' +
+                         ' <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a> ' +
+                        '</span>' +
+                      ' </li>';
+        return itemHtml
+    }
+
     function validateSubmit(form) {        
         $("#submitAddItem").prop('disabled', true);
         //$.ajax({
@@ -53,8 +65,14 @@
         })
                 .done(function (response) {
                     if (response != null || response != undefined) {
-                        console.log(response);
+                        $('#helpItemListContainer').html("");
                         $("#submitAddItem").prop('disabled', false);
+                        if (response.Items != null && response.Items.length >= 1) {
+                            for (var i = 0; i < response.Items.length; i++) {
+                                $('#helpItemListContainer').append(createItem(response.Items[i]));
+                            }
+                            $('#helpItemListContainer').sortable({ containment: 'parent' });
+                        }
                     }
                 })
     }
