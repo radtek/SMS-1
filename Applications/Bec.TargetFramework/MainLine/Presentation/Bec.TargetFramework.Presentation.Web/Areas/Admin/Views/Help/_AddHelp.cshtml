@@ -106,8 +106,7 @@
                                     </fieldset>
                                     <div class="col-md-5" style="margin-right:15px; padding-top:10px">
                                         <div id="addListItem" style="margin-left: 20px;">
-                                            <ul class="helpItemList" id="helpItemListContainer">
-                                            </ul>
+                                            <ul class="helpItemList" id="helpItemListContainer" data-update-order-url="@Url.Action("UpdateTemporaryOrder", "Help", new { area = "Admin" })"></ul>
                                         </div>
                                     </div>
                                     <div class="col-md-6" style="border-left: 1px solid rgb(189, 189, 189);">
@@ -121,7 +120,7 @@
 
                 </div>
             </div>
-            <div class="modal-footer" id="addHelpControls">                
+            <div class="modal-footer" id="addHelpControls">
                 <button type="button" id="cancelAddHelp" class="btn btn-default" data-dismiss="modal" tabindex="28">
                     Cancel
                 </button>

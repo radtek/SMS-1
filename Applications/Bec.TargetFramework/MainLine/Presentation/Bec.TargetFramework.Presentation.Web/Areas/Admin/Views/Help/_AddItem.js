@@ -1,11 +1,18 @@
 ﻿$(function () {
+    var btnAddItem = $("#submitAddItem");
+    var itemListContainer = $("#helpItemListContainer");
+
     function ignore(e) {
         if (e) e.preventDefault();
     }
 
     // submit from when Save button clicked
-    $("#submitAddItem").click(function () {
+    btnAddItem.click(function () {
         $("#addItem-form").submit();
+    });
+
+    $("#cancelAddItem").click(function () {
+        clearText();
     });
 
     $("#addItem-form").validate({
@@ -31,8 +38,8 @@
         submitHandler: validateSubmit
     });
 
-    function createItem(item){
-        var itemHtml = '<li class="ui-state-default" data-item-id="">' +
+    function createItem(item) {
+        var itemHtml = '<li class="ui-state-default" data-item-id="" data-item-order="' + item.DisplayOrder + '">' +
                         '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
                         '<span class="help-item-title">' + item.Title + '</span>' +
                         ' <span class="help-item-btn">' +
@@ -43,24 +50,64 @@
         return itemHtml
     }
 
-    function validateSubmit(form) {        
-        $("#submitAddItem").prop('disabled', true);
+    function validateSubmit(form) {
+        btnAddItem.prop('disabled', true);
         ajaxWrapper({
-            url: $(form).attr('action'),            
+            url: $(form).attr('action'),
             data: $(form).serializeArray(),
             type: 'POST'
-        })
-                .done(function (response) {
-                    if (response != null || response != undefined) {
-                        $('#helpItemListContainer').html("");
-                        $("#submitAddItem").prop('disabled', false);
-                        if (response.Items != null && response.Items.length >= 1) {
-                            for (var i = 0; i < response.Items.length; i++) {
-                                $('#helpItemListContainer').append(createItem(response.Items[i]));
-                            }
-                            $('#helpItemListContainer').sortable({ containment: 'parent' });
-                        }
-                    }
-                })
+        }).done(function (response) {
+            if (response != null || response != undefined) {
+                loadItemsForList(response.Items);
+                clearText();
+            }
+        });
     }
+
+    function clearText() {
+        $("#addItem-form input[type=text]").val('');
+        $("#addItem-form select").prop('selectedIndex', '0');
+        $("#addItem-form textarea").val('');
+        $("#addItem-form input[type=text]").first().focus();
+    }
+
+    function updateItemOrder() {
+        var items = itemListContainer.children("li");
+        var newOrder = [];
+        items.each(function () {
+            var order = $(this).data("item-order");
+            if (order != null && order != undefined) {
+                newOrder.push(order);
+            }
+        });
+        ajaxWrapper({
+            url: itemListContainer.data("update-order-url"),
+            data: {
+                orders: newOrder,
+                __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+            },
+            type: 'POST'
+        }).done(function (response) {
+            if (response != null || response != undefined) {
+                if (response.result) {
+                    loadItemsForList(response.Items);
+                }
+            }
+        });
+    }
+
+    function loadItemsForList(items) {
+        itemListContainer.html("");
+        btnAddItem.prop('disabled', false);
+        if (items != null && items.length >= 1) {
+            for (var i = 0; i < items.length; i++) {
+                itemListContainer.append(createItem(items[i]));
+            }
+        }
+    }
+
+    itemListContainer.sortable({
+        containment: 'parent',
+        stop: updateItemOrder
+    });
 })

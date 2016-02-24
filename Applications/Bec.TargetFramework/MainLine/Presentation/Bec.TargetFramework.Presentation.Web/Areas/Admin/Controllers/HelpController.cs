@@ -138,5 +138,47 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var jsonData = new { IsEmpty = list.Count == 0, Items = list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult UpdateTemporaryOrder(List<int> orders)
+        {
+            var result = true;
+            var newList = new List<HelpItemDTO>();
+            if (TempData["Items"] == null || orders == null || orders.Count == 0)
+            {
+                result = false;
+            }
+            else
+            {
+                var currentList = (IList<HelpItemDTO>)TempData["Items"];
+                var newOrder = 1;
+                foreach (var order in orders)
+                {
+                    var item = currentList.FirstOrDefault(i => i.DisplayOrder == order);
+                    if (item == null)
+                    {
+                        result = false;
+                        break;
+                    }
+                    var newItem = new HelpItemDTO 
+                    { 
+                        Title = item.Title, 
+                        Selector = item.Selector, 
+                        Description = item.Description, 
+                        Position = item.Position, 
+                        TabContainerId = item.TabContainerId, 
+                        EffectiveOn = item.EffectiveOn 
+                    };
+                    newItem.DisplayOrder = newOrder;
+                    newList.Add(newItem);
+                    newOrder += 1;
+                }
+                TempData["Items"] = newList;
+                result = true;
+            }
+            var jsonData = new { result, Items = newList };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
     }
 }
