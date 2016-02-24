@@ -2,7 +2,6 @@
     function ignore(e) {
         if (e) e.preventDefault();
     }
-
     // submit from when Save button clicked
     $("#submitAddItem").click(function () {
         $("#addItem-form").submit();
@@ -20,6 +19,9 @@
             },
             Description: {
                 required: true
+            },            
+            EffectiveOn: {
+                required: true
             }
         },
 
@@ -31,7 +33,7 @@
         submitHandler: validateSubmit
     });
 
-    function createItem(item){
+    function createItem(item) {
         var itemHtml = '<li class="ui-state-default" data-item-id="">' +
                         '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
                         '<span class="help-item-title">' + item.Title + '</span>' +
@@ -43,10 +45,10 @@
         return itemHtml
     }
 
-    function validateSubmit(form) {        
+    function validateSubmit(form) {
         $("#submitAddItem").prop('disabled', true);
         ajaxWrapper({
-            url: $(form).attr('action'),            
+            url: $(form).attr('action'),
             data: $(form).serializeArray(),
             type: 'POST'
         })
@@ -63,4 +65,19 @@
                     }
                 })
     }
+
+    makeDatePicker("#effectiveDateInput", {
+        minDate: new Date(), yearRange: "-110:+1"
+    }, {
+        onSelect: function (date, inst) {
+            var birthDateField = $('#EffectiveOn');
+            birthDateField.val(inst.input.data("val"));
+            birthDateField.valid();
+            console.log(inst);
+            console.log(inst.input);
+            console.log(inst.input.data("val"));
+        }
+    });
+        
+       
 })
