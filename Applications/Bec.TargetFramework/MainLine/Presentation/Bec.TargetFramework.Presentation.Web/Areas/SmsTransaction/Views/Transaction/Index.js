@@ -40,7 +40,7 @@
             },
             {
                 field: "Contact.LastName",
-                title: "Surname"
+                title: "Last Name"
             },
             {
                 field: "SmsTransaction.Reference",
