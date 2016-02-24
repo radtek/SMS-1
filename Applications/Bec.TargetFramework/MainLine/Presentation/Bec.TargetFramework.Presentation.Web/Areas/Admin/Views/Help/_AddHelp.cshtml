@@ -66,7 +66,7 @@
                             </div>
                             <div class="tab-content">
                                 <div class="tab-pane active col-md-12" id="step1">
-                                    <form id="addHelp-form" class="smart-form margin-top-0" data-url="@Url.Action("AddHelp", "Help", new { area = "Admin" })" data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })">
+                                    <form id="addHelp-form" class="smart-form margin-top-0" action="@Url.Action("AddHelp", "Help", new { area = "Admin" })" method="POST">
                                         @Html.ValidationBootstrap()
                                         @Html.AntiForgeryToken()
                                         <fieldset>

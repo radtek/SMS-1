@@ -27,43 +27,56 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class HelpLogicController : LogicBase
     {
-        public async Task<Guid> CreateHelpPage(HelpPageDTO HelpPageDTO)
+        public async Task<Guid> CreateHelpPage(HelpPageDTO helpPageDto)
         {
-            Ensure.That(HelpPageDTO).IsNotNull();
-            HelpPageDTO.HelpPageID = Guid.NewGuid();
+            Ensure.That(helpPageDto).IsNotNull();
+            helpPageDto.HelpPageID = Guid.NewGuid();
             using (var scope = DbContextScopeFactory.Create())
             {
-                HelpPage HelpPage = HelpPageDTO.ToEntity();
-                scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages.Add(HelpPage);
+                HelpPage helpPage = helpPageDto.ToEntity();
+                scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages.Add(helpPage);
+
+                if (helpPageDto.HelpItems.Count>0)
+                {
+                    foreach (var item in helpPageDto.HelpItems)
+                    {
+                        Ensure.That(item).IsNotNull();
+                        item.HelpPageID = helpPageDto.HelpPageID;
+                        item.HelpItemID = Guid.NewGuid();
+
+                        HelpItem helpItem = item.ToEntity();
+                        scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Add(helpItem);                       
+                    }
+                }
                 await scope.SaveChangesAsync();
             }
-            return HelpPageDTO.HelpPageID;
+            return helpPageDto.HelpPageID;
         }
 
-        public async Task<Guid> CreateHelpItem(HelpItemDTO HelpItemDTO)
+        public async Task<Guid> CreateHelpItem(HelpItemDTO helpItemDto)
         {
-            Ensure.That(HelpItemDTO).IsNotNull();
-            HelpItemDTO.HelpItemID = Guid.NewGuid();
+            Ensure.That(helpItemDto).IsNotNull();
+            helpItemDto.HelpItemID = Guid.NewGuid();
             using (var scope = DbContextScopeFactory.Create())
             {
-                HelpItem HelpItem = HelpItemDTO.ToEntity();
-                scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Add(HelpItem);
+                HelpItem helpItem = helpItemDto.ToEntity();
+                scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Add(helpItem);
                 await scope.SaveChangesAsync();
             }
-            return HelpItemDTO.HelpItemID;
+            return helpItemDto.HelpItemID;
         }
 
-        public async Task<Guid> CreateHelpItemUserAccount(HelpItemUserAccountDTO HelpItemUserAccountDTO)
+        public async Task<Guid> CreateHelpItemUserAccount(HelpItemUserAccountDTO helpItemUserAccountDTO)
         {
-            Ensure.That(HelpItemUserAccountDTO).IsNotNull();
-            HelpItemUserAccountDTO.HelpItemUserAccountID = Guid.NewGuid();
+            Ensure.That(helpItemUserAccountDTO).IsNotNull();
+            helpItemUserAccountDTO.HelpItemUserAccountID = Guid.NewGuid();
             using (var scope = DbContextScopeFactory.Create())
             {
-                HelpItemUserAccount HelpItemUserAccount = HelpItemUserAccountDTO.ToEntity();
+                HelpItemUserAccount HelpItemUserAccount = helpItemUserAccountDTO.ToEntity();
                 scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.Add(HelpItemUserAccount);
                 await scope.SaveChangesAsync();
             }
-            return HelpItemUserAccountDTO.HelpItemUserAccountID;
+            return helpItemUserAccountDTO.HelpItemUserAccountID;
         }
 
         public async Task DeleteHelpPage(HelpPageDTO helpPageDto)
