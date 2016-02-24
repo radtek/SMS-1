@@ -8,14 +8,16 @@
 
     refresh();
     setupMarkAsRead();
-    
+    pollForNotifications();
+
     function setupMarkAsRead() {
         $('body').on('conversationsChanged', refresh);
     }
 
     function refresh() {
-        loadConversations();
-        updateUnreadCount();
+        var loadConversationsDeferred = loadConversations();
+        var updateUnreadCountDeferred = updateUnreadCount();
+        return $.when(loadConversationsDeferred, updateUnreadCountDeferred);
     }
 
     function loadConversations() {
@@ -54,5 +56,11 @@
         unreadCountElement.addClass('animated bounceIn');
         unreadCountElement.text(newCount);
         unreadCountElement.toggle(newCount > 0)
+    }
+
+    function pollForNotifications() {
+        setTimeout(function () {
+            refresh().always(pollForNotifications);
+        }, 10000);
     }
 });

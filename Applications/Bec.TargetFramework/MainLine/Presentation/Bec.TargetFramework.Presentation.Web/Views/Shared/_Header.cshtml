@@ -6,8 +6,7 @@
         Request.IsAuthenticated &&
         currentUser != null &&
         !currentUser.IsTemporaryUser &&
-        !currentUser.NeedsTCs &&
-        (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("Add", "SmsTransaction") || ClaimsHelper.UserHasClaim("View", "SmsTransactionsOverview"));
+        !currentUser.NeedsTCs;
     var showOrganisationName =
         Request.IsAuthenticated &&
         !ClaimsHelper.UserHasClaim("View", "MyTransactions");
