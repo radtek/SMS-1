@@ -59,7 +59,7 @@
                     {
                         field: "PageType",
                         title: "Page Type",
-                        template: function (dataItem) { return (dataItem.PageType == 1 ? "Tour" : (dataItem.PageType == 2 ? "Show Me How" : "Callout")); }
+                        template: function (dataItem) { return (dataItem.PageType === 1 ? "Tour" : (dataItem.PageType === 2 ? "Show Me How" : "Callout")); }
                     },
                     {
                         field: "CreatedOn",
@@ -118,7 +118,7 @@
     function onPageChange(dataItem) {
         $("p#ddnName").text(dataItem.PageName);
         $("p#ddnUrl").text(dataItem.PageUrl != null ? dataItem.PageUrl : "");
-        $("p#ddnType").text((dataItem.PageType == 1 ? "Tour" : (dataItem.PageType == 2 ? "Show Me How" : "Callout")) || "");
+        $("p#ddnType").text((dataItem.PageType === 1 ? "Tour" : (dataItem.PageType === 2 ? "Show Me How" : "Callout")) || "");
         $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
         $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? dateString(dataItem.ModifiedOn) : "");
         btnEdit.data('href', urls.editHelpUrl + "?pageId=" + dataItem.HelpPageID);

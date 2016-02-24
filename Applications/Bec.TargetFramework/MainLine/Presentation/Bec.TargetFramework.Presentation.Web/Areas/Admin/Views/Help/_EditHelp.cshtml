@@ -1,2 +1,160 @@
-﻿<script async src="@Scripts.Url("~/Scripts/Admin/Help/_EditHelp")"></script>
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model HelpPageDTO
+
+<style>
+    .helpItemList {
+        list-style-type: none;
+        margin-bottom: 9px;
+        box-sizing: border-box;
+        display: block;
+        padding: 0px;
+        margin-left: 0px;
+    }
+
+        .helpItemList > li {
+            display: list-item;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-bottom: 8px;
+            margin-left: 0px;
+            cursor: default;
+        }
+
+            .helpItemList > li > span.ui-icon {
+                position: absolute;
+                margin-left: -0.3em;
+                color: #333;
+            }
+
+    .help-item-btn > a {
+        padding: 0 9px !important;
+        color: #fff !important;
+        float: right;
+        margin-left: 5px;
+    }
+
+    .help-item-title {
+        margin-left: 1em;
+    }
+</style>
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="editHelpLabel" aria-hidden="true">
+    <div class="modal-dialog" id="d1" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editHelpLabel">Edit Page</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col-xs-12">
+                        <div id="editHelpWizard">
+                            <div class="form-bootstrapWizard margin-left-10 margin-right-10">
+                                <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                                    <li class="active" data-target="#step1">
+                                        <a href="#step1" data-toggle="tab">
+                                            <h4 class="list-group-item-heading">Step 1</h4>
+                                            <p class="list-group-item-text">Page Information</p>
+                                        </a>
+                                    </li>
+                                    <li data-target="#step2">
+                                        <a href="#step2" data-toggle="tab">
+                                            <h4 class="list-group-item-heading">Step 2</h4>
+                                            <p class="list-group-item-text">Items</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane active col-md-12" id="step1">
+                                    <form id="editHelp-form" class="smart-form margin-top-0" data-url="@Url.Action("EditHelp", "Help", new { area = "Admin" })" data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })">
+                                        @Html.ValidationBootstrap()
+                                        @Html.AntiForgeryToken()
+                                        <fieldset>
+                                            <legend>Page Information</legend>
+                                            <section>
+                                                <label class="label">Type:</label>
+                                                <label class="select">
+                                                    @{
+                                                        var types = (IList<SelectListItem>)ViewBag.Types;
+                                                    }
+                                                    @Html.DropDownListFor(m => m.PageType, types, "Please Select", new { tabindex = "1", disabled = "disabled", style = "background-color: rgba(218, 218, 218, 1);" })
+                                                    <i></i>
+                                                </label>
+                                            </section>
+                                            <section>
+                                                <label class="label">Page Name:</label>
+                                                <label class="input ">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    
+                                                    @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 100 })
+                                                </label>
+                                            </section>
+
+                                            <section>
+                                                <label class="label">Page URL:</label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.PageUrl, new { tabindex = "3", maxlength = 100 })
+                                                </label>
+                                            </section>
+                                        </fieldset>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane col-md-12" id="step2">
+                                    <fieldset>
+                                        <legend>Items</legend>
+                                    </fieldset>
+                                    <div class="col-md-5" style="margin-right:15px; padding-top:10px">
+                                        <div id="addListItem" style="margin-left: 20px;">
+                                            <ul class="helpItemList">
+                                                <li class="ui-state-default" data-item-id="">
+                                                    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                                    <span class="help-item-title">Item 1</span>
+                                                    <span class="help-item-btn">
+                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
+                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
+                                                    </span>
+                                                </li>
+                                                <li class="ui-state-default" data-item-id="">
+                                                    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+                                                    <span class="help-item-title">Item 2</span>
+                                                    <span class="help-item-btn">
+                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
+                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="border-left: 1px solid rgb(189, 189, 189);">
+                                        @{var item = new HelpItemDTO();}
+                                        @Html.Partial("_EditItem", @item)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            <div class="modal-footer" id="editHelpControls">
+                <button type="button" id="cancelEditHelp" class="btn btn-default" data-dismiss="modal" tabindex="28">
+                    Cancel
+                </button>
+                <button type="button" id="stepBack" class="btn btn-primary" style="display:none;" tabindex="29">
+                    <i class="fa fa-chevron-left margin-right-5"></i>Back
+                </button>
+                <button type="button" id="stepNext" class="btn btn-primary" tabindex="30">
+                    Next<i class="fa fa-chevron-right margin-left-5"></i>
+                </button>
+                <button type="button" id="submitEditHelp" class="btn btn-primary" style="display:none;" tabindex="30">
+                    Edit Page
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Help/_EditHelp")"></script>
 

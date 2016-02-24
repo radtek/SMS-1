@@ -97,6 +97,7 @@
         $("#addItem-form textarea").val('');
         $("#addItem-form input[type=text]").first().focus();
         $("#submitAddItem").text("Add");
+        $("#helpItemId").val("");
         $('.help-item-element').prop('disabled', false);
     }
 
@@ -147,9 +148,6 @@
             var birthDateField = $('#EffectiveOn');
             birthDateField.val(inst.input.data("val"));
             birthDateField.valid();
-            console.log(inst);
-            console.log(inst.input);
-            console.log(inst.input.data("val"));
         }
     });
 })

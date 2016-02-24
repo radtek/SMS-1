@@ -28,7 +28,10 @@
                                             <dt>Page URL:</dt>
                                             <dd><p>@Html.DisplayFor(m => m.PageUrl)</p></dd>
                                             <dt>Page Type:</dt>
-                                            <dd><p>@Html.DisplayFor(m => m.PageType)</p></dd>
+                                            @{
+                                                var type = Model.PageType == 1 ? "Tour" : (Model.PageType == 2 ? "Show Me How" : "Callout");
+                                            }
+                                            <dd><p>@Html.Label("PageType", @type)</p></dd>
                                         </dl>
                                     </section>
                                 </div>

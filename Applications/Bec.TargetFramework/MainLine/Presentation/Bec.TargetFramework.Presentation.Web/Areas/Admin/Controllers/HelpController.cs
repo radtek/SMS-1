@@ -41,6 +41,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return PartialView("_AddHelp", page);
         }
 
+        public async Task<ActionResult> ViewEditHelp(Guid pageId)
+        {
+            var pages = await GetHelpDtos(pageId);
+            var page = pages.FirstOrDefault();
+            if (page != null)
+            {
+                //var list = GetItemOnPage(pageId);
+                //TempData["Items"] = list;
+                ViewBag.Types = GetTypes();
+                return PartialView("_EditHelp", page);
+            }
+            else return View("Index");
+        }
+
         public async Task<ActionResult> ViewDeleteHelp(Guid pageId)
         {
             var pages = await GetHelpDtos(pageId);
