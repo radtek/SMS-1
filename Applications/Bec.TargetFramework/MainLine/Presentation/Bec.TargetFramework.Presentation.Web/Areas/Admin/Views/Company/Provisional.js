@@ -284,7 +284,13 @@ function unverifiedChange(dataItem) {
 function verifiedChange(dataItem) {
     populateCompany(dataItem);
     promises.verified[dataItem.OrganisationTypeDescription].done(function (template) {
-        var html = template(dataItem);
+        var data = _.extend({}, dataItem, {
+            authorityDelegatedBy: dataItem.AuthorityDelegatedBySalutation
+                ? '{0} {1} {2} ({3})'.format(dataItem.AuthorityDelegatedBySalutation, dataItem.AuthorityDelegatedByFirstName, dataItem.AuthorityDelegatedByLastName,
+                    dataItem.AuthorityDelegatedByEmail)
+                : ''
+        });
+        var html = template(data);
         $('#verifiedPanel').html(html);
         $("#pinButton").data('href', $("#pinButton").data("url") + "&orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
 

@@ -417,6 +417,9 @@
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.Store.File" store:Type="Tables" Schema="public" Table="File" />
           <EntitySet Name="OrganisationNotes" EntityType="Bec.TargetFramework.Data.Store.OrganisationNote" store:Type="Tables" Schema="public" Table="OrganisationNote" />
           <EntitySet Name="NewsArticles" EntityType="Bec.TargetFramework.Data.Store.NewsArticle" store:Type="Tables" Schema="public" Table="NewsArticle" />
+          <EntitySet Name="ConversationSafeSendGroupParticipants" EntityType="Bec.TargetFramework.Data.Store.ConversationSafeSendGroupParticipant" store:Type="Tables" Schema="public" Table="ConversationSafeSendGroupParticipant" />
+          <EntitySet Name="SafeSendGroups" EntityType="Bec.TargetFramework.Data.Store.SafeSendGroup" store:Type="Tables" Schema="public" Table="SafeSendGroup" />
+          <EntitySet Name="UserAccountOrganisationSafeSendGroups" EntityType="Bec.TargetFramework.Data.Store.UserAccountOrganisationSafeSendGroup" store:Type="Tables" Schema="public" Table="UserAccountOrganisationSafeSendGroup" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -2989,6 +2992,34 @@
             <End Role="Organisation" EntitySet="Organisations" />
             <End Role="Lender" EntitySet="Lenders" />
           </AssociationSet>
+          <AssociationSet Name="Organisation_Contact_fk" Association="Bec.TargetFramework.Data.Store.Organisation_Contact_fk">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Conversation_fk" Association="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant_Conversation_fk">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="ConversationSafeSendGroupParticipant" EntitySet="ConversationSafeSendGroupParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Organisation_fk" Association="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant_Organisation_fk">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="ConversationSafeSendGroupParticipant" EntitySet="ConversationSafeSendGroupParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Function_fk" Association="Bec.TargetFramework.Data.Store.ConversationFunctionParticipant_Function_fk">
+            <End Role="SafeSendGroup" EntitySet="SafeSendGroups" />
+            <End Role="ConversationSafeSendGroupParticipant" EntitySet="ConversationSafeSendGroupParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="Function_OrganisationType_fk" Association="Bec.TargetFramework.Data.Store.Function_OrganisationType_fk">
+            <End Role="OrganisationType" EntitySet="OrganisationTypes" />
+            <End Role="SafeSendGroup" EntitySet="SafeSendGroups" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisationFunction_UserAccountOrganisation_fk" Association="Bec.TargetFramework.Data.Store.UserAccountOrganisationFunction_UserAccountOrganisation_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="UserAccountOrganisationSafeSendGroup" EntitySet="UserAccountOrganisationSafeSendGroups" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisationFunction_Function_fk" Association="Bec.TargetFramework.Data.Store.UserAccountOrganisationFunction_Function_fk">
+            <End Role="SafeSendGroup" EntitySet="SafeSendGroups" />
+            <End Role="UserAccountOrganisationSafeSendGroup" EntitySet="UserAccountOrganisationSafeSendGroups" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -5423,7 +5454,7 @@
           <Key>
             <PropertyRef Name="OrganisationSettingID" />
           </Key>
-          <Property Name="OrganisationSettingID" Type="int" Nullable="false" />
+          <Property Name="OrganisationSettingID" Type="uuid" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Value" Type="varchar" Nullable="false" MaxLength="2000" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
@@ -6194,6 +6225,7 @@
           <Property Name="NotificationStatusID" Type="int" />
           <Property Name="ConversationID" Type="uuid" />
           <Property Name="CreatedByUserAccountOrganisationID" Type="uuid" />
+          <Property Name="CreatedBySafeSendGroupID" Type="uuid" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -9715,6 +9747,7 @@
           <Property Name="FilesPerMonth" Type="int" Nullable="false" DefaultValue="0" />
           <Property Name="BrokerType" Type="int" />
           <Property Name="BrokerBusinessType" Type="int" />
+          <Property Name="AuthorityDelegatedByContactID" Type="uuid" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
           <Key>
@@ -9770,6 +9803,10 @@
           <Property Name="OrganisationTypeDescription" Type="varchar" MaxLength="2000" />
           <Property Name="BrokerType" Type="int" />
           <Property Name="BrokerBusinessType" Type="int" />
+          <Property Name="AuthorityDelegatedBySalutation" Type="varchar" MaxLength="100" />
+          <Property Name="AuthorityDelegatedByFirstName" Type="varchar" MaxLength="100" />
+          <Property Name="AuthorityDelegatedByLastName" Type="varchar" MaxLength="100" />
+          <Property Name="AuthorityDelegatedByEmail" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="vNotificationInternalUnread">
           <Key>
@@ -10020,18 +10057,21 @@
           <Property Name="UserType" Type="varchar" />
           <Property Name="OrganisationType" Type="varchar" MaxLength="200" />
           <Property Name="NotificationConstructName" Type="varchar" MaxLength="300" />
+          <Property Name="SafeSendGroupName" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="vSafeSendRecipient">
           <Key>
             <PropertyRef Name="SmsTransactionID" />
-            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="RelatedID" />
             <PropertyRef Name="OrganisationID" />
           </Key>
           <Property Name="SmsTransactionID" Type="uuid" Nullable="false" />
-          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="RelatedID" Type="uuid" Nullable="false" />
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="OrganisationTypeName" Type="varchar" />
+          <Property Name="IsSafeSendGroup" Type="boolean" Nullable="false" />
           <Property Name="OrganisationName" Type="varchar" />
         </EntityType>
         <EntityType Name="vMessageRead">
@@ -10087,6 +10127,34 @@
           <Property Name="Title" Type="text" Nullable="false" />
           <Property Name="DateTime" Type="timestamptz" Nullable="false" />
           <Property Name="Content" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConversationSafeSendGroupParticipant">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+            <PropertyRef Name="SafeSendGroupID" />
+          </Key>
+          <Property Name="ConversationID" Type="uuid" Nullable="false" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="SafeSendGroupID" Type="uuid" Nullable="false" />
+          <Property Name="Added" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="SafeSendGroup">
+          <Key>
+            <PropertyRef Name="SafeSendGroupID" />
+          </Key>
+          <Property Name="SafeSendGroupID" Type="uuid" Nullable="false" />
+          <Property Name="OrganisationTypeID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="UserAccountOrganisationSafeSendGroup">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="SafeSendGroupID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="SafeSendGroupID" Type="uuid" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18360,6 +18428,90 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Organisation_Contact_fk">
+          <End Role="Contact" Type="Bec.TargetFramework.Data.Store.Contact" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="AuthorityDelegatedByContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Conversation_fk">
+          <End Role="Conversation" Type="Bec.TargetFramework.Data.Store.Conversation" Multiplicity="1" />
+          <End Role="ConversationSafeSendGroupParticipant" Type="Bec.TargetFramework.Data.Store.ConversationSafeSendGroupParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="ConversationSafeSendGroupParticipant">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Organisation_fk">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="1" />
+          <End Role="ConversationSafeSendGroupParticipant" Type="Bec.TargetFramework.Data.Store.ConversationSafeSendGroupParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="ConversationSafeSendGroupParticipant">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Function_fk">
+          <End Role="SafeSendGroup" Type="Bec.TargetFramework.Data.Store.SafeSendGroup" Multiplicity="1" />
+          <End Role="ConversationSafeSendGroupParticipant" Type="Bec.TargetFramework.Data.Store.ConversationSafeSendGroupParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SafeSendGroup">
+              <PropertyRef Name="SafeSendGroupID" />
+            </Principal>
+            <Dependent Role="ConversationSafeSendGroupParticipant">
+              <PropertyRef Name="SafeSendGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Function_OrganisationType_fk">
+          <End Role="OrganisationType" Type="Bec.TargetFramework.Data.Store.OrganisationType" Multiplicity="1" />
+          <End Role="SafeSendGroup" Type="Bec.TargetFramework.Data.Store.SafeSendGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganisationType">
+              <PropertyRef Name="OrganisationTypeID" />
+            </Principal>
+            <Dependent Role="SafeSendGroup">
+              <PropertyRef Name="OrganisationTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisationFunction_UserAccountOrganisation_fk">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="UserAccountOrganisationSafeSendGroup" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisationSafeSendGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationSafeSendGroup">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisationFunction_Function_fk">
+          <End Role="SafeSendGroup" Type="Bec.TargetFramework.Data.Store.SafeSendGroup" Multiplicity="1" />
+          <End Role="UserAccountOrganisationSafeSendGroup" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisationSafeSendGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SafeSendGroup">
+              <PropertyRef Name="SafeSendGroupID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationSafeSendGroup">
+              <PropertyRef Name="SafeSendGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18400,11 +18552,15 @@
           <Parameter Name="activityid" Type="uuid" Mode="In" />
           <Parameter Name="l" Type="int" Mode="In" />
           <Parameter Name="o" Type="int" Mode="In" />
+          <Parameter Name="userorgtypename" Type="varchar" Mode="In" />
+          <Parameter Name="uaoid" Type="uuid" Mode="In" />
         </Function>
         <Function Name="fn_GetConversationActivityCount" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetConversationActivityCount">
           <Parameter Name="orgid" Type="uuid" Mode="In" />
           <Parameter Name="activitytype" Type="int" Mode="In" />
           <Parameter Name="activityid" Type="uuid" Mode="In" />
+          <Parameter Name="userorgtypename" Type="varchar" Mode="In" />
+          <Parameter Name="uaoid" Type="uuid" Mode="In" />
         </Function>
         <Function Name="fn_AttachUploads" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_AttachUploads">
           <Parameter Name="uaoid" Type="uuid" Mode="In" />
@@ -18813,6 +18969,9 @@
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.File" />
           <EntitySet Name="OrganisationNotes" EntityType="Bec.TargetFramework.Data.OrganisationNote" />
           <EntitySet Name="NewsArticles" EntityType="Bec.TargetFramework.Data.NewsArticle" />
+          <EntitySet Name="ConversationSafeSendGroupParticipants" EntityType="Bec.TargetFramework.Data.ConversationSafeSendGroupParticipant" />
+          <EntitySet Name="SafeSendGroups" EntityType="Bec.TargetFramework.Data.SafeSendGroup" />
+          <EntitySet Name="UserAccountOrganisationSafeSendGroups" EntityType="Bec.TargetFramework.Data.UserAccountOrganisationSafeSendGroup" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -21275,7 +21434,7 @@
           </AssociationSet>
           <AssociationSet Name="SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fkSet" Association="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk">
             <End Role="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" EntitySet="SmsUserAccountOrganisationTransactions" />
-            <End Role="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" EntitySet="SmsBankAccountChecks" />
+            <End Role="SmsBankAccountChecks" EntitySet="SmsBankAccountChecks" />
           </AssociationSet>
           <AssociationSet Name="SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fkSet" Association="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk">
             <End Role="LatestBankAccountCheck" EntitySet="SmsBankAccountChecks" />
@@ -21325,6 +21484,34 @@
             <End Role="Organisation" EntitySet="Organisations" />
             <End Role="Lenders" EntitySet="Lenders" />
           </AssociationSet>
+          <AssociationSet Name="Organisation_Contact_fkSet" Association="Bec.TargetFramework.Data.Organisation_Contact_fk">
+            <End Role="Contact_AuthorityDelegatedByContactID" EntitySet="Contacts" />
+            <End Role="Organisations_AuthorityDelegatedByContactID" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Conversation_fkSet" Association="Bec.TargetFramework.Data.ConversationFunctionParticipant_Conversation_fk">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="ConversationSafeSendGroupParticipants" EntitySet="ConversationSafeSendGroupParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Organisation_fkSet" Association="Bec.TargetFramework.Data.ConversationFunctionParticipant_Organisation_fk">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="ConversationSafeSendGroupParticipants" EntitySet="ConversationSafeSendGroupParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="ConversationFunctionParticipant_Function_fkSet" Association="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk">
+            <End Role="SafeSendGroup" EntitySet="SafeSendGroups" />
+            <End Role="ConversationSafeSendGroupParticipants" EntitySet="ConversationSafeSendGroupParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="Function_OrganisationType_fkSet" Association="Bec.TargetFramework.Data.Function_OrganisationType_fk">
+            <End Role="OrganisationType" EntitySet="OrganisationTypes" />
+            <End Role="SafeSendGroups" EntitySet="SafeSendGroups" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisationFunction_UserAccountOrganisation_fkSet" Association="Bec.TargetFramework.Data.UserAccountOrganisationFunction_UserAccountOrganisation_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="UserAccountOrganisationSafeSendGroups" EntitySet="UserAccountOrganisationSafeSendGroups" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountOrganisationFunction_Function_fkSet" Association="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk">
+            <End Role="SafeSendGroup" EntitySet="SafeSendGroups" />
+            <End Role="UserAccountOrganisationSafeSendGroups" EntitySet="UserAccountOrganisationSafeSendGroups" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21365,11 +21552,15 @@
             <Parameter Name="activityid" Mode="In" Type="Guid" />
             <Parameter Name="l" Mode="In" Type="Int32" />
             <Parameter Name="o" Mode="In" Type="Int32" />
+            <Parameter Name="userorgtypename" Mode="In" Type="String" />
+            <Parameter Name="uaoid" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="FnGetConversationActivityCount" ReturnType="Collection(Int64)" ed:Guid="6430b9e5-18b2-42b5-98d0-e837e58b2c59">
             <Parameter Name="orgid" Mode="In" Type="Guid" />
             <Parameter Name="activitytype" Mode="In" Type="Int32" />
             <Parameter Name="activityid" Mode="In" Type="Guid" />
+            <Parameter Name="userorgtypename" Mode="In" Type="String" />
+            <Parameter Name="uaoid" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="FnAttachUpload" ed:Guid="2f44de09-74ab-4945-aa0e-88c5ea7f99cb">
             <Parameter Name="uaoid" Mode="In" Type="Guid" />
@@ -21714,6 +21905,17 @@
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_CreatedByUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Notifications" ed:Guid="65f99910-9375-4611-9d84-0381177b95e7" />
           <NavigationProperty Name="Files" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Files" ed:Guid="674e1d85-14db-4a9c-8300-00380ac58949" />
           <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_UserAccountOrganisation_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationNotes" ed:Guid="6d48d822-e4df-4307-9b2a-ef989d240401" />
+          <NavigationProperty Name="UserAccountOrganisationSafeSendGroups" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_UserAccountOrganisation_fk" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationSafeSendGroups" ed:Guid="197a1b60-0b82-466c-8f54-275667e2f2f3">
+            <ed:Attributes>
+              <ed:Attribute Name="Bec.TargetFramework.Data.Attributes.CollectionUpdateBehaviourAttribute" Assembly="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                <ed:AttributeConstructor>
+                  <ed:PropertyValue Name="behaviour" Type="Bec.TargetFramework.Data.Attributes.UpdateBehaviour, Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                    <UpdateBehaviour xmlns="">Replace</UpdateBehaviour>
+                  </ed:PropertyValue>
+                </ed:AttributeConstructor>
+              </ed:Attribute>
+            </ed:Attributes>
+          </NavigationProperty>
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -24322,7 +24524,7 @@
           <Key>
             <PropertyRef Name="OrganisationSettingID" />
           </Key>
-          <Property Name="OrganisationSettingID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="02746080-00b5-40d1-994d-01227d6aa4bd" />
+          <Property Name="OrganisationSettingID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="02746080-00b5-40d1-994d-01227d6aa4bd" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="52ae21e9-965a-4594-bf51-5b7e69bff0f0" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="True" ed:Guid="bc8aa7da-0fa4-48c9-ad12-cf87a0bde38d" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="c1394143-6a98-433b-aebe-3e668e358b93" />
@@ -25279,6 +25481,7 @@
           <Property Name="NotificationStatusID" Type="Int32" ed:ValidateRequired="False" ed:Guid="eba51b25-5252-4dab-87ac-d9bc937fedf0" />
           <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b15fe8c6-731d-47ec-8082-110edb4dbe19" />
           <Property Name="CreatedByUserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="28ff451f-2927-479d-83c5-0bdcf2f95c1e" />
+          <Property Name="CreatedBySafeSendGroupID" Type="Guid" ed:ValidateRequired="False" ed:Guid="4a0eea50-0321-44fc-acc7-e8813f9d2bcb" />
           <NavigationProperty Name="NotificationRecipients" Relationship="Bec.TargetFramework.Data.fk_NotificationRecipient_Notification" FromRole="Notification" ToRole="NotificationRecipients" ed:Guid="23184bb2-c506-4d15-beeb-e6595a40e4a3" />
           <NavigationProperty Name="NotificationConstruct" Relationship="Bec.TargetFramework.Data.fk_Notification_NotificationConstruct" FromRole="Notifications" ToRole="NotificationConstruct" ed:Guid="2eb4cec1-3b11-4bdc-a1ba-5b665c40ae0a" />
           <NavigationProperty Name="InvoiceProcessLogs" Relationship="Bec.TargetFramework.Data.fk_InvoiceLog_Notification" FromRole="Notification" ToRole="InvoiceProcessLogs" ed:Guid="b74489d0-3005-41c5-a78c-40ff3196e17a" />
@@ -25352,6 +25555,7 @@
           <NavigationProperty Name="Organisations" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Contact" ToRole="Organisations" ed:Guid="737034bc-16e7-41d1-835a-e138d443ae1b" />
           <NavigationProperty Name="Addresses" Relationship="Bec.TargetFramework.Data.Contact_Address" FromRole="Contact" ToRole="Addresses" ed:Guid="c7780a52-9a39-4c6d-984d-cf1f07dd121a" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Contact_fk" FromRole="Contact" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="ae96d7ae-0425-4c5b-b388-7bedda826b39" />
+          <NavigationProperty Name="Organisations_AuthorityDelegatedByContactID" Relationship="Bec.TargetFramework.Data.Organisation_Contact_fk" FromRole="Contact_AuthorityDelegatedByContactID" ToRole="Organisations_AuthorityDelegatedByContactID" ed:Guid="82a4ee9c-c919-47e2-ad35-622059de266a" />
         </EntityType>
         <EntityType Name="ModuleDependencyTemplate" ed:Guid="9a80b3c2-3957-4097-820c-c3e961b47cc9">
           <Key>
@@ -25958,6 +26162,7 @@
           <NavigationProperty Name="NotificationConstructTargets" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructTarget_OrganisationType" FromRole="OrganisationType" ToRole="NotificationConstructTargets" ed:Guid="807feee6-e4e8-4870-8562-1172e429a5ec" />
           <NavigationProperty Name="ResourceOperationTargets" Relationship="Bec.TargetFramework.Data.fk_ClaimTarget_OrganisationType" FromRole="OrganisationType" ToRole="ResourceOperationTargets" ed:Guid="7ce54e55-1d0d-4cd7-9cd6-9890b0906e7e" />
           <NavigationProperty Name="Organisations" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="OrganisationType" ToRole="Organisations" ed:Guid="e9770ec8-114e-4b08-a4e9-c37aa9591769" />
+          <NavigationProperty Name="SafeSendGroups" Relationship="Bec.TargetFramework.Data.Function_OrganisationType_fk" FromRole="OrganisationType" ToRole="SafeSendGroups" ed:Guid="9724dd65-cda2-40f7-a348-28a5141ba494" />
         </EntityType>
         <EntityType Name="ClassificationTypeCategory" ed:Guid="ae853d14-27d1-4131-852f-e300b176c55d">
           <Key>
@@ -29131,6 +29336,7 @@
           <Property Name="FilesPerMonth" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="2619b439-89fc-441d-a64e-68cad6ed6553" />
           <Property Name="BrokerType" Type="Int32" ed:ValidateRequired="False" ed:Guid="bdde3f56-7f7c-4522-8bb2-5731df2185a6" />
           <Property Name="BrokerBusinessType" Type="Int32" ed:ValidateRequired="False" ed:Guid="359a1f27-9ac0-4af3-bf49-68659d339c47" />
+          <Property Name="AuthorityDelegatedByContactID" Type="Guid" ed:ValidateRequired="False" ed:Guid="cbbbd50f-cce8-4a18-9f83-bacdb10c21f1" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="Organisations" ToRole="OrganisationType" ed:Guid="225b1679-ada9-478c-b51a-cf9324e9bb73" />
@@ -29172,7 +29378,9 @@
           <NavigationProperty Name="ClassificationType" Relationship="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk" FromRole="Organisations" ToRole="ClassificationType" ed:Guid="851eadd4-06e9-46cc-bfe5-2c235bf9a4e5" />
           <NavigationProperty Name="LegalOrganisationDetail" Relationship="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation" FromRole="Organisation" ToRole="LegalOrganisationDetail" ed:Guid="7835c877-7c6b-490a-83ad-13c637567b3b" />
           <NavigationProperty Name="OrganisationNotes" Relationship="Bec.TargetFramework.Data.OrganisationNote_Organisation_fk" FromRole="Organisation" ToRole="OrganisationNotes" ed:Guid="4fcad52b-104e-4115-941e-7484cac266c1" />
-          <NavigationProperty Name="Lenders" Relationship="Bec.TargetFramework.Data.Lender_Organisation_fk" FromRole="Organisation" ToRole="Lenders" ed:Guid="e3ec9954-908d-42b7-88a6-61939e384649" />
+          <NavigationProperty Name="Lenders" Relationship="Bec.TargetFramework.Data.Lender_Organisation_fk" FromRole="Organisation" ToRole="Lenders" ed:Guid="899cdc0c-9223-4f50-9282-8a4023e1af24" />
+          <NavigationProperty Name="Contact_AuthorityDelegatedByContactID" Relationship="Bec.TargetFramework.Data.Organisation_Contact_fk" FromRole="Organisations_AuthorityDelegatedByContactID" ToRole="Contact_AuthorityDelegatedByContactID" ed:Guid="ef9e8120-5a19-4936-8dd7-10f7e912cd06" />
+          <NavigationProperty Name="ConversationSafeSendGroupParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Organisation_fk" FromRole="Organisation" ToRole="ConversationSafeSendGroupParticipants" ed:Guid="ebccd846-4649-41e0-a6de-0af9bf169f9d" />
         </EntityType>
         <EntityType Name="VOrganisationWithStatusAndAdmin" ed:Guid="bfc8d9b7-97cf-4558-9215-bbe4a81f5d25">
           <Key>
@@ -29228,6 +29436,10 @@
           <Property Name="OrganisationTypeDescription" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="9d46e0a0-96b1-4e37-b6e1-9cddd5237d22" />
           <Property Name="BrokerType" Type="Int32" ed:ValidateRequired="False" ed:Guid="c1356857-4958-47d4-a5f6-ba2701ee960e" />
           <Property Name="BrokerBusinessType" Type="Int32" ed:ValidateRequired="False" ed:Guid="9c7b8ca3-b059-4f99-a496-06c605ccdc2e" />
+          <Property Name="AuthorityDelegatedBySalutation" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="6ca2cad5-18f0-41fa-85cd-6f86788a7abe" />
+          <Property Name="AuthorityDelegatedByFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="cd8750ab-29e8-4efc-aa1f-08aab035b945" />
+          <Property Name="AuthorityDelegatedByLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="aa3218a0-3abf-447c-ac58-ef1e22695e68" />
+          <Property Name="AuthorityDelegatedByEmail" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="ab1ebbec-17cd-4557-b328-2cd6ffb3ad4d" />
         </EntityType>
         <EntityType Name="VNotificationInternalUnread" ed:Guid="3b0fcde2-57a4-46ea-8cad-824161f44eb6">
           <Key>
@@ -29415,7 +29627,7 @@
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Address" ed:Guid="8935e715-92aa-485a-ba4c-720eb05fb917" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Contact_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Contact" ed:Guid="6fcb6856-21eb-4558-bc7d-5cc270241227" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="UserAccountOrganisation" ed:Guid="6d6a0671-ad57-4a27-9029-7729497aca06" />
-          <NavigationProperty Name="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ToRole="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" ed:Guid="5b652779-bdc4-4316-9b58-22553b54ffe5" />
+          <NavigationProperty Name="SmsBankAccountChecks" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ToRole="SmsBankAccountChecks" ed:Guid="5b652779-bdc4-4316-9b58-22553b54ffe5" />
           <NavigationProperty Name="LatestBankAccountCheck" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" FromRole="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" ToRole="LatestBankAccountCheck" ed:Guid="85c62da9-9178-40eb-b13c-e31dc8e6d7f7" />
           <NavigationProperty Name="SmsSrcFundsBankAccounts" Relationship="Bec.TargetFramework.Data.SmsSrcFundsBankAccount_SmsUaot_fk" FromRole="SmsUserAccountOrganisationTransaction" ToRole="SmsSrcFundsBankAccounts" ed:Guid="76590f11-ff18-489d-a7b3-744feb2e6be6" />
         </EntityType>
@@ -29438,7 +29650,7 @@
           <Property Name="IsMatch" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="1f84cb37-c6f5-4531-9bb7-69c83e318190" />
           <Property Name="BankAccountNumber" Type="String" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="False" ed:Guid="a6ae5a93-8197-405f-a792-651cf8ab7e40" />
           <Property Name="SortCode" Type="String" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="False" ed:Guid="f5afb543-0109-465c-8f67-b2982e22c6a4" />
-          <NavigationProperty Name="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" ToRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ed:Guid="b9fb9028-06fd-4805-93c7-289d3722352c" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsBankAccountChecks" ToRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ed:Guid="b9fb9028-06fd-4805-93c7-289d3722352c" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" FromRole="LatestBankAccountCheck" ToRole="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" ed:Guid="82eb70ec-db58-4dd9-bde4-c3e81e101419" />
         </EntityType>
         <EntityType Name="SmsSrcFundsBankAccount" ed:Guid="163a17e2-997d-4f43-bef8-bf8d7b1c1dbc">
@@ -29463,6 +29675,7 @@
           <Property Name="Latest" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="3a892711-c79f-43b6-9e65-9682e1a86e89" />
           <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_Conversation" FromRole="Conversation" ToRole="ConversationParticipants" ed:Guid="7282fa43-51e3-4cd1-b3af-691830ce02a2" />
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_Conversation" FromRole="Conversation" ToRole="Notifications" ed:Guid="80be8f08-c9bb-4357-a8a4-dc03fcccc147" />
+          <NavigationProperty Name="ConversationSafeSendGroupParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Conversation_fk" FromRole="Conversation" ToRole="ConversationSafeSendGroupParticipants" ed:Guid="8dc59060-e241-47df-bec8-275a7dd592cc" />
         </EntityType>
         <EntityType Name="ConversationParticipant" ed:Guid="e29a70d3-b5b2-4bc4-a1c6-113b3a5bb953">
           <Key>
@@ -29506,18 +29719,21 @@
           <Property Name="UserType" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="13d72811-f698-47b7-9886-1f7b6c5109f7" />
           <Property Name="OrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="f6a5ac46-f542-4091-8383-9132a1302606" />
           <Property Name="NotificationConstructName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="db5d6a9f-c764-4d07-afb0-b20965e37cf4" />
+          <Property Name="SafeSendGroupName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="2a005ef8-5690-4b3d-8c69-084be358b2b7" />
         </EntityType>
         <EntityType Name="VSafeSendRecipient" ed:Guid="2489ff6f-fdc8-4ed7-8661-0ae9e4d163f5">
           <Key>
             <PropertyRef Name="SmsTransactionID" />
-            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="RelatedID" />
             <PropertyRef Name="OrganisationID" />
           </Key>
           <Property Name="SmsTransactionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="86732692-17bd-4619-982d-6897bede1d4c" />
-          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="148f212c-35bb-4831-a7e7-ea968a58a83e" />
+          <Property Name="RelatedID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d0742e24-9de4-4a06-90ff-ce4fce8834c9" />
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="57424b63-0237-4587-8d12-e6dffb0a52d3" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="651a4c21-d5b9-4a7e-b416-40d10a15426b" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="1ff14bad-3ea5-4167-9381-4cbaa282b98e" />
+          <Property Name="OrganisationTypeName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="7111d786-259c-4e00-b4ec-1edd6eed30c1" />
+          <Property Name="IsSafeSendGroup" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="e9e4842e-f7fe-4751-89f8-34968375133e" />
           <Property Name="OrganisationName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="fd2a5d54-186e-45ee-81eb-96a5d8b7d8ad" />
         </EntityType>
         <EntityType Name="VMessageRead" ed:Guid="d79c309d-6c5a-4c6b-b027-c09a8ed3ab25">
@@ -29576,6 +29792,42 @@
           <Property Name="Title" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="11a8688c-6be5-46fb-8c85-b356819af45c" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="bf2da60b-f323-42ae-9d71-5237618d1616" />
           <Property Name="Content" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="e1a18735-ade9-4a05-af6a-213d2ac42477" />
+        </EntityType>
+        <EntityType Name="ConversationSafeSendGroupParticipant" ed:Guid="ee612489-ba84-4a55-bf31-cbba620745e8">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+            <PropertyRef Name="SafeSendGroupID" />
+          </Key>
+          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="2c5dde34-b4b9-4971-aa01-2cfa3869d96a" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e97b06d2-3178-45d0-94bc-49618513419e" />
+          <Property Name="SafeSendGroupID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="17f02350-e3dd-4a94-ada3-949d4aaabaa0" />
+          <Property Name="Added" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="180b7916-10dd-442c-9780-95e01d88cc01" />
+          <NavigationProperty Name="Conversation" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Conversation_fk" FromRole="ConversationSafeSendGroupParticipants" ToRole="Conversation" ed:Guid="57188e9b-793a-41f6-a097-554c662fb5ad" />
+          <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Organisation_fk" FromRole="ConversationSafeSendGroupParticipants" ToRole="Organisation" ed:Guid="34e736e9-95d3-4e96-9240-e109ea15af93" />
+          <NavigationProperty Name="SafeSendGroup" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk" FromRole="ConversationSafeSendGroupParticipants" ToRole="SafeSendGroup" ed:Guid="79a9e775-9ade-4e34-94ac-336984350621" />
+        </EntityType>
+        <EntityType Name="SafeSendGroup" ed:Guid="420d190a-6408-4d7b-a047-f0d122005aae">
+          <Key>
+            <PropertyRef Name="SafeSendGroupID" />
+          </Key>
+          <Property Name="SafeSendGroupID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9ec46e51-d208-4765-af1d-79ab83ccc605" />
+          <Property Name="OrganisationTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="3e334cef-6afd-4a34-a22b-474ac0821373" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="8da337a7-401c-45e7-ad85-84584fd03c9d" />
+          <NavigationProperty Name="ConversationSafeSendGroupParticipants" Relationship="Bec.TargetFramework.Data.ConversationFunctionParticipant_Function_fk" FromRole="SafeSendGroup" ToRole="ConversationSafeSendGroupParticipants" ed:Guid="d313fc40-8767-44a1-9ed6-f42a9f1c17ed" />
+          <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.Function_OrganisationType_fk" FromRole="SafeSendGroups" ToRole="OrganisationType" ed:Guid="d4109b8a-f9cf-4e3d-8d4e-e38b770255b3" />
+          <NavigationProperty Name="UserAccountOrganisationSafeSendGroups" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk" FromRole="SafeSendGroup" ToRole="UserAccountOrganisationSafeSendGroups" ed:Guid="f51fa6fd-7e3b-493f-8bb0-83eacb240527" />
+        </EntityType>
+        <EntityType Name="UserAccountOrganisationSafeSendGroup" ed:Guid="e9d22410-9d5f-4f18-8ade-4ceecc28683d">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="SafeSendGroupID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3d11de26-6637-4a2c-ab0e-fded040f4fb9" />
+          <Property Name="SafeSendGroupID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="2f338e32-418b-4f45-8df2-8fe463cad3b4" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="dff9aa0a-bde6-4224-a9d5-4545999c2e0e" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="f22d4f51-f0c9-4a46-8a25-f512e0e4638a" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_UserAccountOrganisation_fk" FromRole="UserAccountOrganisationSafeSendGroups" ToRole="UserAccountOrganisation" ed:Guid="6a7d0fff-3ce1-488a-92c0-e1962d555437" />
+          <NavigationProperty Name="SafeSendGroup" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk" FromRole="UserAccountOrganisationSafeSendGroups" ToRole="SafeSendGroup" ed:Guid="de3e18a4-e134-439d-a2b6-58dd55e2fdb0" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37360,12 +37612,12 @@
         </Association>
         <Association Name="SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" ed:Guid="48d5e695-3406-4131-94b1-1d9990a081ab">
           <End Role="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="1" />
-          <End Role="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" Type="Bec.TargetFramework.Data.SmsBankAccountCheck" Multiplicity="*" />
+          <End Role="SmsBankAccountChecks" Type="Bec.TargetFramework.Data.SmsBankAccountCheck" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID">
               <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
             </Principal>
-            <Dependent Role="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID">
+            <Dependent Role="SmsBankAccountChecks">
               <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
             </Dependent>
           </ReferentialConstraint>
@@ -37511,6 +37763,90 @@
             </Principal>
             <Dependent Role="Lenders">
               <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Organisation_Contact_fk" ed:Guid="0e4f801e-9270-4255-b1b3-1f7e4e0e7d30">
+          <End Role="Contact_AuthorityDelegatedByContactID" Type="Bec.TargetFramework.Data.Contact" Multiplicity="0..1" />
+          <End Role="Organisations_AuthorityDelegatedByContactID" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact_AuthorityDelegatedByContactID">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Organisations_AuthorityDelegatedByContactID">
+              <PropertyRef Name="AuthorityDelegatedByContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Conversation_fk" ed:Guid="fd569785-fae4-45d3-918b-b930bd6f4c3c">
+          <End Role="Conversation" Type="Bec.TargetFramework.Data.Conversation" Multiplicity="1" />
+          <End Role="ConversationSafeSendGroupParticipants" Type="Bec.TargetFramework.Data.ConversationSafeSendGroupParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="ConversationSafeSendGroupParticipants">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Organisation_fk" ed:Guid="936d2fe7-5bfb-433f-9a6b-34a1a35df685">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="1" />
+          <End Role="ConversationSafeSendGroupParticipants" Type="Bec.TargetFramework.Data.ConversationSafeSendGroupParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="ConversationSafeSendGroupParticipants">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationFunctionParticipant_Function_fk" ed:Guid="720be4b7-284d-4ec3-a789-30fc63ed641d">
+          <End Role="SafeSendGroup" Type="Bec.TargetFramework.Data.SafeSendGroup" Multiplicity="1" />
+          <End Role="ConversationSafeSendGroupParticipants" Type="Bec.TargetFramework.Data.ConversationSafeSendGroupParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SafeSendGroup">
+              <PropertyRef Name="SafeSendGroupID" />
+            </Principal>
+            <Dependent Role="ConversationSafeSendGroupParticipants">
+              <PropertyRef Name="SafeSendGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Function_OrganisationType_fk" ed:Guid="168e58c8-091a-4411-adb7-7e366fc31e60">
+          <End Role="OrganisationType" Type="Bec.TargetFramework.Data.OrganisationType" Multiplicity="1" />
+          <End Role="SafeSendGroups" Type="Bec.TargetFramework.Data.SafeSendGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganisationType">
+              <PropertyRef Name="OrganisationTypeID" />
+            </Principal>
+            <Dependent Role="SafeSendGroups">
+              <PropertyRef Name="OrganisationTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisationFunction_UserAccountOrganisation_fk" ed:Guid="39461961-1fef-4ab9-992a-524c7e5e1327">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="UserAccountOrganisationSafeSendGroups" Type="Bec.TargetFramework.Data.UserAccountOrganisationSafeSendGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationSafeSendGroups">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserAccountOrganisationFunction_Function_fk" ed:Guid="b5b9002d-b9a0-4477-a494-cc32da07a247">
+          <End Role="SafeSendGroup" Type="Bec.TargetFramework.Data.SafeSendGroup" Multiplicity="1" />
+          <End Role="UserAccountOrganisationSafeSendGroups" Type="Bec.TargetFramework.Data.UserAccountOrganisationSafeSendGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SafeSendGroup">
+              <PropertyRef Name="SafeSendGroupID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationSafeSendGroups">
+              <PropertyRef Name="SafeSendGroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -40729,6 +41065,7 @@
                 <ScalarProperty Name="NotificationStatusID" ColumnName="NotificationStatusID" />
                 <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
                 <ScalarProperty Name="CreatedByUserAccountOrganisationID" ColumnName="CreatedByUserAccountOrganisationID" />
+                <ScalarProperty Name="CreatedBySafeSendGroupID" ColumnName="CreatedBySafeSendGroupID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44023,6 +44360,7 @@
                 <ScalarProperty Name="BrokerType" ColumnName="BrokerType" />
                 <ScalarProperty Name="BrokerBusinessType" ColumnName="BrokerBusinessType" />
                 <ScalarProperty Name="IsCompanyPinCreated" ColumnName="IsCompanyPinCreated" />
+                <ScalarProperty Name="AuthorityDelegatedByContactID" ColumnName="AuthorityDelegatedByContactID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44073,6 +44411,10 @@
                 <ScalarProperty Name="BrokerType" ColumnName="BrokerType" />
                 <ScalarProperty Name="BrokerBusinessType" ColumnName="BrokerBusinessType" />
                 <ScalarProperty Name="PendingValidationAccounts" ColumnName="PendingValidationAccounts" />
+                <ScalarProperty Name="AuthorityDelegatedBySalutation" ColumnName="AuthorityDelegatedBySalutation" />
+                <ScalarProperty Name="AuthorityDelegatedByFirstName" ColumnName="AuthorityDelegatedByFirstName" />
+                <ScalarProperty Name="AuthorityDelegatedByLastName" ColumnName="AuthorityDelegatedByLastName" />
+                <ScalarProperty Name="AuthorityDelegatedByEmail" ColumnName="AuthorityDelegatedByEmail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44316,6 +44658,7 @@
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
                 <ScalarProperty Name="NotificationData" ColumnName="NotificationData" />
                 <ScalarProperty Name="NotificationConstructName" ColumnName="NotificationConstructName" />
+                <ScalarProperty Name="SafeSendGroupName" ColumnName="SafeSendGroupName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44323,11 +44666,13 @@
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VSafeSendRecipient">
               <MappingFragment StoreEntitySet="vSafeSendRecipients">
                 <ScalarProperty Name="SmsTransactionID" ColumnName="SmsTransactionID" />
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
+                <ScalarProperty Name="RelatedID" ColumnName="RelatedID" />
+                <ScalarProperty Name="OrganisationTypeName" ColumnName="OrganisationTypeName" />
+                <ScalarProperty Name="IsSafeSendGroup" ColumnName="IsSafeSendGroup" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44385,6 +44730,35 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConversationSafeSendGroupParticipants">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.ConversationSafeSendGroupParticipant">
+              <MappingFragment StoreEntitySet="ConversationSafeSendGroupParticipants">
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
+                <ScalarProperty Name="SafeSendGroupID" ColumnName="SafeSendGroupID" />
+                <ScalarProperty Name="Added" ColumnName="Added" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SafeSendGroups">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SafeSendGroup">
+              <MappingFragment StoreEntitySet="SafeSendGroups">
+                <ScalarProperty Name="SafeSendGroupID" ColumnName="SafeSendGroupID" />
+                <ScalarProperty Name="OrganisationTypeID" ColumnName="OrganisationTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccountOrganisationSafeSendGroups">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.UserAccountOrganisationSafeSendGroup">
+              <MappingFragment StoreEntitySet="UserAccountOrganisationSafeSendGroups">
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="SafeSendGroupID" ColumnName="SafeSendGroupID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

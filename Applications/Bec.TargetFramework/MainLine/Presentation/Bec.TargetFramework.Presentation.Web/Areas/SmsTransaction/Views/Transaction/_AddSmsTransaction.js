@@ -1,5 +1,4 @@
 ﻿$(function () {
-
     new findAddress({
         postcodelookup: '#sms_postcodelookup',
         line1: '#sms_Line1',
@@ -47,6 +46,23 @@
                 minlength: 11,
                 maxlength: 11,
                 ukmobile: true
+            },
+            "BuyingWithMortgageSelect": {
+                required: true
+            },
+            "SmsTransactionDTO.LenderName": {
+                required: {
+                    depends: function (element) {
+                        return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
+                    }
+                }
+            },
+            "SmsTransactionDTO.MortgageApplicationNumber": {
+                required: {
+                    depends: function (element) {
+                        return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
+                    }
+                }
             }
         },
 
@@ -87,52 +103,67 @@
     });
 
     function validateSubmit(form) {
-        $("#addTransactionControls button").prop('disabled', true);
-        var formData = $("#addTransaction-form").serializeArray();
+        var formElement = $("#addTransaction-form");
+        var formButtons = $("#addTransactionControls button");
+        formButtons.prop('disabled', true);
+        var formData = formElement.serializeArray();
         fixDate(formData, 'BirthDate', "#birthDateInput");
+
+        var saveTransaction = function () {
+            ajaxWrapper({
+                url: formElement.data("url"),
+                type: "POST",
+                data: formData
+            }).done(function (res) {
+                if (res.result === true)
+                    window.location = formElement.data("redirectto") + "?selectedTransactionID=" + res.txID;
+                else {
+                    handleModal({ url: formElement.data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                        messageButton: function () {
+                            formButtons.prop('disabled', false);
+                        }
+                    }, true);
+                }
+            }).fail(function (e) {
+                if (!hasRedirect(e.responseJSON)) {
+                    showtoastrError();
+                }
+            });
+        }
+
         //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
         handleModal(
         {
-            url: $("#addTransaction-form").data("check"),
+            url: formElement.data("check"),
             data: formData,
             method: 'POST'
         },
         {
             cancel: function () {
-                $("#addTransactionControls button").prop('disabled', false);
+                formButtons.prop('disabled', false);
             },
-            save: function () {
-                doPost(formData);
-            }
+            save: saveTransaction
         },
         true,
         "save"); //default action if no duplicate results
     }
 
-    function doPost(formData) {
-        ajaxWrapper({
-            url: $("#addTransaction-form").data("url"),
-            type: "POST",
-            data: formData
-        }).done(function (res) {
-            if (res.result == true)
-                window.location = $('#d1').data("redirectto") + '?selectedTransactionID=' + res.transactionId;
-            else {
-                $('#buyerUaoID').val(res.buyerUaoID);
-                handleModal({ url: $('#d1').data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
-                    messageButton: function () {
-                        $("#addTransactionControls button").prop('disabled', false);
-                    }
-                }, true);
-            }
-        }).fail(function (e) {
-            if (!hasRedirect(e.responseJSON)) {
-                showtoastrError();
-            }
-        }, true);
-    }
-
     makeDatePicker("#birthDateInput", {
         maxDate: new Date()
+    });
+
+    $("#BuyingWithMortgageSelect").change(function () {
+        $(this).find("option:selected").each(function () {
+            var selectedValue = parseInt($(this).attr("value"));
+            $("#BuyingWithMortgageContainer").toggle(!!selectedValue);
+            if (selectedValue != 1) {
+                $('#lenderSearch').val('');
+                $('#SmsTransactionDTO_MortgageApplicationNumber').val('');
+            }
+        });
+    }).change();
+
+    $('#lenderSearch').lenderSearch({
+        searchUrl: $('#lenderSearch').data("url")
     });
 });

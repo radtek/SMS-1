@@ -127,6 +127,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
 
             string orgName = olc.GetOrganisationDTO(orgID).Name;
+            string orgTypeName = olc.GetOrganisationDTO(orgID).TypeName;
 
             var additionalClaims = ulc.GetUserClaims(ua.ID, orgID)
                 .Select(uc => new Claim(uc.Type, uc.Value))
@@ -136,7 +137,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             bool needsTc = (nlc.GetUnreadNotifications(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
             bool needsPersonalDetails = org.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue(); // require personal details from all admins initially, personal details are checked at the next stage
 
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc, needsPersonalDetails);
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, orgTypeName, needsTc, needsPersonalDetails);
             ulc.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
             fileLogic.ClearUnusedFiles(uaoID);
 
@@ -178,7 +179,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var userAccount = await UserLogicClient.GetUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
             if (!CanContinueRegistration(userAccount))
             {
-                ModelState.AddModelError("CreatePermanentLoginModel.RegistrationEmail", "This email cannot be registered at the moment. Please contact your Conveyancer/Organisation administrator.");
+                ModelState.AddModelError("CreatePermanentLoginModel.RegistrationEmail", "This email cannot be registered at the moment. Please contact your Conveyancer/Organisation Administrator.");
                 return View("Index", model);
             }
 
@@ -195,9 +196,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 //if pincount >=3, expire organisation
                 if (await UserLogicClient.IncrementInvalidPINAsync(uaoDto.UserAccountOrganisationID))
                 {
-                    var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
-                    ViewBag.Message = string.Format("Your PIN has now expired due to three invalid attempts. Please contact support at ");
-                    ViewBag.Email = SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportEmailAddress;
                     return View("PINExpired");
                 }
                 else
@@ -242,7 +240,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (!canRegister)
             {
-                return Json("This email cannot be registered at the moment. Please contact your Conveyancer/Organisation administrator.", JsonRequestBehavior.AllowGet);
+                return Json("This email cannot be registered at the moment. Please contact your Conveyancer/Organisation Administrator.", JsonRequestBehavior.AllowGet);
             }
             else
             {

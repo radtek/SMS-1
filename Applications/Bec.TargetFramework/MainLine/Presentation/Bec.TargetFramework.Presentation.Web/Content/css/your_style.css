@@ -196,6 +196,9 @@
 .twitter-typeahead {
   width: 100%;
 }
+.twitter-typeahead .tt-menu {
+  z-index: 300 !important;
+}
 .twitter-typeahead .tt-suggestion,
 .twitter-typeahead .empty-message {
   padding: 8px 12px;
@@ -209,7 +212,7 @@
 }
 .typeahead-spinner {
   position: absolute;
-  z-index: 1000;
+  z-index: 700;
   color: #7b7b7b;
   width: 10px;
   right: 24px;
@@ -284,11 +287,26 @@
   -moz-box-shadow: 0 -2px 0 #a1c324;
   box-shadow: 0 -2px 0 #a1c324;
 }
+.nav-tabs > li > a > .sms {
+  opacity: .5;
+}
+.nav-tabs > li.active > a > .sms {
+  opacity: 1;
+}
 .smart-form .checkbox input + i {
   border-color: #bdbdbd !important;
 }
 .smart-form .checkbox input + i:after {
   color: #a1c324;
+}
+.smart-form .toggle input:checked + i {
+  border-color: #a1c324;
+}
+.smart-form .toggle input + input[type=hidden] + i:before {
+  background-color: #ccc;
+}
+.smart-form .toggle input:checked + input[type=hidden] + i:before {
+  background-color: #a1c324;
 }
 .smart-form .checkbox:hover i,
 .smart-form .input:hover input,
@@ -330,7 +348,7 @@
   cursor: pointer !important;
 }
 .icon-append {
-  z-index: 9999;
+  z-index: 200;
 }
 #userMenu {
   color: #7d7d7d;
@@ -597,6 +615,65 @@ a.removeupload {
   -ms-word-break: normal;
   word-break: normal;
   white-space: pre-wrap;
+}
+.match {
+  color: #7d981c;
+}
+.match-bg {
+  background-color: #a1c324 !important;
+  color: #fff;
+}
+.table tr.match-bg td {
+  background-color: #a1c324 !important;
+  color: #fff !important;
+}
+.no-match-bg {
+  color: #fff;
+  background-color: #c26565 !important;
+  text-shadow: none;
+}
+.table tr.no-match-bg td {
+  color: #fff;
+  background-color: #c26565 !important;
+  text-shadow: none;
+}
+.error {
+  color: red;
+}
+.btn-header-search {
+  padding: 6px 12px 6px 12px;
+}
+.clear-search-icon {
+  cursor: pointer;
+  display: none;
+}
+.badge {
+  padding: 2px 3px 3px;
+  font-size: 10px;
+}
+.alert h5 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.alert h5 strong {
+  margin-left: 5px;
+}
+.alert a {
+  color: #3276b1;
+}
+.alert-info,
+.alert-warning {
+  color: #444;
+  border-width: 1px;
+  border-left-width: 5px;
+  padding: 20px 25px;
+  background-color: inherit;
+}
+.alert-info {
+  border-color: #6EB0DF;
+}
+.alert-warning {
+  border-color: #dfb56c;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {

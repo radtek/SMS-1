@@ -1,4 +1,4 @@
-﻿var gridPageSize = 10;
+﻿var gridPageSize = 15;
 
 //checks for a json redirect response instruction
 function checkRedirect(response) {
@@ -53,6 +53,13 @@ function dataMap(data, gridOptions) {
     if (gridOptions.searchElementId) {
         d.search = $('#' + gridOptions.searchElementId).val();
     }
+
+    if (gridOptions.extraFilters) {
+        $.each(gridOptions.extraFilters, function (i, item) {
+            d[item.parameter] = $(item.selector).val();
+        });
+    }
+
     return d;
 }
 
@@ -162,7 +169,7 @@ function hideCurrentModal() {
 
 function dateString(date) {
     try {
-        if (date == "") return "";
+        if (date == "" || date == null) return "";
         var ret = new Date(date).toLocaleString();
         if (ret == "Invalid Date") ret = new Date(date.replace(' ', 'T')).toLocaleString(); //IE...
         return ret;
@@ -174,7 +181,7 @@ function dateString(date) {
 
 function dateStringNoTime(date) {
     try {
-        if (date == "") return "";
+        if (date == "" || date == null) return "";
         var ret = new Date(date).toLocaleDateString();
         if (ret == "Invalid Date") ret = new Date(date.replace(' ', 'T')).toLocaleString(); //IE...
         return ret;
@@ -266,6 +273,7 @@ var gridItem = function (options) {
             selectable: "row",
             filterable: false,
             sortable: true,
+            navigatable: true,
             columns: options.columns,
             dataBound: this.dataBound,
             change: this.change
@@ -283,12 +291,47 @@ var gridItem = function (options) {
                 messages: { display: "{2} rows" }
             }
         }
-        this.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
+        self.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
+
+        setupUpDownNavigation();
 
         $('#' + this.options.searchButtonId).click(function () {
             self.refreshGrid();
         });
 
+        $('#' + this.options.searchElementId).bind('keyup change', function () {
+            if ($(this).val().length > 0)
+                $('#' + self.options.clearSearchButtonId).show();
+            else
+                $('#' + self.options.clearSearchButtonId).hide();
+        });
+
+        $('#' + this.options.clearSearchButtonId).click(function () {
+            $('#' + self.options.searchElementId).val('');
+            $('#' + self.options.clearSearchButtonId).hide();
+            self.refreshGrid();
+        });
+
+        //extra filters
+        if (self.options.extraFilters) {
+            $.each(self.options.extraFilters, function (i, item) {
+                $(item.selector).bind('keyup change', function () {
+                    self.refreshGrid();
+                });
+            });
+        }
+
+        function setupUpDownNavigation() {
+            var arrows = [38, 40];
+            self.grid.table.on("keydown", function (e) {
+                if (arrows.indexOf(e.keyCode) >= 0) {
+                    setTimeout(function () {
+                        self.grid.select($("#" + self.options.gridElementId + "_active_cell").closest("tr"));
+                    });
+                }
+            })
+            self.grid.table.focus();
+        }
     };
 
     this.refreshGrid = function () {
@@ -654,4 +697,16 @@ function showtoastrError(){
             extendedTimeOut: 0,
             closeButton: true
         });
+}
+
+if (!String.prototype.format) {
+    String.prototype.format = function () {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined'
+              ? args[number]
+              : match
+            ;
+        });
+    };
 }

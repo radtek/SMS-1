@@ -39,6 +39,25 @@
         var formData = $("#addNewsArticleForm").serializeArray();
         fixDate(formData, 'DateTime', "#dateTimeInput");
 
-        form.submit();
+        ajaxWrapper({
+            url: $("#addNewsArticleForm").data("url"),
+            type: "POST",
+            data: formData
+        }).done(function (res) {
+            if (res.result === true)
+                window.location = $("#addNewsArticleForm").data("redirectto") + "?selectedNewsArticleID=" + res.selectedNewsArticleID;
+            else {
+                handleModal({ url: $("#addNewsArticleForm").data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitAddNewsArticle").prop('disabled', false);
+                    }
+                }, true);
+            }
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+                $("#submitAddNewsArticle").prop('disabled', false);
+            }
+        });
     }
 });

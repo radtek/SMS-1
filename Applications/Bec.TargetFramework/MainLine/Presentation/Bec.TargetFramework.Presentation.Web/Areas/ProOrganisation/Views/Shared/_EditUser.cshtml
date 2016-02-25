@@ -1,18 +1,11 @@
-﻿@using Bec.TargetFramework.Entities
+﻿@using Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Models
+@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Helpers;
 @model Edit<UserAccountOrganisationDTO>
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
     <div class="modal-dialog">
-
-        @*<div class="help help-container help-sm">
-            <div class="help-vert">HELP</div>
-            <div class="help help-inner">
-                <div>Help goes here</div>
-            </div>
-        </div>*@
-
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="editUserLabel">Edit User</h4>
@@ -65,7 +58,10 @@
                                     @foreach (var role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Item1].Selected" @role.Item2 @role.Item3 class="role-checkbox" />
+                                            <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Item1].Selected"
+                                                   id="Model.UserAccountOrganisationRoles[@role.Item1].Selected"
+                                                   @(role.Item2 ? "checked" : "")
+                                                   class="role-checkbox @(role.Item3 ? "readonly" : "")" />
                                             <input name="Model.UserAccountOrganisationRoles[@role.Item1].OrganisationRoleID" type="hidden" value="@role.Item4" />
                                             <i></i>
                                             <label for="Model.UserAccountOrganisationRoles[@role.Item1].Selected">@role.Item5</label>
@@ -73,6 +69,25 @@
                                     }
 
                                 </section>
+
+                                @if (((IEnumerable<SafeSendGroupEditEntry>)ViewBag.SafeSendGroups).Any())
+                                {
+                                    <section>
+                                        <label class="label">Safe Send Groups</label>
+                                        @foreach (SafeSendGroupEditEntry safesendgroup in ViewBag.SafeSendGroups)
+                                        {
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="Model.UserAccountOrganisationSafeSendGroups[@safesendgroup.Index].Selected" 
+                                                       id="Model.UserAccountOrganisationSafeSendGroups[@safesendgroup.Index].Selected" 
+                                                       @(safesendgroup.IsChecked ? "checked" : "")
+                                                       class="role-checkbox" />
+                                                <input name="Model.UserAccountOrganisationSafeSendGroups[@safesendgroup.Index].SafeSendGroupID" type="hidden" value="@safesendgroup.SafeSendGroupID" />
+                                                <i></i>
+                                                <label for="Model.UserAccountOrganisationSafeSendGroups[@safesendgroup.Index].Selected">@safesendgroup.Name</label>
+                                            </label>
+                                        }
+                                    </section>
+                                }
 
                             </fieldset>
                         </form>

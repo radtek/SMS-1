@@ -34,6 +34,7 @@
         participantsUrl: viewMessagesContainer.data("participants-url"),
         uploadUrl: viewMessagesContainer.data("upload-url"),
         removeUploadUrl: viewMessagesContainer.data("remove-upload-url"),
+        safesendgroupsUrl: viewMessagesContainer.data("safesendgroups-url")
     };
 
     var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
@@ -43,6 +44,13 @@
     var createConversationTemplatePromise = getTemplatePromise('_createConversationTmpl');
 
     var getRecipientsPromise = $.Deferred();
+    var getSafeSendGroupsPromise = ajaxWrapper({
+        url: urls.safesendgroupsUrl
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
+    });
 
     var dataSource = new kendo.data.DataSource({
         type: "odata-v4",
@@ -181,6 +189,10 @@
                         item.icon = 'fa-building';
                         item.isFromProfessionalUser = true;
                         break;
+                    case "Lender":
+                        item.icon = 'fa-bank';
+                        item.isFromProfessionalUser = true;
+                        break;
                     default:
                         item.icon = 'fa-comment-o';
                         item.Message.FirstName = "Safe Move Scheme";
@@ -197,7 +209,7 @@
             });
             ret.resolve(items);
         }).fail(function (e) {
-            if(!hasRedirect(e.responseJSON)) {
+            if (!hasRedirect(e.responseJSON)) {
                 showtoastrError();
             }
         });
@@ -223,16 +235,20 @@
             }
             var messagesSpinner = getMessagesSpinner();
             messagesSpinner.show();
-            $.when(createConversationTemplatePromise, getRecipientsPromise).done(function (template, recipientsResponse) {
-                var templateData = {
-                    activityType: currentActivity.activityType,
-                    activityId: currentActivity.activityId,
-                    recipients: recipientsResponse[0]
-                };
-                var html = template(templateData);
-                messagesList.html(html);
-                setupNewConversationForm();
-                messagesSpinner.hide();
+            getSafeSendGroupsPromise.done(function (safesendgroups) {
+                $.when(createConversationTemplatePromise, getRecipientsPromise).done(function (template, recipientsResponse) {
+                    var templateData = {
+                        activityType: currentActivity.activityType,
+                        activityId: currentActivity.activityId,
+                        recipients: recipientsResponse[0],
+                        showFrom: safesendgroups.length > 1,
+                        from: safesendgroups
+                    };
+                    var html = template(templateData);
+                    messagesList.html(html);
+                    setupNewConversationForm();
+                    messagesSpinner.hide();
+                });
             });
         });
     }
@@ -282,6 +298,7 @@
             messagesSpinner.show();
 
             var formData = newConversationForm.serializeArray();
+
             ajaxWrapper({
                 url: newConversationForm.data("url"),
                 type: "POST",
@@ -547,14 +564,18 @@
 
     function compileTemplates(participantsAjax, messages) {
         currentConversation.participants = participantsAjax[0];
-        messagesTemplatePromise.done(function (template) {
-            var html = $(template({
-                conversation: currentConversation
-            }));
-            populateContainer(html.find('#itemsContainer'), messages);
-            messagesList.html(html);
+        getSafeSendGroupsPromise.done(function (safesendgroups) {
+            messagesTemplatePromise.done(function (template) {
+                var html = $(template({
+                    conversation: currentConversation,
+                    showFrom: safesendgroups.length > 1,
+                    from: safesendgroups
+                }));
+                populateContainer(html.find('#itemsContainer'), messages);
+                messagesList.html(html);
 
-            createDropZone($('#upload'), $('#replyButton'));
+                createDropZone($('#upload'), $('#replyButton'));
+            });
         });
     }
 

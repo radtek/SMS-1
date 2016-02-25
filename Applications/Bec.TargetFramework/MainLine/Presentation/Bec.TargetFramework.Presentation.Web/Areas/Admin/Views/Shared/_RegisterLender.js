@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿var lenders;
+
+$(function () {
     initAddTradingNames();
 });
 
@@ -66,6 +68,12 @@ function validateRegisterSubmit(form) {
 }
 
 function initAddTradingNames() {
+    
+    var lenderSearchUrl = $('#registerlender-form').data("lender-search-url");
+    $('#companyName, input[name="TradingNames[0]').lenderSearch({
+        searchUrl: lenderSearchUrl
+    });
+
     var index = 1;
     var tradingNameTemplatePromise = $.Deferred();
     var addNextTradingNameBtn = $('#addNextTradingNameBtn');
@@ -89,7 +97,12 @@ function initAddTradingNames() {
                 var html = template(templateData);
                 addNextTradingNameRow.before(html);
 
-                $('input[name="TradingNames[' + (index - 1) + ']').focus();
+                var sel = 'input[name="TradingNames[' + (index - 1) + ']';
+                $(sel).focus();
+
+                $(sel).lenderSearch({
+                    searchUrl: lenderSearchUrl
+                });
             });
         }
 
@@ -115,9 +128,7 @@ function initAddTradingNames() {
 }
 
 function renumberInputs(inputsSelector, prefix) {
-    console.log("rn");
     $(inputsSelector).each(function (index) {
-        console.log("rn: " + index);
         var prefixWithIndex = prefix + "[" + index + "]";
         var regExp = new RegExp(prefix + '\\[\\d+\\]');
         this.name = this.name.replace(regExp, prefixWithIndex);

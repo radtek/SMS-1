@@ -94,6 +94,7 @@ namespace Bec.TargetFramework.Entities
               target.Organisations = source.Organisations.ToDtosWithRelated(level - 1);
               target.Addresses = source.Addresses.ToDtosWithRelated(level - 1);
               target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
+              target.Organisations_AuthorityDelegatedByContactID = source.Organisations_AuthorityDelegatedByContactID.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

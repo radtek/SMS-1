@@ -38,9 +38,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for UserAccountOrganisationID in the schema.
+        /// There are no comments for RelatedID in the schema.
         /// </summary>
-        public virtual global::System.Guid UserAccountOrganisationID
+        public virtual global::System.Guid RelatedID
         {
             get;
             set;
@@ -71,6 +71,26 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for LastName in the schema.
         /// </summary>
         public virtual string LastName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for OrganisationTypeName in the schema.
+        /// </summary>
+        public virtual string OrganisationTypeName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsSafeSendGroup in the schema.
+        /// </summary>
+        public virtual bool IsSafeSendGroup
         {
             get;
             set;

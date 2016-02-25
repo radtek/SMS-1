@@ -109,6 +109,10 @@
             $(this).find("option:selected").each(function () {
                 var selectedValue = parseInt($(this).attr("value"));
                 $("#BuyingWithMortgageContainer").toggle(!!selectedValue);
+                if (selectedValue != 1) {
+                    $('#lenderSearch').val('');
+                    $('#SmsTransaction_MortgageApplicationNumber').val('');
+                }
             });
         }).change();
 
@@ -226,31 +230,8 @@
     }
 
     function initLenderSearch() {
-        var lenders = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            remote: {
-                url: $('#lenderSearch').data("url") + '?search=%QUERY',
-                wildcard: '%QUERY',
-                transform: function (response) {
-                    return response.Items;
-                }
-            }
-        });
-
-        $('#lenderSearch').typeahead({
-            minLength: 1,
-            highlight: true,
-            hint: false
-        }, {
-            display: 'Name',
-            source: lenders
-        })
-        .on('typeahead:asyncrequest', function () {
-            $('#lenderSearch').parent().siblings('.typeahead-spinner').show();
-        })
-        .on('typeahead:asynccancel typeahead:asyncreceive', function () {
-            $('#lenderSearch').parent().siblings('.typeahead-spinner').hide();
+        $('#lenderSearch').lenderSearch({
+            searchUrl: $('#lenderSearch').data("url")
         });
     }
 

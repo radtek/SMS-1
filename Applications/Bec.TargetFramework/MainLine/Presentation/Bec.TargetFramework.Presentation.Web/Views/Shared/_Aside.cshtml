@@ -4,6 +4,12 @@
     <aside id="left-panel">
         <nav class="margin-top-5">
             <ul>
+                @if (ClaimsHelper.UserHasClaim("View", "SmsTransactionsOverview"))
+                {
+                    <li class="@Html.RouteIf("active", "Transaction", "Index")">
+                        <a href="@Url.Action("Index", "Transaction", new { Area = "Lender" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
+                    </li>
+                }
                 @if (ClaimsHelper.UserHasClaim("View", "MyTransactions"))
                 {
                     <li class="@Html.RouteIf("active", "SafeBuyer", "Index")">
@@ -22,7 +28,7 @@
                         <a href="@Url.Action("Index", "Downloads", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-download"></i> <span class="menu-item-parent">Downloads</span></a>
                     </li>
                 }
-                @if (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
+                @if (ClaimsHelper.UserHasClaim("View", "SmsTransactionsOverview") || ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
                 {
                     <li class="@Html.RouteIf("active", "Messages", "Index")">
                         <a href="@Url.Action("Index", "Messages", new { Area = "Admin" })"><i class="sms sms-lg sms-fw sms-safe-send"></i> <span class="menu-item-parent">Safe Send Messages</span></a>
@@ -72,6 +78,7 @@
                             </li>
                         </ul>
                     </li>
+                    
                 }
                 @if (ClaimsHelper.UserHasClaim("Add", "Company"))
                 {
@@ -91,6 +98,13 @@
                     </li>
                     <li class="@Html.RouteIf("active", "NewsArticle", "Index")">
                         <a href="@Url.Action("Index", "NewsArticle", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-newspaper-o"></i> <span class="menu-item-parent">News Articles</span></a>
+                    </li>
+                }
+                @* Just a temporary solution for SRO Ana access control *@
+                @if (ClaimsHelper.UserHasClaim("Add", "ProUsers") && ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
+                {
+                    <li class="@Html.RouteIf("active", "OrganisationSetting", "EditOrganisationSettings")">
+                        <a href="@Url.Action("EditOrganisationSettings", "OrganisationSetting", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-cog"></i> <span class="menu-item-parent">Organisation Settings</span></a>
                     </li>
                 }
             </ul>

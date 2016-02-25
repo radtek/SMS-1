@@ -245,6 +245,10 @@
 .twitter-typeahead {
     width: 100%;
 
+    .tt-menu {
+        z-index: 300 !important;
+    }
+
     .tt-suggestion, .empty-message {
         padding: 8px 12px;
         border-bottom: 1px solid #ddd;
@@ -261,7 +265,7 @@
 
 .typeahead-spinner {
     position: absolute;
-    z-index: 1000;
+    z-index: 700;
     color: #7b7b7b;
     width: 10px;
     right: 24px;
@@ -357,6 +361,14 @@
     -moz-box-shadow: 0 -2px 0 @primary-color;
     box-shadow: 0 -2px 0 @primary-color;
 }
+.nav-tabs > li {
+    & > a > .sms {
+        opacity: .5;
+    }
+    &.active > a > .sms {
+        opacity: 1;
+    }
+}
 
 .smart-form {
     .checkbox {
@@ -367,6 +379,20 @@
 
             border-color: #bdbdbd !important;
         }
+        
+
+    }
+
+    .toggle input:checked+i {
+        border-color: @primary-color;
+    }
+
+    .toggle input+input[type=hidden]+i:before{
+        background-color: #ccc;
+    }
+
+    .toggle input:checked+input[type=hidden]+i:before {
+        background-color: @primary-color;
     }
 
     .checkbox:hover i,
@@ -427,7 +453,7 @@
 }
 
 .icon-append {
-    z-index: 9999;
+    z-index: 200;
 }
 
 #userMenu {
@@ -776,6 +802,76 @@ a.removeupload{
         word-break: normal;
         white-space:pre-wrap;
     }
+}
+
+.match{
+    color:darken(@primary-color, 10%);
+}
+
+.match-bg{
+    .bg-color-primary !important;
+    color: #fff;
+}
+.table tr.match-bg td {
+    .match-bg !important;
+}
+
+.no-match-bg{
+    color: #fff;
+    background-color: #c26565 !important;
+    text-shadow: none;
+}
+
+.table tr.no-match-bg td {
+    .no-match-bg;
+}
+
+.error{
+    color:red;
+}
+
+.btn-header-search{
+    padding: 6px 12px 6px 12px;
+}
+
+.clear-search-icon{
+    cursor: pointer;
+    display:none;
+}
+
+.badge{
+    padding: 2px 3px 3px;
+    font-size: 10px;
+}
+
+.alert{
+    h5{
+        margin-top: 0;
+        margin-bottom: 10px;
+        strong{
+            margin-left: 5px;
+        }
+    }
+    a{
+        color: #3276b1;
+    }
+}
+
+.alert-info,
+.alert-warning {
+    color: #444;
+    border-width: 1px;
+    border-left-width: 5px;
+    padding: 20px 25px;
+    background-color: inherit;
+}
+
+.alert-info{
+    border-color: #6EB0DF; 
+}
+
+.alert-warning{
+    border-color: #dfb56c;
 }
 
 // xs and sm

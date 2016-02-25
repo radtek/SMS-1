@@ -1,0 +1,26 @@
+﻿<div class="col-sm-6">
+    <div class="well">
+        <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true" data-href="@Url.Action("ViewEditUser", "Users", new { area = "ProOrganisation" })?uaoID={{UserAccountOrganisationID}}"><i class="fa fa-pencil margin-right-5"></i>Edit User</a>
+        <h5>Selected User</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{Contact.FullName}}</p></dd>
+            <dt>Email:</dt>
+            <dd><p>{{UserAccount.Email}}</p></dd>
+        </dl>
+    </div>
+</div>
+
+<div class="col-sm-6">
+    <div class="well">
+        <h5>Roles</h5>
+        {{#each UserAccountOrganisationRoles}}
+        <p>{{OrganisationRole.RoleName}}</p>
+        {{/each}}
+        <br />
+        <h5>Safe Send Groups</h5>
+        {{#each UserAccountOrganisationSafeSendGroupsSorted}}
+        <p>{{SafeSendGroup.Name}}</p>
+        {{/each}}
+    </div>
+</div>

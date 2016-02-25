@@ -97,7 +97,14 @@ $(function () {
 function activeChange(dataItem) {
     populateCompany(dataItem);
     promises.active[dataItem.OrganisationTypeDescription].done(function (template) {
-        var html = template(dataItem);
+        var data = _.extend({}, dataItem, {
+            authorityDelegatedBy: dataItem.AuthorityDelegatedBySalutation
+                ? '{0} {1} {2} ({3})'.format(dataItem.AuthorityDelegatedBySalutation, dataItem.AuthorityDelegatedByFirstName, dataItem.AuthorityDelegatedByLastName,
+                    dataItem.AuthorityDelegatedByEmail)
+                : ''
+        });
+        console.log(data);
+        var html = template(data);
         $('#activePanel').html(html);
         
         $('#addNotesButton').data('href', $('#addNotesButton').data('url') + "?orgID=" + dataItem.OrganisationID + "&qualified=true");

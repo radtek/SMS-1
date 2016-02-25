@@ -25,11 +25,8 @@
         })
         .then(function (result) {
             latestConversationsContainer.html(result);
-        }, function (data) {
-            // error
-            console.log(data);
-            latestConversationsError.show();
         }).fail(function (e) {
+            latestConversationsError.show();
             if (!hasRedirect(e.responseJSON)) {
                 showtoastrError();
             }
@@ -42,9 +39,6 @@
         })
         .then(function (result) {
             updateNotificationCount(result);
-        }, function (data) {
-            // error
-            console.log(data);
         }).fail(function (e) {
             if (!hasRedirect(e.responseJSON)) {
                 showtoastrError();

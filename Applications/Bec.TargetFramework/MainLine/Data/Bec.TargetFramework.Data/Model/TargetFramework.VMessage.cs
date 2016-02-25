@@ -146,6 +146,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for SafeSendGroupName in the schema.
+        /// </summary>
+        public virtual string SafeSendGroupName
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

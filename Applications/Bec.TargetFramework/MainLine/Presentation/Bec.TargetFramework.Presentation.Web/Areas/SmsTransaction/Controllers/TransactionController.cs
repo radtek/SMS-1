@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
         public async Task<ActionResult> Index(Guid? selectedTransactionID, int? pageNumber)
         {
-                var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             await PrepareIndexTempData(selectedTransactionID, orgID, pageNumber);
 
             var select = ODataHelper.Select<VOrganisationWithStatusAndAdminDTO>(x => new { x.Name, x.OrganisationAdminSalutation, x.OrganisationAdminFirstName, x.OrganisationAdminLastName });
@@ -64,7 +64,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     TempData["rowNumber"] = await OrganisationClient.GetSmsTransactionRankAsync(orgID, selectedTransactionID.Value);
                     TempData["resetSort"] = true;
                 }
-            TempData["SmsTransactionID"] = selectedTransactionID;
+                TempData["SmsTransactionID"] = selectedTransactionID;
             }
             else
             {
@@ -72,7 +72,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             }
         }
 
-        public async Task<ActionResult> GetSmsTransactions(string search)
+        public async Task<ActionResult> GetSmsTransactions(string search, SmsTransactionDecisionEnum decisionFilter, SmsTransactionNoMatchEnum noMatchFilter)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
@@ -93,6 +93,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Price,
                 x.SmsTransaction.IsProductAdvised,
                 x.SmsTransaction.ProductAdvisedOn,
+                x.SmsTransaction.ProductDeclinedOn,
                 x.SmsTransaction.InvoiceID,
                 x.Confirmed,
                 x.Contact.Salutation,
@@ -109,7 +110,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 PurchasedByFirstName = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.FirstName,
                 PurchasedByLastName = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.LastName,
                 x.LatestBankAccountCheck.CheckedOn,
-                SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
+                SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode }),
+                BankAccountChecks = x.SmsTransaction.SmsUserAccountOrganisationTransactions.Select(y => new
+                {
+                    Check = y.SmsBankAccountChecks.Select(z => new
+                    {
+                        z.BankAccountNumber,
+                        z.SortCode,
+                        z.CheckedOn,
+                        z.IsMatch
+                    }),
+                    SrcOfFunds = y.SmsSrcFundsBankAccounts.Select(z => new
+                    {
+                        z.AccountNumber,
+                        z.SortCode
+                    }),
+                    PersonaSalutation = y.Contact.Salutation,
+                    PersonaFirstName = y.Contact.FirstName,
+                    PersonaLastName = y.Contact.LastName,
+                    PersonaTypeID = y.SmsUserAccountOrganisationTransactionTypeID,
+                    PersonaTypeDescription = y.SmsUserAccountOrganisationTransactionType.Description
+                }),
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
@@ -130,6 +151,26 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     x.SmsTransaction.Address.Line1.ToLower().Contains(search) ||
                     x.SmsTransaction.Address.PostalCode.ToLower().Contains(search)
                     ));
+            }
+
+            switch (decisionFilter)
+            {
+                case SmsTransactionDecisionEnum.Declined:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.ProductDeclinedOn != null && x.SmsTransaction.Invoice == null));
+                    break;
+                case SmsTransactionDecisionEnum.Purchased:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.InvoiceID != null));
+                    break;
+            }
+
+            switch (noMatchFilter)
+            {
+                case SmsTransactionNoMatchEnum.None:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => !x.SmsTransaction.SmsUserAccountOrganisationTransactions.Any(y => y.SmsBankAccountChecks.Any(z => !z.IsMatch))));
+                    break;
+                case SmsTransactionNoMatchEnum.Present:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.SmsUserAccountOrganisationTransactions.Any(y => y.SmsBankAccountChecks.Any(z => !z.IsMatch))));
+                    break;
             }
             var filter = ODataHelper.Filter(where);
 
@@ -156,8 +197,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
             var uaoID = HttpContext.GetWebUserObject().UaoID;
-            var transactionID = await OrganisationClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
-            return Json(new { result = true, transactionId = transactionID }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var transactionID = await OrganisationClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
+                return Json(new { result = true, txID = transactionID }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Adding Transaction Failed",
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
@@ -191,6 +244,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID, int pageNumber)
         {
+            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);
             ViewBag.txId = txID;
             ViewBag.uaoId = uaoID;
             ViewBag.pageNumber = pageNumber;
@@ -229,7 +283,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 await EnsureSmsTransactionIsNotConfirmed(txID, uaoID, QueryClient);
                 var modelEmail = Request.Form["Model.UserAccountOrganisation.UserAccount.Email"];
                 await EnsureEmailNotInUse(modelEmail, uaoID, UserClient);
-                
+
                 var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
                 var data = Edit.fromD(Request.Form,
                     "Contact.Salutation",
@@ -267,7 +321,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 ViewBag.title = "Information";
                 ViewBag.message = "The PIN cannot be generated for that user. Most probably the user has already logged in to the system. Refresh the page and check the details again.";
                 ViewBag.button = "Close";
-                
+
                 return PartialView("_Message");
             }
 
@@ -278,6 +332,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return PartialView("_ViewGeneratePIN");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID, int pageNumber)
         {
             await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);

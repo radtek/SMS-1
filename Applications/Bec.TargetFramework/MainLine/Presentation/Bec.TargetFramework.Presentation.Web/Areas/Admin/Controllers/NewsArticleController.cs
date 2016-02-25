@@ -50,8 +50,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewsArticle(NewsArticleDTO dto)
         {
-            var newsArticleID = await MiscClient.AddNewsArticleAsync(dto);
-            return RedirectToAction("Index", new { selectedNewsArticleID = newsArticleID });
+            try { 
+                var newsArticleID = await MiscClient.AddNewsArticleAsync(dto);
+                return Json(new { result = true, selectedNewsArticleID = newsArticleID }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Add News Article Failed",
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public async Task<ActionResult> ViewEditNewsArticle(Guid newsArticleID)

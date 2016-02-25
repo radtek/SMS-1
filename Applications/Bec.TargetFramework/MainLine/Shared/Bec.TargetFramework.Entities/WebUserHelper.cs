@@ -34,7 +34,7 @@ namespace Bec.TargetFramework.Entities
             return userObject;
         }
 
-        public static WebUserObject CreateWebUserObjectInSession(HttpContextBase context, UserAccount ua, Guid orgID, Guid uaoID, string orgName, bool needsTc, bool needsPersonalDetails)
+        public static WebUserObject CreateWebUserObjectInSession(HttpContextBase context, UserAccount ua, Guid orgID, Guid uaoID, string orgName, string orgTypeName, bool needsTc, bool needsPersonalDetails)
         {
             Ensure.NotNull(context);
             Ensure.NotNull(context.Request);
@@ -54,7 +54,8 @@ namespace Bec.TargetFramework.Entities
                 NeedsTCs = needsTc,
                 NeedsPersonalDetails = needsPersonalDetails,
                 NeedsMobileNumber = string.IsNullOrEmpty(ua.MobilePhoneNumber),
-                OrganisationName = orgName
+                OrganisationName = orgName,
+                OrganisationTypeName = orgTypeName
             };
 
             context.Session[m_WEBUSEROBJECTSESSIONKEY] = user;
@@ -100,5 +101,6 @@ namespace Bec.TargetFramework.Entities
         public Guid OrganisationID { get; set; }
         public Guid UaoID { get; set; }
         public string OrganisationName { get; set; }
+        public string OrganisationTypeName { get; set; }
     }
 }

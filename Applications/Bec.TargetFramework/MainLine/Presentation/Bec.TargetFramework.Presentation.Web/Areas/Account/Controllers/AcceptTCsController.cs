@@ -48,7 +48,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (userObject != null) userObject.NeedsTCs = (await NotificationLogicClient.GetUnreadNotificationsAsync(userObject.UserID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
 
             //update database
-            await NotificationLogicClient.MarkAcceptedAsync(notificationID);
+            await NotificationLogicClient.MarkAcceptedAsync(notificationID, userObject.UserID);
             return RedirectToAction("Index", "App", new { area = "" });
         }
     }

@@ -226,6 +226,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for SafeSendGroups in the schema.
+        /// </summary>
+        public virtual ICollection<SafeSendGroup> SafeSendGroups
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

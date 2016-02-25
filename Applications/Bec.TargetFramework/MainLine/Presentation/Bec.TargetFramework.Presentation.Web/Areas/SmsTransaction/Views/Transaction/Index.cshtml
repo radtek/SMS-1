@@ -13,15 +13,25 @@
             }
         </div>
 
-        <div class="col-sm-4 col-lg-3">
+        <div class="col-sm-4 col-lg-3 smart-form">
             <div class="input-group margin-top-15 margin-bottom-5">
-                <input type="text" class="form-control" id="gridSearchInput">
+                <label class="input">
+                    <i class="icon-append fa fa-times clear-search-icon" id="clearGridSearch"></i>
+                    <input type="text" class="form-control" id="gridSearchInput">
+                </label>
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
+                    <button class="btn btn-default btn-header-search" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
                 </span>
+            </div>
+            <div>
+                <p class="pull-left">Decision: @Html.DropDownList("decisionFilter", Html.EnumListString<SmsTransactionDecisionEnum>(), new { id = "decisionFilter" })</p>
+                <p class="pull-right">No Matches: @Html.DropDownList("noMatchFilter", Html.EnumListString<SmsTransactionNoMatchEnum>(), new { id = "noMatchFilter" })</p>
             </div>
         </div>
     </div>
+
+    <br />
+
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
@@ -31,7 +41,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="alert alert-info fade in">
-                                    <h5><i class="fa-fw fa fa-info"></i><strong>Information</strong></h5>
+                                    <h5><i class="fa fa-info"></i><strong>Information</strong></h5>
                                     <p>
                                         Please note that you are unable to add transactions at this time as @ViewBag.OrganisationName does not have a verified bank account added to their Safe Move Scheme account.
                                     </p>
@@ -51,6 +61,7 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#transactionPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Transaction</span></a></li>
                         <li><a href="#safeSendPanel" id="safeSendTab" data-toggle="tab"><i class="sms sms-safe-send margin-right-10"></i><span>Safe Send</span></a></li>
+                        <li><a href="#bankAccountChecksPanel" id="bankAccountChecksTab" data-toggle="tab"><i class="fa fa-bank margin-right-10"></i><span>Safe Buyer Results</span></a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="transactionPanel">
@@ -104,6 +115,16 @@
                                         <div id="transactionConversationContainer" data-activity-id="">
                                             @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = true, CanCreateNewConversation = true, ActivityType = ActivityType.SmsTransaction })
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="bankAccountChecksPanel">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="well">
+                                        <div id="bankAccountChecksDetails"></div>
                                     </div>
                                 </div>
                             </div>

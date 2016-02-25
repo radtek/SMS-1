@@ -9,5 +9,6 @@ namespace Bec.TargetFramework.Entities
         public string LastName { get; set; }
         public bool IsProfessionalOrganisation { get; set; }
         public string OrganisationName { get; set; }
+        public bool IsSafeSendGroup { get; set; }
     }
 }

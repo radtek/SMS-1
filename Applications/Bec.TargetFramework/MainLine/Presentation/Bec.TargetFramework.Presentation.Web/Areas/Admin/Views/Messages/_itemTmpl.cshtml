@@ -16,9 +16,14 @@
             <div class="col-sm-11">
                 <div class="message-heading">
                     {{#if isFromProfessionalUser}}
-                    <strong>{{Message.OrganisationName}}</strong> >
+                        <strong>{{Message.OrganisationName}}</strong> >
                     {{/if}}
-                    <strong> {{Message.FirstName}} {{Message.LastName}}</strong>
+
+                    {{#if Message.SafeSendGroupName}}
+                        <strong> {{Message.SafeSendGroupName}}</strong>    
+                    {{else}}
+                        <strong> {{Message.FirstName}} {{Message.LastName}}</strong>
+                    {{/if}}
                     <span class="text-muted">wrote on {{Message.DateSent}}</span>
                 </div>
                 {{#if isMessage}}

@@ -401,6 +401,9 @@
         <File Name="TargetFramework.File.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationNote.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.NewsArticle.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ConversationSafeSendGroupParticipant.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.SafeSendGroup.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.UserAccountOrganisationSafeSendGroup.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetConversationActivityResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1195,6 +1198,12 @@
         <File Name="OrganisationNoteDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="NewsArticleDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="NewsArticleDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ConversationSafeSendGroupParticipantDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ConversationSafeSendGroupParticipantDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="SafeSendGroupDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="SafeSendGroupDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="UserAccountOrganisationSafeSendGroupDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="UserAccountOrganisationSafeSendGroupDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetConversationActivityResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1595,6 +1604,9 @@
         <File Name="FileConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationNoteConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="NewsArticleConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ConversationSafeSendGroupParticipantConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="SafeSendGroupConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="UserAccountOrganisationSafeSendGroupConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetConversationActivityResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
@@ -1889,6 +1901,14 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="SmsTransactionID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="RelatedID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="FirstName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="LastName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
       <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
       <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
@@ -1903,6 +1923,8 @@
       <Exclude Name="Balance" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="RelatedID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

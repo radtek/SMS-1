@@ -2046,6 +2046,21 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for NewsArticle in the schema.
         /// </summary>
         public virtual DbSet<NewsArticle> NewsArticles { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ConversationSafeSendGroupParticipant in the schema.
+        /// </summary>
+        public virtual DbSet<ConversationSafeSendGroupParticipant> ConversationSafeSendGroupParticipants { get; set; }
+    
+        /// <summary>
+        /// There are no comments for SafeSendGroup in the schema.
+        /// </summary>
+        public virtual DbSet<SafeSendGroup> SafeSendGroups { get; set; }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationSafeSendGroup in the schema.
+        /// </summary>
+        public virtual DbSet<UserAccountOrganisationSafeSendGroup> UserAccountOrganisationSafeSendGroups { get; set; }
 
         #region Methods
 
@@ -2318,7 +2333,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for FnGetConversationActivity in the schema.
         /// </summary>
-        public virtual ObjectResult<FnGetConversationActivityResult> FnGetConversationActivity (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid, global::System.Nullable<int> l, global::System.Nullable<int> o)
+        public virtual ObjectResult<FnGetConversationActivityResult> FnGetConversationActivity (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid, global::System.Nullable<int> l, global::System.Nullable<int> o, string userorgtypename, global::System.Nullable<System.Guid> uaoid)
         {
             ObjectParameter orgidParameter;
             if (orgid.HasValue)
@@ -2365,14 +2380,32 @@ namespace Bec.TargetFramework.Data
             {
                 oParameter = new ObjectParameter("o", typeof(global::System.Nullable<int>));
             }
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FnGetConversationActivityResult>("TargetFrameworkEntities.FnGetConversationActivity", orgidParameter, activitytypeParameter, activityidParameter, lParameter, oParameter);
+            ObjectParameter userorgtypenameParameter;
+            if (userorgtypename != null)
+            {
+                userorgtypenameParameter = new ObjectParameter("userorgtypename", userorgtypename);
+            }
+            else
+            {
+                userorgtypenameParameter = new ObjectParameter("userorgtypename", typeof(string));
+            }
+            ObjectParameter uaoidParameter;
+            if (uaoid.HasValue)
+            {
+                uaoidParameter = new ObjectParameter("uaoid", uaoid);
+            }
+            else
+            {
+                uaoidParameter = new ObjectParameter("uaoid", typeof(global::System.Nullable<System.Guid>));
+            }
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FnGetConversationActivityResult>("TargetFrameworkEntities.FnGetConversationActivity", orgidParameter, activitytypeParameter, activityidParameter, lParameter, oParameter, userorgtypenameParameter, uaoidParameter);
         }
 
     
         /// <summary>
         /// There are no comments for FnGetConversationActivityCount in the schema.
         /// </summary>
-        public virtual global::System.Nullable<long> FnGetConversationActivityCount (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid)
+        public virtual global::System.Nullable<long> FnGetConversationActivityCount (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid, string userorgtypename, global::System.Nullable<System.Guid> uaoid)
         {
             EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
             bool needClose = false;
@@ -2402,6 +2435,14 @@ namespace Bec.TargetFramework.Data
                 if (activityid.HasValue)
                     activityidParameter.Value = activityid;
                 command.Parameters.Add(activityidParameter);
+                EntityParameter userorgtypenameParameter = new EntityParameter("userorgtypename", System.Data.DbType.String);
+                if (userorgtypename != null)
+                    userorgtypenameParameter.Value = userorgtypename;
+                command.Parameters.Add(userorgtypenameParameter);
+                EntityParameter uaoidParameter = new EntityParameter("uaoid", System.Data.DbType.Guid);
+                if (uaoid.HasValue)
+                    uaoidParameter.Value = uaoid;
+                command.Parameters.Add(uaoidParameter);
                 result = (global::System.Nullable<long>)command.ExecuteScalar();
               }
             }

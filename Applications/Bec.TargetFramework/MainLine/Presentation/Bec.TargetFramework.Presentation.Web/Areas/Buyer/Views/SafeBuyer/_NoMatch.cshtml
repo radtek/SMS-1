@@ -10,9 +10,12 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("NotifyOrganisationNoMatch", "SafeBuyer", new { area = "Buyer", accountNumber = ViewBag.accountNumber, sortCode = ViewBag.sortCode, smsUserAccountOrganisationTransactionID = ViewBag.smsUserAccountOrganisationTransactionID })" data-index="@ViewBag.index">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" method="post" data-url="@Url.Action("NotifyOrganisationNoMatch", "SafeBuyer", new { area = "Buyer" })" data-index="@ViewBag.index">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
+                        @Html.Hidden("accountNumber", (string)ViewBag.accountNumber)
+                        @Html.Hidden("sortCode", (string)ViewBag.sortCode)
+                        @Html.Hidden("smsUserAccountOrganisationTransactionID", (Guid)ViewBag.smsUserAccountOrganisationTransactionID)
                         <section class="col-xs-12">
                             <fieldset>
                                 <div class="alert alert-danger fade in">
