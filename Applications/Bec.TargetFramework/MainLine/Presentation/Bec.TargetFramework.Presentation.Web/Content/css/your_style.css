@@ -340,7 +340,7 @@
 #userMenu + .dropdown-menu li a {
   padding: 8px 18px;
 }
-#logout a {
+#logout a, #helpMenu {
   font-size: 1.05em;
 }
 .menu-toggle a {
@@ -611,5 +611,35 @@ a.removeupload {
     overflow: hidden;
     opacity: 0;
   }
+}
+.helpItemList {
+    list-style-type: none;
+    margin-bottom: 9px;
+    box-sizing: border-box;
+    display: block;
+    padding: 0px;
+    margin-left: 0px;
+}
+.helpItemList > li {
+    display: list-item;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 8px;
+    margin-left: 0px;
+    cursor: default;
+}
+.helpItemList > li > span.ui-icon {
+    position: absolute;
+    margin-left: -0.3em;
+    color: #333;
+}
+.help-item-btn > a {
+    padding: 0 9px !important;
+    color: #fff !important;
+    float: right;
+    margin-left: 5px;
+}
+.help-item-title {
+    margin-left: 1em;
 }
 /*# sourceMappingURL=your_style.css.map */

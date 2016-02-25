@@ -45,7 +45,7 @@
                         '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
                         '<span class="help-item-title">' + item.Title + '</span>' +
                         ' <span class="help-item-btn">' +
-                         ' <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>' +
+                         ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element-delete"><i class="fa fa-times"></i></a>' +
                          ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
                         '</span>' +
                       ' </li>';
@@ -73,6 +73,24 @@
                     $('#helpItemPosition').val(response.Item.Position)
                     $('#helpItemTabContainerId').val(response.Item.TabContainerId)
                 }
+            }
+        })
+    });
+
+    $(document).delegate(".help-item-element-delete", "click", function () {
+        var itemId = $(this).attr('id');
+        $('.help-item-element-delete').prop('disabled', false);
+        $(this).prop('disabled', true);
+        $('#helpItemDeleteId').val(itemId);
+        ajaxWrapper({
+            url: $("#deleteItem-form").attr('action'),
+            data: $("#deleteItem-form").serializeArray(),
+            type: 'POST'
+        })
+        .done(function (response) {
+            if (response != null || response != undefined) {
+                loadItemsForList(response.Items);
+                clearText();
             }
         })
     });
