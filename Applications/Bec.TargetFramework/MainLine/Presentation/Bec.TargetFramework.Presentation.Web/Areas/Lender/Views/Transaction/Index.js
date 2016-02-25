@@ -101,7 +101,7 @@ $(function () {
 
     setupTemplatePromise(transactionDetailsTemplatePromise, getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'Lender'));
     setupTemplatePromise(partiesTemplatePromise, getRazorViewPath('_partiesDetailsTmpl', 'Transaction', 'Lender'));
-    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared', ''));
+    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared/Templates', ''));
 
     function setupTabs() {
         areConversationsLoaded = false;

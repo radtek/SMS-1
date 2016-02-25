@@ -111,7 +111,7 @@
     setupTemplatePromise(transactionDetailsTemplatePromise, getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'SmsTransaction'));
     setupTemplatePromise(primaryBuyerTemplatePromise, getRazorViewPath('_primaryBuyerDetailsTmpl', 'Transaction', 'SmsTransaction'));
     setupTemplatePromise(relatedPartiesTemplatePromise, getRazorViewPath('_relatedPartiesTmpl', 'Transaction', 'SmsTransaction'));
-    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared', ''));
+    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared/Templates', ''));
 
     if ($('#content').data("welcome") == "True") {
         handleModal({ url: $('#content').data("welcomeurl") }, null, true);

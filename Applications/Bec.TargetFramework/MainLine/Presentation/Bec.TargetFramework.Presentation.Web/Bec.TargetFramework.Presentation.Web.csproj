@@ -303,6 +303,7 @@
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.mp4" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.jpg" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.mp4" />
+    <Content Include="Scripts\Bec\bec.sourceoffunds.js" />
     <Content Include="Scripts\Bec\bec.lendersearch.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
@@ -917,7 +918,7 @@
     <Content Include="Areas\Lender\Views\Transaction\_transactionDetailsTmpl.cshtml" />
     <Content Include="Areas\Lender\Views\Transaction\_partiesDetailsTmpl.cshtml" />
     <Content Include="Areas\Lender\Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_bankAccountChecksDetailsTmpl.cshtml" />
+    <Content Include="Views\Shared\Templates\_bankAccountChecksDetailsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\OrganisationSetting\EditOrganisationSettings.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Users\_RegisteredDetailsTmpl.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
@@ -1028,6 +1029,7 @@
     <Content Include="Scripts\Libs\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="sitemap.txt" />
+    <Content Include="Views\Shared\_SrcFundsBankAccounts.js" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
@@ -1852,7 +1854,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\LendersCompliance.cshtml" />
     <Content Include="Views\Shared\_Toastr.cshtml" />
-    <Content Include="Areas\Buyer\Views\SafeBuyer\_srcFundsBankAccountTmpl.cshtml" />
+    <Content Include="Views\Shared\Templates\_srcFundsBankAccountTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
     <Content Include="Views\Home\ConveyancingFirmFaq.cshtml" />
@@ -1867,6 +1869,7 @@
     <Content Include="Views\Home\TutorialsForProfessionals.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\Article.cshtml" />
+    <Content Include="Views\Shared\_SrcFundsBankAccounts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Lender\Views\Shared\" />

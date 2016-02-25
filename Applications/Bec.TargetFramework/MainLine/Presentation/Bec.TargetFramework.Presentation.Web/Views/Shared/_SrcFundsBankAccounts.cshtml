@@ -1,0 +1,29 @@
+﻿<div id="srcFundsBankAccounts" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
+    <div class="row" id="bankAccountRow0">
+        <section class="col col-6">
+            <label class="label">Account Number</label>
+            <label class="input">
+                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                <input type="text" name="SmsSrcFundsBankAccounts[0].AccountNumber" maxlength="8" data-rule-required="true" data-rule-digits="true" data-rule-minlength="8" />
+            </label>
+        </section>
+        <section class="col col-5">
+            <label class="label">Sort Code</label>
+            <label class="input">
+                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                <input type="text" name="SmsSrcFundsBankAccounts[0].SortCode" maxlength="6" data-rule-required="true" data-rule-digits="true" data-rule-minlength="6" />
+            </label>
+        </section>
+        <section class="col-sm-1">
+            <label class="label">&nbsp;</label>
+            <a style="display: none;" data-parent-id="bankAccountRow0"><!-- Not Displayed --></a>
+        </section>
+    </div>
+    <div id="addNextBankAccountRow" class="row add-next-bank-account-row">
+        <section class="col col-5">
+            <a id="addNextBankAccountBtn" href="#" class="add-next-bank-account-btn"><i class="fa fa-plus margin-right-10"></i>Add Next Bank Account</a>
+        </section>
+    </div>
+</div>
+<script async src="@Scripts.Url("~/Scripts/sourceoffunds")"></script>
+<script async src="@Scripts.Url("~/Scripts/Shared/_SrcFundsBankAccounts")"></script>
