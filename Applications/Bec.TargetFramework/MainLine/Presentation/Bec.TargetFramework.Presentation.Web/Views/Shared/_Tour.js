@@ -1,4 +1,42 @@
 ﻿$(function () {
+    function startCallout() {
+        ajaxWrapper({
+            url: '/app/viewrendercallout',
+            type: "Post"
+        }).done(function (res) {
+            if (res.result === true && res.callOuts != null && res.callOuts.length > 0) {
+                var stepList = getStepCallouts(res.callOuts);
+                startIntro(stepList);
+            }
+        })
+    }
+    function getStepCallouts(callouts) {
+        var step = [];
+        if (callouts != null && callouts.length > 0) {            
+            for (i = 0; i < callouts.length; i++) {
+                if ($(callouts[i].Selector).length > 0) {
+                    step.push({
+                        element: callouts[i].Selector,
+                        intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + callouts[i].Title + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + callouts[i].Description + '</div>',
+                        position: getPosition(callouts[i].Position)
+                    })
+                }
+            }
+
+            step.filter(function (obj) {
+                return $(obj.element).length;
+            });
+            if (step.length>0) {
+                step.unshift({
+                    intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title" style="font-size:15px">There are some changes in this version</h4></div><div class="modal-body"  style="padding: 5px !important;">Click next to see details</div>',
+                    position: 'top'
+
+                })
+            }
+        }
+        return step;
+    }
+    
     function startTour() {
         var ajaxOptions = {
             url: "/App/GetTourItem",
@@ -7,7 +45,10 @@
         ajaxWrapper(ajaxOptions)
             .then(function (result) {
                 if (result.data !== undefined && result.data.length > 0) {
-                    startSysSMH(result.data);
+                    var stepList = getSteps(result.data).filter(function (obj) {
+                        return $(obj.element).length;
+                    });
+                    startIntro(stepList);
                 }
             }, function () {
             });
@@ -25,22 +66,19 @@
         return steps;
     }
 
-    function startSysSMH(items) {
+    function startIntro(stepList) {
         var intro = introJs();
-        var stepList = getSteps(items).filter(function (obj) {
-            return $(obj.element).length;
-        });
+        
         var elementHidden = "";
         if (stepList.length > 0) {
-
             intro.setOptions({
                 skipLabel: 'Close',
                 exitOnOverlayClick: false,
                 showProgress: false,
-                showBullets: false,
+                showBullets: true,
                 showStepNumbers: false,
                 scrollToElement: false,
-                disableInteraction: false,
+                disableInteraction: true,
                 overlayOpacity: 0.1,
                 steps: stepList
             });
@@ -87,6 +125,9 @@
     $(document).ready(function () {
         if ($('#firstLogin').data("welcome") === "True") {
             startTour();
+        }
+        if ($('#firstLogin').data("login") === "True") {
+            startCallout();
         }
     });
 })

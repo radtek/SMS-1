@@ -108,7 +108,6 @@
     <Compile Include="Extensions\TransactionHelper.cs" />
     <Compile Include="Extensions\DeductionHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
-    <Compile Include="Logic\CalloutLogicController.cs" />
     <Compile Include="Logic\FileLogicController.cs" />
     <Compile Include="Logic\HelpLogicController.cs" />
     <Compile Include="Logic\InvoiceLogicController.cs" />
@@ -120,7 +119,6 @@
     <Compile Include="Logic\NotificationLogicController.cs" />
     <Compile Include="Logic\ClassificationDataLogicController.cs" />
     <Compile Include="Logic\ShoppingCartLogicController.cs" />
-    <Compile Include="Logic\SMHLogicController.cs" />
     <Compile Include="Logic\TransactionOrderLogicController.cs" />
     <Compile Include="Logic\UserAccountAuditLogicController.cs" />
     <Compile Include="Logic\OrganisationLogicController.cs" />

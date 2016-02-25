@@ -116,27 +116,14 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_GeneratePin").Include("~/Areas/Admin/Views/Shared/_GeneratePin.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_Verify").Include("~/Areas/Admin/Views/Shared/_Verify.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RejectTempCompany").Include("~/Areas/Admin/Views/Shared/_RejectTempCompany.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Callout/Index").Include("~/Areas/Admin/Views/Callout/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Callout/RenderCallout").Include("~/Areas/Admin/Views/Callout/RenderCallout.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddCallout").Include("~/Areas/Admin/Views/Shared/_AddCallout.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditCallout").Include("~/Areas/Admin/Views/Shared/_EditCallout.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteCallout").Include("~/Areas/Admin/Views/Shared/_DeleteCallout.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_OrderCallout").Include("~/Areas/Admin/Views/Shared/_OrderCallout.js"));
-
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/ShowMeHow/Index").Include("~/Areas/Admin/Views/ShowMeHow/Index.js"));
+                        
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/Index").Include("~/Areas/Admin/Views/Help/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditHelp").Include("~/Areas/Admin/Views/Help/_EditHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddHelp").Include("~/Areas/Admin/Views/Help/_AddHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_DeleteHelpPage").Include("~/Areas/Admin/Views/Help/_DeleteHelpPage.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddItem").Include("~/Areas/Admin/Views/Help/_AddItem.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditItem").Include("~/Areas/Admin/Views/Help/_EditItem.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhPage").Include("~/Areas/Admin/Views/Shared/_AddSmhPage.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhSysPage").Include("~/Areas/Admin/Views/Shared/_AddSmhSysPage.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSmhItem").Include("~/Areas/Admin/Views/Shared/_AddSmhItem.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditSmhPage").Include("~/Areas/Admin/Views/Shared/_EditSmhPage.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditSmhItem").Include("~/Areas/Admin/Views/Shared/_EditSmhItem.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteSmhPage").Include("~/Areas/Admin/Views/Shared/_DeleteSmhPage.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteSmhItem").Include("~/Areas/Admin/Views/Shared/_DeleteSmhItem.js"));
+            
 
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Account/Index").Include("~/Areas/BankAccount/Views/Account/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Check/Index").Include("~/Areas/BankAccount/Views/Check/Index.js"));
@@ -173,6 +160,7 @@ namespace Bec.TargetFramework.Presentation.Web
 
             bundles.Add(new ScriptBundle("~/Scripts/Help/ShowMeHow").Include("~/Areas/Admin/Views/Help/_ShowMeHow.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Tour").Include("~/Views/Shared/_Tour.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/RenderCallout").Include("~/Views/Shared/RenderCallout.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));

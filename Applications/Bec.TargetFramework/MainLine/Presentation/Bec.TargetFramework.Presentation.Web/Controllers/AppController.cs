@@ -31,7 +31,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var urlReferer = Request.UrlReferrer;
             if (urlReferer != null && urlReferer.AbsoluteUri.ToLower().Contains("account/login"))
             {
-                TempData["JustLoggined"] = 1;
+                TempData["JustLoggined"] = true;
             }
 
             if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))

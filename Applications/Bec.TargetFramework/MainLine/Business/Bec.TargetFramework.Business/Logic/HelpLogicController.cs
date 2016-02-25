@@ -178,7 +178,7 @@ namespace Bec.TargetFramework.Business.Logic
                     }
                     await scope.SaveChangesAsync();
                 }
-                return helpItems.ToDtos();
+                return helpItems.OrderBy(i => i.DisplayOrder).ToDtos();
             }
         }
         #endregion

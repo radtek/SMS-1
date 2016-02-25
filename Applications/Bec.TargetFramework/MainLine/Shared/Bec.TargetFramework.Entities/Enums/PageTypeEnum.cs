@@ -11,7 +11,7 @@ namespace Bec.TargetFramework.Entities.Enums
     {
         [StringValue("Tour")]
         Tour = 1,
-        [StringValue("ShowMeHow")]
+        [StringValue("Show Me How")]
         ShowMeHow = 2,
         [StringValue("Callout")]
         Callout = 3

@@ -93,6 +93,10 @@
         $("#PageName").css('background-color', '#fff');
         $('#pageUrlSection').css('display', 'block');
     }
+    function hideTabIdAdnEffectiveOn() {
+        $("#tabIdSection").css('display', 'none');
+        $("#tourSection").css('display', 'none');
+    }
 
     $('#pageType').on('change', function () {
 
@@ -100,6 +104,7 @@
         if (valOfThis === "1") {
             setDefaultEffectiveDate();
             disablePagefields("Tour");
+            hideTabIdAdnEffectiveOn();
         } else if (valOfThis === "2") {
             setDefaultEffectiveDate();
             $("#tabIdSection").css('display', 'block');
@@ -113,8 +118,7 @@
         } else {
             resetEffectiveDate();
             enablePagefields();
-            $("#tabIdSection").css('display', 'none');
-            $("#tourSection").css('display', 'none');
+            hideTabIdAdnEffectiveOn();
         }
     });
 });
