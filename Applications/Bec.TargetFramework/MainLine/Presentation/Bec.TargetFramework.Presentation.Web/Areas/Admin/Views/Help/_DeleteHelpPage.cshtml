@@ -1,6 +1,5 @@
 ﻿@using Bec.TargetFramework.Entities
 @model HelpPageDTO
-
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="deleteHelpLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -23,15 +22,18 @@
                                 <div class="row">
                                     <section class="col">
                                         <dl class="dl-horizontal">
-                                            <dt>Page Name:</dt>
-                                            <dd><p>@Html.DisplayFor(m => m.PageName)</p></dd>
-                                            <dt>Page URL:</dt>
-                                            <dd><p>@Html.DisplayFor(m => m.PageUrl)</p></dd>
                                             <dt>Page Type:</dt>
                                             @{
                                                 var type = Model.PageType == 1 ? "Tour" : (Model.PageType == 2 ? "Show Me How" : "Callout");
                                             }
                                             <dd><p>@Html.Label("PageType", @type)</p></dd>
+                                            <dt>Page Name:</dt>
+                                            <dd><p>@Html.DisplayFor(m => m.PageName)</p></dd>
+                                            @if (Model.PageType == 2)
+                                            {
+                                                <dt>Page URL:</dt>
+                                                <dd><p>@Html.DisplayFor(m => m.PageUrl)</p></dd>
+                                            }                                            
                                         </dl>
                                     </section>
                                 </div>

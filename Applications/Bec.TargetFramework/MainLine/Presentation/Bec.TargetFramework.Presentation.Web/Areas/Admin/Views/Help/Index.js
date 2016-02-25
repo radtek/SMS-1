@@ -36,7 +36,7 @@
             gridElementId: 'helpGrid',
             url: $('#helpGrid').data("url"),
             schema: { data: "Items", total: "Count", model: { id: "HelpPageID" } },
-            defaultSort: { field: "PageName", dir: "asc" },
+            defaultSort: { field: "PageType", dir: "asc" },
             panels: ['helpDetailPanel'],
             change: onPageChange,
             jumpToId: $('#helpGrid').data("jumpto"),
@@ -44,6 +44,11 @@
                 return "&type=" + $('#typeList').val()
             },
             columns: [
+                    {
+                        field: "PageType",
+                        title: "Page Type",
+                        template: function (dataItem) { return (dataItem.PageType === 1 ? "Tour" : (dataItem.PageType === 2 ? "Show Me How" : "Callout")); }
+                    },
                     {
                         field: "HelpPageID",
                         hidden: true,
@@ -54,13 +59,9 @@
                     },
                     {
                         field: "PageUrl",
-                        title: "Page URL"
-                    },
-                    {
-                        field: "PageType",
-                        title: "Page Type",
-                        template: function (dataItem) { return (dataItem.PageType === 1 ? "Tour" : (dataItem.PageType === 2 ? "Show Me How" : "Callout")); }
-                    },
+                        title: "Page URL",
+                        template: function (dataItem) { return (dataItem.PageType === 1 || dataItem.PageType === 3 ? "" : dataItem.PageUrl); }
+                    },                    
                     {
                         field: "CreatedOn",
                         title: "Created On",
@@ -116,8 +117,15 @@
     }
 
     function onPageChange(dataItem) {
+        if (dataItem.PageType === 1 || dataItem.PageType === 3) {
+            $("p#ddnUrl").css('display', 'none');
+            $("dt#ddnUrlLabel").css('display', 'none');
+        } else {
+            $("p#ddnUrl").css('display', 'block');
+            $("dt#ddnUrlLabel").css('display', 'block');
+            $("p#ddnUrl").text(dataItem.PageUrl != null ? dataItem.PageUrl : "");
+        }
         $("p#ddnName").text(dataItem.PageName);
-        $("p#ddnUrl").text(dataItem.PageUrl != null ? dataItem.PageUrl : "");
         $("p#ddnType").text((dataItem.PageType === 1 ? "Tour" : (dataItem.PageType === 2 ? "Show Me How" : "Callout")) || "");
         $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
         $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? dateString(dataItem.ModifiedOn) : "");
