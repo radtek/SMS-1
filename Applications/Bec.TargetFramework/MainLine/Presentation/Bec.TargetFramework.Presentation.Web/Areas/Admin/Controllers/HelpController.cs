@@ -13,9 +13,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Bec.TargetFramework.Presentation.Web.Models.ToastrNotification;
+using Bec.TargetFramework.Presentation.Web.Filters;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
+    [ClaimsRequired("Add", "SupportFunctions", Order = 1000)]
     public class HelpController : Controller
     {
         public IQueryLogicClient queryClient { get; set; }
