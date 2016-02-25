@@ -1891,6 +1891,7 @@
     <Compile Include="DTO\FirmDetailsDTO.cs" />
     <Compile Include="DTO\CompanyDTO.cs" />
     <Compile Include="DTO\ForgotPasswordDTO.cs" />
+    <Compile Include="DTO\HelpItemDTO.cs" />
     <Compile Include="DTO\IDCheckRequestDTO.cs" />
     <Compile Include="DTO\InformationDTO.cs" />
     <Compile Include="DTO\AddPersonalDetailsDTO.cs" />

@@ -1,9 +1,12 @@
 ﻿$(function () {
     var wizard = $('#addHelpWizard').bootstrapWizard({
         tabClass: 'form-wizard',
-        onTabShow: function (tab, navigation, index) {
+        onTabClick: function(tab, navigation, index) {           
+            return $("#addHelp-form").valid();
+        },
+        onTabShow: function (tab, navigation, index) {            
             var $total = navigation.find('li').length;
-            var $current = index + 1;
+            var $current = index + 1;            
             if ($current >= $total) {
                 $('#stepBack').show();
                 $('#stepNext').hide();
@@ -16,11 +19,11 @@
             }
         }
     });
-
-    //$("#submitAddHelp").click(checkWizardValid(wizard, "#addHelp-form"));
-
+    
     $("#stepNext").click(function () {
-        wizard.bootstrapWizard('next');
+        if ($("#addHelp-form").valid()) {
+            wizard.bootstrapWizard('next');
+        }
     });
 
     $("#stepBack").click(function () {
@@ -54,34 +57,61 @@
         submitHandler: validateSubmit
     });
 
+    function setDefaultEffectiveDate() {
+        $("#effectiveDateInput").datepicker('setDate', new Date());
+        $('#EffectiveOn').val($("#effectiveDateInput").val());
+    }
+
+    function resetEffectiveDate() {
+        $("#effectiveDateInput").val("");
+        $('#EffectiveOn').val("");
+    }
+
     function validateSubmit(form) {
         $("#submitAddHelp").prop('disabled', true);
         form.submit();
+    }
+    function disablePagefields(pageName) {
+        $('#PageName').val(pageName);
+        $('#PageUrl').val('HomePage');
+        $("#PageName").valid();
+        $("#PageUrl").valid();
+        $("#PageName").prop('disabled', true);
+        $("#PageUrl").prop('disabled', true);
+        $("#PageName").css('background-color', 'rgba(218, 218, 218, 1)');
+        $('#pageUrlSection').css('display', 'none');
+    }
+
+    function enablePagefields() {
+        $('#PageName').val('');
+        $('#PageUrl').val('');
+        $("#PageName").prop('disabled', false);
+        $("#PageUrl").prop('disabled', false);
+        $("#PageName").css('background-color', '#fff');
+        $('#pageUrlSection').css('display', 'block');
     }
 
     $('#pageType').on('change', function () {
 
         var valOfThis = $('#pageType option:selected').val();
-        if (valOfThis === "2") {
+        if (valOfThis === "1") {
+            setDefaultEffectiveDate();
+            disablePagefields("Tour");
+        } else if (valOfThis === "2") {
+            setDefaultEffectiveDate();
             $("#tabIdSection").css('display', 'block');
             $("#tourSection").css('display', 'none');
-        }
-        else {
-            if (valOfThis === "3") {
-                $("#tabIdSection").css('display', 'none');
-                $("#tourSection").css('display', 'block');
-                $("#effectiveDateInput").val("");
-                $('#EffectiveOn').val("");
-            } else {
-                $("#tabIdSection").css('display', 'none');
-                $("#tourSection").css('display', 'none');
-            }
-        }
-
-        if (valOfThis === "1" || valOfThis === "2") {
-            $("#effectiveDateInput").datepicker('setDate', new Date());
-            $('#EffectiveOn').val($("#effectiveDateInput").val());
-            $('#EffectiveOn').valid();
+            enablePagefields();
+        } else if (valOfThis === "3") {
+            resetEffectiveDate();
+            $("#tabIdSection").css('display', 'none');
+            $("#tourSection").css('display', 'block');
+            disablePagefields("Callout");
+        } else {
+            resetEffectiveDate();
+            enablePagefields();
+            $("#tabIdSection").css('display', 'none');
+            $("#tourSection").css('display', 'none');
         }
     });
 });
