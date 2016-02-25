@@ -1,4 +1,7 @@
-﻿
+﻿-- =======================================================================
+-- 03_SafeSendFunctions
+-- =======================================================================
+
 CREATE TABLE public."SafeSendGroup" (
   "SafeSendGroupID" UUID NOT NULL,
   "OrganisationTypeID" INTEGER NOT NULL,
@@ -92,3 +95,7 @@ INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Nam
 INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Redemption Statement');
 INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Title Information Document');
 INSERT INTO public."SafeSendGroup"("SafeSendGroupID", "OrganisationTypeID", "Name") VALUES (uuid_generate_v1(), 38, 'Requisitions at HMLR');
+
+-- =======================================================================
+-- End - 03_SafeSendFunctions
+-- =======================================================================

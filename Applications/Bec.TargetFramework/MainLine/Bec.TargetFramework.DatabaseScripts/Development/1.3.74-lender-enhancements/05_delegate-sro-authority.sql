@@ -1,4 +1,8 @@
-﻿ALTER TABLE public."Organisation"
+﻿-- =======================================================================
+-- 05_delegate-sro-authority
+-- =======================================================================
+
+ALTER TABLE public."Organisation"
   ADD COLUMN "AuthorityDelegatedByContactID" UUID;
 
 ALTER TABLE public."Organisation"
@@ -213,3 +217,7 @@ FROM "Organisation" org
 
 grant select, insert, update, delete on public."vOrganisationWithStatusAndAdmin" to bef;
 grant select, insert, update, delete on public."vOrganisationWithStatusAndAdmin" to postgres;
+
+-- =======================================================================
+-- End - 05_delegate-sro-authority
+-- =======================================================================

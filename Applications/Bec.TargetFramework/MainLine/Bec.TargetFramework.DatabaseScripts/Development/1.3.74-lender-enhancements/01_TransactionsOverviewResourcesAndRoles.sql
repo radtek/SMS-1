@@ -1,4 +1,8 @@
-﻿insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
+﻿-- =======================================================================
+-- 01_TransactionsOverviewResourcesAndRoles
+-- =======================================================================
+
+insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
 values (uuid_generate_v1(), 'SmsTransactionsOverview', 'SmsTransactionsOverview', TRUE);
 
 INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
@@ -176,3 +180,7 @@ BEGIN
 		 AND (r1."RoleName" = 'Lender Employee' OR r2."RoleName" = 'Lender Employee');
   
 END $$;
+
+-- =======================================================================
+-- END - 01_TransactionsOverviewResourcesAndRoles
+-- =======================================================================

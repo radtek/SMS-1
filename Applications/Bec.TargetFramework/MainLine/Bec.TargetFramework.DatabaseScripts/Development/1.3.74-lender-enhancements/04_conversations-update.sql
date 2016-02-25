@@ -1,4 +1,8 @@
-﻿CREATE OR REPLACE VIEW public."vConversation"(
+﻿-- =======================================================================
+-- 04_conversations-update
+-- =======================================================================
+
+CREATE OR REPLACE VIEW public."vConversation"(
     "ConversationID",
     "UserAccountOrganisationID",
     "Subject",
@@ -332,3 +336,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vMessage" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vMessage" TO bef;
+
+-- =======================================================================
+-- End - 04_conversations-update
+-- =======================================================================

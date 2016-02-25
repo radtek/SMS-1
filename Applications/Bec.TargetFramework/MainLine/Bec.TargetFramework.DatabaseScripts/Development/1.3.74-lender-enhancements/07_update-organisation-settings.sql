@@ -1,4 +1,7 @@
-﻿
+﻿-- =======================================================================
+-- 07_update-organisation-settings
+-- =======================================================================
+
 DROP TABLE public."OrganisationSetting";
 
 CREATE TABLE public."OrganisationSetting" (
@@ -21,3 +24,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."OrganisationSetting" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."OrganisationSetting" TO bef;
+
+-- =======================================================================
+-- End - 07_update-organisation-settings
+-- =======================================================================
