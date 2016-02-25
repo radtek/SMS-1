@@ -145,7 +145,7 @@ namespace Bec.TargetFramework.Business.Logic
                     item.TradingNames = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.Where(x => x.OrganisationID == item.OrganisationID && x.Name != item.Name).Select(x => x.Name).ToList();
                     if (item.BrokerType.HasValue) item.BrokerTypeDescription = ((BrokerTypeEnum)item.BrokerType).GetStringValue();
                     if (item.BrokerBusinessType.HasValue) item.BrokerBusinessTypeDescription = ((BrokerBusinessTypeEnum)item.BrokerBusinessType).GetStringValue();
-                    }
+                }
                 return ret;
             }
         }
@@ -550,7 +550,7 @@ namespace Bec.TargetFramework.Business.Logic
                 // get professional default organisation template
                 defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Personal Organisation")).ToDto();
                 Ensure.That(defaultOrganisation).IsNotNull();
-                
+
                 var existingUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
                 if (existingUao != null)
                 {
@@ -566,41 +566,41 @@ namespace Bec.TargetFramework.Business.Logic
             }
             else
             {
-            var companyDTO = new AddCompanyDTO
-            {
-                OrganisationType = OrganisationTypeEnum.Personal,
-                CompanyName = "Personal Organisation",
-                Line1 = "-",
-                RegulatorNumber = "-",
-                OrganisationAdminFirstName = firstName,
-                OrganisationAdminLastName = lastName,
-                OrganisationAdminEmail = email
-            };
-            var contactDTO = new ContactDTO
-            {
-                Salutation = salutation,
-                FirstName = firstName,
-                LastName = lastName,
-                EmailAddress1 = email,
-                BirthDate = birthDate,
-                MobileNumber1 = phoneNumber,
-                CreatedBy = UserNameService.UserName
-            };
-            var personalOrgID = await AddOrganisationAsync(defaultOrganisation, companyDTO);
-            var addNewUserDto = new AddNewUserToOrganisationDTO
-            {
-                OrganisationID = personalOrgID.Value,
-                ContactDTO = contactDTO,
-                UserType = UserTypeEnum.User,
-                AddDefaultRoles = true,
-                SafeSendGroups = Enumerable.Empty<Guid>(),
-                Roles = Enumerable.Empty<Guid>()
-            };
-            var buyerUaoDto = await AddNewUserToOrganisationAsync(addNewUserDto);
-            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
-            
+                var companyDTO = new AddCompanyDTO
+                {
+                    OrganisationType = OrganisationTypeEnum.Personal,
+                    CompanyName = "Personal Organisation",
+                    Line1 = "-",
+                    RegulatorNumber = "-",
+                    OrganisationAdminFirstName = firstName,
+                    OrganisationAdminLastName = lastName,
+                    OrganisationAdminEmail = email
+                };
+                var contactDTO = new ContactDTO
+                {
+                    Salutation = salutation,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    EmailAddress1 = email,
+                    BirthDate = birthDate,
+                    MobileNumber1 = phoneNumber,
+                    CreatedBy = UserNameService.UserName
+                };
+                var personalOrgID = await AddOrganisationAsync(defaultOrganisation, companyDTO);
+                var addNewUserDto = new AddNewUserToOrganisationDTO
+                {
+                    OrganisationID = personalOrgID.Value,
+                    ContactDTO = contactDTO,
+                    UserType = UserTypeEnum.User,
+                    AddDefaultRoles = true,
+                    SafeSendGroups = Enumerable.Empty<Guid>(),
+                    Roles = Enumerable.Empty<Guid>()
+                };
+                var buyerUaoDto = await AddNewUserToOrganisationAsync(addNewUserDto);
+                await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
+
                 return Tuple.Create(buyerUaoDto.UserAccountOrganisationID, buyerUaoDto.PrimaryContactID.Value);
-        }
+            }
         }
 
         public IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID)
@@ -646,10 +646,10 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task<Guid> AddSmsTransaction(AddSmsTransactionDTO dto, Guid orgID, Guid uaoID)
         {
             var transactionId = await SaveSmsTransaction(dto.SmsTransactionDTO, orgID);
-            
+
             var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
             {
-                Salutation = dto.Salutation, 
+                Salutation = dto.Salutation,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
@@ -715,56 +715,66 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(SmsUserAccountOrganisationTransactionDTO dto, Guid uaoID, string accountNumber, string sortCode)
+        public async Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(SmsUserAccountOrganisationTransactionDTO dto, Guid uaoID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == dto.SmsTransactionID);
+                var uaoTx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == dto.SmsTransactionID);
 
-                if (tx.SmsTransaction.RowVersion != dto.SmsTransaction.RowVersion || tx.Contact.RowVersion != dto.Contact.RowVersion)
+                if (uaoTx.SmsTransaction.RowVersion != dto.SmsTransaction.RowVersion || uaoTx.Contact.RowVersion != dto.Contact.RowVersion)
                     throw new Exception("The details have been updated by another user. Please go back and try again");
 
-                tx.Confirmed = true;
-                foreach (var bankAccount in dto.SmsSrcFundsBankAccounts)
+                uaoTx.Confirmed = true;
+
+                await AddSrcFundsBankAccounts(dto.SmsSrcFundsBankAccounts, uaoTx.SmsUserAccountOrganisationTransactionID);
+
+                if (uaoTx.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue())
                 {
-                    bankAccount.SmsSrcFundsBankAccountID = Guid.NewGuid();
-                    bankAccount.SmsUserAccountOrganisationTransactionID = tx.SmsUserAccountOrganisationTransactionID;
-                    scope.DbContexts.Get<TargetFrameworkEntities>().SmsSrcFundsBankAccounts.Add(bankAccount.ToEntity());
+                    uaoTx.SmsTransaction.Address = await GetOrAddAddressIfDoesntExist(uaoTx.SmsTransaction.Address, dto.SmsTransaction.Address, uaoTx.ContactID);
+                    uaoTx.SmsTransaction.Price = dto.SmsTransaction.Price;
+                    uaoTx.SmsTransaction.LenderName = dto.SmsTransaction.LenderName;
+                    uaoTx.SmsTransaction.MortgageApplicationNumber = dto.SmsTransaction.MortgageApplicationNumber;
                 }
 
-                if (tx.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue())
-                {
-                    tx.SmsTransaction.Address = await checkAddress(tx.SmsTransaction.Address, dto.SmsTransaction.Address, tx.ContactID);
-                    tx.SmsTransaction.Price = dto.SmsTransaction.Price;
-                    tx.SmsTransaction.LenderName = dto.SmsTransaction.LenderName;
-                    tx.SmsTransaction.MortgageApplicationNumber = dto.SmsTransaction.MortgageApplicationNumber;
-                }
+                uaoTx.Address = await GetOrAddAddressIfDoesntExist(uaoTx.Address, dto.Address, uaoTx.ContactID);
 
-                tx.Address = await checkAddress(tx.Address, dto.Address, tx.ContactID);
+                uaoTx.Contact.Salutation = dto.Contact.Salutation;
+                uaoTx.Contact.FirstName = dto.Contact.FirstName;
+                uaoTx.Contact.LastName = dto.Contact.LastName;
 
-                tx.Contact.Salutation = dto.Contact.Salutation;
-                tx.Contact.FirstName = dto.Contact.FirstName;
-                tx.Contact.LastName = dto.Contact.LastName;
-                
                 var existingContacts = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(x => x.ParentID == uaoID);
                 if (existingContacts.Count() <= 1)
-                    tx.Contact.BirthDate = dto.Contact.BirthDate;
+                    uaoTx.Contact.BirthDate = dto.Contact.BirthDate;
                 else
                     dto.Contact.BirthDate = existingContacts.First().BirthDate;
-                tx.ModifiedOn = DateTime.Now;
-                tx.ModifiedBy = UserNameService.UserName;
+                uaoTx.ModifiedOn = DateTime.Now;
+                uaoTx.ModifiedBy = UserNameService.UserName;
 
                 //update primary contact(s)
                 foreach (var pc in existingContacts.Where(x => x.IsPrimaryContact))
                 {
                     pc.IsPrimaryContact = false;
                 }
-                tx.Contact.IsPrimaryContact = true;
-                tx.UserAccountOrganisation.PrimaryContactID = tx.ContactID;
+                uaoTx.Contact.IsPrimaryContact = true;
+                uaoTx.UserAccountOrganisation.PrimaryContactID = uaoTx.ContactID;
 
                 await scope.SaveChangesAsync();
 
                 return dto;
+            }
+        }
+
+        private async Task AddSrcFundsBankAccounts(IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts, Guid uaoTxID)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                foreach (var bankAccount in srcFundsBankAccounts)
+                {
+                    bankAccount.SmsSrcFundsBankAccountID = Guid.NewGuid();
+                    bankAccount.SmsUserAccountOrganisationTransactionID = uaoTxID;
+                    scope.DbContexts.Get<TargetFrameworkEntities>().SmsSrcFundsBankAccounts.Add(bankAccount.ToEntity());
+                }
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -826,12 +836,12 @@ namespace Bec.TargetFramework.Business.Logic
                 Ensure.That(tx).IsNotNull();
                 if (tx.ShoppingCartID.HasValue) return CartPricingProcessor.CalculateCartPrice(scope, tx.ShoppingCartID.Value);
             }
-            
+
             var product = ProductLogic.GetBankAccountCheckProduct();
             Ensure.That(product).IsNotNull();
             var cartID = (await ShoppingCartLogic.CreateShoppingCartAsync(uaoID, cardTypeEnum, paymentTypeEnum)).ShoppingCartID;
             await ShoppingCartLogic.AddProductToShoppingCartAsync(cartID, product.ProductID, product.ProductVersionID, 1);
-            
+
             using (var scope = DbContextScopeFactory.Create())
             {
                 var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.SmsTransactionID == txID).FirstOrDefault();
@@ -885,7 +895,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task<Address> checkAddress(Address address, AddressDTO addressDTO, Guid parentID)
+        private async Task<Address> GetOrAddAddressIfDoesntExist(Address address, AddressDTO addressDTO, Guid parentID)
         {
             if (address != null &&
                 address.Line1 == addressDTO.Line1 &&
@@ -949,16 +959,20 @@ namespace Bec.TargetFramework.Business.Logic
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == buyerUaoID);
                 Ensure.That(uao).IsNotNull();
 
+                var uaoTxID = Guid.NewGuid();
                 var uaot = new SmsUserAccountOrganisationTransaction
                 {
-                    SmsUserAccountOrganisationTransactionID = Guid.NewGuid(),
+                    SmsUserAccountOrganisationTransactionID = uaoTxID,
                     SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
                     UserAccountOrganisationID = buyerUaoID,
                     SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
+                    Address = await GetOrAddAddressIfDoesntExist(null, assignSmsClientToTransactionDTO.RegisteredHomeAddress, uaoTxID),
                     ContactID = contactId,
                     CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
+
+                await AddSrcFundsBankAccounts(assignSmsClientToTransactionDTO.SmsSrcFundsBankAccounts, uaoTxID);
 
                 await scope.SaveChangesAsync();
             }
