@@ -4,7 +4,6 @@
     initLenderSearch();
     initPrimaryBuyerPostcodeLookup();
     initTransactionPostcodeLookup();
-    initAddBankAccounts();
     setupForm();
     setupWizard();
 
