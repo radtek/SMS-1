@@ -151,7 +151,6 @@
         $("#addGiftorButton").data('href', $("#addGiftorButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
 
         $("#editButton").data('href', $("#editButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&pageNumber=" + txGrid.grid.dataSource.page());
-        $("#editButton").attr("disabled", dataItem.Confirmed);
 
         $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email + "&pageNumber=" + txGrid.grid.dataSource.page());
         $("#pinButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);

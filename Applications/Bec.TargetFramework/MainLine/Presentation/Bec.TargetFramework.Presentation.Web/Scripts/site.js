@@ -67,6 +67,7 @@ var modalStack = [];
 
 //shows a modal, invoking the appropriate function when a button on the modal is clicked
 function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction) {
+    console.log('handleModal');
     options.cache = false;
     ajaxWrapper(options).done(function (result) {
         if (result && result.result == "ok") {

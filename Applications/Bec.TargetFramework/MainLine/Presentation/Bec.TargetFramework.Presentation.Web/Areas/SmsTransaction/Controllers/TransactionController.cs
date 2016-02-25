@@ -95,7 +95,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.ProductAdvisedOn,
                 x.SmsTransaction.ProductDeclinedOn,
                 x.SmsTransaction.InvoiceID,
-                x.Confirmed,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
@@ -280,7 +279,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             try
             {
                 await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);
-                await EnsureSmsTransactionIsNotConfirmed(txID, uaoID, QueryClient);
                 var modelEmail = Request.Form["Model.UserAccountOrganisation.UserAccount.Email"];
                 await EnsureEmailNotInUse(modelEmail, uaoID, UserClient);
 
@@ -386,15 +384,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             dynamic ret = await client.QueryAsync("SmsTransactions", select + filter);
             if (ret.Items.First.OrganisationID != orgID) throw new AccessViolationException("Operation failed");
         }
-
-        internal static async Task EnsureSmsTransactionIsNotConfirmed(Guid txID, Guid uaoId, IQueryLogicClient client)
-        {
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.Confirmed });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txID && x.UserAccountOrganisationID == uaoId);
-            dynamic ret = await client.QueryAsync("SmsUserAccountOrganisationTransactions", select + filter);
-            if ((bool)ret.Items.First.Confirmed) throw new AccessViolationException("Operation failed");
-        }
-
         internal static async Task EnsureEmailNotInUse(string email, Guid? uaoID, IUserLogicClient userLogic)
         {
             var isEmailAvailable = await userLogic.CanEmailBeUsedAsProfessionalAsync(email, uaoID);

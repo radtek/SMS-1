@@ -36,13 +36,11 @@
 
     function setupState() {
         var advised = $('#content').data('advised') == "True";
-        var purchased = $('#content').data('purchased') == "True";
+        var accepted = $('#content').data('accepted') == "True";
         var declined = $('#content').data('declined') == "True";
-
-        console.log("advised: " + advised + ", purchased: " + purchased + ", declined: " + declined);
-
-        if (!purchased) {
-            $('#purchaseProductBtn').show();
+        
+        if (!accepted) {
+            $('#acceptProductBtn').show();
             $('#infoBankAccountCheck').hide();
 
             if (declined) {

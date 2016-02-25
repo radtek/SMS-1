@@ -49,6 +49,7 @@ namespace Bec.TargetFramework.Entities
             target.ShoppingCartID = source.ShoppingCartID;
             target.InvoiceID = source.InvoiceID;
             target.ProductDeclinedOn = source.ProductDeclinedOn;
+            target.ProductAcceptedOn = source.ProductAcceptedOn;
 
             // Navigation Properties
             if (level > 0) {
@@ -93,6 +94,7 @@ namespace Bec.TargetFramework.Entities
             target.ShoppingCartID = source.ShoppingCartID;
             target.InvoiceID = source.InvoiceID;
             target.ProductDeclinedOn = source.ProductDeclinedOn;
+            target.ProductAcceptedOn = source.ProductAcceptedOn;
 
             // User-defined partial method
             OnEntityCreating(source, target);

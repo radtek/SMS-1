@@ -36,3 +36,9 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."FieldUpdate" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."FieldUpdate" TO bef;
+
+
+
+ALTER TABLE sms."SmsUserAccountOrganisationTransaction" DROP COLUMN "Confirmed";
+
+ALTER TABLE sms."SmsTransaction" ADD COLUMN "ProductAcceptedOn" TIMESTAMP(0) WITH TIME ZONE;

@@ -724,7 +724,6 @@ namespace Bec.TargetFramework.Business.Logic
                 if (tx.SmsTransaction.RowVersion != dto.SmsTransaction.RowVersion || tx.Contact.RowVersion != dto.Contact.RowVersion)
                     throw new Exception("The details have been updated by another user. Please go back and try again");
 
-                tx.Confirmed = true;
                 foreach (var bankAccount in dto.SmsSrcFundsBankAccounts)
                 {
                     bankAccount.SmsSrcFundsBankAccountID = Guid.NewGuid();
@@ -857,7 +856,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cartID.Value, "Safe Buyer");
             var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-            /*
+            
             orderRequest.TransactionOrderID = transactionOrder.TransactionOrderID;
             orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
             var payment = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
@@ -865,11 +864,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 await UpdateTransactionInvoiceID(smsTransactionID, invoice.InvoiceID);
             }
-            return payment;*/
-
-            //TODO: 'toggle' off
-            await UpdateTransactionInvoiceID(smsTransactionID, invoice.InvoiceID);
-            return new TransactionOrderPaymentDTO { IsPaymentSuccessful = true };
+            return payment;
         }
 
         private async Task UpdateTransactionInvoiceID(Guid txID, Guid invoiceID)

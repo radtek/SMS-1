@@ -41,7 +41,6 @@ namespace Bec.TargetFramework.Entities
             target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
-            target.Confirmed = source.Confirmed;
             target.LatestBankAccountCheckID = source.LatestBankAccountCheckID;
 
             // Navigation Properties
@@ -82,7 +81,6 @@ namespace Bec.TargetFramework.Entities
             target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
-            target.Confirmed = source.Confirmed;
             target.LatestBankAccountCheckID = source.LatestBankAccountCheckID;
 
             // User-defined partial method
