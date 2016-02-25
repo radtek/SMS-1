@@ -303,7 +303,6 @@
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.mp4" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.jpg" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.mp4" />
-    <Content Include="Scripts\Bec\bec.sourceoffunds.js" />
     <Content Include="Scripts\Bec\bec.lendersearch.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />

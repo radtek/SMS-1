@@ -1,12 +1,14 @@
 ﻿$(function () {
     'use strict';
 
+    var srcFundsElement = $('#srcFundsBankAccounts');
+
     var index = 1;
     var srcFundBankAccountTemplatePromise = $.Deferred();
-    var addNextBankAccountBtn = self.find('.add-next-bank-account-btn');
-    var addNextBankAccountRow = self.find('.add-next-bank-account-row');
+    var addNextBankAccountBtn = srcFundsElement.find('.add-next-bank-account-btn');
+    var addNextBankAccountRow = srcFundsElement.find('.add-next-bank-account-row');
     ajaxWrapper({
-        url: self.data("templateurl") + '?view=' + getRazorViewPath('_srcFundsBankAccountTmpl', 'Shared/Templates', '')
+        url: srcFundsElement.data("templateurl") + '?view=' + getRazorViewPath('_srcFundsBankAccountTmpl', 'Shared/Templates', '')
     }).done(function (res) {
         srcFundBankAccountTemplatePromise.resolve(Handlebars.compile(res));
     }).fail(function (e) {

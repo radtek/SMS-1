@@ -152,7 +152,6 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.js"));
             bundles.Add(new ScriptBundle("~/Scripts/lendersearch").Include("~/Scripts/Bec/bec.lendersearch.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/sourceoffunds").Include("~/Scripts/Bec/bec.sourceoffunds.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Lender/Transaction/Index").Include("~/Areas/Lender/Views/Transaction/Index.js"));
 

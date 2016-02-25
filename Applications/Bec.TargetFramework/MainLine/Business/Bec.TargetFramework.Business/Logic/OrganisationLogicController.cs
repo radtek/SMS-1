@@ -657,7 +657,9 @@ namespace Bec.TargetFramework.Business.Logic
                 BirthDate = dto.BirthDate.Value,
                 TransactionID = transactionId,
                 AssigningByOrganisationID = orgID,
-                UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
+                UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer,
+                RegisteredHomeAddress = dto.RegisteredHomeAddressDTO,
+                SmsSrcFundsBankAccounts = dto.SmsSrcFundsBankAccounts
             };
             await AssignSmsClientToTransaction(assignSmsClientToTransactionDto);
             return transactionId;

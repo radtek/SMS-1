@@ -108,19 +108,19 @@
                                                 <section class="col col-4">
                                                     <label class="label">Lookup Postcode</label>
                                                     <label class="input">
-                                                        <input id="primaryBuyerPostcodeLookup" type="text" tabindex="6" maxlength="10" />
+                                                        <input id="primaryBuyerPostcodeLookup" type="text" tabindex="8" maxlength="10" />
                                                     </label>
                                                 </section>
 
                                                 <section class="col">
                                                     <label class="label">&nbsp;</label>
-                                                    <button id="primaryBuyerFindAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="7">Find Address</button>
+                                                    <button id="primaryBuyerFindAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="9">Find Address</button>
                                                 </section>
                                             </div>
 
                                             <section>
                                                 <label class="select">
-                                                    <select id="primaryBuyerAddressResults" tabindex="8"></select>
+                                                    <select id="primaryBuyerAddressResults" tabindex="10"></select>
                                                     <i></i>
                                                 </label>
                                             </section>
@@ -135,32 +135,19 @@
                                             <div class="row" id="primaryBuyerManAddRow">
                                                 <section class="col">
                                                     <input type="checkbox" id="primaryBuyerManualAddress" />
-                                                    <label for="primaryBuyerManualAddress" tabindex="9">Edit Address Details</label>
+                                                    <label for="primaryBuyerManualAddress" tabindex="11">Edit Address Details</label>
                                                 </section>
                                             </div>
 
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.AddressDTO.Line1, new { id = "primaryBuyerLine1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "10", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.RegisteredHomeAddressDTO.Line1, new { id = "primaryBuyerLine1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "12", maxlength = 50 })
                                                     </label>
                                                 </section>
                                                 <section class="col col-6">
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.AddressDTO.County, new { id = "primaryBuyerCounty", @readonly = "readonly", placeholder = "County", tabindex = "13", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                            </div>
-
-                                            <div class="row">
-                                                <section class="col col-6">
-                                                    <label class="input">
-                                                        @Html.TextBoxFor(m => m.AddressDTO.Line2, new { id = "primaryBuyerLine2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "11", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                                <section class="col col-6">
-                                                    <label class="input">
-                                                        @Html.TextBoxFor(m => m.AddressDTO.PostalCode, new { id = "primaryBuyerPostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "14", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.RegisteredHomeAddressDTO.County, new { id = "primaryBuyerCounty", @readonly = "readonly", placeholder = "County", tabindex = "15", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
@@ -168,7 +155,20 @@
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.AddressDTO.Town, new { id = "primaryBuyerTown", @readonly = "readonly", placeholder = "Town", tabindex = "12", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.RegisteredHomeAddressDTO.Line2, new { id = "primaryBuyerLine2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "13", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        @Html.TextBoxFor(m => m.RegisteredHomeAddressDTO.PostalCode, new { id = "primaryBuyerPostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "16", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        @Html.TextBoxFor(m => m.RegisteredHomeAddressDTO.Town, new { id = "primaryBuyerTown", @readonly = "readonly", placeholder = "Town", tabindex = "14", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
@@ -283,12 +283,20 @@
                                                     </label>
                                                 </section>
                                             </div>
-
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="label">Price</label>
+                                                    <label class="input">
+                                                        <i class="icon-prepend fa fa-gbp"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Price, new { tabindex = "27", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
                                             <div class="row">
                                                 <section class="col col-sm-12">
                                                     <label class="label">Your Reference</label>
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Reference, new { tabindex = "27", maxlength = 500, autocomplete = "off" })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Reference, new { tabindex = "28", maxlength = 500, autocomplete = "off" })
                                                     </label>
                                                 </section>
                                             </div>
@@ -301,16 +309,16 @@
                 </div>
             </div>
             <div class="modal-footer" id="addTransactionControls">
-                <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal" tabindex="30">
+                <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal" tabindex="31">
                     Cancel
                 </button>
-                <button type="button" id="stepBack" class="btn btn-primary" style="display:none;" tabindex="29">
+                <button type="button" id="stepBack" class="btn btn-primary" style="display:none;" tabindex="30">
                     <i class="fa fa-chevron-left margin-right-5"></i>Back
                 </button>
-                <button type="button" id="stepNext" class="btn btn-primary" tabindex="28">
+                <button type="button" id="stepNext" class="btn btn-primary" tabindex="29">
                     Next<i class="fa fa-chevron-right margin-left-5"></i>
                 </button>
-                <button type="button" id="submitAddTransaction" class="btn btn-primary" style="display:none;" tabindex="28">
+                <button type="button" id="submitAddTransaction" class="btn btn-primary" style="display:none;" tabindex="29">
                     Add Transaction
                 </button>
             </div>
