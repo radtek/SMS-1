@@ -74,6 +74,11 @@ function makeOneGrid(suffix) {
                     field: "UserAccount.Created",
                     title: "Invite Created",
                     template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
+                },
+                {
+                    field: "UserAccount.IsActive",
+                    title: "Status",
+                    template: function (dataItem) { return dataItem.UserAccount.IsActive ? 'Active' : 'Inactive'; }
                 }
             ]
         });

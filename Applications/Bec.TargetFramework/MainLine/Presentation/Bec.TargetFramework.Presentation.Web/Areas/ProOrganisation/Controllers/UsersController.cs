@@ -59,6 +59,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.UserAccount.ID,
                 x.UserAccount.Email,
                 x.UserAccount.Created,
+                x.UserAccount.IsActive,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
