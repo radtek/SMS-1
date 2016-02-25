@@ -74,6 +74,9 @@
     function disablePagefields(pageName) {
         $('#PageName').val(pageName);
         $('#PageUrl').val('HomePage');
+        $('#hiddenName').val(pageName);
+        $('#hiddenUrl').val('HomePage');
+
         $("#PageName").valid();
         $("#PageUrl").valid();
         $("#PageName").prop('disabled', true);
