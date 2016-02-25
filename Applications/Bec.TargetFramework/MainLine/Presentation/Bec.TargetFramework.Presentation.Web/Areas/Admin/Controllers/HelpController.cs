@@ -161,7 +161,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 {
                     var list = (IList<HelpItemDTO>)TempData["Items"];
                     var itemHelp = list.FirstOrDefault(x => x.HelpItemID == item.HelpItemID);
-                    if (item != null)
+                    if (itemHelp != null)
                     {
                         itemHelp.Title = item.Title;
                         itemHelp.Selector = item.Selector;
@@ -196,6 +196,23 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public JsonResult DeleteItem(Guid? id)
+        {
+
+            if (TempData["Items"] != null)
+            {
+                var list = (IList<HelpItemDTO>)TempData["Items"];
+                var item = list.FirstOrDefault(x => x.HelpItemID == id);
+                if (item != null) list.Remove(item);
+                TempData["Items"] = list;
+                var jsonData = new { IsEmpty = list.Count == 0, Items = list };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult UpdateTemporaryOrder(List<int> orders)
         {
             var result = true;
@@ -218,6 +235,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     }
                     var newItem = new HelpItemDTO 
                     { 
+                        HelpItemID = Guid.NewGuid(),
                         Title = item.Title, 
                         Selector = item.Selector, 
                         Description = item.Description, 

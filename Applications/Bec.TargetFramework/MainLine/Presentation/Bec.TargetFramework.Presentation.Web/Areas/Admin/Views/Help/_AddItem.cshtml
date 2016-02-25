@@ -66,5 +66,9 @@
         @Html.AntiForgeryToken()
         <input type="hidden" id="helpItemEditId" name="id" />
     </form>
+    <form action="@Url.Action("DeleteItem", "Help", new { area = "Admin" })" method="POST" id="deleteItem-form" class="smart-form">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="helpItemDeleteId" name="id" />
+    </form>
 </div>
 <script async src="@Scripts.Url("~/Scripts/Admin/Help/_AddItem")"></script>
