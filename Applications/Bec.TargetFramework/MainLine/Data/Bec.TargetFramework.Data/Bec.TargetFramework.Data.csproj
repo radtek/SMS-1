@@ -164,6 +164,7 @@
     <Compile Include="Converters\EventStatusConverter.cs" />
     <Compile Include="Converters\FieldDetailConverter.cs" />
     <Compile Include="Converters\FieldDetailTemplateConverter.cs" />
+    <Compile Include="Converters\FieldUpdateConverter.cs" />
     <Compile Include="Converters\FileConverter.cs" />
     <Compile Include="Converters\FnGetConversationActivityResultConverter.cs" />
     <Compile Include="Converters\FnGetUserClaimResultConverter.cs" />
@@ -565,6 +566,7 @@
     <Compile Include="Model\TargetFramework.EventStatus.cs" />
     <Compile Include="Model\TargetFramework.FieldDetail.cs" />
     <Compile Include="Model\TargetFramework.FieldDetailTemplate.cs" />
+    <Compile Include="Model\TargetFramework.FieldUpdate.cs" />
     <Compile Include="Model\TargetFramework.File.cs" />
     <Compile Include="Model\TargetFramework.FnGetConversationActivityResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetUserClaimResult.cs" />

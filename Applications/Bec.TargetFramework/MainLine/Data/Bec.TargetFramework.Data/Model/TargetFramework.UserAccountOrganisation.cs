@@ -386,6 +386,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for FieldUpdates in the schema.
+        /// </summary>
+        public virtual ICollection<FieldUpdate> FieldUpdates
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

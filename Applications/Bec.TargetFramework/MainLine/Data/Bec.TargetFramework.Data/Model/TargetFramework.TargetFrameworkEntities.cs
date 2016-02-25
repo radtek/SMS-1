@@ -2061,6 +2061,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for UserAccountOrganisationSafeSendGroup in the schema.
         /// </summary>
         public virtual DbSet<UserAccountOrganisationSafeSendGroup> UserAccountOrganisationSafeSendGroups { get; set; }
+    
+        /// <summary>
+        /// There are no comments for FieldUpdate in the schema.
+        /// </summary>
+        public virtual DbSet<FieldUpdate> FieldUpdates { get; set; }
 
         #region Methods
 

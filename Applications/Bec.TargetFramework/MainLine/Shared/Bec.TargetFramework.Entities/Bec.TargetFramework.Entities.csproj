@@ -493,6 +493,10 @@
     <Compile Include="Boo\FieldDetailTemplateDTO.Generated.cs">
       <DependentUpon>FieldDetailTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\FieldUpdateDTO.cs" />
+    <Compile Include="Boo\FieldUpdateDTO.Generated.cs">
+      <DependentUpon>FieldUpdateDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\FileDTO.cs" />
     <Compile Include="Boo\FileDTO.Generated.cs">
       <DependentUpon>FileDTO.cs</DependentUpon>
