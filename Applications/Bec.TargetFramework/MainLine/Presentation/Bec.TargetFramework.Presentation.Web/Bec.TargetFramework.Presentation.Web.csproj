@@ -336,16 +336,6 @@
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
-    <Content Include="Content\ajax\email-compose.html" />
-    <Content Include="Content\ajax\email-opened.html" />
-    <Content Include="Content\ajax\email-reply.html" />
-    <Content Include="Content\ajax\email-template.html" />
-    <Content Include="Content\ajax\email\email-list.html" />
-    <Content Include="Content\ajax\modal-content\modal-voicecommand.html" />
-    <Content Include="Content\ajax\notify\mail.html" />
-    <Content Include="Content\ajax\notify\notifications.html" />
-    <Content Include="Content\ajax\notify\tasks.html" />
-    <Content Include="Content\ajax\website-template.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\demo.min.css" />
