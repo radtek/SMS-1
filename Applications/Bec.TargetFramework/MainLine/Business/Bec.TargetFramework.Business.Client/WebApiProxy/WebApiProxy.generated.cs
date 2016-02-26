@@ -965,14 +965,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="smsTransactionID"></param>
 		/// <param name="cardType"></param>
 		/// <param name="methodType"></param>
+		/// <param name="free"></param>
 		/// <returns></returns>
-		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest);
+		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest);
 
 		/// <param name="smsTransactionID"></param>
 		/// <param name="cardType"></param>
 		/// <param name="methodType"></param>
+		/// <param name="free"></param>
 		/// <returns></returns>
-		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest);
+		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
@@ -1041,6 +1043,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="safeSendEnabled"></param>
 		/// <returns></returns>
 		void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled);
+
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		Task<Boolean> SmsTransactionQualifiesFreeAsync(Guid txID);
+
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		Boolean SmsTransactionQualifiesFree(Guid txID);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -4078,11 +4088,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="smsTransactionID"></param>
 		/// <param name="cardType"></param>
 		/// <param name="methodType"></param>
+		/// <param name="free"></param>
 		/// <returns></returns>
-		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest)
+		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType, orderRequest, _user);
+			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType + "&free=" + free, orderRequest, _user);
 		}
 
 		/// <summary>
@@ -4091,10 +4102,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="smsTransactionID"></param>
 		/// <param name="cardType"></param>
 		/// <param name="methodType"></param>
-		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest)
+		/// <param name="free"></param>
+		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType, orderRequest, _user)).Result;
+			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType + "&free=" + free, orderRequest, _user)).Result;
 		}
 
 		/// <summary>
@@ -4256,6 +4268,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> SmsTransactionQualifiesFreeAsync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/SmsTransactionQualifiesFree?txID=" + txID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		public virtual Boolean SmsTransactionQualifiesFree(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/SmsTransactionQualifiesFree?txID=" + txID, null, _user)).Result;
 		}
 
 		#endregion
