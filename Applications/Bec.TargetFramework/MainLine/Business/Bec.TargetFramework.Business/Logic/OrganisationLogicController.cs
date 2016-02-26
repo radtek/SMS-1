@@ -1147,20 +1147,18 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Single(x => x.SmsTransactionID == txID);
-                var txLenderName = tx.LenderName;
-                var lenderOrgID = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.Where(x => x.Name == txLenderName).Select(x => x.OrganisationID).FirstOrDefault();
-
-                //get org name from possible trading name
-                if (lenderOrgID != null)
-                    txLenderName = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.Where(x => x.OrganisationID == lenderOrgID).Select(x => x.Name).FirstOrDefault();
-
                 var primaryBuyer = tx.SmsUserAccountOrganisationTransactions.Where(x=>x.SmsUserAccountOrganisationTransactionType.Name == "Buyer").Single();
 
                 var firstName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.Contact, primaryBuyer.ContactID, "FirstName", primaryBuyer.Contact.FirstName);
                 var lastName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.Contact, primaryBuyer.ContactID, "LastName", primaryBuyer.Contact.LastName);
                 var dob = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.Contact, primaryBuyer.ContactID, "BirthDate", primaryBuyer.Contact.BirthDate.Value, s => DateTime.Parse(s));
-                var lenderName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "LenderName", txLenderName);
+                var lenderName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "LenderName", tx.LenderName);
                 var appNumber = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "MortgageApplicationNumber", tx.MortgageApplicationNumber);
+
+                //get org name from possible trading name
+                var lenderOrgID = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.Where(x => x.Name == lenderName).Select(x => x.OrganisationID).FirstOrDefault();
+                if (lenderOrgID != null)
+                    lenderName = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.Where(x => x.OrganisationID == lenderOrgID).Select(x => x.Name).FirstOrDefault();
 
                 return CheckSIRAQualifiesFree(firstName, lastName, dob, lenderName, appNumber);
             }
@@ -1203,6 +1201,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         private bool CheckSIRAQualifiesFree(string firstName, string lastName, DateTime dob, string lenderName, string appNumber)
         {
+            //this will become slightly more sophisticated!
             return lenderName == "Paragon Mortgages Ltd";
         }
     }
