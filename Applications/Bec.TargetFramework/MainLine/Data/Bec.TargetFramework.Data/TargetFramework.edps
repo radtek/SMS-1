@@ -406,6 +406,7 @@
         <File Name="TargetFramework.HelpItem.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.HelpPage.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.HelpItemUserAccount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.RequestSupport.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetConversationActivityResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1210,6 +1211,8 @@
         <File Name="HelpPageDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="HelpItemUserAccountDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="HelpItemUserAccountDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="RequestSupportDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="RequestSupportDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetConversationActivityResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1615,6 +1618,7 @@
         <File Name="HelpItemConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="HelpPageConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="HelpItemUserAccountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="RequestSupportConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetConversationActivityResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>

@@ -192,6 +192,7 @@
     <Compile Include="Areas\Admin\Controllers\MessagesNotificationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
+    <Compile Include="Areas\Admin\Controllers\RequestSupportController.cs" />
     <Compile Include="Areas\Admin\Controllers\ShowMeHowController.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
     <Compile Include="Areas\Admin\Models\CalloutModel.cs" />
@@ -273,6 +274,10 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Areas\Admin\Views\RequestSupport\Index.js" />
+    <Content Include="Areas\Admin\Views\RequestSupport\_AddRequestSupport.js" />
+    <Content Include="Areas\Admin\Views\RequestSupport\_CloseRequestSupport.js" />
+    <Content Include="Areas\Admin\Views\RequestSupport\_ViewRequestSupport.js" />
     <Content Include="Areas\Admin\Views\Shared\_AddSmhSysPage.js" />
     <Content Include="Areas\Admin\Views\Shared\_DeleteSmhItem.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditSmhItem.js" />
@@ -907,6 +912,9 @@
     <Content Include="Areas\Admin\Views\Help\_DeleteHelpPage.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_AddItem.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_EditItem.cshtml" />
+    <Content Include="Areas\Admin\Views\RequestSupport\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RequestSupport\_AddRequestSupport.cshtml" />
+    <Content Include="Areas\Admin\Views\RequestSupport\_CloseRequestSupport.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

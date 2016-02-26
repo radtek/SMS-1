@@ -367,6 +367,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for RequestSupports in the schema.
+        /// </summary>
+        public virtual ICollection<RequestSupport> RequestSupports
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

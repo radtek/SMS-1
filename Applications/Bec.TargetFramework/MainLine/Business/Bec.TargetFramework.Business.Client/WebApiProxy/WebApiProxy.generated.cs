@@ -327,6 +327,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="createDate"></param>
 		/// <returns></returns>
 		List<HelpItemDTO> GetHelpItemsForCallout(Guid userId,DateTime createDate);
+
+		/// <returns></returns>
+		Task<Guid> CreateRequestSupportAsync(RequestSupportDTO requestSupportDto);
+
+		/// <returns></returns>
+		Guid CreateRequestSupport(RequestSupportDTO requestSupportDto);
 	}
 
 	public partial interface IInvoiceLogicClient : IClientBase	{	
@@ -2663,6 +2669,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItemsForCallout?userId=" + userId + "&createDate=" + createDate.ToString("O"), _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<Guid> CreateRequestSupportAsync(RequestSupportDTO requestSupportDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<RequestSupportDTO, Guid>("api/HelpLogic/CreateRequestSupport", requestSupportDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid CreateRequestSupport(RequestSupportDTO requestSupportDto)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<RequestSupportDTO, Guid>("api/HelpLogic/CreateRequestSupport", requestSupportDto, _user)).Result;
 		}
 
 		#endregion

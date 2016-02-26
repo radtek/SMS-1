@@ -2071,6 +2071,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for HelpItemUserAccount in the schema.
         /// </summary>
         public virtual DbSet<HelpItemUserAccount> HelpItemUserAccounts { get; set; }
+    
+        /// <summary>
+        /// There are no comments for RequestSupport in the schema.
+        /// </summary>
+        public virtual DbSet<RequestSupport> RequestSupports { get; set; }
 
         #region Methods
 

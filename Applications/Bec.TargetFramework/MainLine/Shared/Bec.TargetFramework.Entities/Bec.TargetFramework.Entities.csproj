@@ -1306,6 +1306,10 @@
     <Compile Include="Boo\RepositoryStructureRoleDTO.Generated.cs">
       <DependentUpon>RepositoryStructureRoleDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\RequestSupportDTO.cs" />
+    <Compile Include="Boo\RequestSupportDTO.Generated.cs">
+      <DependentUpon>RequestSupportDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ResourceDTO.cs" />
     <Compile Include="Boo\ResourceDTO.Generated.cs">
       <DependentUpon>ResourceDTO.cs</DependentUpon>
@@ -1985,6 +1989,7 @@
     <Compile Include="Enums\HtmlPositionEnum.cs" />
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
+    <Compile Include="Enums\RequestTypeEnum.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />
