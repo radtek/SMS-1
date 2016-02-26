@@ -717,7 +717,7 @@ function magicEdit(options) {
     var self = this;
 
     iterateSets = function (func) {
-        $('.magicEdit').each(function (index, elem) {
+        $('.magic-edit').each(function (index, elem) {
             var set = func($(elem));
         });
     };
@@ -748,7 +748,7 @@ function magicEdit(options) {
                     if (self.data.hasOwnProperty(input.data('field'))) {
                         var d = self.data[input.data('field')];
                         input.val(d.Value);
-                        input.addClass('pendingUpdate');
+                        input.addClass('pending-update');
                         input.attr('title', "Modified by " + d.UserAccountOrganisation.Contact.FirstName + " " + d.UserAccountOrganisation.Contact.LastName + " at " + dateString(d.ModifiedOn));
                     }
                 });
@@ -758,9 +758,12 @@ function magicEdit(options) {
 
     init = function () {
         iterateSets(function (set) {
-            var editButton = $('<button><i class="fa fa-edit"></i></button>');
-            var okButton = $('<button><i class="fa fa-check"></i></button>');
-            var cancelButton = $('<button><i class="fa fa-times"></i></button>');
+            var editButton = $('<button class="btn btn-default"><i class="fa fa-edit"></i></button>');
+            var okButton = $('<button class="btn btn-default"><i class="fa fa-check accept"></i></button>');
+            var cancelButton = $('<button class="btn btn-default"><i class="fa fa-times reject"></i></button>');
+            var buttonContainer = $('<div class="magic-edit-button"></div>');
+            buttonContainer.append(editButton).append(okButton).append(cancelButton);
+
             okButton.hide();
             cancelButton.hide();
 
@@ -778,6 +781,7 @@ function magicEdit(options) {
                 okButton.show();
                 cancelButton.show();
                 editButton.hide();
+                set.addClass("editing");
             });
 
             cancelButton.on('click', function () {
@@ -787,14 +791,16 @@ function magicEdit(options) {
                     input.removeClass('editing');
                 });
                 okButton.hide();
-                cancelButton.hide();
+                cancelButton.hide();;
                 editButton.show();
+                set.removeClass("editing");
             });
 
             okButton.on('click', function () {
                 okButton.hide();
                 cancelButton.hide();
                 editButton.show();
+                set.removeClass("editing");
                 var alld = [];
 
                 iterateInputs(set, function (input) {
@@ -806,8 +812,8 @@ function magicEdit(options) {
                         data: {
                             ActivityType: self.options.activityType,
                             ActivityID: self.options.activityId,
-                            ParentType: self.options.parentType,
-                            ParentID: self.options.parentId,
+                            ParentType: input.data('parent-type'),
+                            ParentID: input.data('parent-id'),
                             FieldName: input.data('field'),
                             Value: input.val()
                         }
@@ -825,12 +831,8 @@ function magicEdit(options) {
                 $.when.apply($, alld).done(updateValues);
             });
 
-            var elems = $('<div></div>');
-            elems.append(editButton);
-            elems.append(okButton);
-            elems.append(cancelButton);
-            set.after(elems);
-
+            set.append(buttonContainer);
+            
         });
 
     };

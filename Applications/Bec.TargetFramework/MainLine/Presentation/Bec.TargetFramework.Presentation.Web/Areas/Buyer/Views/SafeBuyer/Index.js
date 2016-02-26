@@ -16,8 +16,6 @@
         url: content.data('edit-url'),
         activityType: content.data('activity-type'),
         activityId: content.data('activity-id'),
-        parentType: content.data('parent-type'),
-        parentId: content.data('parent-id'),
         updateUrl: content.data('update-url')
     });
 

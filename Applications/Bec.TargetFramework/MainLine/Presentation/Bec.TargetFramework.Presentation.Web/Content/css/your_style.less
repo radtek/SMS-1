@@ -3,6 +3,8 @@
 @primary-color: #a1c324;
 @text-color: black;
 @icon-color: #7d7d7d;
+@color-accept: #24bb43;
+@color-reject: #a90329;
 
 .color-primary {
     color: @primary-color;
@@ -183,9 +185,9 @@
 
         .ajax-dropdown {
             width: 430px;
-            height:400px;
-            padding-top:0;
-            border-top:0;
+            height: 400px;
+            padding-top: 0;
+            border-top: 0;
         }
 
         .ajax-dropdown:before,
@@ -361,10 +363,12 @@
     -moz-box-shadow: 0 -2px 0 @primary-color;
     box-shadow: 0 -2px 0 @primary-color;
 }
+
 .nav-tabs > li {
     & > a > .sms {
         opacity: .5;
     }
+
     &.active > a > .sms {
         opacity: 1;
     }
@@ -379,19 +383,17 @@
 
             border-color: #bdbdbd !important;
         }
-        
-
     }
 
-    .toggle input:checked+i {
+    .toggle input:checked + i {
         border-color: @primary-color;
     }
 
-    .toggle input+input[type=hidden]+i:before{
+    .toggle input + input[type=hidden] + i:before {
         background-color: #ccc;
     }
 
-    .toggle input:checked+input[type=hidden]+i:before {
+    .toggle input:checked + input[type=hidden] + i:before {
         background-color: @primary-color;
     }
 
@@ -735,25 +737,27 @@
     dt {
         margin-bottom: 2px;
     }
+
     dd {
         margin-bottom: 10px;
-        &#personalBankAccountsTable{
+
+        &#personalBankAccountsTable {
             margin-top: 5px;
         }
+
         p {
             margin: 0;
         }
     }
-
 }
 
-.buyer-transaction-list{
-    p{
+.buyer-transaction-list {
+    p {
         margin: 0;
     }
 }
 
-.transaction-icon{
+.transaction-icon {
     color: darken(@icon-color, 10%);
 }
 
@@ -762,10 +766,11 @@
     width: 0;
 }
 
-.dropzone{
+.dropzone {
     margin-top: 8px !important;
-    min-height:100px;
-    .dz-default.dz-message{
+    min-height: 100px;
+
+    .dz-default.dz-message {
         margin: 40px 0 !important;
         top: 0 !important;
         left: 0 !important;
@@ -773,50 +778,53 @@
         height: 18px !important;
         text-align: center;
     }
-    .dz-remove{
+
+    .dz-remove {
         background-image: none !important;
         background-color: @primary-color !important;
         border-color: @primary-color !important;
         cursor: pointer !important;
-        &:hover{
+
+        &:hover {
             background-color: darken(@primary-color, 5%) !important;
         }
     }
 }
 
-a.attachment{
-    margin-right:12px;
+a.attachment {
+    margin-right: 12px;
 }
 
-a.removeupload{
-    cursor:pointer;
+a.removeupload {
+    cursor: pointer;
 }
 
-.notification-body{
-    padding-left:0;
+.notification-body {
+    padding-left: 0;
 }
 
 .notes {
-    pre{
+    pre {
         -ms-word-break: normal;
         word-break: normal;
-        white-space:pre-wrap;
+        white-space: pre-wrap;
     }
 }
 
-.match{
-    color:darken(@primary-color, 10%);
+.match {
+    color: darken(@primary-color, 10%);
 }
 
-.match-bg{
+.match-bg {
     .bg-color-primary !important;
     color: #fff;
 }
+
 .table tr.match-bg td {
     .match-bg !important;
 }
 
-.no-match-bg{
+.no-match-bg {
     color: #fff;
     background-color: #c26565 !important;
     text-shadow: none;
@@ -826,20 +834,20 @@ a.removeupload{
     .no-match-bg;
 }
 
-.error{
-    color:red;
+.error {
+    color: red;
 }
 
-.btn-header-search{
+.btn-header-search {
     padding: 6px 12px 6px 12px;
 }
 
-.clear-search-icon{
+.clear-search-icon {
     cursor: pointer;
-    display:none;
+    display: none;
 }
 
-.badge{
+.badge {
     padding: 2px 3px 3px;
     font-size: 10px;
 }
@@ -853,25 +861,51 @@ a.removeupload{
     background-color: inherit;
 }
 
-.alert-info{
-    border-color: #6EB0DF; 
+.alert-info {
+    border-color: #6EB0DF;
 }
 
-.alert-warning{
+.alert-warning {
     border-color: #dfb56c;
 }
 
-.magicEdit input, input.magicEdit{
-    border:1px solid transparent;
-    background-color:transparent;
+.magic-edit {
+    position: relative;
+    border: 1px solid transparent;
+    padding: 5px;
+
+    input {
+        border: 1px solid transparent;
+        background-color: transparent;
+        padding: 5px;
+    }
+
+    .magic-edit-button{
+        position:absolute;
+        top:5px;
+        right:5px;
+    }
+
+    &.editing{
+        border-color:rgba(172, 172, 172, 0.44);
+        background-color:white;
+    }
 }
 
-.pendingUpdate{
-    color:purple;
+.accept{
+    color:@color-accept;
 }
 
-.magicEdit input.editing, input.magicEdit.editing{
-    border:1px solid rgba(172, 172, 172, 0.44);
+.reject{
+    color:@color-reject;
+}
+
+.pending-update {
+    color: purple;
+}
+
+.magic-edit input.editing {
+    border: 1px solid rgba(172, 172, 172, 0.44);
 }
 
 // xs and sm

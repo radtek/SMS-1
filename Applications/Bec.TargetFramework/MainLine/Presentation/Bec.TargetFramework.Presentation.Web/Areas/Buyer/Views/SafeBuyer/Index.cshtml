@@ -18,9 +18,7 @@
      data-edit-url="@Url.Action("GetFieldUpdates", "App", new { area = "" })"
      data-update-url="@Url.Action("PostFieldUpdate", "App", new { area = "" })"
      data-activity-type="@ActivityType.SmsTransaction.GetIntValue()"
-     data-activity-id="@Model.SmsTransactionID"
-     data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()"
-     data-parent-id="@Model.SmsTransactionID">
+     data-activity-id="@Model.SmsTransactionID">
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
             <i class="fa fa-home fa-lg margin-right-10"></i>
@@ -72,17 +70,18 @@
                                         <p id="txCounty">@Model.SmsTransaction.Address.County</p>
                                         <p id="txPostalCode">@Model.SmsTransaction.Address.PostalCode</p>
 
-                                        <div class="magicEdit">
+                                        <div class="magic-edit">
                                             <p><strong>Mortgage Lender:</strong></p>
-                                            @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { maxlength = 50, id = "lenderSearch", data_field = "LenderName", data_parent_id = Model.SmsTransactionID, data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
+                                            @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { maxlength = 50, id = "lenderSearch", data_field = "LenderName", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue(), data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
                                             <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
                                             <p><strong>Mortgage App. Number:</strong></p>
-                                            @Html.TextBoxFor(m => m.SmsTransaction.MortgageApplicationNumber, new { maxlength = 50, data_field = "MortgageApplicationNumber", data_parent_id = Model.SmsTransactionID })
+                                            @Html.TextBoxFor(m => m.SmsTransaction.MortgageApplicationNumber, new { maxlength = 50, data_field = "MortgageApplicationNumber", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
                                         </div>
 
-                                        <p><strong>Price:</strong></p>
-                                        @Html.TextBoxFor(m => m.SmsTransaction.Price, new { @class="magicEdit", data_field = "Price", data_parent_id = Model.SmsTransactionID })
-
+                                        <div class="magic-edit">
+                                            <p><strong>Price:</strong></p>
+                                            @Html.TextBoxFor(m => m.SmsTransaction.Price, new { data_field = "Price", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
+                                        </div>
                                     </div>
                                     <div class="col-sm-6 col-lg-4">
                                         <dl>

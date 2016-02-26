@@ -665,16 +665,35 @@ a.removeupload {
 .alert-warning {
   border-color: #dfb56c;
 }
-.magicEdit input,
-input.magicEdit {
+.magic-edit {
+  position: relative;
+  border: 1px solid transparent;
+  padding: 5px;
+}
+.magic-edit input {
   border: 1px solid transparent;
   background-color: transparent;
+  padding: 5px;
 }
-.pendingUpdate {
+.magic-edit .magic-edit-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.magic-edit.editing {
+  border-color: rgba(172, 172, 172, 0.44);
+  background-color: white;
+}
+.accept {
+  color: #24bb43;
+}
+.reject {
+  color: #a90329;
+}
+.pending-update {
   color: purple;
 }
-.magicEdit input.editing,
-input.magicEdit.editing {
+.magic-edit input.editing {
   border: 1px solid rgba(172, 172, 172, 0.44);
 }
 @media only screen and (max-width: 992px) {
