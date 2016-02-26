@@ -5,7 +5,7 @@ function checkRedirect(response) {
     if (hasRedirect(response)) window.location.href = response.RedirectUrl;
 }
 
-function hasRedirect(response){
+function hasRedirect(response) {
     return response && response.HasRedirectUrl;
 }
 
@@ -691,7 +691,7 @@ var defTmpl = function (path, states, types) {
     }
 }
 
-function showtoastrError(){
+function showtoastrError() {
     toastr.error("Sorry, something went wrong. This issue has been logged and will be investigated by our team.<br />In the meantime, please go back and try again.", "Error",
         {
             timeOut: 0,
@@ -710,4 +710,132 @@ if (!String.prototype.format) {
             ;
         });
     };
+}
+
+function magicEdit(options) {
+    this.options = options;
+    var self = this;
+
+    iterateSets = function (func) {
+        $('.magicEdit').each(function (index, elem) {
+            var set = func($(elem));
+        });
+    };
+
+    iterateInputs = function (set, func) {
+        var inputs;
+        if (set.is('input'))
+            inputs = set;
+        else
+            inputs = set.find('input');
+
+        inputs.each(function (i, l) {
+            func($(l));
+        });
+    };
+
+    updateValues = function () {
+        ajaxWrapper({
+            url: options.url,
+            data: {
+                activityType: self.options.activityType,
+                activityID: self.options.activityId
+            }
+        }).done(function (res) {
+            self.data = res;
+            iterateSets(function (set) {
+                iterateInputs(set, function (input) {
+                    if (self.data.hasOwnProperty(input.data('field'))) {
+                        var d = self.data[input.data('field')];
+                        input.val(d.Value);
+                        input.addClass('pendingUpdate');
+                        input.attr('title', "Modified by " + d.UserAccountOrganisation.Contact.FirstName + " " + d.UserAccountOrganisation.Contact.LastName + " at " + dateString(d.ModifiedOn));
+                    }
+                });
+            });
+        });
+    };
+
+    init = function () {
+        iterateSets(function (set) {
+            var editButton = $('<button><i class="fa fa-edit"></i></button>');
+            var okButton = $('<button><i class="fa fa-check"></i></button>');
+            var cancelButton = $('<button><i class="fa fa-times"></i></button>');
+            okButton.hide();
+            cancelButton.hide();
+
+            iterateInputs(set, function (input) {
+                input.prop('disabled', true);
+                input.data('originalVal', input.val());
+            });
+
+            editButton.on('click', function () {
+                iterateInputs(set, function (input) {                    
+                    input.prop('disabled', false);
+                    input.data('originalVal', input.val());
+                    input.addClass('editing');
+                });
+                okButton.show();
+                cancelButton.show();
+                editButton.hide();
+            });
+
+            cancelButton.on('click', function () {
+                iterateInputs(set, function (input) {
+                    input.prop('disabled', true);
+                    input.val(input.data('originalVal'));
+                    input.removeClass('editing');
+                });
+                okButton.hide();
+                cancelButton.hide();
+                editButton.show();
+            });
+
+            okButton.on('click', function () {
+                okButton.hide();
+                cancelButton.hide();
+                editButton.show();
+                var alld = [];
+
+                iterateInputs(set, function (input) {
+                    input.prop('disabled', true);
+                    input.removeClass('editing');
+
+                    alld.push(ajaxWrapper({
+                        url: self.options.updateUrl,
+                        data: {
+                            ActivityType: self.options.activityType,
+                            ActivityID: self.options.activityId,
+                            ParentType: self.options.parentType,
+                            ParentID: self.options.parentId,
+                            FieldName: input.data('field'),
+                            Value: input.val()
+                        }
+                    }).done(function (res) {
+                        if (res.result != "ok") {
+                            alert('failed');
+                            input.val(input.data('originalVal'));
+                        }
+                    }).fail(function (e) {
+                        console.log(e);
+                        alert('fail');
+                        input.val(input.data('originalVal'));
+                    }));
+                });
+                $.when.apply($, alld).done(updateValues);
+            });
+
+            var elems = $('<div></div>');
+            elems.append(editButton);
+            elems.append(okButton);
+            elems.append(cancelButton);
+            set.after(elems);
+
+        });
+
+    };
+
+    init();
+    updateValues();
+
 }

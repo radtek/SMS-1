@@ -665,6 +665,18 @@ a.removeupload {
 .alert-warning {
   border-color: #dfb56c;
 }
+.magicEdit input,
+input.magicEdit {
+  border: 1px solid transparent;
+  background-color: transparent;
+}
+.pendingUpdate {
+  color: purple;
+}
+.magicEdit input.editing,
+input.magicEdit.editing {
+  border: 1px solid rgba(172, 172, 172, 0.44);
+}
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
     cursor: pointer;

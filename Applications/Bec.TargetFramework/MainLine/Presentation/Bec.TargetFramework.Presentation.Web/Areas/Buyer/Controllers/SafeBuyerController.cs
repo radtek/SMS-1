@@ -111,27 +111,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
             var aSelect = ODataHelper.Select<SmsBankAccountCheckDTO>(a => new { a.CheckedOn, a.IsMatch, a.BankAccountNumber, a.SortCode, a.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.SmsTransaction.OrganisationID });
             var aFilter = ODataHelper.Filter<SmsBankAccountCheckDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaotxID && x.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.UserAccountOrganisationID == uaoID);
+            var aOrderBy = ODataHelper.OrderBy<SmsBankAccountCheckDTO>(x => new { x.CheckedOn }) +" desc";
 
+            List<VOrganisationBankAccountsWithStatusDTO> orgBankAccounts = null;
             var r = new List<object>();
-            foreach (var res in (await QueryClient.QueryAsync<SmsBankAccountCheckDTO>("SmsBankAccountChecks", aSelect + aFilter)).OrderByDescending(x => x.CheckedOn))
+            foreach (var res in await QueryClient.QueryAsync<SmsBankAccountCheckDTO>("SmsBankAccountChecks", aSelect + aFilter + aOrderBy))
             {
-                var accountNumber = res.BankAccountNumber;
-                var sortCode = res.SortCode;
+                //only one org for one tx:
+                if (orgBankAccounts == null) 
+                    orgBankAccounts = await BankAccountClient.GetOrganisationBankAccountsAsync(res.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.SmsTransaction.OrganisationID);
+
                 var result = "nomatch";
 
                 if (res.IsMatch)
                 {
-                    var orgID = res.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.SmsTransaction.OrganisationID;
                     result = "warn";
-                    var bSelect = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.IsActive, Status = x.OrganisationBankAccountStatus.Select(y => new { y.StatusChangedOn, y.StatusTypeValue.Name }) });
-                    var bFilter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
-                    var bas = await QueryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", bSelect + bFilter);
-                    var ba = bas.SingleOrDefault();
-                    if (ba != null && ba.IsActive)
-                    {
-                        var st = ba.OrganisationBankAccountStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
-                        if (st.StatusTypeValue.Name == "Safe") result = "match";
-                    }
+                    var ba = orgBankAccounts.SingleOrDefault(x => x.BankAccountNumber == res.BankAccountNumber && x.SortCode == res.SortCode);
+                    if (ba != null && ba.IsActive && ba.Status == "Safe")
+                        result = "match";
                 }
                 r.Add(new { date = res.CheckedOn, accountNumber = res.BankAccountNumber, sortCode = res.SortCode, result = result });
             }

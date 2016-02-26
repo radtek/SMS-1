@@ -7,6 +7,20 @@
     setupTabs();
     setupState();
 
+    $('#lenderSearch').lenderSearch({
+        searchUrl: $('#lenderSearch').data("url")
+    });
+
+    var content = $('#content');
+    var m = new magicEdit({
+        url: content.data('edit-url'),
+        activityType: content.data('activity-type'),
+        activityId: content.data('activity-id'),
+        parentType: content.data('parent-type'),
+        parentId: content.data('parent-id'),
+        updateUrl: content.data('update-url')
+    });
+
     function setupDates() {
         $('.format-date').each(function () {
             $(this).text(dateStringNoTime($(this).data("val")));

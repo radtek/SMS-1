@@ -401,6 +401,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		Guid AddNewsArticle(NewsArticleDTO dto);
+
+		/// <returns></returns>
+		Task AddOrModifyFieldUpdateAsync(FieldUpdateDTO dto);
+
+		/// <returns></returns>
+		void AddOrModifyFieldUpdate(FieldUpdateDTO dto);
 	}
 
 	public partial interface INotificationLogicClient : IClientBase	{	
@@ -2739,6 +2745,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<NewsArticleDTO, Guid>("api/MiscLogic/AddNewsArticle", dto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task AddOrModifyFieldUpdateAsync(FieldUpdateDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<FieldUpdateDTO>("api/MiscLogic/AddOrModifyFieldUpdate", dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void AddOrModifyFieldUpdate(FieldUpdateDTO dto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<FieldUpdateDTO>("api/MiscLogic/AddOrModifyFieldUpdate", dto, _user)).Wait();
 		}
 
 		#endregion

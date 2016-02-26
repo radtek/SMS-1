@@ -36,5 +36,29 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public async Task AddOrModifyFieldUpdate(FieldUpdateDTO dto)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var entity = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.SingleOrDefault(x=>
+                    x.ActivityType == dto.ActivityType &&
+                    x.ActivityID == dto.ActivityID &&
+                    x.ParentType == dto.ParentType &&
+                    x.ParentID == dto.ParentID &&
+                    x.FieldName == dto.FieldName);
+
+                if (entity == null)
+                    scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.Add(dto.ToEntity());
+                else
+                {
+                    entity.ModifiedOn = dto.ModifiedOn;
+                    entity.UserAccountOrganisationID = dto.UserAccountOrganisationID;
+                    entity.Value = dto.Value;
+                }
+                
+                await scope.SaveChangesAsync();
+            }
+        }
+
     }
 }

@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Entities.Enums;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
@@ -20,6 +21,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public IAddressLogicClient AddressClient { get; set; }
         public IUserLogicClient UserClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
+        public IMiscLogicClient MiscClient { get; set; }
 
         public ActionResult Index()
         {
@@ -88,6 +90,54 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
             JObject res = await QueryClient.QueryAsync("Lenders", select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
+        }
+
+        public async Task<ActionResult> GetFieldUpdates(int activityType, Guid activityID)
+        {
+            await EnsureCanAccessFieldUpdates(activityType, activityID);
+            var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.FieldName, x.Value, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
+            var filter = ODataHelper.Filter<FieldUpdateDTO>(x => x.ActivityType == activityType && x.ActivityID == activityID);
+            var res = await QueryClient.QueryAsync("FieldUpdates", select + filter);
+            JObject ret = new JObject();
+            foreach (var item in res["Items"])
+            {
+                ret.Add(((JValue)item["FieldName"]).Value.ToString(), item);
+            }
+            return Content(ret.ToString(Formatting.None), "application/json");
+        }
+
+        public async Task<ActionResult> PostFieldUpdate(FieldUpdateDTO dto)
+        {
+            dto.UserAccountOrganisationID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            dto.ModifiedOn = DateTime.Now;
+            try
+            {
+                await EnsureCanAccessFieldUpdates(dto.ActivityType, dto.ActivityID);
+                await MiscClient.AddOrModifyFieldUpdateAsync(dto);
+                return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { result = "failed" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private async Task EnsureCanAccessFieldUpdates(int activityType, Guid activityID)
+        {
+            var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            switch ((ActivityType)activityType)
+            {
+                case ActivityType.SmsTransaction:
+                    var selectTx = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID, users = x.SmsUserAccountOrganisationTransactions.Select(y => new { y.UserAccountOrganisationID }) });
+                    var filterTx = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == activityID);
+                    var resultTx = (await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", selectTx + filterTx)).Single();
+                    if (resultTx.OrganisationID == orgId || resultTx.SmsUserAccountOrganisationTransactions.Any(x => x.UserAccountOrganisationID == uaoId)) 
+                        return;
+                    break;
+            }
+            throw new AccessViolationException("Operation failed");
         }
     }
 }

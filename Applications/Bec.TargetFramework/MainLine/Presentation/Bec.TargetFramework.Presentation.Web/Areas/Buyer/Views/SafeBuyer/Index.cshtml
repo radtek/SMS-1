@@ -10,7 +10,17 @@
     var heading = "";
 }
 
-<div id="content" class="buyer-transactions" data-advised="@Model.SmsTransaction.IsProductAdvised" data-purchased="@Model.SmsTransaction.InvoiceID.HasValue" data-declined="@Model.SmsTransaction.ProductDeclinedOn.HasValue" data-accepted="@Model.SmsTransaction.ProductAcceptedOn.HasValue">
+<div id="content" class="buyer-transactions"
+     data-advised="@Model.SmsTransaction.IsProductAdvised"
+     data-purchased="@Model.SmsTransaction.InvoiceID.HasValue"
+     data-declined="@Model.SmsTransaction.ProductDeclinedOn.HasValue"
+     data-accepted="@Model.SmsTransaction.ProductAcceptedOn.HasValue"
+     data-edit-url="@Url.Action("GetFieldUpdates", "App", new { area = "" })"
+     data-update-url="@Url.Action("PostFieldUpdate", "App", new { area = "" })"
+     data-activity-type="@ActivityType.SmsTransaction.GetIntValue()"
+     data-activity-id="@Model.SmsTransactionID"
+     data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()"
+     data-parent-id="@Model.SmsTransactionID">
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
             <i class="fa fa-home fa-lg margin-right-10"></i>
@@ -54,22 +64,25 @@
                                     }*@
                                 <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.SmsTransaction.ProductAcceptedOn.HasValue? "block" : "none")">
                                     <div id="detailsRowTransactionAddress" class="col-sm-6 col-lg-4">
-                                        <dl>
-                                            <dt>Transaction Address:</dt>
-                                            <dd>
-                                                <p id="txLine1">@Model.SmsTransaction.Address.Line1</p>
-                                                <p id="txLine2">@Model.SmsTransaction.Address.Line2</p>
-                                                <p id="txTown">@Model.SmsTransaction.Address.Town</p>
-                                                <p id="txCounty">@Model.SmsTransaction.Address.County</p>
-                                                <p id="txPostalCode">@Model.SmsTransaction.Address.PostalCode</p>
-                                            </dd>
-                                            <dt>Mortgage Lender:</dt>
-                                            <dd><p id="mortgageLender">@(Model.SmsTransaction.LenderName ?? "None")</p></dd>
-                                            <dt>Mortgage App. Number:</dt>
-                                            <dd><p id="mortgageAppNumber">@(Model.SmsTransaction.MortgageApplicationNumber ?? "None")</p></dd>
-                                            <dt>Price:</dt>
-                                            <dd><p id="purchasePrice" class=format-number data-val="@Model.SmsTransaction.Price"></p></dd>
-                                        </dl>
+
+                                        <strong>Transaction Address:</strong>
+                                        <p id="txLine1">@Model.SmsTransaction.Address.Line1</p>
+                                        <p id="txLine2">@Model.SmsTransaction.Address.Line2</p>
+                                        <p id="txTown">@Model.SmsTransaction.Address.Town</p>
+                                        <p id="txCounty">@Model.SmsTransaction.Address.County</p>
+                                        <p id="txPostalCode">@Model.SmsTransaction.Address.PostalCode</p>
+
+                                        <div class="magicEdit">
+                                            <p><strong>Mortgage Lender:</strong></p>
+                                            @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { maxlength = 50, id = "lenderSearch", data_field = "LenderName", data_parent_id = Model.SmsTransactionID, data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
+                                            <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
+                                            <p><strong>Mortgage App. Number:</strong></p>
+                                            @Html.TextBoxFor(m => m.SmsTransaction.MortgageApplicationNumber, new { maxlength = 50, data_field = "MortgageApplicationNumber", data_parent_id = Model.SmsTransactionID })
+                                        </div>
+
+                                        <p><strong>Price:</strong></p>
+                                        @Html.TextBoxFor(m => m.SmsTransaction.Price, new { @class="magicEdit", data_field = "Price", data_parent_id = Model.SmsTransactionID })
+
                                     </div>
                                     <div class="col-sm-6 col-lg-4">
                                         <dl>
@@ -194,5 +207,7 @@
     </div>
 </div>
 @section Scripts {
+    @Scripts.Render("~/Scripts/typeahead")
+    @Scripts.Render("~/Scripts/lendersearch")
     <script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/Index")"></script>
 }
