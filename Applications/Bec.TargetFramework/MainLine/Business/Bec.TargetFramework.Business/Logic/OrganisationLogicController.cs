@@ -1141,13 +1141,13 @@ namespace Bec.TargetFramework.Business.Logic
 
         public bool CanLenderNameBeUsed(string lenderName)
         {
-            lenderName = lenderName != null 
-                ? lenderName.Trim().ToLower()
+            var trimmedLenderName = lenderName != null 
+                ? lenderName.Trim().ToLowerInvariant()
                 : string.Empty;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return !scope.DbContexts.Get<TargetFrameworkEntities>().Lenders
-                    .Any(x => x.Name.ToLower() == lenderName && x.OrganisationID != null);
+                    .Any(x => x.Name.ToLower() == trimmedLenderName && x.OrganisationID != null);
             }
         }
     }
