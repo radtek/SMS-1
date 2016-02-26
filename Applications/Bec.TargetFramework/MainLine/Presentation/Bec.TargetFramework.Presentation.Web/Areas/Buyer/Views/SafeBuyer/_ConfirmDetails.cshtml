@@ -1,6 +1,7 @@
 ﻿@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
+@using Bec.TargetFramework.Web.Helpers
 @model SmsUserAccountOrganisationTransactionDTO
 @{
     var canEditTransactionDetails = Model.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue();
@@ -169,7 +170,7 @@
                                         </fieldset>
                                         <fieldset>
                                             <legend>Personal Bank Account(s)</legend>
-                                            @Html.Partial("_SrcFundsBankAccounts")
+                                            @Html.Partial("_SrcFundsBankAccounts", new { IsRequired = true }.ToExpando())
                                         </fieldset>
                                     </div>
                                     @if (canEditTransactionDetails)

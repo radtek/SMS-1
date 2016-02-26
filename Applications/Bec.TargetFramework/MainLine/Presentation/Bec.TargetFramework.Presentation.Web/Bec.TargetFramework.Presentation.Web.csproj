@@ -204,9 +204,8 @@
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\Models\FunctionEditEntry.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
-    <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
+    <Compile Include="Areas\SmsTransaction\Controllers\SmsClientController.cs" />
     <Compile Include="Areas\Buyer\Controllers\SafeBuyerController.cs" />
-    <Compile Include="Areas\SmsTransaction\Controllers\AdditionalBuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\TransactionController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
@@ -230,6 +229,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Edit.cs" />
+    <Compile Include="Helpers\ExpandoObjectExtensions.cs" />
     <Compile Include="Helpers\ODataHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -274,6 +274,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
     <Content Include="Areas\Lender\Views\Transaction\Index.js" />
+    <Content Include="Areas\SmsTransaction\Views\SmsClient\AddSmsClient.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AdviseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
     <Content Include="BingSiteAuth.xml" />
@@ -327,11 +328,9 @@
     <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.js" />
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.js" />
     <Content Include="Areas\ProOrganisation\Views\Users\Registered.js" />
-    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_CheckBankAccount.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.js" />
-    <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.cshtml" />
@@ -920,6 +919,7 @@
     <Content Include="Views\Shared\Templates\_bankAccountChecksDetailsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\OrganisationSetting\EditOrganisationSettings.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Users\_RegisteredDetailsTmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\SmsClient\AddSmsClient.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1059,8 +1059,6 @@
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_relatedPartiesTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_primaryBuyerDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />

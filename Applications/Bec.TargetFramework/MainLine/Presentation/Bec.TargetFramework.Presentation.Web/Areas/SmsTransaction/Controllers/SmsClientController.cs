@@ -11,16 +11,20 @@ using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
     [ClaimsRequired("Add", "SmsTransaction", Order = 1000)]
-    public class GiftorController : ApplicationControllerBase
+    public class SmsClientController : ApplicationControllerBase
     {
+        private static IEnumerable<UserAccountOrganisationTransactionType> AllowedParties = new[] { UserAccountOrganisationTransactionType.AdditionalBuyer, UserAccountOrganisationTransactionType.Giftor };
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
-        public async Task<ActionResult> Get(Guid transactionID)
+        public async Task<ActionResult> Get(Guid transactionID, UserAccountOrganisationTransactionType uaotType)
         {
+            ValidateRequestedUaotType(uaotType);
+
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
@@ -39,11 +43,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsUserAccountOrganisationTransactionID,
                 SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
             });
-            var giftorTypeID = UserAccountOrganisationTransactionType.Giftor.GetIntValue();
+            var smsClientTypeId = uaotType.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 
                 x.SmsTransactionID == transactionID &&
                 x.SmsTransaction.OrganisationID == orgID &&
-                x.SmsUserAccountOrganisationTransactionTypeID == giftorTypeID);
+                x.SmsUserAccountOrganisationTransactionTypeID == smsClientTypeId);
 
             var filter = ODataHelper.Filter(where);
 
@@ -51,21 +55,25 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public ActionResult ViewAddGiftor(Guid txID, int pageNumber)
+        public ActionResult ViewAddSmsClient(Guid txID, int pageNumber, UserAccountOrganisationTransactionType uaotType)
         {
+            ValidateRequestedUaotType(uaotType);
             ViewBag.pageNumber = pageNumber;
+            ViewBag.personaName = uaotType.GetStringValue();
             var model = new AddSmsClientDTO
             {
-                TransactionID = txID
+                TransactionID = txID,
+                UserAccountOrganisationTransactionType = uaotType
             };
 
-            return PartialView("_AddGiftor", model);
+            return PartialView("AddSmsClient", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddGiftor(AddSmsClientDTO model)
+        public async Task<ActionResult> AddSmsClient(AddSmsClientDTO model)
         {
+            ValidateRequestedUaotType(model.UserAccountOrganisationTransactionType);
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             try
             {
@@ -79,7 +87,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     BirthDate = model.BirthDate.Value,
                     TransactionID = model.TransactionID,
                     AssigningByOrganisationID = currentUser.OrganisationID,
-                    UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Giftor
+                    UserAccountOrganisationTransactionType = model.UserAccountOrganisationTransactionType,
+                    RegisteredHomeAddress = model.RegisteredHomeAddressDTO,
+                    SmsSrcFundsBankAccounts = model.SmsSrcFundsBankAccounts
                 };
 
                 await orgClient.AssignSmsClientToTransactionAsync(assignSmsClientToTransactionDto);
@@ -90,11 +100,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 return Json(new
                 {
                     result = false,
-                    title = "Adding Giftor Failed",
+                    title = "Adding Sms Client Failed",
                     message = ex.Message
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
+        private void ValidateRequestedUaotType(UserAccountOrganisationTransactionType uaotType)
+        {
+            if (!AllowedParties.Contains(uaotType))
+            {
+                throw new ArgumentException("The selected user type cannot be requested.");
+            }
+        }
     }
 }

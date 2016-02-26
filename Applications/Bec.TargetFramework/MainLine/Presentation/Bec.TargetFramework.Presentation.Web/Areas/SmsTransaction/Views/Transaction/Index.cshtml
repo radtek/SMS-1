@@ -89,20 +89,20 @@
                                             Additional Buyers
                                             <i class="fa fa-pulse fa-spinner margin-left-5" id="spinnerAdditionalBuyers" style="display:none;"></i>
                                             <span class="pull-right">
-                                                <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer" data-url="@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                                                <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer" data-url="@Url.Action("ViewAddSmsClient", "SmsClient", new {area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.AdditionalBuyer })"><i class="fa fa-plus margin-right-5"></i>Add</a>
                                             </span>
                                         </h3>
-                                        <div id="additionalBuyers" data-url="@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})"></div>
+                                        <div id="additionalBuyers" data-url="@Url.Action("Get", "SmsClient", new { area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.AdditionalBuyer })"></div>
                                     </div>
                                     <div class="well">
                                         <h3>
                                             Giftors
                                             <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerGiftors" style="display:none;"></i>
                                             <span class="pull-right">
-                                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor" data-url="@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor" data-url="@Url.Action("ViewAddSmsClient", "SmsClient", new {area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.Giftor })"><i class="fa fa-plus margin-right-5"></i>Add</a>
                                             </span>
                                         </h3>
-                                        <div id="giftors" data-url="@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})"></div>
+                                        <div id="giftors" data-url="@Url.Action("Get", "SmsClient", new { area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.Giftor })"></div>
                                     </div>
                                 </div>
                             </div>

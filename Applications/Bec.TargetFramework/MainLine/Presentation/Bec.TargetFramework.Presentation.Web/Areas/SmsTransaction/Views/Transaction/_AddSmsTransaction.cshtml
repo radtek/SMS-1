@@ -1,6 +1,7 @@
 ﻿@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
+@using Bec.TargetFramework.Web.Helpers
 @model AddSmsTransactionDTO
 
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addTransactionLabel" aria-hidden="true">
@@ -175,7 +176,7 @@
                                         </fieldset>
                                         <fieldset>
                                             <legend>Primary Buyer Source of Funds</legend>
-                                            @Html.Partial("_SrcFundsBankAccounts")
+                                            @Html.Partial("_SrcFundsBankAccounts", new { IsRequired = false }.ToExpando())
                                         </fieldset>
                                     </div>
 

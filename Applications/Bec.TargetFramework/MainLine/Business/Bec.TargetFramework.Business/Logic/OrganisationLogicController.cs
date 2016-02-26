@@ -732,13 +732,13 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (uaoTx.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue())
                 {
-                    uaoTx.SmsTransaction.Address = await GetOrAddAddressIfDoesntExist(uaoTx.SmsTransaction.Address, dto.SmsTransaction.Address, uaoTx.ContactID);
+                    uaoTx.SmsTransaction.Address = await CompareAndAddAddressIfChanged(uaoTx.SmsTransaction.Address, dto.SmsTransaction.Address, uaoTx.ContactID);
                     uaoTx.SmsTransaction.Price = dto.SmsTransaction.Price;
                     uaoTx.SmsTransaction.LenderName = dto.SmsTransaction.LenderName;
                     uaoTx.SmsTransaction.MortgageApplicationNumber = dto.SmsTransaction.MortgageApplicationNumber;
                 }
 
-                uaoTx.Address = await GetOrAddAddressIfDoesntExist(uaoTx.Address, dto.Address, uaoTx.ContactID);
+                uaoTx.Address = await CompareAndAddAddressIfChanged(uaoTx.Address, dto.Address, uaoTx.ContactID);
 
                 uaoTx.Contact.Salutation = dto.Contact.Salutation;
                 uaoTx.Contact.FirstName = dto.Contact.FirstName;
@@ -770,7 +770,8 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var bankAccount in srcFundsBankAccounts)
+                var bankAccountsToStore = srcFundsBankAccounts.Where(x => !string.IsNullOrWhiteSpace(x.AccountNumber) && !string.IsNullOrWhiteSpace(x.SortCode));
+                foreach (var bankAccount in bankAccountsToStore)
                 {
                     bankAccount.SmsSrcFundsBankAccountID = Guid.NewGuid();
                     bankAccount.SmsUserAccountOrganisationTransactionID = uaoTxID;
@@ -897,7 +898,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task<Address> GetOrAddAddressIfDoesntExist(Address address, AddressDTO addressDTO, Guid parentID)
+        private async Task<Address> CompareAndAddAddressIfChanged(Address address, AddressDTO addressDTO, Guid parentID)
         {
             if (address != null &&
                 address.Line1 == addressDTO.Line1 &&
@@ -907,6 +908,10 @@ namespace Bec.TargetFramework.Business.Logic
                 address.PostalCode == addressDTO.PostalCode)
                 return address;
 
+            if (string.IsNullOrWhiteSpace(addressDTO.Line1))
+            {
+                return null;
+            }
             using (var scope = DbContextScopeFactory.Create())
             {
                 var newAdd = new Address
@@ -919,7 +924,7 @@ namespace Bec.TargetFramework.Business.Logic
                     County = addressDTO.County,
                     PostalCode = addressDTO.PostalCode,
                     AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
-                    Name = String.Empty,
+                    Name = string.Empty,
                     IsPrimaryAddress = true,
                     CreatedOn = DateTime.Now,
                     CreatedBy = UserNameService.UserName
@@ -968,7 +973,7 @@ namespace Bec.TargetFramework.Business.Logic
                     SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
                     UserAccountOrganisationID = buyerUaoID,
                     SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
-                    Address = await GetOrAddAddressIfDoesntExist(null, assignSmsClientToTransactionDTO.RegisteredHomeAddress, uaoTxID),
+                    Address = await CompareAndAddAddressIfChanged(null, assignSmsClientToTransactionDTO.RegisteredHomeAddress, uaoTxID),
                     ContactID = contactId,
                     CreatedBy = UserNameService.UserName
                 };
