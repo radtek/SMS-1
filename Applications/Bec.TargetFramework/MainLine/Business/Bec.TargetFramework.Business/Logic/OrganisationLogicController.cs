@@ -1138,5 +1138,17 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveChangesAsync();
             }
         }
+
+        public bool CanLenderNameBeUsed(string lenderName)
+        {
+            lenderName = lenderName != null 
+                ? lenderName.Trim().ToLower()
+                : string.Empty;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return !scope.DbContexts.Get<TargetFrameworkEntities>().Lenders
+                    .Any(x => x.Name.ToLower() == lenderName && x.OrganisationID != null);
+            }
+        }
     }
 }

@@ -11,7 +11,9 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("RegisterLender", "Company", new { area = "Admin" })" method="POST" id="registerlender-form" class="smart-form" data-lender-search-url="@Url.Action("searchlenders", "App" , new { area="" })">
+                        <form action="@Url.Action("RegisterLender", "Company", new { area = "Admin" })" method="POST" id="registerlender-form" class="smart-form"
+                              data-lender-search-url="@Url.Action("searchlenders", "App" , new { area="" })"
+                              data-lender-dupe-check-url="@Url.Action("CheckLenderExists", "Company" , new { area="Admin" })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.OrganisationType)
@@ -22,7 +24,7 @@
                                         <label class="label">Lender Name</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.CompanyName, new { tabindex = "1", maxlength = 50, @class = "form-control", id = "companyName" })
+                                            @Html.TextBoxFor(m => m.CompanyName, new { tabindex = "1", maxlength = 50, @class = "form-control", id = "companyName", data_rule_lenderDupeCheck = true, data_lender_dupe_check_url = Url.Action("CheckLenderExists", "Company", new { Area = "Admin" }) })
                                             <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
                                         </label>
                                     </section>
@@ -39,7 +41,9 @@
                                     <section class="col col-8">
                                         <label class="label">Trading Names</label>
                                         <label class="input">
-                                            <input type="text" name="TradingNames[0]" maxlength="200" class="form-control" tabindex="3" data-url="@Url.Action("SearchLenders", "App", new { Area = "" })" />
+                                            <input type="text" name="TradingNames[0]" maxlength="200" class="form-control" tabindex="3" data-rule-lenderdupecheck="true"
+                                                   data-url="@Url.Action("SearchLenders", "App", new { Area = "" })"
+                                                   data-lender-dupe-check-url="@Url.Action("CheckLenderExists", "Company" , new { area="Admin" })" />
                                             <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
                                         </label>
                                     </section>
