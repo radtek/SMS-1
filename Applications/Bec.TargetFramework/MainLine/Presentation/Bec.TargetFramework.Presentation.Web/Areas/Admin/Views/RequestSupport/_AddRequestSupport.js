@@ -10,8 +10,18 @@
             ignore: '.skip',
             // Rules for form validation
             rules: {
-               
-
+                'Title': {
+                    required: true
+                },
+                'Telephone': {
+                    required: true
+                },
+                'Description': {
+                    required: true
+                },
+                'RequestType': {
+                    required: true
+                }
             },
             // Do not change code below
             errorPlacement: function (error, element) {
