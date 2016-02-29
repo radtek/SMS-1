@@ -20,6 +20,10 @@ $(function () {
                        hidden: true,
                    },
                    {
+                       field: "TicketNumber",
+                       title: "Ticket Number"
+                   },
+                   {
                        field: "UserAccountOrganisation.Contact.FullName",
                        title: "User Name",
                        template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
@@ -33,10 +37,7 @@ $(function () {
                        field: "Telephone",
                        title: "Telephone"
                    },
-                   {
-                       field: "TicketNumber",
-                       title: "TicketNumber"
-                   },
+                   
                    {
                        field: "Title",
                        title: "Title",
@@ -66,6 +67,10 @@ $(function () {
                         hidden: true,
                     },
                     {
+                        field: "TicketNumber",
+                        title: "Ticket Number"
+                    },
+                    {
                         field: "UserAccountOrganisation.Contact.FirstName",
                         title: "User Name",
                         template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
@@ -77,10 +82,6 @@ $(function () {
                    {
                        field: "Telephone",
                        title: "Telephone"
-                   },
-                   {
-                       field: "TicketNumber",
-                       title: "TicketNumber"
                    },
                     {
                         field: "Title",
