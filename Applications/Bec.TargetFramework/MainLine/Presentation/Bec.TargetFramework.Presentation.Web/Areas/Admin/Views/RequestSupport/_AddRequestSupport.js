@@ -30,7 +30,6 @@
             errorPlacement: function (error, element) {
                 error.insertAfter(element.parent());
             },
-
             submitHandler: submitFormRequest
         });
     }
@@ -46,7 +45,6 @@
             if (res.result === true){
                 location.reload();
             }
-                
             else {
                 handleModal({ url: $("#addRequestSupport-form").data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                     messageButton: function () {
@@ -65,6 +63,5 @@
             }
         });
     }
-
     setupFormRequest();
 });

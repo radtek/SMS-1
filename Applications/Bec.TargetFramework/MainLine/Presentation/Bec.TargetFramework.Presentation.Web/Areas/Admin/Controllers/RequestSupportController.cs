@@ -24,9 +24,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public IHelpLogicClient helpClient { get; set; }
 
         [ClaimsRequired("Add", "RequestSupport", Order = 1000)]
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            //ViewBag.roles = await GetRoles();
             return View();
         }
         [ClaimsRequired("Add", "RequestSupport", Order = 1000)]
@@ -64,7 +63,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName
             }, false);
-
             var where = ODataHelper.Expression<RequestSupportDTO>(x => x.IsClosed == isClosed);
             var filter = ODataHelper.Filter(where);
             return await queryClient.QueryAsync("RequestSupports", ODataHelper.RemoveParameters(Request) + select + filter);
@@ -108,7 +106,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CloseRequestSupport(Guid requestSupportId, int pageNumber = 1)
         {
-            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             try
             {
                 var filter = ODataHelper.Filter<RequestSupportDTO>(x => x.RequestSupportID == requestSupportId);
@@ -132,7 +129,5 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-
-       
     }
 }

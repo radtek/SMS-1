@@ -186,9 +186,7 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task<Guid> CreateRequestSupport(RequestSupportDTO requestSupportDto)
         {
             Ensure.That(requestSupportDto).IsNotNull();
-           
             requestSupportDto.RequestSupportID = Guid.NewGuid();
-
             using (var scope = DbContextScopeFactory.Create())
             {
                 var requestSupports = scope.DbContexts.Get<TargetFrameworkEntities>().RequestSupports;

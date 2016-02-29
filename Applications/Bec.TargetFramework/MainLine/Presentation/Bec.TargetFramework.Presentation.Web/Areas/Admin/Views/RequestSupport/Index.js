@@ -27,7 +27,6 @@ $(function () {
                        field: "UserAccountOrganisation.Contact.FullName",
                        title: "User Name",
                        template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
-
                    },
                    {
                        field: "UserAccountOrganisation.UserAccount.Email",
@@ -74,7 +73,7 @@ $(function () {
                         field: "UserAccountOrganisation.Contact.FirstName",
                         title: "User Name",
                         template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
-},
+                    },
                     {
                         field: "UserAccountOrganisation.UserAccount.Email",
                         title: "Email"
