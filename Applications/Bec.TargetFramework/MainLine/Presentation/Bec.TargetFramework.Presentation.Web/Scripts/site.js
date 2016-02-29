@@ -716,25 +716,95 @@ function magicEdit(options) {
     this.options = options;
     var self = this;
 
-    iterateSets = function (func) {
-        $('.magic-edit').each(function (index, elem) {
-            var set = func($(elem));
+    init();
+    updateValues();
+
+    function init() {
+        iterateSets(function (set) {
+            var editButton = $('<button class="btn btn-default"><i class="fa fa-edit"></i></button>');
+            var okButton = $('<button class="btn btn-default"><i class="fa fa-check accept"></i></button>');
+            var cancelButton = $('<button class="btn btn-default"><i class="fa fa-times reject"></i></button>');
+            var buttonContainer = $('<div class="magic-edit-button"></div>');
+            buttonContainer.append(editButton).append(okButton).append(cancelButton);
+            enterDisplayMode();
+
+            iterateInputs(set, function (input) {
+                input.prop('disabled', true);
+                input.data('originalVal', input.val());
+            });
+
+            editButton.on('click', function () {
+                iterateInputs(set, function (input) {                    
+                    input.prop('disabled', false);
+                    input.data('originalVal', input.val());
+                    input.addClass('editing');
+                });
+                enterEditMode();
+            });
+
+            cancelButton.on('click', function () {
+                iterateInputs(set, function (input) {
+                    input.prop('disabled', true);
+                    input.val(input.data('originalVal'));
+                    input.removeClass('editing');
+                });
+                enterDisplayMode();
+            });
+
+            okButton.on('click', function () {
+                enterDisplayMode();
+                var alld = [];
+
+                iterateInputs(set, function (input) {
+                    input.prop('disabled', true);
+                    input.removeClass('editing');
+
+                    var originalValue = input.data('originalVal');
+                    if (originalValue.trim() !== input.val()) {
+                        alld.push(ajaxWrapper({
+                            url: self.options.updateUrl,
+                            data: {
+                                ActivityType: self.options.activityType,
+                                ActivityID: self.options.activityId,
+                                ParentType: input.data('parent-type'),
+                                ParentID: input.data('parent-id'),
+                                FieldName: input.data('field'),
+                                Value: input.val()
+                            }
+                        }).done(function (res) {
+                            if (res.result != "ok") {
+                                alert('failed');
+                                input.val(input.data('originalVal'));
+                            }
+                        }).fail(function (e) {
+                            console.log(e);
+                            alert('fail');
+                            input.val(input.data('originalVal'));
+                        }));
+                    }
+                });
+                $.when.apply($, alld).done(updateValues);
+            });
+
+            set.append(buttonContainer);
+
+            function enterDisplayMode() {
+                okButton.hide();
+                cancelButton.hide();
+                editButton.show();
+                set.removeClass("editing");
+            }
+
+            function enterEditMode() {
+                okButton.show();
+                cancelButton.show();
+                editButton.hide();
+                set.addClass("editing");
+            }
         });
-    };
+    }
 
-    iterateInputs = function (set, func) {
-        var inputs;
-        if (set.is('input'))
-            inputs = set;
-        else
-            inputs = set.find('input');
-
-        inputs.each(function (i, l) {
-            func($(l));
-        });
-    };
-
-    updateValues = function () {
+    function updateValues() {
         ajaxWrapper({
             url: options.url,
             data: {
@@ -754,90 +824,25 @@ function magicEdit(options) {
                 });
             });
         });
-    };
+    }
 
-    init = function () {
-        iterateSets(function (set) {
-            var editButton = $('<button class="btn btn-default"><i class="fa fa-edit"></i></button>');
-            var okButton = $('<button class="btn btn-default"><i class="fa fa-check accept"></i></button>');
-            var cancelButton = $('<button class="btn btn-default"><i class="fa fa-times reject"></i></button>');
-            var buttonContainer = $('<div class="magic-edit-button"></div>');
-            buttonContainer.append(editButton).append(okButton).append(cancelButton);
-
-            okButton.hide();
-            cancelButton.hide();
-
-            iterateInputs(set, function (input) {
-                input.prop('disabled', true);
-                input.data('originalVal', input.val());
-            });
-
-            editButton.on('click', function () {
-                iterateInputs(set, function (input) {                    
-                    input.prop('disabled', false);
-                    input.data('originalVal', input.val());
-                    input.addClass('editing');
-                });
-                okButton.show();
-                cancelButton.show();
-                editButton.hide();
-                set.addClass("editing");
-            });
-
-            cancelButton.on('click', function () {
-                iterateInputs(set, function (input) {
-                    input.prop('disabled', true);
-                    input.val(input.data('originalVal'));
-                    input.removeClass('editing');
-                });
-                okButton.hide();
-                cancelButton.hide();;
-                editButton.show();
-                set.removeClass("editing");
-            });
-
-            okButton.on('click', function () {
-                okButton.hide();
-                cancelButton.hide();
-                editButton.show();
-                set.removeClass("editing");
-                var alld = [];
-
-                iterateInputs(set, function (input) {
-                    input.prop('disabled', true);
-                    input.removeClass('editing');
-
-                    alld.push(ajaxWrapper({
-                        url: self.options.updateUrl,
-                        data: {
-                            ActivityType: self.options.activityType,
-                            ActivityID: self.options.activityId,
-                            ParentType: input.data('parent-type'),
-                            ParentID: input.data('parent-id'),
-                            FieldName: input.data('field'),
-                            Value: input.val()
-                        }
-                    }).done(function (res) {
-                        if (res.result != "ok") {
-                            alert('failed');
-                            input.val(input.data('originalVal'));
-                        }
-                    }).fail(function (e) {
-                        console.log(e);
-                        alert('fail');
-                        input.val(input.data('originalVal'));
-                    }));
-                });
-                $.when.apply($, alld).done(updateValues);
-            });
-
-            set.append(buttonContainer);
-            
+    function iterateInputs(set, func) {
+        var inputs = set.find('.edit input');
+        inputs.each(function (i, l) {
+            func($(l));
         });
+    }
 
-    };
+    function iterateViews(set, func) {
+        var inputs = set.find('.view [data-field]');
+        inputs.each(function (i, l) {
+            func($(l));
+        });
+    }
 
-    init();
-    updateValues();
-
+    function iterateSets(func) {
+        $('.magic-edit').each(function (index, elem) {
+            func($(elem));
+        });
+    }
 }

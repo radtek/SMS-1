@@ -616,6 +616,12 @@ a.removeupload {
   word-break: normal;
   white-space: pre-wrap;
 }
+.transaction-details-table tbody tr td:first-child {
+  width: 150px;
+}
+.input-group input.postcode-lookup {
+  width: 120px;
+}
 .match {
   color: #7d981c;
 }
@@ -667,22 +673,42 @@ a.removeupload {
 }
 .magic-edit {
   position: relative;
-  border: 1px solid transparent;
+  /*border: 1px solid transparent;*/
   padding: 5px;
 }
 .magic-edit input {
   border: 1px solid transparent;
   background-color: transparent;
   padding: 5px;
+  background-color: white;
+  margin-bottom: 4px;
 }
 .magic-edit .magic-edit-button {
   position: absolute;
   top: 5px;
   right: 5px;
 }
+.magic-edit .hidden-display {
+  display: none;
+}
+.magic-edit .edit {
+  display: none;
+}
+.magic-edit .edit input {
+  display: block;
+}
 .magic-edit.editing {
-  border-color: rgba(172, 172, 172, 0.44);
-  background-color: white;
+  /*border-color:rgba(172, 172, 172, 0.44);*/
+  /*background-color:white;*/
+}
+.magic-edit.editing .hidden-display {
+  display: block;
+}
+.magic-edit.editing .edit {
+  display: block;
+}
+.magic-edit.editing .view {
+  display: none;
 }
 .accept {
   color: #24bb43;
