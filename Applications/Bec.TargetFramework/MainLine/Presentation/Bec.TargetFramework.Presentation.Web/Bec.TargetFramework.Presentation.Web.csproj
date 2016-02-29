@@ -1069,6 +1069,7 @@
     <Content Include="Content\WelcomePack\SMS Frequently Asked Questions.pdf" />
     <Content Include="Content\WelcomePack\SMS Professional Users - Creating Your Account.pdf" />
     <Content Include="Content\WelcomePack\SMS - Safe Send.pdf" />
+    <Content Include="Content\WelcomePack\Organisation Administrator%27s Guide to the Safe Move Scheme.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

@@ -20,6 +20,10 @@
                         {
                             <h5>User Guides:</h5>
                             <ul>
+                                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "ProUsers"))
+                                {
+                                    <li><p>@Html.ActionLink("Organisation Administrator's Guide to the Safe Move Scheme", "OrganisationAdministratorsGuideToTheSafeMoveScheme")</p></li>
+                                }
                                 <li><p>@Html.ActionLink("How To Use the Safe Move Scheme a Guide For Firms", "HowToUse")</p></li>
                                 <li><p>@Html.ActionLink("Quick Start guide for Professional Users", "QuickStart")</p></li>
                                 <li><p>@Html.ActionLink("SMS - Creating a new account", "CreatingAccount")</p></li>
