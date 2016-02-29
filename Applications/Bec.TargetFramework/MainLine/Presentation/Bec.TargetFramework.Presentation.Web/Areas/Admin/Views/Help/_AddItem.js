@@ -3,7 +3,9 @@
     var itemListContainer = $("#helpItemListContainer");
 
     function ignore(e) {
-        if (e) e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
     }
 
     // submit from when Save button clicked
@@ -51,8 +53,10 @@
                              ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
                             '</span>' +
                           ' </li>';
-            return itemHtml
-        } else return '';
+            return itemHtml;
+        } else {
+            return '';
+        }
     }
 
     $(document).delegate(".help-item-element", "click", function () {
@@ -70,11 +74,11 @@
                 if (response.Item != null) {
                     $('#helpItemId').val(itemId);
                     btnAddItem.text("Save");
-                    $('#helpItemTitle').val(response.Item.Title)
-                    $('#helpItemSelector').val(response.Item.Selector)
-                    $('#helpItemDescription').val(response.Item.Description)
-                    $('#helpItemPosition').val(response.Item.Position)
-                    $('#helpItemTabContainerId').val(response.Item.TabContainerId)
+                    $('#helpItemTitle').val(response.Item.Title);
+                    $('#helpItemSelector').val(response.Item.Selector);
+                    $('#helpItemDescription').val(response.Item.Description);
+                    $('#helpItemPosition').val(response.Item.Position);
+                    $('#helpItemTabContainerId').val(response.Item.TabContainerId);
                 }
             }
         })
@@ -91,13 +95,13 @@
             type: 'POST'
         })
         .done(function (response) {
-            if (response != null || response != undefined) {
+            if (response !== null || response !== undefined) {
                 if (response.result) {
                     loadItemsForList(response.Items);
                     clearText();
                 }
             }
-        })
+        });
     });
 
     function validateSubmit(form) {
@@ -107,11 +111,11 @@
             data: $(form).serializeArray(),
             type: 'POST'
         }).done(function (response) {
-            if (response != null || response != undefined) {
+            if (response !== null || response !== undefined) {
                 if (response.result) {
                     loadItemsForList(response.Items);
                     clearText();
-                }                
+                }
             }
         });
     }
@@ -131,7 +135,7 @@
         var newOrder = [];
         items.each(function () {
             var order = $(this).data("item-order");
-            if (order != null && order != undefined) {
+            if (order !== null && order !== undefined) {
                 newOrder.push(order);
             }
         });
@@ -143,7 +147,7 @@
             },
             type: 'POST'
         }).done(function (response) {
-            if (response != null || response != undefined) {
+            if (response !== null || response !== undefined) {
                 if (response.result) {
                     loadItemsForList(response.Items);
                 }

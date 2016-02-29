@@ -222,15 +222,4 @@ insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive
   (select "RoleID" from "Role" where "RoleName" = 'Support Administrator' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'SupportFunctions' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
-  
-  	insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
- values (
-  (select "RoleID" from "Role" where "RoleName" = 'Support Administrator' limit 1),
-  (select "ResourceID" from "Resource" where "ResourceName" = 'ShowMeHow' limit 1),
-  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
-
-insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
- values (
-  (select "RoleID" from "Role" where "RoleName" = 'Support Administrator' limit 1),
-  (select "ResourceID" from "Resource" where "ResourceName" = 'Callout' limit 1),
-  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
+ 

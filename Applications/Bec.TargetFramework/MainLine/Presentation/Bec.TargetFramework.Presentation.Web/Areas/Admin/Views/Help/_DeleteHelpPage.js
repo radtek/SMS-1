@@ -1,7 +1,9 @@
 ﻿$(function () {
 
     function ignore(e) {
-        if (e) e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
     }
 
     // submit from when Save button clicked
@@ -21,4 +23,4 @@
         $("#submitDeleteHelp").prop('disabled', true);
         form.submit();
     }
-})
+});

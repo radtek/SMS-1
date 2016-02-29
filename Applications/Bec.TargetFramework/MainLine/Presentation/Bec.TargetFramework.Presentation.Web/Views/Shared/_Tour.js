@@ -13,13 +13,13 @@
     function getStepCallouts(callouts) {
         var step = [];
         if (callouts != null && callouts.length > 0) {            
-            for (i = 0; i < callouts.length; i++) {
+            for (var i = 0; i < callouts.length; i++) {
                 if ($(callouts[i].Selector).length > 0) {
                     step.push({
                         element: callouts[i].Selector,
                         intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title"  style="font-size:15px">' + callouts[i].Title + '</h4></div><div class="modal-body"  style="padding: 5px !important;">' + callouts[i].Description + '</div>',
                         position: getPosition(callouts[i].Position)
-                    })
+                    });
                 }
             }
 
@@ -30,8 +30,7 @@
                 step.unshift({
                     intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title" style="font-size:15px">There are some changes in this version</h4></div><div class="modal-body"  style="padding: 5px !important;">Click next to see details</div>',
                     position: 'top'
-
-                })
+                });
             }
         }
         return step;
