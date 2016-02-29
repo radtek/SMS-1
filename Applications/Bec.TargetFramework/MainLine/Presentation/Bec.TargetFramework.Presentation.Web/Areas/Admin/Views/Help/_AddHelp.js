@@ -57,6 +57,11 @@
         submitHandler: validateSubmit
     });
 
+    function validateSubmit(form) {
+        $("#submitAddHelp").prop('disabled', true);
+        form.submit();
+    }
+
     function setDefaultEffectiveDate() {
         $("#effectiveDateInput").datepicker('setDate', new Date());
         $('#EffectiveOn').val($("#effectiveDateInput").val());
@@ -66,11 +71,7 @@
         $("#effectiveDateInput").val("");
         $('#EffectiveOn').val("");
     }
-
-    function validateSubmit(form) {
-        $("#submitAddHelp").prop('disabled', true);
-        form.submit();
-    }
+    
     function disablePagefields(pageName) {
         $('#PageName').val(pageName);
         $('#PageUrl').val('HomePage');
@@ -98,9 +99,9 @@
         $("#tourSection").css('display', 'none');
     }
 
-    $('#pageType').on('change', function () {
+    $('#PageType').on('change', function () {
 
-        var valOfThis = $('#pageType option:selected').val();
+        var valOfThis = $('#PageType option:selected').val();
         if (valOfThis === "1") {
             setDefaultEffectiveDate();
             disablePagefields("Tour");

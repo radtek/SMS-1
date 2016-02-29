@@ -30,13 +30,14 @@
                             </div>
                             <div class="tab-content">
                                 <div class="tab-pane active col-md-12" id="step1">
-                                    <form id="editHelp-form" class="smart-form margin-top-0" data-url="@Url.Action("EditHelp", "Help", new { area = "Admin" })" data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })">
+                                    <form id="editHelp-form" class="smart-form margin-top-0" action="@Url.Action("EditHelp", "Help", new { area = "Admin" })" method="POST">
                                         @Html.ValidationBootstrap()
                                         @Html.AntiForgeryToken()
+                                        @Html.HiddenFor(m=>m.HelpPageID)
                                         <fieldset>
                                             <legend>Page Information</legend>
                                             <section>
-                                                <label class="label">Type:</label>
+                                                <label class="label">Page Type:</label>
                                                 <label class="select">
                                                     @{
                                                         var types = (IList<SelectListItem>)ViewBag.Types;
@@ -47,18 +48,19 @@
                                             </section>
                                             <section>
                                                 <label class="label">Page Name:</label>
-                                                <label class="input ">
+                                                <label class="input">
                                                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                                    
                                                     @Html.TextBoxFor(m => m.PageName, new { tabindex = "2", maxlength = 100 })
+                                                    @Html.HiddenFor(m => m.PageName, new { id = "hiddenName" })
                                                 </label>
                                             </section>
 
-                                            <section>
+                                            <section id="pageUrlSection">
                                                 <label class="label">Page URL:</label>
                                                 <label class="input">
                                                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                                     @Html.TextBoxFor(m => m.PageUrl, new { tabindex = "3", maxlength = 100 })
+                                                    @Html.HiddenFor(m => m.PageUrl, new { id = "hiddenUrl" })
                                                 </label>
                                             </section>
                                         </fieldset>
@@ -70,25 +72,8 @@
                                         <legend>Items</legend>
                                     </fieldset>
                                     <div class="col-md-5" style="margin-right:15px; padding-top:10px">
-                                        <div id="addListItem" style="margin-left: 20px;">
-                                            <ul class="helpItemList">
-                                                <li class="ui-state-default" data-item-id="">
-                                                    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-                                                    <span class="help-item-title">Item 1</span>
-                                                    <span class="help-item-btn">
-                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
-                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
-                                                    </span>
-                                                </li>
-                                                <li class="ui-state-default" data-item-id="">
-                                                    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-                                                    <span class="help-item-title">Item 2</span>
-                                                    <span class="help-item-btn">
-                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-times"></i></a>
-                                                        <a class="btn btn-primary btn-sm" data-modallink="true" data-url=""><i class="fa fa-edit"></i></a>
-                                                    </span>
-                                                </li>
-                                            </ul>
+                                        <div id="editListItem" style="margin-left: 20px;">
+                                            <ul class="helpItemList" id="helpItemListContainer" data-update-order-url="@Url.Action("UpdateTemporaryOrderOnEditPage", "Help", new { area = "Admin" })"></ul>
                                         </div>
                                     </div>
                                     <div class="col-md-6" style="border-left: 1px solid rgb(189, 189, 189);">

@@ -20,8 +20,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
     {
         public IAddressLogicClient AddressClient { get; set; }
         public IUserLogicClient UserClient { get; set; }
-        public IQueryLogicClient QueryClient { get; set; }
-        public ICalloutLogicClient calloutClient { get; set; }
+        public IQueryLogicClient QueryClient { get; set; }        
         public IHelpLogicClient helpClient { get; set; }
 
         public ActionResult Index()

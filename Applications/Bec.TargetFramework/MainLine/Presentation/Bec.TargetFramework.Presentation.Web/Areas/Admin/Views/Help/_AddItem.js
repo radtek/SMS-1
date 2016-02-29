@@ -5,6 +5,7 @@
     function ignore(e) {
         if (e) e.preventDefault();
     }
+
     // submit from when Save button clicked
     btnAddItem.click(function () {
         $("#addItem-form").submit();
@@ -41,15 +42,17 @@
     });
 
     function createItem(item) {
-        var itemHtml = '<li class="ui-state-default" data-item-id="" data-item-order="' + item.DisplayOrder + '">' +
-                        '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
-                        '<span class="help-item-title">' + item.Title + '</span>' +
-                        ' <span class="help-item-btn">' +
-                         ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element-delete"><i class="fa fa-times"></i></a>' +
-                         ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
-                        '</span>' +
-                      ' </li>';
-        return itemHtml
+        if (item.Status != 3) {
+            var itemHtml = '<li class="ui-state-default" data-item-id="" data-item-order="' + item.DisplayOrder + '">' +
+                            '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
+                            '<span class="help-item-title">' + item.Title + '</span>' +
+                            ' <span class="help-item-btn">' +
+                             ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element-delete"><i class="fa fa-times"></i></a>' +
+                             ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
+                            '</span>' +
+                          ' </li>';
+            return itemHtml
+        } else return '';
     }
 
     $(document).delegate(".help-item-element", "click", function () {
@@ -66,7 +69,7 @@
             if (response != null || response != undefined) {
                 if (response.Item != null) {
                     $('#helpItemId').val(itemId);
-                    $("#submitAddItem").text("Save");
+                    btnAddItem.text("Save");
                     $('#helpItemTitle').val(response.Item.Title)
                     $('#helpItemSelector').val(response.Item.Selector)
                     $('#helpItemDescription').val(response.Item.Description)
@@ -89,8 +92,10 @@
         })
         .done(function (response) {
             if (response != null || response != undefined) {
-                loadItemsForList(response.Items);
-                clearText();
+                if (response.result) {
+                    loadItemsForList(response.Items);
+                    clearText();
+                }
             }
         })
     });
@@ -103,8 +108,10 @@
             type: 'POST'
         }).done(function (response) {
             if (response != null || response != undefined) {
-                loadItemsForList(response.Items);
-                clearText();
+                if (response.result) {
+                    loadItemsForList(response.Items);
+                    clearText();
+                }                
             }
         });
     }
@@ -114,7 +121,7 @@
         $("#addItem-form select").prop('selectedIndex', '0');
         $("#addItem-form textarea").val('');
         $("#addItem-form input[type=text]").first().focus();
-        $("#submitAddItem").text("Add");
+        btnAddItem.text("Add");
         $("#helpItemId").val("");
         $('.help-item-element').prop('disabled', false);
     }

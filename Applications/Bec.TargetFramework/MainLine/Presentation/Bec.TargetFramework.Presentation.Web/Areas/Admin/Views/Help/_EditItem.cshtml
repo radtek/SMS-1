@@ -1,11 +1,10 @@
-﻿
-@using Bec.TargetFramework.Entities
+﻿@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model HelpItemDTO
 <div class="modal-header">
-    <button type="button" id="cancelEditItem" class="btn btn-default" data-dismiss="modal" tabindex="7">
-        Cancel
+    <button type="button" id="cancelEditItem" class="btn btn-default" tabindex="7">
+        Reset
     </button>
     <button type="button" id="submitEditItem" class="btn btn-primary" tabindex="6">
         Add
@@ -16,53 +15,60 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.HelpPageID)
     @Html.HiddenFor(m => m.DisplayOrder)
+    <input type="hidden" id="helpItemId" name="helpItemId" />
     <fieldset>
         <section>
             <label class="label">Item Title:</label>
             <label class="input ">
                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                @Html.TextBoxFor(m => m.Title, new { tabindex = "1", maxlength = 100 })
+                @Html.TextBoxFor(m => m.Title, new { tabindex = "1", maxlength = 100, id = "helpItemTitle" })
             </label>
         </section>
         <section>
             <label class="label">Item Selector:</label>
             <label class="input">
                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                @Html.TextBoxFor(m => m.Selector, new { tabindex = "2", maxlength = 200 })
+                @Html.TextBoxFor(m => m.Selector, new { tabindex = "2", maxlength = 200, id = "helpItemSelector" })
             </label>
         </section>
-        @if (TempData["isShowMeHowItem"] != null)
-        {
-            <section>
-                <label class="label">Item belong to Tab id: (Eg. #tabId)</label>
-                <label class="input">
-                    @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50 })
-                </label>
-            </section>
-        }
-        @if (TempData["isCalloutItem"] != null)
-        {
-            <section>
-                <label class="label">Effective On</label>
-                <label class="input">
-                    @Html.TextBoxFor(m => m.EffectiveOn, new { tabindex = "3", maxlength = 50 })
-                </label>
-            </section>
-        }
+        
+        <section id="tabIdSection" style="display:none">
+            <label class="label">Item belong to Tab id: (Eg. #tabId)</label>
+            <label class="input">
+                @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50, id = "helpItemTabContainerId" })
+            </label>
+        </section>
+
+        <section id="tourSection" style="display:none">
+            <label class="label">Effective On</label>
+            <label class="input">
+                <input type="text" id="effectiveDateInput" tabindex="3" readonly="readonly" />
+                @Html.HiddenFor(m => m.EffectiveOn)
+            </label>
+        </section>
         <section>
             <label class="label">Description:</label>
             <label class="textarea">
-                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", tabindex = "4", rows = 5, style = "width:100%; resize:none;" })
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", tabindex = "4", rows = 5, style = "width:100%; resize:none;", id = "helpItemDescription" })
             </label>
         </section>
         <section>
             <label class="label">Position:</label>
             <label class="select">
-                @Html.DropDownListFor(m => m.Position, EnumHelper.GetSelectList(typeof(HtmlPositionEnum)), null, new { tabindex = "5", style = "width:100%; min-height:25px;" })
+                @Html.DropDownListFor(m => m.Position, EnumHelper.GetSelectList(typeof(HtmlPositionEnum)), null, new { tabindex = "5", style = "width:100%; min-height:25px;", id = "helpItemPosition" })
                 <i></i>
             </label>
         </section>
     </fieldset>
 </form>
-
+<div style="display:none">
+    <form action="@Url.Action("GetItem", "Help", new { area = "Admin" })" method="POST" id="getItem-form" class="smart-form">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="helpItemEditId" name="id" />
+    </form>
+    <form action="@Url.Action("DeleteItem", "Help", new { area = "Admin" })" method="POST" id="deleteItem-form" class="smart-form">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="helpItemDeleteId" name="id" />
+    </form>
+</div>
 <script async src="@Scripts.Url("~/Scripts/Admin/Help/_EditItem")"></script>

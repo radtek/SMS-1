@@ -2,20 +2,14 @@
     var btnDelete = $("#btnDeleteHelp");
     var btnEdit = $("#btnEditHelp");
     var helpItemList = $("#helpItemList");
-    var typeDropdown = $("#typeList");
 
     var urls = {
         deleteHelpUrl: btnDelete.data("url"),
         editHelpUrl: btnEdit.data("url"),
-        getHelpsUrl: helpItemList.data("helps-url"),
         templateUrl: helpItemList.data("template-url"),
         getHelpItemsUrl: helpItemList.data("items-url")
-    }
+    };
 
-    var currentHelp = {
-        id: null,
-        type: null
-    }
     var helpItemsTemplatePromise = getTemplatePromise('_ItemList');
 
     function getTemplatePromise(viewName) {
@@ -41,7 +35,7 @@
             change: onPageChange,
             jumpToId: $('#helpGrid').data("jumpto"),
             extraParameters: function () {
-                return "&type=" + $('#typeList').val()
+                return "&type=" + $('#typeList').val();
             },
             columns: [
                     {
@@ -51,26 +45,26 @@
                     },
                     {
                         field: "HelpPageID",
-                        hidden: true,
+                        hidden: true
                     },
                     {
                         field: "PageName",
-                        title: "Page Name",
+                        title: "Page Name"
                     },
                     {
                         field: "PageUrl",
                         title: "Page URL",
-                        template: function (dataItem) { return (dataItem.PageType === 1 || dataItem.PageType === 3 ? "" : dataItem.PageUrl); }
-                    },                    
+                        template: function (dataItem) { return (dataItem.PageType === 1 || dataItem.PageType === 3 ? "" : dataItem.PageUrl);}
+                    },
                     {
                         field: "CreatedOn",
                         title: "Created On",
-                        template: function (dataItem) { return dateString(dataItem.CreatedOn); }
+                        template: function (dataItem) { return dateString(dataItem.CreatedOn);}
                     },
                     {
                         field: "ModifiedOn",
                         title: "Modified On",
-                        template: function (dataItem) { if (dataItem.ModifiedOn != null) return dateString(dataItem.ModifiedOn); else return ""; }
+                        template: function (dataItem) { return (dataItem.ModifiedOn != null) ? dateString(dataItem.ModifiedOn) : "";}
                     }
             ]
         });
@@ -87,12 +81,10 @@
 
     $('#typeList').on('change', function () {
         var valOfThis = $(this).val();
-        console.log(valOfThis.length);
         if (valOfThis.length > 0) {
             $("#btnAddPage").data('href', $("#btnAddPage").data("url") + "?PageType=" + valOfThis);
         }
         else {
-            console.log('a');
             $("#btnAddPage").data('href', $("#btnAddPage").data("url"));
         }
         helpGrid.refreshGrid();

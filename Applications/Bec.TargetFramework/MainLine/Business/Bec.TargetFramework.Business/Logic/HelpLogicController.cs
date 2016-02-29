@@ -32,37 +32,76 @@ namespace Bec.TargetFramework.Business.Logic
             helpPageDto.HelpPageID = Guid.NewGuid();
             using (var scope = DbContextScopeFactory.Create())
             {
-                HelpPage helpPage = helpPageDto.ToEntity();
-                scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages.Add(helpPage);
+                scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages.Add(helpPageDto.ToEntity());
 
-                if (helpPageDto.HelpItems.Count>0)
+                if (helpPageDto.HelpItems.Count > 0)
                 {
-                    foreach (var item in helpPageDto.HelpItems)
+                    helpPageDto.HelpItems.ForEach(item =>
                     {
-                        Ensure.That(item).IsNotNull();
                         item.HelpPageID = helpPageDto.HelpPageID;
                         item.HelpItemID = Guid.NewGuid();
-
-                        HelpItem helpItem = item.ToEntity();
-                        scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Add(helpItem);                       
-                    }
+                        scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Add(item.ToEntity());
+                    });
                 }
                 await scope.SaveChangesAsync();
             }
             return helpPageDto.HelpPageID;
         }
 
-        public async Task<Guid> CreateHelpItem(HelpItemDTO helpItemDto)
+        public async Task<Guid> EditHelpPage(HelpPageDTO helpPageDto)
         {
-            Ensure.That(helpItemDto).IsNotNull();
-            helpItemDto.HelpItemID = Guid.NewGuid();
+            Ensure.That(helpPageDto).IsNotNull();
             using (var scope = DbContextScopeFactory.Create())
             {
-                HelpItem helpItem = helpItemDto.ToEntity();
-                scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Add(helpItem);
-                await scope.SaveChangesAsync();
+                var helpPage = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages.FirstOrDefault(p => p.HelpPageID == helpPageDto.HelpPageID);
+                if (helpPage != null)
+                {
+                    helpPage.ModifiedOn = DateTime.Now;
+                    helpPage.PageName = helpPageDto.PageName;
+                    helpPage.PageUrl = helpPageDto.PageUrl;
+                    
+                    scope.DbContexts.Get<TargetFrameworkEntities>().Entry(helpPage).State = System.Data.Entity.EntityState.Modified;
+
+                    if (helpPageDto.HelpItems.Count > 0)
+                    {
+                        foreach(var item in helpPageDto.HelpItems)
+                        {
+                            if (item.Status == 1)
+                            {
+                                item.HelpPageID = helpPageDto.HelpPageID;
+                                item.HelpItemID = Guid.NewGuid();
+                                scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Add(item.ToEntity());
+                            }
+                            else if (item.Status == 2)
+                            {
+                                var itemInDb = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.FirstOrDefault(x=> x.HelpItemID == item.HelpItemID);
+                                if (itemInDb!=null)
+                                {
+                                    itemInDb.Description = item.Description;
+                                    itemInDb.DisplayOrder = item.DisplayOrder;
+                                    itemInDb.EffectiveOn = item.EffectiveOn;
+                                    itemInDb.Position = item.Position;
+                                    itemInDb.Selector = item.Selector;
+                                    itemInDb.TabContainerId = item.TabContainerId;
+                                    itemInDb.Title = item.Title;                                    
+                                    itemInDb.ModifiedOn = DateTime.Now;
+                                    scope.DbContexts.Get<TargetFrameworkEntities>().Entry(itemInDb).State = System.Data.Entity.EntityState.Modified;    
+                                }                                
+                            }
+                            else if (item.Status == 3)
+                            {
+                                var itemInDb = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.FirstOrDefault(x => x.HelpItemID == item.HelpItemID);
+                                if (itemInDb != null)
+                                {
+                                    scope.DbContexts.Get<TargetFrameworkEntities>().Entry(itemInDb).State = System.Data.Entity.EntityState.Deleted;
+                                }
+                            }
+                        };
+                    }
+                    await scope.SaveChangesAsync();
+                }
             }
-            return helpItemDto.HelpItemID;
+            return helpPageDto.HelpPageID;
         }
 
         public async Task<Guid> CreateHelpItemUserAccount(HelpItemUserAccountDTO helpItemUserAccountDTO)
@@ -80,6 +119,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task DeleteHelpPage(HelpPageDTO helpPageDto)
         {
+            Ensure.That(helpPageDto).IsNotNull();
             using (var scope = DbContextScopeFactory.Create())
             {
                 var helpPage = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages.FirstOrDefault(p => p.HelpPageID == helpPageDto.HelpPageID);
@@ -91,48 +131,32 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task DeleteHelpItem(HelpItemDTO helpItemDto)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var helpItem = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.FirstOrDefault(p => p.HelpItemID == helpItemDto.HelpItemID);
-                if (helpItem != null)
-                {
-                    scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Remove(helpItem);
-                    await scope.SaveChangesAsync();
-                }
-            }
-        }
-
-
         #region Client using
         public List<HelpItemDTO> GetHelpItems(PageType pageType, string pageUrl)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                switch (pageType)
+                if (pageType == PageType.Tour)
                 {
-                    case PageType.Tour: 
-                        var pageTour = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
-                                  .FirstOrDefault(p => (p.PageType == (int)PageType.Tour));
-                        if (pageTour != null)
-                        {
-                            return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
-                                    .Where(i => (i.HelpPageID == pageTour.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
-                        }
-                        return null;
-                    case PageType.ShowMeHow:
-                        var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
-                                 .FirstOrDefault(p => (p.PageUrl.ToLower().Equals(pageUrl.ToLower())) && (p.PageType == (int)PageType.ShowMeHow));
-                        if (page != null)
-                        {
-                            return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
-                                    .Where(i => (i.HelpPageID == page.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
-                        }
-                        return null;                   
-                    default :
-                        return null;
+                    var pageTour = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
+                                .FirstOrDefault(p => (p.PageType == PageType.Tour.GetIntValue()));
+                    if (pageTour != null)
+                    {
+                        return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
+                                .Where(i => (i.HelpPageID == pageTour.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
+                    }
                 }
+                else if (pageType == PageType.ShowMeHow)
+                {
+                    var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
+                                 .FirstOrDefault(p => (p.PageUrl.ToLower().Equals(pageUrl.ToLower())) && (p.PageType == PageType.ShowMeHow.GetIntValue()));
+                    if (page != null)
+                    {
+                        return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
+                                .Where(i => (i.HelpPageID == page.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
+                    }
+                }
+                return null;
             }
         }
 
@@ -140,9 +164,9 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var helpItemUas = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.Where(x => x.UserID == userId && x.Visible != true).ToList();
+                var helpItemUas = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.Where(x => x.UserID == userId && x.Visible.HasValue && !x.Visible.Value).ToList();
                 var now = DateTime.Now;
-                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(x => x.EffectiveOn < now && x.CreatedOn > createDate && x.HelpPage.PageType == (int)PageType.Callout).ToList();
+                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(x => x.EffectiveOn < now && x.CreatedOn > createDate && x.HelpPage.PageType == PageType.Callout.GetIntValue()).ToList();
                 if (helpItemUas != null && helpItemUas.Any() && helpItems != null && helpItems.Any())
                 {
                     helpItems = helpItems.FindAll(x => !helpItemUas.Any(z => z.HelpItemID == x.HelpItemID));
