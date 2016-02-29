@@ -139,5 +139,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         {
             return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Buyer.pdf"), "application/pdf", "SMS - Safe Buyer.pdf");
         }
+
+        [ClaimsRequired("View", "Products", Order = 1000)]
+        [ClaimsRequired("Add", "ProUsers", Order = 1001)]
+        public ActionResult OrganisationAdministratorsGuideToTheSafeMoveScheme()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/Organisation Administrator's Guide to the Safe Move Scheme.pdf"), "application/pdf", "Organisation Administrator's Guide to the Safe Move Scheme.pdf");
+        }
     }
 }
