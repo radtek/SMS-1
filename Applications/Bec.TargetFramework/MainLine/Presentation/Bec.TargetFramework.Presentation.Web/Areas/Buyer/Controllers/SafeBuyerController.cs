@@ -75,10 +75,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             {
                 await EnsureCanPurchaseProduct(txID, uaoID, QueryClient);
                 var cartPricing = await OrganisationClient.EnsureCartAsync(txID, uaoID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card);
-                ViewBag.txID = txID;
-                ViewBag.cartPricing = cartPricing;
-                ViewBag.ConveyancerName = model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
-                return PartialView("_PurchaseProduct");
+
+                if (await OrganisationClient.SmsTransactionQualifiesFreeAsync(txID))
+                {
+                    return PartialView("_CheckBankAccount", model);
+                }
+                else
+                {
+                    ViewBag.txID = txID;
+                    ViewBag.cartPricing = cartPricing;
+                    ViewBag.ConveyancerName = model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                    return PartialView("_PurchaseProduct");
+                }
             }
         }
 
@@ -87,12 +95,37 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public async Task<ActionResult> CheckBankAccount(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            {
+                CompanyNames = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
+                x.SmsUserAccountOrganisationTransactionID,
+                x.SmsTransaction.InvoiceID,
+                x.SmsTransactionID
+            });
+
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsUserAccountOrganisationTransactionID == smsUserAccountOrganisationTransactionID);
+            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.First();
+
+            if (!model.SmsTransaction.InvoiceID.HasValue)
+            {
+                if (await OrganisationClient.SmsTransactionQualifiesFreeAsync(model.SmsTransactionID))
+                {
+                    await EnsureCanPurchaseProduct(model.SmsTransactionID, uaoID, QueryClient);
+                    var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(model.SmsTransactionID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, true, null);
+                }
+                else
+                {
+                    return Json(new { failed = true }, JsonRequestBehavior.AllowGet);
+                }
+            }
             var txOrgID = await EnsureCanCheckBankAccount(smsUserAccountOrganisationTransactionID, uaoID, QueryClient);
 
             //check bank account
             var isMatch = await BankAccountClient.CheckBankAccountAsync(txOrgID, uaoID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
             return Json(new { result = isMatch, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -162,7 +195,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
 
-            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, orderRequest);
+            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, false, orderRequest);
             if (purchaseProductResult.IsPaymentSuccessful)
             {
                 TempData["PaymentSuccessful"] = true;

@@ -840,7 +840,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType)
+        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, bool free)
         {
             Guid? cartID = null;
             using (var scope = DbContextScopeFactory.Create())
@@ -856,15 +856,23 @@ namespace Bec.TargetFramework.Business.Logic
 
             var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cartID.Value, "Safe Buyer");
             var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-            
-            orderRequest.TransactionOrderID = transactionOrder.TransactionOrderID;
-            orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
-            var payment = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
-            if (payment.IsPaymentSuccessful)
+
+            if (free)
             {
                 await UpdateTransactionInvoiceID(smsTransactionID, invoice.InvoiceID);
+                return new TransactionOrderPaymentDTO { IsPaymentSuccessful = true };
             }
-            return payment;
+            else
+            {
+                orderRequest.TransactionOrderID = transactionOrder.TransactionOrderID;
+                orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
+                var payment = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
+                if (payment.IsPaymentSuccessful)
+                {
+                    await UpdateTransactionInvoiceID(smsTransactionID, invoice.InvoiceID);
+                }
+                return payment;
+            }
         }
 
         private async Task UpdateTransactionInvoiceID(Guid txID, Guid invoiceID)
@@ -1132,6 +1140,69 @@ namespace Bec.TargetFramework.Business.Logic
                 }
                 await scope.SaveChangesAsync();
             }
+        }
+
+        public bool SmsTransactionQualifiesFree(Guid txID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Single(x => x.SmsTransactionID == txID);
+                var primaryBuyer = tx.SmsUserAccountOrganisationTransactions.Where(x=>x.SmsUserAccountOrganisationTransactionType.Name == "Buyer").Single();
+
+                var firstName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.Contact, primaryBuyer.ContactID, "FirstName", primaryBuyer.Contact.FirstName);
+                var lastName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.Contact, primaryBuyer.ContactID, "LastName", primaryBuyer.Contact.LastName);
+                var dob = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.Contact, primaryBuyer.ContactID, "BirthDate", primaryBuyer.Contact.BirthDate.Value, s => DateTime.Parse(s));
+                var lenderName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "LenderName", tx.LenderName);
+                var appNumber = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "MortgageApplicationNumber", tx.MortgageApplicationNumber);
+
+                //get org name from possible trading name
+                var lenderOrgID = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.Where(x => x.Name == lenderName).Select(x => x.OrganisationID).FirstOrDefault();
+                if (lenderOrgID != null)
+                    lenderName = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.Where(x => x.OrganisationID == lenderOrgID).Select(x => x.Name).FirstOrDefault();
+
+                return CheckSIRAQualifiesFree(firstName, lastName, dob, lenderName, appNumber);
+            }
+        }
+
+        private string GetValueOrPendingUpdate(ActivityType activityType, Guid activityID, FieldUpdateParentType parentType, Guid parentID, string fieldName, string approvedValue)
+        {
+            var pending = GetPendingUpdate(activityType, activityID, parentType, parentID, fieldName);
+            return pending ?? approvedValue;
+        }
+
+        private T GetValueOrPendingUpdate<T>(ActivityType activityType, Guid activityID, FieldUpdateParentType parentType, Guid parentID, string fieldName, T approvedValue, Func<string, T> formatter)
+        {
+            var pending = GetPendingUpdate(activityType, activityID, parentType, parentID, fieldName);
+            if (pending == null)
+                return approvedValue;
+            else
+                return formatter(pending);
+        }
+
+        private string GetPendingUpdate(ActivityType activityType, Guid activityID, FieldUpdateParentType parentType, Guid parentID, string fieldName)
+        {
+            var activityTypeInt = activityType.GetIntValue();
+            var parentTypeInt = parentType.GetIntValue();
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var pending = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.SingleOrDefault(x =>
+                    x.ActivityType == activityTypeInt &&
+                    x.ActivityID == activityID &&
+                    x.ParentType == parentTypeInt &&
+                    x.ParentID == parentID &&
+                    x.FieldName == fieldName);
+
+                if (pending != null)
+                    return pending.Value;
+                else
+                    return null;                
+            }
+        }
+
+        private bool CheckSIRAQualifiesFree(string firstName, string lastName, DateTime dob, string lenderName, string appNumber)
+        {
+            //this will become slightly more sophisticated!
+            return lenderName == "Paragon Mortgages Ltd";
         }
     }
 }

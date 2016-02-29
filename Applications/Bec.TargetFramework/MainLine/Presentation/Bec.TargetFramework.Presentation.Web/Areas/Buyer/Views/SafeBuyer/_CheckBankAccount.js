@@ -1,5 +1,5 @@
 ﻿$(function () {
-   
+
     $("#confirmDetails-form").validate({
         ignore: '.skip',
         // Rules for form validation
@@ -47,10 +47,15 @@ function validateSubmit(form) {
         data: formData
     }).done(function (res) {
         hideCurrentModal();
-        if (res.result == true)
-            handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
-        else
-            handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+        if (res.failed) {
+            showtoastrError();
+        }
+        else {
+            if (res.result == true)
+                handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+            else
+                handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+        }
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
             serverErrorDiv.show();
