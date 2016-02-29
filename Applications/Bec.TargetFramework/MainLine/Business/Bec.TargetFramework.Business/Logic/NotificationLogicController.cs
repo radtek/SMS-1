@@ -665,7 +665,10 @@ namespace Bec.TargetFramework.Business.Logic
                         var purchased = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Any(x => x.SmsTransactionID == activityID && x.InvoiceID != null);                        
                         var setting = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationSettings.Where(x => x.OrganisationID == org.OrganisationID && x.Name == safeSendName).FirstOrDefault();
                         var enabled = setting != null && bool.Parse(setting.Value) == true;
-                        if (!enabled || !purchased) ret = ret.Where(x => x.OrganisationTypeName != "Personal");
+                        if (!enabled)
+                        {
+                            ret = ret.Where(x => x.OrganisationTypeName != "Personal");
+                        }
                         break;
                 }
                 ret = ret.OrderBy(x => x.IsSafeSendGroup).ThenByDescending(x => x.OrganisationName).ThenBy(x => x.LastName);
