@@ -375,6 +375,12 @@
   margin-top: 7px;
   cursor: pointer;
 }
+.delete-src-of-funds-entry {
+  display: inline-block;
+  color: #a90329;
+  margin-top: 7px;
+  cursor: pointer;
+}
 .add-next-bank-account {
   cursor: pointer;
 }

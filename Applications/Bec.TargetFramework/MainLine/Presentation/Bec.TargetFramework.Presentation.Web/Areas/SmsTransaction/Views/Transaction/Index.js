@@ -111,7 +111,7 @@
     setupTemplatePromise(transactionDetailsTemplatePromise, getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'SmsTransaction'));
     setupTemplatePromise(primaryBuyerTemplatePromise, getRazorViewPath('_primaryBuyerDetailsTmpl', 'Transaction', 'SmsTransaction'));
     setupTemplatePromise(relatedPartiesTemplatePromise, getRazorViewPath('_relatedPartiesTmpl', 'Transaction', 'SmsTransaction'));
-    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared', ''));
+    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared/Templates', ''));
 
     if ($('#content').data("welcome") == "True") {
         handleModal({ url: $('#content').data("welcomeurl") }, null, true);
@@ -147,8 +147,8 @@
 
     //data binding for the panes beneath each grid
     function txChange(dataItem) {
-        $("#addAdditionalBuyerButton").data('href', $("#addAdditionalBuyerButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
-        $("#addGiftorButton").data('href', $("#addGiftorButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
+        $("#addAdditionalBuyerButton").data('href', $("#addAdditionalBuyerButton").data("url") + "&txID=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
+        $("#addGiftorButton").data('href', $("#addGiftorButton").data("url") + "&txID=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
 
         $("#editButton").data('href', $("#editButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&pageNumber=" + txGrid.grid.dataSource.page());
 

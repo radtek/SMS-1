@@ -127,8 +127,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Invited").Include("~/Areas/ProOrganisation/Views/Users/Invited.js"));
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Registered").Include("~/Areas/ProOrganisation/Views/Users/Registered.js"));
 
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/AdditionalBuyer/_AddAdditionalBuyer").Include("~/Areas/SmsTransaction/Views/AdditionalBuyer/_AddAdditionalBuyer.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Giftor/_AddGiftor").Include("~/Areas/SmsTransaction/Views/Giftor/_AddGiftor.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/SmsClient/AddSmsClient").Include("~/Areas/SmsTransaction/Views/SmsClient/AddSmsClient.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AddSmsTransaction").Include("~/Areas/SmsTransaction/Views/Transaction/_AddSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AdviseProduct").Include("~/Areas/SmsTransaction/Views/Transaction/_AdviseProduct.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_EditSmsTransaction").Include("~/Areas/SmsTransaction/Views/Shared/_EditSmsTransaction.js"));
@@ -147,6 +146,7 @@ namespace Bec.TargetFramework.Presentation.Web
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_SrcFundsBankAccounts").Include("~/Views/Shared/_SrcFundsBankAccounts.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_PostcodeLookup").Include("~/Views/Shared/_PostcodeLookup.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
