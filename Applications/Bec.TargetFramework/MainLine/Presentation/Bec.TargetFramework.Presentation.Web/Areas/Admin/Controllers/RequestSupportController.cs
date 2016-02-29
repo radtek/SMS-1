@@ -18,29 +18,30 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
-    [ClaimsRequired("Add", "SupportFunctions", Order = 1000)]
     public class RequestSupportController : ApplicationControllerBase
     {
         public IQueryLogicClient queryClient { get; set; }
         public IHelpLogicClient helpClient { get; set; }
+
+        [ClaimsRequired("Add", "RequestSupport", Order = 1000)]
         public async Task<ActionResult> Index()
         {
             //ViewBag.roles = await GetRoles();
             return View();
         }
-
+        [ClaimsRequired("Add", "RequestSupport", Order = 1000)]
         public async Task<ActionResult> GetRequestSupports()
         {
             JObject res = await GetRequests(false);
             return Content(res.ToString(Formatting.None), "application/json");
         }
-
+        [ClaimsRequired("Add", "RequestSupport", Order = 1000)]
         public async Task<ActionResult> GetClosedRequestSupports()
         {
             JObject res = await GetRequests(true);
             return Content(res.ToString(Formatting.None), "application/json");
         }
-
+        [ClaimsRequired("Add", "RequestSupport", Order = 1000)]
         private async Task<JObject> GetRequests(bool isClosed)
         {
             var select = ODataHelper.Select<RequestSupportDTO>(x => new
@@ -68,14 +69,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filter = ODataHelper.Filter(where);
             return await queryClient.QueryAsync("RequestSupports", ODataHelper.RemoveParameters(Request) + select + filter);
         }
-
+        [ClaimsRequired("Send", "RequestSupport", Order = 1000)]
         public ActionResult ViewAddRequestSupport(RequestSupportDTO requestSupport)
         {
             ViewBag.Email = WebUserHelper.GetWebUserObject(HttpContext).Email;
             ViewBag.UserName = WebUserHelper.GetWebUserObject(HttpContext).UserName; 
             return PartialView("_AddRequestSupport", requestSupport);
         }
-
+        [ClaimsRequired("Send", "RequestSupport", Order = 1000)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddRequestSupport(RequestSupportDTO requestSupport)
@@ -86,7 +87,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             this.AddToastMessage("Request Message", "The request message sent successfully!", ToastType.Success, false);
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
-
+        [ClaimsRequired("Add", "RequestSupport", Order = 1000)]
         public async Task<ActionResult> ViewCloseRequestSupport(Guid RequestSupportId, int pageNumber = 1)
         {
             ViewBag.RequestSupportId = RequestSupportId;
@@ -102,7 +103,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var requestSupport = res.First();
             return PartialView("_CloseRequestSupport", Edit.MakeModel(requestSupport));
         }
-
+        [ClaimsRequired("Add", "RequestSupport", Order = 1000)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CloseRequestSupport(Guid requestSupportId, int pageNumber = 1)

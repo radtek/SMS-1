@@ -5,7 +5,6 @@
         $("#submitAddRequestSupport").click(function () {
             $("#addRequestSupport-form").submit();
         });
-
         $("#addRequestSupport-form").validate({
             ignore: '.skip',
             // Rules for form validation
@@ -13,8 +12,12 @@
                 'Title': {
                     required: true
                 },
-                'Telephone': {
-                    required: true
+                "Telephone": {
+                    required: true,
+                    digits: true,
+                    minlength: 11,
+                    maxlength: 11,
+                    ukmobile: true
                 },
                 'Description': {
                     required: true

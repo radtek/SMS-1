@@ -1,4 +1,5 @@
 ﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Security
 @if (Request.IsAuthenticated)
 {
     if (!Html.RouteMatches("AcceptTCs", "Index"))
@@ -30,9 +31,12 @@
                     <span class="header-btn-text">Show Me How</span>
                 </a>
             </li>
-            <li>
-                <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" data-url="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" title="Request Support"><i class="fa fa-question-circle"></i><span class="header-btn-text">Request Support</span></a>
-            </li>
+            @if (ClaimsHelper.UserHasClaim("Send", "RequestSupport"))
+            {
+                <li>
+                    <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" data-url="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" title="Request Support"><i class="fa fa-question-circle"></i><span class="header-btn-text">Request Support</span></a>
+                </li>
+            }
         </ul>
     </div>
     <div class="dropdown pull-right margin-top-10">
