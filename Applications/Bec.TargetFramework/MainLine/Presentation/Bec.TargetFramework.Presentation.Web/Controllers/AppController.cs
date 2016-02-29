@@ -30,6 +30,10 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             {
                 return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
             }
+            else if (ClaimsHelper.UserHasClaim("View", "SmsTransactionsOverview"))
+            {
+                return RedirectToAction("Index", "Transaction", new { area = "Lender" });
+            }
             else if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
             {
                 return RedirectToAction("OutstandingBankAccounts", "Finance", new { area = "Admin" });
@@ -51,11 +55,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public ActionResult Denied()
         {
             return View("Denied");
-        }
-
-        public ActionResult ViewCancel()
-        {
-            return PartialView("_Cancel");
         }
 
         public async Task<ActionResult> CheckEmailProfessional(string email, Guid? uaoID)

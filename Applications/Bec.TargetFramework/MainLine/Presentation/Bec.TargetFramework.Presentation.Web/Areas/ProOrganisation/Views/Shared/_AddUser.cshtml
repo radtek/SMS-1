@@ -63,9 +63,21 @@
                                             <label for="role-@role.OrganisationRoleID">@role.RoleDescription</label>
                                         </label>
                                     }
-                                    
                                 </section>
-
+                                @if (((IEnumerable<SafeSendGroupDTO>)ViewBag.SafeSendGroups).Any())
+                                {
+                                    <section>
+                                        <label class="label">Safe Send Groups</label>
+                                        @foreach (SafeSendGroupDTO safesendgroup in ViewBag.SafeSendGroups)
+                                        {
+                                            <label class="checkbox ">
+                                                <input type="checkbox" id="safesendgroup-@safesendgroup.SafeSendGroupID" name="safesendgroup-@safesendgroup.SafeSendGroupID" />
+                                                <i></i>
+                                                <label for="safesendgroup-@safesendgroup.SafeSendGroupID">@safesendgroup.Name</label>
+                                            </label>
+                                        }
+                                    </section>
+                                }
                             </fieldset>
                         </form>
                     </div>

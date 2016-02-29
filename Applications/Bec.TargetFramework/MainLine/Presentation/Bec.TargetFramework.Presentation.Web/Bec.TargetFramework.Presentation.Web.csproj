@@ -184,6 +184,7 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrganisationSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsArticleController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
@@ -193,11 +194,15 @@
     <Compile Include="App_Helpers\PdfContentResult.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
+    <Compile Include="Areas\Admin\Models\OrganisationSettingsModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
+    <Compile Include="Areas\Lender\Controllers\TransactionController.cs" />
+    <Compile Include="Areas\Lender\LenderAreaRegistration.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
+    <Compile Include="Areas\ProOrganisation\Models\FunctionEditEntry.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
     <Compile Include="Areas\Buyer\Controllers\SafeBuyerController.cs" />
@@ -268,6 +273,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
+    <Content Include="Areas\Lender\Views\Transaction\Index.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AdviseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
     <Content Include="BingSiteAuth.xml" />
@@ -295,8 +301,9 @@
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Create Your Account.mp4" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.jpg" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.mp4" />
-    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.jpg" />
-    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.mp4" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use Safe Buyer Product.mp4" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use Safe Buyer Product.jpg" />
+    <Content Include="Scripts\Bec\bec.lendersearch.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
     <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
@@ -308,8 +315,6 @@
     <Content Include="Scripts\Libs\handlebars-v4.0.5.js" />
     <Content Include="Scripts\Libs\jquery.scrollTo.js" />
     <Content Include="Areas\Admin\Views\Messages\_Conversations.js" />
-    <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
-    <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
     <Content Include="Areas\BankAccount\Views\Account\Index.js" />
     <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.js" />
@@ -329,20 +334,8 @@
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
-    <Content Include="Content\ajax\email-compose.html" />
-    <Content Include="Content\ajax\email-opened.html" />
-    <Content Include="Content\ajax\email-reply.html" />
-    <Content Include="Content\ajax\email-template.html" />
-    <Content Include="Content\ajax\email\email-list.html" />
-    <Content Include="Content\ajax\modal-content\modal-voicecommand.html" />
-    <Content Include="Content\ajax\notify\mail.html" />
-    <Content Include="Content\ajax\notify\notifications.html" />
-    <Content Include="Content\ajax\notify\tasks.html" />
-    <Content Include="Content\ajax\website-template.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\demo.min.css" />
@@ -909,6 +902,14 @@
     <Content Include="Areas\Admin\Views\NewsArticle\_AddNewsArticle.cshtml" />
     <Content Include="Areas\Admin\Views\NewsArticle\_newsArticleDetailsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\NewsArticle\_EditNewsArticle.cshtml" />
+    <Content Include="Areas\Lender\Views\web.config" />
+    <Content Include="Areas\Lender\Views\Transaction\Index.cshtml" />
+    <Content Include="Areas\Lender\Views\Transaction\_transactionDetailsTmpl.cshtml" />
+    <Content Include="Areas\Lender\Views\Transaction\_partiesDetailsTmpl.cshtml" />
+    <Content Include="Areas\Lender\Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_bankAccountChecksDetailsTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\OrganisationSetting\EditOrganisationSettings.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Users\_RegisteredDetailsTmpl.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1015,16 +1016,14 @@
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\Libs\toastr.js" />
     <Content Include="Scripts\Libs\toastr.min.js" />
-    <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="sitemap.txt" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
-    <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Username.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Password.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_EmailLog.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\web.config" />
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Users\Registered.cshtml" />
@@ -1047,7 +1046,6 @@
       <DependentUpon>your_style.css</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
-    <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
@@ -1071,6 +1069,7 @@
     <Content Include="Content\WelcomePack\SMS Frequently Asked Questions.pdf" />
     <Content Include="Content\WelcomePack\SMS Professional Users - Creating Your Account.pdf" />
     <Content Include="Content\WelcomePack\SMS - Safe Send.pdf" />
+    <Content Include="Content\WelcomePack\Organisation Administrator%27s Guide to the Safe Move Scheme.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1707,21 +1706,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\Libs\jquery-2.1.1.min.map" />
     <Content Include="Views\Shared\_Aside.cshtml" />
-    <Content Include="Views\Shared\_CurrentUser.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
-    <Content Include="Views\Shared\_Ribbon.cshtml" />
-    <Content Include="Views\Shared\_TermsAndConditions.cshtml" />
     <Content Include="Views\Shared\_Tiles.cshtml" />
     <Content Include="Views\Shared\_TopRight.cshtml" />
     <Content Include="Scripts\kendo\jquery.min.map" />
@@ -1869,7 +1859,9 @@
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\Article.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Areas\Lender\Views\Shared\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

@@ -466,6 +466,46 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for AuthorityDelegatedBySalutation in the schema.
+        /// </summary>
+        public virtual string AuthorityDelegatedBySalutation
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for AuthorityDelegatedByFirstName in the schema.
+        /// </summary>
+        public virtual string AuthorityDelegatedByFirstName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for AuthorityDelegatedByLastName in the schema.
+        /// </summary>
+        public virtual string AuthorityDelegatedByLastName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for AuthorityDelegatedByEmail in the schema.
+        /// </summary>
+        public virtual string AuthorityDelegatedByEmail
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

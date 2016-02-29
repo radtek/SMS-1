@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Development\1.3.74-lender-enhancements\02_lender-mapping.sql" />
     <Content Include="Development\1.3.70-extended-free-trial\01_SchemaChange.sql" />
     <None Include="Development\1.3.70-extended-free-trial\02_ProductAdvisedNotification.sql" />
     <None Include="Development\1.3.70-extended-free-trial\03_CORE_BusEvent.sql" />
@@ -56,7 +57,14 @@
     <None Include="Development\1.3.48-national-pilot-all-firms\09_BankAccountCertificateUpdate.sql" />
     <Content Include="Development\1.3.70-extended-free-trial\Combined\1.3.70-extended-free-trial-tf-core.sql" />
     <Content Include="Development\1.3.70-extended-free-trial\Combined\1.3.70-extended-free-trial-tf.sql" />
-    <Content Include="Development\hotfix-news\01_Schema.sql" />
+    <Content Include="Development\1.3.74-lender-enhancements\01_TransactionsOverviewResourcesAndRoles.sql" />
+    <Content Include="Development\1.3.74-lender-enhancements\03_SafeSendFunctions.sql" />
+    <Content Include="Development\1.3.74-lender-enhancements\07_update-organisation-settings.sql" />
+    <Content Include="Development\1.3.74-lender-enhancements\06_update-pin-message.sql" />
+    <Content Include="Development\1.3.74-lender-enhancements\05_delegate-sro-authority.sql" />
+    <Content Include="Development\1.3.74-lender-enhancements\04_conversations-update.sql" />
+    <Content Include="Development\1.3.72-hotfix-news\01_Schema.sql" />
+    <Content Include="Development\1.3.74-lender-enhancements\Combined\1.3.74-lender-enhancements-tf-combined.sql" />
     <Content Include="Scripts\BE Framework Scripts\AddRowVersion.sql" />
     <Content Include="Scripts\BE Framework Scripts\Core\Setup\Core Application Environment.sql" />
     <Content Include="Scripts\BE Framework Scripts\Core\Setup\Core Lookup.sql" />
@@ -72,7 +80,6 @@
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddBankAccountMarkedAsFraudSuspiciousNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddBankAccountMarkedAsSafeNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddCompanySystemAdminNotification.sql" />
-    <Content Include="Scripts\BE Framework Scripts\Notifications\AddCreditAdjustmentNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddForgotPasswordNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddNewInternalMessagesNotification.sql" />
     <Content Include="Scripts\BE Framework Scripts\Notifications\AddUsernameReminderNotification.sql" />

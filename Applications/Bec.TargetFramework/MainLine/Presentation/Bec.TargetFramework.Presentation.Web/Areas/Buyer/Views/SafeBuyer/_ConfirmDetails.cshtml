@@ -6,6 +6,8 @@
     var canEditTransactionDetails = Model.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue();
     var personaName = ((UserAccountOrganisationTransactionType)Model.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
     var birthDateInputId = (bool)ViewBag.canEditBirthDate ? "birthDateInput" : "disabledBirthDateInput";
+    var conveyancerName = Model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+    var shortenedConveyancerName = conveyancerName.Length > 50 ? conveyancerName.Substring(0, 50)+ "..." : conveyancerName;
 }
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="confirmDetailsLabel" aria-hidden="true">
     <div class="modal-dialog" id="d1" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })">
@@ -22,7 +24,6 @@
                         @Html.HiddenFor(m => m.SmsUserAccountOrganisationTransactionID)
                         @Html.HiddenFor(m => m.SmsTransaction.RowVersion)
                         @Html.HiddenFor(m => m.Contact.RowVersion)
-                        @Html.Hidden("orgID", Model.SmsTransaction.OrganisationID)
                         <section class="col-xs-12">
                             <div id="confirmDetailsWizard">
                                 <div class="form-bootstrapWizard margin-left-10 margin-right-10">
@@ -169,6 +170,7 @@
                                         <fieldset>
                                             <legend>Personal Bank Account(s)</legend>
                                             <div class="alert alert-info fade in">
+                                                <h5><i class="fa fa-info"></i><strong>Information</strong></h5>
                                                 <p>Please enter the bank account details of all bank accounts you will be sending your money from.</p>
                                                 <p>This is for the information purposes only for your conveyancer to track your payment.</p>
                                             </div>
@@ -282,10 +284,11 @@
                                                     <section class="col col-sm-6">
                                                         <label class="label">Buying with Mortgage</label>
                                                         <label class="select">
+                                                            @{ var buyingWithMortgage = !string.IsNullOrWhiteSpace(Model.SmsTransaction.LenderName); }
                                                             <select name="BuyingWithMortgageSelect" id="BuyingWithMortgageSelect">
                                                                 <option value="">Please Select</option>
-                                                                <option value="1">Yes</option>
-                                                                <option value="0">No</option>
+                                                                <option value="1" @(buyingWithMortgage ? "selected=\"selected\"" : "")>Yes</option>
+                                                                <option value="0" @(!buyingWithMortgage ? "selected=\"selected\"" : "")>No</option>
                                                             </select>
                                                             <i></i>
                                                         </label>
@@ -313,6 +316,7 @@
                                                         <label class="label">Price</label>
                                                         <label class="input">
                                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                            <i class="icon-prepend fa fa-gbp"></i>
                                                             @Html.TextBoxFor(m => m.SmsTransaction.Price, new { tabindex = "27", maxlength = 50 })
                                                         </label>
                                                     </section>
@@ -322,9 +326,11 @@
                                     }
                                     <div class="tab-pane" id="step3">
                                         <fieldset>
+                                            <legend>Bank Account Check</legend>
                                             <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
+                                                <h5><i class="fa fa-info"></i><strong>Information</strong></h5>
                                                 <p>
-                                                    This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to your conveyancing firm, actually belong to that firm.
+                                                    This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to <strong>@conveyancerName</strong>, actually belong to that firm.
                                                 </p>
                                                 <p>
                                                     Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
@@ -337,7 +343,7 @@
                                                 <section class="col col-sm-12">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        <input type="text" name="accountNumber" id="accountNumber" class="clearResult" placeholder="Account Number" maxlength="8" autocomplete="off" />
+                                                        <input type="text" name="accountNumber" id="accountNumber" class="clearResult" placeholder="@shortenedConveyancerName's Account Number" maxlength="8" autocomplete="off" />
                                                     </label>
                                                 </section>
                                             </div>
@@ -346,7 +352,7 @@
                                                 <section class="col col-sm-12">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        <input type="text" name="sortCode" id="sortCode" class="clearResult" placeholder="Sort Code" maxlength="6" autocomplete="off" />
+                                                        <input type="text" name="sortCode" id="sortCode" class="clearResult" placeholder="@shortenedConveyancerName's Sort Code" maxlength="6" autocomplete="off" />
                                                     </label>
                                                 </section>
                                             </div>
@@ -377,4 +383,5 @@
 </div>
 
 @Scripts.Render("~/Scripts/typeahead")
+@Scripts.Render("~/Scripts/lendersearch")
 <script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_ConfirmDetails")"></script>

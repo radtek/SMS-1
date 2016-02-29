@@ -34,6 +34,12 @@
             <dd><p>{{OrganisationAdminEmail}}</p></dd>
             <dt>Verified Phone Number:</dt>
             <dd><p>{{Notes}}</p></dd>
+            <dt>Authority Delegated By:</dt>
+            {{#if authorityDelegatedBy}}
+            <dd><p>{{authorityDelegatedBy}}</p></dd>
+            {{else}}
+            <dd><p>Not Delegated</p></dd>
+            {{/if}}
         </dl>
         <h5>Other Details</h5>
         <dl class="dl-horizontal">

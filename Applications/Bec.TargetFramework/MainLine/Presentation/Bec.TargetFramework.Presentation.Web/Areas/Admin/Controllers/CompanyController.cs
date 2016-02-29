@@ -73,19 +73,42 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var org = await OrganisationClient.GetOrganisationWithStatusAndAdminAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
-            var dto = new VerifyCompanyDTO
+
+            VerifyCompanyDTO dto = new VerifyCompanyDTO
             {
                 OrganisationID = orgId,
-                SroUaoID = org.UserAccountOrganisationID,
+                UaoID = org.UserAccountOrganisationID,
                 OrganisationName = org.Name,
                 RegulatorName = org.Regulator,
                 RegulatorNumber = org.RegulatorNumber,
-                SroSalutation = org.OrganisationAdminSalutation,
-                SroFirstName = org.OrganisationAdminFirstName,
-                SroLastName = org.OrganisationAdminLastName,
-                SroEmail = org.OrganisationAdminEmail,
-                OrganisationType = org.OrganisationTypeDescription
+                OrganisationType = org.OrganisationTypeDescription,
+                FilesPerMonth = org.FilesPerMonth > 0 ? org.FilesPerMonth : (int?)null,
+                IsAuthorityDelegated = !string.IsNullOrWhiteSpace(org.AuthorityDelegatedByEmail)
             };
+            // ZM: IMPORTANT! The way the function is presented is different from how it is stored in DB
+            // hence the confusion with AuthorityDelegatedToSalutation and AuthorityDelegatedBySalutation
+            // fields differ with 'To' and 'By'
+            if (dto.IsAuthorityDelegated)
+            {
+                dto.Salutation = org.AuthorityDelegatedBySalutation;
+                dto.FirstName = org.AuthorityDelegatedByFirstName;
+                dto.LastName = org.AuthorityDelegatedByLastName;
+                dto.Email = org.AuthorityDelegatedByEmail;
+                dto.AuthorityDelegatedToSalutation = org.OrganisationAdminSalutation;
+                dto.AuthorityDelegatedToFirstName = org.OrganisationAdminFirstName;
+                dto.AuthorityDelegatedToLastName = org.OrganisationAdminLastName;
+                dto.AuthorityDelegatedToEmail = org.OrganisationAdminEmail;
+            }
+            else
+            {
+                dto.Salutation = org.OrganisationAdminSalutation;
+                dto.FirstName = org.OrganisationAdminFirstName;
+                dto.LastName = org.OrganisationAdminLastName;
+                dto.Email = org.OrganisationAdminEmail;
+            }
+
+            ViewBag.Notes = org.OrganisationAdminTelephone;
+            
             return PartialView("_Verify", dto);
         }
 
@@ -93,10 +116,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Verify(VerifyCompanyDTO dto)
         {
-            await EnsureSroUaoIsInOrg(dto.SroUaoID, dto.OrganisationID, queryClient);
+            await EnsureSroUaoIsInOrg(dto.UaoID, dto.OrganisationID, queryClient);
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(dto.OrganisationID, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, dto.PhoneNumber);
-            await OrganisationClient.VerifyOrganisationAsync(dto);
+            await OrganisationClient.UpdateOrganisationDetailsAsync(dto);
 
             TempData["VerifiedCompanyId"] = dto.OrganisationID;
             TempData["tabIndex"] = 1;

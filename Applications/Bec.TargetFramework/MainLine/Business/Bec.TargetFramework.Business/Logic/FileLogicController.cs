@@ -38,12 +38,12 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public FileDTO DownloadFile(Guid uaoID, Guid fileID)
+        public FileDTO DownloadFile(Guid fileID, Guid parentID)
         {
             //TODO: access controls based on uao & file parent etc
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.FileID == fileID).Single().ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.FileID == fileID && x.ParentID == parentID).Single().ToDto();
             }
         }
 
@@ -51,7 +51,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var fid = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == id && x.UserAccountOrganisationID == uaoID && x.Name == filename).Select(x => x.FileID).FirstOrDefault();
+                var fid = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == id && x.UserAccountOrganisationID == uaoID && x.Name == filename && x.Temporary).Select(x => x.FileID).FirstOrDefault();
                 if (fid != Guid.Empty) await RemoveFilesAsync(fid);
                 await scope.SaveChangesAsync();
             }

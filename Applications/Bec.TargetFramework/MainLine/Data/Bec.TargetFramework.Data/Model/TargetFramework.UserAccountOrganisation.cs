@@ -376,6 +376,16 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationSafeSendGroups in the schema.
+        /// </summary>
+        [Bec.TargetFramework.Data.Attributes.CollectionUpdateBehaviour(Bec.TargetFramework.Data.Attributes.UpdateBehaviour.Replace)]
+        public virtual ICollection<UserAccountOrganisationSafeSendGroup> UserAccountOrganisationSafeSendGroups
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

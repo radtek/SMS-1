@@ -722,7 +722,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (sendToMobilePhone && !string.IsNullOrWhiteSpace(uao.UserAccount.MobilePhoneNumber) && !string.IsNullOrWhiteSpace(uao.PinCode))
                 {
-                    var message = string.Format("Your Safe Move Scheme PIN is {0}", uao.PinCode);
+                    var message = string.Format("Please create your online Safe Move Scheme account now using PIN: {0}", uao.PinCode);
                     SendTextMessage(uao.UserAccount.MobilePhoneNumber, message);
                 }
             }
@@ -818,6 +818,14 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtosWithRelated(withRelatedLevel);
+            }
+        }
+
+        public List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroups(Guid uaoID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationSafeSendGroups.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
             }
         }
 

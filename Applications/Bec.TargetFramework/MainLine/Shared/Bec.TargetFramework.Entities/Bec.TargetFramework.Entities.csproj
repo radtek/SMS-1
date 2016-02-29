@@ -242,6 +242,10 @@
     <Compile Include="Boo\ConversationParticipantDTO.Generated.cs">
       <DependentUpon>ConversationParticipantDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\ConversationSafeSendGroupParticipantDTO.cs" />
+    <Compile Include="Boo\ConversationSafeSendGroupParticipantDTO.Generated.cs">
+      <DependentUpon>ConversationSafeSendGroupParticipantDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\CountryCodeDTO.cs" />
     <Compile Include="Boo\CountryCodeDTO.Generated.cs">
       <DependentUpon>CountryCodeDTO.cs</DependentUpon>
@@ -1312,6 +1316,10 @@
       <DependentUpon>RoleDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\RoleTemplateClaimDTO.cs" />
+    <Compile Include="Boo\SafeSendGroupDTO.cs" />
+    <Compile Include="Boo\SafeSendGroupDTO.Generated.cs">
+      <DependentUpon>SafeSendGroupDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ServiceBusErrorLogDTO.cs" />
     <Compile Include="Boo\ServiceBusTraceLogDTO.cs" />
     <Compile Include="Boo\ServiceDefinitionDetailDTO.cs" />
@@ -1523,6 +1531,10 @@
     <Compile Include="Boo\UserAccountOrganisationRoleDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationRoleDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\UserAccountOrganisationSafeSendGroupDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationSafeSendGroupDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationSafeSendGroupDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\UserAccountOrganisationSecondaryUserTypeDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationSecondaryUserTypeDTO.cs</DependentUpon>
     </Compile>
@@ -1711,6 +1723,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\AddNewUserToOrganisationDTO.cs" />
     <Compile Include="DTO\Notification\ProductAdvisedNotificationDTO.cs" />
     <Compile Include="DTO\VerifyCompanyDTO.cs" />
     <Compile Include="DTO\CreateConversationDTO.cs" />
@@ -1884,7 +1897,6 @@
     <Compile Include="DTO\Notification\BankAccountMarkedAsPotentialFraudNotificationDTO.cs" />
     <Compile Include="DTO\Notification\ConversationDetailsDTO.cs" />
     <Compile Include="DTO\Notification\NewInternalMessagesNotificationDTO.cs" />
-    <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsSafeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsFraudSuspiciousNotificationDTO.cs" />
@@ -1965,6 +1977,8 @@
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
     <Compile Include="Enums\BrokerTypeEnum.cs" />
+    <Compile Include="Enums\OrganisationSettingName.cs" />
+    <Compile Include="Enums\SmsTransactionDecisionEnum.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />

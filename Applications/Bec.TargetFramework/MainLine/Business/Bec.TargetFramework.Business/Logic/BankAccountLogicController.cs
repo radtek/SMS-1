@@ -116,7 +116,12 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID).ToDto();
+                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Single(x => 
+                    x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID
+                    // ZM: I left it deliberatly for all future security audits. 
+                    // None of the bank accounts belong to Fred so he would not be able to mark this account as safe/fraud etc.
+                    // && x.OrganisationID == bankAccountStatusChangeRequest.RequestedByOrganisationID
+                    ).ToDto();
 
                 var currentStatus = EnumExtensions.GetEnumValue<BankAccountStatusEnum>(bankAccount.Status).Value;
                 if (bankAccountStatusChangeRequest.BankAccountStatus == currentStatus) return;

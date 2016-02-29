@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationTypeDTO() {
         }
 
-        public OrganisationTypeDTO(int organisationTypeID, string name, string description, bool isActive, bool isDeleted, List<DefaultOrganisationTemplateDTO> defaultOrganisationTemplates, List<DefaultOrganisationTargetDTO> defaultOrganisationTargets, List<DefaultOrganisationTargetTemplateDTO> defaultOrganisationTargetTemplates, List<DefaultOrganisationDTO> defaultOrganisations, List<ComponentTierTemplateDTO> componentTierTemplates, List<ComponentTierDTO> componentTiers, List<DiscountDTO> discounts, List<DiscountTemplateDTO> discountTemplates, List<DeductionDTO> deductions, List<DeductionTemplateDTO> deductionTemplates, List<NotificationConstructGroupNotificationConstructDTO> notificationConstructGroupNotificationConstructs, List<NotificationConstructGroupNotificationConstructTemplateDTO> notificationConstructGroupNotificationConstructTemplates, List<NotificationConstructTargetTemplateDTO> notificationConstructTargetTemplates, List<NotificationConstructTargetDTO> notificationConstructTargets, List<ResourceOperationTargetDTO> resourceOperationTargets, List<OrganisationDTO> organisations) {
+        public OrganisationTypeDTO(int organisationTypeID, string name, string description, bool isActive, bool isDeleted, List<DefaultOrganisationTemplateDTO> defaultOrganisationTemplates, List<DefaultOrganisationTargetDTO> defaultOrganisationTargets, List<DefaultOrganisationTargetTemplateDTO> defaultOrganisationTargetTemplates, List<DefaultOrganisationDTO> defaultOrganisations, List<ComponentTierTemplateDTO> componentTierTemplates, List<ComponentTierDTO> componentTiers, List<DiscountDTO> discounts, List<DiscountTemplateDTO> discountTemplates, List<DeductionDTO> deductions, List<DeductionTemplateDTO> deductionTemplates, List<NotificationConstructGroupNotificationConstructDTO> notificationConstructGroupNotificationConstructs, List<NotificationConstructGroupNotificationConstructTemplateDTO> notificationConstructGroupNotificationConstructTemplates, List<NotificationConstructTargetTemplateDTO> notificationConstructTargetTemplates, List<NotificationConstructTargetDTO> notificationConstructTargets, List<ResourceOperationTargetDTO> resourceOperationTargets, List<OrganisationDTO> organisations, List<SafeSendGroupDTO> safeSendGroups) {
 
           this.OrganisationTypeID = organisationTypeID;
           this.Name = name;
@@ -45,6 +45,7 @@ namespace Bec.TargetFramework.Entities
           this.NotificationConstructTargets = notificationConstructTargets;
           this.ResourceOperationTargets = resourceOperationTargets;
           this.Organisations = organisations;
+          this.SafeSendGroups = safeSendGroups;
         }
 
         #endregion
@@ -117,6 +118,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<OrganisationDTO> Organisations { get; set; }
+
+        [DataMember]
+        public List<SafeSendGroupDTO> SafeSendGroups { get; set; }
 
         #endregion
     }

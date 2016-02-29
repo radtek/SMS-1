@@ -649,6 +649,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for Organisations_AuthorityDelegatedByContactID in the schema.
+        /// </summary>
+        public virtual ICollection<Organisation> Organisations_AuthorityDelegatedByContactID
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

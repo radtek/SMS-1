@@ -232,15 +232,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ClearUnusedFiles(Guid uaoID);
 
-		/// <param name="uaoID"></param>
 		/// <param name="fileID"></param>
+		/// <param name="parentID"></param>
 		/// <returns></returns>
-		Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID);
+		Task<FileDTO> DownloadFileAsync(Guid fileID,Guid parentID);
 
-		/// <param name="uaoID"></param>
 		/// <param name="fileID"></param>
+		/// <param name="parentID"></param>
 		/// <returns></returns>
-		FileDTO DownloadFile(Guid uaoID,Guid fileID);
+		FileDTO DownloadFile(Guid fileID,Guid parentID);
 
 		/// <param name="uaoID"></param>
 		/// <param name="id"></param>
@@ -582,12 +582,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Byte[] RetrieveNotificationConstructData(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
 
 		/// <param name="notificationID"></param>
+		/// <param name="userID"></param>
 		/// <returns></returns>
-		Task MarkAcceptedAsync(Guid notificationID);
+		Task MarkAcceptedAsync(Guid notificationID,Guid userID);
 
 		/// <param name="notificationID"></param>
+		/// <param name="userID"></param>
 		/// <returns></returns>
-		void MarkAccepted(Guid notificationID);
+		void MarkAccepted(Guid notificationID,Guid userID);
 
 		/// <param name="eventStatusID"></param>
 		/// <param name="status"></param>
@@ -621,7 +623,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds);
 
-		/// <param name="orgID"></param>
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
@@ -630,9 +632,9 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,Guid[] participantsUaoIDs);
+		Task<Guid> CreateConversationAsync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
 
-		/// <param name="orgID"></param>
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
@@ -641,21 +643,23 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		Guid CreateConversation(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,Guid[] participantsUaoIDs);
+		Guid CreateConversation(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
 
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
+		Task ReplyToConversationAsync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
 
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		void ReplyToConversation(Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
+		void ReplyToConversation(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
 
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
@@ -666,6 +670,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="conversationID"></param>
 		/// <returns></returns>
 		void MarkAsRead(Guid uaoID,Guid conversationID);
+
+		/// <param name="senderUaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <returns></returns>
+		Task<List<VSafeSendRecipientDTO>> GetActivityRecipientsAsync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID);
+
+		/// <param name="senderUaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <returns></returns>
+		List<VSafeSendRecipientDTO> GetActivityRecipients(Guid senderUaoID,ActivityType activityTypeID,Guid activityID);
 
 		/// <param name="conversationId"></param>
 		/// <param name="uaoId"></param>
@@ -708,22 +724,34 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		ConversationResultDTO<VConversationDTO> GetConversations(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip);
 
 		/// <param name="uaoID"></param>
+		/// <param name="userOrgTypeName"></param>
 		/// <param name="orgID"></param>
 		/// <param name="activityType"></param>
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+		Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
 
 		/// <param name="uaoID"></param>
+		/// <param name="userOrgTypeName"></param>
 		/// <param name="orgID"></param>
 		/// <param name="activityType"></param>
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+
+		/// <param name="uaoId"></param>
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		Task<List<CreateConversationRecipientDTO>> GetUserSafeSendGroupsAsync(Guid uaoId,Guid orgId);
+
+		/// <param name="uaoId"></param>
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		List<CreateConversationRecipientDTO> GetUserSafeSendGroups(Guid uaoId,Guid orgId);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -792,19 +820,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddNewUnverifiedOrganisationAndAdministrator(AddCompanyDTO dto);
 
-		/// <param name="organisationID"></param>
-		/// <param name="userTypeValue"></param>
-		/// <param name="addDefaultRoles"></param>
-		/// <param name="roles"></param>
 		/// <returns></returns>
-		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
+		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(AddNewUserToOrganisationDTO dto);
 
-		/// <param name="organisationID"></param>
-		/// <param name="userTypeValue"></param>
-		/// <param name="addDefaultRoles"></param>
-		/// <param name="roles"></param>
 		/// <returns></returns>
-		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
+		UserAccountOrganisationDTO AddNewUserToOrganisation(AddNewUserToOrganisationDTO dto);
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
@@ -879,28 +899,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="email"></param>
 		/// <returns></returns>
 		Boolean CheckDuplicateUserSmsTransaction(Guid orgID,String email,SmsTransactionDTO dto);
-
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="salutation"></param>
-		/// <param name="firstName"></param>
-		/// <param name="lastName"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="birthDate"></param>
-		/// <returns></returns>
-		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
-
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="salutation"></param>
-		/// <param name="firstName"></param>
-		/// <param name="lastName"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="birthDate"></param>
-		/// <returns></returns>
-		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
@@ -993,10 +991,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
 
 		/// <returns></returns>
-		Task VerifyOrganisationAsync(VerifyCompanyDTO dto);
+		Task UpdateOrganisationDetailsAsync(VerifyCompanyDTO dto);
 
 		/// <returns></returns>
-		void VerifyOrganisation(VerifyCompanyDTO dto);
+		void UpdateOrganisationDetails(VerifyCompanyDTO dto);
 
 		/// <param name="orgID"></param>
 		/// <param name="txID"></param>
@@ -1019,6 +1017,24 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notes"></param>
 		/// <returns></returns>
 		void AddNotes(Guid orgID,Guid uaoID,String notes);
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Task<Boolean> IsSafeSendEnabledAsync(Guid organisationID);
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Boolean IsSafeSendEnabled(Guid organisationID);
+
+		/// <param name="orgID"></param>
+		/// <param name="safeSendEnabled"></param>
+		/// <returns></returns>
+		Task AddOrUpdateSafeSendEnabledAsync(Guid orgID,Boolean safeSendEnabled);
+
+		/// <param name="orgID"></param>
+		/// <param name="safeSendEnabled"></param>
+		/// <returns></returns>
+		void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -1576,6 +1592,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
 		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task<List<UserAccountOrganisationSafeSendGroupDTO>> GetSafeSendGroupsAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroups(Guid uaoID);
 
 		/// <param name="uaoId"></param>
 		/// <param name="newUsername"></param>
@@ -2248,24 +2272,24 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
 		/// <param name="fileID"></param>
+		/// <param name="parentID"></param>
 		/// <returns></returns>
-		public virtual Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID)
+		public virtual Task<FileDTO> DownloadFileAsync(Guid fileID,Guid parentID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user);
+			return PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?fileID=" + fileID + "&parentID=" + parentID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
 		/// <param name="fileID"></param>
-		public virtual FileDTO DownloadFile(Guid uaoID,Guid fileID)
+		/// <param name="parentID"></param>
+		public virtual FileDTO DownloadFile(Guid fileID,Guid parentID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?fileID=" + fileID + "&parentID=" + parentID, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -3144,21 +3168,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="notificationID"></param>
+		/// <param name="userID"></param>
 		/// <returns></returns>
-		public virtual Task MarkAcceptedAsync(Guid notificationID)
+		public virtual Task MarkAcceptedAsync(Guid notificationID,Guid userID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID, null, _user);
+			return PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID + "&userID=" + userID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="notificationID"></param>
-		public virtual void MarkAccepted(Guid notificationID)
+		/// <param name="userID"></param>
+		public virtual void MarkAccepted(Guid notificationID,Guid userID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID + "&userID=" + userID, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3247,7 +3273,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
@@ -3256,18 +3282,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,Guid[] participantsUaoIDs)
+		public virtual Task<Guid> CreateConversationAsync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
+			fromHash = fromHash.UrlEncode();
 			subject = subject.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user);
+			return PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
@@ -3275,41 +3302,46 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
-		public virtual Guid CreateConversation(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,Guid[] participantsUaoIDs)
+		public virtual Guid CreateConversation(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
+			fromHash = fromHash.UrlEncode();
 			subject = subject.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user)).Result;
+			return Task.Run(() => PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		public virtual Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
+		public virtual Task ReplyToConversationAsync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
+			fromHash = fromHash.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user);
+			return PostAsync<object>("api/NotificationLogic/ReplyToConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
-		public virtual void ReplyToConversation(Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
+		public virtual void ReplyToConversation(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
+			fromHash = fromHash.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3333,6 +3365,31 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="senderUaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <returns></returns>
+		public virtual Task<List<VSafeSendRecipientDTO>> GetActivityRecipientsAsync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VSafeSendRecipientDTO>>("api/NotificationLogic/GetActivityRecipients?senderUaoID=" + senderUaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="senderUaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		public virtual List<VSafeSendRecipientDTO> GetActivityRecipients(Guid senderUaoID,ActivityType activityTypeID,Guid activityID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VSafeSendRecipientDTO>>("api/NotificationLogic/GetActivityRecipients?senderUaoID=" + senderUaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID, _user)).Result;
 		}
 
 		/// <summary>
@@ -3418,31 +3475,58 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="userOrgTypeName"></param>
 		/// <param name="orgID"></param>
 		/// <param name="activityType"></param>
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		public virtual Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
+		public virtual Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
 		{
+			userOrgTypeName = userOrgTypeName.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user);
+			return GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&userOrgTypeName=" + userOrgTypeName + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="userOrgTypeName"></param>
 		/// <param name="orgID"></param>
 		/// <param name="activityType"></param>
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
-		public virtual ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
+		public virtual ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
+		{
+			userOrgTypeName = userOrgTypeName.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&userOrgTypeName=" + userOrgTypeName + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		public virtual Task<List<CreateConversationRecipientDTO>> GetUserSafeSendGroupsAsync(Guid uaoId,Guid orgId)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
+			return GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserSafeSendGroups?uaoId=" + uaoId + "&orgId=" + orgId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <param name="orgId"></param>
+		public virtual List<CreateConversationRecipientDTO> GetUserSafeSendGroups(Guid uaoId,Guid orgId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserSafeSendGroups?uaoId=" + uaoId + "&orgId=" + orgId, _user)).Result;
 		}
 
 		#endregion
@@ -3640,28 +3724,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="userTypeValue"></param>
-		/// <param name="addDefaultRoles"></param>
-		/// <param name="roles"></param>
 		/// <returns></returns>
-		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
+		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(AddNewUserToOrganisationDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user);
+			return PostAsync<AddNewUserToOrganisationDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync", dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="userTypeValue"></param>
-		/// <param name="addDefaultRoles"></param>
-		/// <param name="roles"></param>
-		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
+		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(AddNewUserToOrganisationDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user)).Result;
+			return Task.Run(() => PostAsync<AddNewUserToOrganisationDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync", dto, _user)).Result;
 		}
 
 		/// <summary>
@@ -3844,51 +3920,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<SmsTransactionDTO, Boolean>("api/OrganisationLogic/CheckDuplicateUserSmsTransaction?orgID=" + orgID + "&email=" + email, dto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="salutation"></param>
-		/// <param name="firstName"></param>
-		/// <param name="lastName"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="birthDate"></param>
-		/// <returns></returns>
-		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
-		{
-			salutation = salutation.UrlEncode();
-			firstName = firstName.UrlEncode();
-			lastName = lastName.UrlEncode();
-			email = email.UrlEncode();
-			phoneNumber = phoneNumber.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="salutation"></param>
-		/// <param name="firstName"></param>
-		/// <param name="lastName"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="birthDate"></param>
-		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
-		{
-			salutation = salutation.UrlEncode();
-			firstName = firstName.UrlEncode();
-			lastName = lastName.UrlEncode();
-			email = email.UrlEncode();
-			phoneNumber = phoneNumber.UrlEncode();
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
 		}
 
 		/// <summary>
@@ -4093,19 +4124,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task VerifyOrganisationAsync(VerifyCompanyDTO dto)
+		public virtual Task UpdateOrganisationDetailsAsync(VerifyCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/VerifyOrganisation", dto, _user);
+			return PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/UpdateOrganisationDetails", dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void VerifyOrganisation(VerifyCompanyDTO dto)
+		public virtual void UpdateOrganisationDetails(VerifyCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/VerifyOrganisation", dto, _user)).Wait();
+			Task.Run(() => PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/UpdateOrganisationDetails", dto, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4156,6 +4187,50 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddNotes?orgID=" + orgID + "&uaoID=" + uaoID + "&notes=" + notes, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> IsSafeSendEnabledAsync(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeSendEnabled?organisationID=" + organisationID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		public virtual Boolean IsSafeSendEnabled(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeSendEnabled?organisationID=" + organisationID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="safeSendEnabled"></param>
+		/// <returns></returns>
+		public virtual Task AddOrUpdateSafeSendEnabledAsync(Guid orgID,Boolean safeSendEnabled)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="safeSendEnabled"></param>
+		public virtual void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user)).Wait();
 		}
 
 		#endregion
@@ -5699,6 +5774,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task<List<UserAccountOrganisationSafeSendGroupDTO>> GetSafeSendGroupsAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<UserAccountOrganisationSafeSendGroupDTO>>("api/UserLogic/GetSafeSendGroups?uaoID=" + uaoID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroups(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<UserAccountOrganisationSafeSendGroupDTO>>("api/UserLogic/GetSafeSendGroups?uaoID=" + uaoID, _user)).Result;
 		}
 
 		/// <summary>

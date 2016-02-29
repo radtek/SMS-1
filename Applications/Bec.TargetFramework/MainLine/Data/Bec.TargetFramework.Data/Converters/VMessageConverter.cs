@@ -41,6 +41,7 @@ namespace Bec.TargetFramework.Entities
             target.UserType = source.UserType;
             target.OrganisationType = source.OrganisationType;
             target.NotificationConstructName = source.NotificationConstructName;
+            target.SafeSendGroupName = source.SafeSendGroupName;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -68,6 +69,7 @@ namespace Bec.TargetFramework.Entities
             target.UserType = source.UserType;
             target.OrganisationType = source.OrganisationType;
             target.NotificationConstructName = source.NotificationConstructName;
+            target.SafeSendGroupName = source.SafeSendGroupName;
 
             // User-defined partial method
             OnEntityCreating(source, target);

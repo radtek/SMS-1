@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VOrganisationWithStatusAndAdminDTO() {
         }
 
-        public VOrganisationWithStatusAndAdminDTO(global::System.Guid organisationID, string name, global::System.DateTime createdOn, string createdBy, global::System.Nullable<bool> organisationVerified, global::System.Nullable<System.DateTime> pinCreated, string pinCode, string organisationAdminSalutation, string organisationAdminFirstName, string organisationAdminLastName, string organisationAdminTelephone, string organisationAdminEmail, string regulator, string regulatorOther, string regulatorNumber, string line1, string line2, string town, string county, string postalCode, string additionalAddressInformation, global::System.Guid statusTypeID, global::System.Guid statusTypeValueID, int statusTypeVersionNumber, global::System.Nullable<System.Guid> organisationAdminUserID, string statusValueName, global::System.DateTime statusChangedOn, string statusChangedBy, string reason, string notes, global::System.Nullable<System.DateTime> organisationAdminCreated, global::System.Nullable<System.DateTime> verifiedOn, string verifiedBy, string verifiedNotes, global::System.Guid userAccountOrganisationID, string registeredAsName, global::System.Nullable<int> organisationRecommendationSourceID, global::System.Nullable<int> schemeID, int filesPerMonth, global::System.Nullable<long> activeSafeAccounts, global::System.Nullable<long> pendingValidationAccounts, string organisationTypeDescription, global::System.Nullable<int> brokerType, global::System.Nullable<int> brokerBusinessType) {
+        public VOrganisationWithStatusAndAdminDTO(global::System.Guid organisationID, string name, global::System.DateTime createdOn, string createdBy, global::System.Nullable<bool> organisationVerified, global::System.Nullable<System.DateTime> pinCreated, string pinCode, string organisationAdminSalutation, string organisationAdminFirstName, string organisationAdminLastName, string organisationAdminTelephone, string organisationAdminEmail, string regulator, string regulatorOther, string regulatorNumber, string line1, string line2, string town, string county, string postalCode, string additionalAddressInformation, global::System.Guid statusTypeID, global::System.Guid statusTypeValueID, int statusTypeVersionNumber, global::System.Nullable<System.Guid> organisationAdminUserID, string statusValueName, global::System.DateTime statusChangedOn, string statusChangedBy, string reason, string notes, global::System.Nullable<System.DateTime> organisationAdminCreated, global::System.Nullable<System.DateTime> verifiedOn, string verifiedBy, string verifiedNotes, global::System.Guid userAccountOrganisationID, string registeredAsName, global::System.Nullable<int> organisationRecommendationSourceID, global::System.Nullable<int> schemeID, int filesPerMonth, global::System.Nullable<long> activeSafeAccounts, global::System.Nullable<long> pendingValidationAccounts, string organisationTypeDescription, global::System.Nullable<int> brokerType, global::System.Nullable<int> brokerBusinessType, string authorityDelegatedBySalutation, string authorityDelegatedByFirstName, string authorityDelegatedByLastName, string authorityDelegatedByEmail) {
 
           this.OrganisationID = organisationID;
           this.Name = name;
@@ -68,6 +68,10 @@ namespace Bec.TargetFramework.Entities
           this.OrganisationTypeDescription = organisationTypeDescription;
           this.BrokerType = brokerType;
           this.BrokerBusinessType = brokerBusinessType;
+          this.AuthorityDelegatedBySalutation = authorityDelegatedBySalutation;
+          this.AuthorityDelegatedByFirstName = authorityDelegatedByFirstName;
+          this.AuthorityDelegatedByLastName = authorityDelegatedByLastName;
+          this.AuthorityDelegatedByEmail = authorityDelegatedByEmail;
         }
 
         #endregion
@@ -205,6 +209,18 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<int> BrokerBusinessType { get; set; }
+
+        [DataMember]
+        public string AuthorityDelegatedBySalutation { get; set; }
+
+        [DataMember]
+        public string AuthorityDelegatedByFirstName { get; set; }
+
+        [DataMember]
+        public string AuthorityDelegatedByLastName { get; set; }
+
+        [DataMember]
+        public string AuthorityDelegatedByEmail { get; set; }
 
         #endregion
     }

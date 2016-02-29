@@ -284,52 +284,6 @@ VALUES (
   null
 );
 
--- CreditAdjustment
-INSERT INTO
-  public."BusEvent"
-(
-  "BusEventID",
-  "BusEventName",
-  "BusEventDescription",
-  "BusEventTypeID"
-)
-VALUES (
-  '93D38148-4126-4BEB-A7C8-112004E3C8CF',
-  'CreditAdjustment',
-  '',
-  '707d82de-3ddd-11e4-95c4-a77fdf4021b5'
-);
-INSERT INTO
-  public."BusEventMessageSubscriber"
-(
-  "BusEventMessageSubscriberID",
-  "Name",
-  "ObjectName",
-  "ObjectAssembly"
-)
-VALUES (
-  'BEBA4DB9-16F3-4DEE-BDC0-14CD0030243F',
-  'CreditAdjustment',
-  'Bec.TargetFramework.SB.Messages.Events.CreditAdjustmentEvent',
-  'Bec.TargetFramework.SB.Messages'
-);
-INSERT INTO
-  public."BusEventBusEventMessageSubscriber"
-(
-  "BusEventID",
-  "BusEventMessageSubscriberID",
-  "IsActive",
-  "IsDeleted",
-  "BusEventMessageSubscriberFilter"
-)
-VALUES (
-  '93D38148-4126-4BEB-A7C8-112004E3C8CF',
-  'BEBA4DB9-16F3-4DEE-BDC0-14CD0030243F',
-  true,
-  false,
-  null
-);
-
 -- NewInternalMessages
 INSERT INTO
   public."BusEvent"

@@ -1,0 +1,29 @@
+﻿@model Bec.TargetFramework.Presentation.Web.Areas.Admin.Models.OrganisationSettingsModel
+<div id="content">
+    <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-cog margin-right-10"></i>Organisation Settings</h2>
+    <div class="row">
+        <div class="col-sm-6 col-lg-4">
+            <form id="orgSettingsForm" action="" method="POST" class="smart-form" autocomplete="off">
+                <fieldset>
+                    @Html.ValidationBootstrap()
+                    @Html.AntiForgeryToken()
+                    @Html.PreventAutofill()
+
+                    <section>
+                        <label class="label">Select this option in order to enable Safe Send for your Clients:</label>
+                        <label class="toggle">
+                            @Html.CheckBoxFor(m => m.SafeSendEnabled, new { tabindex = 1 })
+                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i>
+                            Enable Safe Send for Clients
+                        </label>
+                    </section>
+                </fieldset>
+                <footer>
+                    <button id="orgSettingsSubmit" type="submit" class="btn btn-primary">
+                        <i class="fa fa-check margin-right-5"></i>Save
+                    </button>
+                </footer>
+            </form>
+        </div>
+    </div>
+</div>

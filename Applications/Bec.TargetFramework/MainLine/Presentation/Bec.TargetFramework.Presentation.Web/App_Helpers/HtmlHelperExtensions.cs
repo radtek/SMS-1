@@ -200,7 +200,7 @@ namespace Bec.TargetFramework.Presentation.Web
             {
                 var member = eType.GetMember(item.ToString())[0];
                 StringValueAttribute attr = member.GetCustomAttributes(typeof(StringValueAttribute), false).FirstOrDefault() as StringValueAttribute;
-                rejects.Add(new { Text = attr.StringValue, Value = item.ToString() });
+                rejects.Add(new { Text = attr == null ? item.ToString() : attr.StringValue, Value = item.ToString() });
             }
             return new SelectList(rejects, "Value", "Text");
         }

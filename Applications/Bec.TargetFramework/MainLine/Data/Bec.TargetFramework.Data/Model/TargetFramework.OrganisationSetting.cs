@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for OrganisationSettingID in the schema.
         /// </summary>
-        public virtual int OrganisationSettingID
+        public virtual global::System.Guid OrganisationSettingID
         {
             get;
             set;

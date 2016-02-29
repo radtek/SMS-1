@@ -53,6 +53,7 @@ namespace Bec.TargetFramework.Entities
               target.NotificationConstructTargets = source.NotificationConstructTargets.ToDtosWithRelated(level - 1);
               target.ResourceOperationTargets = source.ResourceOperationTargets.ToDtosWithRelated(level - 1);
               target.Organisations = source.Organisations.ToDtosWithRelated(level - 1);
+              target.SafeSendGroups = source.SafeSendGroups.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

@@ -326,6 +326,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for AuthorityDelegatedByContactID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> AuthorityDelegatedByContactID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -704,6 +714,24 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for Lenders in the schema.
         /// </summary>
         public virtual ICollection<Lender> Lenders
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Contact_AuthorityDelegatedByContactID in the schema.
+        /// </summary>
+        public virtual Contact Contact_AuthorityDelegatedByContactID
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ConversationSafeSendGroupParticipants in the schema.
+        /// </summary>
+        public virtual ICollection<ConversationSafeSendGroupParticipant> ConversationSafeSendGroupParticipants
         {
             get;
             set;

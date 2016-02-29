@@ -7,10 +7,10 @@
         currentUser != null &&
         !currentUser.IsTemporaryUser &&
         !currentUser.NeedsTCs &&
-        (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("Add", "SmsTransaction"));
+        (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("Add", "SmsTransaction") || ClaimsHelper.UserHasClaim("View", "SmsTransactionsOverview"));
     var showOrganisationName =
         Request.IsAuthenticated &&
-        (ClaimsHelper.UserHasClaim("Add", "SmsTransaction") || ClaimsHelper.UserHasClaim("Configure", "BankAccount"));
+        !ClaimsHelper.UserHasClaim("View", "MyTransactions");
 }
 <!-- HEADER -->
 <header id="header">
