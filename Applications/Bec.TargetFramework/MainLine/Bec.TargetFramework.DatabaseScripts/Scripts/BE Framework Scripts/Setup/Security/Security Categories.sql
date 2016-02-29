@@ -59,7 +59,4 @@ insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription
 values (uuid_generate_v1(), 'SupportFunctions', 'SupportFunctions: Only BEC Support user can work with management Support Functions (SMH and Callout)', TRUE);
 
 insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
-values (uuid_generate_v1(), 'ShowMeHow', 'ShowMeHow: Only BEC Support user can work with management SMH on the system', TRUE);
-
-insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
-values (uuid_generate_v1(), 'Callout', 'Callout', TRUE);
+values (uuid_generate_v1(), 'RequestSupport', 'RequestSupport', TRUE);
