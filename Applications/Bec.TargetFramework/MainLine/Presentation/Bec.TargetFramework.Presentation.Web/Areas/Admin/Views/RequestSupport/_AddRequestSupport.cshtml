@@ -2,7 +2,15 @@
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model RequestSupportDTO
-
+@{
+    var requestTypes = Enum.GetValues(typeof(RequestType)).Cast<RequestType>();
+    var requestTypeList = from requestType in requestTypes
+                          select new SelectListItem
+                          {
+                              Text = requestType.GetStringValue(),
+                              Value = ((int)requestType).ToString()
+                          };
+}
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addRequestSupportLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -35,7 +43,7 @@
                                 <section>
                                     <label class="label">Request Type</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.RequestType, EnumHelper.GetSelectList(typeof(RequestType)), "Please Select", new { tabindex = "1" })
+                                        @Html.DropDownListFor(m => m.RequestType, requestTypeList, "Please Select", new { tabindex = "1" })
                                         <i></i>
                                     </label>
                                 </section>
@@ -43,7 +51,7 @@
                                     <label class="label">Telephone</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Telephone, new { tabindex = "2", maxlength = 11 })
+                                        @Html.TextBoxFor(m => m.Telephone, new { tabindex = "2", maxlength = 20 })
                                     </label>
                                 </section>
                                 <section>

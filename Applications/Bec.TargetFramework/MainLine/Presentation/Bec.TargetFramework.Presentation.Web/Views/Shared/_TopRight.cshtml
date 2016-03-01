@@ -34,7 +34,7 @@
             @if (ClaimsHelper.UserHasClaim("Send", "RequestSupport"))
             {
                 <li>
-                    <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" data-url="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" title="Request Support"><i class="fa fa-question-circle"></i><span class="header-btn-text">Request Support</span></a>
+                    <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" data-url="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" title="Request Support"><i class="fa fa-pencil"></i><span class="header-btn-text">Request Support</span></a>
                 </li>
             }
         </ul>
