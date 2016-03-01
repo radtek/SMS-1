@@ -254,7 +254,6 @@
     <Content Include="Areas\Account\Views\Login\Index.js" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
     <Content Include="Areas\Account\Views\Search\Index.js" />
-    <Content Include="Views\Shared\RenderCallout.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
