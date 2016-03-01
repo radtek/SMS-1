@@ -1,7 +1,7 @@
 ﻿$(function () {
     var wizard = $('#editHelpWizard').bootstrapWizard({
         tabClass: 'form-wizard',
-        onTabClick: function (tab, navigation, index) {
+        onTabClick: function () {
             return $("#editHelp-form").valid();
         },
         onTabShow: function (tab, navigation, index) {

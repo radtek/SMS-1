@@ -160,7 +160,6 @@ namespace Bec.TargetFramework.Presentation.Web
 
             bundles.Add(new ScriptBundle("~/Scripts/Help/ShowMeHow").Include("~/Areas/Admin/Views/Help/_ShowMeHow.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Tour").Include("~/Views/Shared/_Tour.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Shared/RenderCallout").Include("~/Views/Shared/RenderCallout.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));

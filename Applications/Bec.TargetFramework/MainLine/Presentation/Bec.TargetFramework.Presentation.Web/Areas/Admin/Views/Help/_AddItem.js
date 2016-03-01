@@ -81,7 +81,7 @@
                     $('#helpItemTabContainerId').val(response.Item.TabContainerId);
                 }
             }
-        })
+        });
     });
 
     $(document).delegate(".help-item-element-delete", "click", function () {
@@ -179,4 +179,4 @@
             birthDateField.valid();
         }
     });
-})
+});

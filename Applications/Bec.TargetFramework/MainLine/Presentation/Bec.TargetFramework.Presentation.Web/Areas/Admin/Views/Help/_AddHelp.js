@@ -1,12 +1,12 @@
 ﻿$(function () {
     var wizard = $('#addHelpWizard').bootstrapWizard({
         tabClass: 'form-wizard',
-        onTabClick: function(tab, navigation, index) {           
+        onTabClick: function() {
             return $("#addHelp-form").valid();
         },
-        onTabShow: function (tab, navigation, index) {            
+        onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
-            var $current = index + 1;            
+            var $current = index + 1;
             if ($current >= $total) {
                 $('#stepBack').show();
                 $('#stepNext').hide();
@@ -100,7 +100,6 @@
     }
 
     $('#PageType').on('change', function () {
-
         var valOfThis = $('#PageType option:selected').val();
         if (valOfThis === "1") {
             setDefaultEffectiveDate();

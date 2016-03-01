@@ -1,7 +1,7 @@
 ﻿$(function () {
-    $('#smh').click(function () {        
+    $('#smh').click(function () {
         runPageIntro();
-    })
+    });
 
     function runPageIntro() {
         var ajaxOptions = {
@@ -10,12 +10,10 @@
             cache: false
         };
         ajaxWrapper(ajaxOptions)
-            .then(function (result) {
-                if (result.data != undefined && result.data.length>0) {
+            .done(function (result) {
+                if (result.data !== undefined && result.data.length > 0) {
                     startSMHOnPage(result.data);
-                }                
-            }, function (data) {
-                console.log("ERR");
+                }
             });
     }
 
@@ -39,7 +37,7 @@
             var SelectedTab = undefined;
             var isChanged = false;
 
-            if (item0.tabId != 'undefined') {
+            if (item0.tabId !== undefined) {
 
                 var containerId = $('[href=' + item0.tabId + ']').parent().parent().attr('id');
                 var e1 = $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]');
@@ -62,7 +60,7 @@
             var isVisible = $(item0.element).is(":visible");
 
             if (!isVisible) {
-                if (isChanged && SelectedTabHeader != undefined && SelectedTab != undefined) {
+                if (isChanged && SelectedTabHeader !== undefined && SelectedTab !== undefined) {
                     SelectedTabHeader.addClass('active');
                     SelectedTab.addClass('active');
                     $('[href=' + item0.tabId + ']').parent().removeClass('active');
@@ -71,11 +69,11 @@
                 intro._options.steps.splice(0, 1);
                 checkStart(intro);
             } else {
-                intro.goToStep(1).start().onbeforechange(function (_targetElement) {
+                intro.goToStep(1).start().onbeforechange(function () {
 
                     var item = intro._introItems[intro._currentStep];
                     var wait = true;
-                    if (item.tabId != 'undefined') {
+                    if (item.tabId !== undefined) {
                         var containerId = $('[href=' + item.tabId + ']').parent().parent().attr('id');
                         var e1 = $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]');
                         var e2 = $('[href=' + item.tabId + ']').parent();
@@ -84,19 +82,17 @@
                             $(item.tabId).addClass('active');
 
                             $('#' + containerId + '[role=\"tablist\"] li[class~=\"active\"]').removeClass('active');
-                            $('.active', $('#' + containerId).parent()).removeClass('active');                           
+                            $('.active', $('#' + containerId).parent()).removeClass('active');
                             $('[href=' + item.tabId + ']').click();
-
                         }
                     }
-                    
+
                     var isVisible = $(item.element).is(":visible");
-                    console.log(isVisible);
+                    
                     if (!isVisible) {
                         intro.nextStep();
                         introJs().refresh().setOptions(intro._options);
                     }
-               
                 });
             }
         }

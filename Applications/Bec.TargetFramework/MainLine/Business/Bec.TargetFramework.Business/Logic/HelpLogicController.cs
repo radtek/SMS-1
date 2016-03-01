@@ -59,12 +59,12 @@ namespace Bec.TargetFramework.Business.Logic
                     helpPage.ModifiedOn = DateTime.Now;
                     helpPage.PageName = helpPageDto.PageName;
                     helpPage.PageUrl = helpPageDto.PageUrl;
-                    
+
                     scope.DbContexts.Get<TargetFrameworkEntities>().Entry(helpPage).State = System.Data.Entity.EntityState.Modified;
 
                     if (helpPageDto.HelpItems.Count > 0)
                     {
-                        foreach(var item in helpPageDto.HelpItems)
+                        foreach (var item in helpPageDto.HelpItems)
                         {
                             if (item.Status == 1)
                             {
@@ -74,8 +74,8 @@ namespace Bec.TargetFramework.Business.Logic
                             }
                             else if (item.Status == 2)
                             {
-                                var itemInDb = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.FirstOrDefault(x=> x.HelpItemID == item.HelpItemID);
-                                if (itemInDb!=null)
+                                var itemInDb = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.FirstOrDefault(x => x.HelpItemID == item.HelpItemID);
+                                if (itemInDb != null)
                                 {
                                     itemInDb.Description = item.Description;
                                     itemInDb.DisplayOrder = item.DisplayOrder;
@@ -83,10 +83,10 @@ namespace Bec.TargetFramework.Business.Logic
                                     itemInDb.Position = item.Position;
                                     itemInDb.Selector = item.Selector;
                                     itemInDb.TabContainerId = item.TabContainerId;
-                                    itemInDb.Title = item.Title;                                    
+                                    itemInDb.Title = item.Title;
                                     itemInDb.ModifiedOn = DateTime.Now;
-                                    scope.DbContexts.Get<TargetFrameworkEntities>().Entry(itemInDb).State = System.Data.Entity.EntityState.Modified;    
-                                }                                
+                                    scope.DbContexts.Get<TargetFrameworkEntities>().Entry(itemInDb).State = System.Data.Entity.EntityState.Modified;
+                                }
                             }
                             else if (item.Status == 3)
                             {
@@ -132,6 +132,13 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         #region Client using
+
+        private static List<HelpItemDTO> GetHelpPageItems(IDbContextReadOnlyScope scope, HelpPage page)
+        {
+            return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
+                    .Where(i => (i.HelpPageID == page.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
+        }
+
         public List<HelpItemDTO> GetHelpItems(PageType pageType, string pageUrl)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
@@ -139,26 +146,26 @@ namespace Bec.TargetFramework.Business.Logic
                 if (pageType == PageType.Tour)
                 {
                     var pageTour = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
-                                .FirstOrDefault(p => (p.PageType == PageType.Tour.GetIntValue()));
+                                .FirstOrDefault(p => (p.PageType == (int)PageType.Tour));
                     if (pageTour != null)
                     {
-                        return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
-                                .Where(i => (i.HelpPageID == pageTour.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
+                        return GetHelpPageItems(scope, pageTour);
                     }
                 }
                 else if (pageType == PageType.ShowMeHow)
                 {
                     var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
-                                 .FirstOrDefault(p => (p.PageUrl.ToLower().Equals(pageUrl.ToLower())) && (p.PageType == PageType.ShowMeHow.GetIntValue()));
+                                 .FirstOrDefault(p => (p.PageUrl.ToLower().Equals(pageUrl.ToLower())) && (p.PageType == (int)PageType.ShowMeHow));
                     if (page != null)
                     {
-                        return scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems
-                                .Where(i => (i.HelpPageID == page.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
+                        return GetHelpPageItems(scope, page);
                     }
                 }
                 return null;
             }
         }
+
+
 
         public async Task<List<HelpItemDTO>> GetHelpItemsForCallout(Guid userId, DateTime createDate)
         {
@@ -166,7 +173,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var helpItemUas = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItemUserAccounts.Where(x => x.UserID == userId && x.Visible.HasValue && !x.Visible.Value).ToList();
                 var now = DateTime.Now;
-                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(x => x.EffectiveOn < now && x.CreatedOn > createDate && x.HelpPage.PageType == PageType.Callout.GetIntValue()).ToList();
+                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(x => x.EffectiveOn < now && x.CreatedOn > createDate && x.HelpPage.PageType == (int)PageType.Callout).ToList();
                 if (helpItemUas != null && helpItemUas.Any() && helpItems != null && helpItems.Any())
                 {
                     helpItems = helpItems.FindAll(x => !helpItemUas.Any(z => z.HelpItemID == x.HelpItemID));
