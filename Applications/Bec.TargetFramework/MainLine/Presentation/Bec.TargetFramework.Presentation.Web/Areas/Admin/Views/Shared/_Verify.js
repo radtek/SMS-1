@@ -97,7 +97,7 @@
                     dataType: 'json',
                     error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
                 }
-            },
+            }
         },
 
         // Do not change code below

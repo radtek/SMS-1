@@ -15,7 +15,7 @@ $(function () {
             columns: [
                     {
                         field: "OrganisationID",
-                        hidden: true,
+                        hidden: true
                     },
                     {
                         field: "OrganisationTypeDescription",
@@ -66,7 +66,7 @@ $(function () {
             columns: [
                 {
                     field: "OrganisationID",
-                    hidden: true,
+                    hidden: true
                 },
                 {
                     field: "OrganisationTypeDescription",
@@ -134,7 +134,7 @@ $(function () {
             columns: [
                 {
                     field: "OrganisationID",
-                    hidden: true,
+                    hidden: true
                 },
                 {
                     field: "OrganisationTypeDescription",
@@ -188,7 +188,7 @@ $(function () {
             columns: [
                 {
                     field: "OrganisationID",
-                    hidden: true,
+                    hidden: true
                 },
                 {
                     field: "OrganisationTypeDescription",

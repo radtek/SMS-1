@@ -65,7 +65,7 @@
                     required: true
                 },
                 CompanyName: {
-                    required: true,
+                    required: true
                     //lenderDupeCheck: true - set as html data attribute
                 },
                 RegulatorOther: {

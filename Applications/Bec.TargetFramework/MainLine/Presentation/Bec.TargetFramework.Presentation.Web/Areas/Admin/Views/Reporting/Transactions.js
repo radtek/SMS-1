@@ -88,7 +88,7 @@ $(function () {
             },
             s3: {
                 grids: [grid3]
-            },
+            }
         });
 
     //set up tabs
