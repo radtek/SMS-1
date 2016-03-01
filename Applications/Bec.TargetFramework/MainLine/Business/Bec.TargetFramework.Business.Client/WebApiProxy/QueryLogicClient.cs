@@ -20,10 +20,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
         //get a partially populated dto
         Task<IEnumerable<T>> QueryAsync<T>(String id, string query);
 
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //Newtonsoft.Json.Linq.JObject Get(String id, string query);
-
         Task UpdateGraphAsync(String id, Newtonsoft.Json.Linq.JObject patch, string filter);
     }
 
@@ -41,14 +37,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public QueryLogicClient(HttpMessageHandler handler, string url, bool disposeHandler = true)
-            : base(handler, url, disposeHandler)
-        {
-        }
-
         #region Methods
         /// <summary>
         /// 
@@ -57,16 +45,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
         /// <returns></returns>
         public virtual Task<Newtonsoft.Json.Linq.JObject> QueryAsync(String id, string query)
         {
-            id = id.UrlEncode();
+            var urlEncodedId = id.UrlEncode();
             string _user = getHttpContextUser();
-            return GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + id + "?" + query, _user);
+            return GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + urlEncodedId + "?" + query, _user);
         }
 
         public virtual async Task<IEnumerable<T>> QueryAsync<T>(String id, string query)
         {
-            id = id.UrlEncode();
+            var urlEncodedId = id.UrlEncode();
             string _user = getHttpContextUser();
-            var jobj = await GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + id + "?" + query, _user);
+            var jobj = await GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + urlEncodedId + "?" + query, _user);
             Newtonsoft.Json.Linq.JArray arr = jobj["Items"] as Newtonsoft.Json.Linq.JArray;
 
             return arr.Select(i => i.ToObject<T>());
@@ -74,9 +62,9 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
         public virtual Task UpdateGraphAsync(String id, Newtonsoft.Json.Linq.JObject patch, string filter)
         {
-            id = id.UrlEncode();
+            var urlEncodedId = id.UrlEncode();
             string _user = getHttpContextUser();
-            return PostAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/UpdateGraph/" + id + "?" + filter, patch, _user);
+            return PostAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/UpdateGraph/" + urlEncodedId + "?" + filter, patch, _user);
         }
 
         #endregion
