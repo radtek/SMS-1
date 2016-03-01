@@ -918,7 +918,6 @@
       <DependentUpon>style.css</DependentUpon>
     </Content>
     <Content Include="Content\websiteLayout\js\jquery-ui-1.8.18.custom.min.js" />
-    <Content Include="Content\websiteLayout\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Content\websiteLayout\video\video1.jpg" />
     <Content Include="Content\websiteLayout\video\video1.mp4" />
     <Content Include="Content\WelcomePack\SMS Member Logo.jpg" />
@@ -1568,7 +1567,6 @@
     <Content Include="Scripts\kendo\messages\kendo.messages.zh-TW.min.js" />
     <Content Include="Scripts\Libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\Libs\jquery-ui-1.10.3.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\notification\SmartNotification.min.js" />
     <Content Include="Scripts\plugin\bootstrap-duallistbox\jquery.bootstrap-duallistbox.min.js" />
     <Content Include="Scripts\plugin\bootstrap-progressbar\bootstrap-progressbar.min.js" />
@@ -1860,6 +1858,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Lender\Views\Shared\" />
+    <Folder Include="Content\websiteLayout\js\libs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
