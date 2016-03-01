@@ -61,6 +61,7 @@ namespace BodgeIt
         }
 
         private async Task<HttpResponseMessage> SendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
+            where T: class
         {
             var req = new HttpRequestMessage
             {
@@ -84,6 +85,7 @@ namespace BodgeIt
             }
 
         private async Task<JObject> joSendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
+            where T : class
         {
             var r = await SendAsync(client, requestUri, method, user, value);
             var s = await r.Content.ReadAsStringAsync();

@@ -110,6 +110,7 @@ namespace BodgeIt.Logic
         }
 
         private async Task<HttpResponseMessage> SendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
+            where T : class
         {
             var req = new HttpRequestMessage
             {
