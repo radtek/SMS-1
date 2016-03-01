@@ -101,20 +101,20 @@
 
     $('#PageType').on('change', function () {
         var valOfThis = $('#PageType option:selected').val();
-        if (valOfThis === "1") {
+        if (valOfThis === "800000") {
             setDefaultEffectiveDate();
             disablePagefields("Tour");
             hideTabIdAdnEffectiveOn();
-        } else if (valOfThis === "2") {
-            setDefaultEffectiveDate();
-            $("#tabIdSection").css('display', 'block');
-            $("#tourSection").css('display', 'none');
-            enablePagefields();
-        } else if (valOfThis === "3") {
+        } else if (valOfThis === "800001") {
             resetEffectiveDate();
             $("#tabIdSection").css('display', 'none');
             $("#tourSection").css('display', 'block');
             disablePagefields("Callout");
+        } else if (valOfThis === "800002") {
+            setDefaultEffectiveDate();
+            $("#tabIdSection").css('display', 'block');
+            $("#tourSection").css('display', 'none');
+            enablePagefields();        
         } else {
             resetEffectiveDate();
             enablePagefields();

@@ -20,20 +20,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     [ClaimsRequired("Add", "SupportFunctions", Order = 1000)]
     public class HelpController : Controller
     {
-        enum ItemStatus
-        {
-            New = 1,
-            Modified = 2,
-            Deleted = 3
-        };
         public IQueryLogicClient queryClient { get; set; }
         public IHelpLogicClient helpClient { get; set; }
         public IList<SelectListItem> GetHelpPageTypes()
         {
             return new List<SelectListItem> {
                 new SelectListItem { Value = PageType.Tour.GetIntValue().ToString(), Text=PageType.Tour.GetStringValue()},
-                new SelectListItem { Value = PageType.ShowMeHow.GetIntValue().ToString(), Text=PageType.ShowMeHow.GetStringValue()},
-                new SelectListItem { Value = PageType.Callout.GetIntValue().ToString(), Text=PageType.Callout.GetStringValue()}
+                new SelectListItem { Value = PageType.Callout.GetIntValue().ToString(), Text=PageType.Callout.GetStringValue()},
+                new SelectListItem { Value = PageType.ShowMeHow.GetIntValue().ToString(), Text=PageType.ShowMeHow.GetStringValue()}
             };
         }
         public ActionResult Index()
@@ -74,18 +68,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             try
             {
                 List<HelpItemDTO> items;
+                var itemDeleteStatus = HelpPageItemStatus.Deleted.GetIntValue();
                 if (TempData["Items"] != null)
                 {
                     items = (List<HelpItemDTO>)TempData["Items"];
-                    page.HelpItems = items.FindAll(x => x.Status != ItemStatus.Deleted.GetIntValue());
+                    page.HelpItems = items.FindAll(x => x.Status != itemDeleteStatus);
                 }
                 TempData["HelpPageId"] = await helpClient.CreateHelpPageAsync(page);
-                this.AddToastMessage("Add Successfully", "The help has been added.", ToastType.Success, false);
+                this.AddToastMessage("Add Successfully", "The help has been added.", ToastType.Success);
             }
             catch (Exception)
             {
                 TempData.Remove("HelpPageId");
-                this.AddToastMessage("Add Unsuccessfully", "The help cannot be added. Please try again.", ToastType.Error, false);
+                this.AddToastMessage("Add Unsuccessfully", "The help cannot be added. Please try again.", ToastType.Error);
             }
             return RedirectToAction("Index");
         }
@@ -103,12 +98,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     page.HelpItems = tempListItem;
                 }
                 TempData["HelpPageId"] = await helpClient.EditHelpPageAsync(page);
-                this.AddToastMessage("Add Successfully", "The help has been updated.", ToastType.Success, false);
+                this.AddToastMessage("Add Successfully", "The help has been updated.", ToastType.Success);
             }
             catch (Exception)
             {
                 TempData.Remove("HelpPageId");
-                this.AddToastMessage("Add Unsuccessfully", "The help cannot be modified. Please try again.", ToastType.Error, false);
+                this.AddToastMessage("Add Unsuccessfully", "The help cannot be modified. Please try again.", ToastType.Error);
             }
             return RedirectToAction("Index");
         }
@@ -120,11 +115,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             try
             {
                 await helpClient.DeleteHelpPageAsync(page);
-                this.AddToastMessage("Delete Successfully", "The help has been deleted", ToastType.Success, false);
+                this.AddToastMessage("Delete Successfully", "The help has been deleted", ToastType.Success);
             }
             catch (Exception)
             {
-                this.AddToastMessage("Delete Unsuccessfully", "The help cannot be deleted. Please try again.", ToastType.Error, false);
+                this.AddToastMessage("Delete Unsuccessfully", "The help cannot be deleted. Please try again.", ToastType.Error);
             }
             return RedirectToAction("Index");
         }
@@ -134,9 +129,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["CurrentType"] = pageType;
             TempData["isShowMeHowItem"] = pageType == PageType.ShowMeHow;
             TempData["isCalloutItem"] = pageType == PageType.Callout;
-
+            var pageTypeValue = pageType.GetIntValue();
             var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.PageType, x.CreatedOn, x.ModifiedOn });
-            var filterPage = pageType.GetIntValue() > 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.PageType == pageType.GetIntValue()) : String.Empty;
+            var filterPage = pageTypeValue > 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.PageType == pageTypeValue) : String.Empty;
             JObject res = await queryClient.QueryAsync("HelpPages", ODataHelper.RemoveParameters(Request) + selectPage + filterPage);
             return Content(res.ToString(Formatting.None), "application/json");
         }
@@ -144,13 +139,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetHelpItems(Guid pageId)
         {
             var list = await GetItemsOnPage(pageId);
-            var result = list != null && list.ToList().Count > 0;
-            if (result)
+            var IsEmpty = (list == null) || (list.ToList().Count == 0);
+            var data = new List<HelpItemDTO>();
+            if (!IsEmpty)
             {
-                TempData["Items"] = list.ToList();
+                data = list.ToList();
+                TempData["Items"] = data;
             }
-
-            var jsonData = new { result, Items = list, IsSortable = false };
+            else
+            {
+                TempData["Items"] = data;
+            }
+            var jsonData = new { IsEmpty, Items = data, IsSortable = false };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
@@ -228,13 +228,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 {
                     list = (IList<HelpItemDTO>)TempData["Items"];
                     item.DisplayOrder = list.Count + 1;
-                    item.Status = ItemStatus.New.GetIntValue();
+                    item.Status = HelpPageItemStatus.New.GetIntValue();
                 }
                 else
                 {
                     list = new List<HelpItemDTO>();
                     item.DisplayOrder = 1;
-                    item.Status = ItemStatus.New.GetIntValue();
+                    item.Status = HelpPageItemStatus.New.GetIntValue();
                 }
                 item.HelpItemID = Guid.NewGuid();
                 list.Add(item);
@@ -255,9 +255,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         itemHelp.Description = item.Description;
                         itemHelp.Position = item.Position;
                         itemHelp.TabContainerId = item.TabContainerId;
-                        if (itemHelp.Status != ItemStatus.New.GetIntValue())
+                        if (itemHelp.Status != HelpPageItemStatus.New.GetIntValue())
                         {
-                            itemHelp.Status = ItemStatus.Modified.GetIntValue();
+                            itemHelp.Status = HelpPageItemStatus.Modified.GetIntValue();
                         }
                     }
                     TempData["Items"] = list;
@@ -293,15 +293,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 var item = list.FirstOrDefault(x => x.HelpItemID == id);
                 if (item != null)
                 {
-                    if (item.Status == ItemStatus.New.GetIntValue())
+                    if (item.Status == HelpPageItemStatus.New.GetIntValue())
                     {
                         list.Remove(item);
                     }
                     else
                     {
-                        item.Status = ItemStatus.Deleted.GetIntValue();
+                        item.Status = HelpPageItemStatus.Deleted.GetIntValue();
                     }
-                }                
+                }
                 TempData["Items"] = list;
                 var jsonData = new { result = list.Count > 0, Items = list };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -360,6 +360,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var result = true;
             var newList = new List<HelpItemDTO>();
+            var itemDeleteStatus = HelpPageItemStatus.Deleted.GetIntValue();
             if (TempData["Items"] == null || orders == null || orders.Count == 0)
             {
                 result = false;
@@ -370,7 +371,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 var newOrder = 1;
                 foreach (var order in orders)
                 {
-                    var item = currentList.FirstOrDefault(i => i.DisplayOrder == order && i.Status != ItemStatus.Deleted.GetIntValue());
+                    var item = currentList.FirstOrDefault(i => i.DisplayOrder == order && i.Status != itemDeleteStatus);
                     if (item == null)
                     {
                         result = false;
@@ -379,7 +380,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
                     if (item.Status <= 0)
                     {
-                        item.Status = ItemStatus.Modified.GetIntValue();
+                        item.Status = HelpPageItemStatus.Modified.GetIntValue();
                     }
                     item.DisplayOrder = newOrder;
                     newList.Add(item);
@@ -387,10 +388,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 }
                 if (result)
                 {
-                    foreach (var item in currentList.Where(i => i.Status == ItemStatus.Deleted.GetIntValue()))
+                    foreach (var item in currentList.Where(i => i.Status == itemDeleteStatus))
                     {
-                        newList.Add(item);    
-                    }                    
+                        newList.Add(item);
+                    }
                     TempData["Items"] = newList;
                 }
             }

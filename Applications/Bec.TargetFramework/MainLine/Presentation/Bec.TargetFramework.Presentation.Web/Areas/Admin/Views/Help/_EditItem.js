@@ -15,8 +15,8 @@
             },
             type: 'GET'
         }).done(function (response) {
-            if (response != null || response != undefined) {
-                if (response.result) {
+            if (response !== null || response !== undefined) {
+                if (!response.IsEmpty) {
                     loadItemsForList(response.Items);
                 }
             }

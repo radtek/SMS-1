@@ -44,7 +44,7 @@
     });
 
     function createItem(item) {
-        if (item.Status != 3) {
+        if (item.Status !== 3) {
             var itemHtml = '<li class="ui-state-default" data-item-id="" data-item-order="' + item.DisplayOrder + '">' +
                             '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
                             '<span class="help-item-title">' + item.Title + '</span>' +
@@ -71,7 +71,7 @@
         })
         .done(function (response) {
             if (response != null || response != undefined) {
-                if (response.Item != null) {
+                if (response.Item !== null) {
                     $('#helpItemId').val(itemId);
                     btnAddItem.text("Save");
                     $('#helpItemTitle').val(response.Item.Title);
@@ -96,7 +96,7 @@
         })
         .done(function (response) {
             if (response !== null || response !== undefined) {
-                if (response.result) {
+                if (response.result) {                    
                     loadItemsForList(response.Items);
                     clearText();
                 }

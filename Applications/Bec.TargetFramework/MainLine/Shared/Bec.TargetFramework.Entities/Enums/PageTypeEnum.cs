@@ -10,10 +10,10 @@ namespace Bec.TargetFramework.Entities.Enums
     public enum PageType : int
     {
         [StringValue("Tour")]
-        Tour = 1,
-        [StringValue("Show Me How")]
-        ShowMeHow = 2,
+        Tour = 800000,
         [StringValue("Callout")]
-        Callout = 3
+        Callout = 800001,
+        [StringValue("Show Me How")]
+        ShowMeHow = 800002
     }
 }

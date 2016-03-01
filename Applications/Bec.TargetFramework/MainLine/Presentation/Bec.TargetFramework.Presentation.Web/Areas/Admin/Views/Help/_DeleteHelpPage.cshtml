@@ -24,12 +24,12 @@
                                         <dl class="dl-horizontal">
                                             <dt>Page Type:</dt>
                                             @{
-                                                var type = Model.PageType == 1 ? "Tour" : (Model.PageType == 2 ? "Show Me How" : "Callout");
+                                                var type = Model.PageType == 800000 ? "Tour" : (Model.PageType == 800002 ? "Show Me How" : "Callout");
                                             }
                                             <dd><p>@Html.Label("PageType", @type)</p></dd>
                                             <dt>Page Name:</dt>
                                             <dd><p>@Html.DisplayFor(m => m.PageName)</p></dd>
-                                            @if (Model.PageType == 2)
+                                            @if (Model.PageType == 800002)
                                             {
                                                 <dt>Page URL:</dt>
                                                 <dd><p>@Html.DisplayFor(m => m.PageUrl)</p></dd>
