@@ -33,7 +33,7 @@
                                     <form id="editHelp-form" class="smart-form margin-top-0" action="@Url.Action("EditHelp", "Help", new { area = "Admin" })" method="POST">
                                         @Html.ValidationBootstrap()
                                         @Html.AntiForgeryToken()
-                                        @Html.HiddenFor(m=>m.HelpPageID)
+                                        @Html.HiddenFor(m => m.HelpPageID)
                                         <fieldset>
                                             <legend>Page Information</legend>
                                             <section>
@@ -71,8 +71,11 @@
                                     <fieldset>
                                         <legend>Items</legend>
                                     </fieldset>
-                                    <div class="col-md-5" style="margin-right:15px; padding-top:10px">
-                                        <div id="editListItem" style="margin-left: 20px;">
+                                    <div class="col-md-5" style="margin-right:15px; padding-top:10px;">
+                                        <div id="itemOrderNumbers" style="width:20px; height:100px; float:left;">
+                                            <ul class="helpItemList" id="helpOrderListContainer"></ul>
+                                        </div>
+                                        <div id="editListItem" style="margin-left: 30px;">
                                             <ul class="helpItemList" id="helpItemListContainer" data-update-order-url="@Url.Action("UpdateTemporaryOrderOnEditPage", "Help", new { area = "Admin" })"></ul>
                                         </div>
                                     </div>

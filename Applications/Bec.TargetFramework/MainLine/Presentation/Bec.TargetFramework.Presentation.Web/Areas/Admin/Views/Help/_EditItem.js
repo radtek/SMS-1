@@ -24,6 +24,7 @@
     }
     var btnEditItem = $("#submitEditItem");
     var itemListContainer = $("#helpItemListContainer");
+    var orderListContainer = $("#helpOrderListContainer");
 
     function ignore(e) {
         if (e) {
@@ -75,11 +76,14 @@
                              ' <a  id="' + item.HelpPageItemID + '" class="btn btn-primary btn-sm help-item-element-delete"><i class="fa fa-times"></i></a>' +
                              ' <a  id="' + item.HelpPageItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
                             '</span>' +
-                          ' </li>';
+                          ' </li>';            
             return itemHtml;
         } else {
             return '';
         }
+    }
+    function createOrder(order) {
+        return '<li>' + order + '</li>';
     }
 
     $(document).delegate(".help-item-element", "click", function () {
@@ -129,10 +133,17 @@
 
     function loadItemsForList(items) {
         itemListContainer.html("");
-        btnEditItem.prop('disabled', false);
+        orderListContainer.html("");
+        var order = 0;
+        btnEditItem.prop('disabled', false);        
         if (items != null && items.length >= 1) {
             for (var i = 0; i < items.length; i++) {
-                itemListContainer.append(createItem(items[i]));
+                var itemContent = createItem(items[i]);
+                if (itemContent!=='') {
+                    itemListContainer.append(itemContent);
+                    order++;
+                    orderListContainer.append(createOrder(order));
+                }                
             }
         }
     }

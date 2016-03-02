@@ -71,7 +71,10 @@
                                         <legend>Items</legend>
                                     </fieldset>
                                     <div class="col-md-5" style="margin-right:15px; padding-top:10px">
-                                        <div id="addListItem" style="margin-left: 20px;">
+                                        <div id="itemOrderNumbers" style="width:20px; height:100px; float:left;">
+                                            <ul class="helpItemList" id="helpOrderListContainer"></ul>
+                                        </div>
+                                        <div id="addListItem" style="margin-left: 30px;">
                                             <ul class="helpItemList" id="helpItemListContainer" data-update-order-url="@Url.Action("UpdateTemporaryOrder", "Help", new { area = "Admin" })"></ul>
                                         </div>
                                     </div>

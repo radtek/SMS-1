@@ -1,6 +1,7 @@
 ﻿$(function () {
     var btnAddItem = $("#submitAddItem");
     var itemListContainer = $("#helpItemListContainer");
+    var orderListContainer = $("#helpOrderListContainer");
 
     function ignore(e) {
         if (e) {
@@ -57,6 +58,9 @@
         } else {
             return '';
         }
+    }
+    function createOrder(order) {
+        return '<li>' + order + '</li>';
     }
 
     $(document).delegate(".help-item-element", "click", function () {
@@ -157,10 +161,17 @@
 
     function loadItemsForList(items) {
         itemListContainer.html("");
+        orderListContainer.html("");
+        var order = 0;
         btnAddItem.prop('disabled', false);
         if (items != null && items.length >= 1) {
             for (var i = 0; i < items.length; i++) {
-                itemListContainer.append(createItem(items[i]));
+                var itemContent = createItem(items[i]);
+                if (itemContent !== '') {
+                    itemListContainer.append(itemContent);
+                    order++;
+                    orderListContainer.append(createOrder(order));
+                }
             }
         }
     }
