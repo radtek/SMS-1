@@ -1,13 +1,13 @@
 ﻿@model Bec.TargetFramework.Presentation.Web.Models.PostcodeLookupModel
 <div id="@(Model.Prefix)PostcodeLookupComponent" data-prefix="@Model.Prefix"></div>
 <div class="row">
-    <div class="col-sm-10 col-lg-6">
+    <div class="col-md-12 col-lg-6">
         <label>Lookup Postcode</label>
         <div class="input-group">
             <input id="@(Model.Prefix)PostcodeLookup" class="form-control postcode-lookup" type="text" tabindex="15" maxlength="10" />
             <div class="input-group-btn">
                 <button id="@(Model.Prefix)FindAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="16">
-                    <i class="fa fa-search margin-right-5"></i>Find Address
+                    <i class="fa fa-search margin-right-5"></i>Search
                 </button>
             </div>
         </div>

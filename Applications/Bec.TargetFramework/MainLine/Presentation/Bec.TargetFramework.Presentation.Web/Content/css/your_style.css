@@ -686,7 +686,8 @@ a.removeupload {
 .magic-edit:hover .magic-edit-button {
   visibility: visible;
 }
-.magic-edit .view {
+.magic-edit .view,
+.magic-edit .edit {
   min-height: 34px;
 }
 .magic-edit .edit {

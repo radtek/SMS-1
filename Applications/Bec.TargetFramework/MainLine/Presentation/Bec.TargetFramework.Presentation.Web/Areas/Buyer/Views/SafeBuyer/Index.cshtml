@@ -79,7 +79,7 @@
                                                         <div class="edit">
                                                             @Html.Partial("_PostcodeLookup", new PostcodeLookupModel { Prefix = "tx" })
 
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { @class = "form-control", data_field = "Line1", data_parent_id = Model.SmsTransaction.AddressID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine1", placeholder = "Address Line 1" })
+                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { @class = "form-control", data_rule_required = true, data_field = "Line1", data_parent_id = Model.SmsTransaction.AddressID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine1", placeholder = "Address Line 1" })
                                                             @Html.TextBoxFor(m => m.SmsTransaction.Address.Line2, new { @class = "form-control", data_field = "Line2", data_parent_id = Model.SmsTransaction.AddressID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine2", placeholder = "Address Line 2" })
                                                             @Html.TextBoxFor(m => m.SmsTransaction.Address.Town, new { @class = "form-control", data_field = "Town", data_parent_id = Model.SmsTransaction.AddressID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txTown", placeholder = "Town" })
                                                             @Html.TextBoxFor(m => m.SmsTransaction.Address.County, new { @class = "form-control", data_field = "County", data_parent_id = Model.SmsTransaction.AddressID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txCounty", placeholder = "County" })
@@ -102,11 +102,13 @@
                                                         <div class="edit">
                                                             <input id="buyingWithMortgage" type="checkbox" @(isMortgage ? @"checked=""checked""" : "") />
                                                             <label for="buyingWithMortgage">Buying With Mortgage</label>
-                                                            <div id="mortgageDetails" class="relative-block" @(isMortgage ? @"style=""display:none""" : "")>
+                                                            <div id="mortgageDetails"  @(isMortgage ? @"style=""display:none""" : "")>
                                                                 <div class="form-group">
                                                                     <label>Lender</label>
-                                                                    @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { @class = "form-control", maxlength = 50, id = "lenderSearch", data_field = "LenderName", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue(), data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
-                                                                    <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
+                                                                    <div class="relative-block">
+                                                                        @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { @class = "form-control", maxlength = 50, id = "lenderSearch", data_field = "LenderName", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue(), data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
+                                                                        <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Mortgage App Number</label>
