@@ -726,58 +726,26 @@ function magicEdit(options) {
             var cancelButton = $('<button class="btn btn-default"><i class="fa fa-times reject"></i></button>');
             var buttonContainer = $('<div class="magic-edit-button"></div>');
             buttonContainer.append(editButton).append(okButton).append(cancelButton);
-            enterDisplayMode();
+            set.append(buttonContainer);
 
-            iterateInputs(set, function (input) {
-                input.data('originalVal', input.val());
-            });
+            enterDisplayMode();
+            preserveOriginalValues();
 
             editButton.on('click', function () {
-                iterateInputs(set, function (input) {                    
-                    input.data('originalVal', input.val());
-                });
+                preserveOriginalValues();
                 enterEditMode();
             });
 
             cancelButton.on('click', function () {
-                iterateInputs(set, function (input) {
-                    input.val(input.data('originalVal'));
-                });
+                restoreOriginalValues();
                 enterDisplayMode();
             });
 
             okButton.on('click', function () {
                 enterDisplayMode();
-                var alld = [];
-                iterateInputs(set, function (input) {
-                    var originalValue = input.data('originalVal');
-                    if (originalValue.trim() !== input.val()) {
-                        alld.push(ajaxWrapper({
-                            url: self.options.updateUrl,
-                            data: {
-                                ActivityType: self.options.activityType,
-                                ActivityID: self.options.activityId,
-                                ParentType: input.data('parent-type'),
-                                ParentID: input.data('parent-id'),
-                                FieldName: input.data('field'),
-                                Value: input.val()
-                            }
-                        }).done(function (res) {
-                            if (res.result != "ok") {
-                                alert('failed');
-                                input.val(input.data('originalVal'));
-                            }
-                        }).fail(function (e) {
-                            console.log(e);
-                            alert('fail');
-                            input.val(input.data('originalVal'));
-                        }));
-                    }
-                });
-                $.when.apply($, alld).done(updateValues);
+                var allChangeRequests = submitAllChanges();
+                $.when.apply($, allChangeRequests).done(updateValues);
             });
-
-            set.append(buttonContainer);
 
             function enterDisplayMode() {
                 okButton.hide();
@@ -792,6 +760,59 @@ function magicEdit(options) {
                 editButton.hide();
                 set.addClass("editing");
             }
+
+            function preserveOriginalValues() {
+                iterateFormElements(set, function (formElement) {
+                    if (formElement.is('input')) {
+                        formElement.data('originalVal', formElement.val());
+                    } else if (formElement.is('select')) {
+                        formElement.data('originalVal', formElement.find(":selected").text());
+                    }
+                });
+            }
+
+            function restoreOriginalValues() {
+                iterateFormElements(set, function (formElement) {
+                    formElement.val(formElement.data('originalVal'));
+                });
+            }
+
+            function submitAllChanges() {
+                var alld = [];
+                iterateFormElements(set, function (formElement) {
+                    var originalValue = formElement.data('originalVal');
+                    var newValue = '';
+                    if (formElement.is('input')) {
+                        newValue = formElement.val();
+                    } else if (formElement.is('select')) {
+                        newValue = formElement.find(":selected").text();
+                    }
+
+                    if (originalValue.trim() !== newValue) {
+                        alld.push(ajaxWrapper({
+                            url: self.options.updateUrl,
+                            data: {
+                                ActivityType: self.options.activityType,
+                                ActivityID: self.options.activityId,
+                                ParentType: formElement.data('parent-type'),
+                                ParentID: formElement.data('parent-id'),
+                                FieldName: formElement.data('field'),
+                                Value: newValue
+                            }
+                        }).done(function (res) {
+                            if (res.result != "ok") {
+                                alert('failed');
+                                formElement.val(formElement.data('originalVal'));
+                            }
+                        }).fail(function (e) {
+                            console.log(e);
+                            alert('fail');
+                            formElement.val(formElement.data('originalVal'));
+                        }));
+                    }
+                });
+                return alld;
+            }
         });
     }
 
@@ -804,16 +825,16 @@ function magicEdit(options) {
             }
         }).done(function (fieldUpdates) {
             iterateSets(function (set) {
-                iterateInputs(set, function (input) {
-                    var updatedValue = getUpdatedValue(fieldUpdates, input);
+                iterateFormElements(set, function (formElement) {
+                    var updatedValue = getUpdatedValue(fieldUpdates, formElement);
                     if (updatedValue) {
-                        input.val(updatedValue.Value);
+                        formElement.val(updatedValue.Value);
                     }
                 });
                 iterateViews(set, function (field) {
+                    var noValueText = field.data('no-value-text') || '';
                     var updatedValue = getUpdatedValue(fieldUpdates, field);
                     if (updatedValue) {
-                        var noValueText = field.data('no-value-text') || '';
                         var fieldText = updatedValue.Value || noValueText;
                         field.text(fieldText);
                         field.addClass('pending-update');
@@ -832,9 +853,9 @@ function magicEdit(options) {
         }
     }
 
-    function iterateInputs(set, func) {
-        var inputs = set.find('.edit input');
-        inputs.each(function (i, l) {
+    function iterateFormElements(set, func) {
+        var elements = set.find('.edit input, .edit select');
+        elements.each(function (i, l) {
             func($(l));
         });
     }
