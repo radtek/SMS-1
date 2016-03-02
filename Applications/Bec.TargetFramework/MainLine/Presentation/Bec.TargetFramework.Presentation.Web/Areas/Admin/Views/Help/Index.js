@@ -82,7 +82,7 @@
     $('#typeList').on('change', function () {
         var valOfThis = $(this).val();
         if (valOfThis.length > 0) {
-            $("#btnAddPage").data('href', $("#btnAddPage").data("url") + "?PageType=" + valOfThis);
+            $("#btnAddPage").data('href', $("#btnAddPage").data("url") + "?HelpPageTypeId=" + valOfThis);
         }
         else {
             $("#btnAddPage").data('href', $("#btnAddPage").data("url"));

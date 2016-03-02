@@ -99,7 +99,7 @@
         $("#tourSection").css('display', 'none');
     }
 
-    $('#HelpPageTypeId').on('change', function () {
+    function checkType() {
         var valOfThis = $('#HelpPageTypeId option:selected').val();
         if (valOfThis === "800000") {
             setDefaultEffectiveDate();
@@ -114,11 +114,19 @@
             setDefaultEffectiveDate();
             $("#tabIdSection").css('display', 'block');
             $("#tourSection").css('display', 'none');
-            enablePagefields();        
+            enablePagefields();
         } else {
             resetEffectiveDate();
             enablePagefields();
             hideTabIdAdnEffectiveOn();
         }
+    }
+
+    $('#HelpPageTypeId').on('change', function () {
+        checkType();
+    });
+
+    $(document).ready(function () {
+        checkType();
     });
 });
