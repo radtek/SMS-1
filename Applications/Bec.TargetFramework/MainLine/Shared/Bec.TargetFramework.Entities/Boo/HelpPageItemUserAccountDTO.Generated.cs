@@ -15,22 +15,22 @@ namespace Bec.TargetFramework.Entities
 
     [DataContractAttribute(IsReference=true)]
     [System.Serializable]
-    public partial class HelpItemUserAccountDTO
+    public partial class HelpPageItemUserAccountDTO
     {
         #region Constructors
   
-        public HelpItemUserAccountDTO() {
+        public HelpPageItemUserAccountDTO() {
         }
 
-        public HelpItemUserAccountDTO(global::System.Guid helpItemUserAccountID, global::System.Guid helpItemID, global::System.DateTime createdOn, global::System.Guid userID, global::System.Nullable<bool> visible, HelpItemDTO helpItem, UserAccountDTO userAccount) {
+        public HelpPageItemUserAccountDTO(global::System.Guid helpItemUserAccountID, global::System.Guid helpPageItemID, global::System.DateTime createdOn, global::System.Guid userID, global::System.Nullable<bool> visible, UserAccountDTO userAccount, HelpPageItemDTO helpPageItem) {
 
           this.HelpItemUserAccountID = helpItemUserAccountID;
-          this.HelpItemID = helpItemID;
+          this.HelpPageItemID = helpPageItemID;
           this.CreatedOn = createdOn;
           this.UserID = userID;
           this.Visible = visible;
-          this.HelpItem = helpItem;
           this.UserAccount = userAccount;
+          this.HelpPageItem = helpPageItem;
         }
 
         #endregion
@@ -41,7 +41,7 @@ namespace Bec.TargetFramework.Entities
         public global::System.Guid HelpItemUserAccountID { get; set; }
 
         [DataMember]
-        public global::System.Guid HelpItemID { get; set; }
+        public global::System.Guid HelpPageItemID { get; set; }
 
         [DataMember]
         public global::System.DateTime CreatedOn { get; set; }
@@ -57,10 +57,10 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public HelpItemDTO HelpItem { get; set; }
+        public UserAccountDTO UserAccount { get; set; }
 
         [DataMember]
-        public UserAccountDTO UserAccount { get; set; }
+        public HelpPageItemDTO HelpPageItem { get; set; }
 
         #endregion
     }

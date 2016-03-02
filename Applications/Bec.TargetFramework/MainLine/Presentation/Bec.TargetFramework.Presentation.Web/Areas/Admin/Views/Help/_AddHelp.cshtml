@@ -41,7 +41,7 @@
                                                     @{
                                                         var types = (IList<SelectListItem>)ViewBag.Types;
                                                     }
-                                                    @Html.DropDownListFor(m => m.PageType, types, "Please Select", new { tabindex = "1"})
+                                                    @Html.DropDownListFor(m => m.HelpPageTypeId, types, "Please Select", new { tabindex = "1" })
                                                     <i></i>
                                                 </label>
                                             </section>
@@ -76,7 +76,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6" style="border-left: 1px solid rgb(189, 189, 189);">
-                                        @{var item = new HelpItemDTO();}
+                                        @{var item = new HelpPageItemDTO();}
                                         @Html.Partial("_AddItem", @item)
                                     </div>
                                 </div>

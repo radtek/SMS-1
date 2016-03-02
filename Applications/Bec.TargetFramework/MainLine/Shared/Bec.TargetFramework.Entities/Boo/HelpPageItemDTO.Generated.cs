@@ -15,16 +15,16 @@ namespace Bec.TargetFramework.Entities
 
     [DataContractAttribute(IsReference=true)]
     [System.Serializable]
-    public partial class HelpItemDTO
+    public partial class HelpPageItemDTO
     {
         #region Constructors
   
-        public HelpItemDTO() {
+        public HelpPageItemDTO() {
         }
 
-        public HelpItemDTO(global::System.Guid helpItemID, global::System.Guid helpPageID, string title, string description, int displayOrder, string selector, string tabContainerId, global::System.Nullable<System.DateTime> effectiveOn, global::System.Nullable<int> position, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, HelpPageDTO helpPage, List<HelpItemUserAccountDTO> helpItemUserAccounts) {
+        public HelpPageItemDTO(global::System.Guid helpPageItemID, global::System.Guid helpPageID, string title, string description, int displayOrder, string selector, string tabContainerId, global::System.Nullable<System.DateTime> effectiveOn, global::System.Nullable<int> position, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, HelpPageDTO helpPage, List<HelpPageItemUserAccountDTO> helpPageItemUserAccounts) {
 
-          this.HelpItemID = helpItemID;
+          this.HelpPageItemID = helpPageItemID;
           this.HelpPageID = helpPageID;
           this.Title = title;
           this.Description = description;
@@ -38,7 +38,7 @@ namespace Bec.TargetFramework.Entities
           this.CreatedBy = createdBy;
           this.ModifiedBy = modifiedBy;
           this.HelpPage = helpPage;
-          this.HelpItemUserAccounts = helpItemUserAccounts;
+          this.HelpPageItemUserAccounts = helpPageItemUserAccounts;
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace Bec.TargetFramework.Entities
         #region Properties
 
         [DataMember]
-        public global::System.Guid HelpItemID { get; set; }
+        public global::System.Guid HelpPageItemID { get; set; }
 
         [DataMember]
         public global::System.Guid HelpPageID { get; set; }
@@ -92,7 +92,7 @@ namespace Bec.TargetFramework.Entities
         public HelpPageDTO HelpPage { get; set; }
 
         [DataMember]
-        public List<HelpItemUserAccountDTO> HelpItemUserAccounts { get; set; }
+        public List<HelpPageItemUserAccountDTO> HelpPageItemUserAccounts { get; set; }
 
         #endregion
     }

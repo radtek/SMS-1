@@ -6,7 +6,7 @@
     {{/if}}
     {{#if data.IsSortable}}
     {{#each data.Items}}
-    <li class="ui-state-default" data-item-id="{{HelpItemID}}">
+    <li class="ui-state-default" data-item-id="{{HelpPageItemID}}">
         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
         <span class="help-item-title">{{Title}}</span>
         <span class="help-item-btn">
@@ -17,7 +17,7 @@
     {{/each}}
     {{else}}
     {{#each data.Items}}
-    <li class="ui-state-default" data-item-id="{{HelpItemID}}">
+    <li class="ui-state-default" data-item-id="{{HelpPageItemID}}">
         <span class="help-item-title">{{Title}}</span>
     </li>
     {{/each}}

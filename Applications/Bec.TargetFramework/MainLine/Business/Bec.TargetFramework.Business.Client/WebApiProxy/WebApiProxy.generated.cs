@@ -263,23 +263,27 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 	public partial interface IHelpLogicClient : IClientBase	{	
 
+		/// <param name="createdBy"></param>
 		/// <returns></returns>
-		Task<Guid> CreateHelpPageAsync(HelpPageDTO helpPageDto);
+		Task<Guid> CreateHelpPageAsync(String createdBy,HelpPageDTO helpPageDto);
+
+		/// <param name="createdBy"></param>
+		/// <returns></returns>
+		Guid CreateHelpPage(String createdBy,HelpPageDTO helpPageDto);
+
+		/// <param name="modifiedBy"></param>
+		/// <returns></returns>
+		Task<Guid> EditHelpPageAsync(String modifiedBy,HelpPageDTO helpPageDto);
+
+		/// <param name="modifiedBy"></param>
+		/// <returns></returns>
+		Guid EditHelpPage(String modifiedBy,HelpPageDTO helpPageDto);
 
 		/// <returns></returns>
-		Guid CreateHelpPage(HelpPageDTO helpPageDto);
+		Task<Guid> CreateHelpItemUserAccountAsync(HelpPageItemUserAccountDTO helpItemUserAccountDTO);
 
 		/// <returns></returns>
-		Task<Guid> EditHelpPageAsync(HelpPageDTO helpPageDto);
-
-		/// <returns></returns>
-		Guid EditHelpPage(HelpPageDTO helpPageDto);
-
-		/// <returns></returns>
-		Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO helpItemUserAccountDTO);
-
-		/// <returns></returns>
-		Guid CreateHelpItemUserAccount(HelpItemUserAccountDTO helpItemUserAccountDTO);
+		Guid CreateHelpItemUserAccount(HelpPageItemUserAccountDTO helpItemUserAccountDTO);
 
 		/// <returns></returns>
 		Task DeleteHelpPageAsync(HelpPageDTO helpPageDto);
@@ -290,22 +294,22 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="pageType"></param>
 		/// <param name="pageUrl"></param>
 		/// <returns></returns>
-		Task<List<HelpItemDTO>> GetHelpItemsAsync(PageType pageType,String pageUrl);
+		Task<List<HelpPageItemDTO>> GetHelpItemsAsync(HelpPageTypeIdEnum pageType,String pageUrl);
 
 		/// <param name="pageType"></param>
 		/// <param name="pageUrl"></param>
 		/// <returns></returns>
-		List<HelpItemDTO> GetHelpItems(PageType pageType,String pageUrl);
+		List<HelpPageItemDTO> GetHelpItems(HelpPageTypeIdEnum pageType,String pageUrl);
 
 		/// <param name="userId"></param>
 		/// <param name="createDate"></param>
 		/// <returns></returns>
-		Task<List<HelpItemDTO>> GetHelpItemsForCalloutAsync(Guid userId,DateTime createDate);
+		Task<List<HelpPageItemDTO>> GetHelpItemsForCalloutAsync(Guid userId,DateTime createDate);
 
 		/// <param name="userId"></param>
 		/// <param name="createDate"></param>
 		/// <returns></returns>
-		List<HelpItemDTO> GetHelpItemsForCallout(Guid userId,DateTime createDate);
+		List<HelpPageItemDTO> GetHelpItemsForCallout(Guid userId,DateTime createDate);
 	}
 
 	public partial interface IInvoiceLogicClient : IClientBase	{	
@@ -2379,58 +2383,66 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="createdBy"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> CreateHelpPageAsync(HelpPageDTO helpPageDto)
+		public virtual Task<Guid> CreateHelpPageAsync(String createdBy,HelpPageDTO helpPageDto)
 		{
+			createdBy = createdBy.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPage", helpPageDto, _user);
+			return PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPage?createdBy=" + createdBy, helpPageDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Guid CreateHelpPage(HelpPageDTO helpPageDto)
+		/// <param name="createdBy"></param>
+		public virtual Guid CreateHelpPage(String createdBy,HelpPageDTO helpPageDto)
 		{
+			createdBy = createdBy.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPage", helpPageDto, _user)).Result;
+			return Task.Run(() => PostAsync<HelpPageDTO, Guid>("api/HelpLogic/CreateHelpPage?createdBy=" + createdBy, helpPageDto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="modifiedBy"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> EditHelpPageAsync(String modifiedBy,HelpPageDTO helpPageDto)
+		{
+			modifiedBy = modifiedBy.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<HelpPageDTO, Guid>("api/HelpLogic/EditHelpPage?modifiedBy=" + modifiedBy, helpPageDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="modifiedBy"></param>
+		public virtual Guid EditHelpPage(String modifiedBy,HelpPageDTO helpPageDto)
+		{
+			modifiedBy = modifiedBy.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<HelpPageDTO, Guid>("api/HelpLogic/EditHelpPage?modifiedBy=" + modifiedBy, helpPageDto, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task<Guid> EditHelpPageAsync(HelpPageDTO helpPageDto)
+		public virtual Task<Guid> CreateHelpItemUserAccountAsync(HelpPageItemUserAccountDTO helpItemUserAccountDTO)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<HelpPageDTO, Guid>("api/HelpLogic/EditHelpPage", helpPageDto, _user);
+			return PostAsync<HelpPageItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccount", helpItemUserAccountDTO, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Guid EditHelpPage(HelpPageDTO helpPageDto)
+		public virtual Guid CreateHelpItemUserAccount(HelpPageItemUserAccountDTO helpItemUserAccountDTO)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<HelpPageDTO, Guid>("api/HelpLogic/EditHelpPage", helpPageDto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task<Guid> CreateHelpItemUserAccountAsync(HelpItemUserAccountDTO helpItemUserAccountDTO)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<HelpItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccount", helpItemUserAccountDTO, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual Guid CreateHelpItemUserAccount(HelpItemUserAccountDTO helpItemUserAccountDTO)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<HelpItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccount", helpItemUserAccountDTO, _user)).Result;
+			return Task.Run(() => PostAsync<HelpPageItemUserAccountDTO, Guid>("api/HelpLogic/CreateHelpItemUserAccount", helpItemUserAccountDTO, _user)).Result;
 		}
 
 		/// <summary>
@@ -2458,11 +2470,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="pageType"></param>
 		/// <param name="pageUrl"></param>
 		/// <returns></returns>
-		public virtual Task<List<HelpItemDTO>> GetHelpItemsAsync(PageType pageType,String pageUrl)
+		public virtual Task<List<HelpPageItemDTO>> GetHelpItemsAsync(HelpPageTypeIdEnum pageType,String pageUrl)
 		{
 			pageUrl = pageUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl, _user);
+			return GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl, _user);
 		}
 
 		/// <summary>
@@ -2470,11 +2482,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="pageType"></param>
 		/// <param name="pageUrl"></param>
-		public virtual List<HelpItemDTO> GetHelpItems(PageType pageType,String pageUrl)
+		public virtual List<HelpPageItemDTO> GetHelpItems(HelpPageTypeIdEnum pageType,String pageUrl)
 		{
 			pageUrl = pageUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl, _user)).Result;
+			return Task.Run(() => GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl, _user)).Result;
 		}
 
 		/// <summary>
@@ -2483,10 +2495,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userId"></param>
 		/// <param name="createDate"></param>
 		/// <returns></returns>
-		public virtual Task<List<HelpItemDTO>> GetHelpItemsForCalloutAsync(Guid userId,DateTime createDate)
+		public virtual Task<List<HelpPageItemDTO>> GetHelpItemsForCalloutAsync(Guid userId,DateTime createDate)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItemsForCallout?userId=" + userId + "&createDate=" + createDate.ToString("O"), _user);
+			return GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpItemsForCallout?userId=" + userId + "&createDate=" + createDate.ToString("O"), _user);
 		}
 
 		/// <summary>
@@ -2494,10 +2506,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="createDate"></param>
-		public virtual List<HelpItemDTO> GetHelpItemsForCallout(Guid userId,DateTime createDate)
+		public virtual List<HelpPageItemDTO> GetHelpItemsForCallout(Guid userId,DateTime createDate)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItemsForCallout?userId=" + userId + "&createDate=" + createDate.ToString("O"), _user)).Result;
+			return Task.Run(() => GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpItemsForCallout?userId=" + userId + "&createDate=" + createDate.ToString("O"), _user)).Result;
 		}
 
 		#endregion

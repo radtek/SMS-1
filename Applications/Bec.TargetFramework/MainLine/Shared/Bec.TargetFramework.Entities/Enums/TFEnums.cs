@@ -1136,4 +1136,21 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Bank Account")]
         BankAccount = 803002
     }
+
+    public enum HelpPageTypeIdEnum : int
+    {
+        [StringValue("Tour")]
+        Tour = 800000,
+        [StringValue("Callout")]
+        Callout = 800001,
+        [StringValue("Show Me How")]
+        ShowMeHow = 800002
+    }
+
+    public enum HelpPageItemStatusEnum
+    {
+        New = 800003,
+        Modified = 800004,
+        Deleted = 800005
+    }
 }

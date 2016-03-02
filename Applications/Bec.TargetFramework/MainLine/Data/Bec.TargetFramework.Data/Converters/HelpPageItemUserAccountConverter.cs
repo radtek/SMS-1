@@ -13,32 +13,32 @@ using System.Linq;
 namespace Bec.TargetFramework.Entities
 {
 
-    public static partial class HelpItemUserAccountConverter
+    public static partial class HelpPageItemUserAccountConverter
     {
 
-        public static HelpItemUserAccountDTO ToDto(this Bec.TargetFramework.Data.HelpItemUserAccount source)
+        public static HelpPageItemUserAccountDTO ToDto(this Bec.TargetFramework.Data.HelpPageItemUserAccount source)
         {
             return source.ToDtoWithRelated(0);
         }
 
-        public static HelpItemUserAccountDTO ToDtoWithRelated(this Bec.TargetFramework.Data.HelpItemUserAccount source, int level)
+        public static HelpPageItemUserAccountDTO ToDtoWithRelated(this Bec.TargetFramework.Data.HelpPageItemUserAccount source, int level)
         {
             if (source == null)
               return null;
 
-            var target = new HelpItemUserAccountDTO();
+            var target = new HelpPageItemUserAccountDTO();
 
             // Properties
             target.HelpItemUserAccountID = source.HelpItemUserAccountID;
-            target.HelpItemID = source.HelpItemID;
+            target.HelpPageItemID = source.HelpPageItemID;
             target.CreatedOn = source.CreatedOn;
             target.UserID = source.UserID;
             target.Visible = source.Visible;
 
             // Navigation Properties
             if (level > 0) {
-              target.HelpItem = source.HelpItem.ToDtoWithRelated(level - 1);
               target.UserAccount = source.UserAccount.ToDtoWithRelated(level - 1);
+              target.HelpPageItem = source.HelpPageItem.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -47,16 +47,16 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        public static Bec.TargetFramework.Data.HelpItemUserAccount ToEntity(this HelpItemUserAccountDTO source)
+        public static Bec.TargetFramework.Data.HelpPageItemUserAccount ToEntity(this HelpPageItemUserAccountDTO source)
         {
             if (source == null)
               return null;
 
-            var target = new Bec.TargetFramework.Data.HelpItemUserAccount();
+            var target = new Bec.TargetFramework.Data.HelpPageItemUserAccount();
 
             // Properties
             target.HelpItemUserAccountID = source.HelpItemUserAccountID;
-            target.HelpItemID = source.HelpItemID;
+            target.HelpPageItemID = source.HelpPageItemID;
             target.CreatedOn = source.CreatedOn;
             target.UserID = source.UserID;
             target.Visible = source.Visible;
@@ -67,7 +67,7 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        public static List<HelpItemUserAccountDTO> ToDtos(this IEnumerable<Bec.TargetFramework.Data.HelpItemUserAccount> source)
+        public static List<HelpPageItemUserAccountDTO> ToDtos(this IEnumerable<Bec.TargetFramework.Data.HelpPageItemUserAccount> source)
         {
             if (source == null)
               return null;
@@ -79,7 +79,7 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        public static List<HelpItemUserAccountDTO> ToDtosWithRelated(this IEnumerable<Bec.TargetFramework.Data.HelpItemUserAccount> source, int level)
+        public static List<HelpPageItemUserAccountDTO> ToDtosWithRelated(this IEnumerable<Bec.TargetFramework.Data.HelpPageItemUserAccount> source, int level)
         {
             if (source == null)
               return null;
@@ -91,7 +91,7 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        public static List<Bec.TargetFramework.Data.HelpItemUserAccount> ToEntities(this IEnumerable<HelpItemUserAccountDTO> source)
+        public static List<Bec.TargetFramework.Data.HelpPageItemUserAccount> ToEntities(this IEnumerable<HelpPageItemUserAccountDTO> source)
         {
             if (source == null)
               return null;
@@ -103,9 +103,9 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        static partial void OnDtoCreating(Bec.TargetFramework.Data.HelpItemUserAccount source, HelpItemUserAccountDTO target);
+        static partial void OnDtoCreating(Bec.TargetFramework.Data.HelpPageItemUserAccount source, HelpPageItemUserAccountDTO target);
 
-        static partial void OnEntityCreating(HelpItemUserAccountDTO source, Bec.TargetFramework.Data.HelpItemUserAccount target);
+        static partial void OnEntityCreating(HelpPageItemUserAccountDTO source, Bec.TargetFramework.Data.HelpPageItemUserAccount target);
 
     }
 

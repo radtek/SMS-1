@@ -98,7 +98,7 @@
     }
 
     function checkType() {
-        var valOfThis = $('#PageType option:selected').val();
+        var valOfThis = $('#HelpPageTypeId option:selected').val();
         if (valOfThis === "800000") {
             setDefaultEffectiveDate();
             disablePagefields("Tour");
@@ -120,7 +120,7 @@
         }
     }
 
-    $('#PageType').on('change', function () {
+    $('#HelpPageTypeId').on('change', function () {
         checkType();        
     });
 

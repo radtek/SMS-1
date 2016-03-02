@@ -22,17 +22,17 @@ namespace Bec.TargetFramework.Entities
         public HelpPageDTO() {
         }
 
-        public HelpPageDTO(global::System.Guid helpPageID, string pageName, string pageUrl, int pageType, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, List<HelpItemDTO> helpItems) {
+        public HelpPageDTO(global::System.Guid helpPageID, string pageName, string pageUrl, int helpPageTypeId, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, List<HelpPageItemDTO> helpPageItems) {
 
           this.HelpPageID = helpPageID;
           this.PageName = pageName;
           this.PageUrl = pageUrl;
-          this.PageType = pageType;
+          this.HelpPageTypeId = helpPageTypeId;
           this.CreatedOn = createdOn;
           this.ModifiedOn = modifiedOn;
           this.CreatedBy = createdBy;
           this.ModifiedBy = modifiedBy;
-          this.HelpItems = helpItems;
+          this.HelpPageItems = helpPageItems;
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace Bec.TargetFramework.Entities
         public string PageUrl { get; set; }
 
         [DataMember]
-        public int PageType { get; set; }
+        public int HelpPageTypeId { get; set; }
 
         [DataMember]
         public global::System.DateTime CreatedOn { get; set; }
@@ -68,7 +68,7 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public List<HelpItemDTO> HelpItems { get; set; }
+        public List<HelpPageItemDTO> HelpPageItems { get; set; }
 
         #endregion
     }

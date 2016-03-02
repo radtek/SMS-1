@@ -13,41 +13,40 @@ using System.Linq;
 namespace Bec.TargetFramework.Entities
 {
 
-    public static partial class CalloutConverter
+    public static partial class HelpPageItemConverter
     {
 
-        public static CalloutDTO ToDto(this Bec.TargetFramework.Data.Callout source)
+        public static HelpPageItemDTO ToDto(this Bec.TargetFramework.Data.HelpPageItem source)
         {
             return source.ToDtoWithRelated(0);
         }
 
-        public static CalloutDTO ToDtoWithRelated(this Bec.TargetFramework.Data.Callout source, int level)
+        public static HelpPageItemDTO ToDtoWithRelated(this Bec.TargetFramework.Data.HelpPageItem source, int level)
         {
             if (source == null)
               return null;
 
-            var target = new CalloutDTO();
+            var target = new HelpPageItemDTO();
 
             // Properties
-            target.CalloutID = source.CalloutID;
-            target.RoleID = source.RoleID;
+            target.HelpPageItemID = source.HelpPageItemID;
+            target.HelpPageID = source.HelpPageID;
             target.Title = source.Title;
             target.Description = source.Description;
-            target.IsActive = source.IsActive;
-            target.IsDeleted = source.IsDeleted;
             target.DisplayOrder = source.DisplayOrder;
+            target.Selector = source.Selector;
+            target.TabContainerId = source.TabContainerId;
+            target.EffectiveOn = source.EffectiveOn;
+            target.Position = source.Position;
             target.CreatedOn = source.CreatedOn;
             target.ModifiedOn = source.ModifiedOn;
             target.CreatedBy = source.CreatedBy;
             target.ModifiedBy = source.ModifiedBy;
-            target.Selector = source.Selector;
-            target.EffectiveOn = source.EffectiveOn;
-            target.Position = source.Position;
 
             // Navigation Properties
             if (level > 0) {
-              target.Role = source.Role.ToDtoWithRelated(level - 1);
-              target.CalloutUserAccounts = source.CalloutUserAccounts.ToDtosWithRelated(level - 1);
+              target.HelpPage = source.HelpPage.ToDtoWithRelated(level - 1);
+              target.HelpPageItemUserAccounts = source.HelpPageItemUserAccounts.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -56,28 +55,27 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        public static Bec.TargetFramework.Data.Callout ToEntity(this CalloutDTO source)
+        public static Bec.TargetFramework.Data.HelpPageItem ToEntity(this HelpPageItemDTO source)
         {
             if (source == null)
               return null;
 
-            var target = new Bec.TargetFramework.Data.Callout();
+            var target = new Bec.TargetFramework.Data.HelpPageItem();
 
             // Properties
-            target.CalloutID = source.CalloutID;
-            target.RoleID = source.RoleID;
+            target.HelpPageItemID = source.HelpPageItemID;
+            target.HelpPageID = source.HelpPageID;
             target.Title = source.Title;
             target.Description = source.Description;
-            target.IsActive = source.IsActive;
-            target.IsDeleted = source.IsDeleted;
             target.DisplayOrder = source.DisplayOrder;
+            target.Selector = source.Selector;
+            target.TabContainerId = source.TabContainerId;
+            target.EffectiveOn = source.EffectiveOn;
+            target.Position = source.Position;
             target.CreatedOn = source.CreatedOn;
             target.ModifiedOn = source.ModifiedOn;
             target.CreatedBy = source.CreatedBy;
             target.ModifiedBy = source.ModifiedBy;
-            target.Selector = source.Selector;
-            target.EffectiveOn = source.EffectiveOn;
-            target.Position = source.Position;
 
             // User-defined partial method
             OnEntityCreating(source, target);
@@ -85,7 +83,7 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        public static List<CalloutDTO> ToDtos(this IEnumerable<Bec.TargetFramework.Data.Callout> source)
+        public static List<HelpPageItemDTO> ToDtos(this IEnumerable<Bec.TargetFramework.Data.HelpPageItem> source)
         {
             if (source == null)
               return null;
@@ -97,7 +95,7 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        public static List<CalloutDTO> ToDtosWithRelated(this IEnumerable<Bec.TargetFramework.Data.Callout> source, int level)
+        public static List<HelpPageItemDTO> ToDtosWithRelated(this IEnumerable<Bec.TargetFramework.Data.HelpPageItem> source, int level)
         {
             if (source == null)
               return null;
@@ -109,7 +107,7 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        public static List<Bec.TargetFramework.Data.Callout> ToEntities(this IEnumerable<CalloutDTO> source)
+        public static List<Bec.TargetFramework.Data.HelpPageItem> ToEntities(this IEnumerable<HelpPageItemDTO> source)
         {
             if (source == null)
               return null;
@@ -121,9 +119,9 @@ namespace Bec.TargetFramework.Entities
             return target;
         }
 
-        static partial void OnDtoCreating(Bec.TargetFramework.Data.Callout source, CalloutDTO target);
+        static partial void OnDtoCreating(Bec.TargetFramework.Data.HelpPageItem source, HelpPageItemDTO target);
 
-        static partial void OnEntityCreating(CalloutDTO source, Bec.TargetFramework.Data.Callout target);
+        static partial void OnEntityCreating(HelpPageItemDTO source, Bec.TargetFramework.Data.HelpPageItem target);
 
     }
 

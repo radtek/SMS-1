@@ -16,23 +16,22 @@ namespace Bec.TargetFramework.Data
 {
 
     /// <summary>
-    /// There are no comments for Bec.TargetFramework.Data.SMHItem in the schema.
+    /// There are no comments for Bec.TargetFramework.Data.HelpPageItemUserAccount in the schema.
     /// </summary>
     [System.Serializable]
-    public partial class SMHItem    {
+    public partial class HelpPageItemUserAccount    {
 
-        public SMHItem()
+        public HelpPageItemUserAccount()
         {
-          this.ItemPosition = 0;
-          this.ItemOrder = 0;
+          this.Visible = false;
         }
 
         #region Properties
     
         /// <summary>
-        /// There are no comments for ItemID in the schema.
+        /// There are no comments for HelpItemUserAccountID in the schema.
         /// </summary>
-        public virtual global::System.Guid ItemID
+        public virtual global::System.Guid HelpItemUserAccountID
         {
             get;
             set;
@@ -40,9 +39,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for PageID in the schema.
+        /// There are no comments for HelpPageItemID in the schema.
         /// </summary>
-        public virtual global::System.Guid PageID
+        public virtual global::System.Guid HelpPageItemID
         {
             get;
             set;
@@ -50,9 +49,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for ItemName in the schema.
+        /// There are no comments for CreatedOn in the schema.
         /// </summary>
-        public virtual string ItemName
+        public virtual global::System.DateTime CreatedOn
         {
             get;
             set;
@@ -60,9 +59,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for ItemSelector in the schema.
+        /// There are no comments for UserID in the schema.
         /// </summary>
-        public virtual string ItemSelector
+        public virtual global::System.Guid UserID
         {
             get;
             set;
@@ -70,39 +69,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for ItemDescription in the schema.
+        /// There are no comments for Visible in the schema.
         /// </summary>
-        public virtual string ItemDescription
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for ItemPosition in the schema.
-        /// </summary>
-        public virtual int ItemPosition
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for ItemOrder in the schema.
-        /// </summary>
-        public virtual int ItemOrder
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for TabContainerId in the schema.
-        /// </summary>
-        public virtual string TabContainerId
+        public virtual global::System.Nullable<bool> Visible
         {
             get;
             set;
@@ -114,9 +83,18 @@ namespace Bec.TargetFramework.Data
         #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for SMHPage in the schema.
+        /// There are no comments for UserAccount in the schema.
         /// </summary>
-        public virtual SMHPage SMHPage
+        public virtual UserAccount UserAccount
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for HelpPageItem in the schema.
+        /// </summary>
+        public virtual HelpPageItem HelpPageItem
         {
             get;
             set;

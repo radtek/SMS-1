@@ -2038,39 +2038,19 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<File> Files { get; set; }
     
         /// <summary>
-        /// There are no comments for SMHPage in the schema.
-        /// </summary>
-        public virtual DbSet<SMHPage> SMHPages { get; set; }
-    
-        /// <summary>
-        /// There are no comments for SMHItem in the schema.
-        /// </summary>
-        public virtual DbSet<SMHItem> SMHItems { get; set; }
-    
-        /// <summary>
-        /// There are no comments for Callout in the schema.
-        /// </summary>
-        public virtual DbSet<Callout> Callouts { get; set; }
-    
-        /// <summary>
-        /// There are no comments for CalloutUserAccount in the schema.
-        /// </summary>
-        public virtual DbSet<CalloutUserAccount> CalloutUserAccounts { get; set; }
-    
-        /// <summary>
-        /// There are no comments for HelpItem in the schema.
-        /// </summary>
-        public virtual DbSet<HelpItem> HelpItems { get; set; }
-    
-        /// <summary>
         /// There are no comments for HelpPage in the schema.
         /// </summary>
         public virtual DbSet<HelpPage> HelpPages { get; set; }
     
         /// <summary>
-        /// There are no comments for HelpItemUserAccount in the schema.
+        /// There are no comments for HelpPageItem in the schema.
         /// </summary>
-        public virtual DbSet<HelpItemUserAccount> HelpItemUserAccounts { get; set; }
+        public virtual DbSet<HelpPageItem> HelpPageItems { get; set; }
+    
+        /// <summary>
+        /// There are no comments for HelpPageItemUserAccount in the schema.
+        /// </summary>
+        public virtual DbSet<HelpPageItemUserAccount> HelpPageItemUserAccounts { get; set; }
 
         #region Methods
 

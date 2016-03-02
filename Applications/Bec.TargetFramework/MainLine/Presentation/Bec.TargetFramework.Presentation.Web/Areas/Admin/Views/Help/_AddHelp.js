@@ -99,8 +99,8 @@
         $("#tourSection").css('display', 'none');
     }
 
-    $('#PageType').on('change', function () {
-        var valOfThis = $('#PageType option:selected').val();
+    $('#HelpPageTypeId').on('change', function () {
+        var valOfThis = $('#HelpPageTypeId option:selected').val();
         if (valOfThis === "800000") {
             setDefaultEffectiveDate();
             disablePagefields("Tour");

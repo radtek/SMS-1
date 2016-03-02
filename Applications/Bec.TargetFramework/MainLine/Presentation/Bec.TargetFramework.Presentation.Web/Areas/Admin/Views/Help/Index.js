@@ -41,7 +41,7 @@
                     {
                         field: "PageType",
                         title: "Page Type",
-                        template: function (dataItem) { return (dataItem.PageType === 800000 ? "Tour" : (dataItem.PageType === 800002 ? "Show Me How" : "Callout")); }
+                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800000 ? "Tour" : (dataItem.HelpPageTypeId === 800002 ? "Show Me How" : "Callout")); }
                     },
                     {
                         field: "HelpPageID",
@@ -54,7 +54,7 @@
                     {
                         field: "PageUrl",
                         title: "Page URL",
-                        template: function (dataItem) { return (dataItem.PageType === 800000 || dataItem.PageType === 800001 ? "" : dataItem.PageUrl); }
+                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800000 || dataItem.HelpPageTypeId === 800001 ? "" : dataItem.PageUrl); }
                     },
                     {
                         field: "CreatedOn",
@@ -109,7 +109,7 @@
     }
 
     function onPageChange(dataItem) {
-        if (dataItem.PageType === 800000 || dataItem.PageType === 800001) {
+        if (dataItem.HelpPageTypeId === 800000 || dataItem.HelpPageTypeId === 800001) {
             $("p#ddnUrl").css('display', 'none');
             $("dt#ddnUrlLabel").css('display', 'none');
         } else {
@@ -118,7 +118,7 @@
             $("p#ddnUrl").text(dataItem.PageUrl != null ? dataItem.PageUrl : "");
         }
         $("p#ddnName").text(dataItem.PageName);
-        $("p#ddnType").text((dataItem.PageType === 800000 ? "Tour" : (dataItem.PageType === 800002 ? "Show Me How" : "Callout")) || "");
+        $("p#ddnType").text((dataItem.HelpPageTypeId === 800000 ? "Tour" : (dataItem.HelpPageTypeId === 800002 ? "Show Me How" : "Callout")) || "");
         $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
         $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? dateString(dataItem.ModifiedOn) : "");
         btnEdit.data('href', urls.editHelpUrl + "?pageId=" + dataItem.HelpPageID);

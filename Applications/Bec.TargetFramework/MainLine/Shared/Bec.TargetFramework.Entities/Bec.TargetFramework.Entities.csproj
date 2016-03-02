@@ -195,13 +195,7 @@
     <Compile Include="Boo\BusTaskScheduleDTO.cs" />
     <Compile Include="Boo\BusTaskScheduleProcessLogDTO.cs" />
     <Compile Include="Boo\CalloutDTO.cs" />
-    <Compile Include="Boo\CalloutDTO.Generated.cs">
-      <DependentUpon>CalloutDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\CalloutUserAccountDTO.cs" />
-    <Compile Include="Boo\CalloutUserAccountDTO.Generated.cs">
-      <DependentUpon>CalloutUserAccountDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ClassificationTypeCategoryDTO.cs" />
     <Compile Include="Boo\ClassificationTypeCategoryDTO.Generated.cs">
       <DependentUpon>ClassificationTypeCategoryDTO.cs</DependentUpon>
@@ -530,17 +524,17 @@
       <DependentUpon>GroupRoleDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\GroupTemplateRoleDTO.cs" />
-    <Compile Include="Boo\HelpItemDTO.cs" />
-    <Compile Include="Boo\HelpItemDTO.Generated.cs">
-      <DependentUpon>HelpItemDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\HelpItemUserAccountDTO.cs" />
-    <Compile Include="Boo\HelpItemUserAccountDTO.Generated.cs">
-      <DependentUpon>HelpItemUserAccountDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\HelpPageDTO.cs" />
     <Compile Include="Boo\HelpPageDTO.Generated.cs">
       <DependentUpon>HelpPageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\HelpPageItemDTO.cs" />
+    <Compile Include="Boo\HelpPageItemDTO.Generated.cs">
+      <DependentUpon>HelpPageItemDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\HelpPageItemUserAccountDTO.cs" />
+    <Compile Include="Boo\HelpPageItemUserAccountDTO.Generated.cs">
+      <DependentUpon>HelpPageItemUserAccountDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\IdentityCheckProviderDTO.cs" />
     <Compile Include="Boo\InterfacePanelTemplateDTO.cs" />
@@ -1383,13 +1377,7 @@
       <DependentUpon>ShoppingCartItemProductSpecificationDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\SMHItemDTO.cs" />
-    <Compile Include="Boo\SMHItemDTO.Generated.cs">
-      <DependentUpon>SMHItemDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\SMHPageDTO.cs" />
-    <Compile Include="Boo\SMHPageDTO.Generated.cs">
-      <DependentUpon>SMHPageDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\SmsBankAccountCheckDTO.cs" />
     <Compile Include="Boo\SmsBankAccountCheckDTO.Generated.cs">
       <DependentUpon>SmsBankAccountCheckDTO.cs</DependentUpon>
@@ -1891,7 +1879,7 @@
     <Compile Include="DTO\FirmDetailsDTO.cs" />
     <Compile Include="DTO\CompanyDTO.cs" />
     <Compile Include="DTO\ForgotPasswordDTO.cs" />
-    <Compile Include="DTO\HelpItemDTO.cs" />
+    <Compile Include="DTO\HelpPageItemDTO.cs" />
     <Compile Include="DTO\IDCheckRequestDTO.cs" />
     <Compile Include="DTO\InformationDTO.cs" />
     <Compile Include="DTO\AddPersonalDetailsDTO.cs" />
@@ -1981,8 +1969,6 @@
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
-    <Compile Include="Enums\HelpPageItemStatusEnum.cs" />
-    <Compile Include="Enums\PageTypeEnum.cs" />
     <Compile Include="Enums\HtmlPositionEnum.cs" />
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />

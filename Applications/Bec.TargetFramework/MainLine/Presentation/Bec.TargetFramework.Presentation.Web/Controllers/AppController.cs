@@ -114,13 +114,13 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public async Task<ActionResult> GetSmhItemOnPage(string pageUrl)
         {            
-            var list = await helpClient.GetHelpItemsAsync(PageType.ShowMeHow, pageUrl);
+            var list = await helpClient.GetHelpItemsAsync(HelpPageTypeIdEnum.ShowMeHow, pageUrl);
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetTourItem()
         {
-            var list = await helpClient.GetHelpItemsAsync(PageType.Tour, null);
+            var list = await helpClient.GetHelpItemsAsync(HelpPageTypeIdEnum.Tour, null);
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 

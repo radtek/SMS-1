@@ -259,33 +259,6 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
-    
-        /// <summary>
-        /// There are no comments for Callouts in the schema.
-        /// </summary>
-        public virtual ICollection<Callout> Callouts
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for CalloutUserAccounts in the schema.
-        /// </summary>
-        public virtual ICollection<CalloutUserAccount> CalloutUserAccounts
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for SMHPages in the schema.
-        /// </summary>
-        public virtual ICollection<SMHPage> SMHPages
-        {
-            get;
-            set;
-        }
 
         #endregion
     }

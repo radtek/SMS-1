@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Entities
             target.HelpPageID = source.HelpPageID;
             target.PageName = source.PageName;
             target.PageUrl = source.PageUrl;
-            target.PageType = source.PageType;
+            target.HelpPageTypeId = source.HelpPageTypeId;
             target.CreatedOn = source.CreatedOn;
             target.ModifiedOn = source.ModifiedOn;
             target.CreatedBy = source.CreatedBy;
@@ -40,7 +40,7 @@ namespace Bec.TargetFramework.Entities
 
             // Navigation Properties
             if (level > 0) {
-              target.HelpItems = source.HelpItems.ToDtosWithRelated(level - 1);
+              target.HelpPageItems = source.HelpPageItems.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -60,7 +60,7 @@ namespace Bec.TargetFramework.Entities
             target.HelpPageID = source.HelpPageID;
             target.PageName = source.PageName;
             target.PageUrl = source.PageUrl;
-            target.PageType = source.PageType;
+            target.HelpPageTypeId = source.HelpPageTypeId;
             target.CreatedOn = source.CreatedOn;
             target.ModifiedOn = source.ModifiedOn;
             target.CreatedBy = source.CreatedBy;

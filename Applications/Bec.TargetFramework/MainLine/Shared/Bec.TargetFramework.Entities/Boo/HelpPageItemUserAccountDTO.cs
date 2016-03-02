@@ -2,7 +2,7 @@
 namespace Bec.TargetFramework.Entities
 {
 
-    public partial class HelpItemUserAccountDTO
+    public partial class HelpPageItemUserAccountDTO
     {
     }
 }

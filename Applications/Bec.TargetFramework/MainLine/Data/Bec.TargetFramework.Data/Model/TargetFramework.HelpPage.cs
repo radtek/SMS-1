@@ -58,9 +58,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for PageType in the schema.
+        /// There are no comments for HelpPageTypeId in the schema.
         /// </summary>
-        public virtual int PageType
+        public virtual int HelpPageTypeId
         {
             get;
             set;
@@ -112,9 +112,9 @@ namespace Bec.TargetFramework.Data
         #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for HelpItems in the schema.
+        /// There are no comments for HelpPageItems in the schema.
         /// </summary>
-        public virtual ICollection<HelpItem> HelpItems
+        public virtual ICollection<HelpPageItem> HelpPageItems
         {
             get;
             set;

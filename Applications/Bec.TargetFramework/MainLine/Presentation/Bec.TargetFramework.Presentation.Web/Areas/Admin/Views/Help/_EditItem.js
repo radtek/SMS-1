@@ -67,13 +67,13 @@
     });
 
     function createItem(item) {
-        if (item.Status !== 3) {
+        if (item.Status !== 800005) {
             var itemHtml = '<li class="ui-state-default" data-item-id="" data-item-order="' + item.DisplayOrder + '">' +
                             '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
                             '<span class="help-item-title">' + item.Title + '</span>' +
                             ' <span class="help-item-btn">' +
-                             ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element-delete"><i class="fa fa-times"></i></a>' +
-                             ' <a  id="' + item.HelpItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
+                             ' <a  id="' + item.HelpPageItemID + '" class="btn btn-primary btn-sm help-item-element-delete"><i class="fa fa-times"></i></a>' +
+                             ' <a  id="' + item.HelpPageItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
                             '</span>' +
                           ' </li>';
             return itemHtml;
@@ -95,7 +95,7 @@
         .done(function (response) {
             if (response !== null || response !== undefined) {
                 if (response.Item != null) {
-                    $('#helpItemId').val(itemId);
+                    $('#helpPageItemId').val(itemId);
                     btnEditItem.text("Save");
                     $('#helpItemTitle').val(response.Item.Title);
                     $('#helpItemSelector').val(response.Item.Selector);
@@ -185,7 +185,7 @@
         $("#editItem-form textarea").val('');
         $("#editItem-form input[type=text]").first().focus();
         btnEditItem.text("Add");
-        $("#helpItemId").val("");
+        $("#helpPageItemId").val("");
         $('.help-item-element').prop('disabled', false);
     }
 

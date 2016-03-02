@@ -16,12 +16,12 @@ namespace Bec.TargetFramework.Data
 {
 
     /// <summary>
-    /// There are no comments for Bec.TargetFramework.Data.HelpItem in the schema.
+    /// There are no comments for Bec.TargetFramework.Data.HelpPageItem in the schema.
     /// </summary>
     [System.Serializable]
-    public partial class HelpItem    {
+    public partial class HelpPageItem    {
 
-        public HelpItem()
+        public HelpPageItem()
         {
           this.DisplayOrder = 0;
         }
@@ -29,9 +29,9 @@ namespace Bec.TargetFramework.Data
         #region Properties
     
         /// <summary>
-        /// There are no comments for HelpItemID in the schema.
+        /// There are no comments for HelpPageItemID in the schema.
         /// </summary>
-        public virtual global::System.Guid HelpItemID
+        public virtual global::System.Guid HelpPageItemID
         {
             get;
             set;
@@ -172,9 +172,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for HelpItemUserAccounts in the schema.
+        /// There are no comments for HelpPageItemUserAccounts in the schema.
         /// </summary>
-        public virtual ICollection<HelpItemUserAccount> HelpItemUserAccounts
+        public virtual ICollection<HelpPageItemUserAccount> HelpPageItemUserAccounts
         {
             get;
             set;

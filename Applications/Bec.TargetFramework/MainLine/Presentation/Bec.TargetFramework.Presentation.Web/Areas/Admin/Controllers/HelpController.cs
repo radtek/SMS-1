@@ -25,9 +25,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public IList<SelectListItem> GetHelpPageTypes()
         {
             return new List<SelectListItem> {
-                new SelectListItem { Value = PageType.Tour.GetIntValue().ToString(), Text=PageType.Tour.GetStringValue()},
-                new SelectListItem { Value = PageType.Callout.GetIntValue().ToString(), Text=PageType.Callout.GetStringValue()},
-                new SelectListItem { Value = PageType.ShowMeHow.GetIntValue().ToString(), Text=PageType.ShowMeHow.GetStringValue()}
+                new SelectListItem { Value = HelpPageTypeIdEnum.Tour.GetIntValue().ToString(), Text=HelpPageTypeIdEnum.Tour.GetStringValue()},
+                new SelectListItem { Value = HelpPageTypeIdEnum.Callout.GetIntValue().ToString(), Text=HelpPageTypeIdEnum.Callout.GetStringValue()},
+                new SelectListItem { Value = HelpPageTypeIdEnum.ShowMeHow.GetIntValue().ToString(), Text=HelpPageTypeIdEnum.ShowMeHow.GetStringValue()}
             };
         }
         public ActionResult Index()
@@ -67,14 +67,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             try
             {
-                List<HelpItemDTO> items;
-                var itemDeleteStatus = HelpPageItemStatus.Deleted.GetIntValue();
+                List<HelpPageItemDTO> items;
+                var itemDeleteStatus = HelpPageItemStatusEnum.Deleted.GetIntValue();
                 if (TempData["Items"] != null)
                 {
-                    items = (List<HelpItemDTO>)TempData["Items"];
-                    page.HelpItems = items.FindAll(x => x.Status != itemDeleteStatus);
+                    items = (List<HelpPageItemDTO>)TempData["Items"];
+                    page.HelpPageItems = items.FindAll(x => x.Status != itemDeleteStatus);
                 }
-                TempData["HelpPageId"] = await helpClient.CreateHelpPageAsync(page);
+                var createdBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
+                TempData["HelpPageId"] = await helpClient.CreateHelpPageAsync(createdBy, page);
                 this.AddToastMessage("Add Successfully", "The help has been added.", ToastType.Success);
             }
             catch (Exception)
@@ -91,13 +92,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             try
             {
-                List<HelpItemDTO> tempListItem;
+                List<HelpPageItemDTO> tempListItem;
                 if (TempData["Items"] != null)
                 {
-                    tempListItem = (List<HelpItemDTO>)TempData["Items"];
-                    page.HelpItems = tempListItem;
+                    tempListItem = (List<HelpPageItemDTO>)TempData["Items"];
+                    page.HelpPageItems = tempListItem;
                 }
-                TempData["HelpPageId"] = await helpClient.EditHelpPageAsync(page);
+                var modifiedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
+                TempData["HelpPageId"] = await helpClient.EditHelpPageAsync(modifiedBy,page);
                 this.AddToastMessage("Add Successfully", "The help has been updated.", ToastType.Success);
             }
             catch (Exception)
@@ -124,14 +126,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> HelpPages(PageType? pageType)
+        public async Task<ActionResult> HelpPages(HelpPageTypeIdEnum? pageType)
         {
             TempData["CurrentType"] = pageType;
-            TempData["isShowMeHowItem"] = pageType == PageType.ShowMeHow;
-            TempData["isCalloutItem"] = pageType == PageType.Callout;
+            TempData["isShowMeHowItem"] = pageType == HelpPageTypeIdEnum.ShowMeHow;
+            TempData["isCalloutItem"] = pageType == HelpPageTypeIdEnum.Callout;
             var pageTypeValue = pageType.GetIntValue();
-            var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.PageType, x.CreatedOn, x.ModifiedOn });
-            var filterPage = pageTypeValue > 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.PageType == pageTypeValue) : String.Empty;
+            var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
+            var filterPage = pageTypeValue > 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.HelpPageTypeId == pageTypeValue) : String.Empty;
             JObject res = await queryClient.QueryAsync("HelpPages", ODataHelper.RemoveParameters(Request) + selectPage + filterPage);
             return Content(res.ToString(Formatting.None), "application/json");
         }
@@ -140,7 +142,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var list = await GetItemsOnPage(pageId);
             var IsEmpty = (list == null) || (list.ToList().Count == 0);
-            var data = new List<HelpItemDTO>();
+            var data = new List<HelpPageItemDTO>();
             if (!IsEmpty)
             {
                 data = list.ToList();
@@ -154,19 +156,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        private async Task<IEnumerable<HelpItemDTO>> GetItemsOnPage(Guid pageId)
+        private async Task<IEnumerable<HelpPageItemDTO>> GetItemsOnPage(Guid pageId)
         {
-            var selectItem = ODataHelper.Select<HelpItemDTO>(x => new { x.HelpItemID, x.HelpPageID, x.Title, x.Description, x.DisplayOrder, x.EffectiveOn, x.Position, x.Selector, x.TabContainerId });
-            var filterItem = ODataHelper.Filter<HelpItemDTO>(x => x.HelpPageID == pageId);
-            var orderItem = ODataHelper.OrderBy<HelpItemDTO>(x => new { x.DisplayOrder });
-            var list = await queryClient.QueryAsync<HelpItemDTO>("HelpItems", selectItem + filterItem + orderItem);
+            var selectItem = ODataHelper.Select<HelpPageItemDTO>(x => new { x.HelpPageItemID, x.HelpPageID, x.Title, x.Description, x.DisplayOrder, x.EffectiveOn, x.Position, x.Selector, x.TabContainerId });
+            var filterItem = ODataHelper.Filter<HelpPageItemDTO>(x => x.HelpPageID == pageId);
+            var orderItem = ODataHelper.OrderBy<HelpPageItemDTO>(x => new { x.DisplayOrder });
+            var list = await queryClient.QueryAsync<HelpPageItemDTO>("HelpPageItems", selectItem + filterItem + orderItem);
             return list;
         }
 
 
         private async Task<HelpPageDTO> GetHelpDto(Guid pageId)
         {
-            var select = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.PageType, x.CreatedOn, x.ModifiedOn });
+            var select = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
             var filter = ODataHelper.Filter<HelpPageDTO>(x => x.HelpPageID == pageId);
             var list = await queryClient.QueryAsync<HelpPageDTO>("HelpPages", select + filter);
             return list.FirstOrDefault();
@@ -174,22 +176,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult AddItem(HelpItemDTO item)
+        public JsonResult AddItem(HelpPageItemDTO item)
         {
-            if (item.HelpItemID == default(Guid))
+            if (item.HelpPageItemID == default(Guid))
             {
-                IList<HelpItemDTO> list = null;
+                IList<HelpPageItemDTO> list = null;
                 if (TempData["Items"] != null)
                 {
-                    list = (IList<HelpItemDTO>)TempData["Items"];
+                    list = (IList<HelpPageItemDTO>)TempData["Items"];
                     item.DisplayOrder = list.Count + 1;
                 }
                 else
                 {
-                    list = new List<HelpItemDTO>();
+                    list = new List<HelpPageItemDTO>();
                     item.DisplayOrder = 1;
                 }
-                item.HelpItemID = Guid.NewGuid();
+                item.HelpPageItemID = Guid.NewGuid();
                 list.Add(item);
                 TempData["Items"] = list;
                 var jsonData = new { result = list.Count > 0, Items = list };
@@ -199,8 +201,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 if (TempData["Items"] != null)
                 {
-                    var list = (IList<HelpItemDTO>)TempData["Items"];
-                    var itemHelp = list.FirstOrDefault(x => x.HelpItemID == item.HelpItemID);
+                    var list = (IList<HelpPageItemDTO>)TempData["Items"];
+                    var itemHelp = list.FirstOrDefault(x => x.HelpPageItemID == item.HelpPageItemID);
                     if (itemHelp != null)
                     {
                         itemHelp.Title = item.Title;
@@ -219,24 +221,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult EditItem(HelpItemDTO item)
+        public JsonResult EditItem(HelpPageItemDTO item)
         {
-            if (item.HelpItemID == default(Guid))
+            if (item.HelpPageItemID == default(Guid))
             {
-                IList<HelpItemDTO> list = null;
+                IList<HelpPageItemDTO> list = null;
                 if (TempData["Items"] != null)
                 {
-                    list = (IList<HelpItemDTO>)TempData["Items"];
+                    list = (IList<HelpPageItemDTO>)TempData["Items"];
                     item.DisplayOrder = list.Count + 1;
-                    item.Status = HelpPageItemStatus.New.GetIntValue();
+                    item.Status = HelpPageItemStatusEnum.New.GetIntValue();
                 }
                 else
                 {
-                    list = new List<HelpItemDTO>();
+                    list = new List<HelpPageItemDTO>();
                     item.DisplayOrder = 1;
-                    item.Status = HelpPageItemStatus.New.GetIntValue();
+                    item.Status = HelpPageItemStatusEnum.New.GetIntValue();
                 }
-                item.HelpItemID = Guid.NewGuid();
+                item.HelpPageItemID = Guid.NewGuid();
                 list.Add(item);
                 TempData["Items"] = list;
                 var jsonData = new { result = true, Items = list };
@@ -246,8 +248,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 if (TempData["Items"] != null)
                 {
-                    var list = (IList<HelpItemDTO>)TempData["Items"];
-                    var itemHelp = list.FirstOrDefault(x => x.HelpItemID == item.HelpItemID);
+                    var list = (IList<HelpPageItemDTO>)TempData["Items"];
+                    var itemHelp = list.FirstOrDefault(x => x.HelpPageItemID == item.HelpPageItemID);
                     if (itemHelp != null)
                     {
                         itemHelp.Title = item.Title;
@@ -255,9 +257,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         itemHelp.Description = item.Description;
                         itemHelp.Position = item.Position;
                         itemHelp.TabContainerId = item.TabContainerId;
-                        if (itemHelp.Status != HelpPageItemStatus.New.GetIntValue())
+                        if (itemHelp.Status != HelpPageItemStatusEnum.New.GetIntValue())
                         {
-                            itemHelp.Status = HelpPageItemStatus.Modified.GetIntValue();
+                            itemHelp.Status = HelpPageItemStatusEnum.Modified.GetIntValue();
                         }
                     }
                     TempData["Items"] = list;
@@ -274,8 +276,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             if (TempData["Items"] != null)
             {
-                var list = (IList<HelpItemDTO>)TempData["Items"];
-                var item = list.FirstOrDefault(x => x.HelpItemID == id);
+                var list = (IList<HelpPageItemDTO>)TempData["Items"];
+                var item = list.FirstOrDefault(x => x.HelpPageItemID == id);
                 var jsonData = new { Item = item };
                 TempData["Items"] = list;
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -289,17 +291,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             if (TempData["Items"] != null)
             {
-                var list = (IList<HelpItemDTO>)TempData["Items"];
-                var item = list.FirstOrDefault(x => x.HelpItemID == id);
+                var list = (IList<HelpPageItemDTO>)TempData["Items"];
+                var item = list.FirstOrDefault(x => x.HelpPageItemID == id);
                 if (item != null)
                 {
-                    if (item.Status == HelpPageItemStatus.New.GetIntValue())
+                    if (item.Status == HelpPageItemStatusEnum.New.GetIntValue())
                     {
                         list.Remove(item);
                     }
                     else
                     {
-                        item.Status = HelpPageItemStatus.Deleted.GetIntValue();
+                        item.Status = HelpPageItemStatusEnum.Deleted.GetIntValue();
                     }
                 }
                 TempData["Items"] = list;
@@ -314,14 +316,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public JsonResult UpdateTemporaryOrder(List<int> orders)
         {
             var result = true;
-            var newList = new List<HelpItemDTO>();
+            var newList = new List<HelpPageItemDTO>();
             if (TempData["Items"] == null || orders == null || orders.Count == 0)
             {
                 result = false;
             }
             else
             {
-                var currentList = (IList<HelpItemDTO>)TempData["Items"];
+                var currentList = (IList<HelpPageItemDTO>)TempData["Items"];
                 var newOrder = 1;
                 foreach (var order in orders)
                 {
@@ -331,9 +333,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         result = false;
                         break;
                     }
-                    var newItem = new HelpItemDTO
+                    var newItem = new HelpPageItemDTO
                     {
-                        HelpItemID = Guid.NewGuid(),
+                        HelpPageItemID = Guid.NewGuid(),
                         Title = item.Title,
                         Selector = item.Selector,
                         Description = item.Description,
@@ -359,15 +361,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public JsonResult UpdateTemporaryOrderOnEditPage(List<int> orders)
         {
             var result = true;
-            var newList = new List<HelpItemDTO>();
-            var itemDeleteStatus = HelpPageItemStatus.Deleted.GetIntValue();
+            var newList = new List<HelpPageItemDTO>();
+            var itemDeleteStatus = HelpPageItemStatusEnum.Deleted.GetIntValue();
             if (TempData["Items"] == null || orders == null || orders.Count == 0)
             {
                 result = false;
             }
             else
             {
-                var currentList = (IList<HelpItemDTO>)TempData["Items"];
+                var currentList = (IList<HelpPageItemDTO>)TempData["Items"];
                 var newOrder = 1;
                 foreach (var order in orders)
                 {
@@ -380,7 +382,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
                     if (item.Status <= 0)
                     {
-                        item.Status = HelpPageItemStatus.Modified.GetIntValue();
+                        item.Status = HelpPageItemStatusEnum.Modified.GetIntValue();
                     }
                     item.DisplayOrder = newOrder;
                     newList.Add(item);

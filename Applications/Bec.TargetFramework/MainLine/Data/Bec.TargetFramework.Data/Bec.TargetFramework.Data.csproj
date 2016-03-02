@@ -95,8 +95,6 @@
     <Compile Include="Converters\BillingTemplateConverter.cs" />
     <Compile Include="Converters\BucketConverter.cs" />
     <Compile Include="Converters\BucketTemplateConverter.cs" />
-    <Compile Include="Converters\CalloutConverter.cs" />
-    <Compile Include="Converters\CalloutUserAccountConverter.cs" />
     <Compile Include="Converters\ClassificationTypeCategoryConverter.cs" />
     <Compile Include="Converters\ClassificationTypeConverter.cs" />
     <Compile Include="Converters\CompanyHouseConverter.cs" />
@@ -173,9 +171,9 @@
     <Compile Include="Converters\GlobalPaymentMethodConverter.cs" />
     <Compile Include="Converters\GroupConverter.cs" />
     <Compile Include="Converters\GroupRoleConverter.cs" />
-    <Compile Include="Converters\HelpItemConverter.cs" />
-    <Compile Include="Converters\HelpItemUserAccountConverter.cs" />
     <Compile Include="Converters\HelpPageConverter.cs" />
+    <Compile Include="Converters\HelpPageItemConverter.cs" />
+    <Compile Include="Converters\HelpPageItemUserAccountConverter.cs" />
     <Compile Include="Converters\InterfacePanelTemplateConverter.cs" />
     <Compile Include="Converters\InvoiceConverter.cs" />
     <Compile Include="Converters\InvoiceLineItemConverter.cs" />
@@ -360,8 +358,6 @@
     <Compile Include="Converters\ShoppingCartItemConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductAttributeConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductSpecificationConverter.cs" />
-    <Compile Include="Converters\SMHItemConverter.cs" />
-    <Compile Include="Converters\SMHPageConverter.cs" />
     <Compile Include="Converters\SmsBankAccountCheckConverter.cs" />
     <Compile Include="Converters\SmsSrcFundsBankAccountConverter.cs" />
     <Compile Include="Converters\SmsTransactionConverter.cs" />
@@ -498,8 +494,6 @@
     <Compile Include="Model\TargetFramework.BillingTemplate.cs" />
     <Compile Include="Model\TargetFramework.Bucket.cs" />
     <Compile Include="Model\TargetFramework.BucketTemplate.cs" />
-    <Compile Include="Model\TargetFramework.Callout.cs" />
-    <Compile Include="Model\TargetFramework.CalloutUserAccount.cs" />
     <Compile Include="Model\TargetFramework.ClassificationType.cs" />
     <Compile Include="Model\TargetFramework.ClassificationTypeCategory.cs" />
     <Compile Include="Model\TargetFramework.CompanyHouse.cs" />
@@ -576,9 +570,9 @@
     <Compile Include="Model\TargetFramework.GlobalPaymentMethod.cs" />
     <Compile Include="Model\TargetFramework.Group.cs" />
     <Compile Include="Model\TargetFramework.GroupRole.cs" />
-    <Compile Include="Model\TargetFramework.HelpItem.cs" />
-    <Compile Include="Model\TargetFramework.HelpItemUserAccount.cs" />
     <Compile Include="Model\TargetFramework.HelpPage.cs" />
+    <Compile Include="Model\TargetFramework.HelpPageItem.cs" />
+    <Compile Include="Model\TargetFramework.HelpPageItemUserAccount.cs" />
     <Compile Include="Model\TargetFramework.InterfacePanelTemplate.cs" />
     <Compile Include="Model\TargetFramework.Invoice.cs" />
     <Compile Include="Model\TargetFramework.InvoiceLineItem.cs" />
@@ -763,8 +757,6 @@
     <Compile Include="Model\TargetFramework.ShoppingCartItem.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductAttribute.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductSpecification.cs" />
-    <Compile Include="Model\TargetFramework.SMHItem.cs" />
-    <Compile Include="Model\TargetFramework.SMHPage.cs" />
     <Compile Include="Model\TargetFramework.SmsBankAccountCheck.cs" />
     <Compile Include="Model\TargetFramework.SmsSrcFundsBankAccount.cs" />
     <Compile Include="Model\TargetFramework.SmsTransaction.cs" />
