@@ -99,7 +99,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     page.HelpPageItems = tempListItem;
                 }
                 var modifiedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
-                TempData["HelpPageId"] = await helpClient.EditHelpPageAsync(modifiedBy,page);
+                TempData["HelpPageId"] = await helpClient.EditHelpPageAsync(modifiedBy, page);
                 this.AddToastMessage("Add Successfully", "The help has been updated.", ToastType.Success);
             }
             catch (Exception)
@@ -184,7 +184,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 if (TempData["Items"] != null)
                 {
                     list = (IList<HelpPageItemDTO>)TempData["Items"];
-                    item.DisplayOrder = list.Count + 1;
+                    var maxOrder = list.OrderByDescending(x => x.DisplayOrder).Take(1).FirstOrDefault();
+                    item.DisplayOrder = maxOrder != null ? (maxOrder.DisplayOrder + 1) : (list.Count + 1);
                 }
                 else
                 {
@@ -229,7 +230,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 if (TempData["Items"] != null)
                 {
                     list = (IList<HelpPageItemDTO>)TempData["Items"];
-                    item.DisplayOrder = list.Count + 1;
+                    var maxOrder = list.OrderByDescending(x => x.DisplayOrder).Take(1).FirstOrDefault();
+                    item.DisplayOrder = maxOrder != null ? (maxOrder.DisplayOrder + 1) : (list.Count + 1);
                     item.Status = HelpPageItemStatusEnum.New.GetIntValue();
                 }
                 else
@@ -362,7 +364,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var result = true;
             var newList = new List<HelpPageItemDTO>();
-            var itemDeleteStatus = HelpPageItemStatusEnum.Deleted.GetIntValue();
+            var itemDeletedStatus = HelpPageItemStatusEnum.Deleted.GetIntValue();
             if (TempData["Items"] == null || orders == null || orders.Count == 0)
             {
                 result = false;
@@ -373,7 +375,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 var newOrder = 1;
                 foreach (var order in orders)
                 {
-                    var item = currentList.FirstOrDefault(i => i.DisplayOrder == order && i.Status != itemDeleteStatus);
+                    var item = currentList.FirstOrDefault(i => i.DisplayOrder == order && i.Status != itemDeletedStatus);
                     if (item == null)
                     {
                         result = false;
@@ -384,14 +386,29 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     {
                         item.Status = HelpPageItemStatusEnum.Modified.GetIntValue();
                     }
-                    item.DisplayOrder = newOrder;
-                    newList.Add(item);
+                    var newItem = new HelpPageItemDTO()
+                    {
+                        HelpPageItemID = item.HelpPageItemID,
+                        HelpPageID = item.HelpPageID,
+                        Title = item.Title,
+                        Selector = item.Selector,
+                        Description = item.Description,
+                        Position = item.Position,
+                        TabContainerId = item.TabContainerId,
+                        EffectiveOn = item.EffectiveOn,
+                        CreatedBy = item.CreatedBy,
+                        CreatedOn = item.CreatedOn,
+                        Status = item.Status,
+                        DisplayOrder = newOrder
+                    };
+                    newList.Add(newItem);
                     newOrder += 1;
                 }
                 if (result)
                 {
-                    foreach (var item in currentList.Where(i => i.Status == itemDeleteStatus))
+                    foreach (var item in currentList.Where(i=> i.Status == itemDeletedStatus))
                     {
+                        item.DisplayOrder = 0;
                         newList.Add(item);
                     }
                     TempData["Items"] = newList;
