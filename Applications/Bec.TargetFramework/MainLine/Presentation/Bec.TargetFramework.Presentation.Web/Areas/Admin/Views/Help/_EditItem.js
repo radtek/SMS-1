@@ -220,7 +220,8 @@
     });
 
     itemListContainer.sortable({
-        containment: 'parent',
+        axis: 'y',
+        containment: '#step2',
         stop: updateItemOrder
     });
 
