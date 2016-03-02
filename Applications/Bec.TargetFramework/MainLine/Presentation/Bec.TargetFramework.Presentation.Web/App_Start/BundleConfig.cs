@@ -125,9 +125,9 @@ namespace Bec.TargetFramework.Presentation.Web
 
             bundles.Add(new ScriptBundle("~/Scripts/Admin/ShowMeHow/Index").Include("~/Areas/Admin/Views/ShowMeHow/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/Index").Include("~/Areas/Admin/Views/Help/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/RequestSupport/Index").Include("~/Areas/Admin/Views/RequestSupport/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/RequestSupport/_AddRequestSupport").Include("~/Areas/Admin/Views/RequestSupport/_AddRequestSupport.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/RequestSupport/_CloseRequestSupport").Include("~/Areas/Admin/Views/RequestSupport/_CloseRequestSupport.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/SupportItem/Index").Include("~/Areas/Admin/Views/SupportItem/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/SupportItem/_AddSupportItem").Include("~/Areas/Admin/Views/SupportItem/_AddSupportItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/SupportItem/_CloseSupportItem").Include("~/Areas/Admin/Views/SupportItem/_CloseSupportItem.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditHelp").Include("~/Areas/Admin/Views/Help/_EditHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddHelp").Include("~/Areas/Admin/Views/Help/_AddHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_DeleteHelpPage").Include("~/Areas/Admin/Views/Help/_DeleteHelpPage.js"));

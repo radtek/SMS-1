@@ -1307,9 +1307,6 @@
       <DependentUpon>RepositoryStructureRoleDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\RequestSupportDTO.cs" />
-    <Compile Include="Boo\RequestSupportDTO.Generated.cs">
-      <DependentUpon>RequestSupportDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ResourceDTO.cs" />
     <Compile Include="Boo\ResourceDTO.Generated.cs">
       <DependentUpon>ResourceDTO.cs</DependentUpon>
@@ -1479,6 +1476,10 @@
     </Compile>
     <Compile Include="Boo\SubscriptionDTO.Generated.cs">
       <DependentUpon>SubscriptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SupportItemDTO.cs" />
+    <Compile Include="Boo\SupportItemDTO.Generated.cs">
+      <DependentUpon>SupportItemDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\TaxRateDTO.Generated.cs">
       <DependentUpon>TaxRateDTO.cs</DependentUpon>

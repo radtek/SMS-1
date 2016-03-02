@@ -369,9 +369,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for RequestSupports in the schema.
+        /// There are no comments for SupportItems in the schema.
         /// </summary>
-        public virtual ICollection<RequestSupport> RequestSupports
+        public virtual ICollection<SupportItem> SupportItems
         {
             get;
             set;

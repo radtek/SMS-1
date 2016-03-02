@@ -1,0 +1,146 @@
+﻿var requestGrid
+$(function () {
+    //set up grid options for the three grids. most are passed straight on to kendo grid.
+    requestGrid = new gridItem(
+       {
+           gridElementId: 'requestGrid',
+           url: $('#requestGrid').data("url"),
+           schema: { data: "Items", total: "Count", model: { id: "SupportItemID" } },
+           type: 'odata-v4',
+           serverSorting: true,
+           serverPaging: true,
+           defaultSort: [{ field: 'CreatedOn', dir: 'asc' }],
+           panels: ['nPanel'],
+           change: nChange,
+           searchElementId: 'gridSearchInput',
+           searchButtonId: 'gridSearchButton',
+           columns: [
+                   {
+                       field: "SupportItemID",
+                       hidden: true,
+                   },
+                   {
+                       field: "TicketNumber",
+                       title: "Ticket Number"
+                   },
+                   {
+                       field: "UserAccountOrganisation.Contact.FullName",
+                       title: "User Name",
+                       template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
+                   },
+                   {
+                       field: "UserAccountOrganisation.UserAccount.Email",
+                       title: "Email"
+                   },
+                   {
+                       field: "Telephone",
+                       title: "Telephone"
+                   },
+                   
+                   {
+                       field: "Title",
+                       title: "Title",
+                   },
+                   {
+                       field: "CreatedOn",
+                       title: "Created On",
+                       template: function (dataItem) { return dateString(dataItem.CreatedOn); }
+                   }
+           ]
+       });
+
+    var closedGrid = new gridItem(
+        {
+            gridElementId: 'closedGrid',
+            url: $('#closedGrid').data("url"),
+            schema: { data: "Items", total: "Count", model: { id: "SupportItemID" } },
+            type: 'odata-v4',
+            serverSorting: true,
+            serverPaging: true,
+            defaultSort: { field: "ClosedOn", dir: "des" },
+            panels: ['ePanel'],
+            change: eChange,
+            columns: [
+                    {
+                        field: "SupportItemID",
+                        hidden: true,
+                    },
+                    {
+                        field: "TicketNumber",
+                        title: "Ticket Number"
+                    },
+                    {
+                        field: "UserAccountOrganisation.Contact.FirstName",
+                        title: "User Name",
+                        template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
+                    },
+                    {
+                        field: "UserAccountOrganisation.UserAccount.Email",
+                        title: "Email"
+                    },
+                   {
+                       field: "Telephone",
+                       title: "Telephone"
+                   },
+                    {
+                        field: "Title",
+                        title: "Title",
+                    },
+                    {
+                        field: "ClosedOn",
+                        title: "Closed On",
+                        template: function (dataItem) { return dateString(dataItem.ClosedOn); }
+                    }
+            ]
+        });
+
+    var tabs = new tabItem("tabList",
+    {
+        s1: {
+            grids: [requestGrid]
+        },
+        s2: {
+            grids: [closedGrid]
+        }
+    });
+    tabs.makeTab();
+    tabs.showTab($('#tabList').data("selected"));
+    findModalLinks();
+});
+
+//data binding for the panes beneath each grid
+function nChange(dataItem) {
+    $("p#ddnUserName").text(dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName);
+    $("p#ddnEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email);
+    $("p#ddnTelephone").text(dataItem.Telephone);
+    $("p#ddnTicketNumber").text(dataItem.TicketNumber);
+    $("p#ddnTitle").text(dataItem.Title || "");
+    $("p#ddnType").text(getRequestType(dataItem.RequestTypeID));
+    $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
+    $("div#ddnDescription").text(dataItem.Description || "");
+    $("#closeButtonSupportItem").data('href', $("#closeButtonSupportItem").data("url") + "?SupportItemId=" + dataItem.SupportItemID + "&pageNumber=" + requestGrid.grid.dataSource.page());
+}
+function eChange(dataItem) {
+    $("p#ddcUserName").text(dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName);
+    $("p#ddcEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email);
+    $("p#ddcTelephone").text(dataItem.Telephone);
+    $("p#ddcTicketNumber").text(dataItem.TicketNumber);
+    $("p#ddcTitle").text(dataItem.Title || "");
+    $("p#ddcType").text(getRequestType(dataItem.RequestTypeID));
+    $("p#ddcClosedOn").text(dateString(dataItem.ClosedOn) || "");
+    $("div#ddcDescription").text(dataItem.Description || "");
+    $("div#ddcReason").text(dataItem.Reason || "");
+}
+function getRequestType(rType) {
+    if (rType == 680) return "Transaction";
+    if (rType == 681) return "Product Offering";
+    if (rType == 682) return "Safe Buyer Results";
+    if (rType == 683) return "Safe Send";
+    if (rType == 684) return "Pin Generation";
+    if (rType == 685) return "System Management";
+    if (rType == 686) return "Bank Account Verification";
+    if (rType == 687) return "User Management";
+    if (rType == 688) return "Performance Issues";
+    if (rType == 689) return "Other";
+    return "Other";
+}

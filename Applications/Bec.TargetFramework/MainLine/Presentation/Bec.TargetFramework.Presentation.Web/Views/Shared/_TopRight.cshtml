@@ -31,10 +31,10 @@
                     <span class="header-btn-text">Show Me How</span>
                 </a>
             </li>
-            @if (ClaimsHelper.UserHasClaim("Send", "RequestSupport"))
+            @if (ClaimsHelper.UserHasClaim("Send", "SupportItem"))
             {
                 <li>
-                    <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" data-url="@Url.Action("ViewAddRequestSupport", "RequestSupport", new { area = "Admin" })" title="Request Support"><i class="fa fa-pencil"></i><span class="header-btn-text">Request Support</span></a>
+                    <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddSupportItem", "SupportItem", new { area = "Admin" })" data-url="@Url.Action("ViewAddSupportItem", "SupportItem", new { area = "Admin" })" title="Request Support"><i class="fa fa-pencil-square-o"></i><span class="header-btn-text">Request Support</span></a>
                 </li>
             }
         </ul>

@@ -342,7 +342,6 @@
     <Compile Include="Converters\RepositoryStructureConverter.cs" />
     <Compile Include="Converters\RepositoryStructureGroupConverter.cs" />
     <Compile Include="Converters\RepositoryStructureRoleConverter.cs" />
-    <Compile Include="Converters\RequestSupportConverter.cs" />
     <Compile Include="Converters\ResourceConverter.cs" />
     <Compile Include="Converters\ResourceOperationTargetConverter.cs" />
     <Compile Include="Converters\RoleClaimConverter.cs" />
@@ -390,6 +389,7 @@
     <Compile Include="Converters\StatusTypeValueTemplateConverter.cs" />
     <Compile Include="Converters\StructureConverter.cs" />
     <Compile Include="Converters\SubscriptionConverter.cs" />
+    <Compile Include="Converters\SupportItemConverter.cs" />
     <Compile Include="Converters\TaxRateConverter.cs" />
     <Compile Include="Converters\TaxRateTemplateConverter.cs" />
     <Compile Include="Converters\TenantConverter.cs" />
@@ -746,7 +746,6 @@
     <Compile Include="Model\TargetFramework.RepositoryStructure.cs" />
     <Compile Include="Model\TargetFramework.RepositoryStructureGroup.cs" />
     <Compile Include="Model\TargetFramework.RepositoryStructureRole.cs" />
-    <Compile Include="Model\TargetFramework.RequestSupport.cs" />
     <Compile Include="Model\TargetFramework.Resource.cs" />
     <Compile Include="Model\TargetFramework.ResourceOperationTarget.cs" />
     <Compile Include="Model\TargetFramework.Role.cs" />
@@ -794,6 +793,7 @@
     <Compile Include="Model\TargetFramework.StatusTypeValueTemplate.cs" />
     <Compile Include="Model\TargetFramework.Structure.cs" />
     <Compile Include="Model\TargetFramework.Subscription.cs" />
+    <Compile Include="Model\TargetFramework.SupportItem.cs" />
     <Compile Include="Model\TargetFramework.TargetFrameworkEntities.cs">
       <SubType>Code</SubType>
     </Compile>

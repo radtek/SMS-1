@@ -181,24 +181,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
         #endregion
-
-        #region Request Support
-        public async Task<Guid> CreateRequestSupport(RequestSupportDTO requestSupportDto)
-        {
-            Ensure.That(requestSupportDto).IsNotNull();
-            requestSupportDto.RequestSupportID = Guid.NewGuid();
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var requestSupports = scope.DbContexts.Get<TargetFrameworkEntities>().RequestSupports;
-                var highestTicketNumber = requestSupports.Any() ? requestSupports.Max(x => x.TicketNumber) : 0;
-                requestSupportDto.TicketNumber = highestTicketNumber + 1;
-                RequestSupport requestSupport = requestSupportDto.ToEntity();
-                requestSupports.Add(requestSupport);
-                await scope.SaveChangesAsync();
-            }
-            return requestSupportDto.RequestSupportID;
-        }
-        #endregion
     }
 }
 

@@ -121,6 +121,7 @@
     <Compile Include="Logic\ClassificationDataLogicController.cs" />
     <Compile Include="Logic\ShoppingCartLogicController.cs" />
     <Compile Include="Logic\SMHLogicController.cs" />
+    <Compile Include="Logic\SupportLogicController.cs" />
     <Compile Include="Logic\TransactionOrderLogicController.cs" />
     <Compile Include="Logic\UserAccountAuditLogicController.cs" />
     <Compile Include="Logic\OrganisationLogicController.cs" />

@@ -327,12 +327,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="createDate"></param>
 		/// <returns></returns>
 		List<HelpItemDTO> GetHelpItemsForCallout(Guid userId,DateTime createDate);
-
-		/// <returns></returns>
-		Task<Guid> CreateRequestSupportAsync(RequestSupportDTO requestSupportDto);
-
-		/// <returns></returns>
-		Guid CreateRequestSupport(RequestSupportDTO requestSupportDto);
 	}
 
 	public partial interface IInvoiceLogicClient : IClientBase	{	
@@ -1234,6 +1228,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="pageUrl"></param>
 		/// <returns></returns>
 		List<SMHItemDTO> GetItemOnPageForCurrentUser(Guid uaoID,Guid ogrId,String pageUrl);
+	}
+
+	public partial interface ISupportLogicClient : IClientBase	{	
+
+		/// <returns></returns>
+		Task<Guid> CreateSupportItemAsync(SupportItemDTO supportItemDto);
+
+		/// <returns></returns>
+		Guid CreateSupportItem(SupportItemDTO supportItemDto);
 	}
 
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
@@ -2669,25 +2672,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<HelpItemDTO>>("api/HelpLogic/GetHelpItemsForCallout?userId=" + userId + "&createDate=" + createDate.ToString("O"), _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task<Guid> CreateRequestSupportAsync(RequestSupportDTO requestSupportDto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<RequestSupportDTO, Guid>("api/HelpLogic/CreateRequestSupport", requestSupportDto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual Guid CreateRequestSupport(RequestSupportDTO requestSupportDto)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<RequestSupportDTO, Guid>("api/HelpLogic/CreateRequestSupport", requestSupportDto, _user)).Result;
 		}
 
 		#endregion
@@ -4933,6 +4917,47 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			pageUrl = pageUrl.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<SMHItemDTO>>("api/SmhLogic/GetItemOnPageForCurrentUser?uaoID=" + uaoID + "&ogrId=" + ogrId + "&pageUrl=" + pageUrl, _user)).Result;
+		}
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class SupportLogicClient : ClientBase, Interfaces.ISupportLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public SupportLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public SupportLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<Guid> CreateSupportItemAsync(SupportItemDTO supportItemDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem", supportItemDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid CreateSupportItem(SupportItemDTO supportItemDto)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem", supportItemDto, _user)).Result;
 		}
 
 		#endregion

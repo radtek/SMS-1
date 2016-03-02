@@ -67,7 +67,7 @@ namespace Bec.TargetFramework.Entities
               target.ConversationParticipants = source.ConversationParticipants.ToDtosWithRelated(level - 1);
               target.Notifications = source.Notifications.ToDtosWithRelated(level - 1);
               target.Files = source.Files.ToDtosWithRelated(level - 1);
-              target.RequestSupports = source.RequestSupports.ToDtosWithRelated(level - 1);
+              target.SupportItems = source.SupportItems.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

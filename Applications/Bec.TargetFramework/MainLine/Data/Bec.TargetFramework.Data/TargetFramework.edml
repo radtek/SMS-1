@@ -422,7 +422,7 @@
           <EntitySet Name="HelpItems" EntityType="Bec.TargetFramework.Data.Store.HelpItem" store:Type="Tables" Schema="public" Table="HelpItem" />
           <EntitySet Name="HelpPages" EntityType="Bec.TargetFramework.Data.Store.HelpPage" store:Type="Tables" Schema="public" Table="HelpPage" />
           <EntitySet Name="HelpItemUserAccounts" EntityType="Bec.TargetFramework.Data.Store.HelpItemUserAccount" store:Type="Tables" Schema="public" Table="HelpItemUserAccount" />
-          <EntitySet Name="RequestSupports" EntityType="Bec.TargetFramework.Data.Store.RequestSupport" store:Type="Tables" Schema="public" Table="RequestSupport" />
+          <EntitySet Name="SupportItems" EntityType="Bec.TargetFramework.Data.Store.SupportItem" store:Type="Tables" Schema="public" Table="SupportItem" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -3017,7 +3017,7 @@
           </AssociationSet>
           <AssociationSet Name="fk_RequestSupport_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.fk_RequestSupport_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
-            <End Role="RequestSupport" EntitySet="RequestSupports" />
+            <End Role="SupportItem" EntitySet="SupportItems" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -10181,15 +10181,15 @@
           <Property Name="UserID" Type="uuid" Nullable="false" />
           <Property Name="Visible" Type="boolean" DefaultValue="false" />
         </EntityType>
-        <EntityType Name="RequestSupport">
+        <EntityType Name="SupportItem">
           <Key>
-            <PropertyRef Name="RequestSupportID" />
+            <PropertyRef Name="SupportItemID" />
           </Key>
-          <Property Name="RequestSupportID" Type="uuid" Nullable="false" />
-          <Property Name="TicketNumber" Type="int" Nullable="false" devart:DefaultValue="nextval(('public.requestsupport_ticketnumber_seq'::text)::regclass)" />
+          <Property Name="SupportItemID" Type="uuid" Nullable="false" />
+          <Property Name="TicketNumber" Type="int" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="Telephone" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="RequestType" Type="int" Nullable="false" />
+          <Property Name="RequestTypeID" Type="int" Nullable="false" />
           <Property Name="Title" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Description" Type="varchar" Nullable="false" />
           <Property Name="IsClosed" Type="boolean" Nullable="false" DefaultValue="false" />
@@ -18539,12 +18539,12 @@
         </Association>
         <Association Name="fk_RequestSupport_UserAccountOrganisation">
           <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
-          <End Role="RequestSupport" Type="Bec.TargetFramework.Data.Store.RequestSupport" Multiplicity="*" />
+          <End Role="SupportItem" Type="Bec.TargetFramework.Data.Store.SupportItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAccountOrganisation">
               <PropertyRef Name="UserAccountOrganisationID" />
             </Principal>
-            <Dependent Role="RequestSupport">
+            <Dependent Role="SupportItem">
               <PropertyRef Name="UserAccountOrganisationID" />
             </Dependent>
           </ReferentialConstraint>
@@ -19006,7 +19006,7 @@
           <EntitySet Name="HelpItems" EntityType="Bec.TargetFramework.Data.HelpItem" />
           <EntitySet Name="HelpPages" EntityType="Bec.TargetFramework.Data.HelpPage" />
           <EntitySet Name="HelpItemUserAccounts" EntityType="Bec.TargetFramework.Data.HelpItemUserAccount" />
-          <EntitySet Name="RequestSupports" EntityType="Bec.TargetFramework.Data.RequestSupport" />
+          <EntitySet Name="SupportItems" EntityType="Bec.TargetFramework.Data.SupportItem" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -21541,7 +21541,7 @@
           </AssociationSet>
           <AssociationSet Name="fk_RequestSupport_UserAccountOrganisationSet" Association="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
-            <End Role="RequestSupports" EntitySet="RequestSupports" />
+            <End Role="SupportItems" EntitySet="SupportItems" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -21929,7 +21929,7 @@
           <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="ConversationParticipants" ed:Guid="c1cb4daa-fc4b-478b-ab7e-1b3ec2ad0735" />
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_CreatedByUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Notifications" ed:Guid="65f99910-9375-4611-9d84-0381177b95e7" />
           <NavigationProperty Name="Files" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Files" ed:Guid="674e1d85-14db-4a9c-8300-00380ac58949" />
-          <NavigationProperty Name="RequestSupports" Relationship="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="RequestSupports" ed:Guid="4006c2ed-f767-40ae-8555-cad82e660fe2" />
+          <NavigationProperty Name="SupportItems" Relationship="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="SupportItems" ed:Guid="ac823299-3309-465b-90bd-754342c4738a" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -29867,26 +29867,26 @@
           <NavigationProperty Name="HelpItem" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_HelpItem" FromRole="HelpItemUserAccounts" ToRole="HelpItem" ed:Guid="0f9070da-e846-45f5-8e18-0160d84bf52f" />
           <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_UserAccount" FromRole="HelpItemUserAccounts" ToRole="UserAccount" ed:Guid="5cf25ee0-db84-4259-ac16-39c9baec1a0e" />
         </EntityType>
-        <EntityType Name="RequestSupport" ed:Guid="82b91c8b-8cfd-400c-a74f-3f1698ac534d">
+        <EntityType Name="SupportItem" ed:Guid="f4910e49-82c2-441e-8044-41c1c1255578">
           <Key>
-            <PropertyRef Name="RequestSupportID" />
+            <PropertyRef Name="SupportItemID" />
           </Key>
-          <Property Name="RequestSupportID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b94ec2b9-ef48-414e-9a42-6e59e2efe604" />
-          <Property Name="TicketNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="b11fddca-6f4d-451e-bcec-191799648db4" />
-          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="8c05505b-580e-491d-8f49-697a57c716eb" />
-          <Property Name="Telephone" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="b6d77ba2-b21f-44e5-a5d9-0e0956f3e0d3" />
-          <Property Name="RequestType" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="57137a9a-fc96-423d-9110-0b5e60fa7529" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="c46bb8ef-ef53-46e4-b7e9-e0781a417c50" />
-          <Property Name="Description" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="66c2f321-8e86-4ff6-8227-b6071bcd686d" />
-          <Property Name="IsClosed" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="3de04992-2536-4bab-b280-bc24dd6fada4" />
-          <Property Name="Reason" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="f2cedaf8-a23e-4d89-9d54-5b493603c863" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="80c6c636-cf7c-4447-b1d4-9bc4d69d484b" />
-          <Property Name="ClosedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="59bc4d17-cac6-4598-a528-553acc0cf67b" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="c5a59876-056c-45a9-a504-351e3cdac693" />
-          <Property Name="ClosedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="506e3e46-4907-4277-a411-2ef90d933cab" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="3f39f711-fef6-408f-bb1f-7420088d6f00" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="8552b9fa-ab9b-4a53-abba-369d7e689acb" />
-          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation" FromRole="RequestSupports" ToRole="UserAccountOrganisation" ed:Guid="df8a135e-ffac-40df-b411-2e7ff27e6288" />
+          <Property Name="SupportItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f9bb9fb1-d313-4d6a-9b53-12eb40af06a5" />
+          <Property Name="TicketNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="5cb51c79-eded-4e18-9086-b41252c2708e" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c08a3e0d-c8db-4a06-983b-050e871479e2" />
+          <Property Name="Telephone" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="68f87bb6-9f31-4aa6-b3b8-27d1e53257cf" />
+          <Property Name="RequestTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="35c125cd-8fcc-4d70-81ae-ec45f08f054c" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="5acfa0f3-5839-4b0f-8ba0-3deaeacf8999" />
+          <Property Name="Description" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="5f2b14ed-a370-4f66-9233-8e6b0e45fb7a" />
+          <Property Name="IsClosed" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="ad8028c9-9641-4025-9936-0e3cdb1f0935" />
+          <Property Name="Reason" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="f32613a9-4df5-4023-a732-62c24a974072" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="b5ecde89-8f68-4643-9138-732cd0e51099" />
+          <Property Name="ClosedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="bcc333f8-1118-463b-8870-e164a390e626" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="40c085fd-cba3-4b71-bd85-97159cd81069" />
+          <Property Name="ClosedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="9912a303-6e1d-49b8-9f9b-eb3794cda9f3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="a7506829-1acb-4a14-8f35-bbfdb75c90e8" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="5317a3ee-fd0a-4b5e-88d8-110be32eb870" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation" FromRole="SupportItems" ToRole="UserAccountOrganisation" ed:Guid="97ae4789-d496-497a-a4b5-7d04bd086919" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37889,14 +37889,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_RequestSupport_UserAccountOrganisation" ed:Guid="0c41a484-ee39-4aa2-b0bd-179e5a715e6f">
+        <Association Name="fk_RequestSupport_UserAccountOrganisation" ed:Guid="f222b3d8-8e0c-4687-bbb5-72facb239f6c">
           <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
-          <End Role="RequestSupports" Type="Bec.TargetFramework.Data.RequestSupport" Multiplicity="*" />
+          <End Role="SupportItems" Type="Bec.TargetFramework.Data.SupportItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAccountOrganisation">
               <PropertyRef Name="UserAccountOrganisationID" />
             </Principal>
-            <Dependent Role="RequestSupports">
+            <Dependent Role="SupportItems">
               <PropertyRef Name="UserAccountOrganisationID" />
             </Dependent>
           </ReferentialConstraint>
@@ -44842,13 +44842,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RequestSupports">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.RequestSupport">
-              <MappingFragment StoreEntitySet="RequestSupports">
-                <ScalarProperty Name="RequestSupportID" ColumnName="RequestSupportID" />
+          <EntitySetMapping Name="SupportItems">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SupportItem">
+              <MappingFragment StoreEntitySet="SupportItems">
+                <ScalarProperty Name="SupportItemID" ColumnName="SupportItemID" />
                 <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="RequestType" ColumnName="RequestType" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
@@ -44857,9 +44857,9 @@
                 <ScalarProperty Name="ClosedOn" ColumnName="ClosedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ClosedBy" ColumnName="ClosedBy" />
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RequestTypeID" ColumnName="RequestTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

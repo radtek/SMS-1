@@ -1134,6 +1134,8 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Transaction")]
         SmsTransaction = 803001,
         [StringValue("Bank Account")]
-        BankAccount = 803002
+        BankAccount = 803002,
+        [StringValue("Support Message")]
+        SupportMessage = 803003
     }
 }

@@ -7,21 +7,27 @@ using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Entities.Enums
 {
-    public enum RequestType : int
+    public enum RequestTypeID : int
     {
+        [StringValue("Transaction")]
+        Transaction = 680,
         [StringValue("Product Offering")]
-        ProductOffering = 1,
+        ProductOffering = 681,
         [StringValue("Safe Buyer Results")]
-        SafeBuyerResults = 2,
+        SafeBuyerResults = 682,
         [StringValue("Safe Send")]
-        SafeSend = 3,
+        SafeSend = 683,
         [StringValue("Pin Generation")]
-        PinGeneration = 4,
+        PinGeneration = 684,
+        [StringValue("System Management")]
+        SystemManagement = 685,
         [StringValue("Bank Account Verification")]
-        BankAccountVerification = 5,
+        BankAccountVerification = 686,
         [StringValue("User Management")]
-        UserManagement = 6,
+        UserManagement = 687,
         [StringValue("Performance Issues")]
-        PerformanceIssues = 7
+        PerformanceIssues = 688,
+        [StringValue("Other")]
+        Other = 689
     }
 }
