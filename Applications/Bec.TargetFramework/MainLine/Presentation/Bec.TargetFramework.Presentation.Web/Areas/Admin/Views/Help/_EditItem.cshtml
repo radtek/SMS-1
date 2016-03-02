@@ -10,7 +10,7 @@
         Add
     </button>
 </div>
-<form action="@Url.Action("EditItem", "Help", new { area = "Admin" })" method="POST" id="editItem-form" class="smart-form">
+<form action="@Url.Action("EditTempHelpPageItem", "Help", new { area = "Admin" })" method="POST" id="editItem-form" class="smart-form">
     @Html.ValidationBootstrap()
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.HelpPageID)
@@ -66,7 +66,7 @@
         @Html.AntiForgeryToken()
         <input type="hidden" id="helpItemEditId" name="id" />
     </form>
-    <form action="@Url.Action("DeleteItem", "Help", new { area = "Admin" })" method="POST" id="deleteItem-form" class="smart-form">
+    <form action="@Url.Action("DeleteTempHelpPageItem", "Help", new { area = "Admin" })" method="POST" id="deleteItem-form" class="smart-form">
         @Html.AntiForgeryToken()
         <input type="hidden" id="helpItemDeleteId" name="id" />
     </form>

@@ -176,7 +176,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult AddItem(HelpPageItemDTO item)
+        public JsonResult AddTempHelpPageItem(HelpPageItemDTO item)
         {
             if (item.HelpPageItemID == default(Guid))
             {
@@ -222,7 +222,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult EditItem(HelpPageItemDTO item)
+        public JsonResult EditTempHelpPageItem(HelpPageItemDTO item)
         {
             if (item.HelpPageItemID == default(Guid))
             {
@@ -289,7 +289,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult DeleteItem(Guid? id)
+        public JsonResult DeleteTempHelpPageItem(Guid? id)
         {
             if (TempData["Items"] != null)
             {
@@ -406,7 +406,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 }
                 if (result)
                 {
-                    foreach (var item in currentList.Where(i=> i.Status == itemDeletedStatus))
+                    foreach (var item in currentList.Where(i => i.Status == itemDeletedStatus))
                     {
                         item.DisplayOrder = 0;
                         newList.Add(item);
