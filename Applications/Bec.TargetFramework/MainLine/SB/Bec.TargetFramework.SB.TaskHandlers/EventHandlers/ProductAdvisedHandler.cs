@@ -24,35 +24,17 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.ProductAdvised.GetStringValue());
-                var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("ProductAdvisedNotificationDTO", handlerEvent.ProductAdvisedNotificationDTO);
-                
                 var recipients = OrganisationLogicClient.GetSmsTransactionRelatedPartyUaoIds(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
-                    .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
+                   .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
-                var container = new NotificationContainerDTO(
-                    notificationConstruct,
+                CreateAndPublishContainer(
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.ProductAdvised.GetStringValue()),
                     SettingsClient.GetSettings().AsSettings<CommonSettings>(),
                     recipients,
-                    new NotificationDictionaryDTO
-                    {
-                        NotificationDictionary = dictionary
-                    },
+                    "ProductAdvisedNotificationDTO",
+                    handlerEvent.ProductAdvisedNotificationDTO,
                     ActivityType.SmsTransaction,
-                    handlerEvent.ProductAdvisedNotificationDTO.TransactionID
-                    );
-
-                var notificationMessage = new NotificationEvent { NotificationContainer = container };
-
-                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
-                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
-
-                Bus.Publish(notificationMessage);
-
-                LogMessageAsCompleted();
+                    handlerEvent.ProductAdvisedNotificationDTO.TransactionID);
             }
             catch (Exception ex)
             {

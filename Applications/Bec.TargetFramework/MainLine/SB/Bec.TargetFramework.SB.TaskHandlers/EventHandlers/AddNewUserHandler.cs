@@ -36,37 +36,16 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try 
             {
-                var uaoId = handlerEvent.AddNewCompanyAndAdministratorDto.UserAccountOrganisationID;
-
                 var notificationConstruct = m_nLogic.GetLatestNotificationConstructIdFromName("AddNewUserTempDetails");
-
                 //fudge in subject
                 notificationConstruct.NotificationSubject = string.Format("Message from {0}", handlerEvent.AddNewCompanyAndAdministratorDto.InviterOrganisationName);
 
-                var settings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
-                settings.NotificationFromEmailAddress = "applications@beconsultancy.co.uk";
-
-                var dictionary = new ConcurrentDictionary<string, object>();
-
-                dictionary.TryAdd("AddNewCompanyAndAdministratorDTO", handlerEvent.AddNewCompanyAndAdministratorDto);
-
-                // add coltemp accountid as recipient
-                var container = new NotificationContainerDTO(
+                CreateAndPublishContainer(
                     notificationConstruct,
-                    settings,
-                    new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = uaoId } },
-                    new NotificationDictionaryDTO { NotificationDictionary = dictionary });
-
-                var notificationMessage = new NotificationEvent { NotificationContainer = container };
-
-                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
-                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
-
-                Bus.Publish(notificationMessage);
-
-                LogMessageAsCompleted();
+                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.AddNewCompanyAndAdministratorDto.UserAccountOrganisationID } },
+                    "AddNewCompanyAndAdministratorDTO",
+                    handlerEvent.AddNewCompanyAndAdministratorDto);
             }
             catch (System.Exception ex)
             {

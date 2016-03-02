@@ -24,40 +24,16 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         public INotificationLogicClient m_nLogic { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
 
-        public ForgotPasswordHandler()
-        {
-        }
-
-        public override void Dispose()
-        {
-        }
-
         public override void HandleMessage(Messages.Events.ForgotPasswordEvent handlerEvent)
         {
             try
             {
-                var notificationConstruct = m_nLogic.GetLatestNotificationConstructIdFromName("ForgotPassword");
-
-                var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("ForgotPasswordDTO", handlerEvent.ForgotPasswordDto);
-
-                // add coltemp accountid as recipient
-                var container = new NotificationContainerDTO(
-                    notificationConstruct,
+                CreateAndPublishContainer(
+                    m_nLogic.GetLatestNotificationConstructIdFromName("ForgotPassword"),
                     SettingsClient.GetSettings().AsSettings<CommonSettings>(),
                     new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.ForgotPasswordDto.UserAccountOrganisationID } },
-                    new NotificationDictionaryDTO { NotificationDictionary = dictionary });
-
-                var notificationMessage = new NotificationEvent { NotificationContainer = container };
-
-                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
-                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
-
-                Bus.Publish(notificationMessage);
-
-                LogMessageAsCompleted();
+                    "ForgotPasswordDTO",
+                    handlerEvent.ForgotPasswordDto);
             }
             catch (System.Exception ex)
             {

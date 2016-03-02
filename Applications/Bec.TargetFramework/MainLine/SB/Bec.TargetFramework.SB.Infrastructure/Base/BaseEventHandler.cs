@@ -16,6 +16,9 @@ using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.SB.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure.Settings;
+using System.Collections.Concurrent;
+using Bec.TargetFramework.SB.Messages.Events;
 
 namespace Bec.TargetFramework.SB.Handlers.Base
 {
@@ -82,6 +85,32 @@ namespace Bec.TargetFramework.SB.Handlers.Base
             });
 
             LogMessageAsFailed();
+        }
+
+        protected void CreateAndPublishContainer(Bec.TargetFramework.Entities.NotificationConstructDTO constructDTO, CommonSettings settings, List<Bec.TargetFramework.Entities.NotificationRecipientDTO> recipientDTOs, string key, object value)
+        {
+            _CreateAndPublishContainer(constructDTO, settings, recipientDTOs, key, value, null, null);
+        }
+        protected void CreateAndPublishContainer(Bec.TargetFramework.Entities.NotificationConstructDTO constructDTO, CommonSettings settings, List<Bec.TargetFramework.Entities.NotificationRecipientDTO> recipientDTOs, string key, object value, Bec.TargetFramework.Entities.Enums.ActivityType activityType, Guid activityID)
+        {
+            _CreateAndPublishContainer(constructDTO, settings, recipientDTOs, key, value, activityType, activityID);
+        }
+        private void _CreateAndPublishContainer(Bec.TargetFramework.Entities.NotificationConstructDTO constructDTO, CommonSettings settings, List<Bec.TargetFramework.Entities.NotificationRecipientDTO> recipientDTOs, string key, object value, Bec.TargetFramework.Entities.Enums.ActivityType? activityType, Guid? activityID)
+        {
+            var dictionary = new ConcurrentDictionary<string, object>();
+            dictionary.TryAdd(key, value);
+            var container = new Bec.TargetFramework.Entities.NotificationContainerDTO(constructDTO, settings,recipientDTOs, new Bec.TargetFramework.Entities.NotificationDictionaryDTO { NotificationDictionary = dictionary }, activityType, activityID);
+        
+            var notificationMessage = new NotificationEvent { NotificationContainer = container };
+
+            Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
+            Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
+            Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
+            Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
+
+            Bus.Publish(notificationMessage);
+
+            LogMessageAsCompleted();
         }
 
         public virtual void Dispose()
