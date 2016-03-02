@@ -4,37 +4,33 @@
     <div class="col-sm-10 col-lg-6">
         <label>Lookup Postcode</label>
         <div class="input-group">
-            <div class="icon-addon addon-sm">
-                <input id="@(Model.Prefix)PostcodeLookup" class="form-control postcode-lookup" type="text" tabindex="15" maxlength="10" />
-                <label for="@(Model.Prefix)PostcodeLookup" class="glyphicon glyphicon-search" rel="tooltip" title="" data-original-title="Postcode"></label>
-            </div>
+            <input id="@(Model.Prefix)PostcodeLookup" class="form-control postcode-lookup" type="text" tabindex="15" maxlength="10" />
             <div class="input-group-btn">
-                <button id="@(Model.Prefix)FindAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
+                <button id="@(Model.Prefix)FindAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="16">
+                    <i class="fa fa-search margin-right-5"></i>Find Address
+                </button>
             </div>
         </div>
     </div>
-
-    @*<div class="col-sm-4">
-        <label>&nbsp;</label>
-        <button id="@(Model.Prefix)FindAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm btn-block" tabindex="16">Find Address</button>
-    </div>*@
 </div>
-<section>
-    <label class="select">
-        <select id="@(Model.Prefix)AddressResults" tabindex="17"></select>
-        <i></i>
-    </label>
-</section>
 <div class="row">
-    <section class="col" id="@(Model.Prefix)NoMatch">
+    <div class="col-sm-12">
+        <label class="select margin-top-5">
+            <select id="@(Model.Prefix)AddressResults" tabindex="17" class="form-control"></select>
+            <i></i>
+        </label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" id="@(Model.Prefix)NoMatch">
         <em style="color: #d56161">No matches found, please enter address below</em>
-    </section>
+    </div>
 </div>
 
 <div class="row" id="@(Model.Prefix)ManAddRow">
-    <section class="col">
+    <div class="col-sm-12">
         <input type="checkbox" id="@(Model.Prefix)ManualAddress" />
         <label for="@(Model.Prefix)ManualAddress" tabindex="18">Edit Address Details</label>
-    </section>
+    </div>
 </div>
 <script async src="@Scripts.Url("~/Scripts/Shared/_PostcodeLookup")"></script>

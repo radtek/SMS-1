@@ -1,10 +1,25 @@
-﻿$(function () {
+﻿bec = {};
+bec.postcodeLookup = bec.postcodeLookup || {};
+
+bec.isFirstLoad = function (namesp, jsFile) {
+    var isFirst = namesp.firstLoad === undefined;
+    namesp.firstLoad = false;
+    if (!isFirst) {
+        console.log("Warning: Javascript file is included twice: " + jsFile);
+    }
+    return isFirst;
+};
+
+$(function () {
     'use strict';
 
-    $("[id$='PostcodeLookupComponent'").each(function (i, postcodeLookup) {
-        console.log($(postcodeLookup).data('prefix'));
-        var prefix = $(postcodeLookup).data('prefix');
+    if (!bec.isFirstLoad(bec.postcodeLookup, "_PostcodeLookup.js")) {
+        return;
+    }
 
+    $("[id$='PostcodeLookupComponent']").each(function (i, postcodeLookup) {
+        var prefix = $(postcodeLookup).data('prefix');
+        console.log(prefix);
         new findAddress({
             postcodelookup: '#' + prefix + 'PostcodeLookup',
             line1: '#' + prefix + 'Line1',

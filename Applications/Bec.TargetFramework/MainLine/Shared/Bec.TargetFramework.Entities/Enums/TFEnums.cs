@@ -1143,6 +1143,7 @@ namespace Bec.TargetFramework.Entities.Enums
     {
         SmsTransaction = 0,
         Contact = 1,
-        Address = 2
+        SmsTransactionAddress = 2,
+        RegisteredHomeAddress = 3
     }
 }

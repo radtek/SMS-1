@@ -222,12 +222,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
+                personaAddressID = x.AddressID,
                 personaLine1 = x.Address.Line1,
                 personaLine2 = x.Address.Line2,
                 personaTown = x.Address.Town,
                 personaCity = x.Address.City,
                 personaCounty = x.Address.County,
                 personaPostalCode = x.Address.PostalCode,
+                x.ContactID,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
@@ -238,6 +240,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
                 x.SmsTransaction.OrganisationID,
+                x.SmsTransaction.AddressID,
                 x.SmsTransaction.Address.Line1,
                 x.SmsTransaction.Address.Line2,
                 x.SmsTransaction.Address.Town,

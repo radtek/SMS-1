@@ -6,18 +6,33 @@
     setupDates();
     setupTabs();
     setupState();
+    setupEditForm();
 
-    $('#lenderSearch').lenderSearch({
-        searchUrl: $('#lenderSearch').data("url")
-    });
+    function setupEditForm() {
+        makeDatePicker("#birthDateInput", {
+            maxDate: new Date()
+        });
 
-    var content = $('#content');
-    var m = new magicEdit({
-        url: content.data('edit-url'),
-        activityType: content.data('activity-type'),
-        activityId: content.data('activity-id'),
-        updateUrl: content.data('update-url')
-    });
+        $('#lenderSearch').lenderSearch({
+            searchUrl: $('#lenderSearch').data("url")
+        });
+
+        $('#buyingWithMortgage').click(function () {
+            $('#mortgageDetails').toggle(this.checked);
+            if (!this.checked) {
+                $('#lenderSearch').val('');
+                $('#lenderAppNumber').val('');
+            }
+        });
+
+        var content = $('#content');
+        new magicEdit({
+            url: content.data('edit-url'),
+            activityType: content.data('activity-type'),
+            activityId: content.data('activity-id'),
+            updateUrl: content.data('update-url')
+        });
+    }
 
     function setupDates() {
         $('.format-date').each(function () {

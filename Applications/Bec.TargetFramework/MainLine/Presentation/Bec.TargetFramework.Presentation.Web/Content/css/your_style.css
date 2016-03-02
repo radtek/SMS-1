@@ -625,9 +625,6 @@ a.removeupload {
 .transaction-details-table tbody tr td:first-child {
   width: 150px;
 }
-.input-group input.postcode-lookup {
-  width: 120px;
-}
 .match {
   color: #7d981c;
 }
@@ -679,42 +676,52 @@ a.removeupload {
 }
 .magic-edit {
   position: relative;
-  /*border: 1px solid transparent;*/
-  padding: 5px;
-}
-.magic-edit input {
-  border: 1px solid transparent;
-  background-color: transparent;
-  padding: 5px;
-  background-color: white;
-  margin-bottom: 4px;
 }
 .magic-edit .magic-edit-button {
   position: absolute;
   top: 5px;
   right: 5px;
+  visibility: hidden;
 }
-.magic-edit .hidden-display {
-  display: none;
+.magic-edit:hover .magic-edit-button {
+  visibility: visible;
+}
+.magic-edit .view {
+  min-height: 34px;
 }
 .magic-edit .edit {
   display: none;
 }
-.magic-edit .edit input {
+.magic-edit .edit input[type=text] {
+  padding: 5px;
+  display: block;
+  margin-bottom: 5px;
+}
+.magic-edit .edit input.postcode-lookup {
+  margin-bottom: 0;
+}
+.magic-edit .edit select {
+  padding: 5px;
+  width: 100%;
+}
+.magic-edit .edit label.select {
   display: block;
 }
-.magic-edit.editing {
-  /*border-color:rgba(172, 172, 172, 0.44);*/
-  /*background-color:white;*/
-}
-.magic-edit.editing .hidden-display {
-  display: block;
+.magic-edit .edit .relative-block {
+  position: relative;
 }
 .magic-edit.editing .edit {
   display: block;
+  padding-right: 85px;
 }
 .magic-edit.editing .view {
   display: none;
+}
+.magic-edit.editing .magic-edit-button {
+  visibility: visible;
+}
+.magic-edit .form-group {
+  margin-bottom: 0;
 }
 .accept {
   color: #24bb43;

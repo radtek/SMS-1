@@ -1,4 +1,5 @@
-﻿var gridPageSize = 15;
+﻿var GUID_EMPTY = '00000000-0000-0000-0000-000000000000';
+var gridPageSize = 15;
 
 //checks for a json redirect response instruction
 function checkRedirect(response) {
@@ -486,12 +487,12 @@ var findAddress = function (opts) {
             else {
                 self.manAddRow.show();
                 self.checkMan(false);
-                if (self.companyName.length > 0) self.companyName.val(selOpt.attr('data-Company')).valid();
-                if (self.line1.length > 0) self.line1.val(selOpt.attr('data-Line1')).valid();
-                if (self.line2.length > 0) self.line2.val(selOpt.attr('data-Line2')).valid();
-                if (self.town.length > 0) self.town.val(selOpt.attr('data-PostTown')).valid();
-                if (self.county.length > 0) self.county.val(selOpt.attr('data-County')).valid();
-                if (self.postcode.length > 0) self.postcode.val(selOpt.attr('data-Postcode')).valid();
+                if (self.companyName.length > 0) self.companyName.val(selOpt.attr('data-Company'));
+                if (self.line1.length > 0) self.line1.val(selOpt.attr('data-Line1'));
+                if (self.line2.length > 0) self.line2.val(selOpt.attr('data-Line2'));
+                if (self.town.length > 0) self.town.val(selOpt.attr('data-PostTown'));
+                if (self.county.length > 0) self.county.val(selOpt.attr('data-County'));
+                if (self.postcode.length > 0) self.postcode.val(selOpt.attr('data-Postcode'));
             }
         });
 
@@ -728,24 +729,19 @@ function magicEdit(options) {
             enterDisplayMode();
 
             iterateInputs(set, function (input) {
-                input.prop('disabled', true);
                 input.data('originalVal', input.val());
             });
 
             editButton.on('click', function () {
                 iterateInputs(set, function (input) {                    
-                    input.prop('disabled', false);
                     input.data('originalVal', input.val());
-                    input.addClass('editing');
                 });
                 enterEditMode();
             });
 
             cancelButton.on('click', function () {
                 iterateInputs(set, function (input) {
-                    input.prop('disabled', true);
                     input.val(input.data('originalVal'));
-                    input.removeClass('editing');
                 });
                 enterDisplayMode();
             });
@@ -753,11 +749,7 @@ function magicEdit(options) {
             okButton.on('click', function () {
                 enterDisplayMode();
                 var alld = [];
-
                 iterateInputs(set, function (input) {
-                    input.prop('disabled', true);
-                    input.removeClass('editing');
-
                     var originalValue = input.data('originalVal');
                     if (originalValue.trim() !== input.val()) {
                         alld.push(ajaxWrapper({
@@ -810,19 +802,34 @@ function magicEdit(options) {
                 activityType: self.options.activityType,
                 activityID: self.options.activityId
             }
-        }).done(function (res) {
-            self.data = res;
+        }).done(function (fieldUpdates) {
             iterateSets(function (set) {
                 iterateInputs(set, function (input) {
-                    if (self.data.hasOwnProperty(input.data('field'))) {
-                        var d = self.data[input.data('field')];
-                        input.val(d.Value);
-                        input.addClass('pending-update');
-                        input.attr('title', "Modified by " + d.UserAccountOrganisation.Contact.FirstName + " " + d.UserAccountOrganisation.Contact.LastName + " at " + dateString(d.ModifiedOn));
+                    var updatedValue = getUpdatedValue(fieldUpdates, input);
+                    if (updatedValue) {
+                        input.val(updatedValue.Value);
+                    }
+                });
+                iterateViews(set, function (field) {
+                    var updatedValue = getUpdatedValue(fieldUpdates, field);
+                    if (updatedValue) {
+                        var noValueText = field.data('no-value-text') || '';
+                        var fieldText = updatedValue.Value || noValueText;
+                        field.text(fieldText);
+                        field.addClass('pending-update');
+                        field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
                     }
                 });
             });
         });
+
+        function getUpdatedValue(fieldUpdates, element) {
+            var fieldName = element.data('field');
+            var fieldParentID = element.data('parent-id');
+            var fieldParentType = element.data('parent-type');
+            var updatedValue = _.find(fieldUpdates, { 'FieldName': fieldName, 'ParentID': fieldParentID || GUID_EMPTY, 'ParentType': fieldParentType });
+            return updatedValue;
+        }
     }
 
     function iterateInputs(set, func) {

@@ -821,12 +821,6 @@ a.removeupload {
     }
 }
 
-.input-group {
-    input.postcode-lookup{
-        width: 120px;
-    }
-}
-
 .match {
     color: darken(@primary-color, 10%);
 }
@@ -887,47 +881,59 @@ a.removeupload {
 
 .magic-edit {
     position: relative;
-    /*border: 1px solid transparent;*/
-    padding: 5px;
-
-    input {
-        border: 1px solid transparent;
-        background-color: transparent;
-        padding: 5px;
-        background-color: white;
-        margin-bottom: 4px;
-    }
 
     .magic-edit-button{
         position:absolute;
         top:5px;
         right:5px;
+        visibility: hidden;
     }
 
-    .hidden-display{
-        display: none;
+    &:hover .magic-edit-button{
+        visibility: visible;
+    }
+
+    .view{
+        min-height: 34px;
     }
 
     .edit{
         display: none;
-        input{
+        input[type=text]{
+            padding: 5px;
             display: block;
+            margin-bottom: 5px;
+        }
+        input.postcode-lookup{
+            margin-bottom: 0;
+        }
+        select{
+            padding: 5px;
+            width: 100%;
+        }
+        label.select{
+            display: block;
+        }
+        .relative-block{
+            position: relative;
         }
     }
 
     &.editing{
-        /*border-color:rgba(172, 172, 172, 0.44);*/
-        /*background-color:white;*/
-
-        .hidden-display{
-            display: block;
-        }
         .edit{
             display: block;
+            padding-right: 85px;
         }
         .view{
             display: none;
         }
+        .magic-edit-button{
+            visibility: visible;
+        }
+    }
+
+    .form-group{
+        margin-bottom: 0;
     }
 }
 

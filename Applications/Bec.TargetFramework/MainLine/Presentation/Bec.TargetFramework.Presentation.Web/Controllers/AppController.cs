@@ -95,15 +95,10 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public async Task<ActionResult> GetFieldUpdates(int activityType, Guid activityID)
         {
             await EnsureCanAccessFieldUpdates(activityType, activityID);
-            var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.FieldName, x.Value, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
+            var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.FieldName, x.Value, x.ParentID, x.ParentType, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
             var filter = ODataHelper.Filter<FieldUpdateDTO>(x => x.ActivityType == activityType && x.ActivityID == activityID);
             var res = await QueryClient.QueryAsync("FieldUpdates", select + filter);
-            JObject ret = new JObject();
-            foreach (var item in res["Items"])
-            {
-                ret.Add(((JValue)item["FieldName"]).Value.ToString(), item);
-            }
-            return Content(ret.ToString(Formatting.None), "application/json");
+            return Content(res["Items"].ToString(Formatting.None), "application/json");
         }
 
         public async Task<ActionResult> PostFieldUpdate(FieldUpdateDTO dto)
