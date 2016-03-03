@@ -24,8 +24,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
             try
             {
                 CreateAndPublishContainer(
-                    NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.NewInternalMessages.GetStringValue()),
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.NewInternalMessages.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     handlerEvent.NewInternalMessagesNotificationDTO.NotificationRecipientDtos,
                     "NewInternalMessagesNotificationDTO",
                     handlerEvent.NewInternalMessagesNotificationDTO);

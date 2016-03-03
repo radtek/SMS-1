@@ -105,7 +105,7 @@ namespace <#= Configuration.Namespace#>.Interfaces
 		/// <param name="<#= p.Name #>"><#= p.Description #></param>
 <# } #>
 		/// <returns></returns>
-		<#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= mName #>(<#= parameterList#>);
+		<#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= mName #>Sync(<#= parameterList#>);
 <#}#><##>
 	}
 
@@ -370,7 +370,7 @@ namespace <#= Configuration.Namespace#>.Clients
 <# foreach(var p in method.UrlParameters) { #>
 		/// <param name="<#= p.Name #>"><#= p.Description #></param>
 <# } #>
-		public virtual <#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= mName #>(<#= parameterList#>)
+		public virtual <#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= mName #>Sync(<#= parameterList#>)
 		{
 <# foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { #>
 			<#=p.Name#> = <#=p.Name#>.UrlEncode();

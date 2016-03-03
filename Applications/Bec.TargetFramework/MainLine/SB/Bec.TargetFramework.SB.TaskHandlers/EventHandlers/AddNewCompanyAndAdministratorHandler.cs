@@ -37,8 +37,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
             try 
             {
                 CreateAndPublishContainer(
-                    m_nLogic.GetLatestNotificationConstructIdFromName("AddCompanyAdministratorTempDetails"),
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    m_nLogic.GetLatestNotificationConstructIdFromNameSync("AddCompanyAdministratorTempDetails"),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.AddNewCompanyAndAdministratorDto.UserAccountOrganisationID } },
                     "AddNewCompanyAndAdministratorDTO",
                     handlerEvent.AddNewCompanyAndAdministratorDto);

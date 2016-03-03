@@ -24,12 +24,12 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountMarkedAsPotentialFraudNotificationDto.OrganisationId, "Organisation Administrator")
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIdsSync(handlerEvent.BankAccountMarkedAsPotentialFraudNotificationDto.OrganisationId, "Organisation Administrator")
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 CreateAndPublishContainer(
-                    NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountMarkedAsPotentialFraud.GetStringValue()),
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.BankAccountMarkedAsPotentialFraud.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
                     "BankAccountMarkedAsPotentialFraudNotificationDTO",
                     handlerEvent.BankAccountMarkedAsPotentialFraudNotificationDto,

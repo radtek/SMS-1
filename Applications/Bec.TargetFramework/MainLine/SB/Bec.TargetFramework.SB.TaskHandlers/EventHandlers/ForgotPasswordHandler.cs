@@ -29,8 +29,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
             try
             {
                 CreateAndPublishContainer(
-                    m_nLogic.GetLatestNotificationConstructIdFromName("ForgotPassword"),
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    m_nLogic.GetLatestNotificationConstructIdFromNameSync("ForgotPassword"),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.ForgotPasswordDto.UserAccountOrganisationID } },
                     "ForgotPasswordDTO",
                     handlerEvent.ForgotPasswordDto);

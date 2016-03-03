@@ -24,7 +24,7 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
                 var container = resolver.ApplicationContainer;
                 var logic = container.Resolve<IUserLogicClient>();
                 var webUser = WebUserHelper.GetWebUserObject(filterContext.HttpContext);
-                var logins = logic.UserLoginSessions(webUser.UserID);
+                var logins = logic.UserLoginSessionsSync(webUser.UserID);
 
                 if (logins.Any(sessionID => sessionID.Equals(webUser.SessionIdentifier)))
                 {
@@ -36,7 +36,7 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
                     else
                     {
                         // if it is being used elsewhere, update all their Logins records to LoggedIn = false, except for your session ID
-                        logic.LogEveryoneElseOut(webUser.UserID, webUser.SessionIdentifier);
+                        logic.LogEveryoneElseOutSync(webUser.UserID, webUser.SessionIdentifier);
                         base.OnActionExecuting(filterContext);
                     }
                 }

@@ -77,7 +77,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                var res = await TryLogin(this, AuthSvc, model.LoginDTO.Email, model.LoginDTO.Password, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
+                var res = await TryLoginAsync(this, AuthSvc, model.LoginDTO.Email, model.LoginDTO.Password, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
                 if (res.Success)
                 {
                     // the final landing page is decided inside the Home controller
@@ -93,7 +93,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             return View(model);
         }
 
-        internal static async Task<LoginResult> TryLogin(Controller controller, AuthenticationService asvc, string username, string password, IUserLogicClient ulc,
+        internal static async Task<LoginResult> TryLoginAsync(Controller controller, AuthenticationService asvc, string username, string password, IUserLogicClient ulc,
             INotificationLogicClient nlc, IOrganisationLogicClient olc, IFileLogicClient fileLogic)
         {
             var loginValidationResult = await ulc.AuthenticateUserAsync(username.Trim(), EncodingHelper.Base64Encode(password.Trim()));
@@ -116,12 +116,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (!o.IsActive)
                 return new LoginResult { Success = false, ErrorMessage = "Login not allowed" };
             
-            var additionalClaims = ulc.GetUserClaims(ua.ID, orgID)
+            var additionalClaims = (await ulc.GetUserClaimsAsync(ua.ID, orgID))
                 .Select(uc => new Claim(uc.Type, uc.Value))
                 .ToList();
 
             asvc.SignIn(ua, false, additionalClaims);
-            bool needsTc = (nlc.GetUnreadNotifications(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
+            bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
             bool needsPersonalDetails = org.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue(); // require personal details from all admins initially, personal details are checked at the next stage
 
             var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, o.Name, o.TypeName, needsTc, needsPersonalDetails);
@@ -197,7 +197,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             LoginController.logout(this, AuthSvc);
 
-            var res = await TryLogin(this, AuthSvc, model.CreatePermanentLoginModel.RegistrationEmail, model.CreatePermanentLoginModel.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
+            var res = await TryLoginAsync(this, AuthSvc, model.CreatePermanentLoginModel.RegistrationEmail, model.CreatePermanentLoginModel.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
             if (!res.Success)
                 throw new Exception(string.Format("Authentication failed for the user. {0}", res.ErrorMessage));
             else

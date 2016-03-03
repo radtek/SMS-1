@@ -38,8 +38,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
             try 
             {
                 CreateAndPublishContainer(
-                    m_nLogic.GetLatestNotificationConstructIdFromName("UsernameReminder"),
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    m_nLogic.GetLatestNotificationConstructIdFromNameSync("UsernameReminder"),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.UsernameReminderDto.UserAccountOrganisationID } },
                     "UsernameReminderDTO",
                     handlerEvent.UsernameReminderDto);

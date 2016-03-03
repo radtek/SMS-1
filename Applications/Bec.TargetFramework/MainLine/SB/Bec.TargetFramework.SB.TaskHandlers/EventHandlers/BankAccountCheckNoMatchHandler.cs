@@ -24,12 +24,12 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId, null)
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIdsSync(handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId, null)
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 CreateAndPublishContainer(
-                    NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountCheckNoMatch.GetStringValue()),
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.BankAccountCheckNoMatch.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
                     "BankAccountCheckNoMatchNotificationDTO",
                     handlerEvent.BankAccountCheckNoMatchNotificationDto,

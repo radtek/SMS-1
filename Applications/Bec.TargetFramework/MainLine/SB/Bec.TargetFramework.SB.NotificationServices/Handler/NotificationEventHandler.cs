@@ -50,7 +50,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
             try
             {
                 // get noificationLogic
-                m_NotificationConstructDto = m_NotificationLogic.GetNotificationConstruct(m_NotificationContainerDto.NotificationSetting.NotificationConstructID, m_NotificationContainerDto.NotificationSetting.NotificationConstructVersionNumber);
+                m_NotificationConstructDto = m_NotificationLogic.GetNotificationConstructSync(m_NotificationContainerDto.NotificationSetting.NotificationConstructID, m_NotificationContainerDto.NotificationSetting.NotificationConstructVersionNumber);
             }
             catch (FaultException ex)
             {
@@ -118,7 +118,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
         {
             if (m_NotificationConstructDto.ExternalRelatedNotificationConstructID.HasValue && m_NotificationConstructDto.ExternalRelatedNotificationConstructVersionNumber.HasValue)
             {
-                var externalNotificationConstruct = m_NotificationLogic.GetNotificationConstruct(
+                var externalNotificationConstruct = m_NotificationLogic.GetNotificationConstructSync(
                     m_NotificationConstructDto.ExternalRelatedNotificationConstructID.Value,
                     m_NotificationConstructDto.ExternalRelatedNotificationConstructVersionNumber.Value);
 
@@ -142,8 +142,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
                     // add contactDTO
                     dictionary.TryAdd("ContactDTO",
-                        m_UserLogic.GetUserAccountOrganisationPrimaryContact(
-                            uaoID));
+                        m_UserLogic.GetUserAccountOrganisationPrimaryContactSync(uaoID));
 
                     // add notificationcountDto
                     dictionary.TryAdd("NotificationCountDTO", new NotificationCountDTO());
@@ -184,7 +183,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                         // if external notification reference then send - currently only support single user
                         SendExternalNotificationIfNeeded(notificationDto);
 
-                        m_NotificationLogic.SaveNotificationConversation(m_NotificationContainerDto.ActivityID, m_NotificationContainerDto.ActivityType, notificationDto);
+                        m_NotificationLogic.SaveNotificationConversationSync(m_NotificationContainerDto.ActivityID, m_NotificationContainerDto.ActivityType, notificationDto);
 
                         LogMessageAsCompleted();
                     }
@@ -236,9 +235,9 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                             // create logs for all recipients
                             CreateNotificationmSentReceiptLogEntries(notificationDto);
 
-                            m_NotificationLogic.UpdateEventStatus(eventStatusID, "Sent", string.Join("; ", message.To.Select(r => r.Address)), message.Subject, message.Body);
+                            m_NotificationLogic.UpdateEventStatusSync(eventStatusID, "Sent", string.Join("; ", message.To.Select(r => r.Address)), message.Subject, message.Body);
 
-                            m_NotificationLogic.SaveNotification(notificationDto);
+                            m_NotificationLogic.SaveNotificationSync(notificationDto);
 
                             LogMessageAsCompleted();
                         }
@@ -246,7 +245,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                         {
                             CreateNotificationFailedReceiptLogEntries(notificationDto);
 
-                            m_NotificationLogic.UpdateEventStatus(eventStatusID, "Failed", string.Join("; ", message.To.Select(r => r.Address)), message.Subject, message.Body + Environment.NewLine + "<p style='color:red;'>" + ex.Message + "</p>");
+                            m_NotificationLogic.UpdateEventStatusSync(eventStatusID, "Failed", string.Join("; ", message.To.Select(r => r.Address)), message.Subject, message.Body + Environment.NewLine + "<p style='color:red;'>" + ex.Message + "</p>");
 
                             LogError("Send Notification As Email Error", ex);
 
@@ -318,7 +317,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
             }
 
             var recipientAddresses = notificationDto.NotificationRecipients
-                .SelectMany(item => m_NotificationLogic.RecipientAddressDetail(item.OrganisationID, item.UserAccountOrganisationID))
+                .SelectMany(item => m_NotificationLogic.RecipientAddressDetailSync(item.OrganisationID, item.UserAccountOrganisationID))
                 .Where(x => 
                     x.IsLoginAllowed && 
                     x.OrganisationIsActive == true && 

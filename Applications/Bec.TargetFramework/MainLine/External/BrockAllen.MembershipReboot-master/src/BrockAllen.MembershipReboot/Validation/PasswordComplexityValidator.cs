@@ -25,7 +25,7 @@ namespace BrockAllen.MembershipReboot
             if (MinimumNumberOfComplexityRules > 4) MinimumNumberOfComplexityRules = 4;
         }
 
-        public ValidationResult Validate(UserAccountService<T> service, T account, string value)
+        public async Task<ValidationResult> ValidateAsync(UserAccountService<T> service, T account, string value)
         {
             if (String.IsNullOrWhiteSpace(value))
             {

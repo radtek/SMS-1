@@ -24,12 +24,12 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var recipients = OrganisationLogicClient.GetSmsTransactionRelatedPartyUaoIds(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
+                var recipients = OrganisationLogicClient.GetSmsTransactionRelatedPartyUaoIdsSync(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
                    .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 CreateAndPublishContainer(
-                    NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.ProductAdvised.GetStringValue()),
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.ProductAdvised.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
                     "ProductAdvisedNotificationDTO",
                     handlerEvent.ProductAdvisedNotificationDTO,

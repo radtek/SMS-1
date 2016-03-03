@@ -143,7 +143,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             if (setVerified)
             {
-                var orgDetails = OrganisationClient.GetOrganisationWithStatusAndAdmin(orgId);
+                var orgDetails = await OrganisationClient.GetOrganisationWithStatusAndAdminAsync(orgId);
                 await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, orgDetails.VerifiedNotes);
             }
             await UserLogicClient.GeneratePinAsync(uaoId, false, true, false);
@@ -219,7 +219,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(canLenderNameBeUsed, JsonRequestBehavior.AllowGet);
         }
 
-        private void EnsureNoDuplicateLenders(AddCompanyDTO model)
+        private async Task EnsureNoDuplicateLenders(AddCompanyDTO model)
         {
             var requestedLenderNames = model.TradingNames
                 .Select(x => x.Trim())
@@ -228,7 +228,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 .Distinct();
             foreach (var lenderName in requestedLenderNames)
             {
-                if (!OrganisationClient.CanLenderNameBeUsed(lenderName))
+                if (!await OrganisationClient.CanLenderNameBeUsedAsync(lenderName))
                 {
                     throw new InvalidOperationException(string.Format("The lender {0} is already registered in the system.", lenderName));
                 }

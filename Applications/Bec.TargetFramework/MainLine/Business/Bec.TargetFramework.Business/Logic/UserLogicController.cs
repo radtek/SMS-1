@@ -15,6 +15,7 @@ using Mehdime.Entity;
 using Omu.ValueInjecter;
 using ServiceStack.Text;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -32,9 +33,9 @@ namespace Bec.TargetFramework.Business.Logic
         public OrganisationLogicController OrganisationLogic { get; set; }
         public TFSettingsLogicController Settings { get; set; }
 
-        public UserLoginValidation AuthenticateUser(string username, string password)
+        public async Task<UserLoginValidation> AuthenticateUserAsync(string username, string password)
         {
-            BrockAllen.MembershipReboot.UserAccount account = this.GetBAUserAccountByUsername(username);
+            BrockAllen.MembershipReboot.UserAccount account = await this.GetBAUserAccountByUsernameAsync(username);
 
             var decodedPassword = EncodingHelper.Base64Decode(password);
 
@@ -80,9 +81,9 @@ namespace Bec.TargetFramework.Business.Logic
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="newPassword"></param>
-        public async Task ResetUserPassword(Guid userID, string newPassword, bool doNotRequirePin, string pin)
+        public async Task ResetUserPasswordAsync(Guid userID, string newPassword, bool doNotRequirePin, string pin)
         {
-            var userAccount = UaService.GetByID(userID);
+            var userAccount = await UaService.GetByIDAsync(userID);
 
             if (userAccount != null && (doNotRequirePin || (!string.IsNullOrEmpty(userAccount.MobileCode) && userAccount.MobileCode == pin && ValidPINExists(userAccount.MobileCodeSent))))
             {
@@ -169,13 +170,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<BrockAllen.MembershipReboot.UserAccount> GetAllUserAccount()
+        public async Task<List<BrockAllen.MembershipReboot.UserAccount>> GetAllUserAccountAsync()
         {
             var dtoList = new List<BrockAllen.MembershipReboot.UserAccount>();
 
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.ToList().ForEach(item =>
+                var items = await scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.ToListAsync();
+                items.ForEach(item =>
                     {
                         BrockAllen.MembershipReboot.UserAccount ua = new BrockAllen.MembershipReboot.UserAccount();
                         ua.InjectFrom<NullableInjection>(item);
@@ -186,13 +188,13 @@ namespace Bec.TargetFramework.Business.Logic
             return dtoList;
         }
 
-        public BrockAllen.MembershipReboot.UserAccount GetUserAccount(Guid key)
+        public async Task<BrockAllen.MembershipReboot.UserAccount> GetUserAccountAsync(Guid key)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 ua = new BrockAllen.MembershipReboot.UserAccount();
-                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Single(s => s.ID == key);
+                var uaDb = await scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleAsync(s => s.ID == key);
                 ua.InjectFrom<NullableInjection>(uaDb);
                 ua.PasswordResetSecrets = GetPasswordResetSecrets(key);
             }
@@ -200,12 +202,12 @@ namespace Bec.TargetFramework.Business.Logic
             return ua;
         }
 
-        public BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByEmail(string email)
+        public async Task<BrockAllen.MembershipReboot.UserAccount> GetBAUserAccountByEmailAsync(string email)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.Email == email && s.IsActive && !s.IsDeleted).ToList();
+                var uaDb = await scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.Email == email && s.IsActive && !s.IsDeleted).ToListAsync();
 
                 if (uaDb.Count > 0)
                 {
@@ -218,12 +220,12 @@ namespace Bec.TargetFramework.Business.Logic
             return ua;
         }
 
-        public BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByEmailAndNotID(string email, Guid id)
+        public async Task<BrockAllen.MembershipReboot.UserAccount> GetBAUserAccountByEmailAndNotIDAsync(string email, Guid id)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.Email == email && s.ID != id).ToList();
+                var uaDb = await scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.Email == email && s.ID != id).ToListAsync();
 
                 if (uaDb.Count > 0)
                 {
@@ -235,13 +237,12 @@ namespace Bec.TargetFramework.Business.Logic
             return ua;
         }
 
-        public BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByUsername(string username)
+        public async Task<BrockAllen.MembershipReboot.UserAccount> GetBAUserAccountByUsernameAsync(string username)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts
-                    .SingleOrDefault(GetWithUsername(username));
+                var uaDb = await scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefaultAsync(GetWithUsername(username));
 
                 if (uaDb != null)
                 {
@@ -343,11 +344,6 @@ namespace Bec.TargetFramework.Business.Logic
                     });
             }
             return dtoList;
-        }
-
-        public BrockAllen.MembershipReboot.UserAccount CreateUserAccount()
-        {
-            return new BrockAllen.MembershipReboot.UserAccount();
         }
 
         public async Task AddUserAccountAsync(BrockAllen.MembershipReboot.UserAccount user)
@@ -789,7 +785,7 @@ namespace Bec.TargetFramework.Business.Logic
                     await OrganisationLogic.ActivateOrganisationAsync(uao.OrganisationID);
 
                 await LockOrUnlockUserAsync(uao.UserID, false);
-                await ResetUserPassword(uao.UserID, password, true, null);
+                await ResetUserPasswordAsync(uao.UserID, password, true, null);
 
                 uao.UserAccount.IsTemporaryAccount = false;
                 uao.UserAccount.MobilePhoneNumber = phoneNumber;

@@ -71,7 +71,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="postCode"></param>
 		/// <param name="buildingNameOrNumber"></param>
 		/// <returns></returns>
-		List<PostCodeDTO> FindAddressesByPostCode(String postCode,String buildingNameOrNumber);
+		List<PostCodeDTO> FindAddressesByPostCodeSync(String postCode,String buildingNameOrNumber);
 
 		/// <param name="postCode"></param>
 		/// <returns></returns>
@@ -79,7 +79,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="postCode"></param>
 		/// <returns></returns>
-		GoogleGeoCodeResponse GeoCodePostcode(String postCode);
+		GoogleGeoCodeResponse GeoCodePostcodeSync(String postCode);
 	}
 
 	public partial interface IBankAccountLogicClient : IClientBase	{	
@@ -90,7 +90,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
-		Boolean HasOrganisationAnySafeBankAccount(Guid organisationID);
+		Boolean HasOrganisationAnySafeBankAccountSync(Guid organisationID);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -98,13 +98,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
-		List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID);
+		List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccountsSync(Guid orgID);
 
 		/// <returns></returns>
 		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync();
 
 		/// <returns></returns>
-		List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts();
+		List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccountsSync();
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -112,13 +112,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
-		Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO);
+		Guid AddBankAccountSync(Guid orgID,OrganisationBankAccountDTO accountDTO);
 
 		/// <returns></returns>
 		Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
 		/// <returns></returns>
-		void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
+		void AddBankAccountStatusSync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -134,7 +134,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		Boolean CheckBankAccount(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
+		Boolean CheckBankAccountSync(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
 
 		/// <param name="uaoID"></param>
 		/// <param name="smsUserAccountOrganisationTransactionId"></param>
@@ -150,7 +150,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="sortCode"></param>
 		/// <param name="isMatch"></param>
 		/// <returns></returns>
-		void WriteCheckAudit(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch);
+		void WriteCheckAuditSync(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch);
 
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
@@ -164,7 +164,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="active"></param>
 		/// <param name="notes"></param>
 		/// <returns></returns>
-		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes);
+		void ToggleBankAccountActiveSync(Guid orgID,Guid baID,Boolean active,String notes);
 
 		/// <param name="uaoID"></param>
 		/// <param name="uaotxID"></param>
@@ -178,7 +178,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		void PublishCheckNoMatchNotification(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
+		void PublishCheckNoMatchNotificationSync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
 	}
 
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
@@ -187,7 +187,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<List<CountryCodeDTO>> GetCountriesAsync();
 
 		/// <returns></returns>
-		List<CountryCodeDTO> GetCountries();
+		List<CountryCodeDTO> GetCountriesSync();
 
 		/// <param name="typeName"></param>
 		/// <returns></returns>
@@ -195,7 +195,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="typeName"></param>
 		/// <returns></returns>
-		List<ClassificationTypeDTO> GetRootClassificationDataForTypeName(String typeName);
+		List<ClassificationTypeDTO> GetRootClassificationDataForTypeNameSync(String typeName);
 
 		/// <param name="classificationTypeID"></param>
 		/// <returns></returns>
@@ -203,7 +203,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="classificationTypeID"></param>
 		/// <returns></returns>
-		List<ClassificationTypeDTO> GetSubClassificationDataForParentID(Int32 classificationTypeID);
+		List<ClassificationTypeDTO> GetSubClassificationDataForParentIDSync(Int32 classificationTypeID);
 
 		/// <param name="categoryName"></param>
 		/// <param name="typeName"></param>
@@ -213,7 +213,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="categoryName"></param>
 		/// <param name="typeName"></param>
 		/// <returns></returns>
-		Int32 GetClassificationDataForTypeName(String categoryName,String typeName);
+		Int32 GetClassificationDataForTypeNameSync(String categoryName,String typeName);
 	}
 
 	public partial interface IFileLogicClient : IClientBase	{	
@@ -222,7 +222,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<ClamScanResult> UploadFileAsync(FileDTO file);
 
 		/// <returns></returns>
-		ClamScanResult UploadFile(FileDTO file);
+		ClamScanResult UploadFileSync(FileDTO file);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -230,7 +230,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		void ClearUnusedFiles(Guid uaoID);
+		void ClearUnusedFilesSync(Guid uaoID);
 
 		/// <param name="fileID"></param>
 		/// <param name="parentID"></param>
@@ -240,7 +240,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="fileID"></param>
 		/// <param name="parentID"></param>
 		/// <returns></returns>
-		FileDTO DownloadFile(Guid fileID,Guid parentID);
+		FileDTO DownloadFileSync(Guid fileID,Guid parentID);
 
 		/// <param name="uaoID"></param>
 		/// <param name="id"></param>
@@ -252,13 +252,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="id"></param>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		void RemovePendingUpload(Guid uaoID,Guid id,String filename);
+		void RemovePendingUploadSync(Guid uaoID,Guid id,String filename);
 
 		/// <returns></returns>
 		Task<ClamScanResult> ScanForVirusAsync(ScanBytesDTO data);
 
 		/// <returns></returns>
-		ClamScanResult ScanForVirus(ScanBytesDTO data);
+		ClamScanResult ScanForVirusSync(ScanBytesDTO data);
 	}
 
 	public partial interface IInvoiceLogicClient : IClientBase	{	
@@ -269,13 +269,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="shoppingCartId"></param>
 		/// <returns></returns>
-		Boolean DoesInvoiceExistForShoppingCart(Guid shoppingCartId);
+		Boolean DoesInvoiceExistForShoppingCartSync(Guid shoppingCartId);
 
 		/// <returns></returns>
 		Task<VOrganisationDetailDTO> GetPaymentProviderOrganisationDetailAsync();
 
 		/// <returns></returns>
-		VOrganisationDetailDTO GetPaymentProviderOrganisationDetail();
+		VOrganisationDetailDTO GetPaymentProviderOrganisationDetailSync();
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -283,7 +283,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		VInvoiceWithCurrentTransactionOrderStatusDTO GetInvoiceWithCurrentTransactionOrderStatus(Guid invoiceID);
+		VInvoiceWithCurrentTransactionOrderStatusDTO GetInvoiceWithCurrentTransactionOrderStatusSync(Guid invoiceID);
 
 		/// <param name="shoppingCartId"></param>
 		/// <returns></returns>
@@ -291,7 +291,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="shoppingCartId"></param>
 		/// <returns></returns>
-		InvoiceDTO GetInvoiceForShoppingCart(Guid shoppingCartId);
+		InvoiceDTO GetInvoiceForShoppingCartSync(Guid shoppingCartId);
 
 		/// <param name="cartID"></param>
 		/// <param name="reference"></param>
@@ -301,7 +301,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="cartID"></param>
 		/// <param name="reference"></param>
 		/// <returns></returns>
-		InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID,String reference);
+		InvoiceDTO CreateAndSaveInvoiceFromShoppingCartSync(Guid cartID,String reference);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -309,7 +309,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void DeleteInvoice(Guid invoiceID);
+		void DeleteInvoiceSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -317,7 +317,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void FreezeInvoice(Guid invoiceID);
+		void FreezeInvoiceSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -325,7 +325,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void CloseInvoice(Guid invoiceID);
+		void CloseInvoiceSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <param name="value"></param>
@@ -335,7 +335,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceID"></param>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		void MarkInvoiceWithAccountingStatus(Guid invoiceID,InvoiceAccountingStatusIDEnum value);
+		void MarkInvoiceWithAccountingStatusSync(Guid invoiceID,InvoiceAccountingStatusIDEnum value);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -343,7 +343,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void MarkInvoiceAsPaid(Guid invoiceID);
+		void MarkInvoiceAsPaidSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -351,7 +351,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void MarkInvoiceAsUnpaid(Guid invoiceID);
+		void MarkInvoiceAsUnpaidSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -359,7 +359,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void MarkInvoiceAsCancelled(Guid invoiceID);
+		void MarkInvoiceAsCancelledSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -367,7 +367,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void MarkInvoiceAsProcessing(Guid invoiceID);
+		void MarkInvoiceAsProcessingSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -375,7 +375,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void MarkInvoiceAsPaymentDue(Guid invoiceID);
+		void MarkInvoiceAsPaymentDueSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -383,7 +383,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void MarkInvoiceAsActive(Guid invoiceID);
+		void MarkInvoiceAsActiveSync(Guid invoiceID);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -391,7 +391,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
-		void MarkInvoiceAsPaymentScheduled(Guid invoiceID);
+		void MarkInvoiceAsPaymentScheduledSync(Guid invoiceID);
 	}
 
 	public partial interface IMiscLogicClient : IClientBase	{	
@@ -400,7 +400,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<Guid> AddNewsArticleAsync(NewsArticleDTO dto);
 
 		/// <returns></returns>
-		Guid AddNewsArticle(NewsArticleDTO dto);
+		Guid AddNewsArticleSync(NewsArticleDTO dto);
 	}
 
 	public partial interface INotificationLogicClient : IClientBase	{	
@@ -423,7 +423,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="isRead"></param>
 		/// <param name="sentInLast"></param>
 		/// <returns></returns>
-		Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriod(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
+		Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriodSync(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
 
 		/// <param name="orgID"></param>
 		/// <param name="rolename"></param>
@@ -433,7 +433,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="rolename"></param>
 		/// <returns></returns>
-		IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID,String rolename);
+		IEnumerable<Guid> GetNotificationOrganisationUaoIdsSync(Guid orgID,String rolename);
 
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
@@ -443,13 +443,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
 		/// <returns></returns>
-		void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
+		void SaveNotificationConversationSync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
 
 		/// <returns></returns>
 		Task<Guid> SaveNotificationAsync(NotificationDTO dto);
 
 		/// <returns></returns>
-		Guid SaveNotification(NotificationDTO dto);
+		Guid SaveNotificationSync(NotificationDTO dto);
 
 		/// <param name="userTypeID"></param>
 		/// <param name="organisationTypeID"></param>
@@ -461,7 +461,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationTypeID"></param>
 		/// <param name="enumValue"></param>
 		/// <returns></returns>
-		List<VNotificationConstructGroupDTO> GetNotificationGroupConstructs(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue);
+		List<VNotificationConstructGroupDTO> GetNotificationGroupConstructsSync(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue);
 
 		/// <param name="organisationNotificationConstructID"></param>
 		/// <param name="versionNumber"></param>
@@ -471,7 +471,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationNotificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		NotificationConstructDTO GetNotificationConstruct(Guid organisationNotificationConstructID,Int32 versionNumber);
+		NotificationConstructDTO GetNotificationConstructSync(Guid organisationNotificationConstructID,Int32 versionNumber);
 
 		/// <param name="userAccountOrganisationID"></param>
 		/// <param name="userTypeID"></param>
@@ -485,7 +485,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationTypeId"></param>
 		/// <param name="groupEnumValue"></param>
 		/// <returns></returns>
-		List<VNotificationWithUAOVerificationCodeDTO> GetAllUserNotificationsForUserWithNotificationGroupNotAccepted(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue);
+		List<VNotificationWithUAOVerificationCodeDTO> GetAllUserNotificationsForUserWithNotificationGroupNotAcceptedSync(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue);
 
 		/// <param name="name"></param>
 		/// <returns></returns>
@@ -493,7 +493,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="name"></param>
 		/// <returns></returns>
-		NotificationConstructDTO GetLatestNotificationConstructIdFromName(String name);
+		NotificationConstructDTO GetLatestNotificationConstructIdFromNameSync(String name);
 
 		/// <param name="organisationNotificationConstructID"></param>
 		/// <param name="versionNumber"></param>
@@ -503,7 +503,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationNotificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		VNotificationConstructDTO GetNotificationConstructViewData(Guid organisationNotificationConstructID,Int32 versionNumber);
+		VNotificationConstructDTO GetNotificationConstructViewDataSync(Guid organisationNotificationConstructID,Int32 versionNumber);
 
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
@@ -513,7 +513,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
-		IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
+		IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetailSync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
@@ -523,7 +523,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		List<ConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId,Int32 count);
+		List<ConversationDTO> GetLatestUnreadConversationsSync(Guid userAccountOrganisationId,Int32 count);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
@@ -531,7 +531,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
-		Int32 GetUnreadConversationsCount(Guid userAccountOrganisationId);
+		Int32 GetUnreadConversationsCountSync(Guid userAccountOrganisationId);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
@@ -539,7 +539,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
-		List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId);
+		List<VNotificationViewOnlyUaoDTO> GetInternalSync(Guid userAccountOrganisationId);
 
 		/// <param name="notificationId"></param>
 		/// <param name="userAccountOrganisationId"></param>
@@ -551,7 +551,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="notificationExportFormat"></param>
 		/// <returns></returns>
-		NotificationContentDTO GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat);
+		NotificationContentDTO GetNotificationContentSync(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat);
 
 		/// <param name="userId"></param>
 		/// <param name="types"></param>
@@ -561,7 +561,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <param name="types"></param>
 		/// <returns></returns>
-		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] types);
+		List<VNotificationInternalUnreadDTO> GetUnreadNotificationsSync(Guid userId,NotificationConstructEnum[] types);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -569,7 +569,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
-		NotificationResultDTO GetTcAndCsText(Guid accountID);
+		NotificationResultDTO GetTcAndCsTextSync(Guid accountID);
 
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
@@ -579,7 +579,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		Byte[] RetrieveNotificationConstructData(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
+		Byte[] RetrieveNotificationConstructDataSync(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
 
 		/// <param name="notificationID"></param>
 		/// <param name="userID"></param>
@@ -589,7 +589,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notificationID"></param>
 		/// <param name="userID"></param>
 		/// <returns></returns>
-		void MarkAccepted(Guid notificationID,Guid userID);
+		void MarkAcceptedSync(Guid notificationID,Guid userID);
 
 		/// <param name="eventStatusID"></param>
 		/// <param name="status"></param>
@@ -605,7 +605,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="subject"></param>
 		/// <param name="body"></param>
 		/// <returns></returns>
-		void UpdateEventStatus(Guid eventStatusID,String status,String recipients,String subject,String body);
+		void UpdateEventStatusSync(Guid eventStatusID,String status,String recipients,String subject,String body);
 
 		/// <param name="eventName"></param>
 		/// <param name="eventReference"></param>
@@ -615,13 +615,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="eventName"></param>
 		/// <param name="eventReference"></param>
 		/// <returns></returns>
-		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
+		List<EventStatusDTO> GetEventStatusSync(String eventName,String eventReference);
 
 		/// <returns></returns>
 		Task PublishNewInternalMessagesNotificationEventAsync(IEnumerable<Guid> recipientUaoIds);
 
 		/// <returns></returns>
-		void PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds);
+		void PublishNewInternalMessagesNotificationEventSync(IEnumerable<Guid> recipientUaoIds);
 
 		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
@@ -643,7 +643,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		Guid CreateConversation(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
+		Guid CreateConversationSync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
 
 		/// <param name="fromHash"></param>
 		/// <param name="uaoID"></param>
@@ -659,7 +659,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		void ReplyToConversation(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
+		void ReplyToConversationSync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
 
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
@@ -669,7 +669,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
 		/// <returns></returns>
-		void MarkAsRead(Guid uaoID,Guid conversationID);
+		void MarkAsReadSync(Guid uaoID,Guid conversationID);
 
 		/// <param name="senderUaoID"></param>
 		/// <param name="activityTypeID"></param>
@@ -681,7 +681,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="activityTypeID"></param>
 		/// <param name="activityID"></param>
 		/// <returns></returns>
-		List<VSafeSendRecipientDTO> GetActivityRecipients(Guid senderUaoID,ActivityType activityTypeID,Guid activityID);
+		List<VSafeSendRecipientDTO> GetActivityRecipientsSync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID);
 
 		/// <param name="conversationId"></param>
 		/// <param name="uaoId"></param>
@@ -695,7 +695,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		IEnumerable<MessageDTO> GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
+		IEnumerable<MessageDTO> GetMessagesSync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
 
 		/// <param name="uaoID"></param>
 		/// <param name="convID"></param>
@@ -705,7 +705,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <param name="convID"></param>
 		/// <returns></returns>
-		Int32 GetConversationRank(Guid uaoID,Guid convID);
+		Int32 GetConversationRankSync(Guid uaoID,Guid convID);
 
 		/// <param name="uaoId"></param>
 		/// <param name="activityType"></param>
@@ -721,7 +721,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		ConversationResultDTO<VConversationDTO> GetConversations(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip);
+		ConversationResultDTO<VConversationDTO> GetConversationsSync(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip);
 
 		/// <param name="uaoID"></param>
 		/// <param name="userOrgTypeName"></param>
@@ -741,7 +741,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivitySync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
 
 		/// <param name="uaoId"></param>
 		/// <param name="orgId"></param>
@@ -751,7 +751,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoId"></param>
 		/// <param name="orgId"></param>
 		/// <returns></returns>
-		List<CreateConversationRecipientDTO> GetUserSafeSendGroups(Guid uaoId,Guid orgId);
+		List<CreateConversationRecipientDTO> GetUserSafeSendGroupsSync(Guid uaoId,Guid orgId);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -766,7 +766,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
 		/// <returns></returns>
-		void ExpireTemporaryLogins(Int32 days,Int32 hours,Int32 minutes);
+		void ExpireTemporaryLoginsSync(Int32 days,Int32 hours,Int32 minutes);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -774,7 +774,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		void ExpireUserAccountOrganisation(Guid uaoID);
+		void ExpireUserAccountOrganisationSync(Guid uaoID);
 
 		/// <param name="orgID"></param>
 		/// <param name="regulatorNumber"></param>
@@ -784,19 +784,19 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		Boolean IsOrganisationInSystem(Nullable<Guid> orgID,String regulatorNumber);
+		Boolean IsOrganisationInSystemSync(Nullable<Guid> orgID,String regulatorNumber);
 
 		/// <returns></returns>
 		Task RejectOrganisationAsync(RejectCompanyDTO dto);
 
 		/// <returns></returns>
-		void RejectOrganisation(RejectCompanyDTO dto);
+		void RejectOrganisationSync(RejectCompanyDTO dto);
 
 		/// <returns></returns>
 		Task UnverifyOrganisationAsync(RejectCompanyDTO dto);
 
 		/// <returns></returns>
-		void UnverifyOrganisation(RejectCompanyDTO dto);
+		void UnverifyOrganisationSync(RejectCompanyDTO dto);
 
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
@@ -804,7 +804,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
-		void ActivateOrganisation(Guid organisationID);
+		void ActivateOrganisationSync(Guid organisationID);
 
 		/// <param name="orgStatus"></param>
 		/// <returns></returns>
@@ -812,19 +812,19 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgStatus"></param>
 		/// <returns></returns>
-		List<VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus);
+		List<VOrganisationWithStatusAndAdminDTO> GetCompaniesSync(ProfessionalOrganisationStatusEnum orgStatus);
 
 		/// <returns></returns>
 		Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(AddCompanyDTO dto);
 
 		/// <returns></returns>
-		Guid AddNewUnverifiedOrganisationAndAdministrator(AddCompanyDTO dto);
+		Guid AddNewUnverifiedOrganisationAndAdministratorSync(AddCompanyDTO dto);
 
 		/// <returns></returns>
 		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(AddNewUserToOrganisationDTO dto);
 
 		/// <returns></returns>
-		UserAccountOrganisationDTO AddNewUserToOrganisation(AddNewUserToOrganisationDTO dto);
+		UserAccountOrganisationDTO AddNewUserToOrganisationSync(AddNewUserToOrganisationDTO dto);
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
@@ -832,7 +832,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
-		void AddPersonalDetails(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto);
+		void AddPersonalDetailsSync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto);
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
@@ -840,7 +840,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
-		Boolean RequiresPersonalDetails(Guid uaoId);
+		Boolean RequiresPersonalDetailsSync(Guid uaoId);
 
 		/// <param name="userOrgID"></param>
 		/// <param name="type"></param>
@@ -850,13 +850,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userOrgID"></param>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		void CreateTsAndCsNotification(Guid userOrgID,NotificationConstructEnum type);
+		void CreateTsAndCsNotificationSync(Guid userOrgID,NotificationConstructEnum type);
 
 		/// <returns></returns>
 		Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync();
 
 		/// <returns></returns>
-		Nullable<Guid> GetTemporaryOrganisationBranchID();
+		Nullable<Guid> GetTemporaryOrganisationBranchIDSync();
 
 		/// <param name="id"></param>
 		/// <returns></returns>
@@ -864,7 +864,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="id"></param>
 		/// <returns></returns>
-		VOrganisationDTO GetOrganisationDTO(Guid id);
+		VOrganisationDTO GetOrganisationDTOSync(Guid id);
 
 		/// <param name="id"></param>
 		/// <returns></returns>
@@ -872,7 +872,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="id"></param>
 		/// <returns></returns>
-		VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdmin(Guid id);
+		VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdminSync(Guid id);
 
 		/// <param name="orgID"></param>
 		/// <param name="enumType"></param>
@@ -888,7 +888,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="reason"></param>
 		/// <param name="notes"></param>
 		/// <returns></returns>
-		void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
+		void AddOrganisationStatusSync(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
 
 		/// <param name="orgID"></param>
 		/// <param name="email"></param>
@@ -898,7 +898,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="email"></param>
 		/// <returns></returns>
-		Boolean CheckDuplicateUserSmsTransaction(Guid orgID,String email,SmsTransactionDTO dto);
+		Boolean CheckDuplicateUserSmsTransactionSync(Guid orgID,String email,SmsTransactionDTO dto);
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
@@ -906,7 +906,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
-		IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID);
+		IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIdsSync(Guid txID);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -916,7 +916,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		Guid AddSmsTransaction(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
+		Guid AddSmsTransactionSync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
 
 		/// <param name="uaoID"></param>
 		/// <param name="accountNumber"></param>
@@ -928,7 +928,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransactionSync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
 
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
@@ -940,7 +940,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		void AdviseProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
+		void AdviseProductSync(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
 
 		/// <param name="txID"></param>
 		/// <param name="uaoID"></param>
@@ -954,7 +954,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="cardTypeEnum"></param>
 		/// <param name="paymentTypeEnum"></param>
 		/// <returns></returns>
-		CartPricingDTO EnsureCart(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
+		CartPricingDTO EnsureCartSync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
 
 		/// <param name="smsTransactionID"></param>
 		/// <param name="cardType"></param>
@@ -966,13 +966,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="cardType"></param>
 		/// <param name="methodType"></param>
 		/// <returns></returns>
-		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest);
+		TransactionOrderPaymentDTO PurchaseSafeBuyerProductSync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
 
 		/// <returns></returns>
-		void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
+		void AssignSmsClientToTransactionSync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
 
 		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
@@ -988,13 +988,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="amount"></param>
 		/// <param name="rowVersion"></param>
 		/// <returns></returns>
-		void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
+		void AddCreditSync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
 
 		/// <returns></returns>
 		Task UpdateOrganisationDetailsAsync(VerifyCompanyDTO dto);
 
 		/// <returns></returns>
-		void UpdateOrganisationDetails(VerifyCompanyDTO dto);
+		void UpdateOrganisationDetailsSync(VerifyCompanyDTO dto);
 
 		/// <param name="orgID"></param>
 		/// <param name="txID"></param>
@@ -1004,7 +1004,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="txID"></param>
 		/// <returns></returns>
-		Int32 GetSmsTransactionRank(Guid orgID,Guid txID);
+		Int32 GetSmsTransactionRankSync(Guid orgID,Guid txID);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -1016,7 +1016,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <param name="notes"></param>
 		/// <returns></returns>
-		void AddNotes(Guid orgID,Guid uaoID,String notes);
+		void AddNotesSync(Guid orgID,Guid uaoID,String notes);
 
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
@@ -1024,7 +1024,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
-		Boolean IsSafeSendEnabled(Guid organisationID);
+		Boolean IsSafeSendEnabledSync(Guid organisationID);
 
 		/// <param name="orgID"></param>
 		/// <param name="safeSendEnabled"></param>
@@ -1034,7 +1034,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="safeSendEnabled"></param>
 		/// <returns></returns>
-		void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled);
+		void AddOrUpdateSafeSendEnabledSync(Guid orgID,Boolean safeSendEnabled);
 
 		/// <param name="lenderName"></param>
 		/// <returns></returns>
@@ -1042,7 +1042,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="lenderName"></param>
 		/// <returns></returns>
-		Boolean CanLenderNameBeUsed(String lenderName);
+		Boolean CanLenderNameBeUsedSync(String lenderName);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -1053,7 +1053,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="transactionOrderId"></param>
 		/// <returns></returns>
-		TransactionOrderPaymentDTO GetTheSuccessfulOrderPaymentForTransactionOrder(Guid transactionOrderId);
+		TransactionOrderPaymentDTO GetTheSuccessfulOrderPaymentForTransactionOrderSync(Guid transactionOrderId);
 
 		/// <param name="transactionOrderId"></param>
 		/// <returns></returns>
@@ -1061,13 +1061,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="transactionOrderId"></param>
 		/// <returns></returns>
-		Boolean DoesASuccessfulOrderPaymentExistForTransactionOrder(Guid transactionOrderId);
+		Boolean DoesASuccessfulOrderPaymentExistForTransactionOrderSync(Guid transactionOrderId);
 
 		/// <returns></returns>
 		Task<TransactionOrderPaymentDTO> ProcessPaymentTransactionAsync(OrderRequestDTO request);
 
 		/// <returns></returns>
-		TransactionOrderPaymentDTO ProcessPaymentTransaction(OrderRequestDTO request);
+		TransactionOrderPaymentDTO ProcessPaymentTransactionSync(OrderRequestDTO request);
 	}
 
 	public partial interface IProductLogicClient : IClientBase	{	
@@ -1076,13 +1076,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<ProductDTO> GetTopUpProductAsync();
 
 		/// <returns></returns>
-		ProductDTO GetTopUpProduct();
+		ProductDTO GetTopUpProductSync();
 
 		/// <returns></returns>
 		Task<ProductDetailDTO> GetBankAccountCheckProductAsync();
 
 		/// <returns></returns>
-		ProductDetailDTO GetBankAccountCheckProduct();
+		ProductDetailDTO GetBankAccountCheckProductSync();
 	}
 
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
@@ -1099,7 +1099,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="paymentTypeEnum"></param>
 		/// <param name="countryCode"></param>
 		/// <returns></returns>
-		ShoppingCartDTO CreateShoppingCart(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode);
+		ShoppingCartDTO CreateShoppingCartSync(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode);
 
 		/// <param name="cartID"></param>
 		/// <param name="productID"></param>
@@ -1115,7 +1115,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="quantity"></param>
 		/// <param name="customerPrice"></param>
 		/// <returns></returns>
-		void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice);
+		void AddProductToShoppingCartSync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice);
 
 		/// <param name="cartID"></param>
 		/// <param name="itemID"></param>
@@ -1125,7 +1125,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="cartID"></param>
 		/// <param name="itemID"></param>
 		/// <returns></returns>
-		void RemoveProductFromShoppingCart(Guid cartID,Guid itemID);
+		void RemoveProductFromShoppingCartSync(Guid cartID,Guid itemID);
 	}
 
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
@@ -1134,7 +1134,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<Dictionary<String, String>> GetSettingsAsync();
 
 		/// <returns></returns>
-		Dictionary<String, String> GetSettings();
+		Dictionary<String, String> GetSettingsSync();
 	}
 
 	public partial interface ITransactionOrderLogicClient : IClientBase	{	
@@ -1145,7 +1145,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceId"></param>
 		/// <returns></returns>
-		TransactionOrderDTO GetTransactionForInvoice(Guid invoiceId);
+		TransactionOrderDTO GetTransactionForInvoiceSync(Guid invoiceId);
 
 		/// <param name="invoiceId"></param>
 		/// <returns></returns>
@@ -1153,7 +1153,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="invoiceId"></param>
 		/// <returns></returns>
-		Boolean DoesTransactionExistForInvoice(Guid invoiceId);
+		Boolean DoesTransactionExistForInvoiceSync(Guid invoiceId);
 
 		/// <param name="invoiceID"></param>
 		/// <param name="typeEnumValue"></param>
@@ -1163,7 +1163,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceID"></param>
 		/// <param name="typeEnumValue"></param>
 		/// <returns></returns>
-		TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTO(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
+		TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTOSync(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
 	}
 
 	public partial interface IUserAccountAuditLogicClient : IClientBase	{	
@@ -1174,7 +1174,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="requestData"></param>
 		/// <returns></returns>
-		void CreateAndSaveAudit(String requestData,WebUserObject wuo);
+		void CreateAndSaveAuditSync(String requestData,WebUserObject wuo);
 	}
 
 	public partial interface IUserLogicClient : IClientBase, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{	
@@ -1187,13 +1187,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		UserLoginValidation AuthenticateUser(String username,String password);
+		UserLoginValidation AuthenticateUserSync(String username,String password);
 
 		/// <returns></returns>
 		Task<ContactDTO> AddUserAsync(ContactDTO dto);
 
 		/// <returns></returns>
-		ContactDTO AddUser(ContactDTO dto);
+		ContactDTO AddUserSync(ContactDTO dto);
 
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
@@ -1207,7 +1207,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="doNotRequirePin"></param>
 		/// <param name="pin"></param>
 		/// <returns></returns>
-		void ResetUserPassword(Guid userID,String newPassword,Boolean doNotRequirePin,String pin);
+		void ResetUserPasswordSync(Guid userID,String newPassword,Boolean doNotRequirePin,String pin);
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -1215,7 +1215,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
-		Boolean HasPasswordExpired(Guid userID);
+		Boolean HasPasswordExpiredSync(Guid userID);
 
 		/// <param name="userId"></param>
 		/// <param name="lockUser"></param>
@@ -1225,7 +1225,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <param name="lockUser"></param>
 		/// <returns></returns>
-		void LockOrUnlockUser(Guid userId,Boolean lockUser);
+		void LockOrUnlockUserSync(Guid userId,Boolean lockUser);
 
 		/// <param name="userName"></param>
 		/// <returns></returns>
@@ -1233,7 +1233,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userName"></param>
 		/// <returns></returns>
-		Boolean IsUserExist(String userName);
+		Boolean IsUserExistSync(String userName);
 
 		/// <param name="email"></param>
 		/// <returns></returns>
@@ -1241,7 +1241,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="email"></param>
 		/// <returns></returns>
-		Boolean IsEmailExist(String email);
+		Boolean IsEmailExistSync(String email);
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
@@ -1249,7 +1249,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
-		Boolean IsUserAccountRegistered(Guid uaoId);
+		Boolean IsUserAccountRegisteredSync(Guid uaoId);
 
 		/// <param name="contactID"></param>
 		/// <returns></returns>
@@ -1257,13 +1257,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="contactID"></param>
 		/// <returns></returns>
-		IEnumerable<AddressDTO> GetUserAddresses(Guid contactID);
+		IEnumerable<AddressDTO> GetUserAddressesSync(Guid contactID);
 
 		/// <returns></returns>
 		Task<List<UserAccount>> GetAllUserAccountAsync();
 
 		/// <returns></returns>
-		List<UserAccount> GetAllUserAccount();
+		List<UserAccount> GetAllUserAccountSync();
 
 		/// <param name="key"></param>
 		/// <returns></returns>
@@ -1271,7 +1271,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="key"></param>
 		/// <returns></returns>
-		UserAccount GetUserAccount(Guid key);
+		UserAccount GetUserAccountSync(Guid key);
 
 		/// <param name="email"></param>
 		/// <returns></returns>
@@ -1279,7 +1279,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="email"></param>
 		/// <returns></returns>
-		UserAccount GetBAUserAccountByEmail(String email);
+		UserAccount GetBAUserAccountByEmailSync(String email);
 
 		/// <param name="email"></param>
 		/// <param name="id"></param>
@@ -1289,7 +1289,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="email"></param>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		UserAccount GetBAUserAccountByEmailAndNotID(String email,Guid id);
+		UserAccount GetBAUserAccountByEmailAndNotIDSync(String email,Guid id);
 
 		/// <param name="username"></param>
 		/// <returns></returns>
@@ -1297,7 +1297,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="username"></param>
 		/// <returns></returns>
-		UserAccount GetBAUserAccountByUsername(String username);
+		UserAccount GetBAUserAccountByUsernameSync(String username);
 
 		/// <param name="email"></param>
 		/// <param name="permanentAccountonly"></param>
@@ -1307,7 +1307,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="email"></param>
 		/// <param name="permanentAccountonly"></param>
 		/// <returns></returns>
-		List<UserAccountDTO> GetUserAccountByEmail(String email,Boolean permanentAccountonly);
+		List<UserAccountDTO> GetUserAccountByEmailSync(String email,Boolean permanentAccountonly);
 
 		/// <param name="userName"></param>
 		/// <returns></returns>
@@ -1315,7 +1315,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userName"></param>
 		/// <returns></returns>
-		UserAccountDTO GetUserAccountByUsername(String userName);
+		UserAccountDTO GetUserAccountByUsernameSync(String userName);
 
 		/// <param name="userId"></param>
 		/// <returns></returns>
@@ -1323,7 +1323,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		List<ContactDTO> GetUserContacts(Guid userId);
+		List<ContactDTO> GetUserContactsSync(Guid userId);
 
 		/// <param name="key"></param>
 		/// <returns></returns>
@@ -1331,7 +1331,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="key"></param>
 		/// <returns></returns>
-		List<UserAccount> GetUserAccounts(Guid key);
+		List<UserAccount> GetUserAccountsSync(Guid key);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -1339,31 +1339,25 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
-		List<UserAccountOrganisationDTO> GetUserAccountOrganisation(Guid accountID);
-
-		/// <returns></returns>
-		Task<UserAccount> CreateUserAccountAsync();
-
-		/// <returns></returns>
-		UserAccount CreateUserAccount();
+		List<UserAccountOrganisationDTO> GetUserAccountOrganisationSync(Guid accountID);
 
 		/// <returns></returns>
 		Task AddUserAccountAsync(UserAccount user);
 
 		/// <returns></returns>
-		void AddUserAccount(UserAccount user);
+		void AddUserAccountSync(UserAccount user);
 
 		/// <returns></returns>
 		Task RemoveUserAccountAsync(UserAccount user);
 
 		/// <returns></returns>
-		void RemoveUserAccount(UserAccount user);
+		void RemoveUserAccountSync(UserAccount user);
 
 		/// <returns></returns>
 		Task UpdateUserAccountAsync(UserAccount user);
 
 		/// <returns></returns>
-		void UpdateUserAccount(UserAccount user);
+		void UpdateUserAccountSync(UserAccount user);
 
 		/// <param name="userId"></param>
 		/// <param name="organisationID"></param>
@@ -1373,7 +1367,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
-		List<UserClaimDTO> GetUserClaims(Guid userId,Guid organisationID);
+		List<UserClaimDTO> GetUserClaimsSync(Guid userId,Guid organisationID);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -1381,7 +1375,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID);
+		ContactDTO GetUserAccountOrganisationPrimaryContactSync(Guid uaoID);
 
 		/// <param name="accountID"></param>
 		/// <param name="personalOrg"></param>
@@ -1391,7 +1385,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="accountID"></param>
 		/// <param name="personalOrg"></param>
 		/// <returns></returns>
-		VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID,Boolean personalOrg);
+		VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationTypeSync(Guid accountID,Boolean personalOrg);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -1399,7 +1393,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
-		List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID);
+		List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgTypeSync(Guid accountID);
 
 		/// <param name="userId"></param>
 		/// <returns></returns>
@@ -1407,7 +1401,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		List<String> UserLoginSessions(Guid userId);
+		List<String> UserLoginSessionsSync(Guid userId);
 
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
@@ -1417,7 +1411,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
 		/// <returns></returns>
-		void LogEveryoneElseOut(Guid userId,String sessionId);
+		void LogEveryoneElseOutSync(Guid userId,String sessionId);
 
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
@@ -1427,7 +1421,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
 		/// <returns></returns>
-		void LogUserOut(Guid userId,String sessionId);
+		void LogUserOutSync(Guid userId,String sessionId);
 
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
@@ -1443,7 +1437,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userIdAddress"></param>
 		/// <param name="userLocation"></param>
 		/// <returns></returns>
-		void SaveUserAccountLoginSession(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation);
+		void SaveUserAccountLoginSessionSync(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation);
 
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
@@ -1453,7 +1447,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
 		/// <returns></returns>
-		void SaveUserAccountLoginSessionData(Guid userId,String sessionId,Dictionary<String, String> requestData);
+		void SaveUserAccountLoginSessionDataSync(Guid userId,String sessionId,Dictionary<String, String> requestData);
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -1461,7 +1455,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
-		Boolean DoesUserExist(Guid userID);
+		Boolean DoesUserExistSync(Guid userID);
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -1469,7 +1463,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
-		UserAccountOrganisationDTO GetPermanentUAO(Guid userID);
+		UserAccountOrganisationDTO GetPermanentUAOSync(Guid userID);
 
 		/// <param name="userId"></param>
 		/// <returns></returns>
@@ -1477,7 +1471,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		Guid GetPersonalUserAccountOrganisation(Guid userId);
+		Guid GetPersonalUserAccountOrganisationSync(Guid userId);
 
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
@@ -1493,13 +1487,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="phoneNumber"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		UserAccount CreateAccount(String userName,String password,String email,String phoneNumber,Guid userId);
+		UserAccount CreateAccountSync(String userName,String password,String email,String phoneNumber,Guid userId);
 
 		/// <returns></returns>
 		Task CreateContactAsync(ContactDTO contactDTO);
 
 		/// <returns></returns>
-		void CreateContact(ContactDTO contactDTO);
+		void CreateContactSync(ContactDTO contactDTO);
 
 		/// <param name="parentID"></param>
 		/// <returns></returns>
@@ -1507,7 +1501,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="parentID"></param>
 		/// <returns></returns>
-		Boolean ContactExists(Guid parentID);
+		Boolean ContactExistsSync(Guid parentID);
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -1515,7 +1509,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
-		void DeleteAccount(Guid userID);
+		void DeleteAccountSync(Guid userID);
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -1523,13 +1517,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
-		void CloseAccount(Guid userID);
+		void CloseAccountSync(Guid userID);
 
 		/// <returns></returns>
 		Task<List<VUserAccountNotLoggedInDTO>> GetUserAccountsNotLoggedInAsync();
 
 		/// <returns></returns>
-		List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedIn();
+		List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedInSync();
 
 		/// <param name="email"></param>
 		/// <returns></returns>
@@ -1537,7 +1531,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="email"></param>
 		/// <returns></returns>
-		void SendUsernameReminder(String email);
+		void SendUsernameReminderSync(String email);
 
 		/// <param name="username"></param>
 		/// <returns></returns>
@@ -1545,7 +1539,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="username"></param>
 		/// <returns></returns>
-		void CreatePasswordResetRequest(String username);
+		void CreatePasswordResetRequestSync(String username);
 
 		/// <param name="phoneNumber"></param>
 		/// <param name="message"></param>
@@ -1555,7 +1549,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="phoneNumber"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		void SendTextMessage(String phoneNumber,String message);
+		void SendTextMessageSync(String phoneNumber,String message);
 
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
@@ -1569,7 +1563,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="overwriteExisting"></param>
 		/// <param name="sendToMobilePhone"></param>
 		/// <returns></returns>
-		void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone);
+		void GeneratePinSync(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -1577,7 +1571,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		Boolean IncrementInvalidPIN(Guid uaoID);
+		Boolean IncrementInvalidPINSync(Guid uaoID);
 
 		/// <param name="uaoId"></param>
 		/// <param name="phoneNumber"></param>
@@ -1589,7 +1583,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="phoneNumber"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		void RegisterUser(Guid uaoId,String phoneNumber,String password);
+		void RegisterUserSync(Guid uaoId,String phoneNumber,String password);
 
 		/// <param name="uaoID"></param>
 		/// <param name="withRelatedLevel"></param>
@@ -1599,7 +1593,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
-		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel);
+		List<UserAccountOrganisationRoleDTO> GetRolesSync(Guid uaoID,Int32 withRelatedLevel);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -1607,7 +1601,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroups(Guid uaoID);
+		List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroupsSync(Guid uaoID);
 
 		/// <param name="uaoId"></param>
 		/// <param name="newUsername"></param>
@@ -1617,7 +1611,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoId"></param>
 		/// <param name="newUsername"></param>
 		/// <returns></returns>
-		void ChangeUsernameAndEmail(Guid uaoId,String newUsername);
+		void ChangeUsernameAndEmailSync(Guid uaoId,String newUsername);
 
 		/// <param name="email"></param>
 		/// <param name="txId"></param>
@@ -1629,7 +1623,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="txId"></param>
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		Boolean CanEmailBeUsedAsPersonal(String email,Nullable<Guid> txId,Nullable<Guid> uaoID);
+		Boolean CanEmailBeUsedAsPersonalSync(String email,Nullable<Guid> txId,Nullable<Guid> uaoID);
 
 		/// <param name="email"></param>
 		/// <param name="uaoID"></param>
@@ -1639,7 +1633,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="email"></param>
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		Boolean CanEmailBeUsedAsProfessional(String email,Nullable<Guid> uaoID);
+		Boolean CanEmailBeUsedAsProfessionalSync(String email,Nullable<Guid> uaoID);
 	}
 
 }
@@ -1823,7 +1817,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="postCode"></param>
 		/// <param name="buildingNameOrNumber"></param>
-		public virtual List<PostCodeDTO> FindAddressesByPostCode(String postCode,String buildingNameOrNumber)
+		public virtual List<PostCodeDTO> FindAddressesByPostCodeSync(String postCode,String buildingNameOrNumber)
 		{
 			postCode = postCode.UrlEncode();
 			buildingNameOrNumber = buildingNameOrNumber.UrlEncode();
@@ -1847,7 +1841,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="postCode"></param>
-		public virtual GoogleGeoCodeResponse GeoCodePostcode(String postCode)
+		public virtual GoogleGeoCodeResponse GeoCodePostcodeSync(String postCode)
 		{
 			postCode = postCode.UrlEncode();
 			string _user = getHttpContextUser();
@@ -1891,7 +1885,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="organisationID"></param>
-		public virtual Boolean HasOrganisationAnySafeBankAccount(Guid organisationID)
+		public virtual Boolean HasOrganisationAnySafeBankAccountSync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/BankAccountLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user)).Result;
@@ -1912,7 +1906,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
-		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
+		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccountsSync(Guid orgID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user)).Result;
@@ -1931,7 +1925,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts()
+		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccountsSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOutstandingBankAccounts", _user)).Result;
@@ -1952,7 +1946,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
-		public virtual Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO)
+		public virtual Guid AddBankAccountSync(Guid orgID,OrganisationBankAccountDTO accountDTO)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<OrganisationBankAccountDTO, Guid>("api/BankAccountLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user)).Result;
@@ -1971,7 +1965,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+		public virtual void AddBankAccountStatusSync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<OrganisationBankAccountStateChangeDTO>("api/BankAccountLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user)).Wait();
@@ -2002,7 +1996,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="smsUserAccountOrganisationTransactionId"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
-		public virtual Boolean CheckBankAccount(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
+		public virtual Boolean CheckBankAccountSync(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
@@ -2035,7 +2029,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <param name="isMatch"></param>
-		public virtual void WriteCheckAudit(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch)
+		public virtual void WriteCheckAuditSync(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
@@ -2065,7 +2059,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
 		/// <param name="notes"></param>
-		public virtual void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes)
+		public virtual void ToggleBankAccountActiveSync(Guid orgID,Guid baID,Boolean active,String notes)
 		{
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
@@ -2095,7 +2089,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaotxID"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
-		public virtual void PublishCheckNoMatchNotification(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode)
+		public virtual void PublishCheckNoMatchNotificationSync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
@@ -2138,7 +2132,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual List<CountryCodeDTO> GetCountries()
+		public virtual List<CountryCodeDTO> GetCountriesSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<CountryCodeDTO>>("api/ClassificationDataLogic/GetCountries", _user)).Result;
@@ -2160,7 +2154,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="typeName"></param>
-		public virtual List<ClassificationTypeDTO> GetRootClassificationDataForTypeName(String typeName)
+		public virtual List<ClassificationTypeDTO> GetRootClassificationDataForTypeNameSync(String typeName)
 		{
 			typeName = typeName.UrlEncode();
 			string _user = getHttpContextUser();
@@ -2182,7 +2176,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="classificationTypeID"></param>
-		public virtual List<ClassificationTypeDTO> GetSubClassificationDataForParentID(Int32 classificationTypeID)
+		public virtual List<ClassificationTypeDTO> GetSubClassificationDataForParentIDSync(Int32 classificationTypeID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<ClassificationTypeDTO>>("api/ClassificationDataLogic/GetSubClassificationDataForParentID?classificationTypeID=" + classificationTypeID, _user)).Result;
@@ -2207,7 +2201,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="categoryName"></param>
 		/// <param name="typeName"></param>
-		public virtual Int32 GetClassificationDataForTypeName(String categoryName,String typeName)
+		public virtual Int32 GetClassificationDataForTypeNameSync(String categoryName,String typeName)
 		{
 			categoryName = categoryName.UrlEncode();
 			typeName = typeName.UrlEncode();
@@ -2250,7 +2244,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual ClamScanResult UploadFile(FileDTO file)
+		public virtual ClamScanResult UploadFileSync(FileDTO file)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFileAsync", file, _user)).Result;
@@ -2271,7 +2265,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual void ClearUnusedFiles(Guid uaoID)
+		public virtual void ClearUnusedFilesSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/FileLogic/ClearUnusedFilesAsync?uaoID=" + uaoID, null, _user)).Wait();
@@ -2294,7 +2288,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="fileID"></param>
 		/// <param name="parentID"></param>
-		public virtual FileDTO DownloadFile(Guid fileID,Guid parentID)
+		public virtual FileDTO DownloadFileSync(Guid fileID,Guid parentID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?fileID=" + fileID + "&parentID=" + parentID, null, _user)).Result;
@@ -2320,7 +2314,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoID"></param>
 		/// <param name="id"></param>
 		/// <param name="filename"></param>
-		public virtual void RemovePendingUpload(Guid uaoID,Guid id,String filename)
+		public virtual void RemovePendingUploadSync(Guid uaoID,Guid id,String filename)
 		{
 			filename = filename.UrlEncode();
 			string _user = getHttpContextUser();
@@ -2340,7 +2334,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual ClamScanResult ScanForVirus(ScanBytesDTO data)
+		public virtual ClamScanResult ScanForVirusSync(ScanBytesDTO data)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<ScanBytesDTO, ClamScanResult>("api/FileLogic/ScanForVirus", data, _user)).Result;
@@ -2383,7 +2377,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="shoppingCartId"></param>
-		public virtual Boolean DoesInvoiceExistForShoppingCart(Guid shoppingCartId)
+		public virtual Boolean DoesInvoiceExistForShoppingCartSync(Guid shoppingCartId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/InvoiceLogic/DoesInvoiceExistForShoppingCart?shoppingCartId=" + shoppingCartId, null, _user)).Result;
@@ -2402,7 +2396,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual VOrganisationDetailDTO GetPaymentProviderOrganisationDetail()
+		public virtual VOrganisationDetailDTO GetPaymentProviderOrganisationDetailSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VOrganisationDetailDTO>("api/InvoiceLogic/GetPaymentProviderOrganisationDetail", _user)).Result;
@@ -2423,7 +2417,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual VInvoiceWithCurrentTransactionOrderStatusDTO GetInvoiceWithCurrentTransactionOrderStatus(Guid invoiceID)
+		public virtual VInvoiceWithCurrentTransactionOrderStatusDTO GetInvoiceWithCurrentTransactionOrderStatusSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VInvoiceWithCurrentTransactionOrderStatusDTO>("api/InvoiceLogic/GetInvoiceWithCurrentTransactionOrderStatus?invoiceID=" + invoiceID, _user)).Result;
@@ -2444,7 +2438,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="shoppingCartId"></param>
-		public virtual InvoiceDTO GetInvoiceForShoppingCart(Guid shoppingCartId)
+		public virtual InvoiceDTO GetInvoiceForShoppingCartSync(Guid shoppingCartId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<InvoiceDTO>("api/InvoiceLogic/GetInvoiceForShoppingCart?shoppingCartId=" + shoppingCartId, _user)).Result;
@@ -2468,7 +2462,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="cartID"></param>
 		/// <param name="reference"></param>
-		public virtual InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID,String reference)
+		public virtual InvoiceDTO CreateAndSaveInvoiceFromShoppingCartSync(Guid cartID,String reference)
 		{
 			reference = reference.UrlEncode();
 			string _user = getHttpContextUser();
@@ -2490,7 +2484,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void DeleteInvoice(Guid invoiceID)
+		public virtual void DeleteInvoiceSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => DeleteAsync("api/InvoiceLogic/DeleteInvoiceAsync?invoiceID=" + invoiceID, _user)).Wait();
@@ -2511,7 +2505,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void FreezeInvoice(Guid invoiceID)
+		public virtual void FreezeInvoiceSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/FreezeInvoiceAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2532,7 +2526,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void CloseInvoice(Guid invoiceID)
+		public virtual void CloseInvoiceSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/CloseInvoiceAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2555,7 +2549,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="invoiceID"></param>
 		/// <param name="value"></param>
-		public virtual void MarkInvoiceWithAccountingStatus(Guid invoiceID,InvoiceAccountingStatusIDEnum value)
+		public virtual void MarkInvoiceWithAccountingStatusSync(Guid invoiceID,InvoiceAccountingStatusIDEnum value)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceWithAccountingStatusAsync?invoiceID=" + invoiceID + "&value=" + value, null, _user)).Wait();
@@ -2576,7 +2570,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void MarkInvoiceAsPaid(Guid invoiceID)
+		public virtual void MarkInvoiceAsPaidSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaidAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2597,7 +2591,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void MarkInvoiceAsUnpaid(Guid invoiceID)
+		public virtual void MarkInvoiceAsUnpaidSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsUnpaidAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2618,7 +2612,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void MarkInvoiceAsCancelled(Guid invoiceID)
+		public virtual void MarkInvoiceAsCancelledSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsCancelledAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2639,7 +2633,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void MarkInvoiceAsProcessing(Guid invoiceID)
+		public virtual void MarkInvoiceAsProcessingSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsProcessingAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2660,7 +2654,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void MarkInvoiceAsPaymentDue(Guid invoiceID)
+		public virtual void MarkInvoiceAsPaymentDueSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaymentDueAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2681,7 +2675,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void MarkInvoiceAsActive(Guid invoiceID)
+		public virtual void MarkInvoiceAsActiveSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsActiveAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2702,7 +2696,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceID"></param>
-		public virtual void MarkInvoiceAsPaymentScheduled(Guid invoiceID)
+		public virtual void MarkInvoiceAsPaymentScheduledSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaymentScheduledAsync?invoiceID=" + invoiceID, null, _user)).Wait();
@@ -2743,7 +2737,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Guid AddNewsArticle(NewsArticleDTO dto)
+		public virtual Guid AddNewsArticleSync(NewsArticleDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<NewsArticleDTO, Guid>("api/MiscLogic/AddNewsArticle", dto, _user)).Result;
@@ -2798,7 +2792,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="notificationParentID"></param>
 		/// <param name="isRead"></param>
 		/// <param name="sentInLast"></param>
-		public virtual Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriod(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast)
+		public virtual Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriodSync(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/NotificationLogic/HasNotificationAlreadyBeenSentInTheLastTimePeriod?uaoID=" + uaoID + "&organisationId=" + organisationId + "&notifcationConstructID=" + notifcationConstructID + "&notificationConstructVersion=" + notificationConstructVersion + "&notificationParentID=" + notificationParentID + "&isRead=" + isRead + "&sentInLast=" + sentInLast, null, _user)).Result;
@@ -2822,7 +2816,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="rolename"></param>
-		public virtual IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID,String rolename)
+		public virtual IEnumerable<Guid> GetNotificationOrganisationUaoIdsSync(Guid orgID,String rolename)
 		{
 			rolename = rolename.UrlEncode();
 			string _user = getHttpContextUser();
@@ -2846,7 +2840,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
-		public virtual void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto)
+		public virtual void SaveNotificationConversationSync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType, dto, _user)).Wait();
@@ -2865,7 +2859,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Guid SaveNotification(NotificationDTO dto)
+		public virtual Guid SaveNotificationSync(NotificationDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<NotificationDTO, Guid>("api/NotificationLogic/SaveNotificationAsync", dto, _user)).Result;
@@ -2890,7 +2884,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userTypeID"></param>
 		/// <param name="organisationTypeID"></param>
 		/// <param name="enumValue"></param>
-		public virtual List<VNotificationConstructGroupDTO> GetNotificationGroupConstructs(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue)
+		public virtual List<VNotificationConstructGroupDTO> GetNotificationGroupConstructsSync(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VNotificationConstructGroupDTO>>("api/NotificationLogic/GetNotificationGroupConstructs?userTypeID=" + userTypeID + "&organisationTypeID=" + organisationTypeID + "&enumValue=" + enumValue, _user)).Result;
@@ -2913,7 +2907,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationNotificationConstructID"></param>
 		/// <param name="versionNumber"></param>
-		public virtual NotificationConstructDTO GetNotificationConstruct(Guid organisationNotificationConstructID,Int32 versionNumber)
+		public virtual NotificationConstructDTO GetNotificationConstructSync(Guid organisationNotificationConstructID,Int32 versionNumber)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<NotificationConstructDTO>("api/NotificationLogic/GetNotificationConstruct?organisationNotificationConstructID=" + organisationNotificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
@@ -2940,7 +2934,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userTypeID"></param>
 		/// <param name="organisationTypeId"></param>
 		/// <param name="groupEnumValue"></param>
-		public virtual List<VNotificationWithUAOVerificationCodeDTO> GetAllUserNotificationsForUserWithNotificationGroupNotAccepted(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue)
+		public virtual List<VNotificationWithUAOVerificationCodeDTO> GetAllUserNotificationsForUserWithNotificationGroupNotAcceptedSync(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VNotificationWithUAOVerificationCodeDTO>>("api/NotificationLogic/GetAllUserNotificationsForUserWithNotificationGroupNotAccepted?userAccountOrganisationID=" + userAccountOrganisationID + "&userTypeID=" + userTypeID + "&organisationTypeId=" + organisationTypeId + "&groupEnumValue=" + groupEnumValue, _user)).Result;
@@ -2962,7 +2956,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="name"></param>
-		public virtual NotificationConstructDTO GetLatestNotificationConstructIdFromName(String name)
+		public virtual NotificationConstructDTO GetLatestNotificationConstructIdFromNameSync(String name)
 		{
 			name = name.UrlEncode();
 			string _user = getHttpContextUser();
@@ -2986,7 +2980,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationNotificationConstructID"></param>
 		/// <param name="versionNumber"></param>
-		public virtual VNotificationConstructDTO GetNotificationConstructViewData(Guid organisationNotificationConstructID,Int32 versionNumber)
+		public virtual VNotificationConstructDTO GetNotificationConstructViewDataSync(Guid organisationNotificationConstructID,Int32 versionNumber)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VNotificationConstructDTO>("api/NotificationLogic/GetNotificationConstructViewData?organisationNotificationConstructID=" + organisationNotificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
@@ -3009,7 +3003,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
-		public virtual IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
+		public virtual IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetailSync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, IEnumerable<VDefaultEmailAddressDTO>>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user)).Result;
@@ -3032,7 +3026,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
-		public virtual List<ConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId,Int32 count)
+		public virtual List<ConversationDTO> GetLatestUnreadConversationsSync(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<ConversationDTO>>("api/NotificationLogic/GetLatestUnreadConversations?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
@@ -3053,7 +3047,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userAccountOrganisationId"></param>
-		public virtual Int32 GetUnreadConversationsCount(Guid userAccountOrganisationId)
+		public virtual Int32 GetUnreadConversationsCountSync(Guid userAccountOrganisationId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/NotificationLogic/GetUnreadConversationsCount?userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
@@ -3074,7 +3068,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userAccountOrganisationId"></param>
-		public virtual List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId)
+		public virtual List<VNotificationViewOnlyUaoDTO> GetInternalSync(Guid userAccountOrganisationId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetInternal?userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
@@ -3099,7 +3093,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="notificationId"></param>
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="notificationExportFormat"></param>
-		public virtual NotificationContentDTO GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat)
+		public virtual NotificationContentDTO GetNotificationContentSync(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<NotificationContentDTO>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId + "&notificationExportFormat=" + notificationExportFormat, _user)).Result;
@@ -3122,7 +3116,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="types"></param>
-		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] types)
+		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotificationsSync(Guid userId,NotificationConstructEnum[] types)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("types", types), _user)).Result;
@@ -3143,7 +3137,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="accountID"></param>
-		public virtual NotificationResultDTO GetTcAndCsText(Guid accountID)
+		public virtual NotificationResultDTO GetTcAndCsTextSync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user)).Result;
@@ -3166,7 +3160,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
-		public virtual Byte[] RetrieveNotificationConstructData(Guid notificationConstructID,Int32 versionNumber,DTOMap data)
+		public virtual Byte[] RetrieveNotificationConstructDataSync(Guid notificationConstructID,Int32 versionNumber,DTOMap data)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<DTOMap, Byte[]>("api/NotificationLogic/RetrieveNotificationConstructData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, data, _user)).Result;
@@ -3189,7 +3183,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="notificationID"></param>
 		/// <param name="userID"></param>
-		public virtual void MarkAccepted(Guid notificationID,Guid userID)
+		public virtual void MarkAcceptedSync(Guid notificationID,Guid userID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID + "&userID=" + userID, null, _user)).Wait();
@@ -3222,7 +3216,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="recipients"></param>
 		/// <param name="subject"></param>
 		/// <param name="body"></param>
-		public virtual void UpdateEventStatus(Guid eventStatusID,String status,String recipients,String subject,String body)
+		public virtual void UpdateEventStatusSync(Guid eventStatusID,String status,String recipients,String subject,String body)
 		{
 			status = status.UrlEncode();
 			recipients = recipients.UrlEncode();
@@ -3251,7 +3245,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="eventName"></param>
 		/// <param name="eventReference"></param>
-		public virtual List<EventStatusDTO> GetEventStatus(String eventName,String eventReference)
+		public virtual List<EventStatusDTO> GetEventStatusSync(String eventName,String eventReference)
 		{
 			eventName = eventName.UrlEncode();
 			eventReference = eventReference.UrlEncode();
@@ -3272,7 +3266,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds)
+		public virtual void PublishNewInternalMessagesNotificationEventSync(IEnumerable<Guid> recipientUaoIds)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", recipientUaoIds, _user)).Wait();
@@ -3310,7 +3304,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
 		/// <param name="isSystemMessage"></param>
-		public virtual Guid CreateConversation(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
+		public virtual Guid CreateConversationSync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
 			fromHash = fromHash.UrlEncode();
 			subject = subject.UrlEncode();
@@ -3344,7 +3338,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="conversationID"></param>
 		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
-		public virtual void ReplyToConversation(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
+		public virtual void ReplyToConversationSync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
 			fromHash = fromHash.UrlEncode();
 			message = message.UrlEncode();
@@ -3369,7 +3363,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
-		public virtual void MarkAsRead(Guid uaoID,Guid conversationID)
+		public virtual void MarkAsReadSync(Guid uaoID,Guid conversationID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user)).Wait();
@@ -3394,7 +3388,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="senderUaoID"></param>
 		/// <param name="activityTypeID"></param>
 		/// <param name="activityID"></param>
-		public virtual List<VSafeSendRecipientDTO> GetActivityRecipients(Guid senderUaoID,ActivityType activityTypeID,Guid activityID)
+		public virtual List<VSafeSendRecipientDTO> GetActivityRecipientsSync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VSafeSendRecipientDTO>>("api/NotificationLogic/GetActivityRecipients?senderUaoID=" + senderUaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID, _user)).Result;
@@ -3421,7 +3415,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoId"></param>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
-		public virtual IEnumerable<MessageDTO> GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
+		public virtual IEnumerable<MessageDTO> GetMessagesSync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user)).Result;
@@ -3444,7 +3438,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="convID"></param>
-		public virtual Int32 GetConversationRank(Guid uaoID,Guid convID)
+		public virtual Int32 GetConversationRankSync(Guid uaoID,Guid convID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/NotificationLogic/GetConversationRank?uaoID=" + uaoID + "&convID=" + convID, _user)).Result;
@@ -3473,7 +3467,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
-		public virtual ConversationResultDTO<VConversationDTO> GetConversations(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip)
+		public virtual ConversationResultDTO<VConversationDTO> GetConversationsSync(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ConversationResultDTO<VConversationDTO>>("api/NotificationLogic/GetConversations?uaoId=" + uaoId + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
@@ -3507,7 +3501,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
-		public virtual ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
+		public virtual ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivitySync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
 		{
 			userOrgTypeName = userOrgTypeName.UrlEncode();
 			string _user = getHttpContextUser();
@@ -3531,7 +3525,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoId"></param>
 		/// <param name="orgId"></param>
-		public virtual List<CreateConversationRecipientDTO> GetUserSafeSendGroups(Guid uaoId,Guid orgId)
+		public virtual List<CreateConversationRecipientDTO> GetUserSafeSendGroupsSync(Guid uaoId,Guid orgId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserSafeSendGroups?uaoId=" + uaoId + "&orgId=" + orgId, _user)).Result;
@@ -3578,7 +3572,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="days"></param>
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
-		public virtual void ExpireTemporaryLogins(Int32 days,Int32 hours,Int32 minutes)
+		public virtual void ExpireTemporaryLoginsSync(Int32 days,Int32 hours,Int32 minutes)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireTemporaryLoginsAsync?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user)).Wait();
@@ -3599,7 +3593,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual void ExpireUserAccountOrganisation(Guid uaoID)
+		public virtual void ExpireUserAccountOrganisationSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireUserAccountOrganisationAsync?uaoID=" + uaoID, null, _user)).Wait();
@@ -3623,7 +3617,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="regulatorNumber"></param>
-		public virtual Boolean IsOrganisationInSystem(Nullable<Guid> orgID,String regulatorNumber)
+		public virtual Boolean IsOrganisationInSystemSync(Nullable<Guid> orgID,String regulatorNumber)
 		{
 			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
@@ -3643,7 +3637,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void RejectOrganisation(RejectCompanyDTO dto)
+		public virtual void RejectOrganisationSync(RejectCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<RejectCompanyDTO>("api/OrganisationLogic/RejectOrganisationAsync", dto, _user)).Wait();
@@ -3662,7 +3656,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void UnverifyOrganisation(RejectCompanyDTO dto)
+		public virtual void UnverifyOrganisationSync(RejectCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<RejectCompanyDTO>("api/OrganisationLogic/UnverifyOrganisationAsync", dto, _user)).Wait();
@@ -3683,7 +3677,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="organisationID"></param>
-		public virtual void ActivateOrganisation(Guid organisationID)
+		public virtual void ActivateOrganisationSync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ActivateOrganisationAsync?organisationID=" + organisationID, null, _user)).Wait();
@@ -3704,7 +3698,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="orgStatus"></param>
-		public virtual List<VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus)
+		public virtual List<VOrganisationWithStatusAndAdminDTO> GetCompaniesSync(ProfessionalOrganisationStatusEnum orgStatus)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/GetCompanies?orgStatus=" + orgStatus, _user)).Result;
@@ -3723,7 +3717,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Guid AddNewUnverifiedOrganisationAndAdministrator(AddCompanyDTO dto)
+		public virtual Guid AddNewUnverifiedOrganisationAndAdministratorSync(AddCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync", dto, _user)).Result;
@@ -3742,7 +3736,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(AddNewUserToOrganisationDTO dto)
+		public virtual UserAccountOrganisationDTO AddNewUserToOrganisationSync(AddNewUserToOrganisationDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddNewUserToOrganisationDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync", dto, _user)).Result;
@@ -3763,7 +3757,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoId"></param>
-		public virtual void AddPersonalDetails(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto)
+		public virtual void AddPersonalDetailsSync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<AddPersonalDetailsDTO>("api/OrganisationLogic/AddPersonalDetails?uaoId=" + uaoId, addPersonalDetailsDto, _user)).Wait();
@@ -3784,7 +3778,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoId"></param>
-		public virtual Boolean RequiresPersonalDetails(Guid uaoId)
+		public virtual Boolean RequiresPersonalDetailsSync(Guid uaoId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/RequiresPersonalDetails?uaoId=" + uaoId, null, _user)).Result;
@@ -3807,7 +3801,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userOrgID"></param>
 		/// <param name="type"></param>
-		public virtual void CreateTsAndCsNotification(Guid userOrgID,NotificationConstructEnum type)
+		public virtual void CreateTsAndCsNotificationSync(Guid userOrgID,NotificationConstructEnum type)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID=" + userOrgID + "&type=" + type, null, _user)).Wait();
@@ -3826,7 +3820,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Nullable<Guid> GetTemporaryOrganisationBranchID()
+		public virtual Nullable<Guid> GetTemporaryOrganisationBranchIDSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Nullable<Guid>>("api/OrganisationLogic/GetTemporaryOrganisationBranchID", _user)).Result;
@@ -3847,7 +3841,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="id"></param>
-		public virtual VOrganisationDTO GetOrganisationDTO(Guid id)
+		public virtual VOrganisationDTO GetOrganisationDTOSync(Guid id)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VOrganisationDTO>("api/OrganisationLogic/GetOrganisationDTO?id=" + id, _user)).Result;
@@ -3868,7 +3862,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="id"></param>
-		public virtual VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdmin(Guid id)
+		public virtual VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdminSync(Guid id)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VOrganisationWithStatusAndAdminDTO>("api/OrganisationLogic/GetOrganisationWithStatusAndAdmin?id=" + id, _user)).Result;
@@ -3898,7 +3892,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="status"></param>
 		/// <param name="reason"></param>
 		/// <param name="notes"></param>
-		public virtual void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes)
+		public virtual void AddOrganisationStatusSync(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes)
 		{
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
@@ -3923,7 +3917,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="email"></param>
-		public virtual Boolean CheckDuplicateUserSmsTransaction(Guid orgID,String email,SmsTransactionDTO dto)
+		public virtual Boolean CheckDuplicateUserSmsTransactionSync(Guid orgID,String email,SmsTransactionDTO dto)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
@@ -3945,7 +3939,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="txID"></param>
-		public virtual IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID)
+		public virtual IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIdsSync(Guid txID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/OrganisationLogic/GetSmsTransactionRelatedPartyUaoIds?txID=" + txID, _user)).Result;
@@ -3968,7 +3962,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
-		public virtual Guid AddSmsTransaction(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto)
+		public virtual Guid AddSmsTransactionSync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddSmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID + "&uaoID=" + uaoID, dto, _user)).Result;
@@ -3995,7 +3989,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoID"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
-		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransactionSync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
@@ -4022,7 +4016,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
-		public virtual void AdviseProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
+		public virtual void AdviseProductSync(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user)).Wait();
@@ -4049,7 +4043,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoID"></param>
 		/// <param name="cardTypeEnum"></param>
 		/// <param name="paymentTypeEnum"></param>
-		public virtual CartPricingDTO EnsureCart(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum)
+		public virtual CartPricingDTO EnsureCartSync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, CartPricingDTO>("api/OrganisationLogic/EnsureCart?txID=" + txID + "&uaoID=" + uaoID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum, null, _user)).Result;
@@ -4074,7 +4068,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="smsTransactionID"></param>
 		/// <param name="cardType"></param>
 		/// <param name="methodType"></param>
-		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest)
+		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProductSync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType, orderRequest, _user)).Result;
@@ -4093,7 +4087,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
+		public virtual void AssignSmsClientToTransactionSync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user)).Wait();
@@ -4122,7 +4116,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoID"></param>
 		/// <param name="amount"></param>
 		/// <param name="rowVersion"></param>
-		public virtual void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion)
+		public virtual void AddCreditSync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount + "&rowVersion=" + rowVersion, null, _user)).Wait();
@@ -4141,7 +4135,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void UpdateOrganisationDetails(VerifyCompanyDTO dto)
+		public virtual void UpdateOrganisationDetailsSync(VerifyCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/UpdateOrganisationDetails", dto, _user)).Wait();
@@ -4164,7 +4158,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="txID"></param>
-		public virtual Int32 GetSmsTransactionRank(Guid orgID,Guid txID)
+		public virtual Int32 GetSmsTransactionRankSync(Guid orgID,Guid txID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/OrganisationLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user)).Result;
@@ -4190,7 +4184,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="notes"></param>
-		public virtual void AddNotes(Guid orgID,Guid uaoID,String notes)
+		public virtual void AddNotesSync(Guid orgID,Guid uaoID,String notes)
 		{
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
@@ -4212,7 +4206,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="organisationID"></param>
-		public virtual Boolean IsSafeSendEnabled(Guid organisationID)
+		public virtual Boolean IsSafeSendEnabledSync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeSendEnabled?organisationID=" + organisationID, null, _user)).Result;
@@ -4235,7 +4229,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="safeSendEnabled"></param>
-		public virtual void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled)
+		public virtual void AddOrUpdateSafeSendEnabledSync(Guid orgID,Boolean safeSendEnabled)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user)).Wait();
@@ -4257,7 +4251,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="lenderName"></param>
-		public virtual Boolean CanLenderNameBeUsed(String lenderName)
+		public virtual Boolean CanLenderNameBeUsedSync(String lenderName)
 		{
 			lenderName = lenderName.UrlEncode();
 			string _user = getHttpContextUser();
@@ -4301,7 +4295,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="transactionOrderId"></param>
-		public virtual TransactionOrderPaymentDTO GetTheSuccessfulOrderPaymentForTransactionOrder(Guid transactionOrderId)
+		public virtual TransactionOrderPaymentDTO GetTheSuccessfulOrderPaymentForTransactionOrderSync(Guid transactionOrderId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<TransactionOrderPaymentDTO>("api/PaymentLogic/GetTheSuccessfulOrderPaymentForTransactionOrder?transactionOrderId=" + transactionOrderId, _user)).Result;
@@ -4322,7 +4316,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="transactionOrderId"></param>
-		public virtual Boolean DoesASuccessfulOrderPaymentExistForTransactionOrder(Guid transactionOrderId)
+		public virtual Boolean DoesASuccessfulOrderPaymentExistForTransactionOrderSync(Guid transactionOrderId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/PaymentLogic/DoesASuccessfulOrderPaymentExistForTransactionOrder?transactionOrderId=" + transactionOrderId, null, _user)).Result;
@@ -4341,7 +4335,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual TransactionOrderPaymentDTO ProcessPaymentTransaction(OrderRequestDTO request)
+		public virtual TransactionOrderPaymentDTO ProcessPaymentTransactionSync(OrderRequestDTO request)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/PaymentLogic/ProcessPaymentTransaction", request, _user)).Result;
@@ -4382,7 +4376,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual ProductDTO GetTopUpProduct()
+		public virtual ProductDTO GetTopUpProductSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetTopUpProduct", _user)).Result;
@@ -4401,7 +4395,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual ProductDetailDTO GetBankAccountCheckProduct()
+		public virtual ProductDetailDTO GetBankAccountCheckProductSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ProductDetailDTO>("api/ProductLogic/GetBankAccountCheckProduct", _user)).Result;
@@ -4451,7 +4445,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="cardTypeEnum"></param>
 		/// <param name="paymentTypeEnum"></param>
 		/// <param name="countryCode"></param>
-		public virtual ShoppingCartDTO CreateShoppingCart(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode)
+		public virtual ShoppingCartDTO CreateShoppingCartSync(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode)
 		{
 			countryCode = countryCode.UrlEncode();
 			string _user = getHttpContextUser();
@@ -4481,7 +4475,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
 		/// <param name="customerPrice"></param>
-		public virtual void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice)
+		public virtual void AddProductToShoppingCartSync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity + "&customerPrice=" + customerPrice, null, _user)).Wait();
@@ -4504,7 +4498,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="cartID"></param>
 		/// <param name="itemID"></param>
-		public virtual void RemoveProductFromShoppingCart(Guid cartID,Guid itemID)
+		public virtual void RemoveProductFromShoppingCartSync(Guid cartID,Guid itemID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/ShoppingCartLogic/RemoveProductFromShoppingCart?cartID=" + cartID + "&itemID=" + itemID, null, _user)).Wait();
@@ -4545,7 +4539,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Dictionary<String, String> GetSettings()
+		public virtual Dictionary<String, String> GetSettingsSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Dictionary<String, String>>("api/TFSettingsLogic/GetSettings", _user)).Result;
@@ -4588,7 +4582,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceId"></param>
-		public virtual TransactionOrderDTO GetTransactionForInvoice(Guid invoiceId)
+		public virtual TransactionOrderDTO GetTransactionForInvoiceSync(Guid invoiceId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<TransactionOrderDTO>("api/TransactionOrderLogic/GetTransactionForInvoice?invoiceId=" + invoiceId, _user)).Result;
@@ -4609,7 +4603,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="invoiceId"></param>
-		public virtual Boolean DoesTransactionExistForInvoice(Guid invoiceId)
+		public virtual Boolean DoesTransactionExistForInvoiceSync(Guid invoiceId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/TransactionOrderLogic/DoesTransactionExistForInvoice?invoiceId=" + invoiceId, null, _user)).Result;
@@ -4632,7 +4626,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="invoiceID"></param>
 		/// <param name="typeEnumValue"></param>
-		public virtual TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTO(Guid invoiceID,TransactionTypeIDEnum typeEnumValue)
+		public virtual TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTOSync(Guid invoiceID,TransactionTypeIDEnum typeEnumValue)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, TransactionOrderDTO>("api/TransactionOrderLogic/CreateAndSaveTransactionOrderFromShoppingCartDTO?invoiceID=" + invoiceID + "&typeEnumValue=" + typeEnumValue, null, _user)).Result;
@@ -4676,7 +4670,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="requestData"></param>
-		public virtual void CreateAndSaveAudit(String requestData,WebUserObject wuo)
+		public virtual void CreateAndSaveAuditSync(String requestData,WebUserObject wuo)
 		{
 			requestData = requestData.UrlEncode();
 			string _user = getHttpContextUser();
@@ -4716,7 +4710,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, UserLoginValidation>("api/UserLogic/AuthenticateUser?username=" + username + "&password=" + password, null, _user);
+			return PostAsync<object, UserLoginValidation>("api/UserLogic/AuthenticateUserAsync?username=" + username + "&password=" + password, null, _user);
 		}
 
 		/// <summary>
@@ -4724,12 +4718,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
-		public virtual UserLoginValidation AuthenticateUser(String username,String password)
+		public virtual UserLoginValidation AuthenticateUserSync(String username,String password)
 		{
 			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, UserLoginValidation>("api/UserLogic/AuthenticateUser?username=" + username + "&password=" + password, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, UserLoginValidation>("api/UserLogic/AuthenticateUserAsync?username=" + username + "&password=" + password, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -4745,7 +4739,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual ContactDTO AddUser(ContactDTO dto)
+		public virtual ContactDTO AddUserSync(ContactDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<ContactDTO, ContactDTO>("api/UserLogic/AddUserAsync", dto, _user)).Result;
@@ -4764,7 +4758,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			newPassword = newPassword.UrlEncode();
 			pin = pin.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword + "&doNotRequirePin=" + doNotRequirePin + "&pin=" + pin, null, _user);
+			return PostAsync<object>("api/UserLogic/ResetUserPasswordAsync?userID=" + userID + "&newPassword=" + newPassword + "&doNotRequirePin=" + doNotRequirePin + "&pin=" + pin, null, _user);
 		}
 
 		/// <summary>
@@ -4774,12 +4768,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="newPassword"></param>
 		/// <param name="doNotRequirePin"></param>
 		/// <param name="pin"></param>
-		public virtual void ResetUserPassword(Guid userID,String newPassword,Boolean doNotRequirePin,String pin)
+		public virtual void ResetUserPasswordSync(Guid userID,String newPassword,Boolean doNotRequirePin,String pin)
 		{
 			newPassword = newPassword.UrlEncode();
 			pin = pin.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword + "&doNotRequirePin=" + doNotRequirePin + "&pin=" + pin, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/ResetUserPasswordAsync?userID=" + userID + "&newPassword=" + newPassword + "&doNotRequirePin=" + doNotRequirePin + "&pin=" + pin, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4797,7 +4791,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userID"></param>
-		public virtual Boolean HasPasswordExpired(Guid userID)
+		public virtual Boolean HasPasswordExpiredSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/HasPasswordExpired?userID=" + userID, null, _user)).Result;
@@ -4820,7 +4814,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="lockUser"></param>
-		public virtual void LockOrUnlockUser(Guid userId,Boolean lockUser)
+		public virtual void LockOrUnlockUserSync(Guid userId,Boolean lockUser)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/LockOrUnlockUserAsync?userId=" + userId + "&lockUser=" + lockUser, null, _user)).Wait();
@@ -4842,7 +4836,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userName"></param>
-		public virtual Boolean IsUserExist(String userName)
+		public virtual Boolean IsUserExistSync(String userName)
 		{
 			userName = userName.UrlEncode();
 			string _user = getHttpContextUser();
@@ -4865,7 +4859,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="email"></param>
-		public virtual Boolean IsEmailExist(String email)
+		public virtual Boolean IsEmailExistSync(String email)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
@@ -4887,7 +4881,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoId"></param>
-		public virtual Boolean IsUserAccountRegistered(Guid uaoId)
+		public virtual Boolean IsUserAccountRegisteredSync(Guid uaoId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsUserAccountRegistered?uaoId=" + uaoId, null, _user)).Result;
@@ -4908,7 +4902,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="contactID"></param>
-		public virtual IEnumerable<AddressDTO> GetUserAddresses(Guid contactID)
+		public virtual IEnumerable<AddressDTO> GetUserAddressesSync(Guid contactID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<IEnumerable<AddressDTO>>("api/UserLogic/GetUserAddresses?contactID=" + contactID, _user)).Result;
@@ -4921,16 +4915,16 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task<List<UserAccount>> GetAllUserAccountAsync()
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<UserAccount>>("api/UserLogic/GetAllUserAccount", _user);
+			return GetAsync<List<UserAccount>>("api/UserLogic/GetAllUserAccountAsync", _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual List<UserAccount> GetAllUserAccount()
+		public virtual List<UserAccount> GetAllUserAccountSync()
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<UserAccount>>("api/UserLogic/GetAllUserAccount", _user)).Result;
+			return Task.Run(() => GetAsync<List<UserAccount>>("api/UserLogic/GetAllUserAccountAsync", _user)).Result;
 		}
 
 		/// <summary>
@@ -4941,17 +4935,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task<UserAccount> GetUserAccountAsync(Guid key)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<UserAccount>("api/UserLogic/GetUserAccount?key=" + key, _user);
+			return GetAsync<UserAccount>("api/UserLogic/GetUserAccountAsync?key=" + key, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="key"></param>
-		public virtual UserAccount GetUserAccount(Guid key)
+		public virtual UserAccount GetUserAccountSync(Guid key)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetUserAccount?key=" + key, _user)).Result;
+			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetUserAccountAsync?key=" + key, _user)).Result;
 		}
 
 		/// <summary>
@@ -4963,18 +4957,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmail?email=" + email, _user);
+			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAsync?email=" + email, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="email"></param>
-		public virtual UserAccount GetBAUserAccountByEmail(String email)
+		public virtual UserAccount GetBAUserAccountByEmailSync(String email)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmail?email=" + email, _user)).Result;
+			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAsync?email=" + email, _user)).Result;
 		}
 
 		/// <summary>
@@ -4987,7 +4981,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAndNotID?email=" + email + "&id=" + id, _user);
+			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAndNotIDAsync?email=" + email + "&id=" + id, _user);
 		}
 
 		/// <summary>
@@ -4995,11 +4989,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="email"></param>
 		/// <param name="id"></param>
-		public virtual UserAccount GetBAUserAccountByEmailAndNotID(String email,Guid id)
+		public virtual UserAccount GetBAUserAccountByEmailAndNotIDSync(String email,Guid id)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAndNotID?email=" + email + "&id=" + id, _user)).Result;
+			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAndNotIDAsync?email=" + email + "&id=" + id, _user)).Result;
 		}
 
 		/// <summary>
@@ -5011,18 +5005,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			username = username.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByUsername?username=" + username, _user);
+			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByUsernameAsync?username=" + username, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="username"></param>
-		public virtual UserAccount GetBAUserAccountByUsername(String username)
+		public virtual UserAccount GetBAUserAccountByUsernameSync(String username)
 		{
 			username = username.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByUsername?username=" + username, _user)).Result;
+			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByUsernameAsync?username=" + username, _user)).Result;
 		}
 
 		/// <summary>
@@ -5043,7 +5037,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="email"></param>
 		/// <param name="permanentAccountonly"></param>
-		public virtual List<UserAccountDTO> GetUserAccountByEmail(String email,Boolean permanentAccountonly)
+		public virtual List<UserAccountDTO> GetUserAccountByEmailSync(String email,Boolean permanentAccountonly)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5066,7 +5060,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userName"></param>
-		public virtual UserAccountDTO GetUserAccountByUsername(String userName)
+		public virtual UserAccountDTO GetUserAccountByUsernameSync(String userName)
 		{
 			userName = userName.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5088,7 +5082,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userId"></param>
-		public virtual List<ContactDTO> GetUserContacts(Guid userId)
+		public virtual List<ContactDTO> GetUserContactsSync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<ContactDTO>>("api/UserLogic/GetUserContacts?userId=" + userId, _user)).Result;
@@ -5109,7 +5103,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="key"></param>
-		public virtual List<UserAccount> GetUserAccounts(Guid key)
+		public virtual List<UserAccount> GetUserAccountsSync(Guid key)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccount>>("api/UserLogic/GetUserAccounts?key=" + key, _user)).Result;
@@ -5130,29 +5124,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="accountID"></param>
-		public virtual List<UserAccountOrganisationDTO> GetUserAccountOrganisation(Guid accountID)
+		public virtual List<UserAccountOrganisationDTO> GetUserAccountOrganisationSync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationDTO>>("api/UserLogic/GetUserAccountOrganisation?accountID=" + accountID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task<UserAccount> CreateUserAccountAsync()
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, UserAccount>("api/UserLogic/CreateUserAccount", null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual UserAccount CreateUserAccount()
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateUserAccount", null, _user)).Result;
 		}
 
 		/// <summary>
@@ -5168,7 +5143,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void AddUserAccount(UserAccount user)
+		public virtual void AddUserAccountSync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/AddUserAccountAsync", user, _user)).Wait();
@@ -5187,7 +5162,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void RemoveUserAccount(UserAccount user)
+		public virtual void RemoveUserAccountSync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/RemoveUserAccountAsync", user, _user)).Wait();
@@ -5206,7 +5181,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void UpdateUserAccount(UserAccount user)
+		public virtual void UpdateUserAccountSync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/UpdateUserAccountAsync", user, _user)).Wait();
@@ -5229,7 +5204,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="organisationID"></param>
-		public virtual List<UserClaimDTO> GetUserClaims(Guid userId,Guid organisationID)
+		public virtual List<UserClaimDTO> GetUserClaimsSync(Guid userId,Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserClaimDTO>>("api/UserLogic/GetUserClaims?userId=" + userId + "&organisationID=" + organisationID, _user)).Result;
@@ -5250,7 +5225,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID)
+		public virtual ContactDTO GetUserAccountOrganisationPrimaryContactSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ContactDTO>("api/UserLogic/GetUserAccountOrganisationPrimaryContact?uaoID=" + uaoID, _user)).Result;
@@ -5273,7 +5248,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="accountID"></param>
 		/// <param name="personalOrg"></param>
-		public virtual VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID,Boolean personalOrg)
+		public virtual VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationTypeSync(Guid accountID,Boolean personalOrg)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VUserAccountOrganisationUserTypeOrganisationTypeDTO>("api/UserLogic/GetUserAccountOrganisationUserTypeOrganisationType?accountID=" + accountID + "&personalOrg=" + personalOrg, _user)).Result;
@@ -5294,7 +5269,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="accountID"></param>
-		public virtual List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID)
+		public virtual List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgTypeSync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>>("api/UserLogic/GetUserAccountOrganisationWithUserTypeAndOrgType?accountID=" + accountID, _user)).Result;
@@ -5315,7 +5290,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userId"></param>
-		public virtual List<String> UserLoginSessions(Guid userId)
+		public virtual List<String> UserLoginSessionsSync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, List<String>>("api/UserLogic/UserLoginSessions?userId=" + userId, null, _user)).Result;
@@ -5339,7 +5314,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
-		public virtual void LogEveryoneElseOut(Guid userId,String sessionId)
+		public virtual void LogEveryoneElseOutSync(Guid userId,String sessionId)
 		{
 			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5364,7 +5339,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
-		public virtual void LogUserOut(Guid userId,String sessionId)
+		public virtual void LogUserOutSync(Guid userId,String sessionId)
 		{
 			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5398,7 +5373,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userHostAddress"></param>
 		/// <param name="userIdAddress"></param>
 		/// <param name="userLocation"></param>
-		public virtual void SaveUserAccountLoginSession(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation)
+		public virtual void SaveUserAccountLoginSessionSync(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation)
 		{
 			sessionId = sessionId.UrlEncode();
 			userHostAddress = userHostAddress.UrlEncode();
@@ -5426,7 +5401,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
-		public virtual void SaveUserAccountLoginSessionData(Guid userId,String sessionId,Dictionary<String, String> requestData)
+		public virtual void SaveUserAccountLoginSessionDataSync(Guid userId,String sessionId,Dictionary<String, String> requestData)
 		{
 			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5448,7 +5423,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userID"></param>
-		public virtual Boolean DoesUserExist(Guid userID)
+		public virtual Boolean DoesUserExistSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/DoesUserExist?userID=" + userID, null, _user)).Result;
@@ -5469,7 +5444,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userID"></param>
-		public virtual UserAccountOrganisationDTO GetPermanentUAO(Guid userID)
+		public virtual UserAccountOrganisationDTO GetPermanentUAOSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<UserAccountOrganisationDTO>("api/UserLogic/GetPermanentUAO?userID=" + userID, _user)).Result;
@@ -5490,7 +5465,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userId"></param>
-		public virtual Guid GetPersonalUserAccountOrganisation(Guid userId)
+		public virtual Guid GetPersonalUserAccountOrganisationSync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Guid>("api/UserLogic/GetPersonalUserAccountOrganisation?userId=" + userId, _user)).Result;
@@ -5523,7 +5498,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="email"></param>
 		/// <param name="phoneNumber"></param>
 		/// <param name="userId"></param>
-		public virtual UserAccount CreateAccount(String userName,String password,String email,String phoneNumber,Guid userId)
+		public virtual UserAccount CreateAccountSync(String userName,String password,String email,String phoneNumber,Guid userId)
 		{
 			userName = userName.UrlEncode();
 			password = password.UrlEncode();
@@ -5546,7 +5521,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void CreateContact(ContactDTO contactDTO)
+		public virtual void CreateContactSync(ContactDTO contactDTO)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<ContactDTO>("api/UserLogic/CreateContactAsync", contactDTO, _user)).Wait();
@@ -5567,7 +5542,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="parentID"></param>
-		public virtual Boolean ContactExists(Guid parentID)
+		public virtual Boolean ContactExistsSync(Guid parentID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/ContactExists?parentID=" + parentID, null, _user)).Result;
@@ -5588,7 +5563,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userID"></param>
-		public virtual void DeleteAccount(Guid userID)
+		public virtual void DeleteAccountSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => DeleteAsync("api/UserLogic/DeleteAccountAsync?userID=" + userID, _user)).Wait();
@@ -5609,7 +5584,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userID"></param>
-		public virtual void CloseAccount(Guid userID)
+		public virtual void CloseAccountSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/CloseAccountAsync?userID=" + userID, null, _user)).Wait();
@@ -5628,7 +5603,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedIn()
+		public virtual List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedInSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VUserAccountNotLoggedInDTO>>("api/UserLogic/GetUserAccountsNotLoggedIn", _user)).Result;
@@ -5650,7 +5625,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="email"></param>
-		public virtual void SendUsernameReminder(String email)
+		public virtual void SendUsernameReminderSync(String email)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5673,7 +5648,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="username"></param>
-		public virtual void CreatePasswordResetRequest(String username)
+		public virtual void CreatePasswordResetRequestSync(String username)
 		{
 			username = username.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5699,7 +5674,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="phoneNumber"></param>
 		/// <param name="message"></param>
-		public virtual void SendTextMessage(String phoneNumber,String message)
+		public virtual void SendTextMessageSync(String phoneNumber,String message)
 		{
 			phoneNumber = phoneNumber.UrlEncode();
 			message = message.UrlEncode();
@@ -5728,7 +5703,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="blank"></param>
 		/// <param name="overwriteExisting"></param>
 		/// <param name="sendToMobilePhone"></param>
-		public virtual void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone)
+		public virtual void GeneratePinSync(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting + "&sendToMobilePhone=" + sendToMobilePhone, null, _user)).Wait();
@@ -5749,7 +5724,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual Boolean IncrementInvalidPIN(Guid uaoID)
+		public virtual Boolean IncrementInvalidPINSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IncrementInvalidPINAsync?uaoID=" + uaoID, null, _user)).Result;
@@ -5776,7 +5751,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoId"></param>
 		/// <param name="phoneNumber"></param>
 		/// <param name="password"></param>
-		public virtual void RegisterUser(Guid uaoId,String phoneNumber,String password)
+		public virtual void RegisterUserSync(Guid uaoId,String phoneNumber,String password)
 		{
 			phoneNumber = phoneNumber.UrlEncode();
 			password = password.UrlEncode();
@@ -5801,7 +5776,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="withRelatedLevel"></param>
-		public virtual List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel)
+		public virtual List<UserAccountOrganisationRoleDTO> GetRolesSync(Guid uaoID,Int32 withRelatedLevel)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
@@ -5822,7 +5797,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroups(Guid uaoID)
+		public virtual List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroupsSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationSafeSendGroupDTO>>("api/UserLogic/GetSafeSendGroups?uaoID=" + uaoID, _user)).Result;
@@ -5846,7 +5821,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoId"></param>
 		/// <param name="newUsername"></param>
-		public virtual void ChangeUsernameAndEmail(Guid uaoId,String newUsername)
+		public virtual void ChangeUsernameAndEmailSync(Guid uaoId,String newUsername)
 		{
 			newUsername = newUsername.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5873,7 +5848,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="email"></param>
 		/// <param name="txId"></param>
 		/// <param name="uaoID"></param>
-		public virtual Boolean CanEmailBeUsedAsPersonal(String email,Nullable<Guid> txId,Nullable<Guid> uaoID)
+		public virtual Boolean CanEmailBeUsedAsPersonalSync(String email,Nullable<Guid> txId,Nullable<Guid> uaoID)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
@@ -5898,7 +5873,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="email"></param>
 		/// <param name="uaoID"></param>
-		public virtual Boolean CanEmailBeUsedAsProfessional(String email,Nullable<Guid> uaoID)
+		public virtual Boolean CanEmailBeUsedAsProfessionalSync(String email,Nullable<Guid> uaoID)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();

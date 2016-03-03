@@ -99,7 +99,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
             var data = await NotificationClient.GetMessagesAsync(conversationId, uaoId, page, pageSize);
-            NotificationClient.MarkAsRead(uaoId, conversationId);
+            await NotificationClient.MarkAsReadAsync(uaoId, conversationId);
 
             foreach (var item in data)
             {

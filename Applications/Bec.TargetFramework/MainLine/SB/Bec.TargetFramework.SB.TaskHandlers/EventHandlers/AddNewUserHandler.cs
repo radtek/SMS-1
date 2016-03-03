@@ -36,13 +36,13 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try 
             {
-                var notificationConstruct = m_nLogic.GetLatestNotificationConstructIdFromName("AddNewUserTempDetails");
+                var notificationConstruct = m_nLogic.GetLatestNotificationConstructIdFromNameSync("AddNewUserTempDetails");
                 //fudge in subject
                 notificationConstruct.NotificationSubject = string.Format("Message from {0}", handlerEvent.AddNewCompanyAndAdministratorDto.InviterOrganisationName);
 
                 CreateAndPublishContainer(
                     notificationConstruct,
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.AddNewCompanyAndAdministratorDto.UserAccountOrganisationID } },
                     "AddNewCompanyAndAdministratorDTO",
                     handlerEvent.AddNewCompanyAndAdministratorDto);

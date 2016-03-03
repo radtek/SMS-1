@@ -279,7 +279,7 @@ if(definition.Name == "UserLogic"){
             
             #line default
             #line hidden
-            this.Write("(");
+            this.Write("Sync(");
             
             #line 108 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));
@@ -718,7 +718,7 @@ if(definition.Name == "UserLogic"){
             
             #line default
             #line hidden
-            this.Write("(");
+            this.Write("Sync(");
             
             #line 373 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));

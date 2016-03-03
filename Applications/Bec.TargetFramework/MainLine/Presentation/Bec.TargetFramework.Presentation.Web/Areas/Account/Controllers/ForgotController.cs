@@ -43,7 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 {
                     //change password
                     await UserLogicClient.ResetUserPasswordAsync(ua.ID, model.NewPassword, false, model.PIN);
-                    var res = await LoginController.TryLogin(this, AuthSvc, model.Username, model.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
+                    var res = await LoginController.TryLoginAsync(this, AuthSvc, model.Username, model.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
                     if (!res.Success)
                         throw new Exception(string.Format("Authentication failed for the user. {0}", res.ErrorMessage));
                     else
