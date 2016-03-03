@@ -74,7 +74,7 @@
             type: 'POST'
         })
         .done(function (response) {
-            if (response != null || response != undefined) {
+            if (response !== null || response !== undefined) {
                 if (response.Item !== null) {
                     $('#helpPageItemId').val(itemId);
                     btnAddItem.text("Save");
@@ -99,11 +99,9 @@
             type: 'POST'
         })
         .done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {                    
-                    loadItemsForList(response.Items);
-                    clearText();
-                }
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
+                clearText();
             }
         });
     });
@@ -115,11 +113,9 @@
             data: $(form).serializeArray(),
             type: 'POST'
         }).done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {
-                    loadItemsForList(response.Items);
-                    clearText();
-                }
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
+                clearText();
             }
         });
     }
@@ -151,10 +147,8 @@
             },
             type: 'POST'
         }).done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {
-                    loadItemsForList(response.Items);
-                }
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
             }
         });
     }

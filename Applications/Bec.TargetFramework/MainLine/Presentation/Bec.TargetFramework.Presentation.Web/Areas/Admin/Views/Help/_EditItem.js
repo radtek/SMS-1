@@ -1,4 +1,8 @@
 ﻿$(function () {
+    var btnEditItem = $("#submitEditItem");
+    var itemListContainer = $("#helpItemListContainer");
+    var orderListContainer = $("#helpOrderListContainer");
+
     function getItemsOnPage() {
         var items = itemListContainer.children("li");
         var newOrder = [];
@@ -15,16 +19,11 @@
             },
             type: 'GET'
         }).done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (!response.IsEmpty) {
-                    loadItemsForList(response.Items);
-                }
+            if ((response !== null || response !== undefined) && (!response.IsEmpty)) {
+                loadItemsForList(response.Items);
             }
         });
     }
-    var btnEditItem = $("#submitEditItem");
-    var itemListContainer = $("#helpItemListContainer");
-    var orderListContainer = $("#helpOrderListContainer");
 
     function ignore(e) {
         if (e) {
@@ -76,7 +75,7 @@
                              ' <a  id="' + item.HelpPageItemID + '" class="btn btn-primary btn-sm help-item-element-delete"><i class="fa fa-times"></i></a>' +
                              ' <a  id="' + item.HelpPageItemID + '" class="btn btn-primary btn-sm help-item-element"><i class="fa fa-edit"></i></a> ' +
                             '</span>' +
-                          ' </li>';            
+                          ' </li>';
             return itemHtml;
         } else {
             return '';
@@ -97,16 +96,14 @@
             type: 'POST'
         })
         .done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.Item != null) {
-                    $('#helpPageItemId').val(itemId);
-                    btnEditItem.text("Save");
-                    $('#helpItemTitle').val(response.Item.Title);
-                    $('#helpItemSelector').val(response.Item.Selector);
-                    $('#helpItemDescription').val(response.Item.Description);
-                    $('#helpItemPosition').val(response.Item.Position);
-                    $('#helpItemTabContainerId').val(response.Item.TabContainerId);
-                }
+            if ((response !== null || response !== undefined) && (response.Item != null)) {
+                $('#helpPageItemId').val(itemId);
+                btnEditItem.text("Save");
+                $('#helpItemTitle').val(response.Item.Title);
+                $('#helpItemSelector').val(response.Item.Selector);
+                $('#helpItemDescription').val(response.Item.Description);
+                $('#helpItemPosition').val(response.Item.Position);
+                $('#helpItemTabContainerId').val(response.Item.TabContainerId);
             }
         });
     });
@@ -122,11 +119,9 @@
             type: 'POST'
         })
         .done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {
-                    loadItemsForList(response.Items);
-                    clearText();
-                }
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
+                clearText();
             }
         });
     });
@@ -135,42 +130,17 @@
         itemListContainer.html("");
         orderListContainer.html("");
         var order = 0;
-        btnEditItem.prop('disabled', false);        
+        btnEditItem.prop('disabled', false);
         if (items != null && items.length >= 1) {
             for (var i = 0; i < items.length; i++) {
                 var itemContent = createItem(items[i]);
-                if (itemContent!=='') {
+                if (itemContent !== '') {
                     itemListContainer.append(itemContent);
                     order++;
                     orderListContainer.append(createOrder(order));
-                }                
-            }
-        }
-    }
-
-    function updateItemOrder() {
-        var items = itemListContainer.children("li");
-        var newOrder = [];
-        items.each(function () {
-            var order = $(this).data("item-order");
-            if (order !== null && order !== undefined) {
-                newOrder.push(order);
-            }
-        });
-        ajaxWrapper({
-            url: itemListContainer.data("update-order-url"),
-            data: {
-                orders: newOrder,
-                __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
-            },
-            type: 'POST'
-        }).done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {
-                    loadItemsForList(response.Items);
                 }
             }
-        });
+        }
     }
 
     function validateSubmit(form) {
@@ -224,7 +194,6 @@
             }
         });
     }
-
 
     $(document).ready(function () {
         getItemsOnPage();
