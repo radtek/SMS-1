@@ -128,7 +128,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
             await fileLogic.ClearUnusedFilesAsync(uaoID);
 
-            return new LoginResult { Success = false };
+            return new LoginResult { Success = true };
         }
 
         [HttpPost]
