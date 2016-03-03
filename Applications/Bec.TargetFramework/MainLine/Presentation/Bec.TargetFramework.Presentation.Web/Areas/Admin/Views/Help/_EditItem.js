@@ -85,7 +85,9 @@
     function createOrder(order) {
         return '<li>' + order + '</li>';
     }
-
+    function fDate(ds) {
+        return $.datepicker.formatDate('dd/mm/yy', eval('new ' + ds.slice(1, -1)));
+    };
     $(document).delegate(".help-item-element", "click", function () {
         var itemId = $(this).attr('id');
         $('.help-item-element').prop('disabled', false);
@@ -105,6 +107,7 @@
                     $('#helpItemSelector').val(response.Item.Selector);
                     $('#helpItemDescription').val(response.Item.Description);
                     $('#helpItemPosition').val(response.Item.Position);
+                    $('#effectiveDateInput').val(fDate(response.Item.EffectiveOn));
                     $('#helpItemTabContainerId').val(response.Item.TabContainerId);
                 }
             }
