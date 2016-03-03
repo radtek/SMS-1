@@ -725,8 +725,10 @@ function magicEdit(options) {
             var okButton = $('<button class="btn btn-default"><i class="fa fa-check accept"></i></button>');
             var cancelButton = $('<button class="btn btn-default"><i class="fa fa-times reject"></i></button>');
             var buttonContainer = $('<div class="magic-edit-button"></div>');
+            var spinner = $('<div class="magic-edit-spinner"><i class="fa fa-lg fa-pulse fa-spinner"></i></div>');
             buttonContainer.append(editButton).append(okButton).append(cancelButton);
             set.append(buttonContainer);
+            set.append(spinner);
             var form = set.find('form');
             
             enterDisplayMode();
@@ -793,6 +795,7 @@ function magicEdit(options) {
                     }
 
                     if (originalValue.trim() !== newValue) {
+                        getSpinner(set).show();
                         alld.push(ajaxWrapper({
                             url: self.options.updateUrl,
                             data: {
@@ -845,6 +848,7 @@ function magicEdit(options) {
                         field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
                     }
                 });
+                getSpinner(set).hide();
             });
         });
 
@@ -875,5 +879,9 @@ function magicEdit(options) {
         $('.magic-edit').each(function (index, elem) {
             func($(elem));
         });
+    }
+
+    function getSpinner(set) {
+        return set.find('.magic-edit-spinner');
     }
 }
