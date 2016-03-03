@@ -18,7 +18,7 @@
                     @Html.DropDownListFor(m => type, new SelectList(ViewBag.Types, "Value", "Text", type), "Please select", new { tabindex = "1", id = "typeList", style = "width:200px;float:right" })
                     <i></i>
                 </label>
-                <label for="typeList" style="float:right;color:#808080; margin-right:5px; margin-top:5px">Page Type:&nbsp;</label>
+                <label for="typeList" style="float:right;color:#808080; margin-right:5px; margin-top:5px">Help Type:&nbsp;</label>
             </div>
         </div>
         <div class="col-sm-12">
@@ -42,9 +42,9 @@
                                 <a id="btnDeleteHelp" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewDeleteHelp", "Help", new { area = "Admin" })"><i class="fa fa-times margin-right-5"></i>Delete</a>
                                 <h5>Selected Help</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Page Type:</dt>
+                                    <dt>Help Type:</dt>
                                     <dd><p id="ddnType"></p></dd>
-                                    <dt>Page Name:</dt>
+                                    <dt id="ddnNameLabel">Page Name:</dt>
                                     <dd><p id="ddnName"></p></dd>
                                     <dt id ="ddnUrlLabel">Page URL:</dt>
                                     <dd><p id="ddnUrl"></p></dd>                                    

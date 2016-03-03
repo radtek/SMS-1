@@ -82,7 +82,7 @@
         $("#PageUrl").valid();
         $("#PageName").prop('disabled', true);
         $("#PageUrl").prop('disabled', true);
-        $("#PageName").css('background-color', 'rgba(218, 218, 218, 1)');
+        $("#pageNameSection").css('display', 'none');
         $('#pageUrlSection').css('display', 'none');
     }
 
@@ -91,7 +91,7 @@
         $('#PageUrl').val('');
         $("#PageName").prop('disabled', false);
         $("#PageUrl").prop('disabled', false);
-        $("#PageName").css('background-color', '#fff');
+        $("#pageNameSection").css('display', 'block');
         $('#pageUrlSection').css('display', 'block');
     }
     function hideTabIdAdnEffectiveOn() {

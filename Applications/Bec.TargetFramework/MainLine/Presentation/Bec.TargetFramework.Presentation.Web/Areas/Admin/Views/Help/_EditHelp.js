@@ -81,15 +81,15 @@
         $("#PageName").valid();
         $("#PageUrl").valid();
         $("#PageName").prop('disabled', true);
-        $("#PageUrl").prop('disabled', true);
-        $("#PageName").css('background-color', 'rgba(218, 218, 218, 1)');
+        $("#PageUrl").prop('disabled', true);        
+        $('#pageNameSection').css('display', 'none');
         $('#pageUrlSection').css('display', 'none');
     }
 
     function enablePagefields() {        
         $("#PageName").prop('disabled', false);
-        $("#PageUrl").prop('disabled', false);
-        $("#PageName").css('background-color', '#fff');
+        $("#PageUrl").prop('disabled', false);        
+        $('#pageNameSection').css('display', 'block');
         $('#pageUrlSection').css('display', 'block');
     }
     function hideTabIdAdnEffectiveOn() {

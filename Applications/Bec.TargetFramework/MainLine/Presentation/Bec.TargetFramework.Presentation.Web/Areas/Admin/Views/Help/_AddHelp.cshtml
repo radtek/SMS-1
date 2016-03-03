@@ -6,7 +6,7 @@
     <div class="modal-dialog" id="d1" style="width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addHelpLabel">Add Page</h4>
+                <h4 class="modal-title" id="addHelpLabel">Add Help</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -17,7 +17,7 @@
                                     <li class="active" data-target="#step1">
                                         <a href="#step1" data-toggle="tab">
                                             <h4 class="list-group-item-heading">Step 1</h4>
-                                            <p class="list-group-item-text">Page Information</p>
+                                            <p class="list-group-item-text">Help Information</p>
                                         </a>
                                     </li>
                                     <li data-target="#step2">
@@ -34,9 +34,9 @@
                                         @Html.ValidationBootstrap()
                                         @Html.AntiForgeryToken()
                                         <fieldset>
-                                            <legend>Page Information</legend>
+                                            <legend>Help Information</legend>
                                             <section>
-                                                <label class="label">Page Type:</label>
+                                                <label class="label">Help Type:</label>
                                                 <label class="select">
                                                     @{
                                                         var types = (IList<SelectListItem>)ViewBag.Types;
@@ -45,7 +45,7 @@
                                                     <i></i>
                                                 </label>
                                             </section>
-                                            <section>
+                                            <section id="pageNameSection">
                                                 <label class="label">Page Name:</label>
                                                 <label class="input">
                                                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
@@ -100,7 +100,7 @@
                     Next<i class="fa fa-chevron-right margin-left-5"></i>
                 </button>
                 <button type="button" id="submitAddHelp" class="btn btn-primary" style="display:none;" tabindex="30">
-                    Add Page
+                    Add Help
                 </button>
             </div>
         </div>

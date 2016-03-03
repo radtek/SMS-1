@@ -27,13 +27,13 @@
                                                 var type = Model.HelpPageTypeId == 800000 ? "Tour" : (Model.HelpPageTypeId == 800002 ? "Show Me How" : "Callout");
                                             }
                                             <dd><p>@Html.Label("PageType", @type)</p></dd>
-                                            <dt>Page Name:</dt>
-                                            <dd><p>@Html.DisplayFor(m => m.PageName)</p></dd>
                                             @if (Model.HelpPageTypeId == 800002)
                                             {
+                                                <dt>Page Name:</dt>
+                                                <dd><p>@Html.DisplayFor(m => m.PageName)</p></dd>                                           
                                                 <dt>Page URL:</dt>
                                                 <dd><p>@Html.DisplayFor(m => m.PageUrl)</p></dd>
-                                            }                                            
+                                            }
                                         </dl>
                                     </section>
                                 </div>

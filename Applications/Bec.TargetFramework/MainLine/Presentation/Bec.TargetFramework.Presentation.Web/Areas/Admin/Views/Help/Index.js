@@ -40,7 +40,7 @@
             columns: [
                     {
                         field: "PageType",
-                        title: "Page Type",
+                        title: "Help Type",
                         template: function (dataItem) { return (dataItem.HelpPageTypeId === 800000 ? "Tour" : (dataItem.HelpPageTypeId === 800002 ? "Show Me How" : "Callout")); }
                     },
                     {
@@ -49,7 +49,8 @@
                     },
                     {
                         field: "PageName",
-                        title: "Page Name"
+                        title: "Page Name",
+                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800000 || dataItem.HelpPageTypeId === 800001 ? "" : dataItem.PageName); }
                     },
                     {
                         field: "PageUrl",
@@ -110,10 +111,14 @@
 
     function onPageChange(dataItem) {
         if (dataItem.HelpPageTypeId === 800000 || dataItem.HelpPageTypeId === 800001) {
+            $("p#ddnName").css('display', 'none');
             $("p#ddnUrl").css('display', 'none');
+            $("dt#ddnNameLabel").css('display', 'none');
             $("dt#ddnUrlLabel").css('display', 'none');
         } else {
+            $("p#ddnName").css('display', 'block');
             $("p#ddnUrl").css('display', 'block');
+            $("dt#ddnNameLabel").css('display', 'block');
             $("dt#ddnUrlLabel").css('display', 'block');
             $("p#ddnUrl").text(dataItem.PageUrl != null ? dataItem.PageUrl : "");
         }
