@@ -727,7 +727,8 @@ function magicEdit(options) {
             var buttonContainer = $('<div class="magic-edit-button"></div>');
             buttonContainer.append(editButton).append(okButton).append(cancelButton);
             set.append(buttonContainer);
-
+            var form = set.find('form');
+            
             enterDisplayMode();
             preserveOriginalValues();
 
@@ -742,6 +743,9 @@ function magicEdit(options) {
             });
 
             okButton.on('click', function () {
+                if (!form.valid()) {
+                    return;
+                }
                 enterDisplayMode();
                 var allChangeRequests = submitAllChanges();
                 $.when.apply($, allChangeRequests).done(updateValues);

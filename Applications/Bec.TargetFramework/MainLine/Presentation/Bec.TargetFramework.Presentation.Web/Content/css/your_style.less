@@ -280,7 +280,8 @@
 }
 
 .search-form,
-.smart-form {
+.smart-form,
+form {
     input.invalid {
         border: 1px solid #a90329;
         background-color: #fff0f0;
@@ -289,6 +290,7 @@
     em.invalid {
         display: block;
         margin-top: 0;
+        margin-bottom: 5px;
         padding: 0 1px;
         font-style: normal;
         font-size: 11px;
@@ -901,7 +903,7 @@ a.removeupload {
     .edit{
         display: none;
         input[type=text]{
-            padding: 5px;
+            padding: 0 5px;
             display: block;
             margin-bottom: 5px;
         }
@@ -923,7 +925,7 @@ a.removeupload {
     &.editing{
         .edit{
             display: block;
-            padding-right: 85px;
+            padding-right: 100px;
         }
         .view{
             display: none;

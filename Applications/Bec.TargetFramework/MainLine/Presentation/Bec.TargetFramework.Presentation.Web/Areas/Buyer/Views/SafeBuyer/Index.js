@@ -12,11 +12,9 @@
         makeDatePicker("#birthDateInput", {
             maxDate: new Date()
         });
-
         $('#lenderSearch').lenderSearch({
             searchUrl: $('#lenderSearch').data("url")
         });
-
         $('#buyingWithMortgage').click(function () {
             $('#mortgageDetails').toggle(this.checked);
             if (!this.checked) {

@@ -19,7 +19,6 @@ $(function () {
 
     $("[id$='PostcodeLookupComponent']").each(function (i, postcodeLookup) {
         var prefix = $(postcodeLookup).data('prefix');
-        console.log(prefix);
         new findAddress({
             postcodelookup: '#' + prefix + 'PostcodeLookup',
             line1: '#' + prefix + 'Line1',

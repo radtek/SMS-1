@@ -223,14 +223,17 @@
   right: 38px;
 }
 .search-form input.invalid,
-.smart-form input.invalid {
+.smart-form input.invalid,
+form input.invalid {
   border: 1px solid #a90329;
   background-color: #fff0f0;
 }
 .search-form em.invalid,
-.smart-form em.invalid {
+.smart-form em.invalid,
+form em.invalid {
   display: block;
   margin-top: 0;
+  margin-bottom: 5px;
   padding: 0 1px;
   font-style: normal;
   font-size: 11px;
@@ -694,7 +697,7 @@ a.removeupload {
   display: none;
 }
 .magic-edit .edit input[type=text] {
-  padding: 5px;
+  padding: 0 5px;
   display: block;
   margin-bottom: 5px;
 }
@@ -713,7 +716,7 @@ a.removeupload {
 }
 .magic-edit.editing .edit {
   display: block;
-  padding-right: 85px;
+  padding-right: 100px;
 }
 .magic-edit.editing .view {
   display: none;
