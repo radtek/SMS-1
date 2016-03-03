@@ -875,8 +875,11 @@ function magicEdit(options) {
                 fieldText = getFormattedDisplayValue(updatedValue.Value, field);
             }
             field.text(fieldText);
+            var titleText = "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn);
             field.addClass('pending-update');
-            field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
+            field.attr('title', titleText);
+            field.attr('data-original-title', titleText);
+            field.tooltip('fixTitle');
         }
     }
 

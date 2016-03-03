@@ -3,7 +3,6 @@
 
     findModalLinks();
     showAudit(0);
-    setupDates();
     setupTabs();
     setupState();
     setupEditForm();
@@ -29,16 +28,6 @@
             activityType: content.data('activity-type'),
             activityId: content.data('activity-id'),
             updateUrl: content.data('update-url')
-        });
-    }
-
-    function setupDates() {
-        $('.format-date').each(function () {
-            $(this).text(dateStringNoTime($(this).data("val")));
-        });
-
-        $('.format-number').each(function () {
-            $(this).text(formatCurrency($(this).data("val")));
         });
     }
 
