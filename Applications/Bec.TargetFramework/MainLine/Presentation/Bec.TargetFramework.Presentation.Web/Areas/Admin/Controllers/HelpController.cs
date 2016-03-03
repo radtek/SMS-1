@@ -388,7 +388,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     {
                         item.Status = HelpPageItemStatusEnum.Modified.GetIntValue();
                     }
-                    var newItem = new HelpPageItemDTO()
+                    var newItem = new HelpPageItemDTO
                     {
                         HelpPageItemID = item.HelpPageItemID,
                         HelpPageID = item.HelpPageID,

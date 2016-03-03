@@ -19,7 +19,7 @@
             }
         }
     });
-    
+
     $("#stepNext").click(function () {
         if ($("#addHelp-form").valid()) {
             wizard.bootstrapWizard('next');
@@ -71,7 +71,7 @@
         $("#effectiveDateInput").val("");
         $('#EffectiveOn').val("");
     }
-    
+
     function disablePagefields(pageName) {
         $('#PageName').val(pageName);
         $('#PageUrl').val('HomePage');
@@ -94,6 +94,7 @@
         $("#pageNameSection").css('display', 'block');
         $('#pageUrlSection').css('display', 'block');
     }
+
     function hideTabIdAdnEffectiveOn() {
         $("#tabIdSection").css('display', 'none');
         $("#tourSection").css('display', 'none');

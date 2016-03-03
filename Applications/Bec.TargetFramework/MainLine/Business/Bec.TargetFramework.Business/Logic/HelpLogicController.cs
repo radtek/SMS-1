@@ -117,7 +117,7 @@ namespace Bec.TargetFramework.Business.Logic
                                     scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItems.Remove(itemInDb);
                                 }
                             }
-                        };
+                        }
                     }
                     await scope.SaveChangesAsync();
                 }

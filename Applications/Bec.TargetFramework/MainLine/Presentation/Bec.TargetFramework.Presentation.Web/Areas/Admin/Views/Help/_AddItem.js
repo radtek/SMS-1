@@ -82,17 +82,15 @@
             type: 'POST'
         })
         .done(function (response) {
-            if (response != null || response != undefined) {
-                if (response.Item !== null) {
-                    $('#helpPageItemId').val(itemId);
-                    btnAddItem.text("Save");
-                    $('#helpItemTitle').val(response.Item.Title);
-                    $('#helpItemSelector').val(response.Item.Selector);
-                    $('#helpItemDescription').val(response.Item.Description);
-                    $('#helpItemPosition').val(response.Item.Position);
-                    $('#effectiveDateInput').val(fDate(response.Item.EffectiveOn));
-                    $('#helpItemTabContainerId').val(response.Item.TabContainerId);
-                }
+            if ((response !== null || response !== undefined) && (response.Item !== null)) {
+                $('#helpPageItemId').val(itemId);
+                btnAddItem.text("Save");
+                $('#helpItemTitle').val(response.Item.Title);
+                $('#helpItemSelector').val(response.Item.Selector);
+                $('#helpItemDescription').val(response.Item.Description);
+                $('#helpItemPosition').val(response.Item.Position);
+                $('#effectiveDateInput').val(fDate(response.Item.EffectiveOn));
+                $('#helpItemTabContainerId').val(response.Item.TabContainerId);
             }
         });
     });
@@ -108,11 +106,9 @@
             type: 'POST'
         })
         .done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {                    
-                    loadItemsForList(response.Items);
-                    clearText();
-                }
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
+                clearText();
             }
         });
     });
@@ -124,11 +120,9 @@
             data: $(form).serializeArray(),
             type: 'POST'
         }).done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {
-                    loadItemsForList(response.Items);
-                    clearText();
-                }
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
+                clearText();
             }
         });
     }
@@ -137,7 +131,6 @@
         $("#addItem-form input[type=text]").val('');
         $("#addItem-form select").prop('selectedIndex', '0');
         $("#addItem-form textarea").val('');
-        $("#addItem-form input[type=text]").first().focus();
         btnAddItem.text("Add");
         $("#helpPageItemId").val("");
         $('.help-item-element').prop('disabled', false);
@@ -160,10 +153,8 @@
             },
             type: 'POST'
         }).done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {
-                    loadItemsForList(response.Items);
-                }
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
             }
         });
     }

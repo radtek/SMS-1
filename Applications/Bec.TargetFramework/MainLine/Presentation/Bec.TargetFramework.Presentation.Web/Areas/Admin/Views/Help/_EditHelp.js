@@ -81,17 +81,18 @@
         $("#PageName").valid();
         $("#PageUrl").valid();
         $("#PageName").prop('disabled', true);
-        $("#PageUrl").prop('disabled', true);        
+        $("#PageUrl").prop('disabled', true);
         $('#pageNameSection').css('display', 'none');
         $('#pageUrlSection').css('display', 'none');
     }
 
-    function enablePagefields() {        
+    function enablePagefields() {
         $("#PageName").prop('disabled', false);
-        $("#PageUrl").prop('disabled', false);        
+        $("#PageUrl").prop('disabled', false);
         $('#pageNameSection').css('display', 'block');
         $('#pageUrlSection').css('display', 'block');
     }
+
     function hideTabIdAdnEffectiveOn() {
         $("#tabIdSection").css('display', 'none');
         $("#tourSection").css('display', 'none');
@@ -112,7 +113,7 @@
             setDefaultEffectiveDate();
             $("#tabIdSection").css('display', 'block');
             $("#tourSection").css('display', 'none');
-            enablePagefields();        
+            enablePagefields();
         } else {
             resetEffectiveDate();
             enablePagefields();
@@ -121,7 +122,7 @@
     }
 
     $('#HelpPageTypeId').on('change', function () {
-        checkType();        
+        checkType();
     });
 
     $(document).ready(function () {

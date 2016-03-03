@@ -39,7 +39,7 @@
             },
             columns: [
                     {
-                        field: "PageType",
+                        field: "HelpPageTypeId",
                         title: "Help Type",
                         template: function (dataItem) { return (dataItem.HelpPageTypeId === 800000 ? "Tour" : (dataItem.HelpPageTypeId === 800002 ? "Show Me How" : "Callout")); }
                     },
