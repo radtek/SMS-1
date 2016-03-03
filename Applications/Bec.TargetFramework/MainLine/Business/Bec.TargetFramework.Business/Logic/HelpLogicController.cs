@@ -99,6 +99,14 @@ namespace Bec.TargetFramework.Business.Logic
                                     itemInDb.Title = item.Title;
                                     itemInDb.ModifiedOn = DateTime.Now;
                                     scope.DbContexts.Get<TargetFrameworkEntities>().Entry(itemInDb);
+                                    var helpPageItemUcs = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemUserAccounts.Where(x=>x.HelpPageItemID == item.HelpPageItemID);
+                                    if (helpPageItemUcs != null && helpPageItemUcs.Any())
+                                    {
+                                        foreach (var hpiUc in helpPageItemUcs)
+                                        {
+                                            hpiUc.Visible = true;
+                                        }
+                                    }
                                 }
                             }
                             else if (item.Status == HelpPageItemStatusEnum.Deleted.GetIntValue())
