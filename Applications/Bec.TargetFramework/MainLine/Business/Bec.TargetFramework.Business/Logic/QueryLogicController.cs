@@ -23,8 +23,8 @@ namespace Bec.TargetFramework.Business.Logic
 {
     public class QueryLogicController : ApiController
     {
-        TargetFrameworkEntities db;
-        Type dbType = typeof(TargetFrameworkEntities);
+        readonly TargetFrameworkEntities db;
+        readonly Type dbType = typeof(TargetFrameworkEntities);
         public QueryLogicController()
         {
             db = new TargetFrameworkEntities();

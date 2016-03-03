@@ -16,7 +16,7 @@ namespace Bec.TargetFramework.Business
 {
     public static class TransactionHelper
     {
-        public static void CreateTransactionOrderProcessLog(IDbContextReadOnlyScope scope, Guid transactionOrderID, TransactionOrderStatusEnum transStatusEnumValue, Guid? orderPaymentID = null)
+        public static void CreateTransactionOrderProcessLog(IDbContextReadOnlyScope scope, Guid transactionOrderID, TransactionOrderStatusEnum transStatusEnumValue, Guid? orderPaymentID)
         {
             // set status to processing
             var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.TransactionOrderProcessLog.GetStringValue(), transStatusEnumValue.GetStringValue());

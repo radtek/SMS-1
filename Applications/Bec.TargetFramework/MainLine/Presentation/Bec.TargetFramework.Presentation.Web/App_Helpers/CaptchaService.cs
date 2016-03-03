@@ -14,7 +14,7 @@ namespace Bec.TargetFramework.Presentation.Web
 {
     public class CaptchaService
     {
-        HttpClient httpClient;
+        readonly HttpClient httpClient;
         public CaptchaService()
         {
             httpClient = new HttpClient { BaseAddress = new Uri("https://www.google.com/recaptcha/api/") };

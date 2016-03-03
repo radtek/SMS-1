@@ -17,7 +17,7 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class AddressLogicController : LogicBase
     {
-        HttpClient httpClient;
+        readonly HttpClient httpClient;
         public AddressLogicController()
         {
             httpClient = new HttpClient { BaseAddress = new Uri("http://services.postcodeanywhere.co.uk/PostcodeAnywhere/Interactive/RetrieveByParts/v1.00/") };
@@ -26,12 +26,12 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task<List<PostCodeDTO>> FindAddressesByPostCodeAsync(string postCode, string buildingNameOrNumber)
         {
             Ensure.That(postCode).IsNotNullOrEmpty();
-            postCode = postCode.Replace(" ", "").Trim().ToLowerInvariant();
+            var postCodeTrimmed = postCode.Replace(" ", "").Trim().ToLowerInvariant();
 
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("Key", "EN93-RT99-CK59-GP54");
             parameters.Add("UserName", "CLEAR11146");
-            parameters.Add("Postcode", postCode);
+            parameters.Add("Postcode", postCodeTrimmed);
             if (!string.IsNullOrEmpty(buildingNameOrNumber)) parameters.Add("Building", buildingNameOrNumber);
 
             var queryString = "json3.ws?" + string.Join("&", parameters.Select(p => p.Key + "=" + p.Value.UrlEncode()));

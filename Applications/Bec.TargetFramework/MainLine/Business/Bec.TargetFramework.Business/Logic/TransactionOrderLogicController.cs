@@ -105,7 +105,7 @@ namespace Bec.TargetFramework.Business.Logic
                 }
 
                 // create initial process status log entry
-                TransactionHelper.CreateTransactionOrderProcessLog(scope,order.TransactionOrderID,TransactionOrderStatusEnum.Active);
+                TransactionHelper.CreateTransactionOrderProcessLog(scope,order.TransactionOrderID,TransactionOrderStatusEnum.Active, null);
 
                 await scope.SaveChangesAsync();
                 return order.ToDtoWithRelated(1);

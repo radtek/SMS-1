@@ -9,7 +9,7 @@ using EnsureThat;
 
 namespace Bec.TargetFramework.Business.Product.Helpers
 {
-    public class PricingHelper
+    public static class PricingHelper
     {
         private static ComponentTier GetTier(IEnumerable<ComponentTier> tiers, decimal total, int cardType, int paymentMethodType, int quantity)
         {
@@ -41,24 +41,25 @@ namespace Bec.TargetFramework.Business.Product.Helpers
 
         private static ComponentTier filterTiers(IEnumerable<ComponentTier> results, decimal total, int quantity)
         {
-            if (IsValueBound(results))
+            var res = results;
+            if (IsValueBound(res))
             {
-                results = results.Where(s =>
+                res = res.Where(s =>
                     s.TotalValueLowerBound.HasValue
                     && s.TotalValueUpperBound.HasValue
                     && s.TotalValueLowerBound.Value >= total
                     && s.TotalValueUpperBound.Value <= total);
             }
-            else if (IsQuantityBound(results))
+            else if (IsQuantityBound(res))
             {
-                results = results.Where(s =>
+                res = res.Where(s =>
                     s.QuantityCountLowerBound.HasValue
                     && s.QuantityCountUpperBound.HasValue
                     && s.QuantityCountLowerBound.Value >= quantity
                     && s.QuantityCountUpperBound.Value <= quantity);
             }
 
-            var list = results.ToList();
+            var list = res.ToList();
 
             Ensure.That(list.Count).IsNot(0);
 

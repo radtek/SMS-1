@@ -218,16 +218,13 @@ namespace Bec.TargetFramework.Business.Logic
             switch (currentStatus)
             {
                 case BankAccountStatusEnum.Safe:
-                    if (change.BankAccountStatus == BankAccountStatusEnum.FraudSuspicion ||
-                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;
-                    break;
+                    return change.BankAccountStatus == BankAccountStatusEnum.FraudSuspicion || change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud;
                 case BankAccountStatusEnum.FraudSuspicion:
                 case BankAccountStatusEnum.PendingValidation:
-                    if (change.BankAccountStatus == BankAccountStatusEnum.Safe ||
-                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;
-                    break;
+                    return change.BankAccountStatus == BankAccountStatusEnum.Safe || change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud;
+                default: 
+                    return false;
             }
-            return false;
         }
 
         private async Task AdditionalOperationForStatusChange(VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
@@ -245,6 +242,8 @@ namespace Bec.TargetFramework.Business.Logic
                 case BankAccountStatusEnum.PotentialFraud:
                     await PublishBankAccountStateChangeNotification<BankAccountMarkedAsPotentialFraudNotificationDTO>(NotificationConstructEnum.BankAccountMarkedAsPotentialFraud.GetStringValue(), bankAccount, bankAccountStatusChangeRequest);
                     break;
+                default: 
+                    throw new Exception("Invalid Status");
             }
         }
 
