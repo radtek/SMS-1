@@ -30,13 +30,14 @@
             gridElementId: 'helpGrid',
             url: $('#helpGrid').data("url"),
             schema: { data: "Items", total: "Count", model: { id: "HelpPageID" } },
-            defaultSort: { field: "PageType", dir: "asc" },
+            defaultSort: { field: "HelpPageTypeId", dir: "asc" },
             panels: ['helpDetailPanel'],
             change: onPageChange,
             jumpToId: $('#helpGrid').data("jumpto"),
             extraParameters: function () {
                 return "&pageType=" + $('#typeList').val();
             },
+            type: 'odata-v4',
             columns: [
                     {
                         field: "HelpPageTypeId",
