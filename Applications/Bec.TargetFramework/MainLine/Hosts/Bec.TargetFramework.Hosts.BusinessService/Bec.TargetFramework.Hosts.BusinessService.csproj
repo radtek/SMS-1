@@ -178,8 +178,6 @@
     <Compile Include="BusinessService.Designer.cs">
       <DependentUpon>BusinessService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formatters\JilFormatter.cs" />
-    <Compile Include="Formatters\JsonMediaFormatter.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Program.cs" />

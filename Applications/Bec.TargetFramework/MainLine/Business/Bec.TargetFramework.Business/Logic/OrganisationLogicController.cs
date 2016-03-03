@@ -5,7 +5,6 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.DTO.Notification;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
@@ -69,7 +68,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<bool> IsOrganisationInSystem(Guid? orgID, string regulatorNumber)
+        public bool IsOrganisationInSystem(Guid? orgID, string regulatorNumber)
         {
             Ensure.That(regulatorNumber).IsNotNullOrWhiteSpace();
 
@@ -306,7 +305,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<bool> RequiresPersonalDetails(Guid uaoId)
+        public bool RequiresPersonalDetails(Guid uaoId)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {

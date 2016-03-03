@@ -1,5 +1,4 @@
 ﻿using Bec.TargetFramework.Aop.Aspects;
-using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.SB.Data;

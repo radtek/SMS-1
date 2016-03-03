@@ -35,7 +35,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         public async Task<ActionResult> GetPDF(Guid ncID, int version)
         {
-            var userObject = WebUserHelper.GetWebUserObject(HttpContext);
             return File(await NotificationLogicClient.RetrieveNotificationConstructDataAsync(ncID, version, null), "application/pdf", "TermsAndConditions.pdf");
         }
 

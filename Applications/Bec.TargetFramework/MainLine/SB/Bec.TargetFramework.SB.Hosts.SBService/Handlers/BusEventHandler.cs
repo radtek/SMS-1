@@ -48,7 +48,6 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
                 subscribers.ForEach(item =>
                 {
                     // create message
-                    Type payloadType = Type.GetType(tfEvent.EventPayloadDto.PayloadObjectType);
                     Type messageType = Type.GetType(String.Format("{0},{1}", item.ObjectName, item.ObjectAssembly));
 
                     Dictionary<Type, object> payloadDictionary = (Dictionary<Type, object>)ConvertByteArrayToObject(tfEvent.EventPayloadDto.Payload);
@@ -82,7 +81,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
 
                 LogMessageAsCompleted();
             }
-            catch (System.Exception ex)
+            catch
             {
                 LogMessageAsFailed();
 

@@ -23,33 +23,34 @@ namespace Bec.TargetFramework.SB.Handlers.Base
         }
 
         public ConcurrentBaseHandler(ILogger logger, IBusLogicClient busLogic, IEventPublishLogicClient eventClient)
-            : base(logger, busLogic,eventClient)
+            : base(logger, busLogic, eventClient)
         {
-        
+
         }
 
         public override void Handle(T message)
         {
-           lock(m_ConcurrencyLock)
-           {
-               if (!HasMessageAlreadyBeenProcessed())
-               {
-                   try
-                   {
-                       HandleMessage(message);
-                   }
-                   catch (System.Exception)
-                   {
-                    throw;
-                   }
-                   finally{
-                       Dispose();
-                   }
-               }
-                  
-               else
-                   return;
-           }
+            lock (m_ConcurrencyLock)
+            {
+                if (!HasMessageAlreadyBeenProcessed())
+                {
+                    try
+                    {
+                        HandleMessage(message);
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        Dispose();
+                    }
+                }
+
+                else
+                    return;
+            }
         }
 
         protected void LogError(string message, Exception ex, string source, string sourceType = "")
@@ -69,7 +70,7 @@ namespace Bec.TargetFramework.SB.Handlers.Base
 
         public virtual void HandleMessage(T message)
         {
-            
+
         }
 
         public virtual void Dispose()

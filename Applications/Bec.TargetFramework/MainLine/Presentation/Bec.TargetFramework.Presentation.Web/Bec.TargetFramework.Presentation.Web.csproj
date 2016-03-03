@@ -162,7 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\CaptchaService.cs" />
-    <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="App_Helpers\ControllerExtensions.cs" />
@@ -217,7 +216,6 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
-    <Compile Include="Filters\AuditActionFilter.cs" />
     <Compile Include="Filters\ClaimsRequiredAttribute.cs" />
     <Compile Include="Filters\SecurityFilterAttribute.cs" />
     <Compile Include="Filters\PreventMultipleLoginsActionFilter.cs" />
@@ -230,6 +228,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Edit.cs" />
+    <Compile Include="Helpers\LoginResult.cs" />
     <Compile Include="Helpers\ODataHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1880,14 +1879,6 @@
     <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\FluentValidation\FluentValidation.Mvc5\FluentValidation.Mvc5.csproj">
-      <Project>{23e384ef-5a39-4d73-a8d5-ef48c71c128f}</Project>
-      <Name>FluentValidation.Mvc5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\FluentValidation\FluentValidation\FluentValidation.csproj">
-      <Project>{dae0249b-4f69-4ac9-9a17-aa23e0795316}</Project>
-      <Name>FluentValidation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>

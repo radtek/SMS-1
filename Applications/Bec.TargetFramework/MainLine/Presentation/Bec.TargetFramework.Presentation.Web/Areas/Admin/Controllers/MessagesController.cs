@@ -184,7 +184,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             try
             {
-                var orgID = HttpContext.GetWebUserObject().OrganisationID;
                 var uaoID = HttpContext.GetWebUserObject().UaoID;
                 await NotificationClient.CreateConversationAsync(addConversationDto.FromHash, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, false, addConversationDto.RecipientHashes.ToArray());
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
@@ -386,15 +385,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<object> DownloadFile(Guid fileID, Guid parentID)
         {
-            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-
             var select = ODataHelper.Select<NotificationDTO>(x => new { x.ConversationID });
             var filter = ODataHelper.Filter<NotificationDTO>(x => x.NotificationID == parentID);
             var message = (await QueryClient.QueryAsync<NotificationDTO>("Notifications", select + filter)).FirstOrDefault();
 
             if (!await CanAccessConversation(message.ConversationID.Value)) return NotAuthorised();
             var file = await FileClient.DownloadFileAsync(fileID, parentID);
-            var ext = System.IO.Path.GetExtension(file.Name);
             return File(file.Data, file.Type, file.Name);
         }
 

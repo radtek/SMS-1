@@ -1,5 +1,4 @@
-﻿using Bec.TargetFramework.Data.Infrastructure;
-using Bec.TargetFramework.Infrastructure;
+﻿using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.SB.Data;
 using Bec.TargetFramework.SB.Entities;
 using System;

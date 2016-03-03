@@ -59,7 +59,6 @@ namespace Bec.TargetFramework.Business.Logic
                 userContact.InjectFrom<NullableInjection>(dto);
                 userContact.ContactID = Guid.NewGuid();
                 userContact.ParentID = userAccount.ID;
-                //SetAuditFields<Contact>(userContact, true);
                 scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(userContact);
 
 
@@ -68,7 +67,6 @@ namespace Bec.TargetFramework.Business.Logic
                 userDetail.UserID = userAccount.ID;
                 userDetail.UserDetailID = Guid.NewGuid();
                 userDetail.Salutation = dto.Salutation;
-                //SetAuditFields<UserAccountDetail>(userDetail, true);
                 scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountDetails.Add(userDetail);
 
                 await scope.SaveChangesAsync();
@@ -465,7 +463,6 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID)
         {
-            VUserAccountOrganisationUserTypeOrganisationTypeDTO uaoUserTypeOrganisationType = new VUserAccountOrganisationUserTypeOrganisationTypeDTO();
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountOrganisationUserTypeOrganisationTypes.Where(s => s.UserID == accountID).ToDtos();
@@ -595,7 +592,6 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 Contact contact = contactDTO.ToEntity();
-                //SetAuditFields(contact, true);
                 scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
                 await scope.SaveChangesAsync();
             }
@@ -696,7 +692,7 @@ namespace Bec.TargetFramework.Business.Logic
             long[] msisdns = new[] { number };
             try
             {
-                var msg = mbClient.SendMessage(originator, message, msisdns);
+                mbClient.SendMessage(originator, message, msisdns);
             }
             catch (MessageBird.Exceptions.ErrorException ex)
             {
@@ -747,31 +743,21 @@ namespace Bec.TargetFramework.Business.Logic
             StringBuilder pin = new StringBuilder(length);
             int thisNum;
             int? prevNum = null;
-            do
+           
+            for (int i = 0; i < length; i++)
             {
-                for (int i = 0; i < length; i++)
+                do
                 {
-                    do
-                    {
-                        thisNum = r.Next(0, 36);
-                    } while (
-                        (prevNum.HasValue && (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1)) || //avoid repeated or consecutive characters
-                        excludedRandomNumbers.Contains(thisNum));
-                    prevNum = thisNum;
-                    pin.Append((char)(thisNum > 9 ? thisNum + 55 : thisNum + 48)); //convert to 0-9 A-Z
-                }
-            } while (PinExists(pin.ToString()));
+                    thisNum = r.Next(0, 36);
+                } while (
+                    (prevNum.HasValue && (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1)) || //avoid repeated or consecutive characters
+                    excludedRandomNumbers.Contains(thisNum));
+                prevNum = thisNum;
+                pin.Append((char)(thisNum > 9 ? thisNum + 55 : thisNum + 48)); //convert to 0-9 A-Z
+            }
             return pin.ToString();
         }
 
-        private bool PinExists(string pin)
-        {
-            return false;
-            //using (var scope = DbContextScopeFactory.CreateReadOnly())
-            //{
-            //    return scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Any(o => o.CompanyPinCode == pin);
-            //}
-        }
 
         public async Task<bool> IncrementInvalidPINAsync(Guid uaoID)
         {
@@ -813,7 +799,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID, int withRelatedLevel)
+        public List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID, int withRelatedLevel)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -844,13 +830,12 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<bool> CanEmailBeUsedAsPersonal(string email, Guid? txId, Guid? uaoID)
+        public bool CanEmailBeUsedAsPersonal(string email, Guid? txId, Guid? uaoID)
         {
             email = email.Trim();
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 bool isAlreadyInTransaction = false;
-                bool isAlreadyProfessional = false;
                 // check if there is no user with that email that is part of transaction
                 if (txId.HasValue)
                 {
@@ -876,13 +861,12 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     isAlreadyProfessionalQuery = isAlreadyProfessionalQuery.Where(x => x.UserAccountOrganisationID != uaoID);
                 }
-                isAlreadyProfessional = isAlreadyProfessionalQuery.Any();
-
-                return !isAlreadyInTransaction && !isAlreadyProfessional;
+                
+                return !isAlreadyInTransaction && !isAlreadyProfessionalQuery.Any();
             }
         }
 
-        public async Task<bool> CanEmailBeUsedAsProfessional(string email, Guid? uaoID)
+        public bool CanEmailBeUsedAsProfessional(string email, Guid? uaoID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -909,7 +893,6 @@ namespace Bec.TargetFramework.Business.Logic
                 return !userAlreadyExists;
             }
         }
-
 
         private Expression<Func<Data.UserAccount, bool>> GetWithUsername(string username)
         {

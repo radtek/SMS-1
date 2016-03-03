@@ -13,7 +13,6 @@ namespace Bec.TargetFramework.SB.TaskServices
 {
     partial class TaskService : ServiceBase, IWindowsService
     {
-        private IBus m_Bus;
         private ILifetimeScope m_LifetimeScope;
 
         public TaskService()

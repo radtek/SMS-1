@@ -5,7 +5,6 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.DTO.Notification;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
@@ -25,7 +24,7 @@ namespace Bec.TargetFramework.Business.Logic
         public UserLogicController UserLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
 
-        public async Task<bool> HasOrganisationAnySafeBankAccount(Guid organisationID)
+        public bool HasOrganisationAnySafeBankAccount(Guid organisationID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -255,7 +254,7 @@ namespace Bec.TargetFramework.Business.Logic
             where TNotification : BankAccountStateChangeNotificationDTO, new()
         {
             var financeAdministratorRoleName = OrganisationRoleName.FinanceAdministrator.GetStringValue();
-            var roles = await UserLogic.GetRoles(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID, 1);
+            var roles = UserLogic.GetRoles(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID, 1);
             var isFinanceAdmin = roles.Any(r => r.OrganisationRole.RoleName == financeAdministratorRoleName);
             string markedBy;
             if (isFinanceAdmin)

@@ -176,7 +176,7 @@ namespace Bec.TargetFramework.Infrastructure.Reporting.Generators
                 {
                     throw new NullReferenceException(
                         "NotificationParameter Type cannot be found:" + objectType + " parentType:" + objectParentType
-                        + " parameterName:" + name);
+                        + " parameterName:" + name, ex);
                 }
 
                 if (value != null)

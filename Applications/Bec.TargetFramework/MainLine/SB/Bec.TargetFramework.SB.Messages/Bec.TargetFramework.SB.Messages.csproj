@@ -88,8 +88,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\OnlinePaymentCommand.cs" />
-    <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="EndpointConfig.cs" />
     <Compile Include="Events\AddNewUserEvent.cs" />
     <Compile Include="Events\ProductAdvisedEvent.cs" />

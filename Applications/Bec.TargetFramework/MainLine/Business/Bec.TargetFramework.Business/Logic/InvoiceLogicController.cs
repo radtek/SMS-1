@@ -160,57 +160,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        //[EnsureArgumentAspect]
-        //public void AddLineItemToInvoice(InvoiceLineItemDTO dto)
-        //{
-        //    using (
-        //       var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger,
-        //           true))
-        //    {
-        //        var invoice =
-        //            scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Include("InvoiceLineItems").Single(s => s.InvoiceID.Equals(dto.InvoiceID));
-
-        //        var invoiceDto = InvoiceConverter.ToDto(invoice);
-
-        //        invoice.InvoiceLineItems.ToList().ForEach(inv =>
-        //        {
-        //            if (invoiceDto.InvoiceLineItems == null)
-        //                invoiceDto.InvoiceLineItems = new List<InvoiceLineItemDTO>();
-
-
-        //            invoiceDto.InvoiceLineItems.Add(InvoiceLineItemConverter.ToDto(inv));
-        //        });
-
-        //        //InvoiceHelper.CalculateInvoice(m_ShoppingCartLogic,invoiceDto);
-
-        //        scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceLineItems.Add(InvoiceLineItemConverter.ToEntity(dto));
-
-        //        //TBD recalculate invoice
-
-        //        if (!scope.SaveChanges()) throw new Exception(scope.EntityErrors.Dump());;
-        //    }
-        //}
-        //[EnsureArgumentAspect]
-        //public void RemoveLineItemToInvoice(InvoiceLineItemDTO dto)
-        //{
-        //    using (
-        //       var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger,
-        //           true))
-        //    {
-        //        var invoiceLineItem =
-        //            scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceLineItems.Single(
-        //                s => s.InvoiceID.Equals(dto.InvoiceID) && s.InvoiceLineItemID.Equals(dto.InvoiceLineItemID));
-
-        //        Ensure.That(invoiceLineItem).IsNotNull();
-
-        //        scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceLineItems.Remove(invoiceLineItem);
-
-        //        //TBD recalculate invoice
-
-        //        if (!scope.SaveChanges()) throw new Exception(scope.EntityErrors.Dump());;
-        //    }
-        //}
-
         [EnsureArgumentAspect]
         public async Task MarkInvoiceWithAccountingStatusAsync(Guid invoiceID, InvoiceAccountingStatusIDEnum value)
         {

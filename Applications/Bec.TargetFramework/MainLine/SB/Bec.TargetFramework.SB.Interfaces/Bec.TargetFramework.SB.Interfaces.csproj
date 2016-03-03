@@ -83,9 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ISBEvent.cs" />
-    <Compile Include="Interfaces\INotificationDataService.cs" />
-    <Compile Include="Interfaces\INotificationProcessService.cs" />
-    <Compile Include="Interfaces\ILRDataService.cs" />
     <Compile Include="Interfaces\ProxyInterfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

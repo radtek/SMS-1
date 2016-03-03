@@ -18,7 +18,7 @@ namespace Bec.TargetFramework.Entities
             return new NotificationDictionaryDTO { NotificationDictionary = dictionary };
         }
 
-        public new void Add(string key, object o)
+        public void Add(string key, object o)
         {
             base.Add(key, new DTOMapItem(o));
         }

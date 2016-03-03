@@ -59,7 +59,6 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
         private static void PurgeScheduledTasksByApplication(IScheduler scheduler,List<VBusTaskScheduleDTO> dtos)
         {
             IList<string> jobGroups = scheduler.GetJobGroupNames();
-            IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
 
             foreach (string group in jobGroups)
             {
@@ -76,7 +75,6 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
         private static void PurgeScheduledTaskByTaskAndGroup(IScheduler scheduler,string taskName,string groupName)
         {
             IList<string> jobGroups = scheduler.GetJobGroupNames();
-            IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
 
             foreach (string group in jobGroups)
             {
@@ -93,7 +91,6 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
         private static void PurgeAllScheduledTasksByGroup(IScheduler scheduler, string groupName = null)
         {
             IList<string> jobGroups = scheduler.GetJobGroupNames();
-            IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
 
             foreach (string group in jobGroups)
             {
@@ -138,12 +135,6 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
 
             // purge all current jobs
             PurgeScheduledTaskByTaskAndGroup(scheduler, taskName, "TEMP");
-
-            DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTime.UtcNow);
-
-            // execute from 10 seconds of trigger being created
-            DateTimeOffset startTime = DateBuilder.NextGivenSecondDate(null, 10);
-
             var jobKey = new JobKey(taskName, "TEMP");
 
             // if already registered then delete and reschedule
