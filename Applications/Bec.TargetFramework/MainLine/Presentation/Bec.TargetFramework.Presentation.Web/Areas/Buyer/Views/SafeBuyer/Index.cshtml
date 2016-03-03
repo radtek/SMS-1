@@ -225,7 +225,7 @@
                                                 <td>
                                                     <div class="magic-edit">
                                                         <div class="view">
-                                                            <span id="bDateOfBirth" class="format-date" data-field="BirthDate" data-parent-id="@Model.ContactID" data-parent-type="@FieldUpdateParentType.Contact.GetIntValue()" data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></span>
+                                                            <span id="bDateOfBirth" class="format-date" data-field="BirthDate" data-value-format="date" data-parent-id="@Model.ContactID" data-parent-type="@FieldUpdateParentType.Contact.GetIntValue()" data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></span>
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
@@ -235,7 +235,7 @@
                                                                             <label>Date of Birth</label>
                                                                             <label class="input">
                                                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                                @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { data_rule_required = "true", id = "birthDateInput", @class = "form-control", data_field = "BirthDate", data_parent_id = Model.ContactID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
+                                                                                @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { data_rule_required = "true", id = "birthDateInput", @class = "form-control", data_field = "BirthDate", data_field_type = "date", data_parent_id = Model.ContactID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
                                                                             </label>
                                                                         </div>
                                                                     </div>

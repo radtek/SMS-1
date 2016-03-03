@@ -1,4 +1,6 @@
 ﻿var GUID_EMPTY = '00000000-0000-0000-0000-000000000000';
+var DATE_FORMAT_NAME = 'date';
+var CURRENCY_FORMAT_NAME = 'currency';
 var gridPageSize = 15;
 
 //checks for a json redirect response instruction
@@ -731,27 +733,28 @@ function magicEdit(options) {
             set.append(spinner);
             var form = set.find('form');
             
+            setupButtonEvents();
             enterDisplayMode();
-            preserveOriginalValues();
-
-            editButton.on('click', function () {
-                preserveOriginalValues();
-                enterEditMode();
-            });
-
-            cancelButton.on('click', function () {
-                restoreOriginalValues();
-                enterDisplayMode();
-            });
-
-            okButton.on('click', function () {
-                if (!form.valid()) {
-                    return;
-                }
-                enterDisplayMode();
-                var allChangeRequests = submitAllChanges();
-                $.when.apply($, allChangeRequests).done(updateValues);
-            });
+            preserveOriginalValues(set);
+            
+            function setupButtonEvents() {
+                editButton.on('click', function () {
+                    preserveOriginalValues(set);
+                    enterEditMode();
+                });
+                cancelButton.on('click', function () {
+                    restoreOriginalValues(set);
+                    enterDisplayMode();
+                });
+                okButton.on('click', function () {
+                    if (!form.valid()) {
+                        return;
+                    }
+                    enterDisplayMode();
+                    var allChangeRequests = submitAllChanges(set);
+                    $.when.apply($, allChangeRequests).done(updateValues);
+                });
+            }
 
             function enterDisplayMode() {
                 okButton.hide();
@@ -766,60 +769,6 @@ function magicEdit(options) {
                 editButton.hide();
                 set.addClass("editing");
             }
-
-            function preserveOriginalValues() {
-                iterateFormElements(set, function (formElement) {
-                    if (formElement.is('input')) {
-                        formElement.data('originalVal', formElement.val());
-                    } else if (formElement.is('select')) {
-                        formElement.data('originalVal', formElement.find(":selected").text());
-                    }
-                });
-            }
-
-            function restoreOriginalValues() {
-                iterateFormElements(set, function (formElement) {
-                    formElement.val(formElement.data('originalVal'));
-                });
-            }
-
-            function submitAllChanges() {
-                var alld = [];
-                iterateFormElements(set, function (formElement) {
-                    var originalValue = formElement.data('originalVal');
-                    var newValue = '';
-                    if (formElement.is('input')) {
-                        newValue = formElement.val();
-                    } else if (formElement.is('select')) {
-                        newValue = formElement.find(":selected").text();
-                    }
-
-                    if (originalValue.trim() !== newValue) {
-                        getSpinner(set).show();
-                        alld.push(ajaxWrapper({
-                            url: self.options.updateUrl,
-                            data: {
-                                ActivityType: self.options.activityType,
-                                ActivityID: self.options.activityId,
-                                ParentType: formElement.data('parent-type'),
-                                ParentID: formElement.data('parent-id'),
-                                FieldName: formElement.data('field'),
-                                Value: newValue
-                            }
-                        }).done(function (res) {
-                            if (res.result != "ok") {
-                                alert('failed');
-                                formElement.val(formElement.data('originalVal'));
-                            }
-                        }).fail(function (e) {
-                            console.log(e);
-                            alert('fail');
-                            formElement.val(formElement.data('originalVal'));
-                        }));
-                    }
-                });
-                return alld;
-            }
         });
     }
 
@@ -833,43 +782,130 @@ function magicEdit(options) {
         }).done(function (fieldUpdates) {
             iterateSets(function (set) {
                 iterateFormElements(set, function (formElement) {
-                    var updatedValue = getUpdatedValue(fieldUpdates, formElement);
-                    if (updatedValue) {
-                        formElement.val(updatedValue.Value);
-                    }
+                    setEditFieldValue(fieldUpdates, formElement);
                 });
-                iterateViews(set, function (field) {
-                    var noValueText = field.data('no-value-text') || '';
-                    var updatedValue = getUpdatedValue(fieldUpdates, field);
-                    if (updatedValue) {
-                        var fieldText = noValueText;
-                        if (updatedValue.Value) {
-                            fieldText = getFormattedValue(updatedValue.Value, field);
-                        }
-                        field.text(fieldText);
-                        field.addClass('pending-update');
-                        field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
-                    }
+                iterateViewFields(set, function (field) {
+                    setDisplayFieldValue(fieldUpdates, field);
                 });
                 getSpinner(set).hide();
             });
         });
+    }
 
-        function getUpdatedValue(fieldUpdates, element) {
-            var fieldName = element.data('field');
-            var fieldParentID = element.data('parent-id');
-            var fieldParentType = element.data('parent-type');
-            var updatedValue = _.find(fieldUpdates, { 'FieldName': fieldName, 'ParentID': fieldParentID || GUID_EMPTY, 'ParentType': fieldParentType });
-            return updatedValue;
-        }
-
-        function getFormattedValue(value, field) {
-            var result = value;
-            if (field.data('value-format') === 'currency') {
-                result = formatCurrency(result);
+    function preserveOriginalValues(set) {
+        iterateFormElements(set, function (formElement) {
+            if (formElement.is('input')) {
+                formElement.data('originalVal', formElement.val());
+            } else if (formElement.is('select')) {
+                formElement.data('originalVal', formElement.find(":selected").text());
             }
-            return result;
+        });
+    }
+
+    function restoreOriginalValues(set) {
+        iterateFormElements(set, function (formElement) {
+            formElement.val(formElement.data('originalVal'));
+        });
+    }
+
+    function submitAllChanges(set) {
+        var alld = [];
+        iterateFormElements(set, function (formElement) {
+            var originalValue = formElement.data('originalVal');
+            var newValue = getNewValueFromFormElement(formElement);
+
+            if (originalValue.trim() !== newValue) {
+                getSpinner(set).show();
+                alld.push(ajaxWrapper({
+                    url: self.options.updateUrl,
+                    data: {
+                        ActivityType: self.options.activityType,
+                        ActivityID: self.options.activityId,
+                        ParentType: formElement.data('parent-type'),
+                        ParentID: formElement.data('parent-id'),
+                        FieldName: formElement.data('field'),
+                        Value: newValue
+                    }
+                }).done(function (res) {
+                    if (res.result != "ok") {
+                        alert('failed');
+                        formElement.val(formElement.data('originalVal'));
+                    }
+                }).fail(function (e) {
+                    console.log(e);
+                    alert('fail');
+                    formElement.val(formElement.data('originalVal'));
+                }));
+            }
+        });
+        return alld;
+    }
+
+    function getNewValueFromFormElement(formElement) {
+        var newValue = '';
+        if (formElement.is('input')) {
+            if (formElement.data('field-type') === DATE_FORMAT_NAME) {
+                newValue = formElement.data('val');
+            } else {
+                newValue = formElement.val();
+            }
+        } else if (formElement.is('select')) {
+            newValue = formElement.find(":selected").text();
         }
+        return newValue;
+    }
+
+    function setEditFieldValue(fieldUpdates, formElement) {
+        var updatedValue = getUpdatedValue(fieldUpdates, formElement);
+        if (updatedValue) {
+            var valueForEdit = updatedValue.Value;
+            if (valueForEdit) {
+                valueForEdit = getFormattedEditValue(valueForEdit, formElement);
+            }
+            formElement.val(valueForEdit);
+        }
+    }
+
+    function setDisplayFieldValue(fieldUpdates, field) {
+        var noValueText = field.data('no-value-text') || '';
+        var updatedValue = getUpdatedValue(fieldUpdates, field);
+        if (updatedValue) {
+            var fieldText = noValueText;
+            if (updatedValue.Value) {
+                fieldText = getFormattedDisplayValue(updatedValue.Value, field);
+            }
+            field.text(fieldText);
+            field.addClass('pending-update');
+            field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
+        }
+    }
+
+    function getUpdatedValue(fieldUpdates, element) {
+        var fieldName = element.data('field');
+        var fieldParentID = element.data('parent-id');
+        var fieldParentType = element.data('parent-type');
+        var updatedValue = _.find(fieldUpdates, { 'FieldName': fieldName, 'ParentID': fieldParentID || GUID_EMPTY, 'ParentType': fieldParentType });
+        return updatedValue;
+    }
+
+    function getFormattedDisplayValue(value, field) {
+        var result = value;
+        var valueFormat = field.data('value-format');
+        if (valueFormat === CURRENCY_FORMAT_NAME) {
+            result = formatCurrency(result);
+        } else if (valueFormat === DATE_FORMAT_NAME) {
+            result = dateStringNoTime(result);
+        }
+        return result;
+    }
+
+    function getFormattedEditValue(value, field) {
+        var result = value;
+        var valueFormat = field.data('field-type');
+        if (valueFormat === DATE_FORMAT_NAME) {
+            result = dateStringNoTime(result);
+        }
+        return result;
     }
 
     function iterateFormElements(set, func) {
@@ -879,7 +915,7 @@ function magicEdit(options) {
         });
     }
 
-    function iterateViews(set, func) {
+    function iterateViewFields(set, func) {
         var inputs = set.find('.view [data-field]');
         inputs.each(function (i, l) {
             func($(l));
