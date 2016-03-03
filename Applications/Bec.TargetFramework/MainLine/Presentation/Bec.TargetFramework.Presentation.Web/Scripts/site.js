@@ -445,7 +445,7 @@ function showDuplicates(selector, headingSelector, dataItem) {
 }
 
 function formatCurrency(val) {
-    return accounting.formatMoney(val, "£ ", 2);
+    return accounting.formatMoney(val, "£", 2);
 }
 
 var findAddress = function (opts) {
@@ -842,7 +842,10 @@ function magicEdit(options) {
                     var noValueText = field.data('no-value-text') || '';
                     var updatedValue = getUpdatedValue(fieldUpdates, field);
                     if (updatedValue) {
-                        var fieldText = updatedValue.Value || noValueText;
+                        var fieldText = noValueText;
+                        if (updatedValue.Value) {
+                            fieldText = getFormattedValue(updatedValue.Value, field);
+                        }
                         field.text(fieldText);
                         field.addClass('pending-update');
                         field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
@@ -858,6 +861,14 @@ function magicEdit(options) {
             var fieldParentType = element.data('parent-type');
             var updatedValue = _.find(fieldUpdates, { 'FieldName': fieldName, 'ParentID': fieldParentID || GUID_EMPTY, 'ParentType': fieldParentType });
             return updatedValue;
+        }
+
+        function getFormattedValue(value, field) {
+            var result = value;
+            if (field.data('value-format') === 'currency') {
+                result = formatCurrency(result);
+            }
+            return result;
         }
     }
 

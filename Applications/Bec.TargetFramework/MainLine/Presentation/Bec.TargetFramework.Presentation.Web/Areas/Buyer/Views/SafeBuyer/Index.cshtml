@@ -3,6 +3,7 @@
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
 @using Bec.TargetFramework.Presentation.Web.Models
+@using System.Globalization
 @model SmsUserAccountOrganisationTransactionDTO
 @{
     var personaName = ((UserAccountOrganisationTransactionType)Model.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
@@ -153,7 +154,7 @@
                                                 <td>
                                                     <div class="magic-edit">
                                                         <div class="view">
-                                                            <p data-field="Price" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()">@Model.SmsTransaction.Price</p>
+                                                            <p data-field="Price" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" data-value-format="currency">@((Model.SmsTransaction.Price ?? 0).ToString("C", new CultureInfo("en-GB")))</p>
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
@@ -162,6 +163,7 @@
                                                                         <div class="form-group">
                                                                             <label>Price</label>
                                                                             <label class="input">
+                                                                                <i class="icon-prepend fa fa-gbp"></i>
                                                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                                                                 @Html.TextBoxFor(m => m.SmsTransaction.Price, new { data_rule_required = "true", data_rule_digits = "true", data_rule_max = 2147483647, @class = "form-control", data_field = "Price", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
                                                                             </label>
