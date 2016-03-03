@@ -82,19 +82,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             try
             {
+                var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
                 supportItem.UserAccountOrganisationID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
                 supportItem.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
-                var supportItemId = await supportClient.CreateSupportItemAsync(supportItem);
+                var supportItemId = await supportClient.CreateSupportItemAsync(orgId, supportItem);
                 this.AddToastMessage("Request Message", "The request message sent successfully!", ToastType.Success, false);
-                var addConversation = new CreateConversationDTO()
-                {
-                    ActivityType = ActivityType.SupportMessage,
-                    ActivityId = supportItemId,
-                    Subject = supportItem.Title,
-                    Message = supportItem.Description,
-                    RecipientUaoIds = new List<Guid>() { }
-                };
-                var res = CreateConversation(addConversation);
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -102,7 +94,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 Logger.Error(ex.Message);
                 return Json(new { result = false, title = "Request Message", message =  ex.Message}, JsonRequestBehavior.AllowGet);
             }
-           
         }
         [ClaimsRequired("Add", "SupportItem", Order = 1000)]
         public async Task<ActionResult> ViewCloseSupportItem(Guid SupportItemId, int pageNumber)
@@ -146,21 +137,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     title = "Close Support Message Failed",
                     message = ex.Message
                 }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        async Task<bool> CreateConversation(CreateConversationDTO addConversationDto)
-        {
-            try
-            {
-                var orgID = HttpContext.GetWebUserObject().OrganisationID;
-                var uaoID = HttpContext.GetWebUserObject().UaoID;
-                await notificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.RecipientUaoIds.ToArray());
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
             }
         }
     }

@@ -1232,11 +1232,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 	public partial interface ISupportLogicClient : IClientBase	{	
 
+		/// <param name="OrgId"></param>
 		/// <returns></returns>
-		Task<Guid> CreateSupportItemAsync(SupportItemDTO supportItemDto);
+		Task<Guid> CreateSupportItemAsync(Guid OrgId,SupportItemDTO supportItemDto);
 
+		/// <param name="OrgId"></param>
 		/// <returns></returns>
-		Guid CreateSupportItem(SupportItemDTO supportItemDto);
+		Guid CreateSupportItem(Guid OrgId,SupportItemDTO supportItemDto);
 	}
 
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
@@ -4944,20 +4946,22 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="OrgId"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> CreateSupportItemAsync(SupportItemDTO supportItemDto)
+		public virtual Task<Guid> CreateSupportItemAsync(Guid OrgId,SupportItemDTO supportItemDto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem", supportItemDto, _user);
+			return PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem?OrgId=" + OrgId, supportItemDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Guid CreateSupportItem(SupportItemDTO supportItemDto)
+		/// <param name="OrgId"></param>
+		public virtual Guid CreateSupportItem(Guid OrgId,SupportItemDTO supportItemDto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem", supportItemDto, _user)).Result;
+			return Task.Run(() => PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem?OrgId=" + OrgId, supportItemDto, _user)).Result;
 		}
 
 		#endregion

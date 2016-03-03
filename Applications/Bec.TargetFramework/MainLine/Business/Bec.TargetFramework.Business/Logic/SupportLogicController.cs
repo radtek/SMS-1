@@ -26,7 +26,10 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class SupportLogicController : LogicBase
     {
-        public async Task<Guid> CreateSupportItem(SupportItemDTO supportItemDto)
+        public UserLogicController UserLogic { get; set; }
+        public NotificationLogicController NotificationLogic { get; set; }
+        public IEventPublishLogicClient EventPublishClient { get; set; }
+        public async Task<Guid> CreateSupportItem(SupportItemDTO supportItemDto, Guid OrgId)
         {
             Ensure.That(supportItemDto).IsNotNull();
             supportItemDto.SupportItemID = Guid.NewGuid();
@@ -37,8 +40,10 @@ namespace Bec.TargetFramework.Business.Logic
                 supportItemDto.TicketNumber = highestTicketNumber + 1;
                 SupportItem supportItem = supportItemDto.ToEntity();
                 supportItems.Add(supportItem);
-                await scope.SaveChangesAsync();
+                scope.SaveChanges();
             }
+            var recipientUaoIds = new List<Guid>() { };
+            await NotificationLogic.CreateConversation(OrgId, supportItemDto.UserAccountOrganisationID, Guid.Empty, ActivityType.SupportMessage, supportItemDto.SupportItemID, supportItemDto.Title, supportItemDto.Description, recipientUaoIds.ToArray());
             return supportItemDto.SupportItemID;
         }
     }

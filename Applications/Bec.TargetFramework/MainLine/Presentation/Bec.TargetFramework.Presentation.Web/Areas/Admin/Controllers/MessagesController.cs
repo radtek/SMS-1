@@ -252,6 +252,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             switch (activityType)
             {
                 case ActivityType.SmsTransaction: return true;
+                case ActivityType.SupportMessage: return true;
             }
             return false;
         }
@@ -297,6 +298,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var resultBa = await QueryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", selectBa + filterBa);
                     var ba = resultBa.FirstOrDefault();
                     return ba.OrganisationID == orgId && ClaimsAuthorization.CheckAccess("View", "BankAccount");
+                case ActivityType.SupportMessage:
+                    return true;
             }
 
             return false;
