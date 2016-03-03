@@ -62,8 +62,14 @@
     function createOrder(order) {
         return '<li>' + order + '</li>';
     }
+    function getDateFormat(d) {
+        if (d !== undefined && d !== null) {
+            var date = new Date(parseInt(d.replace("/Date(", "").replace(")/", "")));
+            return date;
+        }
+    }
     function fDate(ds) {
-        return $.datepicker.formatDate('dd/mm/yy', eval('new ' + ds.slice(1, -1)));
+        return $.datepicker.formatDate('dd/mm/yy', new Date(getDateFormat(ds)));
     };
     $(document).delegate(".help-item-element", "click", function () {
         var itemId = $(this).attr('id');
