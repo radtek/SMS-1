@@ -152,22 +152,18 @@
             url: $(form).attr('action'),
             data: $(form).serializeArray(),
             type: 'POST'
-        })
-                .done(function (response) {
-                    if (response !== null || response !== undefined) {
-                        if (response.result) {
-                            loadItemsForList(response.Items);
-                            clearText();
-                        }
-                    }
-                });
+        }).done(function (response) {
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
+                clearText();
+            }
+        });
     }
 
     function clearText() {
         $("#editItem-form input[type=text]").val('');
         $("#editItem-form select").prop('selectedIndex', '0');
         $("#editItem-form textarea").val('');
-        $("#editItem-form input[type=text]").first().focus();
         btnEditItem.text("Add");
         $("#helpPageItemId").val("");
         $('.help-item-element').prop('disabled', false);

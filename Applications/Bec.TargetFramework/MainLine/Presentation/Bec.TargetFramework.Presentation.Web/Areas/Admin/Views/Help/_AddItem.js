@@ -125,7 +125,6 @@
         $("#addItem-form input[type=text]").val('');
         $("#addItem-form select").prop('selectedIndex', '0');
         $("#addItem-form textarea").val('');
-        $("#addItem-form input[type=text]").first().focus();
         btnAddItem.text("Add");
         $("#helpPageItemId").val("");
         $('.help-item-element').prop('disabled', false);
