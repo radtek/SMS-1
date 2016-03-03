@@ -211,6 +211,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         itemHelp.Description = item.Description;
                         itemHelp.Position = item.Position;
                         itemHelp.TabContainerId = item.TabContainerId;
+                        itemHelp.EffectiveOn = item.EffectiveOn;
                     }
                     TempData["Items"] = list;
                     var jsonData = new { result = list.Count > 0, Items = list };
@@ -259,6 +260,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         itemHelp.Description = item.Description;
                         itemHelp.Position = item.Position;
                         itemHelp.TabContainerId = item.TabContainerId;
+                        itemHelp.EffectiveOn = item.EffectiveOn;
                         if (itemHelp.Status != HelpPageItemStatusEnum.New.GetIntValue())
                         {
                             itemHelp.Status = HelpPageItemStatusEnum.Modified.GetIntValue();

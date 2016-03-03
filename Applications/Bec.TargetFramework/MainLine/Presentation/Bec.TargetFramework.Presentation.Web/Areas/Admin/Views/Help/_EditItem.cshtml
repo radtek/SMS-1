@@ -42,6 +42,7 @@
         <section id="tourSection" style="display:none">
             <label class="label">Effective On</label>
             <label class="input">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 <input type="text" id="effectiveDateInput" tabindex="3" readonly="readonly" />
                 @Html.HiddenFor(m => m.EffectiveOn)
             </label>
@@ -49,6 +50,7 @@
         <section>
             <label class="label">Description:</label>
             <label class="textarea">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 @Html.TextAreaFor(m => m.Description, new { @class = "form-control", tabindex = "4", rows = 5, style = "width:100%; resize:none;", id = "helpItemDescription" })
             </label>
         </section>
