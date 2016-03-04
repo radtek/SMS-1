@@ -28,7 +28,7 @@
             });
             if (step.length > 0) {
                 step.unshift({
-                    intro: '<div class="modal-header" style="padding: 5px !important;"><h4 class="modal-title" style="font-size:15px">There are some changes in this version</h4></div><div class="modal-body"  style="padding: 5px !important;">Click next to see details</div>',
+                    intro: '<div class="modal-header" style="padding: 5px !important;margin: 0 auto;top:auto!important;"><h4 class="modal-title" style="font-size:15px">There are some changes in this version</h4></div><div class="modal-body"  style="padding: 5px !important;">Click next to see details</div>',
                     position: 'top'
                 });
             }

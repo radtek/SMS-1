@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bec.TargetFramework.Presentation.Web.Models.ToastrNotification;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using System.Linq.Expressions;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
@@ -100,12 +101,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 }
                 var modifiedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
                 TempData["HelpPageId"] = await helpClient.EditHelpPageAsync(modifiedBy, page);
-                this.AddToastMessage("Add Successfully", "The help has been updated.", ToastType.Success);
+                this.AddToastMessage("Edit Successfully", "The help has been edited.", ToastType.Success);
             }
             catch (Exception)
             {
                 TempData.Remove("HelpPageId");
-                this.AddToastMessage("Add Unsuccessfully", "The help cannot be modified. Please try again.", ToastType.Error);
+                this.AddToastMessage("Edit Unsuccessfully", "The help could not be edited. Please try again.", ToastType.Error);
             }
             return RedirectToAction("Index");
         }
@@ -418,6 +419,25 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             }
             var jsonData = new { result, Items = newList };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> ValidateAddHelp(HelpPageTypeIdEnum? helpType, string helpUrl)
+        {
+            if (!helpType.HasValue)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var helpTypeValue = helpType.GetIntValue();
+            var select = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
+            var where = ODataHelper.Expression<HelpPageDTO>(x => x.HelpPageTypeId == helpTypeValue);
+            if (helpType == HelpPageTypeIdEnum.ShowMeHow)
+            {
+                var lowerUrl = helpUrl.Trim().ToLower();
+                where = Expression.And(where, ODataHelper.Expression<HelpPageDTO>(x => x.PageUrl.ToLower() == lowerUrl));
+            }
+            var filter = ODataHelper.Filter(where);
+            var list = (await queryClient.QueryAsync<HelpPageDTO>("HelpPages", select + filter)).ToList();
+            return Json(list.Count == 0, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿$(function () {
+    var helpPageTypeList = $("#HelpPageTypeId");
     var wizard = $('#addHelpWizard').bootstrapWizard({
         tabClass: 'form-wizard',
-        onTabClick: function() {
-            return $("#addHelp-form").valid();
+        onTabClick: function () {
+            return false;
         },
         onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
@@ -21,9 +22,7 @@
     });
 
     $("#stepNext").click(function () {
-        if ($("#addHelp-form").valid()) {
-            wizard.bootstrapWizard('next');
-        }
+        checkHelp();
     });
 
     $("#stepBack").click(function () {
@@ -34,11 +33,11 @@
         $("#addHelp-form").submit();
     });
 
-    $("#addHelp-form").validate({
+    var validator = $("#addHelp-form").validate({
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            PageType: {
+            HelpPageTypeId: {
                 required: true
             },
             PageName: {
@@ -123,11 +122,52 @@
         }
     }
 
-    $('#HelpPageTypeId').on('change', function () {
+    helpPageTypeList.on('change', function () {
         checkType();
     });
 
     $(document).ready(function () {
         checkType();
     });
+
+    function handleHelpValidationResult(res) {
+        if (res) {
+            helpPageTypeList.parent().removeClass("state-error").addClass("state-success");
+        } else {
+            if (helpPageTypeList.val() === "800002") {
+                validator.showErrors({
+                    "HelpPageTypeId": "",
+                    "PageUrl": "This help URL has already existed"
+                });
+            } else {
+                validator.showErrors({
+                    "HelpPageTypeId": "This help has already existed"
+                });
+            }
+        }
+        return res;
+    }
+
+    function getCheckHelpPromise() {
+        var def = $.Deferred();
+        ajaxWrapper({
+            url: $("#addHelp-form").data("validate-url"),
+            data: {
+                helpType: helpPageTypeList.val(),
+                helpUrl: $("#PageUrl").val()
+            }
+        }).done(function (res) {
+            def.resolve(handleHelpValidationResult(res));
+        });
+        return def.promise();
+    }
+
+    function checkHelp() {
+        var promise = getCheckHelpPromise();
+        promise.done(function (res) {
+            if (res) {
+                wizard.bootstrapWizard('next');
+            }
+        });
+    }
 });

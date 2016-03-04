@@ -58,9 +58,12 @@
                         <div class="col-sm-6">
                             <div class="well">
                                 <h5>Items</h5>
-                                <div id="helpItemList" data-helps-url="@Url.Action("HelpPages", "Help", new { area = "Admin" })"
-                                     data-template-url="@Url.Action("GetTemplate", "App", new { area = "" })"
-                                     data-items-url="@Url.Action("GetHelpItems", "Help", new { area = "Admin" })">
+                                <div id="itemOrderNumbers" class="helpItemOrderList">
+                                    <ul class="helpItemList" id="help-item-order"></ul>
+                                </div>
+                                <div>
+                                    <ul class="helpItemList" id="help-item-list" style="margin-left: 30px;"
+                                        data-items-url="@Url.Action("GetHelpItems", "Help", new { area = "Admin" })"></ul>
                                 </div>
                             </div>
                         </div>

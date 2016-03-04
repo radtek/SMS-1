@@ -626,7 +626,10 @@ a.removeupload {
     padding: 5px;
     margin-bottom: 8px;
     margin-left: 0px;
-    cursor: default;
+    cursor: pointer;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    height: 30px;
 }
 .helpItemList > li > span.ui-icon {
     position: absolute;
@@ -641,5 +644,16 @@ a.removeupload {
 }
 .help-item-title {
     margin-left: 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 60%;
+    white-space: nowrap;
+    float: left;
+}
+.helpItemOrderList {
+    width: 25px;
+    float: left;
+    text-align: center;
+    background-color: #fff;
 }
 /*# sourceMappingURL=your_style.css.map */

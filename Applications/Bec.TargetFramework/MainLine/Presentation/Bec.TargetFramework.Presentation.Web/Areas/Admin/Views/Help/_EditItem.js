@@ -4,14 +4,6 @@
     var orderListContainer = $("#helpOrderListContainer");
 
     function getItemsOnPage() {
-        var items = itemListContainer.children("li");
-        var newOrder = [];
-        items.each(function () {
-            var order = $(this).data("item-order");
-            if (order !== null && order !== undefined) {
-                newOrder.push(order);
-            }
-        });
         ajaxWrapper({
             url: '/Admin/Help/GetHelpItems',
             data: {
@@ -68,7 +60,7 @@
 
     function createItem(item) {
         if (item.Status !== 800005) {
-            var itemHtml = '<li class="ui-state-default" data-item-id="" data-item-order="' + item.DisplayOrder + '">' +
+            var itemHtml = '<li class="ui-state-default" data-item-order="' + item.DisplayOrder + '">' +
                             '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
                             '<span class="help-item-title">' + item.Title + '</span>' +
                             ' <span class="help-item-btn">' +
@@ -82,7 +74,7 @@
         }
     }
     function createOrder(order) {
-        return '<li>' + order + '</li>';
+        return '<li style="cursor: default;">' + order + '</li>';
     }
     function getDateFormat(d) {
         if (d !== undefined && d !== null) {
@@ -112,6 +104,7 @@
                 $('#helpItemDescription').val(response.Item.Description);
                 $('#helpItemPosition').val(response.Item.Position);
                 $('#effectiveDateInput').val(fDate(response.Item.EffectiveOn));
+                $('#EffectiveOn').val(fDate(response.Item.EffectiveOn));
                 $('#helpItemTabContainerId').val(response.Item.TabContainerId);
             }
         });

@@ -1,35 +1,24 @@
 ﻿$(function () {
     var btnDelete = $("#btnDeleteHelp");
     var btnEdit = $("#btnEditHelp");
-    var helpItemList = $("#helpItemList");
+    var helpOrderListContainer = $("#help-item-order");
+    var helpItemListContainer = $("#help-item-list");
 
     var urls = {
         deleteHelpUrl: btnDelete.data("url"),
         editHelpUrl: btnEdit.data("url"),
-        templateUrl: helpItemList.data("template-url"),
-        getHelpItemsUrl: helpItemList.data("items-url")
+        getHelpItemsUrl: helpItemListContainer.data("items-url")
     };
-
-    var helpItemsTemplatePromise = getTemplatePromise('_ItemList');
-
-    function getTemplatePromise(viewName) {
-        var def = $.Deferred();
-        ajaxWrapper({
-            url: urls.templateUrl,
-            data: {
-                view: getRazorViewPath(viewName, 'Help', 'Admin')
-            }
-        }).then(function (res) {
-            def.resolve(Handlebars.compile(res));
-        });
-        return def;
-    }
 
     var helpGrid = new gridItem(
         {
             gridElementId: 'helpGrid',
             url: $('#helpGrid').data("url"),
-            schema: { data: "Items", total: "Count", model: { id: "HelpPageID" } },
+            schema: {
+                data: "Items",
+                total: "Count",
+                model: { id: "HelpPageID" }
+            },
             defaultSort: { field: "HelpPageTypeId", dir: "asc" },
             panels: ['helpDetailPanel'],
             change: onPageChange,
@@ -99,14 +88,8 @@
             cache: false
         };
         ajaxWrapper(ajaxOptions)
-            .then(function (result) {
-                var templateData = {
-                    data: result
-                };
-                helpItemsTemplatePromise.done(function (template) {
-                    var html = template(templateData);
-                    helpItemList.html(html);
-                });
+            .done(function (result) {
+                loadItemForList(result.Items);
             });
     }
 
@@ -130,6 +113,36 @@
         btnEdit.data('href', urls.editHelpUrl + "?pageId=" + dataItem.HelpPageID);
         btnDelete.data('href', urls.deleteHelpUrl + "?pageId=" + dataItem.HelpPageID);
         loadItemForPage(dataItem.HelpPageID, urls.getHelpItemsUrl);
+    }
+
+    function loadItemForList(items) {
+        helpItemListContainer.html("");
+        helpOrderListContainer.html("");
+        var order = 0;
+        if (items != null && items.length >= 1) {
+            for (var i = 0; i < items.length; i++) {
+                var itemContent = createItem(items[i]);
+                if (itemContent !== '') {
+                    helpItemListContainer.append(itemContent);
+                    order++;
+                    helpOrderListContainer.append(createOrder(order));
+                }
+            }
+        }
+    }
+
+    function createItem(item) {
+        if (item.Status !== 800005) {
+            var itemHtml = '<li class="ui-state-default" data-item-order="' + item.DisplayOrder + '" style="cursor: default;">' +
+                            '<span class="help-item-title" style="width: 100%;">' + item.Title + '</span>' +
+                            ' </li>';
+            return itemHtml;
+        } else {
+            return '';
+        }
+    }
+    function createOrder(order) {
+        return '<li style="cursor: default;">' + order + '</li>';
     }
 });
 
