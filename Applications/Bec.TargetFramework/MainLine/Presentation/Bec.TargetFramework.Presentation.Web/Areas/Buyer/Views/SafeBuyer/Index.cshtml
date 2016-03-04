@@ -70,12 +70,13 @@
                                                 <td>Transaction Address</td>
                                                 <td>
                                                     <div class="magic-edit">
+                                                        @{ var txAddress = Model.SmsTransaction.Address; }
                                                         <div class="view">
-                                                            <p><span data-field="Line1" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">@Model.SmsTransaction.Address.Line1</span></p>
-                                                            <p><span data-field="Line2" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@Model.SmsTransaction.Address.Line2</span></p>
-                                                            <p><span data-field="Town" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@Model.SmsTransaction.Address.Town</span></p>
-                                                            <p><span data-field="County" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@Model.SmsTransaction.Address.County</span></p>
-                                                            <p><span data-field="PostalCode" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@Model.SmsTransaction.Address.PostalCode</span></p>
+                                                            <p><span data-field="Line1" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">@(txAddress != null ? txAddress.Line1 : "TBC")</span></p>
+                                                            <p><span data-field="Line2" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.Line2 : "")</span></p>
+                                                            <p><span data-field="Town" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.Town : "")</span></p>
+                                                            <p><span data-field="County" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.County : "")</span></p>
+                                                            <p><span data-field="PostalCode" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.PostalCode : "")</span></p>
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
@@ -250,12 +251,13 @@
                                                 </td>
                                                 <td>
                                                     <div class="magic-edit">
+                                                        @{ var address = Model.Address; }
                                                         <div class="view">
-                                                            <p><span data-field="Line1" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@Model.Address.Line1</span></p>
-                                                            <p><span data-field="Line2" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@Model.Address.Line2</span></p>
-                                                            <p><span data-field="Town" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@Model.Address.Town</span></p>
-                                                            <p><span data-field="County" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@Model.Address.County</span></p>
-                                                            <p><span data-field="PostalCode" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@Model.Address.PostalCode</span></p>
+                                                            <p><span data-field="Line1" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" data-no-value-text="TBC">@(address != null ? Model.Address.Line1 : "TBC")</span></p>
+                                                            <p><span data-field="Line2" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.Line2 : "")</span></p>
+                                                            <p><span data-field="Town" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.Town : "")</span></p>
+                                                            <p><span data-field="County" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.County : "")</span></p>
+                                                            <p><span data-field="PostalCode" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.PostalCode : "")</span></p>
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
