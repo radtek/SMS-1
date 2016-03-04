@@ -384,6 +384,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         Description = item.Description,
                         Position = item.Position,
                         TabContainerId = item.TabContainerId,
+                        RoleId = item.RoleId,
                         EffectiveOn = item.EffectiveOn
                     };
                     newItem.DisplayOrder = newOrder;
@@ -440,6 +441,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         CreatedBy = item.CreatedBy,
                         CreatedOn = item.CreatedOn,
                         Status = item.Status,
+                        RoleId = item.RoleId,
                         DisplayOrder = newOrder
                     };
                     newList.Add(newItem);
