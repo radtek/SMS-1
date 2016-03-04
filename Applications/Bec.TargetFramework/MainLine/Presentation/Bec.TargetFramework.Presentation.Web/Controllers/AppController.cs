@@ -94,7 +94,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public async Task<ActionResult> GetFieldUpdates(int activityType, Guid activityID)
         {
-            await EnsureCanAccessFieldUpdates(activityType, activityID);
+            await EnsureCanAccessFieldUpdates(activityType, activityID, false);
             var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.FieldName, x.Value, x.ParentID, x.ParentType, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
             var filter = ODataHelper.Filter<FieldUpdateDTO>(x => x.ActivityType == activityType && x.ActivityID == activityID);
             var res = await QueryClient.QueryAsync("FieldUpdates", select + filter);
@@ -107,7 +107,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             dto.ModifiedOn = DateTime.Now;
             try
             {
-                await EnsureCanAccessFieldUpdates(dto.ActivityType, dto.ActivityID);
+                await EnsureCanAccessFieldUpdates(dto.ActivityType, dto.ActivityID, false);
                 await MiscClient.AddOrModifyFieldUpdateAsync(dto);
                 return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
             }
@@ -117,7 +117,21 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             }
         }
 
-        private async Task EnsureCanAccessFieldUpdates(int activityType, Guid activityID)
+        public async Task<ActionResult> PostImmediateUpdate(FieldUpdateDTO dto)
+        {
+            try
+            {
+                await EnsureCanAccessFieldUpdates(dto.ActivityType, dto.ActivityID, true);
+                await MiscClient.PostImmediateUpdateAsync(dto);
+                return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { result = "failed" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private async Task EnsureCanAccessFieldUpdates(int activityType, Guid activityID, bool approveReject)
         {
             var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -128,11 +142,29 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
                     var selectTx = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID, users = x.SmsUserAccountOrganisationTransactions.Select(y => new { y.UserAccountOrganisationID }) });
                     var filterTx = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == activityID);
                     var resultTx = (await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", selectTx + filterTx)).Single();
-                    if (resultTx.OrganisationID == orgId || resultTx.SmsUserAccountOrganisationTransactions.Any(x => x.UserAccountOrganisationID == uaoId)) 
-                        return;
+                    if (approveReject)
+                    {
+                        if (resultTx.OrganisationID == orgId) return;
+                    }
+                    else
+                    {
+                        if (resultTx.OrganisationID == orgId || resultTx.SmsUserAccountOrganisationTransactions.Any(x => x.UserAccountOrganisationID == uaoId)) return;
+                    }
                     break;
             }
             throw new AccessViolationException("Operation failed");
+        }
+
+        public async Task ApproveUpdate(int activityType, Guid activityID, int parentType, Guid parentID, string fieldName)
+        {
+            await EnsureCanAccessFieldUpdates(activityType, activityID, true);
+            await MiscClient.ApproveUpdateAsync(activityType, activityID, parentType, parentID, fieldName);
+        }
+
+        public async Task RejectUpdate(int activityType, Guid activityID, int parentType, Guid parentID, string fieldName)
+        {
+            await EnsureCanAccessFieldUpdates(activityType, activityID, true);
+            await MiscClient.RejectUpdateAsync(activityType, activityID, parentType, parentID, fieldName);
         }
     }
 }

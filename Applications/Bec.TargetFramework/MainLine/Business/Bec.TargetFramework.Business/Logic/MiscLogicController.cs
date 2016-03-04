@@ -1,9 +1,11 @@
 ﻿using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
 using nClam;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +58,115 @@ namespace Bec.TargetFramework.Business.Logic
                     entity.Value = dto.Value;
                 }
                 
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task ApproveUpdate(int activityType, Guid activityID, int parentType, Guid parentID, string fieldName)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var entity = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.SingleOrDefault(x =>
+                    x.ActivityType == activityType &&
+                    x.ActivityID == activityID &&
+                    x.ParentType == parentType &&
+                    x.ParentID == parentID &&
+                    x.FieldName == fieldName);
+
+                if (entity == null) throw new InvalidOperationException();
+
+                switch ((ActivityType)entity.ActivityType)
+                {
+                    case ActivityType.SmsTransaction:
+                        await UpdateSmsTransaction(entity.ToDto());
+                        scope.DbContexts.Get<TargetFrameworkEntities>().Entry(entity).State = System.Data.Entity.EntityState.Deleted;
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task PostImmediateUpdate(FieldUpdateDTO dto)
+        {
+            switch ((ActivityType)dto.ActivityType)
+            {
+                case ActivityType.SmsTransaction:
+                    await UpdateSmsTransaction(dto);
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        private async Task UpdateSmsTransaction(FieldUpdateDTO entity)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == entity.ActivityID);
+                SmsUserAccountOrganisationTransaction uaotx;
+
+                switch ((FieldUpdateParentType)entity.ParentType)
+                {
+                    case FieldUpdateParentType.SmsTransaction:
+                        SetProperty(tx, entity);
+                        break;
+                    case FieldUpdateParentType.SmsTransactionAddress:
+                        if (tx.Address == null)
+                            tx.Address = new Address();
+                        else
+                            SetProperty(tx.Address, entity);
+                        break;
+                    case FieldUpdateParentType.RegisteredHomeAddress:
+                        uaotx = tx.SmsUserAccountOrganisationTransactions.Single(x => x.SmsUserAccountOrganisationTransactionID == entity.ParentID);
+                        if (uaotx.Address == null)
+                            uaotx.Address = new Address();
+                        else
+                            SetProperty(uaotx.Address, entity);
+                        break;
+                    case FieldUpdateParentType.Contact:
+                        uaotx = tx.SmsUserAccountOrganisationTransactions.Single(x => x.SmsUserAccountOrganisationTransactionID == entity.ParentID);
+                        SetProperty(uaotx.Contact, entity);
+                        break;
+                }
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        private void SetProperty(object obj, FieldUpdateDTO entity)
+        {
+            var t = ObjectContext.GetObjectType(obj.GetType());
+            var prop = t.GetProperty(entity.FieldName);
+            if (prop == null) throw new InvalidOperationException();
+
+            object val = entity.Value;
+            if (prop.PropertyType == typeof(bool))
+            {
+                val = val.ToString().Contains("true");
+            }
+            else if ((prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(Nullable<DateTime>)) && val != null)
+            {
+                val = Convert.ToDateTime(val.ToString());
+            }
+            prop.SetValue(obj, Convert.ChangeType(val, prop.PropertyType));
+        }
+
+        public async Task RejectUpdate(int activityType, Guid activityID, int parentType, Guid parentID, string fieldName)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                FieldUpdate del = new FieldUpdate
+                { 
+                    ActivityType = activityType,
+                    ActivityID = activityID,
+                    ParentType = parentType,
+                    ParentID = parentID,
+                    FieldName = fieldName
+                };
+                scope.DbContexts.Get<TargetFrameworkEntities>().Entry(del).State = System.Data.Entity.EntityState.Deleted;
+
                 await scope.SaveChangesAsync();
             }
         }

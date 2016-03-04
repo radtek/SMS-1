@@ -407,6 +407,44 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		void AddOrModifyFieldUpdate(FieldUpdateDTO dto);
+
+		/// <param name="activityType"></param>
+		/// <param name="activityID"></param>
+		/// <param name="parentType"></param>
+		/// <param name="parentID"></param>
+		/// <param name="fieldName"></param>
+		/// <returns></returns>
+		Task ApproveUpdateAsync(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName);
+
+		/// <param name="activityType"></param>
+		/// <param name="activityID"></param>
+		/// <param name="parentType"></param>
+		/// <param name="parentID"></param>
+		/// <param name="fieldName"></param>
+		/// <returns></returns>
+		void ApproveUpdate(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName);
+
+		/// <returns></returns>
+		Task PostImmediateUpdateAsync(FieldUpdateDTO dto);
+
+		/// <returns></returns>
+		void PostImmediateUpdate(FieldUpdateDTO dto);
+
+		/// <param name="activityType"></param>
+		/// <param name="activityID"></param>
+		/// <param name="parentType"></param>
+		/// <param name="parentID"></param>
+		/// <param name="fieldName"></param>
+		/// <returns></returns>
+		Task RejectUpdateAsync(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName);
+
+		/// <param name="activityType"></param>
+		/// <param name="activityID"></param>
+		/// <param name="parentType"></param>
+		/// <param name="parentID"></param>
+		/// <param name="fieldName"></param>
+		/// <returns></returns>
+		void RejectUpdate(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName);
 	}
 
 	public partial interface INotificationLogicClient : IClientBase	{	
@@ -925,16 +963,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Guid AddSmsTransaction(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
 
 		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+		Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,SmsUserAccountOrganisationTransactionDTO dto);
 
 		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,SmsUserAccountOrganisationTransactionDTO dto);
 
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
@@ -2776,6 +2810,87 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<FieldUpdateDTO>("api/MiscLogic/AddOrModifyFieldUpdate", dto, _user)).Wait();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="activityType"></param>
+		/// <param name="activityID"></param>
+		/// <param name="parentType"></param>
+		/// <param name="parentID"></param>
+		/// <param name="fieldName"></param>
+		/// <returns></returns>
+		public virtual Task ApproveUpdateAsync(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName)
+		{
+			fieldName = fieldName.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/MiscLogic/ApproveUpdate?activityType=" + activityType + "&activityID=" + activityID + "&parentType=" + parentType + "&parentID=" + parentID + "&fieldName=" + fieldName, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="activityType"></param>
+		/// <param name="activityID"></param>
+		/// <param name="parentType"></param>
+		/// <param name="parentID"></param>
+		/// <param name="fieldName"></param>
+		public virtual void ApproveUpdate(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName)
+		{
+			fieldName = fieldName.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/MiscLogic/ApproveUpdate?activityType=" + activityType + "&activityID=" + activityID + "&parentType=" + parentType + "&parentID=" + parentID + "&fieldName=" + fieldName, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task PostImmediateUpdateAsync(FieldUpdateDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<FieldUpdateDTO>("api/MiscLogic/PostImmediateUpdate", dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void PostImmediateUpdate(FieldUpdateDTO dto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<FieldUpdateDTO>("api/MiscLogic/PostImmediateUpdate", dto, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="activityType"></param>
+		/// <param name="activityID"></param>
+		/// <param name="parentType"></param>
+		/// <param name="parentID"></param>
+		/// <param name="fieldName"></param>
+		/// <returns></returns>
+		public virtual Task RejectUpdateAsync(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName)
+		{
+			fieldName = fieldName.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/MiscLogic/RejectUpdate?activityType=" + activityType + "&activityID=" + activityID + "&parentType=" + parentType + "&parentID=" + parentID + "&fieldName=" + fieldName, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="activityType"></param>
+		/// <param name="activityID"></param>
+		/// <param name="parentType"></param>
+		/// <param name="parentID"></param>
+		/// <param name="fieldName"></param>
+		public virtual void RejectUpdate(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName)
+		{
+			fieldName = fieldName.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/MiscLogic/RejectUpdate?activityType=" + activityType + "&activityID=" + activityID + "&parentType=" + parentType + "&parentID=" + parentID + "&fieldName=" + fieldName, null, _user)).Wait();
+		}
+
 		#endregion
 	}
 	/// <summary>
@@ -4005,29 +4120,21 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		public virtual Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		public virtual Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,SmsUserAccountOrganisationTransactionDTO dto)
 		{
-			accountNumber = accountNumber.UrlEncode();
-			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user);
+			return PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID, dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,SmsUserAccountOrganisationTransactionDTO dto)
 		{
-			accountNumber = accountNumber.UrlEncode();
-			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user)).Result;
+			return Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID, dto, _user)).Result;
 		}
 
 		/// <summary>

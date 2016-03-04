@@ -192,6 +192,15 @@
         transactionDetailsTemplatePromise.done(function (template) {
             var html = template(data);
             $('#transactionDetails').html(html);
+            var table = $('#transaction-details');
+            magicEdit({
+                url: table.data('edit-url'),
+                activityType: table.data('activity-type'),
+                activityId: table.data('activity-id'),
+                updateUrl: table.data('update-url'),
+                approveUrl: table.data('approve-url'),
+                rejectUrl: table.data('reject-url')
+            });
         });
     }
 

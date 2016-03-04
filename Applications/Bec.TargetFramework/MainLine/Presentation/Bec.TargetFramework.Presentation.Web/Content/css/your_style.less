@@ -499,7 +499,7 @@ form {
     cursor: pointer;
 }
 
-.delete-src-of-funds-entry{
+.delete-src-of-funds-entry {
     .delete-entry;
 }
 
@@ -817,8 +817,8 @@ a.removeupload {
     }
 }
 
-.transaction-details-table{
-    tbody tr td:first-child{
+.transaction-details-table {
+    tbody tr td:first-child {
         width: 150px;
     }
 }
@@ -884,14 +884,14 @@ a.removeupload {
 .magic-edit {
     position: relative;
 
-    .magic-edit-button{
-        position:absolute;
-        top:5px;
-        right:5px;
+    .magic-edit-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
         visibility: hidden;
     }
 
-    &:hover .magic-edit-button{
+    &:hover .magic-edit-button {
         visibility: visible;
     }
 
@@ -900,46 +900,53 @@ a.removeupload {
         min-height: 34px;
     }
 
-    .edit{
+    .edit {
         display: none;
-        input[type=text]{
+
+        input[type=text] {
             padding: 0 5px;
             display: block;
             margin-bottom: 5px;
         }
-        input.postcode-lookup{
+
+        input.postcode-lookup {
             margin-bottom: 0;
         }
-        select{
+
+        select {
             padding: 5px;
             width: 100%;
         }
-        label.select{
+
+        label.select {
             display: block;
         }
-        .relative-block{
+
+        .relative-block {
             position: relative;
         }
     }
 
-    &.editing{
-        .edit{
+    &.editing {
+        .edit {
             display: block;
             padding-right: 100px;
         }
-        .view{
+
+        .view {
             display: none;
         }
-        .magic-edit-button{
+
+        .magic-edit-button {
             visibility: visible;
         }
     }
 
-    .form-group{
+    .form-group {
         margin-bottom: 0;
     }
 
-    .magic-edit-spinner{
+    .magic-edit-spinner {
         position: absolute;
         top: 0;
         left: 0;
@@ -948,7 +955,8 @@ a.removeupload {
         z-index: 10;
         background-color: #FBFBFB;
         opacity: 0.8;
-        .fa-spinner{
+
+        .fa-spinner {
             position: relative;
             left: 50%;
             top: 25%;
@@ -956,12 +964,12 @@ a.removeupload {
     }
 }
 
-.accept{
-    color:@color-accept;
+.accept {
+    color: @color-accept;
 }
 
-.reject{
-    color:@color-reject;
+.reject {
+    color: @color-reject;
 }
 
 .pending-update {
@@ -970,6 +978,18 @@ a.removeupload {
 
 .magic-edit input.editing {
     border: 1px solid rgba(172, 172, 172, 0.44);
+}
+
+.pending-approval {
+    color: #157272;
+    border-width: 0 0 1px 0;
+    border-style: dashed;
+    border-color: #157272;
+    cursor: pointer;
+
+    &:hover, &:focus {
+        text-decoration: none;
+    }
 }
 
 // xs and sm

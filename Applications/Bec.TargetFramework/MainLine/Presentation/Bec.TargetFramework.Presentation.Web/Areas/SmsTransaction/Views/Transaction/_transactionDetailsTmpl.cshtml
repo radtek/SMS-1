@@ -1,43 +1,65 @@
-﻿{{#unless SmsTransaction.InvoiceID}}
+﻿@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@using Bec.TargetFramework.Presentation.Web.Models
+{{#unless SmsTransaction.InvoiceID}}
 @*<span class="pull-right">
         <a id="quoteButton" class="btn btn-sm btn-primary" data-modallink="true" title="Send Quote" data-url="@Url.Action("ViewSendQuote", "Transaction", new { area = "SmsTransaction" })"><i class="sms-fw sms-safe-send margin-right-5"></i>Send Quote</a>
     </span>*@
 {{/unless}}
 
-<h5>Transaction Address</h5>
-<dl class="dl-horizontal">
-    {{#if SmsTransaction.Address.Line1}}
-    <dt>Address Line 1:</dt>
-    <dd>
-        <p>{{SmsTransaction.Address.Line1}}</p>
-    </dd>
-        {{#if SmsTransaction.Address.Line2}}
-        <dt>Address Line 2:</dt>
-        <dd><p>{{SmsTransaction.Address.Line2}}</p></dd>
-        {{/if}}
-        {{#if SmsTransaction.Address.Town}}
-        <dt>Town:</dt>
-        <dd>
-            <p>{{SmsTransaction.Address.Town}}</p>
-        </dd>
-        {{/if}}
-        {{#if SmsTransaction.Address.County}}
-        <dt>County:</dt>
-        <dd><p>{{SmsTransaction.Address.County}}</p></dd>
-        {{/if}}
-        {{#if SmsTransaction.Address.PostalCode}}
-        <dt>Post Code:</dt>
-        <dd>
-            <p>{{SmsTransaction.Address.PostalCode}}</p>
-        </dd>
-        {{/if}}
-    {{else}}
-    <dt>Address:</dt>
-    <dd>
-        <p>TBC</p>
-    </dd>
-    {{/if}}
-</dl>
+<h5>Transaction Details</h5>
+<table class="table transaction-details-table"
+       id="transaction-details"
+       data-edit-url="@Url.Action("GetFieldUpdates", "App", new { area = "" })"
+       data-update-url="@Url.Action("PostImmediateUpdate", "App", new { area = "" })"
+       data-approve-url="@Url.Action("ApproveUpdate", "App", new { area = "" })"
+       data-reject-url="@Url.Action("RejectUpdate", "App", new { area = "" })"
+       data-activity-type="@ActivityType.SmsTransaction.GetIntValue()"
+       data-activity-id="{{SmsTransactionID}}">
+    <tr>
+        <td>Transaction Address</td>
+        <td>
+            <div class="magic-edit">
+                <div class="view">
+                    <p><span data-field="Line1" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">{{SmsTransaction.Address.Line1}}</span></p>
+                    <p><span data-field="Line2" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.Line2}}</span></p>
+                    <p><span data-field="Town" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.Town}}</span></p>
+                    <p><span data-field="County" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.County}}</span></p>
+                    <p><span data-field="PostalCode" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.PostalCode}}</span></p>
+                </div>
+                <div class="edit">
+                    <form class="smart-form">
+                        @Html.Partial("_PostcodeLookup", new PostcodeLookupModel { Prefix = "tx" })
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="input">
+                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                    <input type="text" value="{{SmsTransaction.Address.Line1}}" data-rule-required="true" class="form-control" data-field="Line1" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txLine1" placeholder="Address Line 1" />
+                                </label>
+                                <label class="input">
+                                    <input type="text" value="{{SmsTransaction.Address.Line2}}" data-rule-required="true" class="form-control" data-field="Line2" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txLine2" placeholder="Address Line 2" />
+                                </label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                    <input type="text" value="{{SmsTransaction.Address.Town}}" data-rule-required="true" class="form-control" data-field="Town" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txTown" placeholder="Town" />
+                                </label>
+                                <label class="input">
+                                    <input type="text" value="{{SmsTransaction.Address.County}}" class="form-control" data-field="County" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txCounty" placeholder="County" />
+                                </label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                    <input type="text" value="{{SmsTransaction.Address.PostalCode}}" data-rule-required="true" data-rule-minlength="5" , class="form-control" data-field="PostalCode" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txPostalCode" placeholder="PostalCode" />
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
 {{#xif "this.SmsTransaction.LenderName || this.SmsTransaction.MortgageApplicationNumber || this.SmsTransaction.Price"}}
 <h5>Other Details</h5>
 {{/xif}}

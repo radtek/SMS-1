@@ -715,6 +715,7 @@ if (!String.prototype.format) {
 function magicEdit(options) {
     this.options = options;
     var self = this;
+    var approveReject = options.hasOwnProperty('approveUrl') && options.hasOwnProperty('rejectUrl');
 
     init();
     updateValues();
@@ -730,7 +731,7 @@ function magicEdit(options) {
             set.append(buttonContainer);
             set.append(spinner);
             var form = set.find('form');
-            
+
             enterDisplayMode();
             preserveOriginalValues();
 
@@ -810,6 +811,10 @@ function magicEdit(options) {
                             if (res.result != "ok") {
                                 alert('failed');
                                 formElement.val(formElement.data('originalVal'));
+                            } else {
+                                if (approveReject) {
+                                    $('.magic-edit .view [data-parent-type=' + formElement.data('parent-type') + '][data-parent-id=' + formElement.data('parent-id') + '][data-field=' + formElement.data('field') + ']').text(newValue);
+                                }
                             }
                         }).fail(function (e) {
                             console.log(e);
@@ -827,25 +832,44 @@ function magicEdit(options) {
         ajaxWrapper({
             url: options.url,
             data: {
-                activityType: self.options.activityType,
-                activityID: self.options.activityId
+                activityType: options.activityType,
+                activityID: options.activityId
             }
         }).done(function (fieldUpdates) {
             iterateSets(function (set) {
-                iterateFormElements(set, function (formElement) {
-                    var updatedValue = getUpdatedValue(fieldUpdates, formElement);
-                    if (updatedValue) {
-                        formElement.val(updatedValue.Value);
-                    }
-                });
+                if (!approveReject) {
+                    iterateFormElements(set, function (formElement) {
+                        var updatedValue = getUpdatedValue(fieldUpdates, formElement);
+                        if (updatedValue) {
+                            formElement.val(updatedValue.Value);
+                        }
+                    });
+                }
                 iterateViews(set, function (field) {
                     var noValueText = field.data('no-value-text') || '';
                     var updatedValue = getUpdatedValue(fieldUpdates, field);
                     if (updatedValue) {
                         var fieldText = updatedValue.Value || noValueText;
-                        field.text(fieldText);
-                        field.addClass('pending-update');
-                        field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
+
+                        if (approveReject) {
+                            field.addClass("pending-approval");
+                            field.popover({
+                                content: getContent(updatedValue, field),
+                                html: true,
+                                placement: "bottom",
+                                title: getTitle(updatedValue),
+                                trigger: "click"
+                            });
+                        }
+                        else {
+                            field.text(fieldText);
+                            field.addClass('pending-update');
+                            field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
+                        }
+                    }
+                    else {
+                        field.removeClass("pending-approval");
+                        field.removeClass('pending-update');
                     }
                 });
                 getSpinner(set).hide();
@@ -883,5 +907,113 @@ function magicEdit(options) {
 
     function getSpinner(set) {
         return set.find('.magic-edit-spinner');
+    }
+
+
+    function getContent(data, field) {
+        return function () {
+            var ret = $('<p>Change to: <strong>' + data.Value + '</strong></p></div>');
+            var okButton = $('<button class="btn btn-default">Approve<i class="fa fa-check accept margin-left-5"></i></button>').on('mousedown', function () {
+                approvePendingUpdate(data);
+                field.text(data.Value);
+            });
+            var cancelButton = $('<button class="btn btn-default">Reject<i class="fa fa-times reject margin-left-5"></i></button>').on('mousedown', function () {
+                rejectPendingUpdate(data);
+            });
+            var buttonContainer = $('<div class="magic-edit-button margin-top-10"></div>');
+            buttonContainer.append(okButton).append(cancelButton);
+            ret.append(buttonContainer);
+            return ret;
+        }
+    }
+
+    function getTitle(data) {
+        return function () {
+            return 'Pending update from ' + data.UserAccountOrganisation.Contact.FirstName + ' ' + data.UserAccountOrganisation.Contact.LastName + ', on ' + data.ModifiedOn;
+        }
+    }
+
+    function approvePendingUpdate(data) {
+        postUpdate(data, options.approveUrl);
+    }
+
+    function rejectPendingUpdate(data) {
+        postUpdate(data, options.rejectUrl);
+    }
+
+    function postUpdate(data, url) {
+        ajaxWrapper({
+            url: url,
+            data: {
+                activityType: options.activityType,
+                activityID: options.activityId,
+                parentID: data.ParentID,
+                parentType: data.ParentType,
+                fieldName: data.FieldName
+            }
+        }).done(function () {
+            updateValues();
+        });
+    }
+}
+
+
+function approveRejectEdits(options) {
+    var self = this;
+    this.options = options;
+
+    init(options.parent);
+
+    function init(parent) {
+        $(parent).find('[data-field]').each(function (i, item) {
+            var elem = $(item);
+            elem.addClass("pending-approval");
+            elem.popover({
+                content: getContent,
+                html: true,
+                placement: "bottom",
+                title: getTitle,
+                trigger: "focus"
+            });
+        });
+    }
+
+    function getContent() {
+        var data = getData(this);
+        var ret = $('<p>Change to: <strong>' + data.Value + '</strong></p></div>');
+        var okButton = $('<button class="btn btn-default">Approve<i class="fa fa-check accept margin-left-5"></i></button>').on('mousedown', function () {
+            approvePendingUpdate(data);
+        });
+        var cancelButton = $('<button class="btn btn-default">Reject<i class="fa fa-times reject margin-left-5"></i></button>').on('mousedown', function () {
+            rejectPendingUpdate(data);
+        });
+        var buttonContainer = $('<div class="magic-edit-button margin-top-10"></div>');
+        buttonContainer.append(okButton).append(cancelButton);
+        ret.append(buttonContainer);
+        return ret;
+    }
+
+    function getTitle() {
+        var data = getData(this);
+        return 'Pending update from ' + data.Name + ', on ' + data.Date;
+    }
+
+    function getData(element) {
+        //will use these attributes:
+        //$(element.data('field'))
+        //$(element.data('parent-type'))
+        //$(element.data('parent-id'))
+        return {
+            Field: "LenderName",
+            Name: "Mr Person",
+            Date: "15/01/2016",
+            Value: "HSBC Ltd"
+        };
+    }
+
+    function approvePendingUpdate(data) {
+    }
+
+    function rejectPendingUpdate(data) {;
     }
 }
