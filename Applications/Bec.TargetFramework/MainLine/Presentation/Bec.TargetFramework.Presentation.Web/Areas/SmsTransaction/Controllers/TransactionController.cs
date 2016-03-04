@@ -80,7 +80,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 x.SmsTransactionID,
                 x.SmsTransaction.Reference,
-                x.SmsTransaction.AddressID,
                 x.SmsTransaction.Address.Line1,
                 x.SmsTransaction.Address.Line2,
                 x.SmsTransaction.Address.Town,

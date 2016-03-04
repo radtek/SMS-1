@@ -717,6 +717,7 @@ if (!String.prototype.format) {
 function magicEdit(options) {
     this.options = options;
     var self = this;
+    var approveReject = options.approveUrl && options.rejectUrl;
 
     init();
     updateValues();
@@ -732,11 +733,11 @@ function magicEdit(options) {
             set.append(buttonContainer);
             set.append(spinner);
             var form = set.find('form');
-            
+
             setupButtonEvents();
             enterDisplayMode();
             preserveOriginalValues(set);
-            
+
             function setupButtonEvents() {
                 editButton.on('click', function () {
                     preserveOriginalValues(set);
@@ -785,7 +786,7 @@ function magicEdit(options) {
                     setEditFieldValue(fieldUpdates, formElement);
                 });
                 iterateViewFields(set, function (field) {
-                    setDisplayFieldValue(fieldUpdates, field);
+                    setDisplayFieldValue(set, fieldUpdates, field);
                 });
                 getSpinner(set).hide();
             });
@@ -827,7 +828,9 @@ function magicEdit(options) {
                         Value: newValue
                     }
                 }).done(function (res) {
-                    if (res.result != "ok") {
+                    if (res.result === "ok") {
+                        refreshViewValue(set, formElement, newValue);
+                    } else {
                         alert('failed');
                         formElement.val(formElement.data('originalVal'));
                     }
@@ -866,7 +869,7 @@ function magicEdit(options) {
         }
     }
 
-    function setDisplayFieldValue(fieldUpdates, field) {
+    function setDisplayFieldValue(set, fieldUpdates, field) {
         var noValueText = field.data('no-value-text') || '';
         var updatedValue = getUpdatedValue(fieldUpdates, field);
         if (updatedValue) {
@@ -874,13 +877,38 @@ function magicEdit(options) {
             if (updatedValue.Value) {
                 fieldText = getFormattedDisplayValue(updatedValue.Value, field);
             }
-            field.text(fieldText);
-            var titleText = "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn);
             field.addClass('pending-update');
-            field.attr('title', titleText);
-            field.attr('data-original-title', titleText);
-            field.tooltip('fixTitle');
+            var original = field.text();
+            field.text(fieldText);
+
+            var pop = field.popover({
+                content: getContent(set, updatedValue, field, original),
+                html: true,
+                placement: "bottom",
+                title: getTitle(updatedValue),
+                trigger: "click"
+            });            
+            pop.on('hide.bs.popover', unregisterBodyClick);
+            pop.on('show.bs.popover', registerBodyClick);
+            
+        } else {
+            field.removeClass('pending-update');
+            field.popover('destroy');
         }
+    }
+
+    function registerBodyClick(f) {
+        console.log('reg');
+        $('body').on('click.zenon', function (e) {
+            if ($(e.target).parents('.popover.in').length === 0 && !$(e.target).data('field')) {
+                $(f.target).popover('hide');
+            }
+        });
+    }
+
+    function unregisterBodyClick() {
+        console.log('unreg');
+        $('body').off('click.zenon');
     }
 
     function getUpdatedValue(fieldUpdates, element) {
@@ -933,5 +961,66 @@ function magicEdit(options) {
 
     function getSpinner(set) {
         return set.find('.magic-edit-spinner');
+    }
+
+    function getContent(set, data, field, originalValue) {
+        return function () {
+            //var ret = $('<div><p>Change from: <strong>' + originalValue + '</strong></p><p>Change to: <strong>' + field.text() + '</strong></p></div>');
+            var ret = $('<div><table class="pending-update-table"><tr><td>Original:</td><td><strong>' + originalValue +'</strong></td></tr><tr><td>Requested:</td><td><strong>'+field.text()+'</strong></td></tr></table></div>');
+
+            if (approveReject) {
+                var okButton = $('<button class="btn btn-default">Approve<i class="fa fa-check accept margin-left-5"></i></button>').on('click', function () {
+                    postUpdate(data, options.approveUrl).done(function () {
+                        field.text(data.Value);
+                        field.popover('destroy');
+                    });
+                    
+                });
+                var cancelButton = $('<button class="btn btn-default">Reject<i class="fa fa-times reject margin-left-5"></i></button>').on('click', function () {
+                    postUpdate(data, options.rejectUrl).done(function () {
+                        setViewValueOriginal(set, field);
+                        field.popover('destroy');
+                    });
+                });
+                var buttonContainer = $('<div class="margin-top-10"></div>');
+                buttonContainer.append(okButton).append(cancelButton);
+                ret.append(buttonContainer);
+            }
+            return ret;
+        }
+    }
+
+    function getTitle(data) {
+        return function () {
+            return 'Pending update from ' + data.UserAccountOrganisation.Contact.FirstName + ' ' + data.UserAccountOrganisation.Contact.LastName + ', on ' + dateString(data.ModifiedOn);
+        }
+    }
+
+    function postUpdate(data, url) {
+        return ajaxWrapper({
+            url: url,
+            data: {
+                activityType: options.activityType,
+                activityID: options.activityId,
+                parentID: data.ParentID,
+                parentType: data.ParentType,
+                fieldName: data.FieldName
+            }
+        }).done(function () {
+            updateValues();
+        });
+    }
+
+    function refreshViewValue(set, formElement, newValue) {
+        if (approveReject) {
+            set.find('.view [data-parent-type=' + formElement.data('parent-type') + '][data-parent-id=' + formElement.data('parent-id') + '][data-field=' + formElement.data('field') + ']').text(newValue);
+        }
+    }
+
+    function setViewValueOriginal(set, field) {
+        if (approveReject) {
+            var formElement = set.find('.edit [data-parent-type=' + field.data('parent-type') + '][data-parent-id=' + field.data('parent-id') + '][data-field=' + field.data('field') + ']')
+            field.text(formElement.data('originalVal'));
+        }
     }
 }

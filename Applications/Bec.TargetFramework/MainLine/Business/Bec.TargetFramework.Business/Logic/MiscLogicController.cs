@@ -74,30 +74,31 @@ namespace Bec.TargetFramework.Business.Logic
                     x.FieldName == fieldName);
 
                 if (entity == null) throw new InvalidOperationException();
-
-                switch ((ActivityType)entity.ActivityType)
-                {
-                    case ActivityType.SmsTransaction:
-                        await UpdateSmsTransaction(entity.ToDto());
-                        scope.DbContexts.Get<TargetFrameworkEntities>().Entry(entity).State = System.Data.Entity.EntityState.Deleted;
-                        break;
-                    default:
-                        throw new InvalidOperationException();
-                }
-
+                await PostImmediateUpdate(entity.ToDto());
                 await scope.SaveChangesAsync();
             }
         }
 
         public async Task PostImmediateUpdate(FieldUpdateDTO dto)
         {
-            switch ((ActivityType)dto.ActivityType)
+            using (var scope = DbContextScopeFactory.Create())
             {
-                case ActivityType.SmsTransaction:
-                    await UpdateSmsTransaction(dto);
-                    break;
-                default:
-                    throw new InvalidOperationException();
+                switch ((ActivityType)dto.ActivityType)
+                {
+                    case ActivityType.SmsTransaction:
+                        await UpdateSmsTransaction(dto);
+                        var entity = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.SingleOrDefault(x =>
+                            x.ActivityType == dto.ActivityType &&
+                            x.ActivityID == dto.ActivityID &&
+                            x.ParentType == dto.ParentType &&
+                            x.ParentID == dto.ParentID &&
+                            x.FieldName == dto.FieldName);
+                        if (entity != null) scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.Remove(entity);
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+                await scope.SaveChangesAsync();
             }
         }
 

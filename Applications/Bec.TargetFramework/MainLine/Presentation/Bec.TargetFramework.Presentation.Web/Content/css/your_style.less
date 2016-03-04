@@ -962,6 +962,15 @@ a.removeupload {
             top: 25%;
         }
     }
+
+    .pending-update-table {
+        td{
+            padding: 2px;
+        }
+        tr > td:last-child {
+            width: 100%;
+        }
+    }
 }
 
 .accept {
@@ -975,24 +984,13 @@ a.removeupload {
 .pending-update {
     color: #6EB0DF;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .tooltip {
     & > .tooltip-inner {
         background-color: #333;
         color: white;
-    }
-}
-
-.pending-approval {
-    color: #157272;
-    border-width: 0 0 1px 0;
-    border-style: dashed;
-    border-color: #157272;
-    cursor: pointer;
-
-    &:hover, &:focus {
-        text-decoration: none;
     }
 }
 

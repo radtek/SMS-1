@@ -21,11 +21,11 @@
         <td>
             <div class="magic-edit">
                 <div class="view">
-                    <p><span data-field="Line1" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">{{SmsTransaction.Address.Line1}}</span></p>
-                    <p><span data-field="Line2" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.Line2}}</span></p>
-                    <p><span data-field="Town" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.Town}}</span></p>
-                    <p><span data-field="County" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.County}}</span></p>
-                    <p><span data-field="PostalCode" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.PostalCode}}</span></p>
+                    <p><span data-field="Line1" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">{{SmsTransaction.Address.Line1}}</span></p>
+                    <p><span data-field="Line2" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.Line2}}</span></p>
+                    <p><span data-field="Town" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.Town}}</span></p>
+                    <p><span data-field="County" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.County}}</span></p>
+                    <p><span data-field="PostalCode" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.PostalCode}}</span></p>
                 </div>
                 <div class="edit">
                     <form class="smart-form">
@@ -34,21 +34,21 @@
                             <div class="col-sm-12">
                                 <label class="input">
                                     <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                    <input type="text" value="{{SmsTransaction.Address.Line1}}" data-rule-required="true" class="form-control" data-field="Line1" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txLine1" placeholder="Address Line 1" />
+                                    <input type="text" value="{{SmsTransaction.Address.Line1}}" data-rule-required="true" class="form-control" data-field="Line1" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txLine1" placeholder="Address Line 1" />
                                 </label>
                                 <label class="input">
-                                    <input type="text" value="{{SmsTransaction.Address.Line2}}" data-rule-required="true" class="form-control" data-field="Line2" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txLine2" placeholder="Address Line 2" />
-                                </label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                    <input type="text" value="{{SmsTransaction.Address.Town}}" data-rule-required="true" class="form-control" data-field="Town" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txTown" placeholder="Town" />
-                                </label>
-                                <label class="input">
-                                    <input type="text" value="{{SmsTransaction.Address.County}}" class="form-control" data-field="County" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txCounty" placeholder="County" />
+                                    <input type="text" value="{{SmsTransaction.Address.Line2}}" data-rule-required="true" class="form-control" data-field="Line2" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txLine2" placeholder="Address Line 2" />
                                 </label>
                                 <label class="input">
                                     <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                    <input type="text" value="{{SmsTransaction.Address.PostalCode}}" data-rule-required="true" data-rule-minlength="5" , class="form-control" data-field="PostalCode" data-parent-id="{{SmsTransaction.AddressID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txPostalCode" placeholder="PostalCode" />
+                                    <input type="text" value="{{SmsTransaction.Address.Town}}" data-rule-required="true" class="form-control" data-field="Town" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txTown" placeholder="Town" />
+                                </label>
+                                <label class="input">
+                                    <input type="text" value="{{SmsTransaction.Address.County}}" class="form-control" data-field="County" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txCounty" placeholder="County" />
+                                </label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                    <input type="text" value="{{SmsTransaction.Address.PostalCode}}" data-rule-required="true" data-rule-minlength="5" , class="form-control" data-field="PostalCode" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txPostalCode" placeholder="PostalCode" />
                                 </label>
                             </div>
                         </div>

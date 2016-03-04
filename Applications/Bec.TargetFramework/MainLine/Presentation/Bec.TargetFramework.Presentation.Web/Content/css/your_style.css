@@ -742,6 +742,12 @@ a.removeupload {
   left: 50%;
   top: 25%;
 }
+.magic-edit .pending-update-table td {
+  padding: 2px;
+}
+.magic-edit .pending-update-table tr > td:last-child {
+  width: 100%;
+}
 .accept {
   color: #24bb43;
 }
@@ -751,21 +757,11 @@ a.removeupload {
 .pending-update {
   color: #6EB0DF;
   font-weight: bold;
+  cursor: pointer;
 }
 .tooltip > .tooltip-inner {
   background-color: #333;
   color: white;
-}
-.pending-approval {
-  color: #157272;
-  border-width: 0 0 1px 0;
-  border-style: dashed;
-  border-color: #157272;
-  cursor: pointer;
-}
-.pending-approval:hover,
-.pending-approval:focus {
-  text-decoration: none;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
