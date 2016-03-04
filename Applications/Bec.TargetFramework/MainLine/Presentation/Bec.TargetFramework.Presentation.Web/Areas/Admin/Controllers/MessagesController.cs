@@ -303,7 +303,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             var filterTxUaot = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == activityId && x.UserAccountOrganisationID == uaoId);
                             var resultTxUaot = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", selectTxUaot + filterTxUaot);
                             var txUaot = resultTxUaot.FirstOrDefault();
-                            if (!CanAccessSmsTransactionConversation(tx, isSystemMessage, reply)) return false;
                             return txUaot != null && ClaimsAuthorization.CheckAccess("View", "MyTransactions");
                         case OrganisationTypeEnum.Professional:
                             return tx.OrganisationID == orgId && ClaimsAuthorization.CheckAccess("View", "SmsTransaction");
@@ -326,18 +325,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             }
 
             return false;
-        }
-
-        private bool CanAccessSmsTransactionConversation(SmsTransactionDTO tx, bool isSystemMessage, bool reply)
-        {
-            if (reply)
-            {
-                return tx.InvoiceID.HasValue;
-            }
-            else
-            {
-                return tx.InvoiceID.HasValue || isSystemMessage;
-            }
         }
 
         public async Task<string> UploadFile(Guid id, HttpPostedFileBase file)
