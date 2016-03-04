@@ -41,6 +41,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.LatestBankAccountCheck.CheckedOn,
                 x.SmsTransactionID,
                 x.SmsUserAccountOrganisationTransactionID,
+                x.Address.Line1,
+                x.Address.Line2,
+                x.Address.Town,
+                x.Address.County,
+                x.Address.PostalCode,
                 SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
             });
             var smsClientTypeId = uaotType.GetIntValue();

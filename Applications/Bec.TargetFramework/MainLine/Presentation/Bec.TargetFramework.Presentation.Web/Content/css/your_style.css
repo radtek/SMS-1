@@ -625,6 +625,14 @@ a.removeupload {
   word-break: normal;
   white-space: pre-wrap;
 }
+.transaction-details-table {
+  width: 100%;
+}
+.transaction-details-table tbody tr td {
+  padding-top: 6px;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
 .transaction-details-table tbody tr td:first-child {
   width: 150px;
 }
@@ -744,6 +752,7 @@ a.removeupload {
 }
 .magic-edit .pending-update-table td {
   padding: 2px;
+  border: none;
 }
 .magic-edit .pending-update-table tr > td:last-child {
   width: 100%;

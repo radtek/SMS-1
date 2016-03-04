@@ -818,8 +818,14 @@ a.removeupload {
 }
 
 .transaction-details-table {
-    tbody tr td:first-child {
-        width: 150px;
+    width:100%;
+    tbody tr td {
+        padding-top:6px;
+        vertical-align:top;
+        border-top: 1px solid #ddd;
+        &:first-child {
+            width: 150px;
+        }
     }
 }
 
@@ -964,9 +970,11 @@ a.removeupload {
     }
 
     .pending-update-table {
-        td{
+        td {
             padding: 2px;
+            border: none;
         }
+
         tr > td:last-child {
             width: 100%;
         }

@@ -65,7 +65,7 @@
                                 <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.SmsTransaction.ProductAcceptedOn.HasValue? "block" : "none")">
                                     <div class="col-md-6">
                                         <h5>Transaction Details</h5>
-                                        <table class="table transaction-details-table">
+                                        <table class="transaction-details-table">
                                             <tr>
                                                 <td>Transaction Address</td>
                                                 <td>
@@ -81,28 +81,24 @@
                                                         <div class="edit">
                                                             <form class="smart-form">
                                                                 @Html.Partial("_PostcodeLookup", new PostcodeLookupModel { Prefix = "tx" })
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label class="input">
-                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { data_rule_required = "true", @class = "form-control", data_field = "Line1", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine1", placeholder = "Address Line 1" })
-                                                                        </label>
-                                                                        <label class="input">
-                                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.Line2, new { @class = "form-control", data_field = "Line2", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine2", placeholder = "Address Line 2" })
-                                                                        </label>
-                                                                        <label class="input">
-                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.Town, new { data_rule_required = "true", @class = "form-control", data_field = "Town", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txTown", placeholder = "Town" })
-                                                                        </label>
-                                                                        <label class="input">
-                                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.County, new { @class = "form-control", data_field = "County", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txCounty", placeholder = "County" })
-                                                                        </label>
-                                                                        <label class="input">
-                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.PostalCode, new { data_rule_required = "true", data_rule_minlength = 5, @class = "form-control", data_field = "PostalCode", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txPostalCode", placeholder = "Postcode" })
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { data_rule_required = "true", @class = "form-control", data_field = "Line1", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine1", placeholder = "Address Line 1" })
+                                                                </label>
+                                                                <label class="input">
+                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.Line2, new { @class = "form-control", data_field = "Line2", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine2", placeholder = "Address Line 2" })
+                                                                </label>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.Town, new { data_rule_required = "true", @class = "form-control", data_field = "Town", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txTown", placeholder = "Town" })
+                                                                </label>
+                                                                <label class="input">
+                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.County, new { @class = "form-control", data_field = "County", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txCounty", placeholder = "County" })
+                                                                </label>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.PostalCode, new { data_rule_required = "true", data_rule_minlength = 5, @class = "form-control", data_field = "PostalCode", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txPostalCode", placeholder = "Postcode" })
+                                                                </label>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -121,27 +117,23 @@
                                                         </div>
                                                         <div class="edit">
                                                             <form id="buyingWithMortgageForm" class="smart-form">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <input id="buyingWithMortgage" type="checkbox" @(isMortgage ? @"checked=""checked""" : "") />
-                                                                        <label for="buyingWithMortgage">Buying With Mortgage</label>
-                                                                        <div id="mortgageDetails" @(isMortgage ? @"style=""display:none""" : "")>
-                                                                            <div class="form-group">
-                                                                                <label>Lender</label>
-                                                                                <label class="input">
-                                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                                    @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { data_rule_required = "true", @class = "form-control", maxlength = 50, id = "lenderSearch", data_field = "LenderName", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue(), data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
-                                                                                    <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
-                                                                                </label>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label>Mortgage App Number</label>
-                                                                                <label class="input">
-                                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                                    @Html.TextBoxFor(m => m.SmsTransaction.MortgageApplicationNumber, new { data_rule_required = "true", @class = "form-control", maxlength = 50, id = "lenderAppNumber", data_field = "MortgageApplicationNumber", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
+                                                                <input id="buyingWithMortgage" type="checkbox" @(isMortgage ? @"checked=""checked""" : "") />
+                                                                <label for="buyingWithMortgage">Buying With Mortgage</label>
+                                                                <div id="mortgageDetails" @(isMortgage ? @"style=""display:none""" : "")>
+                                                                    <div class="form-group">
+                                                                        <label>Lender</label>
+                                                                        <label class="input">
+                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                            @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { data_rule_required = "true", @class = "form-control", maxlength = 50, id = "lenderSearch", data_field = "LenderName", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue(), data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
+                                                                            <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Mortgage App Number</label>
+                                                                        <label class="input">
+                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                            @Html.TextBoxFor(m => m.SmsTransaction.MortgageApplicationNumber, new { data_rule_required = "true", @class = "form-control", maxlength = 50, id = "lenderAppNumber", data_field = "MortgageApplicationNumber", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
+                                                                        </label>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -158,17 +150,12 @@
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <label>Price</label>
-                                                                            <label class="input">
-                                                                                <i class="icon-prepend fa fa-gbp"></i>
-                                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                                @Html.TextBoxFor(m => m.SmsTransaction.Price, new { data_rule_required = "true", data_rule_digits = "true", data_rule_max = 2147483647, @class = "form-control", data_field = "Price", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <label class="input">
+                                                                        <i class="icon-prepend fa fa-gbp"></i>
+                                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                        @Html.TextBoxFor(m => m.SmsTransaction.Price, new { data_rule_required = "true", data_rule_digits = "true", data_rule_max = 2147483647, @class = "form-control", data_field = "Price", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
+                                                                    </label>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -188,30 +175,26 @@
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <label>Salutation</label>
-                                                                            <label class="select">
-                                                                                @Html.DropDownListFor(m => m.Contact.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = "1", data_rule_required = "true", @class = "form-control", data_field = "Salutation", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
-                                                                                <i></i>
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label>First Name</label>
-                                                                            <label class="input">
-                                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                                @Html.TextBoxFor(m => m.Contact.FirstName, new { data_rule_required = "true", @class = "form-control", data_field = "FirstName", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label>Last Name</label>
-                                                                            <label class="input">
-                                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                                @Html.TextBoxFor(m => m.Contact.LastName, new { data_rule_required = "true", @class = "form-control", data_field = "LastName", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <label>Salutation</label>
+                                                                    <label class="select">
+                                                                        @Html.DropDownListFor(m => m.Contact.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = "1", data_rule_required = "true", @class = "form-control", data_field = "Salutation", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
+                                                                        <i></i>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>First Name</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                        @Html.TextBoxFor(m => m.Contact.FirstName, new { data_rule_required = "true", @class = "form-control", data_field = "FirstName", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Last Name</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                        @Html.TextBoxFor(m => m.Contact.LastName, new { data_rule_required = "true", @class = "form-control", data_field = "LastName", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
+                                                                    </label>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -229,16 +212,12 @@
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <label>Date of Birth</label>
-                                                                            <label class="input">
-                                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                                @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { data_rule_required = "true", id = "birthDateInput", @class = "form-control", data_field = "BirthDate", data_field_type = "date", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <label>Date of Birth</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                        @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { data_rule_required = "true", id = "birthDateInput", @class = "form-control", data_field = "BirthDate", data_field_type = "date", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
+                                                                    </label>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -262,29 +241,24 @@
                                                         <div class="edit">
                                                             <form class="smart-form">
                                                                 @Html.Partial("_PostcodeLookup", new PostcodeLookupModel { Prefix = "primaryBuyer" })
-
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <label class="input">
-                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                            @Html.TextBoxFor(m => m.Address.Line1, new { data_rule_required = "true", @class = "form-control", data_field = "Line1", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerLine1", placeholder = "Address Line 1" })
-                                                                        </label>
-                                                                        <label class="input">
-                                                                            @Html.TextBoxFor(m => m.Address.Line2, new { @class = "form-control", data_field = "Line2", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerLine2", placeholder = "Address Line 2" })
-                                                                        </label>
-                                                                        <label class="input">
-                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                            @Html.TextBoxFor(m => m.Address.Town, new { data_rule_required = "true", @class = "form-control", data_field = "Town", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerTown", placeholder = "Town" })
-                                                                        </label>
-                                                                        <label class="input">
-                                                                            @Html.TextBoxFor(m => m.Address.County, new { @class = "form-control", data_field = "County", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerCounty", placeholder = "County" })
-                                                                        </label>
-                                                                        <label class="input">
-                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                            @Html.TextBoxFor(m => m.Address.PostalCode, new { data_rule_required = "true", data_rule_minlength = 5, @class = "form-control", data_field = "PostalCode", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerPostalCode", placeholder = "Postcode" })
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                    @Html.TextBoxFor(m => m.Address.Line1, new { data_rule_required = "true", @class = "form-control", data_field = "Line1", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerLine1", placeholder = "Address Line 1" })
+                                                                </label>
+                                                                <label class="input">
+                                                                    @Html.TextBoxFor(m => m.Address.Line2, new { @class = "form-control", data_field = "Line2", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerLine2", placeholder = "Address Line 2" })
+                                                                </label>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                    @Html.TextBoxFor(m => m.Address.Town, new { data_rule_required = "true", @class = "form-control", data_field = "Town", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerTown", placeholder = "Town" })
+                                                                </label>
+                                                                <label class="input">
+                                                                    @Html.TextBoxFor(m => m.Address.County, new { @class = "form-control", data_field = "County", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerCounty", placeholder = "County" })
+                                                                </label>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                    @Html.TextBoxFor(m => m.Address.PostalCode, new { data_rule_required = "true", data_rule_minlength = 5, @class = "form-control", data_field = "PostalCode", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerPostalCode", placeholder = "Postcode" })
+                                                                </label>
                                                             </form>
                                                         </div>
                                                     </div>

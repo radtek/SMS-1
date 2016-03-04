@@ -229,6 +229,16 @@
         primaryBuyerTemplatePromise.done(function (template) {
             var html = template(data);
             $('#primaryBuyer').html(html);
+
+            var table = $('#primaryBuyer-details');
+            magicEdit({
+                url: table.data('edit-url'),
+                activityType: table.data('activity-type'),
+                activityId: table.data('activity-id'),
+                updateUrl: table.data('update-url'),
+                approveUrl: table.data('approve-url'),
+                rejectUrl: table.data('reject-url')
+            });
         });
     }
 
