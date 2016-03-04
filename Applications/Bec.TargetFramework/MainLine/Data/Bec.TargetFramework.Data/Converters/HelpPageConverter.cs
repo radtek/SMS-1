@@ -37,6 +37,8 @@ namespace Bec.TargetFramework.Entities
             target.ModifiedOn = source.ModifiedOn;
             target.CreatedBy = source.CreatedBy;
             target.ModifiedBy = source.ModifiedBy;
+            target.IsActive = source.IsActive;
+            target.IsDeleted = source.IsDeleted;
 
             // Navigation Properties
             if (level > 0) {
@@ -65,6 +67,8 @@ namespace Bec.TargetFramework.Entities
             target.ModifiedOn = source.ModifiedOn;
             target.CreatedBy = source.CreatedBy;
             target.ModifiedBy = source.ModifiedBy;
+            target.IsActive = source.IsActive;
+            target.IsDeleted = source.IsDeleted;
 
             // User-defined partial method
             OnEntityCreating(source, target);

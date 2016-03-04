@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class HelpLogicController : LogicBase
     {
-        public async Task<Guid> CreateHelpPage(HelpPageDTO helpPageDto, string createdBy)
+        public async Task<Guid> CreateHelpPage(string createdBy, HelpPageDTO helpPageDto)
         {
             try
             {
@@ -45,6 +45,19 @@ namespace Bec.TargetFramework.Business.Logic
                             item.HelpPageID = helpPageDto.HelpPageID;
                             item.HelpPageItemID = Guid.NewGuid();
                             scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItems.Add(item.ToEntity());
+                            if (helpPageDto.HelpPageTypeId == HelpPageTypeIdEnum.Tour.GetIntValue())
+                            {
+                                foreach (var roleId in item.RoleId)
+                                {
+                                    var helpPageItemRole = new HelpPageItemRole()
+                                    {
+                                        HelpPageItemID = item.HelpPageItemID,
+                                        HelpPageItemRoleID = Guid.NewGuid(),
+                                        RoleID = roleId
+                                    };
+                                    scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.Add(helpPageItemRole);
+                                }
+                            }
                         });
                     }
                     await scope.SaveChangesAsync();
@@ -56,7 +69,7 @@ namespace Bec.TargetFramework.Business.Logic
                 Logger.Error(ex);
                 throw ex;
             }
-            
+
         }
 
         public async Task<Guid> EditHelpPage(HelpPageDTO helpPageDto, string modifiedBy)
@@ -84,6 +97,19 @@ namespace Bec.TargetFramework.Business.Logic
                                 item.HelpPageID = helpPageDto.HelpPageID;
                                 item.HelpPageItemID = Guid.NewGuid();
                                 scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItems.Add(item.ToEntity());
+                                if (helpPage.HelpPageTypeId == HelpPageTypeIdEnum.Tour.GetIntValue())
+                                {
+                                    foreach (var roleId in item.RoleId)
+                                    {
+                                        var helpPageItemRole = new HelpPageItemRole()
+                                        {
+                                            HelpPageItemID = item.HelpPageItemID,
+                                            HelpPageItemRoleID = Guid.NewGuid(),
+                                            RoleID = roleId
+                                        };
+                                        scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.Add(helpPageItemRole);
+                                    }
+                                }
                             }
                             else if (item.Status == HelpPageItemStatusEnum.Modified.GetIntValue())
                             {
@@ -99,12 +125,26 @@ namespace Bec.TargetFramework.Business.Logic
                                     itemInDb.Title = item.Title;
                                     itemInDb.ModifiedOn = DateTime.Now;
                                     scope.DbContexts.Get<TargetFrameworkEntities>().Entry(itemInDb);
-                                    var helpPageItemUcs = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemUserAccounts.Where(x=>x.HelpPageItemID == item.HelpPageItemID);
+                                    var helpPageItemUcs = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemUserAccounts.Where(x => x.HelpPageItemID == item.HelpPageItemID);
                                     if (helpPageItemUcs != null && helpPageItemUcs.Any())
                                     {
                                         foreach (var hpiUc in helpPageItemUcs)
                                         {
                                             hpiUc.Visible = true;
+                                        }
+                                    }
+                                    if (helpPage.HelpPageTypeId == HelpPageTypeIdEnum.Tour.GetIntValue())
+                                    {
+                                        scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.RemoveRange(scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.Where(x => x.HelpPageItemID == itemInDb.HelpPageItemID));
+                                        foreach (var roleId in item.RoleId)
+                                        {
+                                            var helpPageItemRole = new HelpPageItemRole()
+                                            {
+                                                HelpPageItemID = item.HelpPageItemID,
+                                                HelpPageItemRoleID = Guid.NewGuid(),
+                                                RoleID = roleId
+                                            };
+                                            scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.Add(helpPageItemRole);
                                         }
                                     }
                                 }
@@ -152,7 +192,37 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public HelpPageDTO GetHelpPage(Guid helpPageId)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages.FirstOrDefault(x => x.HelpPageID == helpPageId).ToDtoWithRelated(1);
+            }
+        }
+
+        public List<HelpPageItemDTO> GetHelpPageItems(Guid helpPageId)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItems.Where(x => x.HelpPageID == helpPageId).OrderBy(x => x.DisplayOrder).ToDtosWithRelated(1);
+            }
+        }
+
+        public List<RoleHierarchyDTO> GetRoleLists()
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().RoleHierarchies.ToDtosWithRelated(1);
+            }
+        }
+
         #region Client using
+
+        private static List<HelpPageItemDTO> GetHelpPageItemTours(IDbContextReadOnlyScope scope, HelpPage page, Guid? roleId)
+        {
+            return scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItems
+                    .Where(i => (i.HelpPageID == page.HelpPageID && i.HelpPageItemRoles.Any(t => t.RoleID == roleId))).OrderBy(i => i.DisplayOrder).ToDtos();
+        }
 
         private static List<HelpPageItemDTO> GetHelpPageItems(IDbContextReadOnlyScope scope, HelpPage page)
         {
@@ -160,22 +230,22 @@ namespace Bec.TargetFramework.Business.Logic
                     .Where(i => (i.HelpPageID == page.HelpPageID)).OrderBy(i => i.DisplayOrder).ToDtos();
         }
 
-        public List<HelpPageItemDTO> GetHelpItems(HelpPageTypeIdEnum pageType, string pageUrl)
+        public List<HelpPageItemDTO> GetHelpItems(HelpPageTypeIdEnum pageType, string pageUrl, Guid? roleId)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var pageTypeValue = pageType.GetIntValue();
                 if (pageType == HelpPageTypeIdEnum.Tour)
-                {                    
+                {
                     var pageTour = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
                                 .FirstOrDefault(p => (p.HelpPageTypeId == pageTypeValue));
                     if (pageTour != null)
                     {
-                        return GetHelpPageItems(scope, pageTour);
+                        return GetHelpPageItemTours(scope, pageTour, roleId);
                     }
                 }
                 else if (pageType == HelpPageTypeIdEnum.ShowMeHow)
-                {                    
+                {
                     var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
                                  .FirstOrDefault(p => (p.PageUrl.ToLower().Equals(pageUrl.ToLower())) && (p.HelpPageTypeId == pageTypeValue));
                     if (page != null)
@@ -186,8 +256,6 @@ namespace Bec.TargetFramework.Business.Logic
                 return null;
             }
         }
-
-
 
         public async Task<List<HelpPageItemDTO>> GetHelpItemsForCallout(Guid userId, DateTime createDate)
         {

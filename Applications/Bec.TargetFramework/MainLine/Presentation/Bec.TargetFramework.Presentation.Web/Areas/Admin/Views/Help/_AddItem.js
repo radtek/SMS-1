@@ -2,7 +2,7 @@
     var btnAddItem = $("#submitAddItem");
     var itemListContainer = $("#helpItemListContainer");
     var orderListContainer = $("#helpOrderListContainer");
-
+    $("#helpItemRoleId").val($("#helpItemRoleId option:first").val());
     function ignore(e) {
         if (e) {
             e.preventDefault();
@@ -26,6 +26,9 @@
                 required: true
             },
             Selector: {
+                required: true
+            },
+            RoleID: {
                 required: true
             },
             Description: {
@@ -71,6 +74,14 @@
     function fDate(ds) {
         return $.datepicker.formatDate('dd/mm/yy', new Date(getDateFormat(ds)));
     };
+    function setSelected(idOfSelect, values) {
+        if (values == null) return;
+        $("#" + idOfSelect + " option:selected").removeAttr("selected");
+        $.each(values, function (i, e) {
+            $("#" + idOfSelect + " option[value='" + e + "']").prop("selected", true);
+        });
+    }
+
     $(document).delegate(".help-item-element", "click", function () {
         var itemId = $(this).attr('id');
         $('.help-item-element').prop('disabled', false);
@@ -92,6 +103,7 @@
                 $('#effectiveDateInput').val(fDate(response.Item.EffectiveOn));
                 $('#EffectiveOn').val(fDate(response.Item.EffectiveOn));
                 $('#helpItemTabContainerId').val(response.Item.TabContainerId);
+                setSelected('helpItemRoleId', response.Item.RoleId);
             }
         });
     });

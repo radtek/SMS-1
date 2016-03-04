@@ -107,17 +107,21 @@
             setDefaultEffectiveDate();
             disablePagefields("Tour");
             hideTabIdAdnEffectiveOn();
+            $("#tourRoleList").css('display', 'block');
         } else if (valOfThis === "800001") {
             resetEffectiveDate();
             $("#tabIdSection").css('display', 'none');
             $("#tourSection").css('display', 'block');
+            $("#tourRoleList").css('display', 'none');
             disablePagefields("Callout");
         } else if (valOfThis === "800002") {
             setDefaultEffectiveDate();
             $("#tabIdSection").css('display', 'block');
             $("#tourSection").css('display', 'none');
+            $("#tourRoleList").css('display', 'none');
             enablePagefields();
         } else {
+            $("#tourRoleList").css('display', 'none');
             resetEffectiveDate();
             enablePagefields();
             hideTabIdAdnEffectiveOn();

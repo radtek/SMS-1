@@ -291,15 +291,39 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void DeleteHelpPage(HelpPageDTO helpPageDto);
 
-		/// <param name="pageType"></param>
-		/// <param name="pageUrl"></param>
+		/// <param name="helpPageId"></param>
 		/// <returns></returns>
-		Task<List<HelpPageItemDTO>> GetHelpItemsAsync(HelpPageTypeIdEnum pageType,String pageUrl);
+		Task<HelpPageDTO> GetHelpPageAsync(Guid helpPageId);
+
+		/// <param name="helpPageId"></param>
+		/// <returns></returns>
+		HelpPageDTO GetHelpPage(Guid helpPageId);
+
+		/// <param name="helpPageId"></param>
+		/// <returns></returns>
+		Task<List<HelpPageItemDTO>> GetHelpPageItemsAsync(Guid helpPageId);
+
+		/// <param name="helpPageId"></param>
+		/// <returns></returns>
+		List<HelpPageItemDTO> GetHelpPageItems(Guid helpPageId);
+
+		/// <returns></returns>
+		Task<List<RoleHierarchyDTO>> GetRoleListsAsync();
+
+		/// <returns></returns>
+		List<RoleHierarchyDTO> GetRoleLists();
 
 		/// <param name="pageType"></param>
 		/// <param name="pageUrl"></param>
+		/// <param name="roleId"></param>
 		/// <returns></returns>
-		List<HelpPageItemDTO> GetHelpItems(HelpPageTypeIdEnum pageType,String pageUrl);
+		Task<List<HelpPageItemDTO>> GetHelpItemsAsync(HelpPageTypeIdEnum pageType,String pageUrl,Nullable<Guid> roleId);
+
+		/// <param name="pageType"></param>
+		/// <param name="pageUrl"></param>
+		/// <param name="roleId"></param>
+		/// <returns></returns>
+		List<HelpPageItemDTO> GetHelpItems(HelpPageTypeIdEnum pageType,String pageUrl,Nullable<Guid> roleId);
 
 		/// <param name="userId"></param>
 		/// <param name="createDate"></param>
@@ -2467,14 +2491,62 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="pageType"></param>
-		/// <param name="pageUrl"></param>
+		/// <param name="helpPageId"></param>
 		/// <returns></returns>
-		public virtual Task<List<HelpPageItemDTO>> GetHelpItemsAsync(HelpPageTypeIdEnum pageType,String pageUrl)
+		public virtual Task<HelpPageDTO> GetHelpPageAsync(Guid helpPageId)
 		{
-			pageUrl = pageUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl, _user);
+			return GetAsync<HelpPageDTO>("api/HelpLogic/GetHelpPage?helpPageId=" + helpPageId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="helpPageId"></param>
+		public virtual HelpPageDTO GetHelpPage(Guid helpPageId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<HelpPageDTO>("api/HelpLogic/GetHelpPage?helpPageId=" + helpPageId, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="helpPageId"></param>
+		/// <returns></returns>
+		public virtual Task<List<HelpPageItemDTO>> GetHelpPageItemsAsync(Guid helpPageId)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpPageItems?helpPageId=" + helpPageId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="helpPageId"></param>
+		public virtual List<HelpPageItemDTO> GetHelpPageItems(Guid helpPageId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpPageItems?helpPageId=" + helpPageId, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<List<RoleHierarchyDTO>> GetRoleListsAsync()
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<RoleHierarchyDTO>>("api/HelpLogic/GetRoleLists", _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual List<RoleHierarchyDTO> GetRoleLists()
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<RoleHierarchyDTO>>("api/HelpLogic/GetRoleLists", _user)).Result;
 		}
 
 		/// <summary>
@@ -2482,11 +2554,26 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="pageType"></param>
 		/// <param name="pageUrl"></param>
-		public virtual List<HelpPageItemDTO> GetHelpItems(HelpPageTypeIdEnum pageType,String pageUrl)
+		/// <param name="roleId"></param>
+		/// <returns></returns>
+		public virtual Task<List<HelpPageItemDTO>> GetHelpItemsAsync(HelpPageTypeIdEnum pageType,String pageUrl,Nullable<Guid> roleId)
 		{
 			pageUrl = pageUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl, _user)).Result;
+			return GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl + "&roleId=" + roleId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="pageType"></param>
+		/// <param name="pageUrl"></param>
+		/// <param name="roleId"></param>
+		public virtual List<HelpPageItemDTO> GetHelpItems(HelpPageTypeIdEnum pageType,String pageUrl,Nullable<Guid> roleId)
+		{
+			pageUrl = pageUrl.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<HelpPageItemDTO>>("api/HelpLogic/GetHelpItems?pageType=" + pageType + "&pageUrl=" + pageUrl + "&roleId=" + roleId, _user)).Result;
 		}
 
 		/// <summary>

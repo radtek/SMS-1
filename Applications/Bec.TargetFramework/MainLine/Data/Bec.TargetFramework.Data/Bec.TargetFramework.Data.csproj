@@ -173,6 +173,7 @@
     <Compile Include="Converters\GroupRoleConverter.cs" />
     <Compile Include="Converters\HelpPageConverter.cs" />
     <Compile Include="Converters\HelpPageItemConverter.cs" />
+    <Compile Include="Converters\HelpPageItemRoleConverter.cs" />
     <Compile Include="Converters\HelpPageItemUserAccountConverter.cs" />
     <Compile Include="Converters\InterfacePanelTemplateConverter.cs" />
     <Compile Include="Converters\InvoiceConverter.cs" />
@@ -344,6 +345,7 @@
     <Compile Include="Converters\ResourceOperationTargetConverter.cs" />
     <Compile Include="Converters\RoleClaimConverter.cs" />
     <Compile Include="Converters\RoleConverter.cs" />
+    <Compile Include="Converters\RoleHierarchyConverter.cs" />
     <Compile Include="Converters\ServiceDefinitionConverter.cs" />
     <Compile Include="Converters\ServiceDefinitionDetailConverter.cs" />
     <Compile Include="Converters\ServiceInterfaceConverter.cs" />
@@ -572,6 +574,7 @@
     <Compile Include="Model\TargetFramework.GroupRole.cs" />
     <Compile Include="Model\TargetFramework.HelpPage.cs" />
     <Compile Include="Model\TargetFramework.HelpPageItem.cs" />
+    <Compile Include="Model\TargetFramework.HelpPageItemRole.cs" />
     <Compile Include="Model\TargetFramework.HelpPageItemUserAccount.cs" />
     <Compile Include="Model\TargetFramework.InterfacePanelTemplate.cs" />
     <Compile Include="Model\TargetFramework.Invoice.cs" />
@@ -743,6 +746,7 @@
     <Compile Include="Model\TargetFramework.ResourceOperationTarget.cs" />
     <Compile Include="Model\TargetFramework.Role.cs" />
     <Compile Include="Model\TargetFramework.RoleClaim.cs" />
+    <Compile Include="Model\TargetFramework.RoleHierarchy.cs" />
     <Compile Include="Model\TargetFramework.ServiceDefinition.cs" />
     <Compile Include="Model\TargetFramework.ServiceDefinitionDetail.cs" />
     <Compile Include="Model\TargetFramework.ServiceInterface.cs" />

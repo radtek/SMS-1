@@ -2051,6 +2051,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for HelpPageItemUserAccount in the schema.
         /// </summary>
         public virtual DbSet<HelpPageItemUserAccount> HelpPageItemUserAccounts { get; set; }
+    
+        /// <summary>
+        /// There are no comments for RoleHierarchy in the schema.
+        /// </summary>
+        public virtual DbSet<RoleHierarchy> RoleHierarchies { get; set; }
+    
+        /// <summary>
+        /// There are no comments for HelpPageItemRole in the schema.
+        /// </summary>
+        public virtual DbSet<HelpPageItemRole> HelpPageItemRoles { get; set; }
 
         #region Methods
 

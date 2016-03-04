@@ -6,5 +6,7 @@ namespace Bec.TargetFramework.Entities
     {
         [DataMember]
         public int Status { get; set; }
+        [DataMember]
+        public Guid[] RoleId { get; set; }
     }
 }

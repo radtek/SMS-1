@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Entities.Enums;
+using System.Collections.Generic;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
@@ -20,7 +21,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
     {
         public IAddressLogicClient AddressClient { get; set; }
         public IUserLogicClient UserClient { get; set; }
-        public IQueryLogicClient QueryClient { get; set; }        
+        public IQueryLogicClient QueryClient { get; set; }
         public IHelpLogicClient helpClient { get; set; }
 
         public ActionResult Index()
@@ -113,15 +114,37 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
 
         public async Task<ActionResult> GetSmhItemOnPage(string pageUrl)
-        {            
-            var list = await helpClient.GetHelpItemsAsync(HelpPageTypeIdEnum.ShowMeHow, pageUrl);
+        {
+            var list = await helpClient.GetHelpItemsAsync(HelpPageTypeIdEnum.ShowMeHow, pageUrl, Guid.Empty);
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetTourItem()
         {
-            var list = await helpClient.GetHelpItemsAsync(HelpPageTypeIdEnum.Tour, null);
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var roles = await UserClient.GetRolesAsync(uaoID, 1);
+            var roleHiers = await helpClient.GetRoleListsAsync();
+            var roleId = SelectRole(roles, roleHiers);
+            var list = await helpClient.GetHelpItemsAsync(HelpPageTypeIdEnum.Tour, null, roleId);
             return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
+
+        private Guid SelectRole(List<UserAccountOrganisationRoleDTO> roles, List<RoleHierarchyDTO> roleHiers)
+        {
+            if (roles != null && roles.Any() && roleHiers != null && roleHiers.Any())
+            {
+                var filteredRoles = roleHiers.Where(x => roles.Any(z => z.OrganisationRole.RoleName.ToLower() == x.Role.RoleName.ToLower())).ToList();
+                if (filteredRoles != null && filteredRoles.Any())
+                {
+                    var roleId = filteredRoles.FirstOrDefault(x => x.Level == 1).RoleID;
+                    if (roleId == null)
+                    {
+                        roleId = filteredRoles.FirstOrDefault(x => x.Level == 2).RoleID;
+                    }
+                    return roleId;
+                }
+            }
+            return Guid.Empty;
         }
 
 

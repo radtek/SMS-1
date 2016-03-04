@@ -532,6 +532,10 @@
     <Compile Include="Boo\HelpPageItemDTO.Generated.cs">
       <DependentUpon>HelpPageItemDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\HelpPageItemRoleDTO.cs" />
+    <Compile Include="Boo\HelpPageItemRoleDTO.Generated.cs">
+      <DependentUpon>HelpPageItemRoleDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\HelpPageItemUserAccountDTO.cs" />
     <Compile Include="Boo\HelpPageItemUserAccountDTO.Generated.cs">
       <DependentUpon>HelpPageItemUserAccountDTO.cs</DependentUpon>
@@ -1316,6 +1320,10 @@
     <Compile Include="Boo\RoleDTO.cs" />
     <Compile Include="Boo\RoleDTO.Generated.cs">
       <DependentUpon>RoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RoleHierarchyDTO.cs" />
+    <Compile Include="Boo\RoleHierarchyDTO.Generated.cs">
+      <DependentUpon>RoleHierarchyDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\RoleTemplateClaimDTO.cs" />
     <Compile Include="Boo\ServiceBusErrorLogDTO.cs" />

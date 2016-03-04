@@ -61,6 +61,13 @@
                 <i></i>
             </label>
         </section>
+        <section id="tourRoleList" style="display:none">
+            <label class="label">User Role</label>
+            <label class="select">
+                @Html.DropDownList("RoleID", (MultiSelectList)ViewBag.roles, new { tabindex = "6", multiple = "multiple", style = "height:120px", id = "helpItemRoleId" })
+                <i></i>
+            </label>
+        </section>
     </fieldset>
 </form>
 <div style="display:none">

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public HelpPageItemDTO() {
         }
 
-        public HelpPageItemDTO(global::System.Guid helpPageItemID, global::System.Guid helpPageID, string title, string description, int displayOrder, string selector, string tabContainerId, global::System.Nullable<System.DateTime> effectiveOn, global::System.Nullable<int> position, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, HelpPageDTO helpPage, List<HelpPageItemUserAccountDTO> helpPageItemUserAccounts) {
+        public HelpPageItemDTO(global::System.Guid helpPageItemID, global::System.Guid helpPageID, string title, string description, int displayOrder, string selector, string tabContainerId, global::System.Nullable<System.DateTime> effectiveOn, global::System.Nullable<int> position, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, HelpPageDTO helpPage, List<HelpPageItemUserAccountDTO> helpPageItemUserAccounts, List<HelpPageItemRoleDTO> helpPageItemRoles) {
 
           this.HelpPageItemID = helpPageItemID;
           this.HelpPageID = helpPageID;
@@ -39,6 +39,7 @@ namespace Bec.TargetFramework.Entities
           this.ModifiedBy = modifiedBy;
           this.HelpPage = helpPage;
           this.HelpPageItemUserAccounts = helpPageItemUserAccounts;
+          this.HelpPageItemRoles = helpPageItemRoles;
         }
 
         #endregion
@@ -93,6 +94,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<HelpPageItemUserAccountDTO> HelpPageItemUserAccounts { get; set; }
+
+        [DataMember]
+        public List<HelpPageItemRoleDTO> HelpPageItemRoles { get; set; }
 
         #endregion
     }

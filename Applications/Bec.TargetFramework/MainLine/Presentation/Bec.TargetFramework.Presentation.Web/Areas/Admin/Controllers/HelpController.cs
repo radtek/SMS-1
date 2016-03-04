@@ -15,7 +15,6 @@ using System.Web.Mvc;
 using Bec.TargetFramework.Presentation.Web.Models.ToastrNotification;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using System.Linq.Expressions;
-
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
     [ClaimsRequired("Add", "SupportFunctions", Order = 1000)]
@@ -37,10 +36,28 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult ViewAddHelp(HelpPageDTO page)
+        private async Task<MultiSelectList> GetRoles()
+        {
+            var selectRole = ODataHelper.Select<RoleDTO>(x => new
+            {
+                x.RoleID,
+                x.IsActive,
+                x.RoleName,
+                x.IsDeleted
+            }, false);
+
+            var filterRole = ODataHelper.Filter<RoleDTO>(x =>
+                !x.IsDeleted && x.IsActive && x.RoleName != "Temporary User" && x.RoleName != "Organisation Branch Administrator"
+               );
+            var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
+            var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
+            return new MultiSelectList(allRoles, "RoleID", "RoleName");
+        }
+        public async Task<ActionResult> ViewAddHelp(HelpPageDTO page)
         {
             TempData.Remove("Items");
             ViewBag.Types = GetHelpPageTypes();
+            ViewBag.roles = await GetRoles();
             return PartialView("_AddHelp", page);
         }
 
@@ -51,6 +68,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             if (page != null)
             {
                 ViewBag.Types = GetHelpPageTypes();
+                ViewBag.roles = await GetRoles();
                 return PartialView("_EditHelp", page);
             }
             else return View("Index");
@@ -149,12 +167,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetHelpItems(Guid pageId)
         {
-            var list = await GetItemsOnPage(pageId);
+            var list = await helpClient.GetHelpPageItemsAsync(pageId);
             var IsEmpty = (list == null) || (list.ToList().Count == 0);
             var data = new List<HelpPageItemDTO>();
             if (!IsEmpty)
             {
                 data = list.ToList();
+                if (data.Any())
+                {
+                    data.ForEach(x =>
+                    {
+                        if (x.HelpPageItemRoles != null && x.HelpPageItemRoles.Any())
+                        {
+                            x.RoleId = x.HelpPageItemRoles.Select(y => y.RoleID).ToArray();
+                        }
+                    });
+                }
                 TempData["Items"] = data;
             }
             else
@@ -221,6 +249,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         itemHelp.Position = item.Position;
                         itemHelp.TabContainerId = item.TabContainerId;
                         itemHelp.EffectiveOn = item.EffectiveOn;
+                        itemHelp.RoleId = item.RoleId;
                     }
                     TempData["Items"] = list;
                     var jsonData = new { result = list.Count > 0, Items = list };
@@ -270,6 +299,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         itemHelp.Position = item.Position;
                         itemHelp.TabContainerId = item.TabContainerId;
                         itemHelp.EffectiveOn = item.EffectiveOn;
+                        itemHelp.RoleId = item.RoleId;
                         if (itemHelp.Status != HelpPageItemStatusEnum.New.GetIntValue())
                         {
                             itemHelp.Status = HelpPageItemStatusEnum.Modified.GetIntValue();
