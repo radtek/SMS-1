@@ -40,25 +40,32 @@
                     {
                         field: "PageName",
                         title: "Page Name",
-                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800000 || dataItem.HelpPageTypeId === 800001 ? "" : dataItem.PageName); }
+                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800002 ? dataItem.PageName : ""); }
                     },
                     {
                         field: "PageUrl",
                         title: "Page URL",
-                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800000 || dataItem.HelpPageTypeId === 800001 ? "" : dataItem.PageUrl); }
+                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800002 ? dataItem.PageUrl : ""); }
                     },
                     {
                         field: "CreatedOn",
                         title: "Created On",
-                        template: function (dataItem) { return dateString(dataItem.CreatedOn);}
+                        template: function (dataItem) { return formatDate(dataItem.CreatedOn) },
+                        type: "date"
                     },
                     {
                         field: "ModifiedOn",
                         title: "Modified On",
-                        template: function (dataItem) { return (dataItem.ModifiedOn != null) ? dateString(dataItem.ModifiedOn) : "";}
+                        template: function (dataItem) { return dataItem.ModifiedOn !== null ? formatDate(dataItem.ModifiedOn) : "" }
                     }
             ]
         });
+
+    function formatDate(jsonDate) {
+        var dateRegExp = /^\/Date\((.*?)\)\/$/;
+        var date = dateRegExp.exec(jsonDate);
+        return dateString(new Date(parseInt(date[1])));
+    }
 
     var tabs = new tabItem("helpTab",
     {
@@ -108,8 +115,8 @@
         }
         $("p#ddnName").text(dataItem.PageName);
         $("p#ddnType").text((dataItem.HelpPageTypeId === 800000 ? "Tour" : (dataItem.HelpPageTypeId === 800002 ? "Show Me How" : "Callout")) || "");
-        $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
-        $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? dateString(dataItem.ModifiedOn) : "");
+        $("p#ddnCreatedOn").text(formatDate(dataItem.CreatedOn) || "");
+        $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? formatDate(dataItem.ModifiedOn) : "");
         btnEdit.data('href', urls.editHelpUrl + "?pageId=" + dataItem.HelpPageID);
         btnDelete.data('href', urls.deleteHelpUrl + "?pageId=" + dataItem.HelpPageID);
         loadItemForPage(dataItem.HelpPageID, urls.getHelpItemsUrl);

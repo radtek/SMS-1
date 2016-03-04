@@ -22,7 +22,9 @@
     });
 
     $("#stepNext").click(function () {
-        checkHelp();
+        if ($("#addHelp-form").valid()) {
+            checkHelp();
+        }
     });
 
     $("#stepBack").click(function () {

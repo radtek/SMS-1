@@ -135,8 +135,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var pageTypeValue = pageType.GetIntValue();
             var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
             var filterPage = pageTypeValue > 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.HelpPageTypeId == pageTypeValue) : String.Empty;
-            JObject res = await queryClient.QueryAsync("HelpPages", ODataHelper.RemoveParameters(Request) + selectPage + filterPage);
-            return Content(res.ToString(Formatting.None), "application/json");
+            var helpList = (await queryClient.QueryAsync<HelpPageDTO>("HelpPages", ODataHelper.RemoveParameters(Request) + selectPage + filterPage)).ToList();
+            var showMeHowTypeValue = HelpPageTypeIdEnum.ShowMeHow.GetIntValue();
+            foreach (var item in helpList)
+            {
+                if (item.HelpPageTypeId != showMeHowTypeValue)
+                {
+                    item.PageUrl = item.PageName = string.Empty;
+                }
+            }
+            return Json(new { Items = helpList, Count = helpList.Count }, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetHelpItems(Guid pageId)
