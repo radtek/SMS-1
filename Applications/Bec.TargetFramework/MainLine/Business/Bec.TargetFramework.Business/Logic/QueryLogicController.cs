@@ -135,18 +135,7 @@ namespace Bec.TargetFramework.Business.Logic
                             if (prop.Name == "RowVersion")
                                 dbc.Entry(obj).Property("RowVersion").OriginalValue = (Int64)prop.Value;
                             else
-                            {
-                                object val = prop.Value;
-                                if (p.PropertyType == typeof(bool))
-                                {
-                                    val = val.ToString().Contains("true");
-                                }
-                                else if ((p.PropertyType == typeof(DateTime) || p.PropertyType == typeof(Nullable<DateTime>)) && val != null) 
-                                {
-                                    val = new JValue(Convert.ToDateTime(val.ToString()));
-                                }
-                                p.SetValue(obj, Convert.ChangeType(val, p.PropertyType));
-                            }
+                                CommonHelper.SetPropertyConv(obj, p, prop.Value);
                         }
                     }
                 }

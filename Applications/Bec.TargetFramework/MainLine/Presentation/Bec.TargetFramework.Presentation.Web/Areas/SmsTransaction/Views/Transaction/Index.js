@@ -192,6 +192,18 @@
         transactionDetailsTemplatePromise.done(function (template) {
             var html = template(data);
             $('#transactionDetails').html(html);
+
+            $('#lenderSearch').lenderSearch({
+                searchUrl: $('#lenderSearch').data("url")
+            });
+            $('#buyingWithMortgage').click(function () {
+                $('#mortgageDetails').toggle(this.checked);
+                if (!this.checked) {
+                    $('#lenderSearch').val('');
+                    $('#lenderAppNumber').val('');
+                }
+            });
+
             var table = $('#transaction-details');
             magicEdit({
                 url: table.data('edit-url'),

@@ -112,46 +112,28 @@ namespace Bec.TargetFramework.Business.Logic
                 switch ((FieldUpdateParentType)entity.ParentType)
                 {
                     case FieldUpdateParentType.SmsTransaction:
-                        SetProperty(tx, entity);
+                        CommonHelper.SetProperty(tx, entity.FieldName, entity.Value);
                         break;
                     case FieldUpdateParentType.SmsTransactionAddress:
                         if (tx.Address == null)
                             tx.Address = new Address();
                         else
-                            SetProperty(tx.Address, entity);
+                            CommonHelper.SetProperty(tx.Address, entity.FieldName, entity.Value);
                         break;
                     case FieldUpdateParentType.RegisteredHomeAddress:
                         uaotx = tx.SmsUserAccountOrganisationTransactions.Single(x => x.SmsUserAccountOrganisationTransactionID == entity.ParentID);
                         if (uaotx.Address == null)
                             uaotx.Address = new Address();
                         else
-                            SetProperty(uaotx.Address, entity);
+                            CommonHelper.SetProperty(uaotx.Address, entity.FieldName, entity.Value);
                         break;
                     case FieldUpdateParentType.Contact:
                         uaotx = tx.SmsUserAccountOrganisationTransactions.Single(x => x.SmsUserAccountOrganisationTransactionID == entity.ParentID);
-                        SetProperty(uaotx.Contact, entity);
+                        CommonHelper.SetProperty(uaotx.Contact, entity.FieldName, entity.Value);
                         break;
                 }
                 await scope.SaveChangesAsync();
             }
-        }
-
-        private void SetProperty(object obj, FieldUpdateDTO entity)
-        {
-            var t = ObjectContext.GetObjectType(obj.GetType());
-            var prop = t.GetProperty(entity.FieldName);
-            if (prop == null) throw new InvalidOperationException();
-
-            object val = entity.Value;
-            if (prop.PropertyType == typeof(bool))
-            {
-                val = val.ToString().Contains("true");
-            }
-            else if ((prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(Nullable<DateTime>)) && val != null)
-            {
-                val = Convert.ToDateTime(val.ToString());
-            }
-            prop.SetValue(obj, Convert.ChangeType(val, prop.PropertyType));
         }
 
         public async Task RejectUpdate(int activityType, Guid activityID, int parentType, Guid parentID, string fieldName)

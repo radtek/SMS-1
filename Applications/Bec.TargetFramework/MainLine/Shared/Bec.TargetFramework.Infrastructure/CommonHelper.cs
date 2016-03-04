@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Data.Entity.Core.Objects;
 using System.Globalization;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -305,6 +306,35 @@ namespace Bec.TargetFramework.Infrastructure
                    Convert.ToBoolean(ConfigurationManager.AppSettings["OneToManyCollectionWrapperEnabled"]);
                 return enabled;
             }
+        }
+
+        public static void SetPropertyConv(object obj, string propertyName, object value)
+        {
+            var t = ObjectContext.GetObjectType(obj.GetType());
+            var prop = t.GetProperty(propertyName);
+            if (prop == null) throw new InvalidOperationException();
+
+            SetPropertyConv(obj, prop, value);
+        }
+
+        public static void SetPropertyConv(object obj, PropertyInfo prop, object value)
+        {
+            var destType = prop.PropertyType;
+            if (destType.IsGenericType && destType.GetGenericTypeDefinition() == typeof(System.Nullable<>))
+            {
+                destType = destType.GetGenericArguments()[0];
+            }
+
+            object val = value;
+            if (destType == typeof(bool))
+            {
+                val = val.ToString().Contains("true");
+            }
+            else if ((destType == typeof(DateTime) || destType == typeof(Nullable<DateTime>)) && val != null)
+            {
+                val = Convert.ToDateTime(val.ToString());
+            }
+            prop.SetValue(obj, Convert.ChangeType(val, destType));
         }
     }
 }
