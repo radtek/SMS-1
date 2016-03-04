@@ -274,6 +274,16 @@
             relatedPartiesTemplatePromise.done(function (template) {
                 var html = template(templateData);
                 $('#' + targetElementId).html(html);
+
+                var table = $('#' + targetElementId).find('table[data-magic-edit="true"]');
+                magicEdit({
+                    url: table.data('edit-url'),
+                    activityType: table.data('activity-type'),
+                    activityId: table.data('activity-id'),
+                    updateUrl: table.data('update-url'),
+                    approveUrl: table.data('approve-url'),
+                    rejectUrl: table.data('reject-url')
+                });
             });
         }).fail(function (e) {
             if (!hasRedirect(e.responseJSON)) {
