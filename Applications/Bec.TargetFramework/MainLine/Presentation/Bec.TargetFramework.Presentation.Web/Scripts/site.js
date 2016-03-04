@@ -1,4 +1,6 @@
 ﻿var GUID_EMPTY = '00000000-0000-0000-0000-000000000000';
+var DATE_FORMAT_NAME = 'date';
+var CURRENCY_FORMAT_NAME = 'currency';
 var gridPageSize = 15;
 
 //checks for a json redirect response instruction
@@ -445,7 +447,7 @@ function showDuplicates(selector, headingSelector, dataItem) {
 }
 
 function formatCurrency(val) {
-    return accounting.formatMoney(val, "£ ", 2);
+    return accounting.formatMoney(val, "£", 2);
 }
 
 var findAddress = function (opts) {
@@ -715,7 +717,6 @@ if (!String.prototype.format) {
 function magicEdit(options) {
     this.options = options;
     var self = this;
-    var approveReject = options.hasOwnProperty('approveUrl') && options.hasOwnProperty('rejectUrl');
 
     init();
     updateValues();
@@ -731,28 +732,29 @@ function magicEdit(options) {
             set.append(buttonContainer);
             set.append(spinner);
             var form = set.find('form');
-
+            
+            setupButtonEvents();
             enterDisplayMode();
-            preserveOriginalValues();
-
-            editButton.on('click', function () {
-                preserveOriginalValues();
-                enterEditMode();
-            });
-
-            cancelButton.on('click', function () {
-                restoreOriginalValues();
-                enterDisplayMode();
-            });
-
-            okButton.on('click', function () {
-                if (!form.valid()) {
-                    return;
-                }
-                enterDisplayMode();
-                var allChangeRequests = submitAllChanges();
-                $.when.apply($, allChangeRequests).done(updateValues);
-            });
+            preserveOriginalValues(set);
+            
+            function setupButtonEvents() {
+                editButton.on('click', function () {
+                    preserveOriginalValues(set);
+                    enterEditMode();
+                });
+                cancelButton.on('click', function () {
+                    restoreOriginalValues(set);
+                    enterDisplayMode();
+                });
+                okButton.on('click', function () {
+                    if (!form.valid()) {
+                        return;
+                    }
+                    enterDisplayMode();
+                    var allChangeRequests = submitAllChanges(set);
+                    $.when.apply($, allChangeRequests).done(updateValues);
+                });
+            }
 
             function enterDisplayMode() {
                 okButton.hide();
@@ -767,64 +769,6 @@ function magicEdit(options) {
                 editButton.hide();
                 set.addClass("editing");
             }
-
-            function preserveOriginalValues() {
-                iterateFormElements(set, function (formElement) {
-                    if (formElement.is('input')) {
-                        formElement.data('originalVal', formElement.val());
-                    } else if (formElement.is('select')) {
-                        formElement.data('originalVal', formElement.find(":selected").text());
-                    }
-                });
-            }
-
-            function restoreOriginalValues() {
-                iterateFormElements(set, function (formElement) {
-                    formElement.val(formElement.data('originalVal'));
-                });
-            }
-
-            function submitAllChanges() {
-                var alld = [];
-                iterateFormElements(set, function (formElement) {
-                    var originalValue = formElement.data('originalVal');
-                    var newValue = '';
-                    if (formElement.is('input')) {
-                        newValue = formElement.val();
-                    } else if (formElement.is('select')) {
-                        newValue = formElement.find(":selected").text();
-                    }
-
-                    if (originalValue.trim() !== newValue) {
-                        getSpinner(set).show();
-                        alld.push(ajaxWrapper({
-                            url: self.options.updateUrl,
-                            data: {
-                                ActivityType: self.options.activityType,
-                                ActivityID: self.options.activityId,
-                                ParentType: formElement.data('parent-type'),
-                                ParentID: formElement.data('parent-id'),
-                                FieldName: formElement.data('field'),
-                                Value: newValue
-                            }
-                        }).done(function (res) {
-                            if (res.result != "ok") {
-                                alert('failed');
-                                formElement.val(formElement.data('originalVal'));
-                            } else {
-                                if (approveReject) {
-                                    $('.magic-edit .view [data-parent-type=' + formElement.data('parent-type') + '][data-parent-id=' + formElement.data('parent-id') + '][data-field=' + formElement.data('field') + ']').text(newValue);
-                                }
-                            }
-                        }).fail(function (e) {
-                            console.log(e);
-                            alert('fail');
-                            formElement.val(formElement.data('originalVal'));
-                        }));
-                    }
-                });
-                return alld;
-            }
         });
     }
 
@@ -832,57 +776,139 @@ function magicEdit(options) {
         ajaxWrapper({
             url: options.url,
             data: {
-                activityType: options.activityType,
-                activityID: options.activityId
+                activityType: self.options.activityType,
+                activityID: self.options.activityId
             }
         }).done(function (fieldUpdates) {
             iterateSets(function (set) {
-                if (!approveReject) {
-                    iterateFormElements(set, function (formElement) {
-                        var updatedValue = getUpdatedValue(fieldUpdates, formElement);
-                        if (updatedValue) {
-                            formElement.val(updatedValue.Value);
-                        }
-                    });
-                }
-                iterateViews(set, function (field) {
-                    var noValueText = field.data('no-value-text') || '';
-                    var updatedValue = getUpdatedValue(fieldUpdates, field);
-                    if (updatedValue) {
-                        var fieldText = updatedValue.Value || noValueText;
-
-                        if (approveReject) {
-                            field.addClass("pending-approval");
-                            field.popover({
-                                content: getContent(updatedValue, field),
-                                html: true,
-                                placement: "bottom",
-                                title: getTitle(updatedValue),
-                                trigger: "click"
-                            });
-                        }
-                        else {
-                            field.text(fieldText);
-                            field.addClass('pending-update');
-                            field.attr('title', "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn));
-                        }
-                    }
-                    else {
-                        field.removeClass("pending-approval");
-                        field.removeClass('pending-update');
-                    }
+                iterateFormElements(set, function (formElement) {
+                    setEditFieldValue(fieldUpdates, formElement);
+                });
+                iterateViewFields(set, function (field) {
+                    setDisplayFieldValue(fieldUpdates, field);
                 });
                 getSpinner(set).hide();
             });
         });
+    }
 
-        function getUpdatedValue(fieldUpdates, element) {
-            var fieldName = element.data('field');
-            var fieldParentID = element.data('parent-id');
-            var fieldParentType = element.data('parent-type');
-            var updatedValue = _.find(fieldUpdates, { 'FieldName': fieldName, 'ParentID': fieldParentID || GUID_EMPTY, 'ParentType': fieldParentType });
-            return updatedValue;
+    function preserveOriginalValues(set) {
+        iterateFormElements(set, function (formElement) {
+            if (formElement.is('input')) {
+                formElement.data('originalVal', formElement.val());
+            } else if (formElement.is('select')) {
+                formElement.data('originalVal', formElement.find(":selected").text());
+            }
+        });
+    }
+
+    function restoreOriginalValues(set) {
+        iterateFormElements(set, function (formElement) {
+            formElement.val(formElement.data('originalVal'));
+        });
+    }
+
+    function submitAllChanges(set) {
+        var alld = [];
+        iterateFormElements(set, function (formElement) {
+            var originalValue = formElement.data('originalVal');
+            var newValue = getNewValueFromFormElement(formElement);
+
+            if (originalValue.trim() !== newValue) {
+                getSpinner(set).show();
+                alld.push(ajaxWrapper({
+                    url: self.options.updateUrl,
+                    data: {
+                        ActivityType: self.options.activityType,
+                        ActivityID: self.options.activityId,
+                        ParentType: formElement.data('parent-type'),
+                        ParentID: formElement.data('parent-id'),
+                        FieldName: formElement.data('field'),
+                        Value: newValue
+                    }
+                }).done(function (res) {
+                    if (res.result != "ok") {
+                        alert('failed');
+                        formElement.val(formElement.data('originalVal'));
+                    }
+                }).fail(function (e) {
+                    console.log(e);
+                    alert('fail');
+                    formElement.val(formElement.data('originalVal'));
+                }));
+            }
+        });
+        return alld;
+    }
+
+    function getNewValueFromFormElement(formElement) {
+        var newValue = '';
+        if (formElement.is('input')) {
+            if (formElement.data('field-type') === DATE_FORMAT_NAME) {
+                newValue = formElement.data('val');
+            } else {
+                newValue = formElement.val();
+            }
+        } else if (formElement.is('select')) {
+            newValue = formElement.find(":selected").text();
         }
+        return newValue;
+    }
+
+    function setEditFieldValue(fieldUpdates, formElement) {
+        var updatedValue = getUpdatedValue(fieldUpdates, formElement);
+        if (updatedValue) {
+            var valueForEdit = updatedValue.Value;
+            if (valueForEdit) {
+                valueForEdit = getFormattedEditValue(valueForEdit, formElement);
+            }
+            formElement.val(valueForEdit);
+        }
+    }
+
+    function setDisplayFieldValue(fieldUpdates, field) {
+        var noValueText = field.data('no-value-text') || '';
+        var updatedValue = getUpdatedValue(fieldUpdates, field);
+        if (updatedValue) {
+            var fieldText = noValueText;
+            if (updatedValue.Value) {
+                fieldText = getFormattedDisplayValue(updatedValue.Value, field);
+            }
+            field.text(fieldText);
+            var titleText = "Modified by " + updatedValue.UserAccountOrganisation.Contact.FirstName + " " + updatedValue.UserAccountOrganisation.Contact.LastName + " at " + dateString(updatedValue.ModifiedOn);
+            field.addClass('pending-update');
+            field.attr('title', titleText);
+            field.attr('data-original-title', titleText);
+            field.tooltip('fixTitle');
+        }
+    }
+
+    function getUpdatedValue(fieldUpdates, element) {
+        var fieldName = element.data('field');
+        var fieldParentID = element.data('parent-id');
+        var fieldParentType = element.data('parent-type');
+        var updatedValue = _.find(fieldUpdates, { 'FieldName': fieldName, 'ParentID': fieldParentID || GUID_EMPTY, 'ParentType': fieldParentType });
+        return updatedValue;
+    }
+
+    function getFormattedDisplayValue(value, field) {
+        var result = value;
+        var valueFormat = field.data('value-format');
+        if (valueFormat === CURRENCY_FORMAT_NAME) {
+            result = formatCurrency(result);
+        } else if (valueFormat === DATE_FORMAT_NAME) {
+            result = dateStringNoTime(result);
+        }
+        return result;
+    }
+
+    function getFormattedEditValue(value, field) {
+        var result = value;
+        var valueFormat = field.data('field-type');
+        if (valueFormat === DATE_FORMAT_NAME) {
+            result = dateStringNoTime(result);
+        }
+        return result;
     }
 
     function iterateFormElements(set, func) {
@@ -892,7 +918,7 @@ function magicEdit(options) {
         });
     }
 
-    function iterateViews(set, func) {
+    function iterateViewFields(set, func) {
         var inputs = set.find('.view [data-field]');
         inputs.each(function (i, l) {
             func($(l));
@@ -907,113 +933,5 @@ function magicEdit(options) {
 
     function getSpinner(set) {
         return set.find('.magic-edit-spinner');
-    }
-
-
-    function getContent(data, field) {
-        return function () {
-            var ret = $('<p>Change to: <strong>' + data.Value + '</strong></p></div>');
-            var okButton = $('<button class="btn btn-default">Approve<i class="fa fa-check accept margin-left-5"></i></button>').on('mousedown', function () {
-                approvePendingUpdate(data);
-                field.text(data.Value);
-            });
-            var cancelButton = $('<button class="btn btn-default">Reject<i class="fa fa-times reject margin-left-5"></i></button>').on('mousedown', function () {
-                rejectPendingUpdate(data);
-            });
-            var buttonContainer = $('<div class="magic-edit-button margin-top-10"></div>');
-            buttonContainer.append(okButton).append(cancelButton);
-            ret.append(buttonContainer);
-            return ret;
-        }
-    }
-
-    function getTitle(data) {
-        return function () {
-            return 'Pending update from ' + data.UserAccountOrganisation.Contact.FirstName + ' ' + data.UserAccountOrganisation.Contact.LastName + ', on ' + data.ModifiedOn;
-        }
-    }
-
-    function approvePendingUpdate(data) {
-        postUpdate(data, options.approveUrl);
-    }
-
-    function rejectPendingUpdate(data) {
-        postUpdate(data, options.rejectUrl);
-    }
-
-    function postUpdate(data, url) {
-        ajaxWrapper({
-            url: url,
-            data: {
-                activityType: options.activityType,
-                activityID: options.activityId,
-                parentID: data.ParentID,
-                parentType: data.ParentType,
-                fieldName: data.FieldName
-            }
-        }).done(function () {
-            updateValues();
-        });
-    }
-}
-
-
-function approveRejectEdits(options) {
-    var self = this;
-    this.options = options;
-
-    init(options.parent);
-
-    function init(parent) {
-        $(parent).find('[data-field]').each(function (i, item) {
-            var elem = $(item);
-            elem.addClass("pending-approval");
-            elem.popover({
-                content: getContent,
-                html: true,
-                placement: "bottom",
-                title: getTitle,
-                trigger: "focus"
-            });
-        });
-    }
-
-    function getContent() {
-        var data = getData(this);
-        var ret = $('<p>Change to: <strong>' + data.Value + '</strong></p></div>');
-        var okButton = $('<button class="btn btn-default">Approve<i class="fa fa-check accept margin-left-5"></i></button>').on('mousedown', function () {
-            approvePendingUpdate(data);
-        });
-        var cancelButton = $('<button class="btn btn-default">Reject<i class="fa fa-times reject margin-left-5"></i></button>').on('mousedown', function () {
-            rejectPendingUpdate(data);
-        });
-        var buttonContainer = $('<div class="magic-edit-button margin-top-10"></div>');
-        buttonContainer.append(okButton).append(cancelButton);
-        ret.append(buttonContainer);
-        return ret;
-    }
-
-    function getTitle() {
-        var data = getData(this);
-        return 'Pending update from ' + data.Name + ', on ' + data.Date;
-    }
-
-    function getData(element) {
-        //will use these attributes:
-        //$(element.data('field'))
-        //$(element.data('parent-type'))
-        //$(element.data('parent-id'))
-        return {
-            Field: "LenderName",
-            Name: "Mr Person",
-            Date: "15/01/2016",
-            Value: "HSBC Ltd"
-        };
-    }
-
-    function approvePendingUpdate(data) {
-    }
-
-    function rejectPendingUpdate(data) {;
     }
 }

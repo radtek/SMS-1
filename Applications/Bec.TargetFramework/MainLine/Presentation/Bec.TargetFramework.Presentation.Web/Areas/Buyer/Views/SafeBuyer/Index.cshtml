@@ -3,6 +3,7 @@
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
 @using Bec.TargetFramework.Presentation.Web.Models
+@using System.Globalization
 @model SmsUserAccountOrganisationTransactionDTO
 @{
     var personaName = ((UserAccountOrganisationTransactionType)Model.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
@@ -62,7 +63,6 @@
                                         </div>
                                     }*@
                                 <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.SmsTransaction.ProductAcceptedOn.HasValue? "block" : "none")">
-
                                     <div class="col-md-6">
                                         <h5>Transaction Details</h5>
                                         <table class="table transaction-details-table">
@@ -70,12 +70,13 @@
                                                 <td>Transaction Address</td>
                                                 <td>
                                                     <div class="magic-edit">
+                                                        @{ var txAddress = Model.SmsTransaction.Address; }
                                                         <div class="view">
-                                                            <p><span data-field="Line1" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">@Model.SmsTransaction.Address.Line1</span></p>
-                                                            <p><span data-field="Line2" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@Model.SmsTransaction.Address.Line2</span></p>
-                                                            <p><span data-field="Town" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@Model.SmsTransaction.Address.Town</span></p>
-                                                            <p><span data-field="County" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@Model.SmsTransaction.Address.County</span></p>
-                                                            <p><span data-field="PostalCode" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@Model.SmsTransaction.Address.PostalCode</span></p>
+                                                            <p><span data-field="Line1" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">@(txAddress != null ? txAddress.Line1 : "TBC")</span></p>
+                                                            <p><span data-field="Line2" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.Line2 : "")</span></p>
+                                                            <p><span data-field="Town" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.Town : "")</span></p>
+                                                            <p><span data-field="County" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.County : "")</span></p>
+                                                            <p><span data-field="PostalCode" data-parent-id="@Model.SmsTransaction.AddressID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.PostalCode : "")</span></p>
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
@@ -153,7 +154,7 @@
                                                 <td>
                                                     <div class="magic-edit">
                                                         <div class="view">
-                                                            <p data-field="Price" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()">@Model.SmsTransaction.Price</p>
+                                                            <span data-field="Price" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" data-value-format="currency">@((Model.SmsTransaction.Price ?? 0).ToString("C", new CultureInfo("en-GB")))</span>
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
@@ -162,6 +163,7 @@
                                                                         <div class="form-group">
                                                                             <label>Price</label>
                                                                             <label class="input">
+                                                                                <i class="icon-prepend fa fa-gbp"></i>
                                                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                                                                 @Html.TextBoxFor(m => m.SmsTransaction.Price, new { data_rule_required = "true", data_rule_digits = "true", data_rule_max = 2147483647, @class = "form-control", data_field = "Price", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
                                                                             </label>
@@ -223,7 +225,7 @@
                                                 <td>
                                                     <div class="magic-edit">
                                                         <div class="view">
-                                                            <span id="bDateOfBirth" class="format-date" data-field="BirthDate" data-parent-id="@Model.ContactID" data-parent-type="@FieldUpdateParentType.Contact.GetIntValue()" data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></span>
+                                                            <span data-field="BirthDate" data-value-format="date" data-parent-id="@Model.ContactID" data-parent-type="@FieldUpdateParentType.Contact.GetIntValue()" data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></span>
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
@@ -233,7 +235,7 @@
                                                                             <label>Date of Birth</label>
                                                                             <label class="input">
                                                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                                @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { data_rule_required = "true", id = "birthDateInput", @class = "form-control", data_field = "BirthDate", data_parent_id = Model.ContactID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
+                                                                                @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { data_rule_required = "true", id = "birthDateInput", @class = "form-control", data_field = "BirthDate", data_field_type = "date", data_parent_id = Model.ContactID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -249,12 +251,13 @@
                                                 </td>
                                                 <td>
                                                     <div class="magic-edit">
+                                                        @{ var address = Model.Address; }
                                                         <div class="view">
-                                                            <p><span data-field="Line1" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(Model.Address == null ? "" : Model.Address.Line1)</span></p>
-                                                            <p><span data-field="Line2" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(Model.Address == null ? "" : Model.Address.Line2)</span></p>
-                                                            <p><span data-field="Town" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(Model.Address == null ? "" : Model.Address.Town)</span></p>
-                                                            <p><span data-field="County" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(Model.Address == null ? "" : Model.Address.County)</span></p>
-                                                            <p><span data-field="PostalCode" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(Model.Address == null ? "" : Model.Address.PostalCode)</span></p>
+                                                            <p><span data-field="Line1" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" data-no-value-text="TBC">@(address != null ? Model.Address.Line1 : "TBC")</span></p>
+                                                            <p><span data-field="Line2" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.Line2 : "")</span></p>
+                                                            <p><span data-field="Town" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.Town : "")</span></p>
+                                                            <p><span data-field="County" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.County : "")</span></p>
+                                                            <p><span data-field="PostalCode" data-parent-id="@Model.AddressID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.PostalCode : "")</span></p>
                                                         </div>
                                                         <div class="edit">
                                                             <form class="smart-form">
