@@ -192,9 +192,8 @@
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
-    <Compile Include="Areas\Admin\Models\CalloutModel.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
-    <Compile Include="Areas\Admin\Models\SMHPageModel.cs" />
+    <Compile Include="Areas\Admin\Models\HelpModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
