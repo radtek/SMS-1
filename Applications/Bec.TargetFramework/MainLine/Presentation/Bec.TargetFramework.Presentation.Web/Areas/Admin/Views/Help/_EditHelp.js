@@ -31,6 +31,10 @@
     });
 
     $("#submitEditHelp").click(function () {
+        if ($('ul#helpItemListContainer li').length < 1) {
+            $('#messageAlert').show();
+            return;
+        }
         $("#editHelp-form").submit();
     });
 

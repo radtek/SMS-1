@@ -153,6 +153,7 @@
                     orderListContainer.append(createOrder(order));
                 }
             }
+            $('#messageAlert').hide();
         }
     }
 
