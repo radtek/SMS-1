@@ -77,19 +77,26 @@
 
             intro.oncomplete(function () {
                 if (elementHidden !== "") {
-                    $(elementHidden).closest('ul').css("display", "none");
+                    $(elementHidden).closest('ul').removeAttr("style");
                     elementHidden = "";
                 }
             });
             intro.onexit(function () {
                 if (elementHidden !== "") {
-                    $(elementHidden).closest('ul').css("display", "none");
+                    $(elementHidden).closest('ul').removeAttr("style");
                     elementHidden = "";
                 }
             });
             intro.onchange(function (targetElement) {
                 if ($(targetElement).closest('ul').css("display") === 'none') {
                     $(targetElement).closest('ul').css("display", "block");
+                    if (elementHidden != "") {
+                        if ($(elementHidden).closest('ul').is($(targetElement).closest('ul'))) {
+                        }
+                        else {
+                            $(elementHidden).closest('ul').removeAttr("style");
+                        }
+                    }
                     elementHidden = targetElement;
                 }
                 else {
@@ -98,7 +105,7 @@
                             $(elementHidden).closest('ul').css("display", "block");
                         }
                         else {
-                            $(elementHidden).closest('ul').css("display", "none");
+                            $(elementHidden).closest('ul').removeAttr("style");
                             elementHidden = "";
                         }
                     }

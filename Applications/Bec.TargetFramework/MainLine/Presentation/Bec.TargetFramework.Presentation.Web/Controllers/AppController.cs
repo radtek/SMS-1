@@ -136,12 +136,19 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
                 var filteredRoles = roleHiers.Where(x => roles.Any(z => z.OrganisationRole.RoleName.ToLower() == x.Role.RoleName.ToLower())).ToList();
                 if (filteredRoles != null && filteredRoles.Any())
                 {
-                    var roleId = filteredRoles.FirstOrDefault(x => x.Level == 1).RoleID;
-                    if (roleId == null)
+                    var role = filteredRoles.FirstOrDefault(x => x.Level == 1);
+                    if (role == null)
                     {
-                        roleId = filteredRoles.FirstOrDefault(x => x.Level == 2).RoleID;
+                        var roleLevel2 = filteredRoles.FirstOrDefault(x => x.Level == 2);
+                        if (roleLevel2 != null)
+                        {
+                            return roleLevel2.RoleID;
+                        }
                     }
-                    return roleId;
+                    else
+                    {
+                        return role.RoleID;
+                    }
                 }
             }
             return Guid.Empty;
