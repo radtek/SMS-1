@@ -34,6 +34,7 @@
 
     $("#editItem-form").validate({
         ignore: '.skip',
+        onfocusout: false,
         // Rules for form validation
         rules: {
             Title: {
@@ -173,6 +174,9 @@
 
     function clearText() {
         $("#editItem-form input[type=text]").val('');
+        if ($("#HelpPageTypeId").val() === "800001") {
+            $("#EffectiveOn").val('');
+        }
         $("#editItem-form select").prop('selectedIndex', '0');
         $("#editItem-form textarea").val('');
         btnEditItem.text("Add");
