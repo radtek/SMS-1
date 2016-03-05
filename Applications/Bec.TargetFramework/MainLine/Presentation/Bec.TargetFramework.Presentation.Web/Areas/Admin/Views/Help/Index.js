@@ -27,6 +27,8 @@
                 return "&pageType=" + $('#typeList').val();
             },
             type: 'odata-v4',
+            serverSorting: false,
+            serverPaging: true,
             columns: [
                     {
                         field: "HelpPageTypeId",
