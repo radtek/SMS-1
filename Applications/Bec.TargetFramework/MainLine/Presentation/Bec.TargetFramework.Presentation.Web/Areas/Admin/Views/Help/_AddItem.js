@@ -20,6 +20,7 @@
 
     $("#addItem-form").validate({
         ignore: '.skip',
+        onfocusout: false,
         // Rules for form validation
         rules: {
             Title: {
