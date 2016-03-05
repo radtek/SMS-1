@@ -3,7 +3,7 @@
     var wizard = $('#addHelpWizard').bootstrapWizard({
         tabClass: 'form-wizard',
         onTabClick: function () {
-            return false;
+            return validateAddHelp();
         },
         onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
@@ -17,13 +17,14 @@
                 $('#stepBack').hide();
                 $('#stepNext').show();
                 $('#submitAddHelp').hide();
+                $("#submitAddHelp").prop('disabled', false);
             }
         }
     });
 
     $("#stepNext").click(function () {
-        if ($("#addHelp-form").valid()) {
-            checkHelp();
+        if ($("#addHelp-form").valid() && validateAddHelp()) {
+            wizard.bootstrapWizard('next');
         }
     });
 
@@ -64,7 +65,12 @@
 
     function validateSubmit(form) {
         $("#submitAddHelp").prop('disabled', true);
-        form.submit();
+        if (validateAddHelp()) {
+            form.submit();
+        } else {
+            wizard.bootstrapWizard('previous');
+        }
+        
     }
 
     function setDefaultEffectiveDate() {
@@ -147,7 +153,7 @@
             if (helpPageTypeList.val() === "800002") {
                 validator.showErrors({
                     "HelpPageTypeId": "",
-                    "PageUrl": "This help URL has already existed"
+                    "PageUrl": "This page URL has already existed"
                 });
             } else {
                 validator.showErrors({
@@ -158,26 +164,18 @@
         return res;
     }
 
-    function getCheckHelpPromise() {
-        var def = $.Deferred();
+    function validateAddHelp() {
+        var result = false;
         ajaxWrapper({
             url: $("#addHelp-form").data("validate-url"),
             data: {
                 helpType: helpPageTypeList.val(),
                 helpUrl: $("#PageUrl").val()
-            }
+            },
+            async: false
         }).done(function (res) {
-            def.resolve(handleHelpValidationResult(res));
+            result = handleHelpValidationResult(res);
         });
-        return def.promise();
-    }
-
-    function checkHelp() {
-        var promise = getCheckHelpPromise();
-        promise.done(function (res) {
-            if (res) {
-                wizard.bootstrapWizard('next');
-            }
-        });
+        return result;
     }
 });

@@ -142,7 +142,9 @@
 
     function clearText() {
         $("#addItem-form input[type=text]").val('');
-        $("#EffectiveOn").val('');
+        if ($("#HelpPageTypeId").val() === "800001") {
+            $("#EffectiveOn").val('');
+        }
         $("#addItem-form select").prop('selectedIndex', '0');
         $("#addItem-form textarea").val('');
         btnAddItem.text("Add");

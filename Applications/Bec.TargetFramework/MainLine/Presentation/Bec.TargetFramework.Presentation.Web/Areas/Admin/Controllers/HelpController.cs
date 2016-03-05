@@ -64,7 +64,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> ViewEditHelp(Guid pageId)
         {
             TempData.Remove("Items");
-            var page = await GetHelpDto(pageId);
+            var page = (await GetHelpPages(pageId, null, string.Empty)).FirstOrDefault();
             if (page != null)
             {
                 ViewBag.Types = GetHelpPageTypes();
@@ -76,7 +76,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> ViewDeleteHelp(Guid pageId)
         {
-            var page = await GetHelpDto(pageId);
+            var page = (await GetHelpPages(pageId, null, string.Empty)).FirstOrDefault();
             return PartialView("_DeleteHelpPage", page);
         }
 
@@ -150,19 +150,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["CurrentType"] = pageType;
             TempData["isShowMeHowItem"] = pageType == HelpPageTypeIdEnum.ShowMeHow;
             TempData["isCalloutItem"] = pageType == HelpPageTypeIdEnum.Callout;
-            var pageTypeValue = pageType.GetIntValue();
-            var selectPage = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
-            var filterPage = pageTypeValue > 0 ? ODataHelper.Filter<HelpPageDTO>(x => x.HelpPageTypeId == pageTypeValue) : String.Empty;
-            var helpList = (await queryClient.QueryAsync<HelpPageDTO>("HelpPages", ODataHelper.RemoveParameters(Request) + selectPage + filterPage)).ToList();
-            var showMeHowTypeValue = HelpPageTypeIdEnum.ShowMeHow.GetIntValue();
+            var helpList = await GetHelpPages(null, pageType, string.Empty);
+            var helpModelList = new List<HelpModel>();
             foreach (var item in helpList)
             {
-                if (item.HelpPageTypeId != showMeHowTypeValue)
-                {
-                    item.PageUrl = item.PageName = string.Empty;
-                }
+                var helpModel = new HelpModel(item);
+                helpModelList.Add(helpModel);
             }
-            return Json(new { Items = helpList, Count = helpList.Count }, JsonRequestBehavior.AllowGet);
+            return Json(new { Items = helpModelList, Count = helpList.Count }, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetHelpItems(Guid pageId)
@@ -205,9 +200,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         private async Task<HelpPageDTO> GetHelpDto(Guid pageId)
         {
-            var select = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
-            var filter = ODataHelper.Filter<HelpPageDTO>(x => x.HelpPageID == pageId);
-            var list = await queryClient.QueryAsync<HelpPageDTO>("HelpPages", select + filter);
+            var list = await GetHelpPages(pageId, null, string.Empty);
             return list.FirstOrDefault();
         }
 
@@ -467,17 +460,31 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var helpTypeValue = helpType.GetIntValue();
-            var select = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
-            var where = ODataHelper.Expression<HelpPageDTO>(x => x.HelpPageTypeId == helpTypeValue);
-            if (helpType == HelpPageTypeIdEnum.ShowMeHow)
-            {
-                var lowerUrl = helpUrl.Trim().ToLower();
-                where = Expression.And(where, ODataHelper.Expression<HelpPageDTO>(x => x.PageUrl.ToLower() == lowerUrl));
-            }
-            var filter = ODataHelper.Filter(where);
-            var list = (await queryClient.QueryAsync<HelpPageDTO>("HelpPages", select + filter)).ToList();
+            var list = await GetHelpPages(null, helpType, helpUrl) ;
             return Json(list.Count == 0, JsonRequestBehavior.AllowGet);
+        }
+
+        private async Task<List<HelpPageDTO>> GetHelpPages(Guid? helpId, HelpPageTypeIdEnum? helpType, string helpUrl)
+        {
+            var select = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
+            var filter = string.Empty;
+            if (helpId.HasValue)
+            {
+                var helpIdValue = helpId.Value;
+                filter = ODataHelper.Filter<HelpPageDTO>(x => x.HelpPageID == helpIdValue);
+            }
+            else if (helpType.HasValue)
+            {
+                var helpTypeValue = helpType.GetIntValue();
+                var where = ODataHelper.Expression<HelpPageDTO>(x => x.HelpPageTypeId == helpTypeValue);
+                if (helpType == HelpPageTypeIdEnum.ShowMeHow && !string.IsNullOrEmpty(helpUrl))
+                {
+                    var lowerUrl = helpUrl.Trim().ToLowerInvariant();
+                    where = Expression.And(where, ODataHelper.Expression<HelpPageDTO>(x => x.PageUrl.ToLower() == lowerUrl));
+                }
+                filter = ODataHelper.Filter(where);                
+            }
+            return (await queryClient.QueryAsync<HelpPageDTO>("HelpPages", select + filter)).ToList();
         }
     }
 }

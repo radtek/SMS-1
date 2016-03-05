@@ -14,12 +14,8 @@
         {
             gridElementId: 'helpGrid',
             url: $('#helpGrid').data("url"),
-            schema: {
-                data: "Items",
-                total: "Count",
-                model: { id: "HelpPageID" }
-            },
-            defaultSort: { field: "HelpPageTypeId", dir: "asc" },
+            schema: { data: "Items", total: "Count", model: { id: "HelpPageID" } },
+            defaultSort: { field: "HelpPageType", dir: "asc" },
             panels: ['helpDetailPanel'],
             change: onPageChange,
             jumpToId: $('#helpGrid').data("jumpto"),
@@ -31,9 +27,8 @@
             serverPaging: true,
             columns: [
                     {
-                        field: "HelpPageTypeId",
-                        title: "Help Type",
-                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800000 ? "Tour" : (dataItem.HelpPageTypeId === 800002 ? "Show Me How" : "Callout")); }
+                        field: "HelpPageType",
+                        title: "Help Type"
                     },
                     {
                         field: "HelpPageID",
@@ -41,24 +36,22 @@
                     },
                     {
                         field: "PageName",
-                        title: "Page Name",
-                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800002 ? dataItem.PageName : ""); }
+                        title: "Page Name"
                     },
                     {
                         field: "PageUrl",
-                        title: "Page URL",
-                        template: function (dataItem) { return (dataItem.HelpPageTypeId === 800002 ? dataItem.PageUrl : ""); }
+                        title: "Page URL"
                     },
                     {
                         field: "CreatedOn",
                         title: "Created On",
-                        template: function (dataItem) { return formatDate(dataItem.CreatedOn) },
+                        template: function (dataItem) { return formatDate(dataItem.CreatedOn); },
                         type: "date"
                     },
                     {
                         field: "ModifiedOn",
                         title: "Modified On",
-                        template: function (dataItem) { return dataItem.ModifiedOn !== null ? formatDate(dataItem.ModifiedOn) : "" }
+                        template: function (dataItem) { return dataItem.ModifiedOn !== null ? formatDate(dataItem.ModifiedOn) : ""; }
                     }
             ]
         });
@@ -103,7 +96,7 @@
     }
 
     function onPageChange(dataItem) {
-        if (dataItem.HelpPageTypeId === 800000 || dataItem.HelpPageTypeId === 800001) {
+        if (dataItem.HelpPageTypeId !== 800002) {
             $("p#ddnName").css('display', 'none');
             $("p#ddnUrl").css('display', 'none');
             $("dt#ddnNameLabel").css('display', 'none');
@@ -116,7 +109,7 @@
             $("p#ddnUrl").text(dataItem.PageUrl != null ? dataItem.PageUrl : "");
         }
         $("p#ddnName").text(dataItem.PageName);
-        $("p#ddnType").text((dataItem.HelpPageTypeId === 800000 ? "Tour" : (dataItem.HelpPageTypeId === 800002 ? "Show Me How" : "Callout")) || "");
+        $("p#ddnType").text(dataItem.HelpPageType);
         $("p#ddnCreatedOn").text(formatDate(dataItem.CreatedOn) || "");
         $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? formatDate(dataItem.ModifiedOn) : "");
         btnEdit.data('href', urls.editHelpUrl + "?pageId=" + dataItem.HelpPageID);
