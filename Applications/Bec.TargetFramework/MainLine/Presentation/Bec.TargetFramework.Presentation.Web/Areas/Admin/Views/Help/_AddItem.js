@@ -18,7 +18,7 @@
         clearText();
     });
 
-    $("#addItem-form").validate({
+    var validator = $("#addItem-form").validate({
         ignore: '.skip',
         onfocusout: false,
         // Rules for form validation
@@ -128,17 +128,24 @@
     });
 
     function validateSubmit(form) {
-        btnAddItem.prop('disabled', true);
-        ajaxWrapper({
-            url: $(form).attr('action'),
-            data: $(form).serializeArray(),
-            type: 'POST'
-        }).done(function (response) {
-            if ((response !== null || response !== undefined) && (response.result)) {
-                loadItemsForList(response.Items);
-                clearText();
-            }
-        });
+        if (validateAddHelpItem()) {
+            btnAddItem.prop('disabled', true);
+            ajaxWrapper({
+                url: $(form).attr('action'),
+                data: $(form).serializeArray(),
+                type: 'POST'
+            }).done(function (response) {
+                if ((response !== null || response !== undefined) && (response.result)) {
+                    loadItemsForList(response.Items);
+                    clearText();
+                }
+            });
+        } else {
+            btnAddItem.prop('disabled', false);
+            validator.showErrors({
+                "Title": "This title exists. Please use different name"
+            });
+        }
     }
 
     function clearText() {
@@ -209,4 +216,26 @@
             birthDateField.valid();
         }
     });
+
+    function validateAddHelpItem() {
+        var items = $("#helpItemListContainer li");
+        var inputItemTitle = $("#helpItemTitle").val().trim();
+        var currentItemId = $("#helpPageItemId").val();
+        var result = true;
+        if (currentItemId === "") {
+            items.each(function () {
+                if ($(this).text().trim() === inputItemTitle) {
+                    result = false;
+                }
+            });
+        } else {
+            items.each(function () {
+                var editbtn = $(this).find("a").first();
+                if ($(this).text().trim() === inputItemTitle && editbtn.attr("id") !== currentItemId) {
+                    result = false;
+                }
+            });
+        }
+        return result;
+    }
 });

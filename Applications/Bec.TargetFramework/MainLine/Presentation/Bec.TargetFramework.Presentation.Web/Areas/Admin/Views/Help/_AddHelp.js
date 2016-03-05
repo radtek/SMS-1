@@ -3,7 +3,7 @@
     var wizard = $('#addHelpWizard').bootstrapWizard({
         tabClass: 'form-wizard',
         onTabClick: function () {
-            return validateAddHelp();
+            return $("#addHelp-form").valid() && validateAddHelp();
         },
         onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
