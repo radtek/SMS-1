@@ -83,7 +83,7 @@ namespace Bec.TargetFramework.Business.Logic
                     helpPage.ModifiedOn = DateTime.Now;
                     helpPage.PageName = helpPageDto.PageName;
                     helpPage.PageUrl = helpPageDto.PageUrl;
-                    helpPage.ModifiedBy = modifiedBy;
+                    helpPage.ModifiedBy = modifiedBy; 
                     helpPage.ModifiedOn = DateTime.Now;
 
                     scope.DbContexts.Get<TargetFrameworkEntities>().Entry(helpPage);
@@ -125,14 +125,18 @@ namespace Bec.TargetFramework.Business.Logic
                                     itemInDb.Title = item.Title;
                                     itemInDb.ModifiedOn = DateTime.Now;
                                     scope.DbContexts.Get<TargetFrameworkEntities>().Entry(itemInDb);
-                                    var helpPageItemUcs = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemUserAccounts.Where(x => x.HelpPageItemID == item.HelpPageItemID);
-                                    if (helpPageItemUcs != null && helpPageItemUcs.Any())
+                                    if (item.JustOrder != true)
                                     {
-                                        foreach (var hpiUc in helpPageItemUcs)
+                                        var helpPageItemUcs = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemUserAccounts.Where(x => x.HelpPageItemID == item.HelpPageItemID);
+                                        if (helpPageItemUcs != null && helpPageItemUcs.Any())
                                         {
-                                            hpiUc.Visible = true;
+                                            foreach (var hpiUc in helpPageItemUcs)
+                                            {
+                                                hpiUc.Visible = true;
+                                            }
                                         }
                                     }
+                                    
                                     if (helpPage.HelpPageTypeId == HelpPageTypeIdEnum.Tour.GetIntValue())
                                     {
                                         scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.RemoveRange(scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.Where(x => x.HelpPageItemID == itemInDb.HelpPageItemID));

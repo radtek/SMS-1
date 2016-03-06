@@ -243,6 +243,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         itemHelp.TabContainerId = item.TabContainerId;
                         itemHelp.EffectiveOn = item.EffectiveOn;
                         itemHelp.RoleId = item.RoleId;
+                        itemHelp.JustOrder = item.JustOrder;
                     }
                     TempData["Items"] = list;
                     var jsonData = new { result = list.Count > 0, Items = list };
@@ -296,6 +297,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         if (itemHelp.Status != HelpPageItemStatusEnum.New.GetIntValue())
                         {
                             itemHelp.Status = HelpPageItemStatusEnum.Modified.GetIntValue();
+                            itemHelp.JustOrder = false;
                         }
                     }
                     TempData["Items"] = list;
@@ -378,6 +380,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         Position = item.Position,
                         TabContainerId = item.TabContainerId,
                         RoleId = item.RoleId,
+                        JustOrder = item.JustOrder,
                         EffectiveOn = item.EffectiveOn
                     };
                     newItem.DisplayOrder = newOrder;
@@ -416,7 +419,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         result = false;
                         break;
                     }
-
+                    if(item.JustOrder != true)
+                    item.JustOrder = (item.Status != HelpPageItemStatusEnum.Modified.GetIntValue() ? true : false);
                     if (item.Status <= 0)
                     {
                         item.Status = HelpPageItemStatusEnum.Modified.GetIntValue();
@@ -435,7 +439,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         CreatedOn = item.CreatedOn,
                         Status = item.Status,
                         RoleId = item.RoleId,
-                        DisplayOrder = newOrder
+                        DisplayOrder = newOrder,
+                        JustOrder = item.JustOrder
                     };
                     newList.Add(newItem);
                     newOrder += 1;
@@ -460,7 +465,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var list = await GetHelpPages(null, helpType, helpUrl) ;
+            var list = await GetHelpPages(null, helpType, helpUrl);
             return Json(list.Count == 0, JsonRequestBehavior.AllowGet);
         }
 
@@ -482,7 +487,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var lowerUrl = helpUrl.Trim().ToLowerInvariant();
                     where = Expression.And(where, ODataHelper.Expression<HelpPageDTO>(x => x.PageUrl.ToLower() == lowerUrl));
                 }
-                filter = ODataHelper.Filter(where);                
+                filter = ODataHelper.Filter(where);
             }
             return (await queryClient.QueryAsync<HelpPageDTO>("HelpPages", select + filter)).ToList();
         }
