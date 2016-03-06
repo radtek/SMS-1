@@ -90,12 +90,14 @@
             intro.onchange(function (targetElement) {
                 if ($(targetElement).closest('ul').css("display") === 'none') {
                     $(targetElement).closest('ul').css("display", "block");
-                    if (elementHidden != "") {
+                    if (elementHidden !== "") {
                         if ($(elementHidden).closest('ul').is($(targetElement).closest('ul'))) {
                         }
                         else {
                             $(elementHidden).closest('ul').removeAttr("style");
                         }
+                    }
+                    else {
                     }
                     elementHidden = targetElement;
                 }
@@ -108,6 +110,12 @@
                             $(elementHidden).closest('ul').removeAttr("style");
                             elementHidden = "";
                         }
+                    }
+                    else {
+                        if ($(targetElement).closest('ul').hasClass('dropdown-menu')) {
+                            $(targetElement).closest(".dropdown.open").removeClass("open");
+                        }
+
                     }
                 }
             });
