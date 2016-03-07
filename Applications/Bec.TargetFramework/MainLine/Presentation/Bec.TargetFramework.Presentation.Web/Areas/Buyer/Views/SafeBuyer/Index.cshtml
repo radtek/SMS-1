@@ -111,7 +111,7 @@
                                                         @{ var isMortgage = !string.IsNullOrWhiteSpace(Model.SmsTransaction.LenderName); }
                                                         <div class="view">
                                                             <p>
-                                                                <span data-field="LenderName" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" data-no-value-text="Buying Without Mortgage">@(isMortgage ? "Buying Without Mortgage" : Model.SmsTransaction.LenderName)</span>
+                                                                <span data-field="LenderName" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" data-no-value-text="Buying Without Mortgage">@(isMortgage ? Model.SmsTransaction.LenderName : "Buying Without Mortgage")</span>
                                                             </p>
                                                             <p><span data-field="MortgageApplicationNumber" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()">@Model.SmsTransaction.MortgageApplicationNumber</span></p>
                                                         </div>
