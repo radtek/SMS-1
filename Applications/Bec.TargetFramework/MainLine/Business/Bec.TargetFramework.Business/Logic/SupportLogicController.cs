@@ -42,7 +42,14 @@ namespace Bec.TargetFramework.Business.Logic
                 supportItems.Add(supportItem);
                 scope.SaveChanges();
             }
+            var supportAdministratorRoleName = OrganisationRoleName.SupportAdministrator.GetStringValue();
+            var roles = await UserLogic.GetRoles(supportAdministratorRoleName);
             var recipientUaoIds = new List<Guid>() { };
+            if (roles != null && roles.Any())
+            {
+                roles = roles.GroupBy(elem => elem.UserAccountOrganisationID).Select(group => group.First()).ToList();
+                roles.ForEach(x=> recipientUaoIds.Add(x.UserAccountOrganisationID));
+            }
             await NotificationLogic.CreateConversation(OrgId, supportItemDto.UserAccountOrganisationID, Guid.Empty, ActivityType.SupportMessage, supportItemDto.SupportItemID, supportItemDto.Title, supportItemDto.Description, recipientUaoIds.ToArray());
             return supportItemDto.SupportItemID;
         }

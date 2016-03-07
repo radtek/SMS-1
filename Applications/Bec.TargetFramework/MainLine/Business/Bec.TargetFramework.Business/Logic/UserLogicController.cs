@@ -810,6 +810,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(string roleName)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.OrganisationRole != null && x.OrganisationRole.RoleName == roleName).ToDtos();
+            }
+        }
+
         public async Task ChangeUsernameAndEmail(Guid uaoId, string newUsername)
         {
             UserAccountDTO userAccountDto;
