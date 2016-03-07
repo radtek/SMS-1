@@ -38,19 +38,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         private async Task<MultiSelectList> GetRoles()
         {
-            var selectRole = ODataHelper.Select<RoleDTO>(x => new
+            var selectRole = ODataHelper.Select<VRoleHierarchyDTO>(x => new
             {
                 x.RoleID,
-                x.IsActive,
-                x.RoleName,
-                x.IsDeleted
+                x.RoleName
             }, false);
-
-            var filterRole = ODataHelper.Filter<RoleDTO>(x =>
-                !x.IsDeleted && x.IsActive && x.RoleName != "Temporary User" && x.RoleName != "Organisation Branch Administrator"
-               );
-            var orderbyRole = ODataHelper.OrderBy<RoleDTO>(x => new { x.RoleName });
-            var allRoles = (await queryClient.QueryAsync<RoleDTO>("Roles", selectRole + filterRole + orderbyRole)).ToList();
+            var allRoles = (await queryClient.QueryAsync<VRoleHierarchyDTO>("VRoleHierarchies", selectRole)).ToList();
             return new MultiSelectList(allRoles, "RoleID", "RoleName");
         }
         public async Task<ActionResult> ViewAddHelp(HelpPageDTO page)

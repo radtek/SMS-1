@@ -31,6 +31,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.RoleHierarchyID = source.RoleHierarchyID;
             target.RoleID = source.RoleID;
+            target.RoleName = source.RoleName;
             target.ParentID = source.ParentID;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
@@ -57,6 +58,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.RoleHierarchyID = source.RoleHierarchyID;
             target.RoleID = source.RoleID;
+            target.RoleName = source.RoleName;
             target.ParentID = source.ParentID;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;

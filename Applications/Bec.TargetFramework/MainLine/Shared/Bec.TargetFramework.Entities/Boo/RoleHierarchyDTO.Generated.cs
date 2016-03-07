@@ -22,10 +22,11 @@ namespace Bec.TargetFramework.Entities
         public RoleHierarchyDTO() {
         }
 
-        public RoleHierarchyDTO(global::System.Guid roleHierarchyID, global::System.Guid roleID, global::System.Nullable<System.Guid> parentID, bool isActive, bool isDeleted, int level, RoleDTO role) {
+        public RoleHierarchyDTO(global::System.Guid roleHierarchyID, global::System.Guid roleID, string roleName, global::System.Nullable<System.Guid> parentID, bool isActive, bool isDeleted, int level, RoleDTO role) {
 
           this.RoleHierarchyID = roleHierarchyID;
           this.RoleID = roleID;
+          this.RoleName = roleName;
           this.ParentID = parentID;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
@@ -42,6 +43,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Guid RoleID { get; set; }
+
+        [DataMember]
+        public string RoleName { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.Guid> ParentID { get; set; }

@@ -133,7 +133,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         {
             if (roles != null && roles.Any() && roleHiers != null && roleHiers.Any())
             {
-                var filteredRoles = roleHiers.Where(x => roles.Any(z => z.OrganisationRole.RoleName.ToLower() == x.Role.RoleName.ToLower())).ToList();
+                var filteredRoles = roleHiers.Where(x => roles.Any(z => z.OrganisationRole.RoleName.ToLower() == x.RoleName.ToLower())).ToList();
                 if (filteredRoles != null && filteredRoles.Any())
                 {
                     var role = filteredRoles.FirstOrDefault(x => x.Level == 1);

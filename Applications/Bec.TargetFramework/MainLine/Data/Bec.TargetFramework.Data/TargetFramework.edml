@@ -420,6 +420,7 @@
           <EntitySet Name="HelpPageItemUserAccounts" EntityType="Bec.TargetFramework.Data.Store.HelpPageItemUserAccount" store:Type="Tables" Schema="public" Table="HelpPageItemUserAccount" />
           <EntitySet Name="RoleHierarchies" EntityType="Bec.TargetFramework.Data.Store.RoleHierarchy" store:Type="Tables" Schema="public" Table="RoleHierarchy" />
           <EntitySet Name="HelpPageItemRoles" EntityType="Bec.TargetFramework.Data.Store.HelpPageItemRole" store:Type="Tables" Schema="public" Table="HelpPageItemRole" />
+          <EntitySet Name="vRoleHierarchies" EntityType="Bec.TargetFramework.Data.Store.vRoleHierarchy" store:Type="Views" Schema="public" Table="vRoleHierarchy" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -10117,6 +10118,7 @@
           </Key>
           <Property Name="RoleHierarchyID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
           <Property Name="RoleID" Type="uuid" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="300" />
           <Property Name="ParentID" Type="uuid" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
@@ -10131,6 +10133,17 @@
           <Property Name="HelpPageItemID" Type="uuid" Nullable="false" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="vRoleHierarchy">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="RoleName" />
+            <PropertyRef Name="Level" />
+          </Key>
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="ParentID" Type="uuid" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18889,6 +18902,7 @@
           <EntitySet Name="HelpPageItemUserAccounts" EntityType="Bec.TargetFramework.Data.HelpPageItemUserAccount" />
           <EntitySet Name="RoleHierarchies" EntityType="Bec.TargetFramework.Data.RoleHierarchy" />
           <EntitySet Name="HelpPageItemRoles" EntityType="Bec.TargetFramework.Data.HelpPageItemRole" />
+          <EntitySet Name="VRoleHierarchies" EntityType="Bec.TargetFramework.Data.VRoleHierarchy" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -29678,6 +29692,7 @@
           </Key>
           <Property Name="RoleHierarchyID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="efbff3f1-6cc6-4397-9f49-582d9d618f95" />
           <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="62b06346-7e72-4bf9-b73e-5e3d1941a5f1" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="9190a246-7ff0-49c0-a13a-3eab40a771d2" />
           <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="676b93c7-c904-4a9e-ba6a-10f5d65a4a70" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="fe2c041e-a993-4a49-8d52-830c1668a6eb" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="3f3f9e0e-3369-490e-bf85-798b0ff8ba92" />
@@ -29695,6 +29710,17 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="f6f73582-b819-4a9f-969e-2412a0476914" />
           <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_Role" FromRole="HelpPageItemRoles" ToRole="Role" ed:Guid="28705106-d1af-4389-85b4-df02d4b2e2fc" />
           <NavigationProperty Name="HelpPageItem" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_HelpPageItem" FromRole="HelpPageItemRoles" ToRole="HelpPageItem" ed:Guid="fce7face-9906-4f19-a56a-96b32b396bdf" />
+        </EntityType>
+        <EntityType Name="VRoleHierarchy" ed:Guid="0cdd4ca8-5e8c-44c9-a4f7-251570ee0bde">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="RoleName" />
+            <PropertyRef Name="Level" />
+          </Key>
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="8c44c902-a7f2-4d9e-81e4-06d731d833d0" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="0affa9dd-aac8-4bc5-bcbd-0b95d5a6418b" />
+          <Property Name="Level" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="76d25915-1b71-4be4-8d8f-fe3bc3735111" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="60d27afc-4f4c-44f2-816d-9886ccefa21a" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -44558,6 +44584,7 @@
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44569,6 +44596,16 @@
                 <ScalarProperty Name="HelpPageItemID" ColumnName="HelpPageItemID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VRoleHierarchies">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VRoleHierarchy">
+              <MappingFragment StoreEntitySet="vRoleHierarchies">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

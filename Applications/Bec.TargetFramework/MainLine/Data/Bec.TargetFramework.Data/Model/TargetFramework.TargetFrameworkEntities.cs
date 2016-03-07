@@ -2061,6 +2061,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for HelpPageItemRole in the schema.
         /// </summary>
         public virtual DbSet<HelpPageItemRole> HelpPageItemRoles { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VRoleHierarchy in the schema.
+        /// </summary>
+        public virtual DbSet<VRoleHierarchy> VRoleHierarchies { get; set; }
 
         #region Methods
 
