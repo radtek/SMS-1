@@ -70,7 +70,6 @@
         } else {
             wizard.bootstrapWizard('previous');
         }
-        
     }
 
     function setDefaultEffectiveDate() {

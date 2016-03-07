@@ -419,8 +419,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         result = false;
                         break;
                     }
-                    if(item.JustOrder != true)
-                    item.JustOrder = (item.Status != HelpPageItemStatusEnum.Modified.GetIntValue() ? true : false);
+                    if (item.JustOrder != true)
+                    {
+                        item.JustOrder = (item.Status != HelpPageItemStatusEnum.Modified.GetIntValue() ? true : false);
+                    }
                     if (item.Status <= 0)
                     {
                         item.Status = HelpPageItemStatusEnum.Modified.GetIntValue();
