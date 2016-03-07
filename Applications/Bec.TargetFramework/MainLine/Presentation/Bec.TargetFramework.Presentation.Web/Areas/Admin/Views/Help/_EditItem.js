@@ -120,6 +120,7 @@
                 $('#EffectiveOn').val(fDate(response.Item.EffectiveOn));
                 $('#helpItemTabContainerId').val(response.Item.TabContainerId);
                 setSelected('helpItemRoleId', response.Item.RoleId);
+                clearTitleExistError();
             }
         });
     });
@@ -191,6 +192,7 @@
         btnEditItem.text("Add");
         $("#helpPageItemId").val("");
         $('.help-item-element').prop('disabled', false);
+        clearTitleExistError();
     }
 
     function updateItemOrder() {
@@ -256,5 +258,13 @@
             });
         }
         return result;
+    }
+
+    function clearTitleExistError() {
+        validator.showErrors({
+            "Title": ""
+        });
+        $('#helpItemTitle').parent().removeClass("state-error").addClass("state-success");
+        $('#helpItemTitle').removeClass("invalid").addClass("valid");
     }
 });
