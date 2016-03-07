@@ -28,7 +28,7 @@
                      data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = Model.SmsUserAccountOrganisationTransactionID })"
                      data-companyname="@companyName" data-phone="@tel">
                     <div id="transactionTabs" class="tabbable custom-tabs shadow margin-top-10">
-                        <ul class="nav nav-tabs">
+                        <ul id="tabContainer" role="tablist" class="nav nav-tabs">
                             <li class="active"><a href="#transactionDetailsPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Transaction</span></a></li>
                             <li><a href="#safeSendPanel" data-toggle="tab"><i class="sms sms-safe-send margin-right-10"></i><span>Safe Send</span></a></li>
                         </ul>
