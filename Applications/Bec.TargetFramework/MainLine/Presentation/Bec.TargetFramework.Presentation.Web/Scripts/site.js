@@ -620,9 +620,9 @@ function guid() {
 }
 
 function getPosition(pos) {
-    if (pos == 1) return "right";
-    if (pos == 2) return "left";
-    if (pos == 3) return "top";
-    if (pos == 4) return "bottom";
+    if (pos === 1) return "right";
+    if (pos === 2) return "left";
+    if (pos === 3) return "top";
+    if (pos === 4) return "bottom";
     return "right";
 }

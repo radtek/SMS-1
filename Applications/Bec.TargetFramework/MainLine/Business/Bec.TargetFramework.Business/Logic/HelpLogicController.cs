@@ -49,7 +49,7 @@ namespace Bec.TargetFramework.Business.Logic
                             {
                                 foreach (var roleId in item.RoleId)
                                 {
-                                    var helpPageItemRole = new HelpPageItemRole()
+                                    var helpPageItemRole = new HelpPageItemRole
                                     {
                                         HelpPageItemID = item.HelpPageItemID,
                                         HelpPageItemRoleID = Guid.NewGuid(),
@@ -101,7 +101,7 @@ namespace Bec.TargetFramework.Business.Logic
                                 {
                                     foreach (var roleId in item.RoleId)
                                     {
-                                        var helpPageItemRole = new HelpPageItemRole()
+                                        var helpPageItemRole = new HelpPageItemRole
                                         {
                                             HelpPageItemID = item.HelpPageItemID,
                                             HelpPageItemRoleID = Guid.NewGuid(),
@@ -142,7 +142,7 @@ namespace Bec.TargetFramework.Business.Logic
                                         scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.RemoveRange(scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.Where(x => x.HelpPageItemID == itemInDb.HelpPageItemID));
                                         foreach (var roleId in item.RoleId)
                                         {
-                                            var helpPageItemRole = new HelpPageItemRole()
+                                            var helpPageItemRole = new HelpPageItemRole
                                             {
                                                 HelpPageItemID = item.HelpPageItemID,
                                                 HelpPageItemRoleID = Guid.NewGuid(),
@@ -250,8 +250,9 @@ namespace Bec.TargetFramework.Business.Logic
                 }
                 else if (pageType == HelpPageTypeIdEnum.ShowMeHow)
                 {
+                    var lowerURL = pageUrl.ToLowerInvariant();
                     var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
-                                 .FirstOrDefault(p => (p.PageUrl.ToLower().Equals(pageUrl.ToLower())) && (p.HelpPageTypeId == pageTypeValue));
+                                 .FirstOrDefault(p => (p.PageUrl.ToLower() == lowerURL) && (p.HelpPageTypeId == pageTypeValue));
                     if (page != null)
                     {
                         return GetHelpPageItems(scope, page);

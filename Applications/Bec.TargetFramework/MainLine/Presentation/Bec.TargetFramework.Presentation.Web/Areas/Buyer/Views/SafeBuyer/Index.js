@@ -49,8 +49,8 @@
         });
     }
 
-    if ($('#content').data("welcome") == "True") {
-        handleModal({ url: $('#content').data("welcomeurl") }, null, true);        
+    if ($('#content').data("welcome") === "True") {
+        handleModal({ url: $('#content').data("welcomeurl") }, null, true);
     }
 });
 

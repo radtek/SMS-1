@@ -171,13 +171,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         }
                     });
                 }
-                TempData["Items"] = data;
             }
-            else
-            {
-                TempData["Items"] = data;
-            }
-            var jsonData = new { IsEmpty, Items = data, IsSortable = false };
+            TempData["Items"] = data;
+            var jsonData = new { IsEmpty, Items = data };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
@@ -201,9 +197,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult AddTempHelpPageItem(HelpPageItemDTO item)
         {
+            IList<HelpPageItemDTO> list = null;
+            var result = false;
             if (item.HelpPageItemID == default(Guid))
             {
-                IList<HelpPageItemDTO> list = null;
                 if (TempData["Items"] != null)
                 {
                     list = (IList<HelpPageItemDTO>)TempData["Items"];
@@ -218,14 +215,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 item.HelpPageItemID = Guid.NewGuid();
                 list.Add(item);
                 TempData["Items"] = list;
-                var jsonData = new { result = list.Count > 0, Items = list };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
+                result = list.Count > 0;
             }
             else
             {
                 if (TempData["Items"] != null)
                 {
-                    var list = (IList<HelpPageItemDTO>)TempData["Items"];
+                    list = (IList<HelpPageItemDTO>)TempData["Items"];
                     var itemHelp = list.FirstOrDefault(x => x.HelpPageItemID == item.HelpPageItemID);
                     if (itemHelp != null)
                     {
@@ -239,20 +235,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         itemHelp.JustOrder = item.JustOrder;
                     }
                     TempData["Items"] = list;
-                    var jsonData = new { result = list.Count > 0, Items = list };
-                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    result = list.Count > 0;
                 }
-                return null;
             }
+            var jsonData = new { result, Items = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult EditTempHelpPageItem(HelpPageItemDTO item)
         {
+            IList<HelpPageItemDTO> list = null;
+            var result = false;
             if (item.HelpPageItemID == default(Guid))
             {
-                IList<HelpPageItemDTO> list = null;
                 if (TempData["Items"] != null)
                 {
                     list = (IList<HelpPageItemDTO>)TempData["Items"];
@@ -269,14 +266,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 item.HelpPageItemID = Guid.NewGuid();
                 list.Add(item);
                 TempData["Items"] = list;
-                var jsonData = new { result = true, Items = list };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
+                result = true;
             }
             else
             {
                 if (TempData["Items"] != null)
                 {
-                    var list = (IList<HelpPageItemDTO>)TempData["Items"];
+                    list = (IList<HelpPageItemDTO>)TempData["Items"];
                     var itemHelp = list.FirstOrDefault(x => x.HelpPageItemID == item.HelpPageItemID);
                     if (itemHelp != null)
                     {
@@ -294,11 +290,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         }
                     }
                     TempData["Items"] = list;
-                    var jsonData = new { result = true, Items = list };
-                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    result = true;
                 }
-                return null;
             }
+            var jsonData = new { result, Items = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

@@ -90,7 +90,9 @@
         return $.datepicker.formatDate('dd/mm/yy', new Date(getDateFormat(ds)));
     };
     function setSelected(idOfSelect, values) {
-        if (values == null) return;
+        if (values == null) {
+            return;
+        }
         $("#" + idOfSelect + " option:selected").removeAttr("selected");
         $.each(values, function (i, e) {
             $("#" + idOfSelect + " option[value='" + e + "']").prop("selected", true);
@@ -208,10 +210,8 @@
             },
             type: 'POST'
         }).done(function (response) {
-            if (response !== null || response !== undefined) {
-                if (response.result) {
-                    loadItemsForList(response.Items);
-                }
+            if ((response !== null || response !== undefined) && (response.result)) {
+                loadItemsForList(response.Items);
             }
         });
     }
