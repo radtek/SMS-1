@@ -147,7 +147,6 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_SrcFundsBankAccounts").Include("~/Views/Shared/_SrcFundsBankAccounts.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Shared/_PostcodeLookup").Include("~/Views/Shared/_PostcodeLookup.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.js"));

@@ -8,103 +8,33 @@
 {{/unless}}
 
 <h5>Transaction Details</h5>
-<table class="transaction-details-table"
-       id="transaction-details"
-       data-edit-url="@Url.Action("GetFieldUpdates", "App", new { area = "" })"
-       data-update-url="@Url.Action("PostImmediateUpdate", "App", new { area = "" })"
-       data-approve-url="@Url.Action("ApproveUpdate", "App", new { area = "" })"
-       data-reject-url="@Url.Action("RejectUpdate", "App", new { area = "" })"
-       data-activity-type="@ActivityType.SmsTransaction.GetIntValue()"
-       data-activity-id="{{SmsTransactionID}}">
+<table class="transaction-details-table" id="transaction-details">
     <tr>
         <td>Transaction Address</td>
         <td>
-            <div class="magic-edit">
-                <div class="view">
-                    <p><span data-field="Line1" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">{{SmsTransaction.Address.Line1}}</span></p>
-                    <p><span data-field="Line2" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.Line2}}</span></p>
-                    <p><span data-field="Town" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.Town}}</span></p>
-                    <p><span data-field="County" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.County}}</span></p>
-                    <p><span data-field="PostalCode" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">{{SmsTransaction.Address.PostalCode}}</span></p>
-                </div>
-                <div class="edit">
-                    <form class="smart-form">
-                        @Html.Partial("_PostcodeLookup", new PostcodeLookupModel { Prefix = "tx" })
-                        <label class="input">
-                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                            <input type="text" value="{{SmsTransaction.Address.Line1}}" data-rule-required="true" class="form-control" data-field="Line1" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txLine1" name="txLine1" placeholder="Address Line 1" />
-                        </label>
-                        <label class="input">
-                            <input type="text" value="{{SmsTransaction.Address.Line2}}" data-rule-required="true" class="form-control" data-field="Line2" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txLine2" name="txLine2" placeholder="Address Line 2" />
-                        </label>
-                        <label class="input">
-                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                            <input type="text" value="{{SmsTransaction.Address.Town}}" data-rule-required="true" class="form-control" data-field="Town" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txTown" name="txTown" placeholder="Town" />
-                        </label>
-                        <label class="input">
-                            <input type="text" value="{{SmsTransaction.Address.County}}" class="form-control" data-field="County" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txCounty" name="txCounty" placeholder="County" />
-                        </label>
-                        <label class="input">
-                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                            <input type="text" value="{{SmsTransaction.Address.PostalCode}}" data-rule-required="true" data-rule-minlength="5" class="form-control" data-field="PostalCode" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" id="txPostalCode" name="txPostalCode" placeholder="PostalCode" />
-                        </label>
-                    </form>
-                </div>
+            <div class="view">
+                <p>{{SmsTransaction.Address.Line1}}</p>
+                <p>{{SmsTransaction.Address.Line2}}</p>
+                <p>{{SmsTransaction.Address.Town}}</p>
+                <p>{{SmsTransaction.Address.County}}</p>
+                <p>{{SmsTransaction.Address.PostalCode}}</p>
             </div>
         </td>
     </tr>
     <tr>
         <td>Mortgage Details</td>
         <td>
-            <div class="magic-edit">
-                <div class="view">
-                    <p><span data-field="LenderName" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" data-no-value-text="Buying Without Mortgage">{{SmsTransaction.LenderName}}</span></p>
-                    <p><span data-field="MortgageApplicationNumber" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()">{{SmsTransaction.MortgageApplicationNumber}}</span></p>
-                </div>
-                <div class="edit">
-                    <form id="buyingWithMortgageForm" class="smart-form">
-                        <input id="buyingWithMortgage" type="checkbox" {{#if SmsTransaction.LenderName}} checked="checked" {{/if}} />
-                        <label for="buyingWithMortgage">Buying With Mortgage</label>
-                        <div id="mortgageDetails">
-                            <div class="form-group">
-                                <label>Lender</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                    <input type="text" value="{{SmsTransaction.LenderName}}" data-rule-required="true" maxlength="50" class="form-control" data-field="LenderName" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" id="lenderSearch" name="lenderSearch" data-url="@Url.Action("SearchLenders", "App", new { Area = "" })" />
-                                    <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label>Mortgage App Number</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                    <input type="text" value="{{SmsTransaction.MortgageApplicationNumber}}" data-rule-required="true" maxlength="50" class="form-control" data-field="MortgageApplicationNumber" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" id="lenderAppNumber" name="lenderAppNumber" />
-                                </label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+            <div class="view">
+                <p>{{SmsTransaction.LenderName}}</></p>
+                <p>{{SmsTransaction.MortgageApplicationNumber}}</p>
             </div>
         </td>
     </tr>
     <tr>
         <td>Price</td>
         <td>
-            <div class="magic-edit">
-                <div class="view">
-                    <p><span data-field="Price" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" data-value-format="currency" data-no-value-text="TBC" >{{SmsTransaction.Price}}</span></p>
-                </div>
-                <div class="edit">
-                    <form class="smart-form">
-                        <div class="form-group">
-                            <label class="input">
-                                <i class="icon-prepend fa fa-gbp"></i>
-                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                <input type="text" value="{{SmsTransaction.Price}}" data-rule-required="true" data-rule-digits="true" data-rule-max="2147483647" class="form-control" data-field="Price" data-parent-id="{{SmsTransactionID}}" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" id="price" name="price" />
-                            </label>
-                        </div>
-                    </form>
-                </div>
+            <div class="view">
+                <p>{{SmsTransaction.Price}}</p>
             </div>
         </td>
     </tr>

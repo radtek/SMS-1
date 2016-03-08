@@ -21,14 +21,6 @@
                 $('#lenderAppNumber').val('');
             }
         });
-
-        var content = $('#content');
-        new magicEdit({
-            url: content.data('edit-url'),
-            activityType: content.data('activity-type'),
-            activityId: content.data('activity-id'),
-            updateUrl: content.data('update-url')
-        });
     }
 
     function setupTabs() {

@@ -203,16 +203,6 @@
                     $('#lenderAppNumber').val('');
                 }
             });
-
-            var table = $('#transaction-details');
-            magicEdit({
-                url: table.data('edit-url'),
-                activityType: table.data('activity-type'),
-                activityId: table.data('activity-id'),
-                updateUrl: table.data('update-url'),
-                approveUrl: table.data('approve-url'),
-                rejectUrl: table.data('reject-url')
-            });
         });
     }
 
@@ -229,16 +219,6 @@
         primaryBuyerTemplatePromise.done(function (template) {
             var html = template(data);
             $('#primaryBuyer').html(html);
-
-            var table = $('#primaryBuyer-details');
-            magicEdit({
-                url: table.data('edit-url'),
-                activityType: table.data('activity-type'),
-                activityId: table.data('activity-id'),
-                updateUrl: table.data('update-url'),
-                approveUrl: table.data('approve-url'),
-                rejectUrl: table.data('reject-url')
-            });
         });
     }
 
@@ -274,16 +254,6 @@
             relatedPartiesTemplatePromise.done(function (template) {
                 var html = template(templateData);
                 $('#' + targetElementId).html(html);
-
-                var table = $('#' + targetElementId).find('table[data-magic-edit="true"]');
-                magicEdit({
-                    url: table.data('edit-url'),
-                    activityType: table.data('activity-type'),
-                    activityId: table.data('activity-id'),
-                    updateUrl: table.data('update-url'),
-                    approveUrl: table.data('approve-url'),
-                    rejectUrl: table.data('reject-url')
-                });
             });
         }).fail(function (e) {
             if (!hasRedirect(e.responseJSON)) {

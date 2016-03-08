@@ -238,7 +238,6 @@
     <Compile Include="Areas\Account\Models\CreatePermanentLoginModel.cs" />
     <Compile Include="Models\Faq.cs" />
     <Compile Include="Models\FaqGroup.cs" />
-    <Compile Include="Models\PostcodeLookupModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ToastrNotification\ToastMessage.cs" />
@@ -1030,7 +1029,6 @@
     <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="sitemap.txt" />
     <Content Include="Views\Shared\_SrcFundsBankAccounts.js" />
-    <Content Include="Views\Shared\_PostcodeLookup.js" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
@@ -1868,7 +1866,6 @@
     <Content Include="Views\Home\TutorialsForProfessionals.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\Article.cshtml" />
-    <Content Include="Views\Shared\_PostcodeLookup.cshtml" />
     <Content Include="Views\Shared\_SrcFundsBankAccounts.cshtml" />
   </ItemGroup>
   <ItemGroup>

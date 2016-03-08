@@ -2,14 +2,7 @@
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Models
 
-<table class="transaction-details-table"
-       id="primaryBuyer-details"
-       data-edit-url="@Url.Action("GetFieldUpdates", "App", new { area = "" })"
-       data-update-url="@Url.Action("PostImmediateUpdate", "App", new { area = "" })"
-       data-approve-url="@Url.Action("ApproveUpdate", "App", new { area = "" })"
-       data-reject-url="@Url.Action("RejectUpdate", "App", new { area = "" })"
-       data-activity-type="@ActivityType.SmsTransaction.GetIntValue()"
-       data-activity-id="{{SmsTransactionID}}">
+<table class="transaction-details-table" id="primaryBuyer-details">
     <tr>
         <td>Full Name</td>
         <td><p>{{fullName}}</p></td>
@@ -42,38 +35,13 @@
     <tr>
         <td>Registered Home Address</td>
         <td>
-            <div class="magic-edit">
                 <div class="view">
-                    <p><span data-field="Line1" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" data-no-value-text="TBC">{{Address.Line1}}</span></p>
-                    <p><span data-field="Line2" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">{{Address.Line2}}</span></p>
-                    <p><span data-field="Town" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">{{Address.Town}}</span></p>
-                    <p><span data-field="County" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">{{Address.County}}</span></p>
-                    <p><span data-field="PostalCode" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">{{Address.PostalCode}}</span></p>
+                    <p>{{Address.Line1}}</p>
+                    <p>{{Address.Line2}}</p>
+                    <p>{{Address.Town}}</p>
+                    <p>{{Address.County}}</p>
+                    <p>{{Address.PostalCode}}</p>
                 </div>
-                <div class="edit">
-                    <form class="smart-form">
-                        @Html.Partial("_PostcodeLookup", new PostcodeLookupModel { Prefix = "tx" })
-                        <label class="input">
-                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                            <input type="text" value="{{Address.Line1}}" data-rule-required="true" class="form-control" data-field="Line1" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" id="txLine1" name="txLine1" placeholder="Address Line 1" />
-                        </label>
-                        <label class="input">
-                            <input type="text" value="{{Address.Line2}}" data-rule-required="true" class="form-control" data-field="Line2" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" id="txLine2" name="txLine2" placeholder="Address Line 2" />
-                        </label>
-                        <label class="input">
-                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                            <input type="text" value="{{Address.Town}}" data-rule-required="true" class="form-control" data-field="Town" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" id="txTown" name="txTown" placeholder="Town" />
-                        </label>
-                        <label class="input">
-                            <input type="text" value="{{Address.County}}" class="form-control" data-field="County" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" id="txCounty" name="txCounty" placeholder="County" />
-                        </label>
-                        <label class="input">
-                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                            <input type="text" value="{{Address.PostalCode}}" data-rule-required="true" data-rule-minlength="5" class="form-control" data-field="PostalCode" data-parent-id="{{SmsUserAccountOrganisationTransactionID}}" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" id="txPostalCode" name="txPostalCode" placeholder="PostalCode" />
-                        </label>
-                    </form>
-                </div>
-            </div>
         </td>
     </tr>
 </table>

@@ -16,11 +16,7 @@
      data-advised="@Model.SmsTransaction.IsProductAdvised"
      data-purchased="@Model.SmsTransaction.InvoiceID.HasValue"
      data-declined="@Model.SmsTransaction.ProductDeclinedOn.HasValue"
-     data-accepted="@Model.SmsTransaction.ProductAcceptedOn.HasValue"
-     data-edit-url="@Url.Action("GetFieldUpdates", "App", new { area = "" })"
-     data-update-url="@Url.Action("PostFieldUpdate", "App", new { area = "" })"
-     data-activity-type="@ActivityType.SmsTransaction.GetIntValue()"
-     data-activity-id="@Model.SmsTransactionID">
+     data-accepted="@Model.SmsTransaction.ProductAcceptedOn.HasValue">
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
             <i class="fa fa-home fa-lg margin-right-10"></i>
@@ -69,135 +65,43 @@
                                             <tr>
                                                 <td>Transaction Address</td>
                                                 <td>
-                                                    <div class="magic-edit">
-                                                        @{ var txAddress = Model.SmsTransaction.Address; }
-                                                        <div class="view">
-                                                            <p><span data-field="Line1" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()" data-no-value-text="TBC">@(txAddress != null ? txAddress.Line1 : "TBC")</span></p>
-                                                            <p><span data-field="Line2" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.Line2 : "")</span></p>
-                                                            <p><span data-field="Town" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.Town : "")</span></p>
-                                                            <p><span data-field="County" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.County : "")</span></p>
-                                                            <p><span data-field="PostalCode" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransactionAddress.GetIntValue()">@(txAddress != null ? txAddress.PostalCode : "")</span></p>
-                                                        </div>
-                                                        <div class="edit">
-                                                            <form class="smart-form">
-                                                                @Html.Partial("_PostcodeLookup", new PostcodeLookupModel { Prefix = "tx" })
-                                                                <label class="input">
-                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { data_rule_required = "true", @class = "form-control", data_field = "Line1", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine1", placeholder = "Address Line 1" })
-                                                                </label>
-                                                                <label class="input">
-                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.Line2, new { @class = "form-control", data_field = "Line2", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txLine2", placeholder = "Address Line 2" })
-                                                                </label>
-                                                                <label class="input">
-                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.Town, new { data_rule_required = "true", @class = "form-control", data_field = "Town", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txTown", placeholder = "Town" })
-                                                                </label>
-                                                                <label class="input">
-                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.County, new { @class = "form-control", data_field = "County", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txCounty", placeholder = "County" })
-                                                                </label>
-                                                                <label class="input">
-                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                    @Html.TextBoxFor(m => m.SmsTransaction.Address.PostalCode, new { data_rule_required = "true", data_rule_minlength = 5, @class = "form-control", data_field = "PostalCode", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), id = "txPostalCode", placeholder = "Postcode" })
-                                                                </label>
-                                                            </form>
-                                                        </div>
+                                                    @{ var txAddress = Model.SmsTransaction.Address; }
+                                                    <div class="view">
+                                                        <p>@(txAddress != null ? txAddress.Line1 : "TBC")</p>
+                                                        <p>@(txAddress != null ? txAddress.Line2 : ""</p>
+                                                        <p>@(txAddress != null ? txAddress.Town : "")</p>
+                                                        <p>@(txAddress != null ? txAddress.County : "")</p>
+                                                        <p>@(txAddress != null ? txAddress.PostalCode : "")</p>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Mortgage Details</td>
                                                 <td>
-                                                    <div class="magic-edit">
-                                                        @{ var isMortgage = !string.IsNullOrWhiteSpace(Model.SmsTransaction.LenderName); }
-                                                        <div class="view">
-                                                            <p>
-                                                                <span data-field="LenderName" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" data-no-value-text="Buying Without Mortgage">@(isMortgage ? Model.SmsTransaction.LenderName : "Buying Without Mortgage")</span>
-                                                            </p>
-                                                            <p><span data-field="MortgageApplicationNumber" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()">@Model.SmsTransaction.MortgageApplicationNumber</span></p>
-                                                        </div>
-                                                        <div class="edit">
-                                                            <form id="buyingWithMortgageForm" class="smart-form">
-                                                                <input id="buyingWithMortgage" type="checkbox" @(isMortgage ? @"checked=""checked""" : "") />
-                                                                <label for="buyingWithMortgage">Buying With Mortgage</label>
-                                                                <div id="mortgageDetails" @(isMortgage ? @"style=""display:none""" : "")>
-                                                                    <div class="form-group">
-                                                                        <label>Lender</label>
-                                                                        <label class="input">
-                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                            @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { data_rule_required = "true", @class = "form-control", maxlength = 50, id = "lenderSearch", data_field = "LenderName", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue(), data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
-                                                                            <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label>Mortgage App Number</label>
-                                                                        <label class="input">
-                                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                            @Html.TextBoxFor(m => m.SmsTransaction.MortgageApplicationNumber, new { data_rule_required = "true", @class = "form-control", maxlength = 50, id = "lenderAppNumber", data_field = "MortgageApplicationNumber", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                    @{ var isMortgage = !string.IsNullOrWhiteSpace(Model.SmsTransaction.LenderName); }
+                                                    <div class="view">
+                                                        <p>
+                                                            @(isMortgage ? Model.SmsTransaction.LenderName : "Buying Without Mortgage")
+                                                        </p>
+                                                        <p>@Model.SmsTransaction.MortgageApplicationNumber</p>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Price</td>
                                                 <td>
-                                                    <div class="magic-edit">
-                                                        <div class="view">
-                                                            <span data-field="Price" data-parent-id="@Model.SmsTransactionID" data-parent-type="@FieldUpdateParentType.SmsTransaction.GetIntValue()" data-value-format="currency">@((Model.SmsTransaction.Price ?? 0).ToString("C", new CultureInfo("en-GB")))</span>
-                                                        </div>
-                                                        <div class="edit">
-                                                            <form class="smart-form">
-                                                                <div class="form-group">
-                                                                    <label class="input">
-                                                                        <i class="icon-prepend fa fa-gbp"></i>
-                                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                        @Html.TextBoxFor(m => m.SmsTransaction.Price, new { data_rule_required = "true", data_rule_digits = "true", data_rule_max = 2147483647, @class = "form-control", data_field = "Price", data_parent_id = Model.SmsTransactionID, data_parent_type = FieldUpdateParentType.SmsTransaction.GetIntValue() })
-                                                                    </label>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                    <div class="view">
+                                                        @((Model.SmsTransaction.Price ?? 0).ToString("C", new CultureInfo("en-GB")))
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>@personaName</td>
                                                 <td>
-                                                    <div class="magic-edit">
-                                                        <div class="view">
-                                                            <p>
-                                                                <span data-field="Salutation" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.Contact.GetIntValue()">@Model.Contact.Salutation</span>
-                                                                <span data-field="FirstName" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.Contact.GetIntValue()">@Model.Contact.FirstName</span>
-                                                                <span data-field="LastName" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.Contact.GetIntValue()">@Model.Contact.LastName</span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="edit">
-                                                            <form class="smart-form">
-                                                                <div class="form-group">
-                                                                    <label>Salutation</label>
-                                                                    <label class="select">
-                                                                        @Html.DropDownListFor(m => m.Contact.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = "1", data_rule_required = "true", @class = "form-control", data_field = "Salutation", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
-                                                                        <i></i>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>First Name</label>
-                                                                    <label class="input">
-                                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                        @Html.TextBoxFor(m => m.Contact.FirstName, new { data_rule_required = "true", @class = "form-control", data_field = "FirstName", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Last Name</label>
-                                                                    <label class="input">
-                                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                        @Html.TextBoxFor(m => m.Contact.LastName, new { data_rule_required = "true", @class = "form-control", data_field = "LastName", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
-                                                                    </label>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                    <div class="view">
+                                                        @Model.Contact.Salutation
+                                                        @Model.Contact.FirstName
+                                                        @Model.Contact.LastName
                                                     </div>
                                                 </td>
                                             </tr>
@@ -206,21 +110,8 @@
                                                     <p>Date of Birth</p>
                                                 </td>
                                                 <td>
-                                                    <div class="magic-edit">
-                                                        <div class="view">
-                                                            <span data-field="BirthDate" data-value-format="date" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.Contact.GetIntValue()" data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></span>
-                                                        </div>
-                                                        <div class="edit">
-                                                            <form class="smart-form">
-                                                                <div class="form-group">
-                                                                    <label>Date of Birth</label>
-                                                                    <label class="input">
-                                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                        @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { data_rule_required = "true", id = "birthDateInput", @class = "form-control", data_field = "BirthDate", data_field_type = "date", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.Contact.GetIntValue() })
-                                                                    </label>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                    <div class="view">
+                                                        <span data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -229,38 +120,13 @@
                                                     <p>Registered Home Address</p>
                                                 </td>
                                                 <td>
-                                                    <div class="magic-edit">
-                                                        @{ var address = Model.Address; }
-                                                        <div class="view">
-                                                            <p><span data-field="Line1" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()" data-no-value-text="TBC">@(address != null ? Model.Address.Line1 : "TBC")</span></p>
-                                                            <p><span data-field="Line2" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.Line2 : "")</span></p>
-                                                            <p><span data-field="Town" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.Town : "")</span></p>
-                                                            <p><span data-field="County" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.County : "")</span></p>
-                                                            <p><span data-field="PostalCode" data-parent-id="@Model.SmsUserAccountOrganisationTransactionID" data-parent-type="@FieldUpdateParentType.RegisteredHomeAddress.GetIntValue()">@(address != null ? Model.Address.PostalCode : "")</span></p>
-                                                        </div>
-                                                        <div class="edit">
-                                                            <form class="smart-form">
-                                                                @Html.Partial("_PostcodeLookup", new PostcodeLookupModel { Prefix = "primaryBuyer" })
-                                                                <label class="input">
-                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                    @Html.TextBoxFor(m => m.Address.Line1, new { data_rule_required = "true", @class = "form-control", data_field = "Line1", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerLine1", placeholder = "Address Line 1" })
-                                                                </label>
-                                                                <label class="input">
-                                                                    @Html.TextBoxFor(m => m.Address.Line2, new { @class = "form-control", data_field = "Line2", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerLine2", placeholder = "Address Line 2" })
-                                                                </label>
-                                                                <label class="input">
-                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                    @Html.TextBoxFor(m => m.Address.Town, new { data_rule_required = "true", @class = "form-control", data_field = "Town", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerTown", placeholder = "Town" })
-                                                                </label>
-                                                                <label class="input">
-                                                                    @Html.TextBoxFor(m => m.Address.County, new { @class = "form-control", data_field = "County", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerCounty", placeholder = "County" })
-                                                                </label>
-                                                                <label class="input">
-                                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                    @Html.TextBoxFor(m => m.Address.PostalCode, new { data_rule_required = "true", data_rule_minlength = 5, @class = "form-control", data_field = "PostalCode", data_parent_id = Model.SmsUserAccountOrganisationTransactionID, data_parent_type = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), id = "primaryBuyerPostalCode", placeholder = "Postcode" })
-                                                                </label>
-                                                            </form>
-                                                        </div>
+                                                    @{ var address = Model.Address; }
+                                                    <div class="view">
+                                                        <p>@(address != null ? Model.Address.Line1 : "TBC")</p>
+                                                        <p>@(address != null ? Model.Address.Line2 : "")</p>
+                                                        <p>@(address != null ? Model.Address.Town : "")</p>
+                                                        <p>@(address != null ? Model.Address.County : "")</p>
+                                                        <p>@(address != null ? Model.Address.PostalCode : "")</p>
                                                     </div>
                                                 </td>
                                             </tr>
