@@ -5,7 +5,7 @@ function checkRedirect(response) {
     if (hasRedirect(response)) window.location.href = response.RedirectUrl;
 }
 
-function hasRedirect(response){
+function hasRedirect(response) {
     return response && response.HasRedirectUrl;
 }
 
@@ -620,9 +620,13 @@ function guid() {
 }
 
 function getPosition(pos) {
-    if (pos === 1) return "right";
-    if (pos === 2) return "left";
-    if (pos === 3) return "top";
-    if (pos === 4) return "bottom";
-    return "right";
+    var value = "right";
+    switch (pos) {
+        case 1: value = "right"; break;
+        case 2: value = "left"; break;
+        case 3: value = "top"; break;
+        case 4: value = "bottom"; break;
+        default: value = "right"; break;
+    }
+    return value;
 }

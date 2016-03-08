@@ -29,7 +29,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             TempData["WelcomeMessage"] = TempData["JustRegistered"];
             TempData["JustRegistered"] = false;
             var urlReferer = Request.UrlReferrer;
-            if (urlReferer != null && urlReferer.AbsoluteUri.ToLower().Contains("account/login"))
+            if (urlReferer != null && urlReferer.AbsoluteUri.ToLower().Contains("account/login") && Request.IsAuthenticated)
             {
                 TempData["JustLoggined"] = true;
             }

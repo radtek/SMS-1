@@ -50,7 +50,8 @@
     }
 
     if ($('#content').data("welcome") === "True") {
-        handleModal({ url: $('#content').data("welcomeurl") }, null, true);
+        $('#firstLogin').data("autorun", "False");
+        handleModal({ url: $('#content').data("welcomeurl") }, null, true);        
     }
 });
 

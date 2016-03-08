@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿var Tour = (function () {
     function startCallout() {
         ajaxWrapper({
             url: '/app/viewrendercallout',
@@ -6,7 +6,8 @@
         }).done(function (res) {
             if (res.result === true && res.callOuts != null && res.callOuts.length > 0) {
                 var stepList = getStepCallouts(res.callOuts);
-                startIntro(stepList);
+                var intro = introJs();
+                startIntro(stepList, intro);
             }
         });
     }
@@ -30,7 +31,7 @@
         return step;
     }
 
-    function startTour() {
+    var startTour = function () {
         var ajaxOptions = {
             url: "/App/GetTourItem",
             cache: false
@@ -41,7 +42,8 @@
                     var stepList = getSteps(result.data).filter(function (obj) {
                         return $(obj.element).length;
                     });
-                    startIntro(stepList);
+                    var intro = introJs();
+                    startIntro(stepList, intro);
                 }
             });
     }
@@ -58,9 +60,7 @@
         return steps;
     }
 
-    function startIntro(stepList) {
-        var intro = introJs();
-
+    function startIntro(stepList, intro) {
         var elementHidden = "";
         if (stepList.length > 0) {
             intro.setOptions({
@@ -80,11 +80,19 @@
                     $(elementHidden).closest('ul').removeAttr("style");
                     elementHidden = "";
                 }
+                if ($('#firstLogin').data("callout-autorun") === "False") {
+                    $('#firstLogin').data("callout-autorun", "True");
+                    checkStartCallout();
+                }
             });
             intro.onexit(function () {
                 if (elementHidden !== "") {
                     $(elementHidden).closest('ul').removeAttr("style");
                     elementHidden = "";
+                }
+                if ($('#firstLogin').data("callout-autorun") === "False") {
+                    $('#firstLogin').data("callout-autorun", "True");
+                    checkStartCallout();
                 }
             });
             intro.onchange(function (targetElement) {
@@ -129,12 +137,27 @@
         startTour();
     });
 
-    $(document).ready(function () {
-        if ($('#firstLogin').data("welcome") === "True") {
+    function checkStartTour() {
+        if ($('#firstLogin').data("welcome") === "True" && $('#firstLogin').data("autorun") === "True") {
+            if ($('#firstLogin').data("login") === "True") {
+                $('#firstLogin').data("callout-autorun", "False");
+            }
             startTour();
         }
-        if ($('#firstLogin').data("login") === "True") {
+    }
+
+    function checkStartCallout() {
+        if ($('#firstLogin').data("login") === "True" && $('#firstLogin').data("callout-autorun") === "True") {
             startCallout();
         }
+    }
+
+    $(document).ready(function () {
+        checkStartTour();
+        checkStartCallout();
     });
-});
+
+    return {
+        startTour: startTour
+    }
+})();
