@@ -40,6 +40,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
                 ConfigurationManager.AppSettings["SBServiceBaseURL"]);
 
+            builder.RegisterProxyClients("Bec.TargetFramework.Transfer.Client",
+                ConfigurationManager.AppSettings["SiraTransferServiceURL"]);
+
             var assembly = AllAssemblies.Matching("Bec.TargetFrameWork.Business").First();
             builder.RegisterApiControllers(assembly).AsSelf().AsImplementedInterfaces().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).InstancePerRequest();
 

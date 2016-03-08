@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Business.Product.Processor;
+using Bec.TargetFramework.Transfer.Client.Clients;
+using Bec.TargetFramework.Transfer.Client.Interfaces;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -26,6 +28,7 @@ namespace Bec.TargetFramework.Business.Logic
         public TFSettingsLogicController Settings { get; set; }
         public UserLogicController UserLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
+        public ITransferInterfaceLogicClient SiraTransferClient { get; set; }
         public NotificationLogicController NotificationLogic { get; set; }
         public ClassificationDataLogicController ClassificationLogic { get; set; }
         public ProductLogicController ProductLogic { get; set; }
@@ -1175,11 +1178,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var lenderName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "LenderName", tx.LenderName);
                 var appNumber = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "MortgageApplicationNumber", tx.MortgageApplicationNumber);
 
-                //get org name from possible trading name
-                var lenderOrgID = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.Where(x => x.Name == lenderName).Select(x => x.OrganisationID).FirstOrDefault();
-                if (lenderOrgID != null)
-                    lenderName = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.Where(x => x.OrganisationID == lenderOrgID).Select(x => x.Name).FirstOrDefault();
-
+                // pass through the transaction based lender name as this mapped directly within the sira db  opposed to the org trading name / registered name which may be different
                 return CheckSIRAQualifiesFree(firstName, lastName, dob, lenderName, appNumber);
             }
         }
@@ -1221,8 +1220,16 @@ namespace Bec.TargetFramework.Business.Logic
 
         private bool CheckSIRAQualifiesFree(string firstName, string lastName, DateTime dob, string lenderName, string appNumber)
         {
-            //this will become slightly more sophisticated!
-            return lenderName == "Paragon Mortgages Ltd";
+            var resultDto = SiraTransferClient.DoesMortgageApplicationExist(new Transfer.Entities.SiraMortgageApplicationCheckDTO
+                {
+                    LenderName = lenderName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    MortgageApplciationNumber = appNumber,
+                    DateOfBirth = dob
+                });
+
+            return resultDto.SiraMortgageApplicationExists;
         }
     }
 }
