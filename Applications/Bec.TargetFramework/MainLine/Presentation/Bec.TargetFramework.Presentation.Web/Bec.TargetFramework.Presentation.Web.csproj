@@ -164,6 +164,7 @@
     <Compile Include="App_Helpers\CaptchaService.cs" />
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="App_Helpers\PendingUpdateExtensions.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="App_Helpers\ControllerExtensions.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Areas\Account\Models\CreatePermanentLoginModel.cs" />
     <Compile Include="Models\Faq.cs" />
     <Compile Include="Models\FaqGroup.cs" />
+    <Compile Include="Models\PendingUpdateModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ToastrNotification\ToastMessage.cs" />

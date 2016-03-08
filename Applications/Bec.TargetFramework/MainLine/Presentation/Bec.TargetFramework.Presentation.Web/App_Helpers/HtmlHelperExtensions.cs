@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Collections.Generic;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using System.Linq.Expressions;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Presentation.Web.Models;
 
 #endregion
 
@@ -216,6 +219,42 @@ namespace Bec.TargetFramework.Presentation.Web
             var beginIndex = field.IndexOf("value=\"") + 7;
             var endIndex = field.IndexOf("\"", beginIndex);
             return new HtmlString(field.Substring(beginIndex, endIndex - beginIndex));
+        }
+
+        public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html,  Expression<Func<TModel, TResult>> expression,
+            string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string noValueText)
+            where TModel : IPendingUpdateModel
+        {
+            var pendingUpdateValue = html.ViewData.Model.FieldUpdates.SingleOrDefault(x => x.FieldName == fieldName && x.ParentType == fieldUpdateParentType.GetIntValue() && x.ParentID == parentId);
+            if (pendingUpdateValue == null)
+            {
+                return html.DisplayFor(expression);
+            }
+            else
+            {
+                string originalValue;
+                try
+                {
+                    originalValue = expression.Compile()(html.ViewData.Model).ToString();
+                }
+                catch
+                {
+                    originalValue = noValueText;
+                }
+
+                var displayValue = pendingUpdateValue.Value;
+                var extraClassAttribute = string.Empty;
+                if (string.IsNullOrWhiteSpace(pendingUpdateValue.Value))
+                {
+                    displayValue = originalValue;
+                    extraClassAttribute = "empty-pending-value";
+                }
+
+                var anchorHtml = string.Format(@"<a tabindex=""-1"" role=""button"" class=""pending-update {4}"" data-pending-originalval=""{3}"" data-pending-fullname=""{0}"" data-pending-modifiedon=""{1}"" data-pending-value=""{5}"">{2}</a>",
+                    pendingUpdateValue.UserAccountOrganisation.Contact.FullName, pendingUpdateValue.ModifiedOn, displayValue, originalValue, extraClassAttribute, pendingUpdateValue.Value);
+                var htmlString = new MvcHtmlString(anchorHtml);
+                return htmlString;
+            }
         }
 
         private static string ToRelativeDate(this DateTime dateTime)

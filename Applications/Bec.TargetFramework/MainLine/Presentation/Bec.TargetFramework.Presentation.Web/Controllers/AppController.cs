@@ -92,15 +92,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public async Task<ActionResult> GetFieldUpdates(int activityType, Guid activityID)
-        {
-            await EnsureCanAccessFieldUpdates(activityType, activityID, false);
-            var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.FieldName, x.Value, x.ParentID, x.ParentType, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
-            var filter = ODataHelper.Filter<FieldUpdateDTO>(x => x.ActivityType == activityType && x.ActivityID == activityID);
-            var res = await QueryClient.QueryAsync("FieldUpdates", select + filter);
-            return Content(res["Items"].ToString(Formatting.None), "application/json");
-        }
-
         public async Task<ActionResult> PostFieldUpdate(FieldUpdateDTO dto)
         {
             dto.UserAccountOrganisationID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;

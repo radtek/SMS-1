@@ -901,12 +901,29 @@ a.removeupload {
     cursor: pointer;
 }
 
+.empty-pending-value{
+    text-decoration: line-through;
+}
+
 .tooltip {
     & > .tooltip-inner {
         background-color: #333;
         color: white;
     }
 }
+
+.popover .pending-update-table {
+    td {
+        padding: 2px;
+        border: none;
+    }
+
+    tr > td:last-child {
+        width: 100%;
+    }
+}
+
+
 
 // xs and sm
 @media only screen and (max-width: 992px) {

@@ -1,4 +1,5 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
+﻿using Bec.TargetFramework.Presentation.Web.App_Helpers;
+using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.DTO.Event;
 using Bec.TargetFramework.Entities.DTO.Notification;
@@ -35,7 +36,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 var uaot = model.FirstOrDefault();
                 ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
                 ViewBag.canEditBirthDate = await CanEditBirthDate(uaot.UserAccountOrganisationID, selectedTransactionId.Value);
-                return View(uaot);
+                var modelWithUpdates = await uaot.GetFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
+                return View(modelWithUpdates);
             }
             else
             {
