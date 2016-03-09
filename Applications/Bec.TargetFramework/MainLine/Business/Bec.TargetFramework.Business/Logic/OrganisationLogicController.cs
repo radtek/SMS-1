@@ -779,18 +779,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task AdviseProduct(Guid txID, Guid orgID, Guid primaryBuyerUaoID)
+        public async Task AdviseProduct(Guid txID, Guid orgID)
         {
             var requiresNotification = false;
             using (var scope = DbContextScopeFactory.Create())
             {
-                var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
-                    .Where(s =>
+                var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions
+                    .SingleOrDefault(s =>
                         s.SmsTransactionID == txID &&
-                        s.SmsTransaction.OrganisationID == orgID &&
-                        s.UserAccountOrganisationID == primaryBuyerUaoID)
-                    .Select(s => s.SmsTransaction)
-                    .SingleOrDefault();
+                        s.OrganisationID == orgID &&
+                        !s.IsProductAdvised);
                 Ensure.That(transaction).IsNotNull();
                 transaction.IsProductAdvised = true;
                 transaction.ProductAdvisedOn = DateTime.Now;

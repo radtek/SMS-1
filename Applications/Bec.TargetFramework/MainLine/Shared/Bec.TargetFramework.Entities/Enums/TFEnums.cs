@@ -1146,4 +1146,11 @@ namespace Bec.TargetFramework.Entities.Enums
         SmsTransactionAddress = 2,
         RegisteredHomeAddress = 3
     }
+
+    public enum FieldUpdateDataType
+    {
+        String = 0,
+        Date = 1,
+        Money = 2
+    }
 }

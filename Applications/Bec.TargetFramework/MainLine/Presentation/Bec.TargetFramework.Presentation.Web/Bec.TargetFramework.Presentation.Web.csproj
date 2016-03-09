@@ -306,6 +306,7 @@
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.mp4" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.jpg" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.mp4" />
+    <Content Include="Scripts\Bec\bec.fieldPendingUpdates.js" />
     <Content Include="Scripts\Bec\bec.lendersearch.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
@@ -1061,8 +1062,6 @@
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\_relatedPartiesTmpl.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\_primaryBuyerDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.cshtml" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Conveyancer.cshtml" />
@@ -1840,7 +1839,7 @@
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
     <Content Include="Views\App\Denied.cshtml" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversations.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\_transactionDetailsTmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_TransactionDetails.cshtml" />
     <Content Include="Views\Shared\_Captcha.cshtml" />
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\BuyersAtRisk.cshtml" />

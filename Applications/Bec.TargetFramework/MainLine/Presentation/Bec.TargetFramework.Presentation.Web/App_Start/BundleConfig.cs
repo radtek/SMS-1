@@ -132,10 +132,16 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AdviseProduct").Include("~/Areas/SmsTransaction/Views/Transaction/_AdviseProduct.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_EditSmsTransaction").Include("~/Areas/SmsTransaction/Views/Shared/_EditSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewGeneratePIN").Include("~/Areas/SmsTransaction/Views/Shared/_ViewGeneratePIN.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include("~/Areas/SmsTransaction/Views/Transaction/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include(
+                "~/Scripts/Bec/bec.fieldPendingUpdates.js",
+                "~/Areas/SmsTransaction/Views/Transaction/Index.js"                
+                ));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewSendQuote").Include("~/Areas/SmsTransaction/Views/Shared/_ViewSendQuote.js"));
 
-            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Index").Include("~/Areas/Buyer/Views/SafeBuyer/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Index").Include(
+                "~/Scripts/Bec/bec.fieldPendingUpdates.js",
+                "~/Areas/Buyer/Views/SafeBuyer/Index.js"
+                ));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/IndexSelectTransaction").Include("~/Areas/Buyer/Views/SafeBuyer/IndexSelectTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_ConfirmDetails").Include("~/Areas/Buyer/Views/SafeBuyer/_ConfirmDetails.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));

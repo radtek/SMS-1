@@ -972,15 +972,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		Task AdviseProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
+		Task AdviseProductAsync(Guid txID,Guid orgID);
 
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		void AdviseProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
+		void AdviseProduct(Guid txID,Guid orgID);
 
 		/// <param name="txID"></param>
 		/// <param name="uaoID"></param>
@@ -4142,12 +4140,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		public virtual Task AdviseProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
+		public virtual Task AdviseProductAsync(Guid txID,Guid orgID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID, null, _user);
 		}
 
 		/// <summary>
@@ -4155,11 +4152,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
-		public virtual void AdviseProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
+		public virtual void AdviseProduct(Guid txID,Guid orgID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID, null, _user)).Wait();
 		}
 
 		/// <summary>

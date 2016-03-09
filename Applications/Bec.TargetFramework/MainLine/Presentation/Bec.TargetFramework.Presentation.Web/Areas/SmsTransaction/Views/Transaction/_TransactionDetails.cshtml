@@ -1,0 +1,134 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@using Bec.TargetFramework.Presentation.Web.Models
+@model PendingUpdateModel<SmsTransactionDTO>
+<h5>Transaction Details</h5>
+<table class="table transaction-details-table">
+    <tr>
+        <th>Transaction Address</th>
+        <th>Mortgage Details</th>
+        <th>Price</th>
+        <th>Product: Safe Buyer</th>
+        <th><!--Actions--></th>
+    </tr>
+    <tr>
+        <td>
+            @if (Model.Dto.Address != null && !string.IsNullOrWhiteSpace(Model.Dto.Address.Line1))
+            {
+                <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.Line1, "Line1", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "TBC")</p>
+                <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.Line2, "Line2", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+                <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.Town, "Town", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+                <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.County, "County", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+                <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.PostalCode, "PostalCode", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+            }
+            else
+            {
+                <p>TBC</p>
+            }
+        </td>
+        <td>
+            <p>@Html.PendingUpdateFieldFor(m => m.Dto.LenderName, "LenderName", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "Buying Without Mortgage")</p>
+            <p>@Html.PendingUpdateFieldFor(m => m.Dto.MortgageApplicationNumber, "MortgageApplicationNumber", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+        </td>
+        <td>
+            <p>@Html.PendingUpdateFieldFor(m => m.Dto.Price, "Price", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "TBC", FieldUpdateDataType.Money)</p>
+        </td>
+        <td>
+            <p>Product Offered: <span class="format-date" data-val="@Model.Dto.CreatedOn.ToString("O")"></span></p>
+            <p>
+                Product Advised:
+                @if (Model.Dto.IsProductAdvised && Model.Dto.ProductAdvisedOn.HasValue)
+                {
+                    <span class="format-date" data-val="@Model.Dto.ProductAdvisedOn.Value.ToString("O")"></span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+            </p>
+            @if (!Model.Dto.IsProductAdvised && !Model.Dto.InvoiceID.HasValue)
+            {
+                <a class="btn btn-sm btn-primary" data-modallink="true" title="Advise Buyer To Use Safe Buyer Product"
+                   data-href="@Url.Action("ViewAdviseProduct", "Transaction", new { area = "SmsTransaction" })?txID=@(Model.Dto.SmsTransactionID)&pageNumber=@(ViewBag.pageNumber)">
+                    <i class="fa fa-bullhorn margin-right-5"></i>Advise Buyer To Use Safe Buyer Product
+                </a>
+            }
+        </td>
+        <td>
+            <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Transaction Details" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction", txID = Model.Dto.SmsTransactionID })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+        </td>
+    </tr>
+</table>
+
+<h5 class="inline-heading">Related Parties</h5>
+<div class="btn-group margin-left-10">
+    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-plus margin-right-5"></i>Add
+    </button>
+    <ul class="dropdown-menu">
+        <li>
+            <a href="#" data-modallink="true" title="Add Additional Buyer"
+               data-href="@Url.Action("ViewAddSmsClient", "SmsClient", new { area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.AdditionalBuyer, txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })">Additional Buyer</a>
+        </li>
+        <li>
+            <a href="#" data-modallink="true" title="Add Giftor"
+               data-href="@Url.Action("ViewAddSmsClient", "SmsClient", new { area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.Giftor, txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })">Giftor</a>
+        </li>
+    </ul>
+</div>
+
+<table class="table transaction-details-table">
+    <tr>
+        <th>Type</th>
+        <th>Full Name</th>
+        <th>Registered Home Address</th>
+        <th>Email</th>
+        <th>Date of Birth</th>
+        <th>Login Information</th>
+        <th><!--Actions--></th>
+    </tr>
+    @foreach (var relatedParty in Model.Dto.SmsUserAccountOrganisationTransactions)
+    {
+        <tr>
+            <td>@relatedParty.SmsUserAccountOrganisationTransactionType.Description</td>
+            <td>
+                @Html.PendingUpdateFieldFor(m => relatedParty.Contact.Salutation, "Salutation", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)
+                @Html.PendingUpdateFieldFor(m => relatedParty.Contact.FirstName, "FirstName", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)
+                @Html.PendingUpdateFieldFor(m => relatedParty.Contact.LastName, "LastName", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)
+            </td>
+            <td>
+                <p>@Html.PendingUpdateFieldFor(m => relatedParty.Address.Line1, "Line1", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "TBC")</p>
+                <p>@Html.PendingUpdateFieldFor(m => relatedParty.Address.Line2, "Line2", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+                <p>@Html.PendingUpdateFieldFor(m => relatedParty.Address.Town, "Town", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+                <p>@Html.PendingUpdateFieldFor(m => relatedParty.Address.County, "County", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+                <p>@Html.PendingUpdateFieldFor(m => relatedParty.Address.PostalCode, "PostalCode", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+            </td>
+            <td>@relatedParty.UserAccountOrganisation.UserAccount.Email</td>
+            <td>
+                <p class="format-pending-date">@Html.PendingUpdateFieldFor(m => relatedParty.Contact.BirthDate, "BirthDate", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty, FieldUpdateDataType.Date)</p>
+            </td>
+            <td>
+                @if (relatedParty.UserAccountOrganisation.UserAccount.IsTemporaryAccount)
+                {
+                    if (!string.IsNullOrWhiteSpace(relatedParty.UserAccountOrganisation.PinCode))
+                    {
+                        <strong class="margin-right-10">@relatedParty.UserAccountOrganisation.PinCode</strong>
+                    }
+                    <a class="btn btn-sm btn-default" data-modallink="true" title="Regenerate PIN"
+                        data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID=@(Model.Dto.SmsTransactionID)&uaoID=@(relatedParty.UserAccountOrganisationID)&email=@(relatedParty.UserAccountOrganisation.UserAccount.Email)&pageNumber=@(ViewBag.pageNumber)">
+                        <i class="fa fa-repeat margin-right-5"></i>Regenerate PIN
+                    </a>
+                }
+                else
+                {
+                    var lastLogin = relatedParty.UserAccountOrganisation.UserAccount.LastLogin.HasValue ? relatedParty.UserAccountOrganisation.UserAccount.LastLogin.Value.ToString("O") : string.Empty;
+                    <span class="format-date-time" data-val="@lastLogin"></span>
+                }
+            </td>
+            <td>
+                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+            </td>
+        </tr>
+    }
+</table>

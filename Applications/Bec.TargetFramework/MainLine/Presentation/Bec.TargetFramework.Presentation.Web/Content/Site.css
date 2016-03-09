@@ -33,7 +33,8 @@
     margin-top:11px;
 }
 
-h2.inline-heading {
+h2.inline-heading,
+h5.inline-heading {
     display:inline-block;
 }
 

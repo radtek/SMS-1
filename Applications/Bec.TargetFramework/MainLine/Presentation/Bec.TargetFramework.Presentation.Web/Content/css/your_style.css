@@ -281,6 +281,10 @@ form em.invalid {
   background-color: #a1c324 !important;
   border-color: #7d981c !important;
 }
+.open > .dropdown-toggle.btn-primary {
+  border: 1px solid #a1c324 !important;
+  background-color: #a8cc26 !important;
+}
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
   background-color: #badb3f;
@@ -625,16 +629,14 @@ a.removeupload {
   word-break: normal;
   white-space: pre-wrap;
 }
-.transaction-details-table {
-  width: 100%;
+.transaction-details-table > tbody > tr:first-child th {
+  border-top: none;
 }
-.transaction-details-table tbody tr td {
-  padding-top: 6px;
-  vertical-align: top;
-  border-top: 1px solid #ddd;
+.transaction-details-table > tbody > tr:hover > td {
+  background-color: #e8f3c0;
 }
-.transaction-details-table tbody tr td:first-child {
-  width: 150px;
+.transaction-details-table > tbody > tr > td:last-child {
+  width: 75px;
 }
 .match {
   color: #7d981c;
@@ -709,6 +711,27 @@ a.removeupload {
 }
 .popover .pending-update-table tr > td:last-child {
   width: 100%;
+}
+.transaction-details {
+  position: relative;
+}
+.transaction-details h5 {
+  margin-left: 9px;
+}
+.transaction-details .transaction-details-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: #FBFBFB;
+  opacity: 0.8;
+}
+.transaction-details .transaction-details-spinner .fa-spinner {
+  position: relative;
+  left: 50%;
+  top: 30%;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
