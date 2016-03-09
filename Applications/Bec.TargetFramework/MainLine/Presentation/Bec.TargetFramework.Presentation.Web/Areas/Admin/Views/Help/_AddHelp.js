@@ -136,9 +136,39 @@
             hideTabIdAdnEffectiveOn();
         }
     }
-
-    helpPageTypeList.on('change', function () {
+    $('#doChange').on('click', function () {
+        $("#myModal").addClass('hide');
+        $('div.modal-backdrop:eq(1)').addClass('hide');
         checkType();
+        $('#helpOrderListContainer').empty();
+        $('#helpItemListContainer').empty();
+        $('#helpItemDeleteId').val('');
+        ajaxWrapper({
+            url: $("#deleteItem-form").attr('action'),
+            data: $("#deleteItem-form").serializeArray(),
+            type: 'POST'
+        })
+    })
+    $('#cancelChange').on('click', function () {
+        $("#myModal").addClass('hide');
+        $('div.modal-backdrop:eq(1)').addClass('hide');
+        var previous = helpPageTypeList.data('previous');
+        helpPageTypeList.val(previous);
+    })
+    $('#cancelAddHelp').on('click', function () {
+        $('div.modal-backdrop').addClass('hide');
+    })
+    helpPageTypeList.on('focus', function () {
+        helpPageTypeList.data('previous', helpPageTypeList.val());
+    })
+    helpPageTypeList.on('change', function () {
+        if ($('ul#helpItemListContainer li').length >= 1) {
+            $("#myModal").removeClass('hide');
+            $('div.modal-backdrop:eq(1)').removeClass('hide');
+        }
+        else {
+            checkType();
+        }
     });
 
     $(document).ready(function () {

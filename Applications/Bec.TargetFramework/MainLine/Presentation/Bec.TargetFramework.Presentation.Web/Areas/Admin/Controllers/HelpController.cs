@@ -316,26 +316,34 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult DeleteTempHelpPageItem(Guid? id)
         {
-            if (TempData["Items"] != null)
+            if (id != null && id != Guid.Empty)
             {
-                var list = (IList<HelpPageItemDTO>)TempData["Items"];
-                var item = list.FirstOrDefault(x => x.HelpPageItemID == id);
-                if (item != null)
+                if (TempData["Items"] != null)
                 {
-                    if (item.Status == HelpPageItemStatusEnum.New.GetIntValue())
+                    var list = (IList<HelpPageItemDTO>)TempData["Items"];
+                    var item = list.FirstOrDefault(x => x.HelpPageItemID == id);
+                    if (item != null)
                     {
-                        list.Remove(item);
+                        if (item.Status == HelpPageItemStatusEnum.New.GetIntValue())
+                        {
+                            list.Remove(item);
+                        }
+                        else
+                        {
+                            item.Status = HelpPageItemStatusEnum.Deleted.GetIntValue();
+                        }
                     }
-                    else
-                    {
-                        item.Status = HelpPageItemStatusEnum.Deleted.GetIntValue();
-                    }
+                    TempData["Items"] = list;
+                    var jsonData = new { result = list.Count > 0, Items = list };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
-                TempData["Items"] = list;
-                var jsonData = new { result = list.Count > 0, Items = list };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
+                return Json(new { result = false }, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+            else
+            {
+                TempData["Items"] = null;
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpPost]
