@@ -1,7 +1,11 @@
 ﻿@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model HelpPageDTO
-
+<style>
+    div.modal-backdrop {
+    opacity: 0.1 !important;
+}
+</style>
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addHelpLabel" aria-hidden="true">
     <div class="modal-dialog" id="d1" style="width: 800px;">
         <div class="modal-content">
@@ -108,9 +112,27 @@
                 </button>
             </div>
         </div>
+        
     </div>
 </div>
-
-@Scripts.Render("~/Scripts/typeahead")
-<script async src="@Scripts.Url("~/Scripts/Admin/Help/_AddHelp")"></script>
+<!-- Modal HTML -->
+<div id="myModal" role="dialog" aria-hidden="true" class="modal fade in hide" data-backdrop-limit="1" tabindex="-1" aria-labelledby="myModalLabel" style="margin-top:50px">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Change Help Type</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to made change to the help type?</p>
+                <p class="text-warning"><small>If you do change, all items of the previous help type will be removed.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="cancelChange">Cancel</button>
+                <button type="button" class="btn btn-primary" id="doChange">Change</button>
+            </div>
+        </div>
+    </div>
+</div>
+    @Scripts.Render("~/Scripts/typeahead")
+    <script async src="@Scripts.Url("~/Scripts/Admin/Help/_AddHelp")"></script>
 
