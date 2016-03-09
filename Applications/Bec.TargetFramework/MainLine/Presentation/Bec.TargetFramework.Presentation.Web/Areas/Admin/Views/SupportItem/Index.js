@@ -1,4 +1,5 @@
-﻿var requestGrid
+﻿var requestGrid;
+var areConversationsLoaded;
 $(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
     requestGrid = new gridItem(
@@ -106,7 +107,26 @@ $(function () {
     tabs.makeTab();
     tabs.showTab($('#tabList').data("selected"));
     findModalLinks();
+    setupTabs();
 });
+
+function setupTabs() {
+    areConversationsLoaded = false;
+    $('#nPanel li a').click(function (e) {
+        e.stopPropagation();
+        if (history.pushState) {
+            history.pushState(null, null, $(this).attr('href'));
+        }
+        $(this).tab('show');
+
+        if ($(this).attr('id') == 'safeSendTab' && !areConversationsLoaded) {
+            $('#supportItemConversationContainer').trigger('loadConversations');
+            areConversationsLoaded = true;
+        }
+        return false;
+    });
+}
+
 
 //data binding for the panes beneath each grid
 function nChange(dataItem) {
@@ -119,6 +139,11 @@ function nChange(dataItem) {
     $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
     $("div#ddnDescription").text(dataItem.Description || "");
     $("#closeButtonSupportItem").data('href', $("#closeButtonSupportItem").data("url") + "?SupportItemId=" + dataItem.SupportItemID + "&pageNumber=" + requestGrid.grid.dataSource.page());
+    $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SupportItemID + "&pageNumber=" + requestGrid.grid.dataSource.page());
+    $('#supportItemConversationContainer')
+        .data('activity-id', dataItem.SupportItemID)
+        .trigger('activitychange', dataItem.SupportItemID);
+    areConversationsLoaded = false;
 }
 function eChange(dataItem) {
     $("p#ddcUserName").text(dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName);

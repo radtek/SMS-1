@@ -151,6 +151,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             switch (activityType)
             {
+                case ActivityType.SupportMessage:
                 case ActivityType.SmsTransaction:
                     var select = ODataHelper.Select<VSafeSendRecipientDTO>(x => new
                     {
