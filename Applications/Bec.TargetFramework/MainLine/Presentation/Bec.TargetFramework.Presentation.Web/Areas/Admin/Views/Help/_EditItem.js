@@ -110,6 +110,7 @@
         })
         .done(function (response) {
             if ((response !== null || response !== undefined) && (response.Item != null)) {
+                clearFormError();
                 $('#helpPageItemId').val(itemId);
                 btnEditItem.text("Save");
                 $('#helpItemTitle').val(response.Item.Title);
@@ -120,7 +121,6 @@
                 $('#EffectiveOn').val(fDate(response.Item.EffectiveOn));
                 $('#helpItemTabContainerId').val(response.Item.TabContainerId);
                 setSelected('helpItemRoleId', response.Item.RoleId);
-                clearTitleExistError();
             }
         });
     });
@@ -192,7 +192,7 @@
         btnEditItem.text("Add");
         $("#helpPageItemId").val("");
         $('.help-item-element').prop('disabled', false);
-        clearTitleExistError();
+        clearFormError();
     }
 
     function updateItemOrder() {
@@ -260,11 +260,10 @@
         return result;
     }
 
-    function clearTitleExistError() {
-        validator.showErrors({
-            "Title": ""
+    function clearFormError() {
+        validator.resetForm();
+        $("#editItem-form .state-error").each(function (item) {
+            $(this).removeClass("state-error").addClass("state-success");
         });
-        $('#helpItemTitle').parent().removeClass("state-error").addClass("state-success");
-        $('#helpItemTitle').removeClass("invalid").addClass("valid");
     }
 });
