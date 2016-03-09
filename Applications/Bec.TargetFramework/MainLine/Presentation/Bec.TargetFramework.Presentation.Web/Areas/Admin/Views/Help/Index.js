@@ -45,22 +45,16 @@
                     {
                         field: "CreatedOn",
                         title: "Created On",
-                        template: function (dataItem) { return formatDate(dataItem.CreatedOn); },
+                        template: function (dataItem) { return dateString(dataItem.CreatedOn); },
                         type: "date"
                     },
                     {
                         field: "ModifiedOn",
                         title: "Modified On",
-                        template: function (dataItem) { return dataItem.ModifiedOn !== null ? formatDate(dataItem.ModifiedOn) : ""; }
+                        template: function (dataItem) { return dataItem.ModifiedOn !== null ? dateString(dataItem.ModifiedOn) : ""; }
                     }
             ]
         });
-
-    function formatDate(jsonDate) {
-        var dateRegExp = /^\/Date\((.*?)\)\/$/;
-        var date = dateRegExp.exec(jsonDate);
-        return dateString(new Date(parseInt(date[1])));
-    }
 
     var tabs = new tabItem("helpTab",
     {
@@ -110,8 +104,8 @@
         }
         $("p#ddnName").text(dataItem.PageName);
         $("p#ddnType").text(dataItem.HelpPageType);
-        $("p#ddnCreatedOn").text(formatDate(dataItem.CreatedOn) || "");
-        $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? formatDate(dataItem.ModifiedOn) : "");
+        $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
+        $("p#ddnModifiedOn").text(dataItem.ModifiedOn != null ? dateString(dataItem.ModifiedOn) : "");
         btnEdit.data('href', urls.editHelpUrl + "?pageId=" + dataItem.HelpPageID);
         btnDelete.data('href', urls.deleteHelpUrl + "?pageId=" + dataItem.HelpPageID);
         loadItemForPage(dataItem.HelpPageID, urls.getHelpItemsUrl);

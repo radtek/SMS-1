@@ -15,10 +15,11 @@ using System.Web.Mvc;
 using Bec.TargetFramework.Presentation.Web.Models.ToastrNotification;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using System.Linq.Expressions;
+using Bec.TargetFramework.Presentation.Web.Base;
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
     [ClaimsRequired("Add", "SupportFunctions", Order = 1000)]
-    public class HelpController : Controller
+    public class HelpController : ApplicationControllerBase
     {
         public IQueryLogicClient queryClient { get; set; }
         public IHelpLogicClient helpClient { get; set; }
@@ -77,16 +78,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddHelp(HelpPageDTO page)
         {
+            List<HelpPageItemDTO> items;
+            var itemDeleteStatus = HelpPageItemStatusEnum.Deleted.GetIntValue();
+            if (TempData["Items"] != null)
+            {
+                items = (List<HelpPageItemDTO>)TempData["Items"];
+                page.HelpPageItems = items.FindAll(x => x.Status != itemDeleteStatus);
+            }
+            var createdBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
             try
             {
-                List<HelpPageItemDTO> items;
-                var itemDeleteStatus = HelpPageItemStatusEnum.Deleted.GetIntValue();
-                if (TempData["Items"] != null)
-                {
-                    items = (List<HelpPageItemDTO>)TempData["Items"];
-                    page.HelpPageItems = items.FindAll(x => x.Status != itemDeleteStatus);
-                }
-                var createdBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
                 TempData["HelpPageId"] = await helpClient.CreateHelpPageAsync(createdBy, page);
                 this.AddToastMessage("Add Successfully", "The help has been added.", ToastType.Success);
             }
@@ -102,15 +103,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditHelp(HelpPageDTO page)
         {
+            List<HelpPageItemDTO> tempListItem;
+            if (TempData["Items"] != null)
+            {
+                tempListItem = (List<HelpPageItemDTO>)TempData["Items"];
+                page.HelpPageItems = tempListItem;
+            }
+            var modifiedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
             try
             {
-                List<HelpPageItemDTO> tempListItem;
-                if (TempData["Items"] != null)
-                {
-                    tempListItem = (List<HelpPageItemDTO>)TempData["Items"];
-                    page.HelpPageItems = tempListItem;
-                }
-                var modifiedBy = WebUserHelper.GetWebUserObject(HttpContext).Email;
                 TempData["HelpPageId"] = await helpClient.EditHelpPageAsync(modifiedBy, page);
                 this.AddToastMessage("Edit Successfully", "The help has been edited.", ToastType.Success);
             }
