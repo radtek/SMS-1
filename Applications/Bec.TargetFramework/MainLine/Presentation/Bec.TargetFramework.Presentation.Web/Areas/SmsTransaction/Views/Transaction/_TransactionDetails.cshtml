@@ -113,9 +113,9 @@
                 {
                     if (!string.IsNullOrWhiteSpace(relatedParty.UserAccountOrganisation.PinCode))
                     {
-                        <strong class="margin-right-10">@relatedParty.UserAccountOrganisation.PinCode</strong>
+                        <strong>@relatedParty.UserAccountOrganisation.PinCode</strong>
                     }
-                    <a class="btn btn-sm btn-default" data-modallink="true" title="Regenerate PIN"
+                    <a class="btn btn-sm btn-default pull-right" data-modallink="true" title="Regenerate PIN"
                         data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID=@(Model.Dto.SmsTransactionID)&uaoID=@(relatedParty.UserAccountOrganisationID)&email=@(relatedParty.UserAccountOrganisation.UserAccount.Email)&pageNumber=@(ViewBag.pageNumber)">
                         <i class="fa fa-repeat margin-right-5"></i>Regenerate PIN
                     </a>
