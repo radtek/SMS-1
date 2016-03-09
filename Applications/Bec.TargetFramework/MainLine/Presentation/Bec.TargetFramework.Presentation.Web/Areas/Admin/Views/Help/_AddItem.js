@@ -81,7 +81,7 @@
         }
         $("#" + idOfSelect + " option:selected").removeAttr("selected");
         $.each(values, function (i, e) {
-            $("#" + idOfSelect + " option[value='" + e + "']").prop("selected", true);
+            $("#" + idOfSelect + " option[value='" + stringToGuid(e) + "']").prop("selected", true);
         });
     }
 

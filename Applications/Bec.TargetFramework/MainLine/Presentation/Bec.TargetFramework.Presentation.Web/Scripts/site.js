@@ -619,14 +619,28 @@ function guid() {
       s4() + '-' + s4() + s4() + s4();
 }
 
-function getPosition(pos) {
+function getPosition(pos) {    
     var value = "right";
     switch (pos) {
-        case 1: value = "right"; break;
-        case 2: value = "left"; break;
-        case 3: value = "top"; break;
-        case 4: value = "bottom"; break;
-        default: value = "right"; break;
+        case 1:
+            value = "right";
+            break;
+        case 2:
+            value = "left";
+            break;
+        case 3:
+            value = "top";
+            break;
+        case 4:
+            value = "bottom";
+            break;
+        default:
+            value = "right";
+            break;
     }
     return value;
+}
+
+function stringToGuid(str) {
+    return str.substring(0, 8) + '-' + str.substring(8, 12) + '-' + str.substring(12, 16) + '-' + str.substring(16, 20) + '-' + str.substring(20, 32);
 }
