@@ -305,7 +305,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var ba = resultBa.FirstOrDefault();
                     return ba.OrganisationID == orgId && ClaimsAuthorization.CheckAccess("View", "BankAccount");
                 case ActivityType.SupportMessage:
-                    return ClaimsAuthorization.CheckAccess("Send", "SupportItem");
+                    return ClaimsAuthorization.CheckAccess("Send", "SupportItem") || ClaimsAuthorization.CheckAccess("Add", "SupportItem");
             }
 
             return false;
