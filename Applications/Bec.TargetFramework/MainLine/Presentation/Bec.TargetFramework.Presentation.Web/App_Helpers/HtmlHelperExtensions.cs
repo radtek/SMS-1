@@ -12,6 +12,7 @@ using Bec.TargetFramework.Infrastructure.Extensions;
 using System.Linq.Expressions;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Models;
+using System.Globalization;
 
 #endregion
 
@@ -225,53 +226,93 @@ namespace Bec.TargetFramework.Presentation.Web
             string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string noValueText)
             where TModel : IPendingUpdateModel
         {
-            return PendingUpdateFieldFor(html, expression, fieldName, fieldUpdateParentType, parentId, noValueText, false);
+            return PendingUpdateFieldFor(html, expression, fieldName, fieldUpdateParentType, parentId, noValueText, FieldUpdateDataType.String);
         }
 
-        public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html,  Expression<Func<TModel, TResult>> expression,
-            string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string noValueText, bool date)
+        public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression,
+            string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string noValueText, FieldUpdateDataType fieldUpdateDataType)
             where TModel : IPendingUpdateModel
         {
-            string originalValue;
-            try
+            var resultText = new TagBuilder("span");
+            if (fieldUpdateDataType == FieldUpdateDataType.Date)
             {
-                originalValue = expression.Compile()(html.ViewData.Model).ToString();
+                resultText.AddCssClass("format-pending-date");
             }
-            catch
-            {
-                originalValue = noValueText;
-            }
-
             var pendingUpdateValue = html.ViewData.Model.FieldUpdates.SingleOrDefault(x => x.FieldName == fieldName && x.ParentType == fieldUpdateParentType.GetIntValue() && x.ParentID == parentId);
+            var originalValue = GetOriginalValue(html, expression, noValueText);
             if (pendingUpdateValue == null)
             {
-                string spanHtml;
-                if (date)
-                    spanHtml = "<span class=\"format-date\" data-val=\"{0}\"></span>";
-                else
-                    spanHtml = "<span>{0}</span>";
-
-                return new MvcHtmlString(string.Format(spanHtml, originalValue));
+                var originalValueOrNoValueText = GetOriginalValueOrNoValueText(originalValue, noValueText);
+                resultText.SetInnerText(GetFormattedValue(originalValueOrNoValueText, fieldUpdateDataType));
             }
             else
             {
-                var displayValue = pendingUpdateValue.Value;
-                var extraClassAttribute = string.Empty;
-                if (string.IsNullOrWhiteSpace(pendingUpdateValue.Value))
+                var anchor = new TagBuilder("a");
+                anchor.AddCssClass("pending-update");
+                anchor.Attributes.Add("tabindex", "-1");
+                anchor.Attributes.Add("role", "button");
+                anchor.Attributes.Add("data-pending-fullname", pendingUpdateValue.UserAccountOrganisation.Contact.FullName);
+                anchor.Attributes.Add("data-pending-modifiedon", pendingUpdateValue.ModifiedOn.ToString("O"));
+
+                var formattedOriginalValue = GetFormattedValue(originalValue, fieldUpdateDataType);
+                var formattedPendingValue = GetFormattedValue(pendingUpdateValue.Value, fieldUpdateDataType);
+                anchor.Attributes.Add("data-pending-originalval", formattedOriginalValue);
+                anchor.Attributes.Add("data-pending-value", formattedPendingValue);
+
+                var displayValue = formattedPendingValue;
+                if (string.IsNullOrWhiteSpace(displayValue))
                 {
-                    displayValue = originalValue;
-                    extraClassAttribute = "empty-pending-value";
+                    displayValue = formattedOriginalValue;
+                    anchor.AddCssClass("empty-pending-value");
                 }
+                
+                anchor.SetInnerText(displayValue);
+                resultText.InnerHtml = anchor.ToString();
+            }
 
-                string anchorHtml;
-                if (date)
-                    anchorHtml = @"<a tabindex=""-1"" role=""button"" class=""pending-update format-date {4}"" data-pending-originalval=""{3}"" data-pending-fullname=""{0}"" data-pending-modifiedon=""{1}"" data-pending-value=""{5}"" data-val=""{2}""></a>";
-                else
-                    anchorHtml = @"<a tabindex=""-1"" role=""button"" class=""pending-update {4}"" data-pending-originalval=""{3}"" data-pending-fullname=""{0}"" data-pending-modifiedon=""{1}"" data-pending-value=""{5}"">{2}</a>";
+            return new MvcHtmlString(resultText.ToString());
+        }
 
-                return new MvcHtmlString(string.Format(anchorHtml, pendingUpdateValue.UserAccountOrganisation.Contact.FullName, pendingUpdateValue.ModifiedOn, displayValue, originalValue, extraClassAttribute, pendingUpdateValue.Value));
+        private static string GetFormattedValue(string value, FieldUpdateDataType fieldUpdateDataType)
+        {
+            var result = value;
+            switch (fieldUpdateDataType)
+            {
+                case FieldUpdateDataType.Date:
+                    DateTime parsedValue;
+                    if (DateTime.TryParse(value, out parsedValue))
+                    {
+                        result = parsedValue.ToString("O");
+                    }
+                    break;
+                case FieldUpdateDataType.Money:
+                    decimal parsedDecimalValue;
+                    if (decimal.TryParse(value, out parsedDecimalValue))
+                    {
+                        result = parsedDecimalValue.ToString("C", new CultureInfo("en-GB"));
+                    }
+                    break;
+            }
+            return result;
+        }
+
+        private static string GetOriginalValue<TModel, TResult>(HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression, string noValueText)
+        {
+            try
+            {
+                return expression.Compile()(html.ViewData.Model).ToString();
+            }
+            catch
+            {
+                return null;
             }
         }
+
+        private static string GetOriginalValueOrNoValueText(string originalValue, string noValueText)
+        {
+            return string.IsNullOrWhiteSpace(originalValue) ? noValueText : originalValue;
+        }
+
 
         private static string ToRelativeDate(this DateTime dateTime)
         {

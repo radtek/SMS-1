@@ -354,6 +354,11 @@ form {
     }
 }
 
+.open > .dropdown-toggle.btn-primary{
+    border: 1px solid @primary-color !important;
+    background-color: lighten(@primary-color, 2%) !important;
+}
+
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
     background-color: lighten(@primary-color, 10%);
@@ -818,6 +823,24 @@ a.removeupload {
 }
 
 .transaction-details-table {
+    & > tbody {
+        & > tr:first-child{
+            th{
+                border-top: none;
+            }
+        }
+        & > tr:hover{
+            & > td{
+                background-color: lighten(@primary-color, 40%);
+            }
+        }
+        & > tr > td:last-child {
+            width: 75px;
+        }
+    }
+}
+
+.buyer-details-table {
     width:100%;
     tbody tr td {
         padding-top:6px;
@@ -899,7 +922,9 @@ a.removeupload {
     color: #6EB0DF;
     font-weight: bold;
     cursor: pointer;
-}
+} 
+
+
 
 .empty-pending-value{
     text-decoration: line-through;
@@ -921,9 +946,32 @@ a.removeupload {
     tr > td:last-child {
         width: 100%;
     }
+    .pending-no-value{
+        color: #aaa;
+    }
 }
+.transaction-details{
+    position:relative;
+    h5{
+        margin-left: 9px;
+    }
+    .transaction-details-spinner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        background-color: #FBFBFB;
+        opacity: 0.8;
 
-
+        .fa-spinner {
+            position: relative;
+            left: 50%;
+            top: 30%;
+        }
+    }
+}
 
 // xs and sm
 @media only screen and (max-width: 992px) {

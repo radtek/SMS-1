@@ -21,10 +21,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         private static IEnumerable<UserAccountOrganisationTransactionType> AllowedParties = new[] { UserAccountOrganisationTransactionType.AdditionalBuyer, UserAccountOrganisationTransactionType.Giftor };
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
-        public async Task<ActionResult> Get(Guid transactionID, UserAccountOrganisationTransactionType uaotType)
+        public async Task<ActionResult> Get(Guid transactionID)
         {
-            ValidateRequestedUaotType(uaotType);
-
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
@@ -41,18 +39,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.LatestBankAccountCheck.CheckedOn,
                 x.SmsTransactionID,
                 x.SmsUserAccountOrganisationTransactionID,
+                x.SmsUserAccountOrganisationTransactionTypeID,
+                x.SmsUserAccountOrganisationTransactionType.Description,
                 x.Address.Line1,
                 x.Address.Line2,
                 x.Address.Town,
                 x.Address.County,
-                x.Address.PostalCode,
-                SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
+                x.Address.PostalCode
             });
-            var smsClientTypeId = uaotType.GetIntValue();
-            var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 
+            var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
                 x.SmsTransactionID == transactionID &&
-                x.SmsTransaction.OrganisationID == orgID &&
-                x.SmsUserAccountOrganisationTransactionTypeID == smsClientTypeId);
+                x.SmsTransaction.OrganisationID == orgID);
 
             var filter = ODataHelper.Filter(where);
 

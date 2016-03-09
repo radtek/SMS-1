@@ -1,22 +1,21 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Presentation.Web.App_Helpers;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
+using Bec.TargetFramework.Presentation.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Bec.TargetFramework.Entities.Enums;
-using Bec.TargetFramework.Infrastructure.Extensions;
-using Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers;
-using System.Collections.Generic;
-using Bec.TargetFramework.Presentation.Web.Models;
-using System.Net;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
@@ -183,6 +182,58 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
+        [ClaimsRequired("View", "SmsTransaction", Order = 1001)]
+        public async Task<PartialViewResult> TransactionDetails(Guid txID, int pageNumber)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            await EnsureSmsTransactionInOrg(txID, orgID, QueryClient);
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new
+            {
+                x.SmsTransactionID,
+                x.Address.Line1,
+                x.Address.Line2,
+                x.Address.Town,
+                x.Address.County,
+                x.Address.PostalCode,
+                x.CreatedOn,
+                x.LenderName,
+                x.MortgageApplicationNumber,
+                x.Price,
+                x.IsProductAdvised,
+                x.ProductAdvisedOn,
+                x.ProductDeclinedOn,
+                x.InvoiceID,
+                PurchasedOn = x.Invoice.CreatedOn,
+                RelatedParties = x.SmsUserAccountOrganisationTransactions.Select(y => new
+                {
+                    PersonaUaoID = y.UserAccountOrganisationID,
+                    PersonaSalutation = y.Contact.Salutation,
+                    PersonaFirstName = y.Contact.FirstName,
+                    PersonaLastName = y.Contact.LastName,
+                    PersonaBirthDate = y.Contact.BirthDate,
+                    PersonaTypeID = y.SmsUserAccountOrganisationTransactionTypeID,
+                    PersonaTypeDescription = y.SmsUserAccountOrganisationTransactionType.Description,
+                    y.UserAccountOrganisation.UserAccount.Email,
+                    y.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
+                    y.UserAccountOrganisation.UserAccount.LastLogin,
+                    y.UserAccountOrganisation.PinCode
+                })
+            });
+
+            var where = ODataHelper.Expression<SmsTransactionDTO>(x => x.OrganisationID == orgID && x.SmsTransactionID == txID);
+            var filter = ODataHelper.Filter(where);
+            var smsTransactions = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            var tx = smsTransactions.SingleOrDefault();
+            if (tx == null)
+            {
+                throw new InvalidOperationException("The Transaction does not exist.");
+            }
+
+            ViewBag.PageNumber = pageNumber;
+            var model = await tx.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, txID, QueryClient);
+            return PartialView("_TransactionDetails", model);
+        }
+
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
         public ActionResult ViewAddSmsTransaction()
         {
@@ -247,33 +298,23 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID, int pageNumber)
+        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, int pageNumber)
         {
-            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);
-            ViewBag.txId = txID;
-            ViewBag.uaoId = uaoID;
-            ViewBag.pageNumber = pageNumber;
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            await EnsureSmsTransactionInOrg(txID, orgID, QueryClient);
+            
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new
             {
-                x.SmsTransactionID,
-                x.SmsUserAccountOrganisationTransactionID,
-                x.Contact.Salutation,
-                x.Contact.FirstName,
-                x.Contact.LastName,
-                x.Contact.BirthDate,
-                ContactRowVersion = x.Contact.RowVersion,
-                x.UserAccountOrganisation.UserAccount.Email,
-                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                UserAccountRowVersion = x.UserAccountOrganisation.UserAccount.RowVersion
+                x.SmsTransactionID
             });
 
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
-                x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
+            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
 
-            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var res = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
             var model = res.First();
-            ViewBag.IsTemporaryUser = model.UserAccountOrganisation.UserAccount.IsTemporaryAccount;
-
+            
+            ViewBag.txId = txID;
+            ViewBag.pageNumber = pageNumber;
             return PartialView("_EditSmsTransaction", Edit.MakeModel(model));
         }
 
@@ -347,10 +388,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public ActionResult ViewAdviseProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
+        public ActionResult ViewAdviseProduct(Guid txID, int pageNumber)
         {
-            ViewBag.transactionId = transactionId;
-            ViewBag.primaryBuyerUaoId = primaryBuyerUaoId;
+            ViewBag.txID = txID;
             ViewBag.pageNumber = pageNumber;
             return PartialView("_AdviseProduct");
         }
@@ -358,15 +398,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> AdviseProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
+        public async Task<ActionResult> AdviseProduct(Guid txID, int pageNumber)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await EnsureSmsTransactionInOrg(transactionId, orgID, QueryClient);
-            await EnsureCanAdviseProduct(transactionId, primaryBuyerUaoId, QueryClient);
+            await EnsureCanAdviseProductAndSmsTransactionInOrg(txID, orgID, QueryClient);
 
-            await OrganisationClient.AdviseProductAsync(transactionId, orgID, primaryBuyerUaoId);
+            await OrganisationClient.AdviseProductAsync(txID, orgID);
 
-            return RedirectToAction("Index", new { selectedTransactionID = transactionId, pageNumber = pageNumber });
+            return RedirectToAction("Index", new { selectedTransactionID = txID, pageNumber = pageNumber });
         }
 
         internal static async Task<bool> CanGeneratePin(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
@@ -402,15 +441,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             if (!canGeneratePin) throw new InvalidOperationException("Cannot generate the PIN.");
         }
 
-        internal static async Task EnsureCanAdviseProduct(Guid txID, Guid primaryBuyerUaoId, IQueryLogicClient queryClient)
+        internal static async Task EnsureCanAdviseProductAndSmsTransactionInOrg(Guid txID, Guid orgID, IQueryLogicClient queryClient)
         {
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
-                x.UserAccountOrganisationID == primaryBuyerUaoId &&
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.SmsTransactionID });
+            var filter = ODataHelper.Filter<SmsTransactionDTO>(x =>
+                x.OrganisationID == orgID &&
                 x.SmsTransactionID == txID &&
-                !x.SmsTransaction.IsProductAdvised);
+                !x.IsProductAdvised);
 
-            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var res = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
             var model = res.FirstOrDefault();
             if (model == null)
             {

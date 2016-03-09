@@ -706,8 +706,15 @@ if (!String.prototype.format) {
     };
 }
 
-function setupDates() {
+function formatDates() {
     $('.format-date').each(function () {
         $(this).text(dateStringNoTime($(this).data("val")));
+    });
+    $('.format-date-time').each(function () {
+        $(this).text(dateString($(this).data("val")));
+    });
+    $('.format-pending-date').each(function () {
+        var originalText = $(this).text();
+        $(this).text(dateStringNoTime(originalText));
     });
 }

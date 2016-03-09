@@ -46,6 +46,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Bec.TargetFramework.Data.Attributes.dll</HintPath>
     </Reference>
+    <Reference Include="Bec.TargetFramework.Transfer.Client">
+      <HintPath>..\..\References\Bec.TargetFramework.Transfer.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Bec.TargetFramework.Transfer.Entities">
+      <HintPath>..\..\References\Bec.TargetFramework.Transfer.Entities.dll</HintPath>
+    </Reference>
     <Reference Include="EnsureThat">
       <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
     </Reference>
