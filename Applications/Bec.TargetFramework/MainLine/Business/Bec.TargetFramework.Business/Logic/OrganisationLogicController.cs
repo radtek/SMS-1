@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Business.Product.Processor;
+using Bec.TargetFramework.Business.Extensions;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -717,50 +718,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(SmsUserAccountOrganisationTransactionDTO dto, Guid uaoID)
+        public async Task ReplaceSrcFundsBankAccounts(IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts, Guid uaoTxID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var uaoTx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == dto.SmsTransactionID);
-
-                if (uaoTx.SmsTransaction.RowVersion != dto.SmsTransaction.RowVersion || uaoTx.Contact.RowVersion != dto.Contact.RowVersion)
-                    throw new Exception("The details have been updated by another user. Please go back and try again");
-
-                await AddSrcFundsBankAccounts(dto.SmsSrcFundsBankAccounts, uaoTx.SmsUserAccountOrganisationTransactionID);
-
-                if (uaoTx.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue())
-                {
-                    uaoTx.SmsTransaction.Address = await CompareAndAddAddressIfChanged(uaoTx.SmsTransaction.Address, dto.SmsTransaction.Address, uaoTx.ContactID);
-                    uaoTx.SmsTransaction.Price = dto.SmsTransaction.Price;
-                    uaoTx.SmsTransaction.LenderName = dto.SmsTransaction.LenderName;
-                    uaoTx.SmsTransaction.MortgageApplicationNumber = dto.SmsTransaction.MortgageApplicationNumber;
-                }
-
-                uaoTx.Address = await CompareAndAddAddressIfChanged(uaoTx.Address, dto.Address, uaoTx.ContactID);
-
-                uaoTx.Contact.Salutation = dto.Contact.Salutation;
-                uaoTx.Contact.FirstName = dto.Contact.FirstName;
-                uaoTx.Contact.LastName = dto.Contact.LastName;
-                
-                var existingContacts = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(x => x.ParentID == uaoID);
-                if (existingContacts.Count() <= 1)
-                    uaoTx.Contact.BirthDate = dto.Contact.BirthDate;
-                else
-                    dto.Contact.BirthDate = existingContacts.First().BirthDate;
-                uaoTx.ModifiedOn = DateTime.Now;
-                uaoTx.ModifiedBy = UserNameService.UserName;
-
-                //update primary contact(s)
-                foreach (var pc in existingContacts.Where(x => x.IsPrimaryContact))
-                {
-                    pc.IsPrimaryContact = false;
-                }
-                uaoTx.Contact.IsPrimaryContact = true;
-                uaoTx.UserAccountOrganisation.PrimaryContactID = uaoTx.ContactID;
-
+                var accounts = scope.DbContexts.Get<TargetFrameworkEntities>().SmsSrcFundsBankAccounts.Where(x => x.SmsUserAccountOrganisationTransactionID == uaoTxID);
+                scope.DbContexts.Get<TargetFrameworkEntities>().SmsSrcFundsBankAccounts.RemoveRange(accounts);
+                AddSrcFundsBankAccounts(srcFundsBankAccounts, uaoTxID);
                 await scope.SaveChangesAsync();
-
-                return dto;
             }
         }
 
@@ -1158,6 +1123,47 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     setting.Value = safeSendEnabled.ToString();
                 }
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public SmsTransactionDTO GetSmsTransactionWithPendingUpdates(Guid txID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var activityTypeID = ActivityType.SmsTransaction.GetIntValue();
+                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == txID);
+                var updates = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.Where(x => x.ActivityType == activityTypeID && x.ActivityID == txID);
+
+                SmsTransactionHelper.ApplyUpdatesToSmsTransaction(tx, updates);
+
+                var ret = tx.ToDto();
+
+                ret.Address = tx.Address.ToDto();
+                ret.Organisation = tx.Organisation.ToDto();
+                ret.Organisation.OrganisationDetails = tx.Organisation.OrganisationDetails.ToDtos();
+                ret.SmsUserAccountOrganisationTransactions = new List<SmsUserAccountOrganisationTransactionDTO>();
+                foreach (var uaot in tx.SmsUserAccountOrganisationTransactions)
+                {
+                    var uaotDto = uaot.ToDto();
+                    uaotDto.SmsTransaction = ret;
+                    uaotDto.Address = uaot.Address.ToDto();
+                    uaotDto.Contact = uaot.Contact.ToDto();
+                    uaotDto.SmsSrcFundsBankAccounts = uaot.SmsSrcFundsBankAccounts.ToDtos();
+                    uaotDto.SmsUserAccountOrganisationTransactionType = uaot.SmsUserAccountOrganisationTransactionType.ToDto();
+                    ret.SmsUserAccountOrganisationTransactions.Add(uaotDto);
+                }
+
+                return ret;
+            }
+        }
+
+        public async Task ResolveSmsTransactionPendingUpdates(Guid txID, Guid uaoID, List<FieldUpdateDTO> updates)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var approved = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == txID);
+                SmsTransactionHelper.ResolveSmsTransactionUpdates(scope, approved, uaoID, DateTime.Now, updates);
                 await scope.SaveChangesAsync();
             }
         }

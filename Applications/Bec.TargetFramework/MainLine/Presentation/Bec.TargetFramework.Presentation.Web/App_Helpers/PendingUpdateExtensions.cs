@@ -8,24 +8,26 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Collections.Generic;
+using Bec.TargetFramework.Infrastructure;
 
 namespace Bec.TargetFramework.Presentation.Web.App_Helpers
 {
     public static class PendingUpdateExtensions
     {
-        public static async Task<PendingUpdateModel<TDto>> GetFieldUpdates<TDto>(this TDto model, HttpContextBase httpContext, ActivityType activityType, Guid activityID, IQueryLogicClient queryClient)
+        public static async Task<PendingUpdateModel<TDto>> WithFieldUpdates<TDto>(this TDto model, HttpContextBase httpContext, ActivityType activityType, Guid activityID, IQueryLogicClient queryClient)
+        {
+            var resultPendingUpdates = await model.GetFieldUpdates(httpContext, activityType, activityID, queryClient);
+            return new PendingUpdateModel<TDto> { Dto = model, FieldUpdates = resultPendingUpdates };
+        }
+
+        public static async Task<IEnumerable<FieldUpdateDTO>> GetFieldUpdates<TDto>(this TDto model, HttpContextBase httpContext, ActivityType activityType, Guid activityID, IQueryLogicClient queryClient)
         {
             var activityTypeId = activityType.GetIntValue();
             await EnsureCanAccessFieldUpdates(httpContext, activityTypeId, activityID, false, queryClient);
             var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.FieldName, x.Value, x.ParentID, x.ParentType, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
             var filter = ODataHelper.Filter<FieldUpdateDTO>(x => x.ActivityType == activityTypeId && x.ActivityID == activityID);
-            var resultPendingUpdates = await queryClient.QueryAsync<FieldUpdateDTO>("FieldUpdates", select + filter);
-            var result = new PendingUpdateModel<TDto>
-            {
-                Dto = model,
-                FieldUpdates = resultPendingUpdates
-            };
-            return result;
+            return await queryClient.QueryAsync<FieldUpdateDTO>("FieldUpdates", select + filter);
         }
 
         private static async Task EnsureCanAccessFieldUpdates(HttpContextBase httpContext, int activityType, Guid activityID, bool approveReject, IQueryLogicClient queryClient)
@@ -52,5 +54,19 @@ namespace Bec.TargetFramework.Presentation.Web.App_Helpers
             throw new AccessViolationException("Operation failed");
         }
 
+        public static List<FieldUpdateDTO> GetUpdateFromModel(ActivityType activityType, Guid activityID, List<FieldUpdateDTO> fields)
+        {
+            return new List<FieldUpdateDTO>(
+                fields.Select(x => new FieldUpdateDTO
+                {
+                    ActivityID = activityID,
+                    ActivityType = activityType.GetIntValue(),
+                    ParentID = x.ParentID,
+                    ParentType = x.ParentType,
+                    FieldName = x.FieldName,
+                    Value = x.Value
+                })
+            );
+        }
     }
 }

@@ -705,3 +705,9 @@ if (!String.prototype.format) {
         });
     };
 }
+
+function setupDates() {
+    $('.format-date').each(function () {
+        $(this).text(dateStringNoTime($(this).data("val")));
+    });
+}

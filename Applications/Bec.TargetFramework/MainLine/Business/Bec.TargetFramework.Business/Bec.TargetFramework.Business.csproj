@@ -103,8 +103,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\EntityFrameworkHelperExtenstions.cs" />
     <Compile Include="Extensions\InvoiceHelper.cs" />
     <Compile Include="Extensions\LogicHelper.cs" />
+    <Compile Include="Extensions\SmsTransactionHelper.cs" />
     <Compile Include="Extensions\TransactionHelper.cs" />
     <Compile Include="Extensions\DeductionHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />

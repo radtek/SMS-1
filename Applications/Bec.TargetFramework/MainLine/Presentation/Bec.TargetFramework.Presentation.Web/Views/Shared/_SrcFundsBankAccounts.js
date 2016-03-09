@@ -3,7 +3,7 @@
 
     var srcFundsElement = $('#srcFundsBankAccounts');
 
-    var index = 1;
+    var index = srcFundsElement.data('index');
     var srcFundBankAccountTemplatePromise = $.Deferred();
     var addNextBankAccountBtn = srcFundsElement.find('.add-next-bank-account-btn');
     var addNextBankAccountRow = srcFundsElement.find('.add-next-bank-account-row');
@@ -18,6 +18,7 @@
     });
 
     addNextBankAccountBtn.click(function (event) {
+        console.log(index);
         var getLastBankAccount = function () {
             return {
                 accountNumber: $('input[name="SmsSrcFundsBankAccounts[' + (index - 1) + '].AccountNumber'),
@@ -26,6 +27,7 @@
         };
 
         var lastBankAccount = getLastBankAccount();
+        console.log(lastBankAccount);
         if (lastBankAccount.accountNumber.val() && lastBankAccount.sortCode.val()) {
             var templateData = {
                 index: index++
@@ -52,8 +54,8 @@
                 parentToRemove.remove();
                 renumberInputs('input[name$="AccountNumber"]', 'SmsSrcFundsBankAccounts');
                 renumberInputs('input[name$="SortCode"]', 'SmsSrcFundsBankAccounts');
-                reindexElementAttr('[id^="bankAccountRow"]', 'bankAccountRow', 'id');
-                reindexElementAttr('[data-parent-id^="bankAccountRow"', 'bankAccountRow', 'data-parent-id');
+                reindexElementAttr('[id^="bankAccountRow-"]', 'bankAccountRow-', 'id');
+                reindexElementAttr('[data-parent-id^="bankAccountRow-"', 'bankAccountRow-', 'data-parent-id');
                 index--;
             });
         event.preventDefault();

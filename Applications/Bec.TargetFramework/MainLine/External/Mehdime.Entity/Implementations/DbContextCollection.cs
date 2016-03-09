@@ -182,7 +182,9 @@ namespace Mehdime.Entity
                 }
                 catch (Exception e)
                 {
-                    lastError = ExceptionDispatchInfo.Capture(e);
+                    Exception inner = e;
+                    while (inner.InnerException != null) inner = inner.InnerException;
+                    lastError = ExceptionDispatchInfo.Capture(inner);
                 }
             }
 

@@ -401,50 +401,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		Guid AddNewsArticle(NewsArticleDTO dto);
-
-		/// <returns></returns>
-		Task AddOrModifyFieldUpdateAsync(FieldUpdateDTO dto);
-
-		/// <returns></returns>
-		void AddOrModifyFieldUpdate(FieldUpdateDTO dto);
-
-		/// <param name="activityType"></param>
-		/// <param name="activityID"></param>
-		/// <param name="parentType"></param>
-		/// <param name="parentID"></param>
-		/// <param name="fieldName"></param>
-		/// <returns></returns>
-		Task ApproveUpdateAsync(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName);
-
-		/// <param name="activityType"></param>
-		/// <param name="activityID"></param>
-		/// <param name="parentType"></param>
-		/// <param name="parentID"></param>
-		/// <param name="fieldName"></param>
-		/// <returns></returns>
-		void ApproveUpdate(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName);
-
-		/// <returns></returns>
-		Task PostImmediateUpdateAsync(FieldUpdateDTO dto);
-
-		/// <returns></returns>
-		void PostImmediateUpdate(FieldUpdateDTO dto);
-
-		/// <param name="activityType"></param>
-		/// <param name="activityID"></param>
-		/// <param name="parentType"></param>
-		/// <param name="parentID"></param>
-		/// <param name="fieldName"></param>
-		/// <returns></returns>
-		Task RejectUpdateAsync(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName);
-
-		/// <param name="activityType"></param>
-		/// <param name="activityID"></param>
-		/// <param name="parentType"></param>
-		/// <param name="parentID"></param>
-		/// <param name="fieldName"></param>
-		/// <returns></returns>
-		void RejectUpdate(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName);
 	}
 
 	public partial interface INotificationLogicClient : IClientBase	{	
@@ -962,13 +918,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddSmsTransaction(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
 
-		/// <param name="uaoID"></param>
+		/// <param name="uaoTxID"></param>
 		/// <returns></returns>
-		Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,SmsUserAccountOrganisationTransactionDTO dto);
+		Task ReplaceSrcFundsBankAccountsAsync(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts);
 
-		/// <param name="uaoID"></param>
+		/// <param name="uaoTxID"></param>
 		/// <returns></returns>
-		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,SmsUserAccountOrganisationTransactionDTO dto);
+		void ReplaceSrcFundsBankAccounts(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts);
 
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
@@ -1077,6 +1033,24 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="safeSendEnabled"></param>
 		/// <returns></returns>
 		void AddOrUpdateSafeSendEnabled(Guid orgID,Boolean safeSendEnabled);
+
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		Task<SmsTransactionDTO> GetSmsTransactionWithPendingUpdatesAsync(Guid txID);
+
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		SmsTransactionDTO GetSmsTransactionWithPendingUpdates(Guid txID);
+
+		/// <param name="txID"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task ResolveSmsTransactionPendingUpdatesAsync(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates);
+
+		/// <param name="txID"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		void ResolveSmsTransactionPendingUpdates(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates);
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
@@ -2791,106 +2765,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<NewsArticleDTO, Guid>("api/MiscLogic/AddNewsArticle", dto, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task AddOrModifyFieldUpdateAsync(FieldUpdateDTO dto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<FieldUpdateDTO>("api/MiscLogic/AddOrModifyFieldUpdate", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void AddOrModifyFieldUpdate(FieldUpdateDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<FieldUpdateDTO>("api/MiscLogic/AddOrModifyFieldUpdate", dto, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="activityType"></param>
-		/// <param name="activityID"></param>
-		/// <param name="parentType"></param>
-		/// <param name="parentID"></param>
-		/// <param name="fieldName"></param>
-		/// <returns></returns>
-		public virtual Task ApproveUpdateAsync(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName)
-		{
-			fieldName = fieldName.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/MiscLogic/ApproveUpdate?activityType=" + activityType + "&activityID=" + activityID + "&parentType=" + parentType + "&parentID=" + parentID + "&fieldName=" + fieldName, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="activityType"></param>
-		/// <param name="activityID"></param>
-		/// <param name="parentType"></param>
-		/// <param name="parentID"></param>
-		/// <param name="fieldName"></param>
-		public virtual void ApproveUpdate(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName)
-		{
-			fieldName = fieldName.UrlEncode();
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/MiscLogic/ApproveUpdate?activityType=" + activityType + "&activityID=" + activityID + "&parentType=" + parentType + "&parentID=" + parentID + "&fieldName=" + fieldName, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task PostImmediateUpdateAsync(FieldUpdateDTO dto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<FieldUpdateDTO>("api/MiscLogic/PostImmediateUpdate", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void PostImmediateUpdate(FieldUpdateDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<FieldUpdateDTO>("api/MiscLogic/PostImmediateUpdate", dto, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="activityType"></param>
-		/// <param name="activityID"></param>
-		/// <param name="parentType"></param>
-		/// <param name="parentID"></param>
-		/// <param name="fieldName"></param>
-		/// <returns></returns>
-		public virtual Task RejectUpdateAsync(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName)
-		{
-			fieldName = fieldName.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/MiscLogic/RejectUpdate?activityType=" + activityType + "&activityID=" + activityID + "&parentType=" + parentType + "&parentID=" + parentID + "&fieldName=" + fieldName, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="activityType"></param>
-		/// <param name="activityID"></param>
-		/// <param name="parentType"></param>
-		/// <param name="parentID"></param>
-		/// <param name="fieldName"></param>
-		public virtual void RejectUpdate(Int32 activityType,Guid activityID,Int32 parentType,Guid parentID,String fieldName)
-		{
-			fieldName = fieldName.UrlEncode();
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/MiscLogic/RejectUpdate?activityType=" + activityType + "&activityID=" + activityID + "&parentType=" + parentType + "&parentID=" + parentID + "&fieldName=" + fieldName, null, _user)).Wait();
-		}
-
 		#endregion
 	}
 	/// <summary>
@@ -4119,22 +3993,22 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
+		/// <param name="uaoTxID"></param>
 		/// <returns></returns>
-		public virtual Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,SmsUserAccountOrganisationTransactionDTO dto)
+		public virtual Task ReplaceSrcFundsBankAccountsAsync(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID, dto, _user);
+			return PostAsync<IEnumerable<SmsSrcFundsBankAccountDTO>>("api/OrganisationLogic/ReplaceSrcFundsBankAccounts?uaoTxID=" + uaoTxID, srcFundsBankAccounts, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
-		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,SmsUserAccountOrganisationTransactionDTO dto)
+		/// <param name="uaoTxID"></param>
+		public virtual void ReplaceSrcFundsBankAccounts(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID, dto, _user)).Result;
+			Task.Run(() => PostAsync<IEnumerable<SmsSrcFundsBankAccountDTO>>("api/OrganisationLogic/ReplaceSrcFundsBankAccounts?uaoTxID=" + uaoTxID, srcFundsBankAccounts, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4375,6 +4249,50 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		public virtual Task<SmsTransactionDTO> GetSmsTransactionWithPendingUpdatesAsync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<SmsTransactionDTO>("api/OrganisationLogic/GetSmsTransactionWithPendingUpdates?txID=" + txID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		public virtual SmsTransactionDTO GetSmsTransactionWithPendingUpdates(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<SmsTransactionDTO>("api/OrganisationLogic/GetSmsTransactionWithPendingUpdates?txID=" + txID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task ResolveSmsTransactionPendingUpdatesAsync(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<List<FieldUpdateDTO>>("api/OrganisationLogic/ResolveSmsTransactionPendingUpdates?txID=" + txID + "&uaoID=" + uaoID, updates, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		/// <param name="uaoID"></param>
+		public virtual void ResolveSmsTransactionPendingUpdates(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<List<FieldUpdateDTO>>("api/OrganisationLogic/ResolveSmsTransactionPendingUpdates?txID=" + txID + "&uaoID=" + uaoID, updates, _user)).Wait();
 		}
 
 		/// <summary>

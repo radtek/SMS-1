@@ -35,8 +35,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 var model = await GetUaots(selectedTransactionId.Value);
                 var uaot = model.FirstOrDefault();
                 ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
-                ViewBag.canEditBirthDate = await CanEditBirthDate(uaot.UserAccountOrganisationID, selectedTransactionId.Value);
-                var modelWithUpdates = await uaot.GetFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
+                var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
                 return View(modelWithUpdates);
             }
             else
@@ -340,6 +339,47 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             await QueryClient.UpdateGraphAsync("SmsTransactions", JObject.FromObject(new { ProductAcceptedOn = DateTime.Now }), filter);
 
             return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = txID });
+        }
+
+        public async Task<ActionResult> ViewEdit(Guid txID)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var tx = await OrganisationClient.GetSmsTransactionWithPendingUpdatesAsync(txID);
+            var uaot = tx.SmsUserAccountOrganisationTransactions.Single(x => x.UserAccountOrganisationID == uaoID);
+            ViewBag.canEditBirthDate = await CanEditBirthDate(uaoID, txID);
+
+            return PartialView("_Edit", uaot);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(SmsUserAccountOrganisationTransactionDTO model)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            List<FieldUpdateDTO> updates = PendingUpdateExtensions.GetUpdateFromModel(ActivityType.SmsTransaction, model.SmsTransactionID, new List<FieldUpdateDTO> { 
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransaction.GetIntValue(), FieldName = "LenderName", Value = model.SmsTransaction.LenderName },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransaction.GetIntValue(), FieldName = "MortgageApplicationNumber", Value = model.SmsTransaction.MortgageApplicationNumber },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransaction.GetIntValue(), FieldName = "Price", Value = model.SmsTransaction.Price.ToString() },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "Line1", Value = model.SmsTransaction.Address.Line1 },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "Line2", Value = model.SmsTransaction.Address.Line2 },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "Town", Value = model.SmsTransaction.Address.Town },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "County", Value = model.SmsTransaction.Address.County },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "PostalCode", Value = model.SmsTransaction.Address.PostalCode },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "Line1", Value = model.Address.Line1 },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "Line2", Value = model.Address.Line2 },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "Town", Value = model.Address.Town },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "County", Value = model.Address.County },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "PostalCode", Value = model.Address.PostalCode },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "Salutation", Value = model.Contact.Salutation },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "FirstName", Value = model.Contact.FirstName },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "LastName", Value = model.Contact.LastName },
+            });
+
+            await OrganisationClient.ResolveSmsTransactionPendingUpdatesAsync(model.SmsTransactionID, uaoID, updates);
+            await OrganisationClient.ReplaceSrcFundsBankAccountsAsync(model.SmsUserAccountOrganisationTransactionID, model.SmsSrcFundsBankAccounts);
+
+            return Json(new { result = true, selectedTransactionId = model.SmsTransactionID }, JsonRequestBehavior.AllowGet);
         }
     }
 }

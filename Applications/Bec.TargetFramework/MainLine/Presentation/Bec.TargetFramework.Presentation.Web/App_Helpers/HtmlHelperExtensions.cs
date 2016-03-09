@@ -221,27 +221,40 @@ namespace Bec.TargetFramework.Presentation.Web
             return new HtmlString(field.Substring(beginIndex, endIndex - beginIndex));
         }
 
-        public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html,  Expression<Func<TModel, TResult>> expression,
+        public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression,
             string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string noValueText)
             where TModel : IPendingUpdateModel
         {
+            return PendingUpdateFieldFor(html, expression, fieldName, fieldUpdateParentType, parentId, noValueText, false);
+        }
+
+        public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html,  Expression<Func<TModel, TResult>> expression,
+            string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string noValueText, bool date)
+            where TModel : IPendingUpdateModel
+        {
+            string originalValue;
+            try
+            {
+                originalValue = expression.Compile()(html.ViewData.Model).ToString();
+            }
+            catch
+            {
+                originalValue = noValueText;
+            }
+
             var pendingUpdateValue = html.ViewData.Model.FieldUpdates.SingleOrDefault(x => x.FieldName == fieldName && x.ParentType == fieldUpdateParentType.GetIntValue() && x.ParentID == parentId);
             if (pendingUpdateValue == null)
             {
-                return html.DisplayFor(expression);
+                string spanHtml;
+                if (date)
+                    spanHtml = "<span class=\"format-date\" data-val=\"{0}\"></span>";
+                else
+                    spanHtml = "<span>{0}</span>";
+
+                return new MvcHtmlString(string.Format(spanHtml, originalValue));
             }
             else
             {
-                string originalValue;
-                try
-                {
-                    originalValue = expression.Compile()(html.ViewData.Model).ToString();
-                }
-                catch
-                {
-                    originalValue = noValueText;
-                }
-
                 var displayValue = pendingUpdateValue.Value;
                 var extraClassAttribute = string.Empty;
                 if (string.IsNullOrWhiteSpace(pendingUpdateValue.Value))
@@ -250,10 +263,13 @@ namespace Bec.TargetFramework.Presentation.Web
                     extraClassAttribute = "empty-pending-value";
                 }
 
-                var anchorHtml = string.Format(@"<a tabindex=""-1"" role=""button"" class=""pending-update {4}"" data-pending-originalval=""{3}"" data-pending-fullname=""{0}"" data-pending-modifiedon=""{1}"" data-pending-value=""{5}"">{2}</a>",
-                    pendingUpdateValue.UserAccountOrganisation.Contact.FullName, pendingUpdateValue.ModifiedOn, displayValue, originalValue, extraClassAttribute, pendingUpdateValue.Value);
-                var htmlString = new MvcHtmlString(anchorHtml);
-                return htmlString;
+                string anchorHtml;
+                if (date)
+                    anchorHtml = @"<a tabindex=""-1"" role=""button"" class=""pending-update format-date {4}"" data-pending-originalval=""{3}"" data-pending-fullname=""{0}"" data-pending-modifiedon=""{1}"" data-pending-value=""{5}"" data-val=""{2}""></a>";
+                else
+                    anchorHtml = @"<a tabindex=""-1"" role=""button"" class=""pending-update {4}"" data-pending-originalval=""{3}"" data-pending-fullname=""{0}"" data-pending-modifiedon=""{1}"" data-pending-value=""{5}"">{2}</a>";
+
+                return new MvcHtmlString(string.Format(anchorHtml, pendingUpdateValue.UserAccountOrganisation.Contact.FullName, pendingUpdateValue.ModifiedOn, displayValue, originalValue, extraClassAttribute, pendingUpdateValue.Value));
             }
         }
 

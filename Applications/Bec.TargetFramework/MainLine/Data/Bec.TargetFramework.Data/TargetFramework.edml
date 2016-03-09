@@ -6890,7 +6890,7 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
-          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="OrganisationTeamSettingTemplate">
           <Key>
@@ -8455,7 +8455,7 @@
           <Property Name="IsPrimary" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
           <Property Name="Created" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="IsDirectDebtAccount" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="Name" Type="varchar" />
@@ -9746,7 +9746,7 @@
           <Property Name="IsCompanyVerified" Type="boolean" DefaultValue="false" />
           <Property Name="IsCompanyPinCreated" Type="boolean" DefaultValue="false" />
           <Property Name="ReturnUrl" Type="varchar" MaxLength="250" devart:DefaultValue="''" DefaultValue="" />
-          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
           <Property Name="OrganisationRecommendationSourceID" Type="int" />
           <Property Name="SchemeID" Type="int" />
           <Property Name="FilesPerMonth" Type="int" Nullable="false" DefaultValue="0" />
@@ -9859,7 +9859,7 @@
           <Property Name="TenureTypeID" Type="int" />
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
-          <Property Name="RowVersion" Type="bigint" Nullable="false" devart:DefaultValue="nextval('sms.&quot;SmsTransaction_RowVersion_seq&quot;'::regclass)" />
+          <Property Name="RowVersion" Type="bigint" Nullable="false" devart:DefaultValue="nextval('sms.&quot;SmsTransaction_RowVersion_seq&quot;'::regclass)" StoreGeneratedPattern="Computed" />
           <Property Name="MortgageApplicationNumber" Type="varchar" MaxLength="50" />
           <Property Name="LenderName" Type="varchar" MaxLength="200" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
@@ -26338,7 +26338,7 @@
           <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="2f94fa5d-f9f6-4a0c-a4bc-edd324396de9" />
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="08d215b5-2062-4c60-8437-5789c34bd256" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4228c1c0-251f-452f-8283-92ce1d65b2ec" />
-          <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="449e624e-c866-4ad9-864e-650df555a5a7" />
+          <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="449e624e-c866-4ad9-864e-650df555a5a7" />
           <NavigationProperty Name="AddressChronologies" Relationship="Bec.TargetFramework.Data.fk_AddressChronology_Address" FromRole="Address" ToRole="AddressChronologies" ed:Guid="c66a9900-de9e-4f6c-bacd-1aa0b5ed9243" />
           <NavigationProperty Name="CountryCode1" Relationship="Bec.TargetFramework.Data.fk_Address_CountryCode" FromRole="Addresses" ToRole="CountryCode1" ed:Guid="3876534d-2df9-419a-adac-3d6f2c079b5e" />
           <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="Address" ToRole="SmsTransactions" ed:Guid="884e46aa-bfec-4973-bca1-bbd543420cf4" />
@@ -27967,7 +27967,7 @@
           <Property Name="IsPrimary" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="8a10d44f-7d58-43be-aa75-b5663cf7766a" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="276b8754-f31c-4242-8eb1-4ffc22be29b2" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="5f6e2ae3-127d-43c1-9cb5-7b3d3cd7efd9" />
-          <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="f64fa8c1-f47b-48b1-aa96-07de7297a4b0" />
+          <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="f64fa8c1-f47b-48b1-aa96-07de7297a4b0" />
           <Property Name="Created" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="7153e550-a145-4dfc-9b85-6af59dc8b720" />
           <Property Name="IsDirectDebtAccount" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="6a7b9c81-1494-4123-b83a-53869918153b" />
           <Property Name="Name" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="bef9ff80-812f-4eaf-a18e-dcb1cb62befc" />
@@ -29370,7 +29370,7 @@
           <Property Name="IsCompanyVerified" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="68784b8d-18ec-443c-a157-dd76c237f2ff" />
           <Property Name="IsCompanyPinCreated" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="2951a54a-386a-447e-8b66-fb2b0b6e0cf3" />
           <Property Name="ReturnUrl" Type="String" DefaultValue="''" MaxLength="250" Unicode="true" ed:ValidateMaxLength="250" ed:ValidateRequired="False" ed:Guid="2deca725-9f04-4382-a5ec-1e6c429b8c11" />
-          <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ebb2e06-f571-4621-adb9-93df1df3c4ed" />
+          <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="5ebb2e06-f571-4621-adb9-93df1df3c4ed" />
           <Property Name="OrganisationRecommendationSourceID" Type="Int32" ed:ValidateRequired="False" ed:Guid="1f4d262c-7e42-4f67-88b6-4800c5480646" />
           <Property Name="SchemeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="7999df8c-98f3-4a6f-b89c-84983e4c3799" />
           <Property Name="FilesPerMonth" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="2619b439-89fc-441d-a64e-68cad6ed6553" />
@@ -29527,7 +29527,7 @@
           <Property Name="TenureTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="61d17b39-cc39-47fc-ae55-dabfb144e9be" />
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="fdb54436-46d1-447b-9d00-a85648ff2d61" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="e9fce6a6-d752-49ec-9baf-ba057f31aba4" />
-          <Property Name="RowVersion" Type="Int64" Nullable="false" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
+          <Property Name="RowVersion" Type="Int64" Nullable="false" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
           <Property Name="MortgageApplicationNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="bcebbdb6-a408-434c-a56d-3876cafdeaec" />
           <Property Name="LenderName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="19986eb1-64dd-4821-aa87-932c304cfc39" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a7b58fb5-297e-4763-8543-b8dde014a79f" />
