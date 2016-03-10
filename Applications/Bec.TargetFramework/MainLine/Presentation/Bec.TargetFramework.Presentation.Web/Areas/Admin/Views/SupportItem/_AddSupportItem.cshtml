@@ -7,7 +7,7 @@
     var requestTypeList = from requestType in requestTypes
                           select new SelectListItem
                           {
-                              Text = (requestType.GetIntValue() == 680 ||requestType.GetIntValue() == 685 ||requestType.GetIntValue() == 688 ||requestType.GetIntValue() == 689) ? requestType.GetStringValue() : "----- " + requestType.GetStringValue(),
+                              Text = (requestType.GetIntValue() == 680 || requestType.GetIntValue() == 685 || requestType.GetIntValue() == 688 || requestType.GetIntValue() == 689) ? requestType.GetStringValue() : "----- " + requestType.GetStringValue(),
                               Value = ((int)requestType).ToString()
                           };
 }
@@ -22,52 +22,63 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="@Url.Action("AddSupportItem", "SupportItem", new { area = "Admin" })" method="POST" id="addSupportItem-form" class="smart-form">
+                        <form action="@Url.Action("AddSupportItem", "SupportItem", new { area = "Admin" })" method="POST" id="addSupportItem-form" class="smart-form"
+                              data-upload-url="@Url.Action("UploadFile", "Messages", new { area = "Admin" })"
+                              data-remove-upload-url="@Url.Action("RemovePendingUpload", "Messages", new { area = "Admin" })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
+                            <input type="hidden" name="AttachmentsID" id="AttachmentsID" />
                             <fieldset>
-                                <section>
-                                    <label class="label">User Name</label>
-                                    <label class="input ">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBox("UserName", (string)ViewBag.UserName, new { @class = "form-control", disabled = "disabled", style = "background-color: rgba(218, 218, 218, 1);" })
-                                    </label>
-                                </section>
-                                <section>
-                                    <label class="label">Email</label>
-                                    <label class="input ">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBox("Email", (string)ViewBag.Email, new { @class = "form-control", disabled = "disabled", style = "background-color: rgba(218, 218, 218, 1);" })
-                                    </label>
-                                </section>
-                                <section>
-                                    <label class="label">Request Type</label>
-                                    <label class="select">
-                                        @Html.DropDownListFor(m => m.RequestTypeID, requestTypeList, "Please Select", new { tabindex = "1" })
-                                        <i></i>
-                                    </label>
-                                </section>
-                                <section>
-                                    <label class="label">Telephone</label>
-                                    <label class="input ">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Telephone, new { tabindex = "2", maxlength = 20 })
-                                    </label>
-                                </section>
-                                <section>
-                                    <label class="label">Title</label>
-                                    <label class="input ">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Title, new { tabindex = "3", maxlength = 150 })
-                                    </label>
-                                </section>
-                                <section>
-                                    <label class="label">Content</label>
-                                    <label class="textarea">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextAreaFor(m => m.Description, new { tabindex = "4", maxlength = "500", rows = 5, id = "description" })
-                                    </label>
-                                </section>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="label">User Name</label>
+                                        <label class="input ">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBox("UserName", (string)ViewBag.UserName, new { @class = "form-control", disabled = "disabled", style = "background-color: rgba(218, 218, 218, 1);" })
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-6">
+                                        <label class="label">Email</label>
+                                        <label class="input ">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBox("Email", (string)ViewBag.Email, new { @class = "form-control", disabled = "disabled", style = "background-color: rgba(218, 218, 218, 1);" })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-6">
+                                        <label class="label">Request Type</label>
+                                        <label class="select">
+                                            @Html.DropDownListFor(m => m.RequestTypeID, requestTypeList, "Please Select", new { tabindex = "1" })
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-6">
+                                        <label class="label">Telephone</label>
+                                        <label class="input ">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Telephone, new { tabindex = "2", maxlength = 20 })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="label">Title</label>
+                                        <label class="input ">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Title, new { tabindex = "3", maxlength = 150 })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="label">Content</label>
+                                        <label class="textarea">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextAreaFor(m => m.Description, new { tabindex = "4", maxlength = "500", rows = 5, id = "description" })
+                                        </label>
+                                    </section>
+                                </div>
                             </fieldset>
                         </form>
                     </div>
@@ -80,7 +91,16 @@
                 <button type="button" id="submitAddSupportItem" class="btn btn-primary" tabindex="5">
                     Send
                 </button>
+                <div id="upload" class="smart-form new-conversation-form dropzone" style="margin-left:13px; margin-right:13px;">
+                    <div class="fallback">
+                        <form method="post" enctype="multipart/form-data" id="multiform">
+                            <input style="display:none;" type="file" name="file" id="file" title="Add File" />
+                            <button type="button" id="test">Upload file...</button>
+                        </form>
+                    </div>
+                </div>
             </div>
+            
         </div>
     </div>
 </div>

@@ -50,7 +50,7 @@ namespace Bec.TargetFramework.Business.Logic
                 roles = roles.GroupBy(elem => elem.UserAccountOrganisationID).Select(group => group.First()).ToList();
                 roles.ForEach(x=> recipientUaoIds.Add(x.UserAccountOrganisationID));
             }
-            await NotificationLogic.CreateConversation(OrgId, supportItemDto.UserAccountOrganisationID, Guid.Empty, ActivityType.SupportMessage, supportItemDto.SupportItemID, supportItemDto.Title, supportItemDto.Description, recipientUaoIds.ToArray());
+            await NotificationLogic.CreateConversation(OrgId, supportItemDto.UserAccountOrganisationID, supportItemDto.AttachmentsID, ActivityType.SupportMessage, supportItemDto.SupportItemID, supportItemDto.Title, supportItemDto.Description, recipientUaoIds.ToArray());
             return supportItemDto.SupportItemID;
         }
     }
