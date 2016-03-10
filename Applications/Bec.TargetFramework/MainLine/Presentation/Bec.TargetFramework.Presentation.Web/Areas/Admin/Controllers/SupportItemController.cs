@@ -30,19 +30,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
         [ClaimsRequired("Add", "SupportItem", Order = 1000)]
-        public async Task<ActionResult> GetSupportItems()
+        public async Task<ActionResult> GetSupportItems(string search)
         {
-            JObject res = await GetRequests(false);
+            JObject res = await GetRequests(false, search);
             return Content(res.ToString(Formatting.None), "application/json");
         }
         [ClaimsRequired("Add", "SupportItem", Order = 1000)]
-        public async Task<ActionResult> GetClosedSupportItems()
+        public async Task<ActionResult> GetClosedSupportItems(string search)
         {
-            JObject res = await GetRequests(true);
+            JObject res = await GetRequests(true, search);
             return Content(res.ToString(Formatting.None), "application/json");
         }
         [ClaimsRequired("Add", "SupportItem", Order = 1000)]
-        private async Task<JObject> GetRequests(bool isClosed)
+        private async Task<JObject> GetRequests(bool isClosed, string search)
         {
             var select = ODataHelper.Select<SupportItemDTO>(x => new
             {
@@ -65,6 +65,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 x.UserAccountOrganisation.Contact.LastName
             }, false);
             var where = ODataHelper.Expression<SupportItemDTO>(x => x.IsClosed == isClosed);
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.Trim().ToLower();
+                int number = 0;
+                bool result = Int32.TryParse(search, out number);
+                where = Expression.And(where, ODataHelper.Expression<SupportItemDTO>(x =>
+                    x.TicketNumber == number ||
+                    x.Telephone.ToLower().Contains(search) ||
+                    x.Title.ToLower().Contains(search) ||
+                    x.UserAccountOrganisation.UserAccount.Email.ToLower().Contains(search) ||
+                    x.UserAccountOrganisation.Contact.FirstName.ToLower().Contains(search) ||
+                    x.UserAccountOrganisation.Contact.LastName.ToLower().Contains(search)
+                    ));
+            }
             var filter = ODataHelper.Filter(where);
             return await queryClient.QueryAsync("SupportItems", ODataHelper.RemoveParameters(Request) + select + filter);
         }

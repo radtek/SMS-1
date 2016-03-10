@@ -15,7 +15,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Extensions
                     case ActivityType.BankAccount:
                         return "fa-bank";
                     case ActivityType.SupportMessage:
-                        return "fa-home";
+                        return "fa-commenting-o";
                 }
             }
 

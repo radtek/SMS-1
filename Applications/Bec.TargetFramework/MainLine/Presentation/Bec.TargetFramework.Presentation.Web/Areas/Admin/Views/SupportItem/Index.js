@@ -60,6 +60,8 @@ $(function () {
             serverPaging: true,
             defaultSort: { field: "ClosedOn", dir: "des" },
             panels: ['ePanel'],
+            searchElementId: 'gridSearchInput',
+            searchButtonId: 'gridSearchButton',
             change: eChange,
             columns: [
                     {
