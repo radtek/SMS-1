@@ -139,7 +139,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> HelpPages(HelpPageTypeIdEnum? pageType)
+        public async Task<ActionResult> HelpPages(HelpPageTypeIdEnum? pageType, int pageSize = 10, int page = 1)
         {
             TempData["CurrentType"] = pageType;
             TempData["isShowMeHowItem"] = pageType == HelpPageTypeIdEnum.ShowMeHow;
@@ -151,6 +151,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 var helpModel = new HelpModel(item);
                 helpModelList.Add(helpModel);
             }
+            helpModelList = helpModelList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return Json(new { Items = helpModelList, Count = helpList.Count }, JsonRequestBehavior.AllowGet);
         }
 

@@ -245,7 +245,7 @@
 
     function clearFormError() {
         validator.resetForm();
-        $("#addItem-form .state-error").each(function (item) {
+        $("#addItem-form .state-error").each(function () {
             $(this).removeClass("state-error").addClass("state-success");
         });
     }

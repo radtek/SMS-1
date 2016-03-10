@@ -3,26 +3,29 @@
     var btnEdit = $("#btnEditHelp");
     var helpOrderListContainer = $("#help-item-order");
     var helpItemListContainer = $("#help-item-list");
+    var helpGridContainer = $("#helpGrid");
 
     var urls = {
         deleteHelpUrl: btnDelete.data("url"),
         editHelpUrl: btnEdit.data("url"),
-        getHelpItemsUrl: helpItemListContainer.data("items-url")
+        getHelpItemsUrl: helpItemListContainer.data("items-url"),
+        getHelpsUrl: helpGridContainer.data("url")
     };
 
     var helpGrid = new gridItem(
         {
             gridElementId: 'helpGrid',
-            url: $('#helpGrid').data("url"),
+            url: urls.getHelpsUrl,
             schema: { data: "Items", total: "Count", model: { id: "HelpPageID" } },
             defaultSort: { field: "HelpPageType", dir: "asc" },
             panels: ['helpDetailPanel'],
             change: onPageChange,
-            jumpToId: $('#helpGrid').data("jumpto"),
+            jumpToId: helpGridContainer.data("jumpto"),
             extraParameters: function () {
-                return "&pageType=" + $('#typeList').val();
+                return "&pageType=" + $('#typeList').val() +
+                    "&pageSize=" + helpGridContainer.data("kendoGrid").dataSource.pageSize() +
+                    "&page=" + helpGridContainer.data("kendoGrid").dataSource.page();
             },
-            type: 'odata-v4',
             serverSorting: false,
             serverPaging: true,
             columns: [
