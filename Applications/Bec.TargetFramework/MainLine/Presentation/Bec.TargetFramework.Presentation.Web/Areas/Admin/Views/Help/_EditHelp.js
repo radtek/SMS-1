@@ -161,17 +161,20 @@
     }
 
     function validateAddHelp() {
-        var result = false;
-        ajaxWrapper({
-            url: $("#editHelp-form").data("validate-url"),
-            data: {
-                helpType: helpPageTypeList.val(),
-                helpUrl: $("#PageUrl").val()
-            },
-            async: false
-        }).done(function (res) {
-            result = handleHelpValidationResult(res);
-        });
+        var result = true;
+        if (helpPageTypeList.val() === "800002") {
+            ajaxWrapper({
+                url: $("#editHelp-form").data("validate-url"),
+                data: {
+                    helpType: helpPageTypeList.val(),
+                    helpUrl: $("#PageUrl").val(),
+                    helpPageId: $('#HelpPageID').val()
+                },
+                async: false
+            }).done(function (res) {
+                result = handleHelpValidationResult(res);
+            });
+        }        
         return result;
     }
 });

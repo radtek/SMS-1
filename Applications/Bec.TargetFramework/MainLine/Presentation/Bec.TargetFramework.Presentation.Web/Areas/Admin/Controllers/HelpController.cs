@@ -470,6 +470,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(list.Count == 0, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<JsonResult> ValidateEditHelp(HelpPageTypeIdEnum? helpType, string helpUrl, Guid helpPageId)
+        {
+            if (!helpType.HasValue)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            var list = await GetHelpPages(null, helpType, helpUrl);
+            var existHelp = list.FirstOrDefault(h => h.HelpPageID != helpPageId);
+            return Json(existHelp == null, JsonRequestBehavior.AllowGet);
+        }
+
         private async Task<List<HelpPageDTO>> GetHelpPages(Guid? helpId, HelpPageTypeIdEnum? helpType, string helpUrl)
         {
             var select = ODataHelper.Select<HelpPageDTO>(x => new { x.HelpPageID, x.PageName, x.PageUrl, x.HelpPageTypeId, x.CreatedOn, x.ModifiedOn });
