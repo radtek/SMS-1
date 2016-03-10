@@ -30,7 +30,8 @@
                             </div>
                             <div class="tab-content">
                                 <div class="tab-pane active col-md-12" id="step1">
-                                    <form id="editHelp-form" class="smart-form margin-top-0" action="@Url.Action("EditHelp", "Help", new { area = "Admin" })" method="POST">
+                                    <form id="editHelp-form" class="smart-form margin-top-0" action="@Url.Action("EditHelp", "Help", new { area = "Admin" })" method="POST"
+                                          data-validate-url="@Url.Action("ValidateAddHelp", "Help", new { area = "Admin" })">
                                         @Html.ValidationBootstrap()
                                         @Html.AntiForgeryToken()
                                         @Html.HiddenFor(m => m.HelpPageID)

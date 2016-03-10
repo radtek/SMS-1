@@ -1,8 +1,9 @@
 ﻿$(function () {
+    var helpPageTypeList = $("#HelpPageTypeId");
     var wizard = $('#editHelpWizard').bootstrapWizard({
         tabClass: 'form-wizard',
         onTabClick: function () {
-            return $("#editHelp-form").valid();
+            return $("#editHelp-form").valid() && validateAddHelp();
         },
         onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
@@ -21,7 +22,7 @@
     });
 
     $("#stepNext").click(function () {
-        if ($("#editHelp-form").valid()) {
+        if ($("#editHelp-form").valid() && validateAddHelp()) {
             wizard.bootstrapWizard('next');
         }
     });
@@ -38,7 +39,7 @@
         $("#editHelp-form").submit();
     });
 
-    $("#editHelp-form").validate({
+    var validator = $("#editHelp-form").validate({
         ignore: '.skip',
         // Rules for form validation
         rules: {
@@ -61,9 +62,13 @@
         submitHandler: validateSubmit
     });
 
-    function validateSubmit(form) {
+    function validateSubmit(form) {        
         $("#submitEditHelp").prop('disabled', true);
-        form.submit();
+        if (validateAddHelp()) {
+            form.submit();
+        } else {
+            wizard.bootstrapWizard('previous');
+        }
     }
 
     function setDefaultEffectiveDate() {
@@ -136,4 +141,37 @@
     $(document).ready(function () {
         checkType();
     });
+
+    function handleHelpValidationResult(res) {
+        if (res) {
+            helpPageTypeList.parent().removeClass("state-error").addClass("state-success");
+        } else {
+            if (helpPageTypeList.val() === "800002") {
+                validator.showErrors({
+                    "HelpPageTypeId": "",
+                    "PageUrl": "This page URL has already existed"
+                });
+            } else {
+                validator.showErrors({
+                    "HelpPageTypeId": "This help has already existed"
+                });
+            }
+        }
+        return res;
+    }
+
+    function validateAddHelp() {
+        var result = false;
+        ajaxWrapper({
+            url: $("#editHelp-form").data("validate-url"),
+            data: {
+                helpType: helpPageTypeList.val(),
+                helpUrl: $("#PageUrl").val()
+            },
+            async: false
+        }).done(function (res) {
+            result = handleHelpValidationResult(res);
+        });
+        return result;
+    }
 });
