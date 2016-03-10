@@ -5,6 +5,8 @@
 @icon-color: #7d7d7d;
 @color-accept: #24bb43;
 @color-reject: #a90329;
+@color-pending-update: #6EB0DF;
+@color-pending-update-highlight: #2e99ff;
 
 .color-primary {
     color: @primary-color;
@@ -354,7 +356,7 @@ form {
     }
 }
 
-.open > .dropdown-toggle.btn-primary{
+.open > .dropdown-toggle.btn-primary {
     border: 1px solid @primary-color !important;
     background-color: lighten(@primary-color, 2%) !important;
 }
@@ -824,16 +826,18 @@ a.removeupload {
 
 .transaction-details-table {
     & > tbody {
-        & > tr:first-child{
-            th{
+        & > tr:first-child {
+            th {
                 border-top: none;
             }
         }
-        & > tr:hover{
-            & > td{
+
+        & > tr:hover {
+            & > td {
                 background-color: lighten(@primary-color, 40%);
             }
         }
+
         & > tr > td:last-child {
             width: 75px;
         }
@@ -841,11 +845,13 @@ a.removeupload {
 }
 
 .buyer-details-table {
-    width:100%;
+    width: 100%;
+
     tbody tr td {
-        padding-top:6px;
-        vertical-align:top;
+        padding-top: 6px;
+        vertical-align: top;
         border-top: 1px solid #ddd;
+
         &:first-child {
             width: 150px;
         }
@@ -903,7 +909,7 @@ a.removeupload {
 }
 
 .alert-info {
-    border-color: #6EB0DF;
+    border-color: @color-pending-update;
 }
 
 .alert-warning {
@@ -919,14 +925,14 @@ a.removeupload {
 }
 
 .pending-update {
-    color: #6EB0DF;
+    color: @color-pending-update;
     font-weight: bold;
     cursor: pointer;
-} 
+}
 
 
 
-.empty-pending-value{
+.empty-pending-value {
     text-decoration: line-through;
 }
 
@@ -946,15 +952,19 @@ a.removeupload {
     tr > td:last-child {
         width: 100%;
     }
-    .pending-no-value{
+
+    .pending-no-value {
         color: #aaa;
     }
 }
-.transaction-details{
-    position:relative;
-    h5{
+
+.transaction-details {
+    position: relative;
+
+    h5 {
         margin-left: 9px;
     }
+
     .transaction-details-spinner {
         position: absolute;
         top: 0;
@@ -970,6 +980,50 @@ a.removeupload {
             left: 50%;
             top: 30%;
         }
+    }
+}
+
+
+
+form.smart-form.pending-update-form {
+
+    .pending-changes-input {
+        .pending-changes-button, input {
+            box-shadow: 0 0 6px @color-pending-update-highlight;
+
+            &:focus {
+                box-shadow: 0 0 6px @color-pending-update-highlight !important;
+                border-color: @color-pending-update-highlight;
+            }
+        }
+    }
+
+    .pending-changes-button {
+        z-index: 0;
+        border: none;
+        background-color: @color-pending-update;
+        color: #eee;
+        -moz-border-radius: 0 9px 9px 0;
+        -webkit-border-radius: 0 9px 9px 0;
+        border-radius: 0 9px 9px 0;
+        position: absolute;
+        right: -10px;
+        bottom: 6px;
+        padding: 6px 3px 4px 10px;
+        font-size: 0.7em;
+        -moz-transition: right ease-in-out 0.1s;
+        -o-transition: right ease-in-out 0.1s;
+        -webkit-transition: right ease-in-out 0.1s;
+        transition: right ease-in-out 0.1s;
+
+        &:hover {
+            right: -14px;
+        }
+    }
+
+    div.input input {
+        position: relative;
+        z-index: 1;
     }
 }
 

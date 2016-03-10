@@ -242,6 +242,7 @@
     <Compile Include="Models\PendingUpdateModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SrcFundsModel.cs" />
     <Compile Include="Models\ToastrNotification\ToastMessage.cs" />
     <Compile Include="Models\ToastrNotification\Toastr.cs" />
     <Compile Include="Models\ToastrNotification\ToastType.cs" />
@@ -279,6 +280,7 @@
     <Content Include="Areas\SmsTransaction\Views\SmsClient\AddSmsClient.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AdviseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_EditSmsTransaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
       <DependentUpon>sms-font.less</DependentUpon>
@@ -334,7 +336,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_CheckBankAccount.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_Edit.js" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
+    <Content Include="Areas\SmsTransaction\Views\SmsClient\_EditSmsClient.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
@@ -923,6 +925,7 @@
     <Content Include="Areas\Admin\Views\OrganisationSetting\EditOrganisationSettings.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Users\_RegisteredDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\SmsClient\AddSmsClient.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_EditSmsTransaction.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1062,7 +1065,7 @@
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\SmsClient\_EditSmsClient.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_Edit.cshtml" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Conveyancer.cshtml" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />

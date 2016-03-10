@@ -302,11 +302,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             await EnsureSmsTransactionInOrg(txID, orgID, QueryClient);
-            
+
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new
             {
-                x.SmsTransactionID
-            });
+                x.SmsTransactionID,
+                x.Address.Line1,
+                x.Address.Line2,
+                x.Address.Town,
+                x.Address.County,
+                x.Address.PostalCode,
+                x.LenderName,
+                x.MortgageApplicationNumber,
+                x.Price,
+                x.Reference
+            }, true);
 
             var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
 
@@ -315,45 +324,43 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             
             ViewBag.txId = txID;
             ViewBag.pageNumber = pageNumber;
-            return PartialView("_EditSmsTransaction", Edit.MakeModel(model));
+            return PartialView("_EditSmsTransaction", await model.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, txID, QueryClient));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> EditSmsTransaction(Guid txID, Guid uaoID)
+        public async Task<ActionResult> EditSmsTransaction(Guid txID, IEnumerable<FieldUpdateDTO> FieldUpdates)
         {
             try
             {
                 await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);
-                var modelEmail = Request.Form["Model.UserAccountOrganisation.UserAccount.Email"];
-                await EnsureEmailNotInUse(modelEmail, uaoID, UserClient);
+                
+                var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
+                var data = Edit.fromD("Dto", Request.Form,
+                    "Address.Line1",
+                    "Address.Line2",
+                    "Address.Town",
+                    "Address.County",
+                    "Address.PostalCode",
+                    "LenderName",
+                    "MortgageApplicationNumber",
+                    "Price",
+                    "Reference");
 
-                var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
-                var data = Edit.fromD(Request.Form,
-                    "Contact.Salutation",
-                    "Contact.FirstName",
-                    "Contact.LastName",
-                    "Contact.BirthDate",
-                    "Contact.RowVersion",
-                    "UserAccountOrganisation.UserAccount.Email",
-                    "UserAccountOrganisation.UserAccount.RowVersion");
+                await QueryClient.UpdateGraphAsync("SmsTransactions", data, filter);
 
-                await QueryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
-                var isUserRegistered = await UserClient.IsUserAccountRegisteredAsync(uaoID);
-                if (!isUserRegistered)
-                {
-                    await UserClient.ChangeUsernameAndEmailAsync(uaoID, modelEmail);
-                }
+                await OrganisationClient.ActionPendingUpdatesAsync(FieldUpdates);
+
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch
             {
                 return Json(new
                 {
                     result = false,
                     title = "Edit Transaction Failed",
-                    message = ex.Message
+                    message = "Edit Transacation Failed"
                 }, JsonRequestBehavior.AllowGet);
             }
         }

@@ -1,4 +1,5 @@
-﻿@using Bec.TargetFramework.Entities
+﻿@using Bec.TargetFramework.Presentation.Web.Models
+@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Web.Helpers
@@ -176,7 +177,7 @@
                                         </fieldset>
                                         <fieldset>
                                             <legend>Primary Buyer Source of Funds</legend>
-                                            @Html.Partial("_SrcFundsBankAccounts", new { IsRequired = false }.ToExpando())
+                                            @Html.Partial("_SrcFundsBankAccounts", new SrcFundsModel { IsRequired = false })
                                         </fieldset>
                                     </div>
 

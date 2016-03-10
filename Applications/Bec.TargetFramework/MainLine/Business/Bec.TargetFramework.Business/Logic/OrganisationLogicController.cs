@@ -1169,6 +1169,19 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public async Task ActionPendingUpdates(IEnumerable<FieldUpdateDTO> updates)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                foreach (var update in updates.Where(x => x.Actioned))
+                {
+                    var entity = update.ToEntity();
+                    scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.Remove(entity);
+                }
+                await scope.SaveChangesAsync();
+            }
+        }
+
         public bool SmsTransactionQualifiesFree(Guid txID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())

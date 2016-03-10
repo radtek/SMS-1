@@ -38,7 +38,11 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
 
         public static Newtonsoft.Json.Linq.JObject fromD(System.Collections.Specialized.NameValueCollection vals, params string[] whitelist)
         {
-            IEnumerable<Regex> tests = whitelist.Select(w => new Regex("Model\\." + w.Replace(".", "\\.").Replace("[]","\\[[0-9]+\\]")));
+            return fromD("Model", vals, whitelist);
+        }
+        public static Newtonsoft.Json.Linq.JObject fromD(string modelPrefix, System.Collections.Specialized.NameValueCollection vals, params string[] whitelist)
+        {
+            IEnumerable<Regex> tests = whitelist.Select(w => new Regex(modelPrefix + "\\." + w.Replace(".", "\\.").Replace("[]","\\[[0-9]+\\]")));
             Newtonsoft.Json.Linq.JObject o = new Newtonsoft.Json.Linq.JObject();
             foreach (var key in vals.AllKeys.Where(k => whiteListCheck(k, tests))) addD(key.Split('.').Skip(1).ToList(), o, vals[key]);
             return o;

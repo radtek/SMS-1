@@ -1,8 +1,9 @@
 ﻿@using Bec.TargetFramework.Entities
-@model dynamic
+@using Bec.TargetFramework.Presentation.Web.Models
+@model SrcFundsModel
 @{
     var isRequired = Model.IsRequired;
-    List<SmsSrcFundsBankAccountDTO> existingAccounts = Model.Accounts;
+    List<SmsSrcFundsBankAccountDTO> existingAccounts = Model.SmsSrcFundsBankAccounts;
     if (existingAccounts == null)
     {
         existingAccounts = new List<SmsSrcFundsBankAccountDTO>();

@@ -13,6 +13,8 @@ using System.Linq.Expressions;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Models;
 using System.Globalization;
+using Bec.TargetFramework.Entities;
+using System.Security.Cryptography;
 
 #endregion
 
@@ -220,6 +222,59 @@ namespace Bec.TargetFramework.Presentation.Web
             var beginIndex = field.IndexOf("value=\"") + 7;
             var endIndex = field.IndexOf("\"", beginIndex);
             return new HtmlString(field.Substring(beginIndex, endIndex - beginIndex));
+        }
+
+        public static MvcHtmlString PendingChangesButtonFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression, string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string inputId, string noValueText)
+            where TModel : IPendingUpdateModel
+        {
+            return PendingChangesButtonFor(html, expression, fieldName, fieldUpdateParentType, parentId, inputId, noValueText, FieldUpdateDataType.String);
+        }
+        public static MvcHtmlString PendingChangesButtonFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression, string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string inputId, string noValueText, FieldUpdateDataType fieldUpdateDataType)
+            where TModel : IPendingUpdateModel
+        {
+            var update = html.ViewData.Model.FieldUpdates.SingleOrDefault(x => x.FieldName == fieldName && x.ParentID == parentId && x.ParentType == fieldUpdateParentType.GetIntValue());
+            if (update != null)
+            {
+                var button = new TagBuilder("button");
+                button.Attributes.Add("type", "button");
+                button.Attributes.Add("tabindex", "-1");
+
+                button.Attributes.Add("data-pending-fullname", update.UserAccountOrganisation.Contact.FullName);
+                button.Attributes.Add("data-pending-modifiedon", update.ModifiedOn.ToString("O"));
+                var originalValue = GetOriginalValue(html, expression, noValueText);
+                var formattedOriginalValue = GetFormattedValue(originalValue, fieldUpdateDataType);
+                var formattedPendingValue = GetFormattedValue(update.Value, fieldUpdateDataType);
+                button.Attributes.Add("data-pending-originalval", formattedOriginalValue);
+                button.Attributes.Add("data-pending-value", formattedPendingValue);
+                button.Attributes.Add("data-input-id", inputId);
+
+                button.AddCssClass("pending-changes-button");
+                var icon = new TagBuilder("i");
+                icon.AddCssClass("fa fa-chevron-right");
+                button.InnerHtml = icon.ToString();
+
+                var hiddenCheckbox = new TagBuilder("input");
+                hiddenCheckbox.Attributes.Add("type", "checkbox");
+                hiddenCheckbox.Attributes.Add("name", "FieldUpdates[]");
+                hiddenCheckbox.Attributes.Add("value", GetUpdateHash(update));
+                hiddenCheckbox.AddCssClass("hidden");
+                return new MvcHtmlString(button.ToString() + hiddenCheckbox.ToString());
+            }
+            else
+            {
+                return new MvcHtmlString(string.Empty);
+            }
+        }
+
+        private static string GetUpdateHash(FieldUpdateDTO update)
+        {
+            return string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(
+                update.ActivityType.ToString() +
+                update.ActivityID.ToString() +
+                update.ParentType.ToString() +
+                update.ParentID.ToString() +
+                update.FieldName.ToString()
+                )).Select(c => c.ToString("x2")));
         }
 
         public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression,

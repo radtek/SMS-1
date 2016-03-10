@@ -49,7 +49,7 @@
             }
         </td>
         <td>
-            <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Transaction Details" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction", txID = Model.Dto.SmsTransactionID })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+            <a class="btn btn-sm btn-primary" data-modallink="true" title="Edit Transaction Details" data-href="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction", txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
         </td>
     </tr>
 </table>

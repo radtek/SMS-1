@@ -693,7 +693,7 @@ a.removeupload {
   background-color: inherit;
 }
 .alert-info {
-  border-color: #6EB0DF;
+  border-color: #6eb0df;
 }
 .alert-warning {
   border-color: #dfb56c;
@@ -705,7 +705,7 @@ a.removeupload {
   color: #a90329;
 }
 .pending-update {
-  color: #6EB0DF;
+  color: #6eb0df;
   font-weight: bold;
   cursor: pointer;
 }
@@ -746,6 +746,40 @@ a.removeupload {
   position: relative;
   left: 50%;
   top: 30%;
+}
+form.smart-form.pending-update-form .pending-changes-input .pending-changes-button,
+form.smart-form.pending-update-form .pending-changes-input input {
+  box-shadow: 0 0 6px #2e99ff;
+}
+form.smart-form.pending-update-form .pending-changes-input .pending-changes-button:focus,
+form.smart-form.pending-update-form .pending-changes-input input:focus {
+  box-shadow: 0 0 6px #2e99ff !important;
+  border-color: #2e99ff;
+}
+form.smart-form.pending-update-form .pending-changes-button {
+  z-index: 0;
+  border: none;
+  background-color: #6eb0df;
+  color: #eee;
+  -moz-border-radius: 0 9px 9px 0;
+  -webkit-border-radius: 0 9px 9px 0;
+  border-radius: 0 9px 9px 0;
+  position: absolute;
+  right: -10px;
+  bottom: 6px;
+  padding: 6px 3px 4px 10px;
+  font-size: 0.7em;
+  -moz-transition: right ease-in-out 0.1s;
+  -o-transition: right ease-in-out 0.1s;
+  -webkit-transition: right ease-in-out 0.1s;
+  transition: right ease-in-out 0.1s;
+}
+form.smart-form.pending-update-form .pending-changes-button:hover {
+  right: -14px;
+}
+form.smart-form.pending-update-form div.input input {
+  position: relative;
+  z-index: 1;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {

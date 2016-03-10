@@ -1050,6 +1050,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ResolveSmsTransactionPendingUpdates(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates);
 
+		/// <returns></returns>
+		Task ActionPendingUpdatesAsync(IEnumerable<FieldUpdateDTO> updates);
+
+		/// <returns></returns>
+		void ActionPendingUpdates(IEnumerable<FieldUpdateDTO> updates);
+
 		/// <param name="txID"></param>
 		/// <returns></returns>
 		Task<Boolean> SmsTransactionQualifiesFreeAsync(Guid txID);
@@ -4289,6 +4295,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<List<FieldUpdateDTO>>("api/OrganisationLogic/ResolveSmsTransactionPendingUpdates?txID=" + txID + "&uaoID=" + uaoID, updates, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task ActionPendingUpdatesAsync(IEnumerable<FieldUpdateDTO> updates)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<IEnumerable<FieldUpdateDTO>>("api/OrganisationLogic/ActionPendingUpdates", updates, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void ActionPendingUpdates(IEnumerable<FieldUpdateDTO> updates)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<IEnumerable<FieldUpdateDTO>>("api/OrganisationLogic/ActionPendingUpdates", updates, _user)).Wait();
 		}
 
 		/// <summary>
