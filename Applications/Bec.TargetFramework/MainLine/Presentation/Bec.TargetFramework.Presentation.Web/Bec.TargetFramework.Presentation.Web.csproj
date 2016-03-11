@@ -191,6 +191,7 @@
     <Compile Include="Areas\Admin\Controllers\MessagesNotificationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
+    <Compile Include="Areas\Admin\Controllers\SupportItemController.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\Admin\Models\HelpModel.cs" />
@@ -268,6 +269,9 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Areas\Admin\Views\SupportItem\Index.js" />
+    <Content Include="Areas\Admin\Views\SupportItem\_AddSupportItem.js" />
+    <Content Include="Areas\Admin\Views\SupportItem\_CloseSupportItem.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Welcome.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Welcome.js" />
@@ -874,6 +878,9 @@
     <Content Include="Areas\Admin\Views\Help\_DeleteHelpPage.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_AddItem.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_EditItem.cshtml" />
+    <Content Include="Areas\Admin\Views\SupportItem\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SupportItem\_AddSupportItem.cshtml" />
+    <Content Include="Areas\Admin\Views\SupportItem\_CloseSupportItem.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

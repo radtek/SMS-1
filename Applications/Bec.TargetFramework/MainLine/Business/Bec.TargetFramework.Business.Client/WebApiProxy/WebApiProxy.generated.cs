@@ -1172,6 +1172,19 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void RemoveProductFromShoppingCart(Guid cartID,Guid itemID);
 	}
 
+	
+
+	public partial interface ISupportLogicClient : IClientBase	{	
+
+		/// <param name="OrgId"></param>
+		/// <returns></returns>
+		Task<Guid> CreateSupportItemAsync(Guid OrgId,SupportItemDTO supportItemDto);
+
+		/// <param name="OrgId"></param>
+		/// <returns></returns>
+		Guid CreateSupportItem(Guid OrgId,SupportItemDTO supportItemDto);
+	}
+
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -1681,7 +1694,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 }
 #endregion
 
-#region Clients
+
 namespace Bec.TargetFramework.Business.Client.Clients
 {
 	/// <summary>
@@ -4643,6 +4656,48 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
+		/// <summary>
+	/// 
+	/// </summary>
+	public partial class SupportLogicClient : ClientBase, Interfaces.ISupportLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public SupportLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public SupportLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="OrgId"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> CreateSupportItemAsync(Guid OrgId,SupportItemDTO supportItemDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem?OrgId=" + OrgId, supportItemDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="OrgId"></param>
+		public virtual Guid CreateSupportItem(Guid OrgId,SupportItemDTO supportItemDto)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem?OrgId=" + OrgId, supportItemDto, _user)).Result;
+		}
+
+}
 	/// <summary>
 	/// 
 	/// </summary>

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public HelpPageDTO() {
         }
 
-        public HelpPageDTO(global::System.Guid helpPageID, string pageName, string pageUrl, int helpPageTypeId, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, bool isActive, bool isDeleted, List<HelpPageItemDTO> helpPageItems) {
+        public HelpPageDTO(global::System.Guid helpPageID, string pageName, string pageUrl, int helpPageTypeId, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, bool isActive, bool isDeleted, string modifiedBy, List<HelpPageItemDTO> helpPageItems) {
 
           this.HelpPageID = helpPageID;
           this.PageName = pageName;
@@ -31,9 +31,9 @@ namespace Bec.TargetFramework.Entities
           this.CreatedOn = createdOn;
           this.ModifiedOn = modifiedOn;
           this.CreatedBy = createdBy;
-          this.ModifiedBy = modifiedBy;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
+          this.ModifiedBy = modifiedBy;
           this.HelpPageItems = helpPageItems;
         }
 
@@ -63,13 +63,13 @@ namespace Bec.TargetFramework.Entities
         public string CreatedBy { get; set; }
 
         [DataMember]
-        public string ModifiedBy { get; set; }
-
-        [DataMember]
         public bool IsActive { get; set; }
 
         [DataMember]
         public bool IsDeleted { get; set; }
+
+        [DataMember]
+        public string ModifiedBy { get; set; }
 
         #endregion
 

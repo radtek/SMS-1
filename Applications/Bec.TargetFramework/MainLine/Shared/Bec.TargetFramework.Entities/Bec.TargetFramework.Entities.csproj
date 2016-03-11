@@ -195,7 +195,13 @@
     <Compile Include="Boo\BusTaskScheduleDTO.cs" />
     <Compile Include="Boo\BusTaskScheduleProcessLogDTO.cs" />
     <Compile Include="Boo\CalloutDTO.cs" />
+    <Compile Include="Boo\CalloutDTO.Generated.cs">
+      <DependentUpon>CalloutDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\CalloutUserAccountDTO.cs" />
+    <Compile Include="Boo\CalloutUserAccountDTO.Generated.cs">
+      <DependentUpon>CalloutUserAccountDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ClassificationTypeCategoryDTO.cs" />
     <Compile Include="Boo\ClassificationTypeCategoryDTO.Generated.cs">
       <DependentUpon>ClassificationTypeCategoryDTO.cs</DependentUpon>
@@ -1304,6 +1310,7 @@
     <Compile Include="Boo\RepositoryStructureRoleDTO.Generated.cs">
       <DependentUpon>RepositoryStructureRoleDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\RequestSupportDTO.cs" />
     <Compile Include="Boo\ResourceDTO.cs" />
     <Compile Include="Boo\ResourceDTO.Generated.cs">
       <DependentUpon>ResourceDTO.cs</DependentUpon>
@@ -1385,7 +1392,13 @@
       <DependentUpon>ShoppingCartItemProductSpecificationDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\SMHItemDTO.cs" />
+    <Compile Include="Boo\SMHItemDTO.Generated.cs">
+      <DependentUpon>SMHItemDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\SMHPageDTO.cs" />
+    <Compile Include="Boo\SMHPageDTO.Generated.cs">
+      <DependentUpon>SMHPageDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\SmsBankAccountCheckDTO.cs" />
     <Compile Include="Boo\SmsBankAccountCheckDTO.Generated.cs">
       <DependentUpon>SmsBankAccountCheckDTO.cs</DependentUpon>
@@ -1471,6 +1484,10 @@
     </Compile>
     <Compile Include="Boo\SubscriptionDTO.Generated.cs">
       <DependentUpon>SubscriptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SupportItemDTO.cs" />
+    <Compile Include="Boo\SupportItemDTO.Generated.cs">
+      <DependentUpon>SupportItemDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\TaxRateDTO.Generated.cs">
       <DependentUpon>TaxRateDTO.cs</DependentUpon>
@@ -1939,6 +1956,7 @@
     <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />
     <Compile Include="DTO\Notification\AdminWelcomeMessageDTO.cs" />
+    <Compile Include="DTO\SupportItemDTO.cs" />
     <Compile Include="DTO\UsernameReminderDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />
@@ -1984,6 +2002,7 @@
     <Compile Include="Enums\HtmlPositionEnum.cs" />
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
+    <Compile Include="Enums\RequestTypeEnum.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />

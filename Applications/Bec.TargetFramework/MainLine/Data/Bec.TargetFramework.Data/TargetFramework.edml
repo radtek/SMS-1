@@ -415,10 +415,15 @@
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
           <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.Store.File" store:Type="Tables" Schema="public" Table="File" />
+          <EntitySet Name="SMHPages" EntityType="Bec.TargetFramework.Data.Store.SMHPage" store:Type="Tables" Schema="public" Table="SMHPage" />
+          <EntitySet Name="SMHItems" EntityType="Bec.TargetFramework.Data.Store.SMHItem" store:Type="Tables" Schema="public" Table="SMHItem" />
+          <EntitySet Name="Callouts" EntityType="Bec.TargetFramework.Data.Store.Callout" store:Type="Tables" Schema="public" Table="Callout" />
+          <EntitySet Name="CalloutUserAccounts" EntityType="Bec.TargetFramework.Data.Store.CalloutUserAccount" store:Type="Tables" Schema="public" Table="CalloutUserAccount" />
           <EntitySet Name="HelpPages" EntityType="Bec.TargetFramework.Data.Store.HelpPage" store:Type="Tables" Schema="public" Table="HelpPage" />
-          <EntitySet Name="HelpPageItems" EntityType="Bec.TargetFramework.Data.Store.HelpPageItem" store:Type="Tables" Schema="public" Table="HelpPageItem" />
-          <EntitySet Name="HelpPageItemUserAccounts" EntityType="Bec.TargetFramework.Data.Store.HelpPageItemUserAccount" store:Type="Tables" Schema="public" Table="HelpPageItemUserAccount" />
+          <EntitySet Name="SupportItems" EntityType="Bec.TargetFramework.Data.Store.SupportItem" store:Type="Tables" Schema="public" Table="SupportItem" />
           <EntitySet Name="RoleHierarchies" EntityType="Bec.TargetFramework.Data.Store.RoleHierarchy" store:Type="Tables" Schema="public" Table="RoleHierarchy" />
+          <EntitySet Name="HelpPageItemUserAccounts" EntityType="Bec.TargetFramework.Data.Store.HelpPageItemUserAccount" store:Type="Tables" Schema="public" Table="HelpPageItemUserAccount" />
+          <EntitySet Name="HelpPageItems" EntityType="Bec.TargetFramework.Data.Store.HelpPageItem" store:Type="Tables" Schema="public" Table="HelpPageItem" />
           <EntitySet Name="HelpPageItemRoles" EntityType="Bec.TargetFramework.Data.Store.HelpPageItemRole" store:Type="Tables" Schema="public" Table="HelpPageItemRole" />
           <EntitySet Name="vRoleHierarchies" EntityType="Bec.TargetFramework.Data.Store.vRoleHierarchy" store:Type="Views" Schema="public" Table="vRoleHierarchy" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
@@ -2977,28 +2982,56 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="File" EntitySet="Files" />
           </AssociationSet>
-          <AssociationSet Name="fk_HelpPageItem_HelpPage" Association="Bec.TargetFramework.Data.Store.fk_HelpPageItem_HelpPage">
-            <End Role="HelpPage" EntitySet="HelpPages" />
-            <End Role="HelpPageItem" EntitySet="HelpPageItems" />
+          <AssociationSet Name="fk_SMHItem_SMHPage" Association="Bec.TargetFramework.Data.Store.fk_SMHItem_SMHPage">
+            <End Role="SMHPage" EntitySet="SMHPages" />
+            <End Role="SMHItem" EntitySet="SMHItems" />
           </AssociationSet>
-          <AssociationSet Name="fk_HelpPageItemUserAccount_UserAccount" Association="Bec.TargetFramework.Data.Store.fk_HelpPageItemUserAccount_UserAccount">
+          <AssociationSet Name="Callout_Role_fk" Association="Bec.TargetFramework.Data.Store.Callout_Role_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Callout" EntitySet="Callouts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_Callout_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_Callout_fk">
+            <End Role="Callout" EntitySet="Callouts" />
+            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_UserType_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_UserType_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_fk">
             <End Role="UserAccounts" EntitySet="UserAccounts" />
-            <End Role="HelpPageItemUserAccount" EntitySet="HelpPageItemUserAccounts" />
+            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
           </AssociationSet>
-          <AssociationSet Name="fk_HelpItemUserAccount_HelpPageItem" Association="Bec.TargetFramework.Data.Store.fk_HelpItemUserAccount_HelpPageItem">
-            <End Role="HelpPageItem" EntitySet="HelpPageItems" />
-            <End Role="HelpPageItemUserAccount" EntitySet="HelpPageItemUserAccounts" />
+          <AssociationSet Name="SMHPage_Role_fk" Association="Bec.TargetFramework.Data.Store.SMHPage_Role_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="SMHPage" EntitySet="SMHPages" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RequestSupport_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.fk_RequestSupport_UserAccountOrganisation">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="SupportItem" EntitySet="SupportItems" />
           </AssociationSet>
           <AssociationSet Name="fk_RoleHierarchy_Role" Association="Bec.TargetFramework.Data.Store.fk_RoleHierarchy_Role">
             <End Role="Role" EntitySet="Roles" />
             <End Role="RoleHierarchy" EntitySet="RoleHierarchies" />
           </AssociationSet>
-          <AssociationSet Name="fk_HelpPageItemRole_Role" Association="Bec.TargetFramework.Data.Store.fk_HelpPageItemRole_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="HelpPageItemRole" EntitySet="HelpPageItemRoles" />
+          <AssociationSet Name="fk_HelpItemUserAccount_HelpPageItem" Association="Bec.TargetFramework.Data.Store.fk_HelpItemUserAccount_HelpPageItem">
+            <End Role="HelpPageItem" EntitySet="HelpPageItems" />
+            <End Role="HelpPageItemUserAccount" EntitySet="HelpPageItemUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_HelpItemUserAccount_UserAccount" Association="Bec.TargetFramework.Data.Store.fk_HelpItemUserAccount_UserAccount">
+            <End Role="UserAccounts" EntitySet="UserAccounts" />
+            <End Role="HelpPageItemUserAccount" EntitySet="HelpPageItemUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_HelpPageItem_HelpPage" Association="Bec.TargetFramework.Data.Store.fk_HelpPageItem_HelpPage">
+            <End Role="HelpPage" EntitySet="HelpPages" />
+            <End Role="HelpPageItem" EntitySet="HelpPageItems" />
           </AssociationSet>
           <AssociationSet Name="fk_HelpPageItemRole_HelpPageItem" Association="Bec.TargetFramework.Data.Store.fk_HelpPageItemRole_HelpPageItem">
             <End Role="HelpPageItem" EntitySet="HelpPageItems" />
+            <End Role="HelpPageItemRole" EntitySet="HelpPageItemRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_HelpPageItemRole_Role" Association="Bec.TargetFramework.Data.Store.fk_HelpPageItemRole_Role">
+            <End Role="Role" EntitySet="Roles" />
             <End Role="HelpPageItemRole" EntitySet="HelpPageItemRoles" />
           </AssociationSet>
         </EntityContainer>
@@ -10069,6 +10102,59 @@
           <Property Name="UserAccountOrganisationID" Type="uuid" />
           <Property Name="Temporary" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
+        <EntityType Name="SMHPage">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="PageID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="PageName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="PageURL" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="RoleId" Type="uuid" />
+        </EntityType>
+        <EntityType Name="SMHItem">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="PageID" Type="uuid" Nullable="false" />
+          <Property Name="ItemName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="ItemSelector" Type="varchar" MaxLength="200" />
+          <Property Name="ItemDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="ItemPosition" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="ItemOrder" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="TabContainerId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Callout">
+          <Key>
+            <PropertyRef Name="CalloutID" />
+          </Key>
+          <Property Name="CalloutID" Type="uuid" Nullable="false" />
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" DefaultValue="1" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="Selector" Type="varchar" MaxLength="500" />
+          <Property Name="EffectiveOn" Type="timestamp" Nullable="false" />
+          <Property Name="Position" Type="int" />
+        </EntityType>
+        <EntityType Name="CalloutUserAccount">
+          <Key>
+            <PropertyRef Name="CalloutUserAccountID" />
+          </Key>
+          <Property Name="CalloutUserAccountID" Type="uuid" Nullable="false" />
+          <Property Name="CalloutID" Type="uuid" Nullable="false" />
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="uuid" Nullable="false" />
+          <Property Name="Visible" Type="boolean" DefaultValue="false" />
+        </EntityType>
         <EntityType Name="HelpPage">
           <Key>
             <PropertyRef Name="HelpPageID" />
@@ -10080,9 +10166,51 @@
           <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="200" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="SupportItem">
+          <Key>
+            <PropertyRef Name="SupportItemID" />
+          </Key>
+          <Property Name="SupportItemID" Type="uuid" Nullable="false" />
+          <Property Name="TicketNumber" Type="int" Nullable="false" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="RequestTypeID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" Nullable="false" />
+          <Property Name="IsClosed" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="Reason" Type="varchar" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="ClosedOn" Type="timestamptz" />
+          <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="ClosedBy" Type="varchar" MaxLength="200" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+        </EntityType>
+        <EntityType Name="RoleHierarchy">
+          <Key>
+            <PropertyRef Name="RoleHierarchyID" />
+          </Key>
+          <Property Name="RoleHierarchyID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="ParentID" Type="uuid" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="Level" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HelpPageItemUserAccount">
+          <Key>
+            <PropertyRef Name="HelpItemUserAccountID" />
+          </Key>
+          <Property Name="HelpItemUserAccountID" Type="uuid" Nullable="false" />
+          <Property Name="HelpPageItemID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="uuid" Nullable="false" />
+          <Property Name="Visible" Type="boolean" DefaultValue="false" />
         </EntityType>
         <EntityType Name="HelpPageItem">
           <Key>
@@ -10101,28 +10229,6 @@
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
-        </EntityType>
-        <EntityType Name="HelpPageItemUserAccount">
-          <Key>
-            <PropertyRef Name="HelpItemUserAccountID" />
-          </Key>
-          <Property Name="HelpItemUserAccountID" Type="uuid" Nullable="false" />
-          <Property Name="HelpPageItemID" Type="uuid" Nullable="false" />
-          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="uuid" Nullable="false" />
-          <Property Name="Visible" Type="boolean" DefaultValue="false" />
-        </EntityType>
-        <EntityType Name="RoleHierarchy">
-          <Key>
-            <PropertyRef Name="RoleHierarchyID" />
-          </Key>
-          <Property Name="RoleHierarchyID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
-          <Property Name="RoleID" Type="uuid" Nullable="false" />
-          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="300" />
-          <Property Name="ParentID" Type="uuid" />
-          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
-          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="Level" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="HelpPageItemRole">
           <Key>
@@ -18369,29 +18475,99 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_HelpPageItem_HelpPage">
-          <End Role="HelpPage" Type="Bec.TargetFramework.Data.Store.HelpPage" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="HelpPageItem" Type="Bec.TargetFramework.Data.Store.HelpPageItem" Multiplicity="*" />
+        <Association Name="fk_SMHItem_SMHPage">
+          <End Role="SMHPage" Type="Bec.TargetFramework.Data.Store.SMHPage" Multiplicity="1" />
+          <End Role="SMHItem" Type="Bec.TargetFramework.Data.Store.SMHItem" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="HelpPage">
-              <PropertyRef Name="HelpPageID" />
+            <Principal Role="SMHPage">
+              <PropertyRef Name="PageID" />
             </Principal>
-            <Dependent Role="HelpPageItem">
-              <PropertyRef Name="HelpPageID" />
+            <Dependent Role="SMHItem">
+              <PropertyRef Name="PageID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_HelpPageItemUserAccount_UserAccount">
+        <Association Name="Callout_Role_fk">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="Callout" Type="Bec.TargetFramework.Data.Store.Callout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Callout">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_Callout_fk">
+          <End Role="Callout" Type="Bec.TargetFramework.Data.Store.Callout" Multiplicity="1" />
+          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Callout">
+              <PropertyRef Name="CalloutID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccount">
+              <PropertyRef Name="CalloutID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_UserType_fk">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccount">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_fk">
           <End Role="UserAccounts" Type="Bec.TargetFramework.Data.Store.UserAccounts" Multiplicity="1" />
-          <End Role="HelpPageItemUserAccount" Type="Bec.TargetFramework.Data.Store.HelpPageItemUserAccount" Multiplicity="*" />
+          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAccounts">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="HelpPageItemUserAccount">
+            <Dependent Role="CalloutUserAccount">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SMHPage_Role_fk">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="SMHPage" Type="Bec.TargetFramework.Data.Store.SMHPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="SMHPage">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RequestSupport_UserAccountOrganisation">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="SupportItem" Type="Bec.TargetFramework.Data.Store.SupportItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="SupportItem">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RoleHierarchy_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="RoleHierarchy" Type="Bec.TargetFramework.Data.Store.RoleHierarchy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="RoleHierarchy">
+              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18409,27 +18585,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_RoleHierarchy_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
-          <End Role="RoleHierarchy" Type="Bec.TargetFramework.Data.Store.RoleHierarchy" Multiplicity="*" />
+        <Association Name="fk_HelpItemUserAccount_UserAccount">
+          <End Role="UserAccounts" Type="Bec.TargetFramework.Data.Store.UserAccounts" Multiplicity="1" />
+          <End Role="HelpPageItemUserAccount" Type="Bec.TargetFramework.Data.Store.HelpPageItemUserAccount" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
+            <Principal Role="UserAccounts">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="RoleHierarchy">
-              <PropertyRef Name="RoleID" />
+            <Dependent Role="HelpPageItemUserAccount">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_HelpPageItemRole_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
-          <End Role="HelpPageItemRole" Type="Bec.TargetFramework.Data.Store.HelpPageItemRole" Multiplicity="*" />
+        <Association Name="fk_HelpPageItem_HelpPage">
+          <End Role="HelpPage" Type="Bec.TargetFramework.Data.Store.HelpPage" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HelpPageItem" Type="Bec.TargetFramework.Data.Store.HelpPageItem" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
+            <Principal Role="HelpPage">
+              <PropertyRef Name="HelpPageID" />
             </Principal>
-            <Dependent Role="HelpPageItemRole">
-              <PropertyRef Name="RoleID" />
+            <Dependent Role="HelpPageItem">
+              <PropertyRef Name="HelpPageID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18444,6 +18622,18 @@
             </Principal>
             <Dependent Role="HelpPageItemRole">
               <PropertyRef Name="HelpPageItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_HelpPageItemRole_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="HelpPageItemRole" Type="Bec.TargetFramework.Data.Store.HelpPageItemRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="HelpPageItemRole">
+              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -18897,10 +19087,15 @@
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
           <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.File" />
+          <EntitySet Name="SMHPages" EntityType="Bec.TargetFramework.Data.SMHPage" />
+          <EntitySet Name="SMHItems" EntityType="Bec.TargetFramework.Data.SMHItem" />
+          <EntitySet Name="Callouts" EntityType="Bec.TargetFramework.Data.Callout" />
+          <EntitySet Name="CalloutUserAccounts" EntityType="Bec.TargetFramework.Data.CalloutUserAccount" />
           <EntitySet Name="HelpPages" EntityType="Bec.TargetFramework.Data.HelpPage" />
-          <EntitySet Name="HelpPageItems" EntityType="Bec.TargetFramework.Data.HelpPageItem" />
-          <EntitySet Name="HelpPageItemUserAccounts" EntityType="Bec.TargetFramework.Data.HelpPageItemUserAccount" />
+          <EntitySet Name="SupportItems" EntityType="Bec.TargetFramework.Data.SupportItem" />
           <EntitySet Name="RoleHierarchies" EntityType="Bec.TargetFramework.Data.RoleHierarchy" />
+          <EntitySet Name="HelpPageItemUserAccounts" EntityType="Bec.TargetFramework.Data.HelpPageItemUserAccount" />
+          <EntitySet Name="HelpPageItems" EntityType="Bec.TargetFramework.Data.HelpPageItem" />
           <EntitySet Name="HelpPageItemRoles" EntityType="Bec.TargetFramework.Data.HelpPageItemRole" />
           <EntitySet Name="VRoleHierarchies" EntityType="Bec.TargetFramework.Data.VRoleHierarchy" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
@@ -21399,28 +21594,56 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Files" EntitySet="Files" />
           </AssociationSet>
-          <AssociationSet Name="fk_HelpPageItem_HelpPageSet" Association="Bec.TargetFramework.Data.fk_HelpPageItem_HelpPage">
-            <End Role="HelpPage" EntitySet="HelpPages" />
-            <End Role="HelpPageItems" EntitySet="HelpPageItems" />
+          <AssociationSet Name="fk_SMHItem_SMHPageSet" Association="Bec.TargetFramework.Data.fk_SMHItem_SMHPage">
+            <End Role="SMHPage" EntitySet="SMHPages" />
+            <End Role="SMHItems" EntitySet="SMHItems" />
           </AssociationSet>
-          <AssociationSet Name="fk_HelpPageItemUserAccount_UserAccountSet" Association="Bec.TargetFramework.Data.fk_HelpPageItemUserAccount_UserAccount">
+          <AssociationSet Name="Callout_Role_fkSet" Association="Bec.TargetFramework.Data.Callout_Role_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Callouts" EntitySet="Callouts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_Callout_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk">
+            <End Role="Callout" EntitySet="Callouts" />
+            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_UserType_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_fk">
             <End Role="UserAccount" EntitySet="UserAccounts" />
-            <End Role="HelpPageItemUserAccounts" EntitySet="HelpPageItemUserAccounts" />
+            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
           </AssociationSet>
-          <AssociationSet Name="fk_HelpItemUserAccount_HelpPageItemSet" Association="Bec.TargetFramework.Data.fk_HelpItemUserAccount_HelpPageItem">
-            <End Role="HelpPageItem" EntitySet="HelpPageItems" />
-            <End Role="HelpPageItemUserAccounts" EntitySet="HelpPageItemUserAccounts" />
+          <AssociationSet Name="SMHPage_Role_fkSet" Association="Bec.TargetFramework.Data.SMHPage_Role_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="SMHPages" EntitySet="SMHPages" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RequestSupport_UserAccountOrganisationSet" Association="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="SupportItems" EntitySet="SupportItems" />
           </AssociationSet>
           <AssociationSet Name="fk_RoleHierarchy_RoleSet" Association="Bec.TargetFramework.Data.fk_RoleHierarchy_Role">
             <End Role="Role" EntitySet="Roles" />
             <End Role="RoleHierarchies" EntitySet="RoleHierarchies" />
           </AssociationSet>
-          <AssociationSet Name="fk_HelpPageItemRole_RoleSet" Association="Bec.TargetFramework.Data.fk_HelpPageItemRole_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="HelpPageItemRoles" EntitySet="HelpPageItemRoles" />
+          <AssociationSet Name="fk_HelpItemUserAccount_HelpPageItemSet" Association="Bec.TargetFramework.Data.fk_HelpItemUserAccount_HelpPageItem">
+            <End Role="HelpPageItem" EntitySet="HelpPageItems" />
+            <End Role="HelpPageItemUserAccounts" EntitySet="HelpPageItemUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_HelpItemUserAccount_UserAccountSet" Association="Bec.TargetFramework.Data.fk_HelpItemUserAccount_UserAccount">
+            <End Role="UserAccount" EntitySet="UserAccounts" />
+            <End Role="HelpPageItemUserAccounts" EntitySet="HelpPageItemUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_HelpPageItem_HelpPageSet" Association="Bec.TargetFramework.Data.fk_HelpPageItem_HelpPage">
+            <End Role="HelpPage" EntitySet="HelpPages" />
+            <End Role="HelpPageItems" EntitySet="HelpPageItems" />
           </AssociationSet>
           <AssociationSet Name="fk_HelpPageItemRole_HelpPageItemSet" Association="Bec.TargetFramework.Data.fk_HelpPageItemRole_HelpPageItem">
             <End Role="HelpPageItem" EntitySet="HelpPageItems" />
+            <End Role="HelpPageItemRoles" EntitySet="HelpPageItemRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_HelpPageItemRole_RoleSet" Association="Bec.TargetFramework.Data.fk_HelpPageItemRole_Role">
+            <End Role="Role" EntitySet="Roles" />
             <End Role="HelpPageItemRoles" EntitySet="HelpPageItemRoles" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
@@ -21809,6 +22032,7 @@
           <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="ConversationParticipants" ed:Guid="c1cb4daa-fc4b-478b-ab7e-1b3ec2ad0735" />
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_CreatedByUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Notifications" ed:Guid="65f99910-9375-4611-9d84-0381177b95e7" />
           <NavigationProperty Name="Files" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Files" ed:Guid="674e1d85-14db-4a9c-8300-00380ac58949" />
+          <NavigationProperty Name="SupportItems" Relationship="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="SupportItems" ed:Guid="ac823299-3309-465b-90bd-754342c4738a" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -25512,8 +25736,11 @@
           <NavigationProperty Name="GroupRoles" Relationship="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate" FromRole="Role" ToRole="GroupRoles" ed:Guid="4bc91bc2-3db0-415b-962b-eb79674b7dcd" />
           <NavigationProperty Name="RoleClaims" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate" FromRole="Role" ToRole="RoleClaims" ed:Guid="63066d49-f80f-438d-8b02-70eff94865a5" />
           <NavigationProperty Name="ActorClaimRoleMappings" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Role" FromRole="Role" ToRole="ActorClaimRoleMappings" ed:Guid="b7871133-2654-4a69-8524-685d07076476" />
-          <NavigationProperty Name="RoleHierarchies" Relationship="Bec.TargetFramework.Data.fk_RoleHierarchy_Role" FromRole="Role" ToRole="RoleHierarchies" ed:Guid="20f028f5-65fd-412e-a869-7cb99a8e9faa" />
-          <NavigationProperty Name="HelpPageItemRoles" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_Role" FromRole="Role" ToRole="HelpPageItemRoles" ed:Guid="7b10c3e7-febf-425e-8dd3-a4c76706a3df" />
+          <NavigationProperty Name="Callouts" Relationship="Bec.TargetFramework.Data.Callout_Role_fk" FromRole="Role" ToRole="Callouts" ed:Guid="6b5b4c90-c24a-49ff-94ba-98674bc7a5cd" />
+          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="Role" ToRole="CalloutUserAccounts" ed:Guid="d4acf0b1-5bd8-4808-a5a4-294bf7cee436" />
+          <NavigationProperty Name="SMHPages" Relationship="Bec.TargetFramework.Data.SMHPage_Role_fk" FromRole="Role" ToRole="SMHPages" ed:Guid="f4bd1ed9-bba9-4875-bdb6-d0fbcb73b12a" />
+          <NavigationProperty Name="RoleHierarchies" Relationship="Bec.TargetFramework.Data.fk_RoleHierarchy_Role" FromRole="Role" ToRole="RoleHierarchies" ed:Guid="ae37854d-50f6-466a-9f3e-5dbf62607f7f" />
+          <NavigationProperty Name="HelpPageItemRoles" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_Role" FromRole="Role" ToRole="HelpPageItemRoles" ed:Guid="0b08ece1-cd0b-495b-9001-de0e66ee6bb2" />
         </EntityType>
         <EntityType Name="ArtefactNotificationConstructTemplate" ed:Guid="e750caa7-7e55-4341-997e-0781986ad75e">
           <Key>
@@ -26017,7 +26244,8 @@
           <NavigationProperty Name="UserClaims" Relationship="Bec.TargetFramework.Data.FK_dboUserClaims_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="UserClaims" ed:Guid="65e97acd-24ba-4243-84d0-081ad22a27f4" />
           <NavigationProperty Name="UserAccountArchives" Relationship="Bec.TargetFramework.Data.fk_UserAccounts_ID" FromRole="UserAccount" ToRole="UserAccountArchives" ed:Guid="666c0f24-b369-483d-85b0-1375dda26cf7" />
           <NavigationProperty Name="UserAccountLoginSessions" Relationship="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk" FromRole="UserAccount" ToRole="UserAccountLoginSessions" ed:Guid="0f5dbab7-df60-40b5-afd5-f9ac738dac0f" />
-          <NavigationProperty Name="HelpPageItemUserAccounts" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemUserAccount_UserAccount" FromRole="UserAccount" ToRole="HelpPageItemUserAccounts" ed:Guid="2408483e-6eed-460f-b799-027a74346765" />
+          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_fk" FromRole="UserAccount" ToRole="CalloutUserAccounts" ed:Guid="a1e1ab3e-bd0e-4d8c-8420-8eb3ebb684f5" />
+          <NavigationProperty Name="HelpPageItemUserAccounts" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_UserAccount" FromRole="UserAccount" ToRole="HelpPageItemUserAccounts" ed:Guid="db35e480-0301-439d-aef3-66167aaf1bd8" />
         </EntityType>
         <EntityType Name="UserClaim" ed:Guid="b3d568b9-2dca-418b-baf5-9b566ea942f5">
           <Key>
@@ -29637,6 +29865,67 @@
           <Property Name="Temporary" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="91815814-b87c-47b7-affc-47742e4729c1" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="Files" ToRole="UserAccountOrganisation" ed:Guid="fc10697c-d6af-4995-a560-91aa3d5faf31" />
         </EntityType>
+        <EntityType Name="SMHPage" ed:Guid="90b58ec7-8349-468a-a5f7-90bd921f22dd">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="PageID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="d3dec9ee-24a5-4c59-b01b-aeadf4fe3972" />
+          <Property Name="PageName" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="5100bae4-deb9-4115-948a-b772ac62487f" />
+          <Property Name="PageURL" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="a260ed70-20de-4ff8-be7e-144fba988047" />
+          <Property Name="RoleId" Type="Guid" ed:ValidateRequired="False" ed:Guid="d12e7a11-e2f3-4f33-b75f-ac6582a94a4f" />
+          <NavigationProperty Name="SMHItems" Relationship="Bec.TargetFramework.Data.fk_SMHItem_SMHPage" FromRole="SMHPage" ToRole="SMHItems" ed:Guid="e288d868-91c1-47fb-9e9d-f5f23afc303c" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.SMHPage_Role_fk" FromRole="SMHPages" ToRole="Role" ed:Guid="e892be61-058d-4410-a6b3-3238027f203c" />
+        </EntityType>
+        <EntityType Name="SMHItem" ed:Guid="e2f38093-9b8b-413e-9a41-5f57dc7d6151">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="89a3a3f3-3719-4286-9918-cbbb46a16f04" />
+          <Property Name="PageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b7124239-677d-491f-8835-544011eb1032" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="1e0eeaac-f22d-49c1-9ff1-9cb48124e55e" />
+          <Property Name="ItemSelector" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a9515e73-2172-4a3b-aeea-9e461937d5b1" />
+          <Property Name="ItemDescription" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="a80dd625-b4f4-418d-bc78-b5a06b6ad04b" />
+          <Property Name="ItemPosition" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="b7c474f5-e95e-462c-9e88-1022572e5466" />
+          <Property Name="ItemOrder" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="17ae86d6-f874-4dc2-a232-2f07c10524b8" />
+          <Property Name="TabContainerId" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="7ece1cac-b254-4b70-9f2f-dfa29c500c44" />
+          <NavigationProperty Name="SMHPage" Relationship="Bec.TargetFramework.Data.fk_SMHItem_SMHPage" FromRole="SMHItems" ToRole="SMHPage" ed:Guid="778cfa04-0267-492b-88b8-dbcf59592f39" />
+        </EntityType>
+        <EntityType Name="Callout" ed:Guid="ab472da2-2bb5-44d0-b31d-f61089a32ed5">
+          <Key>
+            <PropertyRef Name="CalloutID" />
+          </Key>
+          <Property Name="CalloutID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="adc1d7a2-9efd-480c-b1b4-dd45fd76f3bd" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="590b942f-afc9-439b-9a60-a9f3c01686b3" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="ff3bf1cf-5301-4c79-8d5b-41fc99a43411" />
+          <Property Name="Description" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="7f6ccf4d-dc1d-481d-acc7-8848efe859a4" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="7ada0e91-4cc3-4af6-b0a0-7b56f47daec5" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="fd786ae0-2a96-43a9-b3c6-7b7d707ae709" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="67640625-5540-4731-9086-fd6c2446e780" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="48e5b8f4-bd96-48a9-a39b-cf715f08927e" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7d07d7bc-82ed-480d-bd37-36675e97a57e" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="e31776a4-0a4d-4857-82b3-9b29f7a206ad" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a416cd5c-cb72-42a4-88cf-716e473cb47b" />
+          <Property Name="Selector" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="6e89ea36-a7db-4997-a9e9-ae3d20a42e3a" />
+          <Property Name="EffectiveOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="141b8f5e-8d71-414f-a5f8-6fbea71426f1" />
+          <Property Name="Position" Type="Int32" ed:ValidateRequired="False" ed:Guid="16ad15cd-d677-4ab2-899b-28457de6174b" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.Callout_Role_fk" FromRole="Callouts" ToRole="Role" ed:Guid="70cd332e-c2f1-437a-ad77-134b1814f2c8" />
+          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk" FromRole="Callout" ToRole="CalloutUserAccounts" ed:Guid="557520be-f532-47ef-a18e-18b39509cd7d" />
+        </EntityType>
+        <EntityType Name="CalloutUserAccount" ed:Guid="1038a5ef-634f-41cd-b071-2e29892528c1">
+          <Key>
+            <PropertyRef Name="CalloutUserAccountID" />
+          </Key>
+          <Property Name="CalloutUserAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a56cc26c-481f-4b1b-b563-a92deadfda8a" />
+          <Property Name="CalloutID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="6356621e-7de2-4ef1-ab04-9f5ff0f5545c" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e238412f-4159-495b-8d51-9018551c1377" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="8d1dbc47-eb99-4728-b30b-bd014d4e6160" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="7af3dc3e-2d24-4d6b-bc49-2626ecb5927a" />
+          <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b3452ea6-5856-4d62-b6a1-e575d5a0faf6" />
+          <Property Name="Visible" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="4a498f46-b158-43a5-893e-052cc9ea108d" />
+          <NavigationProperty Name="Callout" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk" FromRole="CalloutUserAccounts" ToRole="Callout" ed:Guid="05d4441c-92b6-4f05-87b6-24b7d2966728" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="CalloutUserAccounts" ToRole="Role" ed:Guid="1cc9e95f-6b0d-4396-bfeb-da93fcdaf002" />
+          <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_fk" FromRole="CalloutUserAccounts" ToRole="UserAccount" ed:Guid="366e67aa-6427-40ac-a4a5-7f4b1f5e1ddc" />
+        </EntityType>
         <EntityType Name="HelpPage" ed:Guid="e75f1ca0-3337-4784-af1b-4bcb610ca487">
           <Key>
             <PropertyRef Name="HelpPageID" />
@@ -29644,83 +29933,104 @@
           <Property Name="HelpPageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="136445de-cfd9-42dc-b212-af5d5450fa7f" />
           <Property Name="PageName" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="67cc66bc-2f84-4805-abb9-a86f663e0de9" />
           <Property Name="PageUrl" Type="String" Nullable="false" MaxLength="400" Unicode="true" ed:ValidateMaxLength="400" ed:ValidateRequired="True" ed:Guid="570f6f21-52e2-4b6f-909f-a987f6dcdc72" />
-          <Property Name="HelpPageTypeId" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="2e1c4ff8-2f3c-4d37-9aef-a3871abed3a0" />
+          <Property Name="HelpPageTypeId" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="5206c1bf-b760-42f8-874d-5f2ae06da568" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="95a33ee8-7e63-4807-84bf-d71364fd0648" />
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="d210c764-0d8c-4460-8481-a811351c289b" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="7984717e-c26e-4406-b667-ad6834b64ad2" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="5d6d7192-a9f5-4274-9b22-4c648abfe5f3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="5500872c-4284-48f1-988a-c5865d5004d6" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="54ec87e4-11f4-47ec-8961-042b4a414018" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="f22c5243-86f9-4d4a-9b4d-01d313aa5726" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="ac8949bf-a8c5-4517-9d9d-bcecdfa4c9d4" />
-          <NavigationProperty Name="HelpPageItems" Relationship="Bec.TargetFramework.Data.fk_HelpPageItem_HelpPage" FromRole="HelpPage" ToRole="HelpPageItems" ed:Guid="b77fb901-3fc5-4150-a269-6a0265cbd5f5" />
+          <NavigationProperty Name="HelpPageItems" Relationship="Bec.TargetFramework.Data.fk_HelpPageItem_HelpPage" FromRole="HelpPage" ToRole="HelpPageItems" ed:Guid="11dd5c73-e9f9-4289-af2c-3b7d15d92aa2" />
         </EntityType>
-        <EntityType Name="HelpPageItem" ed:Guid="521ce1b4-e093-43e0-a234-71826a560f3a">
+        <EntityType Name="SupportItem" ed:Guid="f4910e49-82c2-441e-8044-41c1c1255578">
           <Key>
-            <PropertyRef Name="HelpPageItemID" />
+            <PropertyRef Name="SupportItemID" />
           </Key>
-          <Property Name="HelpPageItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="24432166-b299-453a-8636-8e72c2d4a200" />
-          <Property Name="HelpPageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e56146c1-7d0b-431a-be9b-7e07ca2b32ca" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="1a430ab6-5109-4c79-bed5-0bb0972478cc" />
-          <Property Name="Description" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="aa0f15e5-b390-4c16-9d64-3871edbaf2a9" />
-          <Property Name="DisplayOrder" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="251504ee-718f-470c-b6ea-15952a94d456" />
-          <Property Name="Selector" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="8f04a66c-e60c-4be3-8079-20ce1ff71c5e" />
-          <Property Name="TabContainerId" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="c8d8807a-5fbf-4566-ba65-42e0271c29a9" />
-          <Property Name="EffectiveOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="021a222c-8701-43f6-97aa-0c1191ccc78e" />
-          <Property Name="Position" Type="Int32" ed:ValidateRequired="False" ed:Guid="13df8ea2-e8a1-4062-97ea-10714ae5b9e3" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="179d3854-a091-4c41-bce2-06bc84c486cc" />
-          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="60de503f-5220-4a0f-b87a-f56728a4ed6d" />
-          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="5d4bbe64-cac6-4def-816d-f28970b4b712" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="7feeb070-6c53-4011-929f-549aa295c532" />
-          <NavigationProperty Name="HelpPage" Relationship="Bec.TargetFramework.Data.fk_HelpPageItem_HelpPage" FromRole="HelpPageItems" ToRole="HelpPage" ed:Guid="0fececd3-5542-4f0d-9fe1-5df909cb79e2" />
-          <NavigationProperty Name="HelpPageItemUserAccounts" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_HelpPageItem" FromRole="HelpPageItem" ToRole="HelpPageItemUserAccounts" ed:Guid="a2d75826-4693-48ce-a839-24383110f55f" />
-          <NavigationProperty Name="HelpPageItemRoles" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_HelpPageItem" FromRole="HelpPageItem" ToRole="HelpPageItemRoles" ed:Guid="77278d6f-8291-407d-a331-19a9f9cdfe40" />
+          <Property Name="SupportItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f9bb9fb1-d313-4d6a-9b53-12eb40af06a5" />
+          <Property Name="TicketNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="5cb51c79-eded-4e18-9086-b41252c2708e" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c08a3e0d-c8db-4a06-983b-050e871479e2" />
+          <Property Name="Telephone" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="68f87bb6-9f31-4aa6-b3b8-27d1e53257cf" />
+          <Property Name="RequestTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="35c125cd-8fcc-4d70-81ae-ec45f08f054c" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="5acfa0f3-5839-4b0f-8ba0-3deaeacf8999" />
+          <Property Name="Description" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="5f2b14ed-a370-4f66-9233-8e6b0e45fb7a" />
+          <Property Name="IsClosed" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="ad8028c9-9641-4025-9936-0e3cdb1f0935" />
+          <Property Name="Reason" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="f32613a9-4df5-4023-a732-62c24a974072" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="b5ecde89-8f68-4643-9138-732cd0e51099" />
+          <Property Name="ClosedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="bcc333f8-1118-463b-8870-e164a390e626" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="40c085fd-cba3-4b71-bd85-97159cd81069" />
+          <Property Name="ClosedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="9912a303-6e1d-49b8-9f9b-eb3794cda9f3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="a7506829-1acb-4a14-8f35-bbfdb75c90e8" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="5317a3ee-fd0a-4b5e-88d8-110be32eb870" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation" FromRole="SupportItems" ToRole="UserAccountOrganisation" ed:Guid="97ae4789-d496-497a-a4b5-7d04bd086919" />
         </EntityType>
-        <EntityType Name="HelpPageItemUserAccount" ed:Guid="63900f3f-4f47-4e04-ac4b-0a4d0514eeec">
-          <Key>
-            <PropertyRef Name="HelpItemUserAccountID" />
-          </Key>
-          <Property Name="HelpItemUserAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="557ea88a-72d6-4e78-a946-fbdfd5971a7f" />
-          <Property Name="HelpPageItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c6f91a2a-d077-4d6f-803d-62edf13c69a8" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="86253917-bde3-403f-9912-b98b8e75e796" />
-          <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d37a1dba-ac90-47b3-b03a-a1834cc0797c" />
-          <Property Name="Visible" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="d87a630e-3257-4316-9b93-048ecc31226d" />
-          <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemUserAccount_UserAccount" FromRole="HelpPageItemUserAccounts" ToRole="UserAccount" ed:Guid="db2a916a-0b90-44ec-951b-ee53c134d86b" />
-          <NavigationProperty Name="HelpPageItem" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_HelpPageItem" FromRole="HelpPageItemUserAccounts" ToRole="HelpPageItem" ed:Guid="00398019-d2be-46e9-a907-b4303593ad8c" />
-        </EntityType>
-        <EntityType Name="RoleHierarchy" ed:Guid="e04f6a55-0000-450f-ad18-02215253fd15">
+        <EntityType Name="RoleHierarchy" ed:Guid="26a9203e-427d-4d09-ae41-fbb49dad54e6">
           <Key>
             <PropertyRef Name="RoleHierarchyID" />
           </Key>
-          <Property Name="RoleHierarchyID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="efbff3f1-6cc6-4397-9f49-582d9d618f95" />
-          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="62b06346-7e72-4bf9-b73e-5e3d1941a5f1" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="9190a246-7ff0-49c0-a13a-3eab40a771d2" />
-          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="676b93c7-c904-4a9e-ba6a-10f5d65a4a70" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="fe2c041e-a993-4a49-8d52-830c1668a6eb" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="3f3f9e0e-3369-490e-bf85-798b0ff8ba92" />
-          <Property Name="Level" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="b67f5086-a750-4e67-9c07-372ff6b8b45c" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_RoleHierarchy_Role" FromRole="RoleHierarchies" ToRole="Role" ed:Guid="263d9847-f68c-4551-8a91-0e282312d625" />
+          <Property Name="RoleHierarchyID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="417ecb17-3b8f-4f60-a21b-3083c1d68c77" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5468094f-2692-4982-9581-bbb58031fc66" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="58f9d7b5-c123-43fe-8886-1c5a0d1ac8ff" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="17d23935-2b24-40c4-a118-1d2fea81e428" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="f5152e63-834d-4ce3-8e61-226a5dc15956" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="cf893fb4-c2e6-4120-ae32-db238623ff69" />
+          <Property Name="Level" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="cbca7daf-a316-4997-8810-933ec4ae49bc" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_RoleHierarchy_Role" FromRole="RoleHierarchies" ToRole="Role" ed:Guid="e0122925-846d-44eb-99a0-8bc9d72a05f4" />
         </EntityType>
-        <EntityType Name="HelpPageItemRole" ed:Guid="07320654-fe7c-4262-a156-f95c183d4abb">
+        <EntityType Name="HelpPageItemUserAccount" ed:Guid="3be62e2b-a7aa-4588-b54b-9715e03356f2">
+          <Key>
+            <PropertyRef Name="HelpItemUserAccountID" />
+          </Key>
+          <Property Name="HelpItemUserAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5e315261-3a1f-463a-9fad-3eb4ede95d0d" />
+          <Property Name="HelpPageItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d97dc7f6-01dd-4b89-97af-b1e8cb59b4b1" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="cc176f67-fa6e-4aa9-9587-bceea57b2943" />
+          <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="409ae845-4ef1-4b79-803a-732bd74fb866" />
+          <Property Name="Visible" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="98b6c192-9465-4c98-9366-63fe53b3fdb5" />
+          <NavigationProperty Name="HelpPageItem" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_HelpPageItem" FromRole="HelpPageItemUserAccounts" ToRole="HelpPageItem" ed:Guid="c9f28636-d92f-47c2-b203-03d99c00bd1e" />
+          <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_UserAccount" FromRole="HelpPageItemUserAccounts" ToRole="UserAccount" ed:Guid="4cafff06-804f-4a5c-893c-cf4c95c39f1a" />
+        </EntityType>
+        <EntityType Name="HelpPageItem" ed:Guid="41f02142-3d68-499d-b82f-23193bbd6abb">
+          <Key>
+            <PropertyRef Name="HelpPageItemID" />
+          </Key>
+          <Property Name="HelpPageItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a0c27b59-3b52-4e87-b4c2-b1e951128cf9" />
+          <Property Name="HelpPageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1abc7bd3-cbcf-4e2e-b20e-f4a247a71dc9" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="1f3fc4e6-9bc2-414a-9e4f-4cf0478c54ea" />
+          <Property Name="Description" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="e2cafa64-1458-431d-ae19-d1154bd792f7" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="69c01c7c-8e13-4670-9c37-6efb662d8e54" />
+          <Property Name="Selector" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="2f373bea-0df4-40bb-a738-d11256ebb67d" />
+          <Property Name="TabContainerId" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="f3f88f9b-fd5a-43df-a9d2-3a769b4d1376" />
+          <Property Name="EffectiveOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="e7d58040-1b00-426b-bb97-de65a088c693" />
+          <Property Name="Position" Type="Int32" ed:ValidateRequired="False" ed:Guid="fea2f221-52d0-40b7-80c4-79f7417578ad" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="d201f0e2-98ed-4caa-89c6-326d216b1c26" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="e1832fd3-ca6b-43b5-93b7-ed99e991eaf7" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="7ef1d1e1-2cdb-42ad-958d-a8415019242c" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4e3c02a2-ea70-4184-8ba5-26ce258ea6fb" />
+          <NavigationProperty Name="HelpPageItemUserAccounts" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_HelpPageItem" FromRole="HelpPageItem" ToRole="HelpPageItemUserAccounts" ed:Guid="4b38c48d-dcee-4bf2-abfe-efe85b1fbe26" />
+          <NavigationProperty Name="HelpPage" Relationship="Bec.TargetFramework.Data.fk_HelpPageItem_HelpPage" FromRole="HelpPageItems" ToRole="HelpPage" ed:Guid="2bcf0c7c-56e0-44f1-af1c-4892f8d8e505" />
+          <NavigationProperty Name="HelpPageItemRoles" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_HelpPageItem" FromRole="HelpPageItem" ToRole="HelpPageItemRoles" ed:Guid="aa780c76-004c-442c-bf42-fac14d4981c7" />
+        </EntityType>
+        <EntityType Name="HelpPageItemRole" ed:Guid="a20d39eb-0ed6-463d-aee0-362d51414751">
           <Key>
             <PropertyRef Name="HelpPageItemRoleID" />
           </Key>
-          <Property Name="HelpPageItemRoleID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="04c64ce3-55e2-4dbf-a969-8d219e03fd25" />
-          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="06f89747-496c-4fe9-a447-d8693be02726" />
-          <Property Name="HelpPageItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0448214d-8349-4af4-8547-efc6ed55aa88" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="b127ef3e-2779-4aa0-9f31-aa2c7999e9c6" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="f6f73582-b819-4a9f-969e-2412a0476914" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_Role" FromRole="HelpPageItemRoles" ToRole="Role" ed:Guid="28705106-d1af-4389-85b4-df02d4b2e2fc" />
-          <NavigationProperty Name="HelpPageItem" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_HelpPageItem" FromRole="HelpPageItemRoles" ToRole="HelpPageItem" ed:Guid="fce7face-9906-4f19-a56a-96b32b396bdf" />
+          <Property Name="HelpPageItemRoleID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="12e11281-1da0-49f6-9a5f-82f6ac051445" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3414b807-c18a-4d41-a6b8-293b596d6d44" />
+          <Property Name="HelpPageItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="28252dd8-6e49-47ce-9841-2dc29555f1c3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="59969ea5-0d6f-4572-a0ce-8fe1119a87af" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="b8d44d86-4825-43fd-9863-232b5b5ff8cb" />
+          <NavigationProperty Name="HelpPageItem" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_HelpPageItem" FromRole="HelpPageItemRoles" ToRole="HelpPageItem" ed:Guid="58ab76fc-721b-44cc-bb52-9827e89174e7" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_Role" FromRole="HelpPageItemRoles" ToRole="Role" ed:Guid="a41aa6d5-f2a8-4c5a-91d3-a06c9cddc3aa" />
         </EntityType>
-        <EntityType Name="VRoleHierarchy" ed:Guid="0cdd4ca8-5e8c-44c9-a4f7-251570ee0bde">
+        <EntityType Name="VRoleHierarchy" ed:Guid="b5d4e42f-19c5-41da-97f8-d894e7efdcfa">
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="RoleName" />
             <PropertyRef Name="Level" />
           </Key>
-          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="8c44c902-a7f2-4d9e-81e4-06d731d833d0" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="0affa9dd-aac8-4bc5-bcbd-0b95d5a6418b" />
-          <Property Name="Level" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="76d25915-1b71-4be4-8d8f-fe3bc3735111" />
-          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="60d27afc-4f4c-44f2-816d-9886ccefa21a" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3c8350ef-d9ef-4d72-bf80-6401e5732829" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="0a1a373b-9acb-4eaa-9a3f-2f06cdc0868e" />
+          <Property Name="Level" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="2d9867b0-9dcb-4177-afa7-405f14b9767d" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="fb0fa753-b5f6-4e81-9719-97a783bf9caf" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37611,7 +37921,129 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_HelpPageItem_HelpPage" ed:Guid="fb0c4d0e-23fe-495b-883f-eaf36133d087">
+        <Association Name="fk_SMHItem_SMHPage" ed:Guid="d0f649e6-a39d-45a3-abab-68314441d228">
+          <End Role="SMHPage" Type="Bec.TargetFramework.Data.SMHPage" Multiplicity="1" />
+          <End Role="SMHItems" Type="Bec.TargetFramework.Data.SMHItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SMHPage">
+              <PropertyRef Name="PageID" />
+            </Principal>
+            <Dependent Role="SMHItems">
+              <PropertyRef Name="PageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Callout_Role_fk" ed:Guid="00fe0fa5-749c-4a84-93bb-366df44495fb">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="Callouts" Type="Bec.TargetFramework.Data.Callout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Callouts">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_Callout_fk" ed:Guid="1f3a2e9d-8d03-4eb1-ace6-0cccaef3dd37">
+          <End Role="Callout" Type="Bec.TargetFramework.Data.Callout" Multiplicity="1" />
+          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Callout">
+              <PropertyRef Name="CalloutID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccounts">
+              <PropertyRef Name="CalloutID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_UserType_fk" ed:Guid="87f53d63-71e3-4ead-848b-a17602fad5b7">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccounts">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_fk" ed:Guid="f10066c6-7fea-44e0-9ddf-ab020ac962a0">
+          <End Role="UserAccount" Type="Bec.TargetFramework.Data.UserAccount" Multiplicity="1" />
+          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccounts">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SMHPage_Role_fk" ed:Guid="6ebebcc4-aabb-4af6-b188-02e59bbece49">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="SMHPages" Type="Bec.TargetFramework.Data.SMHPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="SMHPages">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RequestSupport_UserAccountOrganisation" ed:Guid="f222b3d8-8e0c-4687-bbb5-72facb239f6c">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="SupportItems" Type="Bec.TargetFramework.Data.SupportItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="SupportItems">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RoleHierarchy_Role" ed:Guid="d5b90a36-952d-4d64-9460-c24f593c7d09">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="RoleHierarchies" Type="Bec.TargetFramework.Data.RoleHierarchy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="RoleHierarchies">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_HelpItemUserAccount_HelpPageItem" ed:Guid="3419672a-cc79-4742-86e1-ddead93bd323">
+          <End Role="HelpPageItem" Type="Bec.TargetFramework.Data.HelpPageItem" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HelpPageItemUserAccounts" Type="Bec.TargetFramework.Data.HelpPageItemUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HelpPageItem">
+              <PropertyRef Name="HelpPageItemID" />
+            </Principal>
+            <Dependent Role="HelpPageItemUserAccounts">
+              <PropertyRef Name="HelpPageItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_HelpItemUserAccount_UserAccount" ed:Guid="b1db3c92-c952-4ac2-886a-441e5cae85cc">
+          <End Role="UserAccount" Type="Bec.TargetFramework.Data.UserAccount" Multiplicity="1" />
+          <End Role="HelpPageItemUserAccounts" Type="Bec.TargetFramework.Data.HelpPageItemUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HelpPageItemUserAccounts">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_HelpPageItem_HelpPage" ed:Guid="64ffd4b1-26ad-4047-9361-fff5be9be322">
           <End Role="HelpPage" Type="Bec.TargetFramework.Data.HelpPage" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -37625,57 +38057,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_HelpPageItemUserAccount_UserAccount" ed:Guid="6e0686ba-9e18-40a2-869c-40421045b0c7">
-          <End Role="UserAccount" Type="Bec.TargetFramework.Data.UserAccount" Multiplicity="1" />
-          <End Role="HelpPageItemUserAccounts" Type="Bec.TargetFramework.Data.HelpPageItemUserAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserAccount">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="HelpPageItemUserAccounts">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_HelpItemUserAccount_HelpPageItem" ed:Guid="1ca3279a-79a0-4034-a273-26e589830252">
-          <End Role="HelpPageItem" Type="Bec.TargetFramework.Data.HelpPageItem" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="HelpPageItemUserAccounts" Type="Bec.TargetFramework.Data.HelpPageItemUserAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HelpPageItem">
-              <PropertyRef Name="HelpPageItemID" />
-            </Principal>
-            <Dependent Role="HelpPageItemUserAccounts">
-              <PropertyRef Name="HelpPageItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_RoleHierarchy_Role" ed:Guid="71870d74-bc56-47fe-90cf-6c87576f062b">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
-          <End Role="RoleHierarchies" Type="Bec.TargetFramework.Data.RoleHierarchy" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="RoleHierarchies">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_HelpPageItemRole_Role" ed:Guid="7c824a6c-755a-4a64-8a49-da5034e129b5">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
-          <End Role="HelpPageItemRoles" Type="Bec.TargetFramework.Data.HelpPageItemRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="HelpPageItemRoles">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_HelpPageItemRole_HelpPageItem" ed:Guid="85c2de43-a232-4446-af85-f4a7de762541">
+        <Association Name="fk_HelpPageItemRole_HelpPageItem" ed:Guid="70615252-32aa-44c2-893f-a92eb198a073">
           <End Role="HelpPageItem" Type="Bec.TargetFramework.Data.HelpPageItem" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -37686,6 +38068,18 @@
             </Principal>
             <Dependent Role="HelpPageItemRoles">
               <PropertyRef Name="HelpPageItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_HelpPageItemRole_Role" ed:Guid="4a02b6bf-97a7-4d64-84a4-b51a1bd0a754">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="HelpPageItemRoles" Type="Bec.TargetFramework.Data.HelpPageItemRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="HelpPageItemRoles">
+              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -44529,6 +44923,63 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SMHPages">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SMHPage">
+              <MappingFragment StoreEntitySet="SMHPages">
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="PageURL" ColumnName="PageURL" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SMHItems">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SMHItem">
+              <MappingFragment StoreEntitySet="SMHItems">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemSelector" ColumnName="ItemSelector" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="ItemPosition" ColumnName="ItemPosition" />
+                <ScalarProperty Name="TabContainerId" ColumnName="TabContainerId" />
+                <ScalarProperty Name="ItemOrder" ColumnName="ItemOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Callouts">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Callout">
+              <MappingFragment StoreEntitySet="Callouts">
+                <ScalarProperty Name="CalloutID" ColumnName="CalloutID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Selector" ColumnName="Selector" />
+                <ScalarProperty Name="EffectiveOn" ColumnName="EffectiveOn" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CalloutUserAccounts">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.CalloutUserAccount">
+              <MappingFragment StoreEntitySet="CalloutUserAccounts">
+                <ScalarProperty Name="CalloutUserAccountID" ColumnName="CalloutUserAccountID" />
+                <ScalarProperty Name="CalloutID" ColumnName="CalloutID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="HelpPages">
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.HelpPage">
               <MappingFragment StoreEntitySet="HelpPages">
@@ -44545,9 +44996,55 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SupportItems">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SupportItem">
+              <MappingFragment StoreEntitySet="SupportItems">
+                <ScalarProperty Name="SupportItemID" ColumnName="SupportItemID" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ClosedOn" ColumnName="ClosedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ClosedBy" ColumnName="ClosedBy" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RequestTypeID" ColumnName="RequestTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleHierarchies">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.RoleHierarchy">
+              <MappingFragment StoreEntitySet="RoleHierarchies">
+                <ScalarProperty Name="RoleHierarchyID" ColumnName="RoleHierarchyID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HelpPageItemUserAccounts">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.HelpPageItemUserAccount">
+              <MappingFragment StoreEntitySet="HelpPageItemUserAccounts">
+                <ScalarProperty Name="HelpItemUserAccountID" ColumnName="HelpItemUserAccountID" />
+                <ScalarProperty Name="HelpPageItemID" ColumnName="HelpPageItemID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="HelpPageItems">
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.HelpPageItem">
               <MappingFragment StoreEntitySet="HelpPageItems">
+                <ScalarProperty Name="HelpPageItemID" ColumnName="HelpPageItemID" />
                 <ScalarProperty Name="HelpPageID" ColumnName="HelpPageID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -44560,31 +45057,6 @@
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="HelpPageItemID" ColumnName="HelpPageItemID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HelpPageItemUserAccounts">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.HelpPageItemUserAccount">
-              <MappingFragment StoreEntitySet="HelpPageItemUserAccounts">
-                <ScalarProperty Name="HelpItemUserAccountID" ColumnName="HelpItemUserAccountID" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Visible" ColumnName="Visible" />
-                <ScalarProperty Name="HelpPageItemID" ColumnName="HelpPageItemID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RoleHierarchies">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.RoleHierarchy">
-              <MappingFragment StoreEntitySet="RoleHierarchies">
-                <ScalarProperty Name="RoleHierarchyID" ColumnName="RoleHierarchyID" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

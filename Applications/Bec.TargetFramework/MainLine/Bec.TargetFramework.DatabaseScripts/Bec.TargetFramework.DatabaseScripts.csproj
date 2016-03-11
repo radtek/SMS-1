@@ -62,6 +62,7 @@
     <Content Include="Development\callout\01_Schema.sql" />
     <Content Include="Development\callout\02_OrganizationRoleClaimValues.sql" />
     <Content Include="Development\help\01_Schema.sql" />
+    <Content Include="Development\help\02_OrganisationRoleClaim.sql" />
     <Content Include="Scripts\Creation Scripts\Module\AdminModule.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Admin Default Organisation.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Conveyancing Firm.sql" />

@@ -30,19 +30,19 @@ namespace Bec.TargetFramework.Business.Logic
         {
             try
             {
-                Ensure.That(helpPageDto).IsNotNull();
-                helpPageDto.HelpPageID = Guid.NewGuid();
+            Ensure.That(helpPageDto).IsNotNull();
+            helpPageDto.HelpPageID = Guid.NewGuid();
                 helpPageDto.CreatedBy = createdBy;
                 helpPageDto.CreatedOn = DateTime.Now;
-                using (var scope = DbContextScopeFactory.Create())
-                {
+            using (var scope = DbContextScopeFactory.Create())
+            {
                     scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages.Add(helpPageDto.ToEntity());
 
                     if (helpPageDto.HelpPageItems != null && helpPageDto.HelpPageItems.Count > 0)
-                    {
+                {
                         helpPageDto.HelpPageItems.ForEach(item =>
-                        {
-                            item.HelpPageID = helpPageDto.HelpPageID;
+                    {
+                        item.HelpPageID = helpPageDto.HelpPageID;
                             item.HelpPageItemID = Guid.NewGuid();
                             scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItems.Add(item.ToEntity());
                             if (helpPageDto.HelpPageTypeId == HelpPageTypeIdEnum.Tour.GetIntValue())
@@ -57,13 +57,13 @@ namespace Bec.TargetFramework.Business.Logic
                                     };
                                     scope.DbContexts.Get<TargetFrameworkEntities>().HelpPageItemRoles.Add(helpPageItemRole);
                                 }
-                            }
-                        });
                     }
-                    await scope.SaveChangesAsync();
+                        });
                 }
-                return helpPageDto.HelpPageID;
+                await scope.SaveChangesAsync();
             }
+            return helpPageDto.HelpPageID;
+        }
             catch (Exception ex)
             {
                 Logger.Error(ex);
@@ -163,8 +163,8 @@ namespace Bec.TargetFramework.Business.Logic
                             }
                         }
                     }
-                    await scope.SaveChangesAsync();
-                }
+                await scope.SaveChangesAsync();
+            }
             }
             return helpPageDto.HelpPageID;
         }
@@ -213,12 +213,12 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public List<RoleHierarchyDTO> GetRoleLists()
-        {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+                {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().RoleHierarchies.ToDtosWithRelated(1);
+                }
             }
-        }
 
         #region Client using
 
@@ -241,26 +241,26 @@ namespace Bec.TargetFramework.Business.Logic
                 var pageTypeValue = pageType.GetIntValue();
                 if (pageType == HelpPageTypeIdEnum.Tour)
                 {
-                    var pageTour = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
+                        var pageTour = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
                                 .FirstOrDefault(p => (p.HelpPageTypeId == pageTypeValue));
-                    if (pageTour != null)
-                    {
+                        if (pageTour != null)
+                        {
                         return GetHelpPageItemTours(scope, pageTour, roleId);
-                    }
+                        }
                 }
                 else if (pageType == HelpPageTypeIdEnum.ShowMeHow)
                 {
                     var lowerURL = pageUrl.ToLowerInvariant();
-                    var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
+                        var page = scope.DbContexts.Get<TargetFrameworkEntities>().HelpPages
                                  .FirstOrDefault(p => (p.PageUrl.ToLower() == lowerURL) && (p.HelpPageTypeId == pageTypeValue));
-                    if (page != null)
-                    {
+                        if (page != null)
+                        {
                         return GetHelpPageItems(scope, page);
                     }
+                        }
+                        return null;                   
                 }
-                return null;
             }
-        }
 
         public async Task<List<HelpPageItemDTO>> GetHelpItemsForCallout(Guid userId, DateTime createDate)
         {

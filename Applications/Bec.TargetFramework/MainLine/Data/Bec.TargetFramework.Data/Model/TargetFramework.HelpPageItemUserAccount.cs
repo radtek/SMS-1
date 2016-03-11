@@ -83,18 +83,18 @@ namespace Bec.TargetFramework.Data
         #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for UserAccount in the schema.
+        /// There are no comments for HelpPageItem in the schema.
         /// </summary>
-        public virtual UserAccount UserAccount
+        public virtual HelpPageItem HelpPageItem
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for HelpPageItem in the schema.
+        /// There are no comments for UserAccount in the schema.
         /// </summary>
-        public virtual HelpPageItem HelpPageItem
+        public virtual UserAccount UserAccount
         {
             get;
             set;

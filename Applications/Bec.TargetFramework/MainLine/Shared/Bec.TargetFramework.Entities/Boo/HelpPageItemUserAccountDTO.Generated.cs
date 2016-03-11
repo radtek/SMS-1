@@ -22,15 +22,15 @@ namespace Bec.TargetFramework.Entities
         public HelpPageItemUserAccountDTO() {
         }
 
-        public HelpPageItemUserAccountDTO(global::System.Guid helpItemUserAccountID, global::System.Guid helpPageItemID, global::System.DateTime createdOn, global::System.Guid userID, global::System.Nullable<bool> visible, UserAccountDTO userAccount, HelpPageItemDTO helpPageItem) {
+        public HelpPageItemUserAccountDTO(global::System.Guid helpItemUserAccountID, global::System.Guid helpPageItemID, global::System.DateTime createdOn, global::System.Guid userID, global::System.Nullable<bool> visible, HelpPageItemDTO helpPageItem, UserAccountDTO userAccount) {
 
           this.HelpItemUserAccountID = helpItemUserAccountID;
           this.HelpPageItemID = helpPageItemID;
           this.CreatedOn = createdOn;
           this.UserID = userID;
           this.Visible = visible;
-          this.UserAccount = userAccount;
           this.HelpPageItem = helpPageItem;
+          this.UserAccount = userAccount;
         }
 
         #endregion
@@ -57,10 +57,10 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public UserAccountDTO UserAccount { get; set; }
+        public HelpPageItemDTO HelpPageItem { get; set; }
 
         [DataMember]
-        public HelpPageItemDTO HelpPageItem { get; set; }
+        public UserAccountDTO UserAccount { get; set; }
 
         #endregion
     }

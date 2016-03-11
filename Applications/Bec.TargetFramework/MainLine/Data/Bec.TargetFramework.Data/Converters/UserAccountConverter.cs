@@ -87,6 +87,7 @@ namespace Bec.TargetFramework.Entities
               target.UserClaims = source.UserClaims.ToDtosWithRelated(level - 1);
               target.UserAccountArchives = source.UserAccountArchives.ToDtosWithRelated(level - 1);
               target.UserAccountLoginSessions = source.UserAccountLoginSessions.ToDtosWithRelated(level - 1);
+              target.CalloutUserAccounts = source.CalloutUserAccounts.ToDtosWithRelated(level - 1);
               target.HelpPageItemUserAccounts = source.HelpPageItemUserAccounts.ToDtosWithRelated(level - 1);
             }
 

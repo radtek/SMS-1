@@ -100,16 +100,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for ModifiedBy in the schema.
-        /// </summary>
-        public virtual string ModifiedBy
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for IsActive in the schema.
         /// </summary>
         public virtual bool IsActive
@@ -123,6 +113,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for IsDeleted in the schema.
         /// </summary>
         public virtual bool IsDeleted
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedBy in the schema.
+        /// </summary>
+        public virtual string ModifiedBy
         {
             get;
             set;

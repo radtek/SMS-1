@@ -37,8 +37,8 @@ namespace Bec.TargetFramework.Entities
 
             // Navigation Properties
             if (level > 0) {
-              target.Role = source.Role.ToDtoWithRelated(level - 1);
               target.HelpPageItem = source.HelpPageItem.ToDtoWithRelated(level - 1);
+              target.Role = source.Role.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

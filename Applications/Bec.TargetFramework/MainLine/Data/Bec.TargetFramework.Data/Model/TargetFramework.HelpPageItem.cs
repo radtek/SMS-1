@@ -163,18 +163,18 @@ namespace Bec.TargetFramework.Data
         #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for HelpPage in the schema.
+        /// There are no comments for HelpPageItemUserAccounts in the schema.
         /// </summary>
-        public virtual HelpPage HelpPage
+        public virtual ICollection<HelpPageItemUserAccount> HelpPageItemUserAccounts
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for HelpPageItemUserAccounts in the schema.
+        /// There are no comments for HelpPage in the schema.
         /// </summary>
-        public virtual ICollection<HelpPageItemUserAccount> HelpPageItemUserAccounts
+        public virtual HelpPage HelpPage
         {
             get;
             set;

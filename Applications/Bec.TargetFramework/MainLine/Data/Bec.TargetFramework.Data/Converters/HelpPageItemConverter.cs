@@ -45,8 +45,8 @@ namespace Bec.TargetFramework.Entities
 
             // Navigation Properties
             if (level > 0) {
-              target.HelpPage = source.HelpPage.ToDtoWithRelated(level - 1);
               target.HelpPageItemUserAccounts = source.HelpPageItemUserAccounts.ToDtosWithRelated(level - 1);
+              target.HelpPage = source.HelpPage.ToDtoWithRelated(level - 1);
               target.HelpPageItemRoles = source.HelpPageItemRoles.ToDtosWithRelated(level - 1);
             }
 

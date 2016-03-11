@@ -95,6 +95,8 @@
     <Compile Include="Converters\BillingTemplateConverter.cs" />
     <Compile Include="Converters\BucketConverter.cs" />
     <Compile Include="Converters\BucketTemplateConverter.cs" />
+    <Compile Include="Converters\CalloutConverter.cs" />
+    <Compile Include="Converters\CalloutUserAccountConverter.cs" />
     <Compile Include="Converters\ClassificationTypeCategoryConverter.cs" />
     <Compile Include="Converters\ClassificationTypeConverter.cs" />
     <Compile Include="Converters\CompanyHouseConverter.cs" />
@@ -360,6 +362,8 @@
     <Compile Include="Converters\ShoppingCartItemConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductAttributeConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductSpecificationConverter.cs" />
+    <Compile Include="Converters\SMHItemConverter.cs" />
+    <Compile Include="Converters\SMHPageConverter.cs" />
     <Compile Include="Converters\SmsBankAccountCheckConverter.cs" />
     <Compile Include="Converters\SmsSrcFundsBankAccountConverter.cs" />
     <Compile Include="Converters\SmsTransactionConverter.cs" />
@@ -387,6 +391,7 @@
     <Compile Include="Converters\StatusTypeValueTemplateConverter.cs" />
     <Compile Include="Converters\StructureConverter.cs" />
     <Compile Include="Converters\SubscriptionConverter.cs" />
+    <Compile Include="Converters\SupportItemConverter.cs" />
     <Compile Include="Converters\TaxRateConverter.cs" />
     <Compile Include="Converters\TaxRateTemplateConverter.cs" />
     <Compile Include="Converters\TenantConverter.cs" />
@@ -497,6 +502,8 @@
     <Compile Include="Model\TargetFramework.BillingTemplate.cs" />
     <Compile Include="Model\TargetFramework.Bucket.cs" />
     <Compile Include="Model\TargetFramework.BucketTemplate.cs" />
+    <Compile Include="Model\TargetFramework.Callout.cs" />
+    <Compile Include="Model\TargetFramework.CalloutUserAccount.cs" />
     <Compile Include="Model\TargetFramework.ClassificationType.cs" />
     <Compile Include="Model\TargetFramework.ClassificationTypeCategory.cs" />
     <Compile Include="Model\TargetFramework.CompanyHouse.cs" />
@@ -762,6 +769,8 @@
     <Compile Include="Model\TargetFramework.ShoppingCartItem.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductAttribute.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductSpecification.cs" />
+    <Compile Include="Model\TargetFramework.SMHItem.cs" />
+    <Compile Include="Model\TargetFramework.SMHPage.cs" />
     <Compile Include="Model\TargetFramework.SmsBankAccountCheck.cs" />
     <Compile Include="Model\TargetFramework.SmsSrcFundsBankAccount.cs" />
     <Compile Include="Model\TargetFramework.SmsTransaction.cs" />
@@ -789,6 +798,7 @@
     <Compile Include="Model\TargetFramework.StatusTypeValueTemplate.cs" />
     <Compile Include="Model\TargetFramework.Structure.cs" />
     <Compile Include="Model\TargetFramework.Subscription.cs" />
+    <Compile Include="Model\TargetFramework.SupportItem.cs" />
     <Compile Include="Model\TargetFramework.TargetFrameworkEntities.cs">
       <SubType>Code</SubType>
     </Compile>

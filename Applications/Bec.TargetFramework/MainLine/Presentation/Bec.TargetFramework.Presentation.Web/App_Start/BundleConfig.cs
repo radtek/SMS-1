@@ -118,6 +118,9 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RejectTempCompany").Include("~/Areas/Admin/Views/Shared/_RejectTempCompany.js"));
                         
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/Index").Include("~/Areas/Admin/Views/Help/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/SupportItem/Index").Include("~/Areas/Admin/Views/SupportItem/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/SupportItem/_AddSupportItem").Include("~/Areas/Admin/Views/SupportItem/_AddSupportItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/SupportItem/_CloseSupportItem").Include("~/Areas/Admin/Views/SupportItem/_CloseSupportItem.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditHelp").Include("~/Areas/Admin/Views/Help/_EditHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddHelp").Include("~/Areas/Admin/Views/Help/_AddHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_DeleteHelpPage").Include("~/Areas/Admin/Views/Help/_DeleteHelpPage.js"));

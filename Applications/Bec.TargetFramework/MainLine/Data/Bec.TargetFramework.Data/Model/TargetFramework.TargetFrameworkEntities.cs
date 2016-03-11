@@ -2038,14 +2038,39 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<File> Files { get; set; }
     
         /// <summary>
+        /// There are no comments for SMHPage in the schema.
+        /// </summary>
+        public virtual DbSet<SMHPage> SMHPages { get; set; }
+    
+        /// <summary>
+        /// There are no comments for SMHItem in the schema.
+        /// </summary>
+        public virtual DbSet<SMHItem> SMHItems { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Callout in the schema.
+        /// </summary>
+        public virtual DbSet<Callout> Callouts { get; set; }
+    
+        /// <summary>
+        /// There are no comments for CalloutUserAccount in the schema.
+        /// </summary>
+        public virtual DbSet<CalloutUserAccount> CalloutUserAccounts { get; set; }
+    
+        /// <summary>
         /// There are no comments for HelpPage in the schema.
         /// </summary>
         public virtual DbSet<HelpPage> HelpPages { get; set; }
     
         /// <summary>
-        /// There are no comments for HelpPageItem in the schema.
+        /// There are no comments for SupportItem in the schema.
         /// </summary>
-        public virtual DbSet<HelpPageItem> HelpPageItems { get; set; }
+        public virtual DbSet<SupportItem> SupportItems { get; set; }
+    
+        /// <summary>
+        /// There are no comments for RoleHierarchy in the schema.
+        /// </summary>
+        public virtual DbSet<RoleHierarchy> RoleHierarchies { get; set; }
     
         /// <summary>
         /// There are no comments for HelpPageItemUserAccount in the schema.
@@ -2053,9 +2078,9 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<HelpPageItemUserAccount> HelpPageItemUserAccounts { get; set; }
     
         /// <summary>
-        /// There are no comments for RoleHierarchy in the schema.
+        /// There are no comments for HelpPageItem in the schema.
         /// </summary>
-        public virtual DbSet<RoleHierarchy> RoleHierarchies { get; set; }
+        public virtual DbSet<HelpPageItem> HelpPageItems { get; set; }
     
         /// <summary>
         /// There are no comments for HelpPageItemRole in the schema.

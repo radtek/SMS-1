@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public HelpPageItemDTO() {
         }
 
-        public HelpPageItemDTO(global::System.Guid helpPageItemID, global::System.Guid helpPageID, string title, string description, int displayOrder, string selector, string tabContainerId, global::System.Nullable<System.DateTime> effectiveOn, global::System.Nullable<int> position, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, HelpPageDTO helpPage, List<HelpPageItemUserAccountDTO> helpPageItemUserAccounts, List<HelpPageItemRoleDTO> helpPageItemRoles) {
+        public HelpPageItemDTO(global::System.Guid helpPageItemID, global::System.Guid helpPageID, string title, string description, int displayOrder, string selector, string tabContainerId, global::System.Nullable<System.DateTime> effectiveOn, global::System.Nullable<int> position, global::System.DateTime createdOn, global::System.Nullable<System.DateTime> modifiedOn, string createdBy, string modifiedBy, List<HelpPageItemUserAccountDTO> helpPageItemUserAccounts, HelpPageDTO helpPage, List<HelpPageItemRoleDTO> helpPageItemRoles) {
 
           this.HelpPageItemID = helpPageItemID;
           this.HelpPageID = helpPageID;
@@ -37,8 +37,8 @@ namespace Bec.TargetFramework.Entities
           this.ModifiedOn = modifiedOn;
           this.CreatedBy = createdBy;
           this.ModifiedBy = modifiedBy;
-          this.HelpPage = helpPage;
           this.HelpPageItemUserAccounts = helpPageItemUserAccounts;
+          this.HelpPage = helpPage;
           this.HelpPageItemRoles = helpPageItemRoles;
         }
 
@@ -90,10 +90,10 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public HelpPageDTO HelpPage { get; set; }
+        public List<HelpPageItemUserAccountDTO> HelpPageItemUserAccounts { get; set; }
 
         [DataMember]
-        public List<HelpPageItemUserAccountDTO> HelpPageItemUserAccounts { get; set; }
+        public HelpPageDTO HelpPage { get; set; }
 
         [DataMember]
         public List<HelpPageItemRoleDTO> HelpPageItemRoles { get; set; }

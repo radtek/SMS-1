@@ -22,15 +22,15 @@ namespace Bec.TargetFramework.Entities
         public HelpPageItemRoleDTO() {
         }
 
-        public HelpPageItemRoleDTO(global::System.Guid helpPageItemRoleID, global::System.Guid roleID, global::System.Guid helpPageItemID, bool isActive, bool isDeleted, RoleDTO role, HelpPageItemDTO helpPageItem) {
+        public HelpPageItemRoleDTO(global::System.Guid helpPageItemRoleID, global::System.Guid roleID, global::System.Guid helpPageItemID, bool isActive, bool isDeleted, HelpPageItemDTO helpPageItem, RoleDTO role) {
 
           this.HelpPageItemRoleID = helpPageItemRoleID;
           this.RoleID = roleID;
           this.HelpPageItemID = helpPageItemID;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
-          this.Role = role;
           this.HelpPageItem = helpPageItem;
+          this.Role = role;
         }
 
         #endregion
@@ -57,10 +57,10 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public RoleDTO Role { get; set; }
+        public HelpPageItemDTO HelpPageItem { get; set; }
 
         [DataMember]
-        public HelpPageItemDTO HelpPageItem { get; set; }
+        public RoleDTO Role { get; set; }
 
         #endregion
     }
