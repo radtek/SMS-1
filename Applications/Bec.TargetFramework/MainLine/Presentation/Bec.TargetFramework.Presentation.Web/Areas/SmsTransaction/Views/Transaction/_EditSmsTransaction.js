@@ -88,7 +88,8 @@
             resList: '#txAddressResults',
             manAddRow: '#txManAddRow',
             noMatch: '#txNoMatch',
-            findAddressButton: '#txFindAddressButton'
+            findAddressButton: '#txFindAddressButton',
+            alwaysEditable: true
         }).setup();
     }
 

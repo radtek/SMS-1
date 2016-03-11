@@ -123,13 +123,13 @@
                                 <div class="row">
                                     <section class="col col-6">
                                         <div class="input">
-                                            @Html.TextBoxFor(m => m.Dto.Address.Line1, new { id = "txLine1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "19", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.Dto.Address.Line1, new { id = "txLine1", placeholder = "Address Line 1", tabindex = "19", maxlength = 50 })
                                             @Html.PendingChangesButtonFor(m => m.Dto.Address.Line1, "Line1", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "txLine1", "TBC")
                                         </div>
                                     </section>
                                     <section class="col col-6">
                                         <div class="input">
-                                            @Html.TextBoxFor(m => m.Dto.Address.County, new { id = "txCounty", @readonly = "readonly", placeholder = "County", tabindex = "22", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.Dto.Address.County, new { id = "txCounty", placeholder = "County", tabindex = "22", maxlength = 50 })
                                             @Html.PendingChangesButtonFor(m => m.Dto.Address.County, "County", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "txCounty", "")
                                         </div>
                                     </section>
@@ -138,13 +138,13 @@
                                 <div class="row">
                                     <section class="col col-6">
                                         <div class="input">
-                                            @Html.TextBoxFor(m => m.Dto.Address.Line2, new { id = "txLine2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "20", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.Dto.Address.Line2, new { id = "txLine2", placeholder = "Address Line 2", tabindex = "20", maxlength = 50 })
                                             @Html.PendingChangesButtonFor(m => m.Dto.Address.Line2, "Line2", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "txLine2", "")
                                         </div>
                                     </section>
                                     <section class="col col-6">
                                         <div class="input">
-                                            @Html.TextBoxFor(m => m.Dto.Address.PostalCode, new { id = "txPostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "23", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.Dto.Address.PostalCode, new { id = "txPostalCode", placeholder = "Postcode", tabindex = "23", maxlength = 50 })
                                             @Html.PendingChangesButtonFor(m => m.Dto.Address.PostalCode, "PostalCode", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "txPostalCode", "")
                                         </div>
                                     </section>
@@ -153,7 +153,7 @@
                                 <div class="row">
                                     <section class="col col-6">
                                         <div class="input">
-                                            @Html.TextBoxFor(m => m.Dto.Address.Town, new { id = "txTown", @readonly = "readonly", placeholder = "Town", tabindex = "21", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.Dto.Address.Town, new { id = "txTown", placeholder = "Town", tabindex = "21", maxlength = 50 })
                                             @Html.PendingChangesButtonFor(m => m.Dto.Address.Town, "Town", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "txTown", "")
                                         </div>
                                     </section>

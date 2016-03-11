@@ -87,7 +87,9 @@ namespace Bec.TargetFramework.Business.Extensions
         private static void ResolveProperty(IDbContextScope scope, object approved, Guid uaoID, DateTime dateTime, FieldUpdateDTO update)
         {
             var approvedValue = approved == null ? null : approved.GetType().GetProperty(update.FieldName).GetValue(approved);
-            var approvedStringValue = approvedValue == null ? null : approvedValue.ToString();
+            var approvedStringValue = (approvedValue == null ? string.Empty : approvedValue.ToString()).Trim();
+            update.Value = (update.Value ?? string.Empty).Trim();
+
             var existingUpdate = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.SingleOrDefault(x =>
                 x.ActivityID == update.ActivityID &&
                 x.ActivityType == update.ActivityType &&
@@ -99,7 +101,7 @@ namespace Bec.TargetFramework.Business.Extensions
             {
                 if (existingUpdate != null)
                 {
-                    if (existingUpdate.Value != update.Value)
+                    if (existingUpdate.Value.Trim() != update.Value)
                     {
                         existingUpdate.UserAccountOrganisationID = uaoID;
                         existingUpdate.ModifiedOn = dateTime;

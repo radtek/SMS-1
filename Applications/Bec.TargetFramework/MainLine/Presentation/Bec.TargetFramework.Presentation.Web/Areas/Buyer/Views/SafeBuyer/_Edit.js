@@ -178,7 +178,8 @@
             resList: '#primaryBuyerAddressResults',
             manAddRow: '#primaryBuyerManAddRow',
             noMatch: '#primaryBuyerNoMatch',
-            findAddressButton: '#primaryBuyerFindAddressButton'
+            findAddressButton: '#primaryBuyerFindAddressButton',
+            alwaysEditable: true
         }).setup();
     }
 
@@ -194,7 +195,8 @@
             resList: '#sms_addressresults',
             manAddRow: '#sms_manAddRow',
             noMatch: '#sms_noMatch',
-            findAddressButton: '#sms_findaddressbutton'
+            findAddressButton: '#sms_findaddressbutton',
+            alwaysEditable: true
         }).setup();
     }
 });

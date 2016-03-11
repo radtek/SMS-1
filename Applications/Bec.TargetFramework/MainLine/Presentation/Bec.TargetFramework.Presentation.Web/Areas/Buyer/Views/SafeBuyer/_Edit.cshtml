@@ -121,26 +121,12 @@
                                                 <section class="col col-6">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Address.Line1, new { id = "primaryBuyerLine1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "10", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.Address.Line1, new { id = "primaryBuyerLine1", placeholder = "Address Line 1", tabindex = "10", maxlength = 50 })
                                                     </label>
                                                 </section>
                                                 <section class="col col-6">
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.Address.County, new { id = "primaryBuyerCounty", @readonly = "readonly", placeholder = "County", tabindex = "13", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                            </div>
-
-                                            <div class="row">
-                                                <section class="col col-6">
-                                                    <label class="input">
-                                                        @Html.TextBoxFor(m => m.Address.Line2, new { id = "primaryBuyerLine2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "11", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                                <section class="col col-6">
-                                                    <label class="input">
-                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Address.PostalCode, new { id = "primaryBuyerPostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "14", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.Address.County, new { id = "primaryBuyerCounty", placeholder = "County", tabindex = "13", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
@@ -148,8 +134,22 @@
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="input">
+                                                        @Html.TextBoxFor(m => m.Address.Line2, new { id = "primaryBuyerLine2", placeholder = "Address Line 2", tabindex = "11", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Address.Town, new { id = "primaryBuyerTown", @readonly = "readonly", placeholder = "Town", tabindex = "12", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.Address.PostalCode, new { id = "primaryBuyerPostalCode", placeholder = "Postcode", tabindex = "14", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.Address.Town, new { id = "primaryBuyerTown", placeholder = "Town", tabindex = "12", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
@@ -202,26 +202,12 @@
                                                 <section class="col col-6">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "19", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { id = "sms_Line1", placeholder = "Address Line 1", tabindex = "19", maxlength = 50 })
                                                     </label>
                                                 </section>
                                                 <section class="col col-6">
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "22", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                            </div>
-
-                                            <div class="row">
-                                                <section class="col col-6">
-                                                    <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "20", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                                <section class="col col-6">
-                                                    <label class="input">
-                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "23", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.County, new { id = "sms_County", placeholder = "County", tabindex = "22", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
@@ -229,8 +215,22 @@
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="input">
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Line2, new { id = "sms_Line2", placeholder = "Address Line 2", tabindex = "20", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "21", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.PostalCode, new { id = "sms_PostalCode", placeholder = "Postcode", tabindex = "23", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Town, new { id = "sms_Town", placeholder = "Town", tabindex = "21", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
