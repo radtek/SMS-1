@@ -108,7 +108,6 @@
                 type: "POST",
                 data: formData
             }).done(function (res) {
-                console.log(res);
                 if (res.result === true)
                     window.location = confirmDetailsForm.data("redirectto") + "?selectedTransactionId=" + res.selectedTransactionId;
                 else {
