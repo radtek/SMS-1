@@ -1172,8 +1172,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void RemoveProductFromShoppingCart(Guid cartID,Guid itemID);
 	}
 
-	
-
 	public partial interface ISupportLogicClient : IClientBase	{	
 
 		/// <param name="OrgId"></param>
@@ -1658,6 +1656,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel);
 
+		/// <param name="roleName"></param>
+		/// <returns></returns>
+		Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(String roleName);
+
+		/// <param name="roleName"></param>
+		/// <returns></returns>
+		List<UserAccountOrganisationRoleDTO> GetRoles(String roleName);
+
 		/// <param name="uaoId"></param>
 		/// <param name="newUsername"></param>
 		/// <returns></returns>
@@ -1694,7 +1700,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 }
 #endregion
 
-
+#region Clients
 namespace Bec.TargetFramework.Business.Client.Clients
 {
 	/// <summary>
@@ -4656,7 +4662,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-		/// <summary>
+	/// <summary>
 	/// 
 	/// </summary>
 	public partial class SupportLogicClient : ClientBase, Interfaces.ISupportLogicClient	{		
@@ -4697,7 +4703,8 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem?OrgId=" + OrgId, supportItemDto, _user)).Result;
 		}
 
-}
+		#endregion
+	}
 	/// <summary>
 	/// 
 	/// </summary>
@@ -5991,6 +5998,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="roleName"></param>
+		/// <returns></returns>
+		public virtual Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(String roleName)
+		{
+			roleName = roleName.UrlEncode();
+			string _user = getHttpContextUser();
+			return GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?roleName=" + roleName, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="roleName"></param>
+		public virtual List<UserAccountOrganisationRoleDTO> GetRoles(String roleName)
+		{
+			roleName = roleName.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?roleName=" + roleName, _user)).Result;
 		}
 
 		/// <summary>
