@@ -1058,11 +1058,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
-		Task<Boolean> IsSmsTransactionPotentiallyFreeAsync(Guid txID);
+		Task<Boolean> IsSafeBuyerPotentiallyFreeAsync(Guid txID);
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
-		Boolean IsSmsTransactionPotentiallyFree(Guid txID);
+		Boolean IsSafeBuyerPotentiallyFree(Guid txID);
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
@@ -4329,20 +4329,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="txID"></param>
 		/// <returns></returns>
-		public virtual Task<Boolean> IsSmsTransactionPotentiallyFreeAsync(Guid txID)
+		public virtual Task<Boolean> IsSafeBuyerPotentiallyFreeAsync(Guid txID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, Boolean>("api/OrganisationLogic/IsSmsTransactionPotentiallyFree?txID=" + txID, null, _user);
+			return PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeBuyerPotentiallyFree?txID=" + txID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="txID"></param>
-		public virtual Boolean IsSmsTransactionPotentiallyFree(Guid txID)
+		public virtual Boolean IsSafeBuyerPotentiallyFree(Guid txID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsSmsTransactionPotentiallyFree?txID=" + txID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeBuyerPotentiallyFree?txID=" + txID, null, _user)).Result;
 		}
 
 		/// <summary>

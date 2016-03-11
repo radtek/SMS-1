@@ -1182,13 +1182,24 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public bool IsSmsTransactionPotentiallyFree(Guid txID)
+        public bool IsSafeBuyerPotentiallyFree(Guid txID)
         {
+            // That method is not to make any critical decision, i.e. on payment.
+            // It temporarily whitelists the lender names which make the Safe Buyer a Free product.
+            // The final decision should rely on SIRA Match result.
+            var excludedLenderName = Settings.GetSettings().AsSettings<ProductSettings>().SafeBuyerForFreeLenderName;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
+                var result = false;
                 var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Single(x => x.SmsTransactionID == txID);
                 var lenderName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "LenderName", tx.LenderName);
-                return lenderName == "Paragon Mortgages Ltd";
+
+                var lender = scope.DbContexts.Get<TargetFrameworkEntities>().Lenders.SingleOrDefault(x => x.Name == lenderName);
+                if (lender != null && lender.Organisation != null)
+                {
+                    result = lender.Organisation.OrganisationDetails.Any(x => x.Name == excludedLenderName);
+                }
+                return result;
             }
         }
 

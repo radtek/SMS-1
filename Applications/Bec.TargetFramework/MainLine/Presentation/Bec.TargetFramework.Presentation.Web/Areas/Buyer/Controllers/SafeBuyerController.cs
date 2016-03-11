@@ -35,7 +35,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 var model = await GetUaots(selectedTransactionId.Value);
                 var uaot = model.FirstOrDefault();
                 ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
-                ViewBag.IsSmsTransactionPotentiallyFree = await OrganisationClient.IsSmsTransactionPotentiallyFreeAsync(selectedTransactionId.Value);
+                ViewBag.IsSafeBuyerPotentiallyFree = await OrganisationClient.IsSafeBuyerPotentiallyFreeAsync(selectedTransactionId.Value);
 
                 var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
                 return View(modelWithUpdates);
