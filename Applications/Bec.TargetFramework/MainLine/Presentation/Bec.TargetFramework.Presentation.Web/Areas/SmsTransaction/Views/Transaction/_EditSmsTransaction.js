@@ -1,5 +1,8 @@
 ﻿$(function () {
 
+    setupSmsPostcodeLookup();
+    setupMortgageSelect();
+
     $("#editSmsTransaction-form").fieldPendingUpdates({
         selector: '.pending-changes-button',
         includeApproveReject: true,
@@ -40,31 +43,24 @@
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            'Model.Contact.Salutation': {
-                required: true
-            },
-            'Model.Contact.FirstName': {
-                required: true
-            },
-            'Model.Contact.LastName': {
-                required: true
-            },
-            'Model.UserAccountOrganisation.UserAccount.Email': {
+            "Dto.Price":{
                 required: true,
-                email: true,
-                remote: {
-                    cache: false,
-                    url: $('#Model_UserAccountOrganisation_UserAccount_Email').data("url"),
-                    data: {
-                        email: function () { return $('#Model_UserAccountOrganisation_UserAccount_Email').val(); },
-                        uaoID: function () { return $('#uaoID').val(); }
-                    },
-                    dataType: 'json',
-                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                digits: true,
+                max: 2147483647
+            },
+            "Dto.LenderName": {
+                required: {
+                    depends: function (element) {
+                        return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
+                    }
                 }
             },
-            'Model.Contact.BirthDate': {
-                required: true
+            "Dto.MortgageApplicationNumber": {
+                required: {
+                    depends: function (element) {
+                        return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
+                    }
+                }
             }
         },
 
@@ -79,4 +75,49 @@
     makeDatePicker("#birthDateInput", {
         maxDate: new Date()
     });
+
+    function setupSmsPostcodeLookup() {
+        new findAddress({
+            postcodelookup: '#txPostcodeLookup',
+            line1: '#txLine1',
+            line2: '#txLine2',
+            town: '#txTown',
+            county: '#txCounty',
+            postcode: '#txPostalCode',
+            manualAddress: '#txManualAddress',
+            resList: '#txAddressResults',
+            manAddRow: '#txManAddRow',
+            noMatch: '#txNoMatch',
+            findAddressButton: '#txFindAddressButton',
+            alwaysEditable: true
+        }).setup();
+    }
+
+    function setupMortgageSelect() {
+        var mortgageSel = $("#BuyingWithMortgageSelect");
+        mortgageSel.change(function () {
+            $(this).find("option:selected").each(function () {
+                var selectedValue = parseInt($(this).attr("value"));
+                $("#BuyingWithMortgageContainer").toggle(!!selectedValue);
+                if (selectedValue != 1) {
+                    $('#lenderSearch').val('');
+                    $('#mortgageAppNumber').val('');
+                }
+            });
+        });
+
+        var lenderInput = $('#lenderSearch');
+        var lenderCheck = $('#lenderSearch-check');
+        var appNumberInput = $('#mortgageAppNumber');
+        var appNumberCheck = $('#mortgageAppNumber-check');
+        
+        var mortgagePresent =  (lenderInput.val() || lenderCheck.length > 0 || appNumberInput.val() || appNumberCheck.length > 0)
+        
+        mortgageSel.val(mortgagePresent ? '1' : '0');
+        mortgageSel.change();
+
+        lenderInput.lenderSearch({
+            searchUrl: lenderInput.data("url")
+        });
+    }
 });

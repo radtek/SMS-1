@@ -463,7 +463,7 @@ form {
     cursor: pointer !important;
 }
 
-.icon-append {
+.icon-append, .icon-prepend {
     z-index: 200;
 }
 
@@ -1032,6 +1032,10 @@ form.smart-form.pending-update-form {
     color: @color-reject;
     background-color: lighten(@color-reject, 60%);
     border-radius: 2px;
+}
+
+input[type=radio]:checked + label.approve-reject-button{
+    background-color:@color-pending-update;
 }
 
 // xs and sm

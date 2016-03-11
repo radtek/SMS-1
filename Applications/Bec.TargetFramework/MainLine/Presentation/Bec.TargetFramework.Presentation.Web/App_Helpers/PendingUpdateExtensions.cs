@@ -18,15 +18,15 @@ namespace Bec.TargetFramework.Presentation.Web.App_Helpers
     {
         public static async Task<PendingUpdateModel<TDto>> WithFieldUpdates<TDto>(this TDto model, HttpContextBase httpContext, ActivityType activityType, Guid activityID, IQueryLogicClient queryClient)
         {
-            var resultPendingUpdates = await model.GetFieldUpdates(httpContext, activityType, activityID, queryClient);
+            var resultPendingUpdates = await GetFieldUpdates(httpContext, activityType, activityID, queryClient);
             return new PendingUpdateModel<TDto> { Dto = model, FieldUpdates = resultPendingUpdates };
         }
 
-        public static async Task<IEnumerable<FieldUpdateDTO>> GetFieldUpdates<TDto>(this TDto model, HttpContextBase httpContext, ActivityType activityType, Guid activityID, IQueryLogicClient queryClient)
+        public static async Task<IEnumerable<FieldUpdateDTO>> GetFieldUpdates(HttpContextBase httpContext, ActivityType activityType, Guid activityID, IQueryLogicClient queryClient)
         {
             var activityTypeId = activityType.GetIntValue();
             await EnsureCanAccessFieldUpdates(httpContext, activityTypeId, activityID, false, queryClient);
-            var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.FieldName, x.Value, x.ParentID, x.ParentType, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
+            var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.ActivityType, x.ActivityID, x.FieldName, x.Value, x.ParentID, x.ParentType, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
             var filter = ODataHelper.Filter<FieldUpdateDTO>(x => x.ActivityType == activityTypeId && x.ActivityID == activityID);
             return await queryClient.QueryAsync<FieldUpdateDTO>("FieldUpdates", select + filter);
         }
@@ -91,6 +91,14 @@ namespace Bec.TargetFramework.Presentation.Web.App_Helpers
                     Value = x.Value
                 })
             );
+        }
+
+        internal static async Task<bool> CanEditBirthDate(Guid uaoID, Guid currentSmsTransactionID, IQueryLogicClient QueryClient)
+        {
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID != currentSmsTransactionID);
+            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            return !res.Any();
         }
     }
 }

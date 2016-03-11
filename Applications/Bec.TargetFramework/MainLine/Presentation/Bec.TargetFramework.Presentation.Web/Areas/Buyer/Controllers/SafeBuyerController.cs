@@ -276,14 +276,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return data;
         }
 
-        private async Task<bool> CanEditBirthDate(Guid uaoID, Guid currentSmsTransactionID)
-        {
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID != currentSmsTransactionID);
-            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
-            return !res.Any();
-        }
-
         internal static async Task EnsureCanPurchaseProduct(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
         {
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
@@ -356,7 +348,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             var tx = await OrganisationClient.GetSmsTransactionWithPendingUpdatesAsync(txID);
             var uaot = tx.SmsUserAccountOrganisationTransactions.Single(x => x.UserAccountOrganisationID == uaoID);
-            ViewBag.canEditBirthDate = await CanEditBirthDate(uaoID, txID);
+            ViewBag.canEditBirthDate = await PendingUpdateExtensions.CanEditBirthDate(uaoID, txID, QueryClient);
+
             return PartialView("_Edit", uaot);
         }
 

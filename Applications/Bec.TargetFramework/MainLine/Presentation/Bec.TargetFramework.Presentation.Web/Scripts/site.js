@@ -459,6 +459,10 @@ var findAddress = function (opts) {
     this.noMatch = $(opts.noMatch);
     this.findAddressButton = $(opts.findAddressButton);
 
+    opts = $.extend({
+        alwaysEditable: false
+    }, opts);
+
     var self = this;
 
     this.setup = function () {
@@ -479,7 +483,7 @@ var findAddress = function (opts) {
                 }
             }
             else {
-                self.manAddRow.show();
+                if (!opts.alwaysEditable) self.manAddRow.show();
                 self.checkMan(false);
                 if (self.companyName.length > 0) self.companyName.val(selOpt.attr('data-Company'));
                 if (self.line1.length > 0) self.line1.val(selOpt.attr('data-Line1'));
@@ -550,7 +554,7 @@ var findAddress = function (opts) {
 
     this.checkMan = function (check) {
         self.manualAddress.prop('checked', check);
-        self.lockFields(!check);
+        if (!opts.alwaysEditable) self.lockFields(!check);
     }
 
     this.lockFields = function (lock) {
