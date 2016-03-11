@@ -31,10 +31,7 @@
             "Address.PostalCode": {
                 required: true,
                 minlength: 5
-            }
-        };
-
-        var smsTransactionValidationRules = {
+            },
             "SmsTransaction.Address.Line1": {
                 required: true
             },
@@ -70,10 +67,6 @@
         };
 
         var confirmDetailsForm = $("#confirmDetails-form");
-        var canEditTransactionDetails = !!confirmDetailsForm.data('can-edit-transaction-details');
-        if (canEditTransactionDetails) {
-            _.extend(validationRules, smsTransactionValidationRules);
-        }
 
         confirmDetailsForm.validate({
             ignore: '.skip',
