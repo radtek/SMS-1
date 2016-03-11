@@ -146,9 +146,6 @@
                     $('#submitAddTransaction').hide();
                     $('#stepNext').show();
                 }
-            },
-            onTabClick: function (tab, navigation, index) {
-                return false;
             }
         });
 
