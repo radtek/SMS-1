@@ -354,7 +354,8 @@ form em.invalid {
 .btn-header > :first-child > a {
   cursor: pointer !important;
 }
-.icon-append {
+.icon-append,
+.icon-prepend {
   z-index: 200;
 }
 #userMenu {
@@ -780,6 +781,9 @@ form.smart-form.pending-update-form .pending-changes-button:hover {
 form.smart-form.pending-update-form div.input input {
   position: relative;
   z-index: 1;
+}
+input[type=radio]:checked + label.approve-reject-button {
+  background-color: #6eb0df;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {

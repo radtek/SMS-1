@@ -15,6 +15,9 @@ using Bec.TargetFramework.Presentation.Web.Models;
 using System.Globalization;
 using Bec.TargetFramework.Entities;
 using System.Security.Cryptography;
+using Bec.TargetFramework.Presentation.Web.Helpers;
+using System.Threading.Tasks;
+using Bec.TargetFramework.Business.Client.Interfaces;
 
 #endregion
 
@@ -254,9 +257,10 @@ namespace Bec.TargetFramework.Presentation.Web
                 button.InnerHtml = icon.ToString();
 
                 var hiddenCheckbox = new TagBuilder("input");
+                hiddenCheckbox.Attributes.Add("id", inputId + "-check");
                 hiddenCheckbox.Attributes.Add("type", "checkbox");
                 hiddenCheckbox.Attributes.Add("name", "FieldUpdates[]");
-                hiddenCheckbox.Attributes.Add("value", GetUpdateHash(update));
+                hiddenCheckbox.Attributes.Add("value", update.GetHash());
                 hiddenCheckbox.AddCssClass("hidden");
                 return new MvcHtmlString(button.ToString() + hiddenCheckbox.ToString());
             }
@@ -266,16 +270,7 @@ namespace Bec.TargetFramework.Presentation.Web
             }
         }
 
-        private static string GetUpdateHash(FieldUpdateDTO update)
-        {
-            return string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(
-                update.ActivityType.ToString() +
-                update.ActivityID.ToString() +
-                update.ParentType.ToString() +
-                update.ParentID.ToString() +
-                update.FieldName.ToString()
-                )).Select(c => c.ToString("x2")));
-        }
+        
 
         public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression,
             string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string noValueText)

@@ -134,6 +134,10 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Bec/bec.fieldPendingUpdates.js",
                 "~/Areas/SmsTransaction/Views/Transaction/_EditSmsTransaction.js"
                 ));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_EditSmsClient").Include(
+                "~/Scripts/Bec/bec.fieldPendingUpdates.js",
+                "~/Areas/SmsTransaction/Views/Transaction/_EditSmsClient.js"
+                ));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewGeneratePIN").Include("~/Areas/SmsTransaction/Views/Shared/_ViewGeneratePIN.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include(
                 "~/Scripts/Bec/bec.fieldPendingUpdates.js",

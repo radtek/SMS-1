@@ -1,15 +1,12 @@
 ﻿$(function () {
-    function ignore(e) {
-        if (e) e.preventDefault();
-    }
 
-    function countRoles() {
-        var c = 0;
-        $('.role-checkbox').each(function (i, item) {
-            if ($(item).prop('checked')) c++;
-        });
-        $('#rolecheck').val(c);
-    }
+    setupClientPostcodeLookup();
+
+    $("#editSmsTransaction-form").fieldPendingUpdates({
+        selector: '.pending-changes-button',
+        includeApproveReject: true,
+        container: '#editSmsClientContainer'
+    });
 
     function validateSubmit(form) {
         $("#submitEditSmsTransaction").prop('disabled', true);
@@ -45,30 +42,13 @@
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            'Model.Contact.Salutation': {
+            'Dto.Contact.Salutation': {
                 required: true
             },
-            'Model.Contact.FirstName': {
+            'Dto.Contact.FirstName': {
                 required: true
             },
-            'Model.Contact.LastName': {
-                required: true
-            },
-            'Model.UserAccountOrganisation.UserAccount.Email': {
-                required: true,
-                email: true,
-                remote: {
-                    cache: false,
-                    url: $('#Model_UserAccountOrganisation_UserAccount_Email').data("url"),
-                    data: {
-                        email: function () { return $('#Model_UserAccountOrganisation_UserAccount_Email').val(); },
-                        uaoID: function () { return $('#uaoID').val(); }
-                    },
-                    dataType: 'json',
-                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
-                }
-            },
-            'Model.Contact.BirthDate': {
+            'Dto.Contact.LastName': {
                 required: true
             }
         },
@@ -84,4 +64,24 @@
     makeDatePicker("#birthDateInput", {
         maxDate: new Date()
     });
+
+    var roDate = $('#birthDateReadOnly');
+    console.log(roDate.val());
+    if (roDate.length === 1) roDate.val(dateStringNoTime(roDate.val()));
+
+    function setupClientPostcodeLookup() {
+        new findAddress({
+            postcodelookup: '#txPostcodeLookup',
+            line1: '#txLine1',
+            line2: '#txLine2',
+            town: '#txTown',
+            county: '#txCounty',
+            postcode: '#txPostalCode',
+            manualAddress: '#txManualAddress',
+            resList: '#txAddressResults',
+            manAddRow: '#txManAddRow',
+            noMatch: '#txNoMatch',
+            findAddressButton: '#txFindAddressButton'
+        }).setup();
+    }
 });

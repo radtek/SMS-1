@@ -17,7 +17,7 @@
                         <form data-url="@Url.Action("EditSmsTransaction", "Transaction", new { area = "SmsTransaction" })" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = ViewBag.txID, pageNumber = ViewBag.pageNumber })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })" id="editSmsTransaction-form" class="smart-form pending-update-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
-                            @Html.HiddenFor(m => m.Dto.SmsTransactionID)
+                            @Html.Hidden("txID", Model.Dto.SmsTransactionID)
                             @Html.HiddenFor(m => m.Dto.RowVersion)
                             <fieldset>
                                 <legend>Transaction Address</legend>
@@ -58,36 +58,40 @@
 
                                 <div class="row">
                                     <section class="col col-6">
-                                        <div class="input pending-changes-input">
+                                        <div class="input">
                                             @Html.TextBoxFor(m => m.Dto.Address.Line1, new { id = "txLine1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "19", maxlength = 50 })
                                             @Html.PendingChangesButtonFor(m => m.Dto.Address.Line1, "Line1", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "txLine1", "TBC")
                                         </div>
                                     </section>
                                     <section class="col col-6">
-                                        <label class="input">
+                                        <div class="input">
                                             @Html.TextBoxFor(m => m.Dto.Address.County, new { id = "txCounty", @readonly = "readonly", placeholder = "County", tabindex = "22", maxlength = 50 })
-                                        </label>
+                                            @Html.PendingChangesButtonFor(m => m.Dto.Address.County, "County", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "txCounty", "")
+                                        </div>
                                     </section>
                                 </div>
 
                                 <div class="row">
                                     <section class="col col-6">
-                                        <label class="input">
+                                        <div class="input">
                                             @Html.TextBoxFor(m => m.Dto.Address.Line2, new { id = "txLine2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "20", maxlength = 50 })
-                                        </label>
+                                            @Html.PendingChangesButtonFor(m => m.Dto.Address.Line2, "Line2", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "txLine2", "")
+                                        </div>
                                     </section>
                                     <section class="col col-6">
-                                        <label class="input">
+                                        <div class="input">
                                             @Html.TextBoxFor(m => m.Dto.Address.PostalCode, new { id = "txPostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "23", maxlength = 50 })
-                                        </label>
+                                            @Html.PendingChangesButtonFor(m => m.Dto.Address.PostalCode, "PostalCode", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "txPostalCode", "")
+                                        </div>
                                     </section>
                                 </div>
 
                                 <div class="row">
                                     <section class="col col-6">
-                                        <label class="input">
+                                        <div class="input">
                                             @Html.TextBoxFor(m => m.Dto.Address.Town, new { id = "txTown", @readonly = "readonly", placeholder = "Town", tabindex = "21", maxlength = 50 })
-                                        </label>
+                                            @Html.PendingChangesButtonFor(m => m.Dto.Address.Town, "Town", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "txTown", "")
+                                        </div>
                                     </section>
                                 </div>
                             </fieldset>
@@ -98,7 +102,6 @@
                                         <label class="label">Buying with Mortgage</label>
                                         <label class="select">
                                             <select name="BuyingWithMortgageSelect" id="BuyingWithMortgageSelect" tabindex="24">
-                                                <option value="">Please Select</option>
                                                 <option value="1">Yes</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -109,35 +112,38 @@
                                 <div class="row" id="BuyingWithMortgageContainer">
                                     <section class="col col-6">
                                         <label class="label">Mortgage Lender</label>
-                                        <label class="input">
+                                        <div class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                             @Html.TextBoxFor(m => m.Dto.LenderName, new { tabindex = "25", maxlength = 50, id = "lenderSearch", data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
+                                            @Html.PendingChangesButtonFor(m => m.Dto.LenderName, "LenderName", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "lenderSearch", "")
                                             <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
-                                        </label>
+                                        </div>
                                     </section>
                                     <section class="col col-6">
                                         <label class="label">Mortgage Application Number</label>
-                                        <label class="input">
+                                        <div class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Dto.MortgageApplicationNumber, new { tabindex = "26", maxlength = 50 })
-                                        </label>
+                                            @Html.TextBoxFor(m => m.Dto.MortgageApplicationNumber, new { id = "mortgageAppNumber", tabindex = "26", maxlength = 50 })
+                                            @Html.PendingChangesButtonFor(m => m.Dto.MortgageApplicationNumber, "MortgageApplicationNumber", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "mortgageAppNumber", "")
+                                        </div>
                                     </section>
                                 </div>
                                 <div class="row">
                                     <section class="col col-6">
                                         <label class="label">Price</label>
-                                        <label class="input">
+                                        <div class="input">
                                             <i class="icon-prepend fa fa-gbp"></i>
-                                            @Html.TextBoxFor(m => m.Dto.Price, new { tabindex = "27", maxlength = 50 })
-                                        </label>
+                                            @Html.TextBoxFor(m => m.Dto.Price, new { id = "txPrice", tabindex = "27", maxlength = 50 })
+                                            @Html.PendingChangesButtonFor(m => m.Dto.Price, "Price", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "txPrice", "")
+                                        </div>
                                     </section>
                                 </div>
                                 <div class="row">
                                     <section class="col col-sm-12">
                                         <label class="label">Your Reference</label>
-                                        <label class="input">
-                                            @Html.TextBoxFor(m => m.Dto.Reference, new { tabindex = "28", maxlength = 500, autocomplete = "off" })
-                                        </label>
+                                        <div class="input">
+                                            @Html.TextBoxFor(m => m.Dto.Reference, new { id = "txReference", tabindex = "28", maxlength = 500, autocomplete = "off" })
+                                        </div>
                                     </section>
                                 </div>
                             </fieldset>
@@ -157,4 +163,6 @@
     </div>
 </div>
 
+@Scripts.Render("~/Scripts/typeahead")
+@Scripts.Render("~/Scripts/lendersearch")
 <script async src="@Scripts.Url("~/Scripts/SmsTransaction/Transaction/_EditSmsTransaction")"></script>

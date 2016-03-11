@@ -44,13 +44,13 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
         {
             IEnumerable<Regex> tests = whitelist.Select(w => new Regex(modelPrefix + "\\." + w.Replace(".", "\\.").Replace("[]","\\[[0-9]+\\]")));
             Newtonsoft.Json.Linq.JObject o = new Newtonsoft.Json.Linq.JObject();
-            foreach (var key in vals.AllKeys.Where(k => whiteListCheck(k, tests))) addD(key.Split('.').Skip(1).ToList(), o, vals[key]);
+            foreach (var key in vals.AllKeys.Where(k => whiteListCheck(modelPrefix, k, tests))) addD(key.Split('.').Skip(1).ToList(), o, vals[key]);
             return o;
         }
 
-        private static bool whiteListCheck(string key, IEnumerable<Regex> tests)
+        private static bool whiteListCheck(string modelPrefix, string key, IEnumerable<Regex> tests)
         {
-            if (!key.StartsWith("Model.")) return false;
+            if (!key.StartsWith(modelPrefix + ".")) return false;
             if (!tests.Any(r => r.IsMatch(key))) throw new Exception("Potentially dangerous input has been detected and stopped.");
             return true;
         }

@@ -1169,14 +1169,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task ActionPendingUpdates(IEnumerable<FieldUpdateDTO> updates)
+        public async Task RemovePendingUpdates(IEnumerable<FieldUpdateDTO> updates)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var update in updates.Where(x => x.Actioned))
+                foreach (var update in updates)
                 {
                     var entity = update.ToEntity();
-                    scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.Remove(entity);
+                    scope.DbContexts.Get<TargetFrameworkEntities>().Entry(entity).State = System.Data.Entity.EntityState.Deleted;
                 }
                 await scope.SaveChangesAsync();
             }
