@@ -81,7 +81,7 @@
         <th>Login Information</th>
         <th><!--Actions--></th>
     </tr>
-    @foreach (var relatedParty in Model.Dto.SmsUserAccountOrganisationTransactions)
+    @foreach (var relatedParty in Model.Dto.SmsUserAccountOrganisationTransactions.OrderBy(x => x.SmsUserAccountOrganisationTransactionTypeID))
     {
         <tr>
             <td>@relatedParty.SmsUserAccountOrganisationTransactionType.Description</td>

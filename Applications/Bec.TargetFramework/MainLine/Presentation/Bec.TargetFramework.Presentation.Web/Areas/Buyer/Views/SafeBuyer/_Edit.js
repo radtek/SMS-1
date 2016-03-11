@@ -31,10 +31,7 @@
             "Address.PostalCode": {
                 required: true,
                 minlength: 5
-            }
-        };
-
-        var smsTransactionValidationRules = {
+            },
             "SmsTransaction.Address.Line1": {
                 required: true
             },
@@ -70,10 +67,6 @@
         };
 
         var confirmDetailsForm = $("#confirmDetails-form");
-        var canEditTransactionDetails = !!confirmDetailsForm.data('can-edit-transaction-details');
-        if (canEditTransactionDetails) {
-            _.extend(validationRules, smsTransactionValidationRules);
-        }
 
         confirmDetailsForm.validate({
             ignore: '.skip',
@@ -115,7 +108,6 @@
                 type: "POST",
                 data: formData
             }).done(function (res) {
-                console.log(res);
                 if (res.result === true)
                     window.location = confirmDetailsForm.data("redirectto") + "?selectedTransactionId=" + res.selectedTransactionId;
                 else {
@@ -154,9 +146,6 @@
                     $('#submitAddTransaction').hide();
                     $('#stepNext').show();
                 }
-            },
-            onTabClick: function (tab, navigation, index) {
-                return false;
             }
         });
 

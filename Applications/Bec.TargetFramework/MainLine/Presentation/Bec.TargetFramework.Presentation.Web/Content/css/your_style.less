@@ -1027,6 +1027,13 @@ form.smart-form.pending-update-form {
     }
 }
 
+.required{
+    padding: 2px 8px;
+    color: @color-reject;
+    background-color: lighten(@color-reject, 60%);
+    border-radius: 2px;
+}
+
 input[type=radio]:checked + label.approve-reject-button{
     background-color:@color-pending-update;
 }

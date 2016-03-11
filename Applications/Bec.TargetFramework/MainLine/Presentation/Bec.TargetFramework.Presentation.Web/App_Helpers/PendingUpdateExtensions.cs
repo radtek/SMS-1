@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Collections.Generic;
 using Bec.TargetFramework.Infrastructure;
+using System.Linq.Expressions;
 
 namespace Bec.TargetFramework.Presentation.Web.App_Helpers
 {
@@ -28,6 +29,29 @@ namespace Bec.TargetFramework.Presentation.Web.App_Helpers
             var select = ODataHelper.Select<FieldUpdateDTO>(x => new { x.ActivityType, x.ActivityID, x.FieldName, x.Value, x.ParentID, x.ParentType, x.ModifiedOn, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName });
             var filter = ODataHelper.Filter<FieldUpdateDTO>(x => x.ActivityType == activityTypeId && x.ActivityID == activityID);
             return await queryClient.QueryAsync<FieldUpdateDTO>("FieldUpdates", select + filter);
+        }
+
+        public static string GetPendingOrApprovedValueFor<TDto, TResult>(this PendingUpdateModel<TDto> model, Expression<Func<PendingUpdateModel<TDto>, TResult>> expression,
+            string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId)
+        {
+            string result;
+            var update = model.FieldUpdates.SingleOrDefault(x => x.FieldName == fieldName && x.ParentID == parentId && x.ParentType == fieldUpdateParentType.GetIntValue());
+            if (update != null)
+            {
+                result = update.Value;
+            }
+            else
+            {
+                try
+                {
+                    result = expression.Compile()(model).ToString();
+                }
+                catch
+                {
+                    result = null;
+                }
+            }
+            return result;
         }
 
         private static async Task EnsureCanAccessFieldUpdates(HttpContextBase httpContext, int activityType, Guid activityID, bool approveReject, IQueryLogicClient queryClient)

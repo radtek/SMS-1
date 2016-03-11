@@ -35,6 +35,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 var model = await GetUaots(selectedTransactionId.Value);
                 var uaot = model.FirstOrDefault();
                 ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
+                ViewBag.IsSmsTransactionPotentiallyFree = await OrganisationClient.IsSmsTransactionPotentiallyFreeAsync(selectedTransactionId.Value);
+
                 var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
                 return View(modelWithUpdates);
             }
@@ -56,6 +58,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public async Task<ActionResult> ViewCheckBankAccount(Guid txID)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            var isTransactionDataComplete = await IsTransactionDataComplete(txID);
+            if (!isTransactionDataComplete)
+            {
+                ViewBag.title = "Information";
+                ViewBag.message = "Before proceeding with the Safe Buyer product you have to fill all the required details.";
+                ViewBag.button = "Close";
+                return PartialView("_Message");
+            }
+            
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
                 CompanyNames = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
@@ -127,7 +139,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return Json(new { result = isMatch, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> NotifyOrganisationNoMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
@@ -187,7 +198,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
             return PartialView("_Match");
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -372,6 +382,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             await OrganisationClient.ReplaceSrcFundsBankAccountsAsync(model.SmsUserAccountOrganisationTransactionID, model.SmsSrcFundsBankAccounts);
 
             return Json(new { result = true, selectedTransactionId = model.SmsTransactionID }, JsonRequestBehavior.AllowGet);
+        }
+
+        private async Task<bool> IsTransactionDataComplete(Guid txID)
+        {
+            var model = await GetUaots(txID);
+            var uaot = model.FirstOrDefault();
+
+            var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, txID, QueryClient);
+
+            var isTxAddressLine1Provided = !string.IsNullOrWhiteSpace(modelWithUpdates.GetPendingOrApprovedValueFor(m => m.Dto.SmsTransaction.Address.Line1, "Line1", FieldUpdateParentType.SmsTransactionAddress, modelWithUpdates.Dto.SmsTransactionID));
+            var isRegisteredHomeAddressLine1Provided = !string.IsNullOrWhiteSpace(modelWithUpdates.GetPendingOrApprovedValueFor(m => m.Dto.Address.Line1, "Line1", FieldUpdateParentType.RegisteredHomeAddress, modelWithUpdates.Dto.SmsUserAccountOrganisationTransactionID));
+            var isAnySrcOfFunds = modelWithUpdates.Dto.SmsSrcFundsBankAccounts.Any();
+
+            return isTxAddressLine1Provided && isRegisteredHomeAddressLine1Provided && isAnySrcOfFunds;
         }
     }
 }

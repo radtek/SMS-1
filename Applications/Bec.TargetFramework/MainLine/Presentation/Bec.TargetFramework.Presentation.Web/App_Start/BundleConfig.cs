@@ -150,7 +150,11 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Areas/Buyer/Views/SafeBuyer/Index.js"
                 ));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/IndexSelectTransaction").Include("~/Areas/Buyer/Views/SafeBuyer/IndexSelectTransaction.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Edit").Include("~/Areas/Buyer/Views/SafeBuyer/_Edit.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Edit").Include(
+                "~/Scripts/typeahead.bundle.js",
+                "~/Scripts/Bec/bec.lendersearch.js",
+                "~/Areas/Buyer/Views/SafeBuyer/_Edit.js"
+                ));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_NoMatch").Include("~/Areas/Buyer/Views/SafeBuyer/_NoMatch.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Match").Include("~/Areas/Buyer/Views/SafeBuyer/_Match.js"));

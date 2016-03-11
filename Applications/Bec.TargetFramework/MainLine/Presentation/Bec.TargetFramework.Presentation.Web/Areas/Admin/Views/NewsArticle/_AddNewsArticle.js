@@ -5,7 +5,6 @@
 
     // submit from when Save button clicked
     $("#submitAddNewsArticle").click(function () {
-        console.log('test');
         $("#addNewsArticleForm").submit();
     });
 
