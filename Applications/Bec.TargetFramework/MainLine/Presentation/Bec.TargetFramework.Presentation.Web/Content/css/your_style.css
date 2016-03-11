@@ -781,6 +781,12 @@ form.smart-form.pending-update-form div.input input {
   position: relative;
   z-index: 1;
 }
+.required {
+  padding: 2px 8px;
+  color: #a90329;
+  background-color: #fee0e7;
+  border-radius: 2px;
+}
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
     cursor: pointer;

@@ -33,16 +33,18 @@ namespace Bec.TargetFramework.Business.Extensions
                     break;
                 case FieldUpdateParentType.SmsTransactionAddress:
                     if (tx.Address == null)
+                    {
                         tx.Address = new Address();
-                    else
-                        CommonHelper.SetProperty(tx.Address, update.FieldName, update.Value);
+                    }
+                    CommonHelper.SetProperty(tx.Address, update.FieldName, update.Value);
                     break;
                 case FieldUpdateParentType.RegisteredHomeAddress:
                     uaotx = tx.SmsUserAccountOrganisationTransactions.Single(x => x.SmsUserAccountOrganisationTransactionID == update.ParentID);
                     if (uaotx.Address == null)
+                    {
                         uaotx.Address = new Address();
-                    else
-                        CommonHelper.SetProperty(uaotx.Address, update.FieldName, update.Value);
+                    }
+                    CommonHelper.SetProperty(uaotx.Address, update.FieldName, update.Value);
                     break;
                 case FieldUpdateParentType.Contact:
                     uaotx = tx.SmsUserAccountOrganisationTransactions.Single(x => x.SmsUserAccountOrganisationTransactionID == update.ParentID);
@@ -86,7 +88,7 @@ namespace Bec.TargetFramework.Business.Extensions
         {
             var approvedValue = approved == null ? null : approved.GetType().GetProperty(update.FieldName).GetValue(approved);
             var approvedStringValue = approvedValue == null ? null : approvedValue.ToString();
-            var exitingUpdate = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.SingleOrDefault(x =>
+            var existingUpdate = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.SingleOrDefault(x =>
                 x.ActivityID == update.ActivityID &&
                 x.ActivityType == update.ActivityType &&
                 x.ParentType == update.ParentType &&
@@ -95,11 +97,14 @@ namespace Bec.TargetFramework.Business.Extensions
 
             if (approvedStringValue != update.Value)
             {
-                if (exitingUpdate != null)
+                if (existingUpdate != null)
                 {
-                    exitingUpdate.UserAccountOrganisationID = uaoID;
-                    exitingUpdate.ModifiedOn = dateTime;
-                    exitingUpdate.Value = update.Value;
+                    if (existingUpdate.Value != update.Value)
+                    {
+                        existingUpdate.UserAccountOrganisationID = uaoID;
+                        existingUpdate.ModifiedOn = dateTime;
+                        existingUpdate.Value = update.Value;
+                    }
                 }
                 else
                 {
@@ -110,7 +115,7 @@ namespace Bec.TargetFramework.Business.Extensions
             }
             else
             {
-                if (exitingUpdate != null) scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.Remove(exitingUpdate);
+                if (existingUpdate != null) scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.Remove(existingUpdate);
             }
         }
     }

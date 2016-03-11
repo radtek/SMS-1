@@ -1,4 +1,5 @@
-﻿@using Bec.TargetFramework.Entities
+﻿@using Bec.TargetFramework.Presentation.Web.App_Helpers
+@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
@@ -9,7 +10,20 @@
     var personaName = ((UserAccountOrganisationTransactionType)Model.Dto.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
     var companyName = Model.Dto.SmsTransaction.Organisation.OrganisationDetails.First().Name;
     var tel = Model.Dto.SmsTransaction.Organisation.OrganisationStatus.First(s => s.StatusTypeValue.Name == "Verified").Notes;
-    var heading = "";
+    string heading;
+    if (!string.IsNullOrEmpty(Model.Dto.SmsTransaction.Address.Line1))
+    {
+        heading = "Purchase of Property " + Model.Dto.SmsTransaction.Address.Line1 + ", " + Model.Dto.SmsTransaction.Address.PostalCode + " added by " + companyName + ".";
+    }
+    else
+    {
+        heading = "Purchase of Property TBC added by " + companyName + ".";
+    }
+
+    var isTxAddressLine1Provided = !string.IsNullOrWhiteSpace(Model.GetPendingOrApprovedValueFor(m => m.Dto.SmsTransaction.Address.Line1, "Line1", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID));
+    var isRegisteredHomeAddressLine1Provided = !string.IsNullOrWhiteSpace(Model.GetPendingOrApprovedValueFor(m => m.Dto.Address.Line1, "Line1", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID));
+    var isAnySrcOfFunds = Model.Dto.SmsSrcFundsBankAccounts.Any();
+    var areDetailsComplete = isTxAddressLine1Provided && isRegisteredHomeAddressLine1Provided && isAnySrcOfFunds;
 }
 
 <div id="content" class="buyer-transactions"
@@ -20,14 +34,6 @@
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
             <i class="fa fa-home fa-lg margin-right-10"></i>
-            @if (!string.IsNullOrEmpty(Model.Dto.SmsTransaction.Address.Line1))
-            {
-                heading = "Purchase of Property " + Model.Dto.SmsTransaction.Address.Line1 + ", " + Model.Dto.SmsTransaction.Address.PostalCode + " added by " + companyName + ".";
-            }
-            else
-            {
-                heading = "Purchase of Property TBC added by " + companyName + ".";
-            }
             @heading
         </h2>
         <div class="col-sm-12">
@@ -57,90 +63,124 @@
                                         </div>
                                     </div>
                                 }
-                                <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Dto.SmsTransaction.ProductAcceptedOn.HasValue? "block" : "none")">
-                                    <div class="col-md-6">
-                                        <div class="pull-right">
-                                            <a class="btn btn-sm btn-primary" data-modallink="true" data-href="@Url.Action("ViewEdit", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID })">
-                                                <i class="fa fa-pencil margin-right-5"></i>Edit
-                                            </a>
+                                
+                                <div id="detailsRow" class="margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Dto.SmsTransaction.ProductAcceptedOn.HasValue? "block" : "none")">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            @if (!areDetailsComplete)
+                                            {
+                                                <div class="alert alert-info">
+                                                    <i class="fa fa-info margin-right-5"></i><strong>Information </strong>
+                                                    <p>Before proceeding with the Safe Buyer product it is neccessary to complete the data marked with <span class="required">Required</span> label using 'Edit' function.</p>
+                                                </div>
+                                            }
                                         </div>
-                                        <h5>Transaction Details</h5>
-
-                                        <table class="buyer-details-table">
-                                            <tr>
-                                                <td><p>Transaction Address</p></td>
-                                                <td>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.Line1, "Line1", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "TBC")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.Line2, "Line2", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.Town, "Town", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.County, "County", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.PostalCode, "PostalCode", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "")</p>
-                                                </td>
-
-                                            </tr>
-                                            <tr>
-                                                <td><p>Mortgage Details</p></td>
-                                                <td>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.LenderName, "LenderName", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "Buying Without Mortgage")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.MortgageApplicationNumber, "MortgageApplicationNumber", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><p>Price</p></td>
-                                                <td>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Price, "Price", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "TBC", FieldUpdateDataType.Money)</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><p>@personaName</p></td>
-                                                <td>
-                                                    <p>
-                                                        @Html.PendingUpdateFieldFor(m => m.Dto.Contact.Salutation, "Salutation", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC")
-                                                        @Html.PendingUpdateFieldFor(m => m.Dto.Contact.FirstName, "FirstName", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC")
-                                                        @Html.PendingUpdateFieldFor(m => m.Dto.Contact.LastName, "LastName", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC")
-                                                    </p>
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><p>Date of Birth</p></td>
-                                                <td>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.Contact.BirthDate.Value, "BirthDate", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC", FieldUpdateDataType.Date)</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><p>Registered Home Address</p></td>
-                                                <td>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.Line1, "Line1", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.Line2, "Line2", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.Town, "Town", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.County, "County", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "")</p>
-                                                    <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.PostalCode, "PostalCode", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "")</p>
-                                                </td>
-                                            </tr>
-                                        </table>
                                     </div>
-                                    <div class="col-sm-6 col-lg-4">
-                                        <h5>Personal Bank Account(s)</h5>
-                                        <div id="personalBankAccountsTable">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Account Number</th>
-                                                            <th>Sort Code</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (var item in Model.Dto.SmsSrcFundsBankAccounts)
-                                                        {
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="pull-right">
+                                                <a class="btn btn-sm btn-primary" data-modallink="true" data-href="@Url.Action("ViewEdit", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID })">
+                                                    <i class="fa fa-pencil margin-right-5"></i>Edit
+                                                </a>
+                                            </div>
+                                            <h5>Transaction Details</h5>
+                                            <table class="buyer-details-table">
+                                                <tr>
+                                                    <td><p>Transaction Address</p></td>
+                                                    <td>
+                                                        <p>
+                                                            @Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.Line1, "Line1", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "TBC")
+                                                            @if (!isTxAddressLine1Provided)
+                                                            {
+                                                                <span class="required">Required</span>
+                                                            }
+                                                        </p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.Line2, "Line2", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "")</p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.Town, "Town", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "")</p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.County, "County", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "")</p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Address.PostalCode, "PostalCode", FieldUpdateParentType.SmsTransactionAddress, Model.Dto.SmsTransactionID, "")</p>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Mortgage Details</p></td>
+                                                    <td>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.LenderName, "LenderName", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "Buying Without Mortgage")</p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.MortgageApplicationNumber, "MortgageApplicationNumber", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, string.Empty)</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Price</p></td>
+                                                    <td>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.SmsTransaction.Price, "Price", FieldUpdateParentType.SmsTransaction, Model.Dto.SmsTransactionID, "TBC", FieldUpdateDataType.Money)</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>@personaName</p></td>
+                                                    <td>
+                                                        <p>
+                                                            @Html.PendingUpdateFieldFor(m => m.Dto.Contact.Salutation, "Salutation", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC")
+                                                            @Html.PendingUpdateFieldFor(m => m.Dto.Contact.FirstName, "FirstName", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC")
+                                                            @Html.PendingUpdateFieldFor(m => m.Dto.Contact.LastName, "LastName", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC")
+                                                        </p>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Date of Birth</p></td>
+                                                    <td>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.Contact.BirthDate.Value, "BirthDate", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC", FieldUpdateDataType.Date)</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p>Registered Home Address</p></td>
+                                                    <td>
+                                                        <p>
+                                                            @Html.PendingUpdateFieldFor(m => m.Dto.Address.Line1, "Line1", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "TBC")
+                                                            @if (!isRegisteredHomeAddressLine1Provided)
+                                                            {
+                                                                <span class="required">Required</span>
+                                                            }
+                                                        </p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.Line2, "Line2", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "")</p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.Town, "Town", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "")</p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.County, "County", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "")</p>
+                                                        <p>@Html.PendingUpdateFieldFor(m => m.Dto.Address.PostalCode, "PostalCode", FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactionID, "")</p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6 col-lg-4">
+                                            <h5>Personal Bank Account(s)</h5>
+                                            <div id="personalBankAccountsTable">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
                                                             <tr>
-                                                                <td>@item.AccountNumber</td>
-                                                                <td>@item.SortCode</td>
+                                                                <th>Account Number</th>
+                                                                <th>Sort Code</th>
                                                             </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @if (isAnySrcOfFunds)
+                                                            {
+                                                                foreach (var item in Model.Dto.SmsSrcFundsBankAccounts)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@item.AccountNumber</td>
+                                                                        <td>@item.SortCode</td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr>
+                                                                    <td colspan="2">Not Provided <span class="required">Required</span></td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +220,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <a id="checkBankAccountBtn" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewCheckBankAccount", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID })">
-                                            Check Bank Account
+                                            @((bool)ViewBag.IsSmsTransactionPotentiallyFree ? "Check Bank Account" : "Purchase Safe Buyer")
                                             <i class="fa fa-chevron-right margin-left-5"></i>
                                         </a>
                                         <a id="declineButton" style="display:none;" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewDeclineProduct", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID })">

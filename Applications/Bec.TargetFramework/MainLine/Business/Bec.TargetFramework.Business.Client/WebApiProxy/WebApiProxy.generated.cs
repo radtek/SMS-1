@@ -1058,6 +1058,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
+		Task<Boolean> IsSmsTransactionPotentiallyFreeAsync(Guid txID);
+
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		Boolean IsSmsTransactionPotentiallyFree(Guid txID);
+
+		/// <param name="txID"></param>
+		/// <returns></returns>
 		Task<Boolean> SmsTransactionQualifiesFreeAsync(Guid txID);
 
 		/// <param name="txID"></param>
@@ -4314,6 +4322,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<IEnumerable<FieldUpdateDTO>>("api/OrganisationLogic/ActionPendingUpdates", updates, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> IsSmsTransactionPotentiallyFreeAsync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/IsSmsTransactionPotentiallyFree?txID=" + txID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="txID"></param>
+		public virtual Boolean IsSmsTransactionPotentiallyFree(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsSmsTransactionPotentiallyFree?txID=" + txID, null, _user)).Result;
 		}
 
 		/// <summary>

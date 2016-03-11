@@ -5,7 +5,6 @@
 @using Bec.TargetFramework.Web.Helpers
 @model SmsUserAccountOrganisationTransactionDTO
 @{
-    var canEditTransactionDetails = Model.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue();
     var personaName = ((UserAccountOrganisationTransactionType)Model.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
     var birthDateInputId = (bool)ViewBag.canEditBirthDate ? "birthDateInput" : "disabledBirthDateInput";
     var conveyancerName = Model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
@@ -19,9 +18,9 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("Edit", "SafeBuyer", new { area = "Buyer" })"
-                        data-can-edit-transaction-details="@canEditTransactionDetails"
-                        data-redirectto="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer" })">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" 
+                          data-url="@Url.Action("Edit", "SafeBuyer", new { area = "Buyer" })"
+                          data-redirectto="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer" })">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.SmsTransactionID)
@@ -36,23 +35,16 @@
                                                 <p class="list-group-item-text">@personaName Details</p>
                                             </a>
                                         </li>
-                                        @if (canEditTransactionDetails)
-                                        {
-                                            <li class="nointeraction" data-target="#step2">
-                                                <a href="#step2" data-toggle="tab" style="cursor:default">
-                                                    <h4 class="list-group-item-heading">Page 2</h4>
-                                                    <p class="list-group-item-text">Transaction Address</p>
-                                                </a>
-                                            </li>
-                                        }
-
+                                        <li class="nointeraction" data-target="#step2">
+                                            <a href="#step2" data-toggle="tab" style="cursor:default">
+                                                <h4 class="list-group-item-heading">Page 2</h4>
+                                                <p class="list-group-item-text">Transaction Details</p>
+                                            </a>
+                                        </li>
                                     </ul>
-
                                 </div>
-
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="step1">
-
                                         <fieldset>
                                             <legend>@personaName Details</legend>
                                             <div class="row">
@@ -168,129 +160,126 @@
                                             @Html.Partial("_SrcFundsBankAccounts", new SrcFundsModel { SmsSrcFundsBankAccounts = Model.SmsSrcFundsBankAccounts, IsRequired = true })
                                         </fieldset>
                                     </div>
-                                    @if (canEditTransactionDetails)
-                                    {
-                                        <div class="tab-pane" id="step2">
-                                            <fieldset>
-                                                <legend>Transaction Address</legend>
-                                                <div class="row">
-                                                    <section class="col col-4">
-                                                        <label class="label">Lookup Postcode</label>
-                                                        <label class="input">
-                                                            <input id="sms_postcodelookup" type="text" tabindex="15" maxlength="10" />
-                                                        </label>
-                                                    </section>
-
-                                                    <section class="col">
-                                                        <label class="label">&nbsp;</label>
-                                                        <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
-                                                    </section>
-                                                </div>
-
-                                                <section>
-                                                    <label class="select">
-                                                        <select id="sms_addressresults" tabindex="17"></select>
-                                                        <i></i>
+                                    <div class="tab-pane" id="step2">
+                                        <fieldset>
+                                            <legend>Transaction Address</legend>
+                                            <div class="row">
+                                                <section class="col col-4">
+                                                    <label class="label">Lookup Postcode</label>
+                                                    <label class="input">
+                                                        <input id="sms_postcodelookup" type="text" tabindex="15" maxlength="10" />
                                                     </label>
                                                 </section>
 
+                                                <section class="col">
+                                                    <label class="label">&nbsp;</label>
+                                                    <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
+                                                </section>
+                                            </div>
 
-                                                <div class="row">
-                                                    <section class="col" id="sms_noMatch">
-                                                        <em style="color: #d56161">No matches found, please enter address below</em>
-                                                    </section>
-                                                </div>
+                                            <section>
+                                                <label class="select">
+                                                    <select id="sms_addressresults" tabindex="17"></select>
+                                                    <i></i>
+                                                </label>
+                                            </section>
 
-                                                <div class="row" id="sms_manAddRow">
-                                                    <section class="col">
-                                                        <input type="checkbox" id="sms_manualAddress" />
-                                                        <label for="sms_manualAddress" tabindex="18">Edit Address Details</label>
-                                                    </section>
-                                                </div>
 
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="input">
-                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "19", maxlength = 50 })
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-6">
-                                                        <label class="input">
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "22", maxlength = 50 })
-                                                        </label>
-                                                    </section>
-                                                </div>
+                                            <div class="row">
+                                                <section class="col" id="sms_noMatch">
+                                                    <em style="color: #d56161">No matches found, please enter address below</em>
+                                                </section>
+                                            </div>
 
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="input">
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "20", maxlength = 50 })
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-6">
-                                                        <label class="input">
-                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "23", maxlength = 50 })
-                                                        </label>
-                                                    </section>
-                                                </div>
+                                            <div class="row" id="sms_manAddRow">
+                                                <section class="col">
+                                                    <input type="checkbox" id="sms_manualAddress" />
+                                                    <label for="sms_manualAddress" tabindex="18">Edit Address Details</label>
+                                                </section>
+                                            </div>
 
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="input">
-                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.Address.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "21", maxlength = 50 })
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-                                            <fieldset>
-                                                <legend>Other Details</legend>
-                                                <div class="row">
-                                                    <section class="col col-sm-6">
-                                                        <label class="label">Buying with Mortgage</label>
-                                                        <label class="select">
-                                                            @{ var buyingWithMortgage = !string.IsNullOrWhiteSpace(Model.SmsTransaction.LenderName); }
-                                                            <select name="BuyingWithMortgageSelect" id="BuyingWithMortgageSelect">
-                                                                <option value="">Please Select</option>
-                                                                <option value="1" @(buyingWithMortgage ? "selected=\"selected\"" : "")>Yes</option>
-                                                                <option value="0" @(!buyingWithMortgage ? "selected=\"selected\"" : "")>No</option>
-                                                            </select>
-                                                            <i></i>
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <div class="row" id="BuyingWithMortgageContainer">
-                                                    <section class="col col-6">
-                                                        <label class="label">Mortgage Lender</label>
-                                                        <label class="input">
-                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { tabindex = "24", maxlength = 50, id = "lenderSearch", data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
-                                                            <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-6">
-                                                        <label class="label">Mortgage Application Number</label>
-                                                        <label class="input">
-                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.MortgageApplicationNumber, new { tabindex = "25", maxlength = 50 })
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <section class="col col-6">
-                                                        <label class="label">Price</label>
-                                                        <label class="input">
-                                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                            <i class="icon-prepend fa fa-gbp"></i>
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.Price, new { tabindex = "27", maxlength = 50 })
-                                                        </label>
-                                                    </section>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    }
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "19", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "22", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "20", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "23", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Address.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "21", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Other Details</legend>
+                                            <div class="row">
+                                                <section class="col col-sm-6">
+                                                    <label class="label">Buying with Mortgage</label>
+                                                    <label class="select">
+                                                        @{ var buyingWithMortgage = !string.IsNullOrWhiteSpace(Model.SmsTransaction.LenderName); }
+                                                        <select name="BuyingWithMortgageSelect" id="BuyingWithMortgageSelect">
+                                                            <option value="">Please Select</option>
+                                                            <option value="1" @(buyingWithMortgage ? "selected=\"selected\"" : "")>Yes</option>
+                                                            <option value="0" @(!buyingWithMortgage ? "selected=\"selected\"" : "")>No</option>
+                                                        </select>
+                                                        <i></i>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="row" id="BuyingWithMortgageContainer">
+                                                <section class="col col-6">
+                                                    <label class="label">Mortgage Lender</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { tabindex = "24", maxlength = 50, id = "lenderSearch", data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
+                                                        <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label class="label">Mortgage Application Number</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.MortgageApplicationNumber, new { tabindex = "25", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="label">Price</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        <i class="icon-prepend fa fa-gbp"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransaction.Price, new { tabindex = "27", maxlength = 50 })
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -315,6 +304,4 @@
     </div>
 </div>
 
-@Scripts.Render("~/Scripts/typeahead")
-@Scripts.Render("~/Scripts/lendersearch")
 <script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_Edit")"></script>

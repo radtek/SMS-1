@@ -1182,6 +1182,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public bool IsSmsTransactionPotentiallyFree(Guid txID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Single(x => x.SmsTransactionID == txID);
+                var lenderName = GetValueOrPendingUpdate(ActivityType.SmsTransaction, txID, FieldUpdateParentType.SmsTransaction, txID, "LenderName", tx.LenderName);
+                return lenderName == "Paragon Mortgages Ltd";
+            }
+        }
+
         public bool SmsTransactionQualifiesFree(Guid txID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
