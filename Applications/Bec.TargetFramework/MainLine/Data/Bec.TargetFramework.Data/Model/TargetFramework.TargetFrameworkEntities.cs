@@ -2038,26 +2038,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<File> Files { get; set; }
     
         /// <summary>
-        /// There are no comments for SMHPage in the schema.
-        /// </summary>
-        public virtual DbSet<SMHPage> SMHPages { get; set; }
-    
-        /// <summary>
-        /// There are no comments for SMHItem in the schema.
-        /// </summary>
-        public virtual DbSet<SMHItem> SMHItems { get; set; }
-    
-        /// <summary>
-        /// There are no comments for Callout in the schema.
-        /// </summary>
-        public virtual DbSet<Callout> Callouts { get; set; }
-    
-        /// <summary>
-        /// There are no comments for CalloutUserAccount in the schema.
-        /// </summary>
-        public virtual DbSet<CalloutUserAccount> CalloutUserAccounts { get; set; }
-    
-        /// <summary>
         /// There are no comments for HelpPage in the schema.
         /// </summary>
         public virtual DbSet<HelpPage> HelpPages { get; set; }

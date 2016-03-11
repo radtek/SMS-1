@@ -415,10 +415,6 @@
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
           <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.Store.File" store:Type="Tables" Schema="public" Table="File" />
-          <EntitySet Name="SMHPages" EntityType="Bec.TargetFramework.Data.Store.SMHPage" store:Type="Tables" Schema="public" Table="SMHPage" />
-          <EntitySet Name="SMHItems" EntityType="Bec.TargetFramework.Data.Store.SMHItem" store:Type="Tables" Schema="public" Table="SMHItem" />
-          <EntitySet Name="Callouts" EntityType="Bec.TargetFramework.Data.Store.Callout" store:Type="Tables" Schema="public" Table="Callout" />
-          <EntitySet Name="CalloutUserAccounts" EntityType="Bec.TargetFramework.Data.Store.CalloutUserAccount" store:Type="Tables" Schema="public" Table="CalloutUserAccount" />
           <EntitySet Name="HelpPages" EntityType="Bec.TargetFramework.Data.Store.HelpPage" store:Type="Tables" Schema="public" Table="HelpPage" />
           <EntitySet Name="SupportItems" EntityType="Bec.TargetFramework.Data.Store.SupportItem" store:Type="Tables" Schema="public" Table="SupportItem" />
           <EntitySet Name="RoleHierarchies" EntityType="Bec.TargetFramework.Data.Store.RoleHierarchy" store:Type="Tables" Schema="public" Table="RoleHierarchy" />
@@ -2981,30 +2977,6 @@
           <AssociationSet Name="File_fk_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.File_fk_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="fk_SMHItem_SMHPage" Association="Bec.TargetFramework.Data.Store.fk_SMHItem_SMHPage">
-            <End Role="SMHPage" EntitySet="SMHPages" />
-            <End Role="SMHItem" EntitySet="SMHItems" />
-          </AssociationSet>
-          <AssociationSet Name="Callout_Role_fk" Association="Bec.TargetFramework.Data.Store.Callout_Role_fk">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="Callout" EntitySet="Callouts" />
-          </AssociationSet>
-          <AssociationSet Name="CalloutUserAccount_Callout_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_Callout_fk">
-            <End Role="Callout" EntitySet="Callouts" />
-            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="CalloutUserAccount_UserType_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_UserType_fk">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="CalloutUserAccount_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_fk">
-            <End Role="UserAccounts" EntitySet="UserAccounts" />
-            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="SMHPage_Role_fk" Association="Bec.TargetFramework.Data.Store.SMHPage_Role_fk">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="SMHPage" EntitySet="SMHPages" />
           </AssociationSet>
           <AssociationSet Name="fk_RequestSupport_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.fk_RequestSupport_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
@@ -10101,59 +10073,6 @@
           <Property Name="Type" Type="varchar" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" />
           <Property Name="Temporary" Type="boolean" Nullable="false" DefaultValue="false" />
-        </EntityType>
-        <EntityType Name="SMHPage">
-          <Key>
-            <PropertyRef Name="PageID" />
-          </Key>
-          <Property Name="PageID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
-          <Property Name="PageName" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="PageURL" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="RoleId" Type="uuid" />
-        </EntityType>
-        <EntityType Name="SMHItem">
-          <Key>
-            <PropertyRef Name="ItemID" />
-          </Key>
-          <Property Name="ItemID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
-          <Property Name="PageID" Type="uuid" Nullable="false" />
-          <Property Name="ItemName" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="ItemSelector" Type="varchar" MaxLength="200" />
-          <Property Name="ItemDescription" Type="varchar" MaxLength="1000" />
-          <Property Name="ItemPosition" Type="int" Nullable="false" DefaultValue="0" />
-          <Property Name="ItemOrder" Type="int" Nullable="false" DefaultValue="0" />
-          <Property Name="TabContainerId" Type="varchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="Callout">
-          <Key>
-            <PropertyRef Name="CalloutID" />
-          </Key>
-          <Property Name="CalloutID" Type="uuid" Nullable="false" />
-          <Property Name="RoleID" Type="uuid" Nullable="false" />
-          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="200" />
-          <Property Name="Description" Type="varchar" Nullable="false" />
-          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
-          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="DisplayOrder" Type="int" Nullable="false" DefaultValue="1" />
-          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
-          <Property Name="ModifiedOn" Type="timestamptz" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
-          <Property Name="Selector" Type="varchar" MaxLength="500" />
-          <Property Name="EffectiveOn" Type="timestamp" Nullable="false" />
-          <Property Name="Position" Type="int" />
-        </EntityType>
-        <EntityType Name="CalloutUserAccount">
-          <Key>
-            <PropertyRef Name="CalloutUserAccountID" />
-          </Key>
-          <Property Name="CalloutUserAccountID" Type="uuid" Nullable="false" />
-          <Property Name="CalloutID" Type="uuid" Nullable="false" />
-          <Property Name="RoleID" Type="uuid" Nullable="false" />
-          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="uuid" Nullable="false" />
-          <Property Name="Visible" Type="boolean" DefaultValue="false" />
         </EntityType>
         <EntityType Name="HelpPage">
           <Key>
@@ -18475,78 +18394,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_SMHItem_SMHPage">
-          <End Role="SMHPage" Type="Bec.TargetFramework.Data.Store.SMHPage" Multiplicity="1" />
-          <End Role="SMHItem" Type="Bec.TargetFramework.Data.Store.SMHItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SMHPage">
-              <PropertyRef Name="PageID" />
-            </Principal>
-            <Dependent Role="SMHItem">
-              <PropertyRef Name="PageID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Callout_Role_fk">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
-          <End Role="Callout" Type="Bec.TargetFramework.Data.Store.Callout" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="Callout">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="CalloutUserAccount_Callout_fk">
-          <End Role="Callout" Type="Bec.TargetFramework.Data.Store.Callout" Multiplicity="1" />
-          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Callout">
-              <PropertyRef Name="CalloutID" />
-            </Principal>
-            <Dependent Role="CalloutUserAccount">
-              <PropertyRef Name="CalloutID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="CalloutUserAccount_UserType_fk">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
-          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="CalloutUserAccount">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="CalloutUserAccount_fk">
-          <End Role="UserAccounts" Type="Bec.TargetFramework.Data.Store.UserAccounts" Multiplicity="1" />
-          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserAccounts">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CalloutUserAccount">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="SMHPage_Role_fk">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="SMHPage" Type="Bec.TargetFramework.Data.Store.SMHPage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="SMHPage">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_RequestSupport_UserAccountOrganisation">
           <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
           <End Role="SupportItem" Type="Bec.TargetFramework.Data.Store.SupportItem" Multiplicity="*" />
@@ -19087,10 +18934,6 @@
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
           <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.File" />
-          <EntitySet Name="SMHPages" EntityType="Bec.TargetFramework.Data.SMHPage" />
-          <EntitySet Name="SMHItems" EntityType="Bec.TargetFramework.Data.SMHItem" />
-          <EntitySet Name="Callouts" EntityType="Bec.TargetFramework.Data.Callout" />
-          <EntitySet Name="CalloutUserAccounts" EntityType="Bec.TargetFramework.Data.CalloutUserAccount" />
           <EntitySet Name="HelpPages" EntityType="Bec.TargetFramework.Data.HelpPage" />
           <EntitySet Name="SupportItems" EntityType="Bec.TargetFramework.Data.SupportItem" />
           <EntitySet Name="RoleHierarchies" EntityType="Bec.TargetFramework.Data.RoleHierarchy" />
@@ -21593,30 +21436,6 @@
           <AssociationSet Name="File_fk_UserAccountOrganisationSet" Association="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Files" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="fk_SMHItem_SMHPageSet" Association="Bec.TargetFramework.Data.fk_SMHItem_SMHPage">
-            <End Role="SMHPage" EntitySet="SMHPages" />
-            <End Role="SMHItems" EntitySet="SMHItems" />
-          </AssociationSet>
-          <AssociationSet Name="Callout_Role_fkSet" Association="Bec.TargetFramework.Data.Callout_Role_fk">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="Callouts" EntitySet="Callouts" />
-          </AssociationSet>
-          <AssociationSet Name="CalloutUserAccount_Callout_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk">
-            <End Role="Callout" EntitySet="Callouts" />
-            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="CalloutUserAccount_UserType_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="CalloutUserAccount_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_fk">
-            <End Role="UserAccount" EntitySet="UserAccounts" />
-            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="SMHPage_Role_fkSet" Association="Bec.TargetFramework.Data.SMHPage_Role_fk">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="SMHPages" EntitySet="SMHPages" />
           </AssociationSet>
           <AssociationSet Name="fk_RequestSupport_UserAccountOrganisationSet" Association="Bec.TargetFramework.Data.fk_RequestSupport_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
@@ -25736,9 +25555,6 @@
           <NavigationProperty Name="GroupRoles" Relationship="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate" FromRole="Role" ToRole="GroupRoles" ed:Guid="4bc91bc2-3db0-415b-962b-eb79674b7dcd" />
           <NavigationProperty Name="RoleClaims" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate" FromRole="Role" ToRole="RoleClaims" ed:Guid="63066d49-f80f-438d-8b02-70eff94865a5" />
           <NavigationProperty Name="ActorClaimRoleMappings" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Role" FromRole="Role" ToRole="ActorClaimRoleMappings" ed:Guid="b7871133-2654-4a69-8524-685d07076476" />
-          <NavigationProperty Name="Callouts" Relationship="Bec.TargetFramework.Data.Callout_Role_fk" FromRole="Role" ToRole="Callouts" ed:Guid="6b5b4c90-c24a-49ff-94ba-98674bc7a5cd" />
-          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="Role" ToRole="CalloutUserAccounts" ed:Guid="d4acf0b1-5bd8-4808-a5a4-294bf7cee436" />
-          <NavigationProperty Name="SMHPages" Relationship="Bec.TargetFramework.Data.SMHPage_Role_fk" FromRole="Role" ToRole="SMHPages" ed:Guid="f4bd1ed9-bba9-4875-bdb6-d0fbcb73b12a" />
           <NavigationProperty Name="RoleHierarchies" Relationship="Bec.TargetFramework.Data.fk_RoleHierarchy_Role" FromRole="Role" ToRole="RoleHierarchies" ed:Guid="ae37854d-50f6-466a-9f3e-5dbf62607f7f" />
           <NavigationProperty Name="HelpPageItemRoles" Relationship="Bec.TargetFramework.Data.fk_HelpPageItemRole_Role" FromRole="Role" ToRole="HelpPageItemRoles" ed:Guid="0b08ece1-cd0b-495b-9001-de0e66ee6bb2" />
         </EntityType>
@@ -26244,7 +26060,6 @@
           <NavigationProperty Name="UserClaims" Relationship="Bec.TargetFramework.Data.FK_dboUserClaims_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="UserClaims" ed:Guid="65e97acd-24ba-4243-84d0-081ad22a27f4" />
           <NavigationProperty Name="UserAccountArchives" Relationship="Bec.TargetFramework.Data.fk_UserAccounts_ID" FromRole="UserAccount" ToRole="UserAccountArchives" ed:Guid="666c0f24-b369-483d-85b0-1375dda26cf7" />
           <NavigationProperty Name="UserAccountLoginSessions" Relationship="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk" FromRole="UserAccount" ToRole="UserAccountLoginSessions" ed:Guid="0f5dbab7-df60-40b5-afd5-f9ac738dac0f" />
-          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_fk" FromRole="UserAccount" ToRole="CalloutUserAccounts" ed:Guid="a1e1ab3e-bd0e-4d8c-8420-8eb3ebb684f5" />
           <NavigationProperty Name="HelpPageItemUserAccounts" Relationship="Bec.TargetFramework.Data.fk_HelpItemUserAccount_UserAccount" FromRole="UserAccount" ToRole="HelpPageItemUserAccounts" ed:Guid="db35e480-0301-439d-aef3-66167aaf1bd8" />
         </EntityType>
         <EntityType Name="UserClaim" ed:Guid="b3d568b9-2dca-418b-baf5-9b566ea942f5">
@@ -29864,67 +29679,6 @@
           <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="30e77c6d-e4bc-4c99-9f53-52c6ce6d3992" />
           <Property Name="Temporary" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="91815814-b87c-47b7-affc-47742e4729c1" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="Files" ToRole="UserAccountOrganisation" ed:Guid="fc10697c-d6af-4995-a560-91aa3d5faf31" />
-        </EntityType>
-        <EntityType Name="SMHPage" ed:Guid="90b58ec7-8349-468a-a5f7-90bd921f22dd">
-          <Key>
-            <PropertyRef Name="PageID" />
-          </Key>
-          <Property Name="PageID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="d3dec9ee-24a5-4c59-b01b-aeadf4fe3972" />
-          <Property Name="PageName" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="5100bae4-deb9-4115-948a-b772ac62487f" />
-          <Property Name="PageURL" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="a260ed70-20de-4ff8-be7e-144fba988047" />
-          <Property Name="RoleId" Type="Guid" ed:ValidateRequired="False" ed:Guid="d12e7a11-e2f3-4f33-b75f-ac6582a94a4f" />
-          <NavigationProperty Name="SMHItems" Relationship="Bec.TargetFramework.Data.fk_SMHItem_SMHPage" FromRole="SMHPage" ToRole="SMHItems" ed:Guid="e288d868-91c1-47fb-9e9d-f5f23afc303c" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.SMHPage_Role_fk" FromRole="SMHPages" ToRole="Role" ed:Guid="e892be61-058d-4410-a6b3-3238027f203c" />
-        </EntityType>
-        <EntityType Name="SMHItem" ed:Guid="e2f38093-9b8b-413e-9a41-5f57dc7d6151">
-          <Key>
-            <PropertyRef Name="ItemID" />
-          </Key>
-          <Property Name="ItemID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="89a3a3f3-3719-4286-9918-cbbb46a16f04" />
-          <Property Name="PageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b7124239-677d-491f-8835-544011eb1032" />
-          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="1e0eeaac-f22d-49c1-9ff1-9cb48124e55e" />
-          <Property Name="ItemSelector" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a9515e73-2172-4a3b-aeea-9e461937d5b1" />
-          <Property Name="ItemDescription" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="a80dd625-b4f4-418d-bc78-b5a06b6ad04b" />
-          <Property Name="ItemPosition" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="b7c474f5-e95e-462c-9e88-1022572e5466" />
-          <Property Name="ItemOrder" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="17ae86d6-f874-4dc2-a232-2f07c10524b8" />
-          <Property Name="TabContainerId" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="7ece1cac-b254-4b70-9f2f-dfa29c500c44" />
-          <NavigationProperty Name="SMHPage" Relationship="Bec.TargetFramework.Data.fk_SMHItem_SMHPage" FromRole="SMHItems" ToRole="SMHPage" ed:Guid="778cfa04-0267-492b-88b8-dbcf59592f39" />
-        </EntityType>
-        <EntityType Name="Callout" ed:Guid="ab472da2-2bb5-44d0-b31d-f61089a32ed5">
-          <Key>
-            <PropertyRef Name="CalloutID" />
-          </Key>
-          <Property Name="CalloutID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="adc1d7a2-9efd-480c-b1b4-dd45fd76f3bd" />
-          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="590b942f-afc9-439b-9a60-a9f3c01686b3" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="ff3bf1cf-5301-4c79-8d5b-41fc99a43411" />
-          <Property Name="Description" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="7f6ccf4d-dc1d-481d-acc7-8848efe859a4" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="7ada0e91-4cc3-4af6-b0a0-7b56f47daec5" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="fd786ae0-2a96-43a9-b3c6-7b7d707ae709" />
-          <Property Name="DisplayOrder" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="67640625-5540-4731-9086-fd6c2446e780" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="48e5b8f4-bd96-48a9-a39b-cf715f08927e" />
-          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7d07d7bc-82ed-480d-bd37-36675e97a57e" />
-          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="e31776a4-0a4d-4857-82b3-9b29f7a206ad" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a416cd5c-cb72-42a4-88cf-716e473cb47b" />
-          <Property Name="Selector" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="6e89ea36-a7db-4997-a9e9-ae3d20a42e3a" />
-          <Property Name="EffectiveOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="141b8f5e-8d71-414f-a5f8-6fbea71426f1" />
-          <Property Name="Position" Type="Int32" ed:ValidateRequired="False" ed:Guid="16ad15cd-d677-4ab2-899b-28457de6174b" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.Callout_Role_fk" FromRole="Callouts" ToRole="Role" ed:Guid="70cd332e-c2f1-437a-ad77-134b1814f2c8" />
-          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk" FromRole="Callout" ToRole="CalloutUserAccounts" ed:Guid="557520be-f532-47ef-a18e-18b39509cd7d" />
-        </EntityType>
-        <EntityType Name="CalloutUserAccount" ed:Guid="1038a5ef-634f-41cd-b071-2e29892528c1">
-          <Key>
-            <PropertyRef Name="CalloutUserAccountID" />
-          </Key>
-          <Property Name="CalloutUserAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a56cc26c-481f-4b1b-b563-a92deadfda8a" />
-          <Property Name="CalloutID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="6356621e-7de2-4ef1-ab04-9f5ff0f5545c" />
-          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e238412f-4159-495b-8d51-9018551c1377" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="8d1dbc47-eb99-4728-b30b-bd014d4e6160" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="7af3dc3e-2d24-4d6b-bc49-2626ecb5927a" />
-          <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b3452ea6-5856-4d62-b6a1-e575d5a0faf6" />
-          <Property Name="Visible" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="4a498f46-b158-43a5-893e-052cc9ea108d" />
-          <NavigationProperty Name="Callout" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk" FromRole="CalloutUserAccounts" ToRole="Callout" ed:Guid="05d4441c-92b6-4f05-87b6-24b7d2966728" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="CalloutUserAccounts" ToRole="Role" ed:Guid="1cc9e95f-6b0d-4396-bfeb-da93fcdaf002" />
-          <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_fk" FromRole="CalloutUserAccounts" ToRole="UserAccount" ed:Guid="366e67aa-6427-40ac-a4a5-7f4b1f5e1ddc" />
         </EntityType>
         <EntityType Name="HelpPage" ed:Guid="e75f1ca0-3337-4784-af1b-4bcb610ca487">
           <Key>
@@ -37921,78 +37675,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_SMHItem_SMHPage" ed:Guid="d0f649e6-a39d-45a3-abab-68314441d228">
-          <End Role="SMHPage" Type="Bec.TargetFramework.Data.SMHPage" Multiplicity="1" />
-          <End Role="SMHItems" Type="Bec.TargetFramework.Data.SMHItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SMHPage">
-              <PropertyRef Name="PageID" />
-            </Principal>
-            <Dependent Role="SMHItems">
-              <PropertyRef Name="PageID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Callout_Role_fk" ed:Guid="00fe0fa5-749c-4a84-93bb-366df44495fb">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
-          <End Role="Callouts" Type="Bec.TargetFramework.Data.Callout" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="Callouts">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="CalloutUserAccount_Callout_fk" ed:Guid="1f3a2e9d-8d03-4eb1-ace6-0cccaef3dd37">
-          <End Role="Callout" Type="Bec.TargetFramework.Data.Callout" Multiplicity="1" />
-          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Callout">
-              <PropertyRef Name="CalloutID" />
-            </Principal>
-            <Dependent Role="CalloutUserAccounts">
-              <PropertyRef Name="CalloutID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="CalloutUserAccount_UserType_fk" ed:Guid="87f53d63-71e3-4ead-848b-a17602fad5b7">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
-          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="CalloutUserAccounts">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="CalloutUserAccount_fk" ed:Guid="f10066c6-7fea-44e0-9ddf-ab020ac962a0">
-          <End Role="UserAccount" Type="Bec.TargetFramework.Data.UserAccount" Multiplicity="1" />
-          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserAccount">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CalloutUserAccounts">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="SMHPage_Role_fk" ed:Guid="6ebebcc4-aabb-4af6-b188-02e59bbece49">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="SMHPages" Type="Bec.TargetFramework.Data.SMHPage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="SMHPages">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_RequestSupport_UserAccountOrganisation" ed:Guid="f222b3d8-8e0c-4687-bbb5-72facb239f6c">
           <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
           <End Role="SupportItems" Type="Bec.TargetFramework.Data.SupportItem" Multiplicity="*" />
@@ -44920,63 +44602,6 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="Temporary" ColumnName="Temporary" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SMHPages">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SMHPage">
-              <MappingFragment StoreEntitySet="SMHPages">
-                <ScalarProperty Name="PageID" ColumnName="PageID" />
-                <ScalarProperty Name="PageName" ColumnName="PageName" />
-                <ScalarProperty Name="PageURL" ColumnName="PageURL" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SMHItems">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SMHItem">
-              <MappingFragment StoreEntitySet="SMHItems">
-                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
-                <ScalarProperty Name="PageID" ColumnName="PageID" />
-                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
-                <ScalarProperty Name="ItemSelector" ColumnName="ItemSelector" />
-                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
-                <ScalarProperty Name="ItemPosition" ColumnName="ItemPosition" />
-                <ScalarProperty Name="TabContainerId" ColumnName="TabContainerId" />
-                <ScalarProperty Name="ItemOrder" ColumnName="ItemOrder" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Callouts">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Callout">
-              <MappingFragment StoreEntitySet="Callouts">
-                <ScalarProperty Name="CalloutID" ColumnName="CalloutID" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="Selector" ColumnName="Selector" />
-                <ScalarProperty Name="EffectiveOn" ColumnName="EffectiveOn" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CalloutUserAccounts">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.CalloutUserAccount">
-              <MappingFragment StoreEntitySet="CalloutUserAccounts">
-                <ScalarProperty Name="CalloutUserAccountID" ColumnName="CalloutUserAccountID" />
-                <ScalarProperty Name="CalloutID" ColumnName="CalloutID" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Visible" ColumnName="Visible" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

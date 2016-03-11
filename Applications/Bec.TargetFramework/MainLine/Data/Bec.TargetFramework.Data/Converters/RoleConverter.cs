@@ -56,9 +56,6 @@ namespace Bec.TargetFramework.Entities
               target.GroupRoles = source.GroupRoles.ToDtosWithRelated(level - 1);
               target.RoleClaims = source.RoleClaims.ToDtosWithRelated(level - 1);
               target.ActorClaimRoleMappings = source.ActorClaimRoleMappings.ToDtosWithRelated(level - 1);
-              target.Callouts = source.Callouts.ToDtosWithRelated(level - 1);
-              target.CalloutUserAccounts = source.CalloutUserAccounts.ToDtosWithRelated(level - 1);
-              target.SMHPages = source.SMHPages.ToDtosWithRelated(level - 1);
               target.RoleHierarchies = source.RoleHierarchies.ToDtosWithRelated(level - 1);
               target.HelpPageItemRoles = source.HelpPageItemRoles.ToDtosWithRelated(level - 1);
             }

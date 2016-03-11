@@ -195,13 +195,7 @@
     <Compile Include="Boo\BusTaskScheduleDTO.cs" />
     <Compile Include="Boo\BusTaskScheduleProcessLogDTO.cs" />
     <Compile Include="Boo\CalloutDTO.cs" />
-    <Compile Include="Boo\CalloutDTO.Generated.cs">
-      <DependentUpon>CalloutDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\CalloutUserAccountDTO.cs" />
-    <Compile Include="Boo\CalloutUserAccountDTO.Generated.cs">
-      <DependentUpon>CalloutUserAccountDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ClassificationTypeCategoryDTO.cs" />
     <Compile Include="Boo\ClassificationTypeCategoryDTO.Generated.cs">
       <DependentUpon>ClassificationTypeCategoryDTO.cs</DependentUpon>
@@ -1392,13 +1386,7 @@
       <DependentUpon>ShoppingCartItemProductSpecificationDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\SMHItemDTO.cs" />
-    <Compile Include="Boo\SMHItemDTO.Generated.cs">
-      <DependentUpon>SMHItemDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\SMHPageDTO.cs" />
-    <Compile Include="Boo\SMHPageDTO.Generated.cs">
-      <DependentUpon>SMHPageDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\SmsBankAccountCheckDTO.cs" />
     <Compile Include="Boo\SmsBankAccountCheckDTO.Generated.cs">
       <DependentUpon>SmsBankAccountCheckDTO.cs</DependentUpon>
