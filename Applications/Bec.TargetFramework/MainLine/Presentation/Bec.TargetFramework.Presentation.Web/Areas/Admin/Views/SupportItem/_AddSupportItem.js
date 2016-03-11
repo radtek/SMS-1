@@ -58,25 +58,19 @@
     }
     setupFormRequest();
 
-    var viewContainer = $('#addSupportItem-form'),
-        attachmentsID = guid(),
-        fbUploading = false;
+    var viewContainerSi = $('#addSupportItem-form'),
+        attachmentsIDSi = guid(),
+        fbUploadingSi = false;
 
-    var urls = {
-        //templateUrl: viewContainer.data("templateurl"),
-        //conversationUrl: viewContainer.data("conversations-url"),
-        //messagesUrl: viewContainer.data("messages-url"),
-        //recipientsUrl: viewContainer.data("recipients-url"),
-        //convRankUrl: viewContainer.data("convrank-url"),
-        //participantsUrl: viewContainer.data("participants-url"),
-        uploadUrl: viewContainer.data("upload-url"),
-        removeUploadUrl: viewContainer.data("remove-upload-url"),
+    var urlsSi = {
+        uploadUrl: viewContainerSi.data("upload-url"),
+        removeUploadUrl: viewContainerSi.data("remove-upload-url"),
     };
-    function createDropZone(item, sendButton) {
-        attachmentsID = guid();
-        $('#AttachmentsID').val(attachmentsID);
+    function createDropZoneSi(item, sendButton) {
+        attachmentsIDSi = guid();
+        $('#AttachmentsIDSi').val(attachmentsIDSi);
         var dzelem = item.dropzone({
-            url: urls.uploadUrl + '?id=' + attachmentsID,
+            url: urlsSi.uploadUrl + '?id=' + attachmentsIDSi,
             addRemoveLinks: true,
             maxFilesize: 20, //MB
             accept: function (file, done) {
@@ -95,7 +89,7 @@
                 });
 
                 dz.on("removedfile", function (file, dataUrl) {
-                    removeFile(file.name)
+                    removeFileSi(file.name)
                 });
 
                 dz.on("error", function (file, msg, xhr) {
@@ -118,23 +112,23 @@
             '</div>'
         });
 
-        $('#multiform').attr("action", urls.uploadUrl + '?id=' + attachmentsID);
+        $('#multiformSi').attr("action", urlsSi.uploadUrl + '?id=' + attachmentsIDSi);
 
-        $("#test").on('click', function (e) {
-            $("#file").click();
+        $("#testSi").on('click', function (e) {
+            $("#fileSi").click();
         });
 
-        $("#file").on('click', function (e) {
-            if (fbUploading) {
+        $("#fileSi").on('click', function (e) {
+            if (fbUploadingSi) {
                 e.preventDefault();
                 alert('Please wait for the previous upload to complete');
             }
         });
 
-        $("#file").on('change', function (e) {
-            if ($("#file").val() != '') {
+        $("#fileSi").on('change', function (e) {
+            if ($("#fileSi").val() != '') {
                 sendButton.prop('disabled', true);
-                $('#multiform').submit();
+                $('#multiformSi').submit();
             }
             else {
                 console.log('blank');
@@ -142,9 +136,9 @@
         });
 
         if (!Dropzone.isBrowserSupported()) {
-            $("#multiform").submit(function (e) {
+            $("#multiformSi").submit(function (e) {
 
-                fbUploading = true;
+                fbUploadingSi = true;
                 var formObj = $(this);
                 var formURL = formObj.attr("action");
 
@@ -163,11 +157,11 @@
                 //Add iframe to body
                 iframe.appendTo('body');
                 iframe.load(function (e) {
-                    console.log($("#file").val());
-                    $("#file").replaceWith($("#file").clone(true));
-                    console.log($("#file").val());
+                    console.log($("#fileSi").val());
+                    $("#fileSi").replaceWith($("#fileSi").clone(true));
+                    console.log($("#fileSi").val());
 
-                    var doc = getDoc(iframe[0]); //get iframe Document
+                    var doc = getDocSi(iframe[0]); //get iframe Document
                     var docRoot = doc.body ? doc.body : doc.documentElement;
                     var data = docRoot.innerHTML;
                     var msg = $("<p>Something went wrong. File size is limited to 25MB</p>");
@@ -177,7 +171,7 @@
 
                         var removeLink = $('<a>Remove</a>');
                         removeLink.on('click', function () {
-                            removeFile(j.FileName).success(function () {
+                            removeFileSi(j.FileName).success(function () {
                                 removeLink.parent().remove();
                             });
                         })
@@ -187,8 +181,8 @@
                         console.log(e);
                     }
 
-                    $('#multiform').prepend(msg);
-                    fbUploading = false;
+                    $('#multiformSi').prepend(msg);
+                    fbUploadingSi = false;
                     sendButton.prop('disabled', false);
                 });
 
@@ -196,20 +190,20 @@
         }
     }
 
-    createDropZone($('#upload'), $('#submitAddSupportItem'));
+    createDropZoneSi($('#uploadSi'), $('#submitAddSupportItem'));
 
-    function removeFile(name) {
+    function removeFileSi(name) {
         return ajaxWrapper({
-            url: urls.removeUploadUrl,
+            url: urlsSi.removeUploadUrl,
             data: {
                 filename: name,
-                id: attachmentsID
+                id: attachmentsIDSi
             },
             method: 'POST'
         });
     }
 
-    function getDoc(frame) {
+    function getDocSi(frame) {
         var doc = null;
 
         // IE8 cascading access check

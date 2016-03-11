@@ -27,7 +27,7 @@
                               data-remove-upload-url="@Url.Action("RemovePendingUpload", "Messages", new { area = "Admin" })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
-                            <input type="hidden" name="AttachmentsID" id="AttachmentsID" />
+                            <input type="hidden" name="AttachmentsID" id="AttachmentsIDSi" />
                             <fieldset>
                                 <div class="row">
                                     <section class="col col-sm-6">
@@ -91,11 +91,11 @@
                 <button type="button" id="submitAddSupportItem" class="btn btn-primary" tabindex="5">
                     Send
                 </button>
-                <div id="upload" class="smart-form new-conversation-form dropzone" style="margin-left:13px; margin-right:13px;">
+                <div id="uploadSi" class="smart-form new-conversation-form dropzone" style="margin-left:13px; margin-right:13px;">
                     <div class="fallback">
-                        <form method="post" enctype="multipart/form-data" id="multiform">
-                            <input style="display:none;" type="file" name="file" id="file" title="Add File" />
-                            <button type="button" id="test">Upload file...</button>
+                        <form method="post" enctype="multipart/form-data" id="multiformSi">
+                            <input style="display:none;" type="file" name="file" id="fileSi" title="Add File" />
+                            <button type="button" id="testSi">Upload file...</button>
                         </form>
                     </div>
                 </div>

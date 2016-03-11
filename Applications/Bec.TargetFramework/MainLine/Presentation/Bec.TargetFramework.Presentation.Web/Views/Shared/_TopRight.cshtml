@@ -34,11 +34,16 @@
             @if (ClaimsHelper.UserHasClaim("Send", "SupportItem"))
             {
                 <li>
-                    <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddSupportItem", "SupportItem", new { area = "Admin" })" data-url="@Url.Action("ViewAddSupportItem", "SupportItem", new { area = "Admin" })" title="Request Support"><i class="fa fa-pencil-square-o"></i><span class="header-btn-text">Request Support</span></a>
+                    <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddSupportItem", "SupportItem", new { area = "Admin" })" data-url="@Url.Action("ViewAddSupportItem", "SupportItem", new { area = "Admin" })" title="Request Support"><i class="fa fa-commenting-o"></i><span class="header-btn-text">Request Support</span></a>
                 </li>
             }
         </ul>
     </div>
+    <script>
+        $(document).ready(function () {
+            findModalLinks();
+        });
+    </script>
     <div class="dropdown pull-right margin-top-10">
         <button class="btn btn-default dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="User Functions">
             <i class="fa fa-user"></i>
