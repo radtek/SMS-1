@@ -761,13 +761,11 @@ form.smart-form.pending-update-form .pending-changes-button {
   z-index: 2000;
   /* high value because of an arbitrary 1050 from modal window */
   border: none;
-  background-color: #6eb0df;
   color: #eee;
   -moz-border-radius: 0 9px 9px 0;
   -webkit-border-radius: 0 9px 9px 0;
   border-radius: 0 9px 9px 0;
   position: absolute;
-  right: -10px;
   bottom: 6px;
   padding: 6px 3px 4px 10px;
   font-size: 0.7em;
@@ -776,13 +774,29 @@ form.smart-form.pending-update-form .pending-changes-button {
   -webkit-transition: right ease-in-out 0.1s;
   transition: right ease-in-out 0.1s;
 }
-form.smart-form.pending-update-form .pending-changes-button:hover {
+form.smart-form.pending-update-form .pending-changes-button.not-actioned {
+  right: -10px;
+  background-color: #6eb0df;
+}
+form.smart-form.pending-update-form .pending-changes-button.not-actioned:hover {
   right: -14px;
+}
+form.smart-form.pending-update-form .pending-changes-button.actioned {
+  right: -14px;
+}
+form.smart-form.pending-update-form .pending-changes-button.actioned.accepted {
+  background-color: #a1c324;
+}
+form.smart-form.pending-update-form .pending-changes-button.actioned.rejected {
+  background-color: orange;
 }
 form.smart-form.pending-update-form div.input input {
   position: relative;
   z-index: 2001;
   /* high value because of an arbitrary 1050 from modal window */
+}
+.fa-reject-fix {
+  margin-right: 1px;
 }
 .required {
   padding: 2px 8px;
@@ -795,6 +809,12 @@ input[type=radio]:checked + label.approve-reject-button {
 }
 .bg-color-pending-update {
   background-color: #6eb0df;
+}
+.popover-close-button {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  cursor: pointer;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {

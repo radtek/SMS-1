@@ -6,7 +6,8 @@
     $("#editSmsTransaction-form").fieldPendingUpdates({
         selector: '.pending-changes-button',
         includeApproveReject: true,
-        container: '#editSmsTransactionContainer'
+        container: '#editSmsTransactionContainer',
+        showFirst: true
     });
 
     function validateSubmit(form) {
