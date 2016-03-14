@@ -25,7 +25,7 @@ $(function () {
                        title: "Ticket Number"
                    },
                    {
-                       field: "UserAccountOrganisation.Contact.FullName",
+                       field: "UserAccountOrganisation.Contact.LastName",
                        title: "User Name",
                        template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
                    },
@@ -73,7 +73,7 @@ $(function () {
                         title: "Ticket Number"
                     },
                     {
-                        field: "UserAccountOrganisation.Contact.FirstName",
+                        field: "UserAccountOrganisation.Contact.LastName",
                         title: "User Name",
                         template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
                     },

@@ -17,6 +17,9 @@
                 },
                 'RequestTypeID': {
                     required: true
+                },
+                'Telephone': {
+                    required: true
                 }
             },
             // Do not change code below
