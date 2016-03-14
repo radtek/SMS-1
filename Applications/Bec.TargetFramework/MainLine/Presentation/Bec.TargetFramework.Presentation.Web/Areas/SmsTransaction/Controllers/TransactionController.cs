@@ -179,6 +179,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var filter = ODataHelper.Filter(where);
 
             JObject res = await QueryClient.QueryAsync("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            
+            var ids = res["Items"].Select(x => Guid.Parse(((JValue)x["SmsTransactionID"]).Value.ToString()));
+            var pendingUpdates = await OrganisationClient.SmsTransactionPendingUpdateCountAsync(ids);
+            foreach (dynamic tx in res["Items"])
+            {
+                var updates = pendingUpdates.SingleOrDefault(x => x.SmsTransactionID == Guid.Parse(tx.SmsTransactionID.ToString()));
+                tx.PendingUpdateCount = updates == null ? 0 : updates.PendingChangesCount;
+            }
+
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

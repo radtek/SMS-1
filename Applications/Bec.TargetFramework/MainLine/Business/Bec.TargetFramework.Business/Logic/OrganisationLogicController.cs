@@ -721,13 +721,25 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public IEnumerable<SmsTransactionPendingUpdateCountDTO> SmsTransactionPendingUpdateCount(IEnumerable<Guid> ids)
+        {
+            var activityTypeID = ActivityType.SmsTransaction.GetIntValue();
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates
+                    .Where(x => x.ActivityType == activityTypeID && ids.Contains(x.ActivityID))
+                    .GroupBy(x => x.ActivityID)
+                    .Select(x => new SmsTransactionPendingUpdateCountDTO {SmsTransactionID = x.Key, PendingChangesCount = x.Count() }).ToList();
+            }
+        }
+
         public async Task ReplaceSrcFundsBankAccounts(IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts, Guid uaoTxID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var accounts = scope.DbContexts.Get<TargetFrameworkEntities>().SmsSrcFundsBankAccounts.Where(x => x.SmsUserAccountOrganisationTransactionID == uaoTxID);
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsSrcFundsBankAccounts.RemoveRange(accounts);
-                AddSrcFundsBankAccounts(srcFundsBankAccounts, uaoTxID);
+                await AddSrcFundsBankAccounts(srcFundsBankAccounts, uaoTxID);
                 await scope.SaveChangesAsync();
             }
         }

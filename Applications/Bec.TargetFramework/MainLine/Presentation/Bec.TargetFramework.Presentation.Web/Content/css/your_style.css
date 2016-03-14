@@ -793,6 +793,9 @@ form.smart-form.pending-update-form div.input input {
 input[type=radio]:checked + label.approve-reject-button {
   background-color: #6eb0df;
 }
+.bg-color-pending-update {
+  background-color: #6eb0df;
+}
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
     cursor: pointer;
