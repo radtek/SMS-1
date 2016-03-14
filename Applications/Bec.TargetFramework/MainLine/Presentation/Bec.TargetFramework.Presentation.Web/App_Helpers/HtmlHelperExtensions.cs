@@ -284,14 +284,15 @@ namespace Bec.TargetFramework.Presentation.Web
             where TModel : IPendingUpdateModel
         {
             var resultText = new TagBuilder("span");
-            if (fieldUpdateDataType == FieldUpdateDataType.Date)
-            {
-                resultText.AddCssClass("format-pending-date");
-            }
             var pendingUpdateValue = html.ViewData.Model.FieldUpdates.SingleOrDefault(x => x.FieldName == fieldName && x.ParentType == fieldUpdateParentType.GetIntValue() && x.ParentID == parentId);
             var originalValue = GetOriginalValue(html, expression, noValueText);
             if (pendingUpdateValue == null)
             {
+                if (fieldUpdateDataType == FieldUpdateDataType.Date)
+                {
+                    resultText.AddCssClass("format-pending-date");
+                }
+            
                 var originalValueOrNoValueText = GetOriginalValueOrNoValueText(originalValue, noValueText);
                 resultText.SetInnerText(GetFormattedValue(originalValueOrNoValueText, fieldUpdateDataType));
             }
@@ -299,6 +300,11 @@ namespace Bec.TargetFramework.Presentation.Web
             {
                 var anchor = new TagBuilder("a");
                 anchor.AddCssClass("pending-update");
+                if (fieldUpdateDataType == FieldUpdateDataType.Date)
+                {
+                    anchor.AddCssClass("format-pending-date");
+                }
+            
                 anchor.Attributes.Add("tabindex", "-1");
                 anchor.Attributes.Add("role", "button");
                 anchor.Attributes.Add("data-pending-fullname", pendingUpdateValue.UserAccountOrganisation.Contact.FullName);

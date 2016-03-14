@@ -758,7 +758,8 @@ form.smart-form.pending-update-form .pending-changes-input input:focus {
   border-color: #2e99ff;
 }
 form.smart-form.pending-update-form .pending-changes-button {
-  z-index: 0;
+  z-index: 2000;
+  /* high value because of an arbitrary 1050 from modal window */
   border: none;
   background-color: #6eb0df;
   color: #eee;
@@ -780,7 +781,8 @@ form.smart-form.pending-update-form .pending-changes-button:hover {
 }
 form.smart-form.pending-update-form div.input input {
   position: relative;
-  z-index: 1;
+  z-index: 2001;
+  /* high value because of an arbitrary 1050 from modal window */
 }
 .required {
   padding: 2px 8px;

@@ -71,11 +71,11 @@
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                             @if (ViewBag.canEditBirthDate)
                                             {
-                                                @Html.TextBoxFor(m => m.Dto.Contact.BirthDate, "{0:O}", new { tabindex = "5", id = "birthDateInput"})
+                                                @Html.TextBoxFor(m => m.Dto.Contact.BirthDate, "{0:O}", new { tabindex = "5", id = "birthDateInput", @readonly = "readonly" })
                                             }
                                             else
                                             {
-                                                <input id="birthDateReadOnly" type="text" value="@Model.Dto.Contact.BirthDate.Value.ToString("O")" readonly />
+                                                <input id="birthDateReadOnly" type="text" value="@Model.Dto.Contact.BirthDate.Value.ToString("O")" readonly="readonly" />
                                             }
                                         </div>
                                     </section>

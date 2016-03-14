@@ -50,7 +50,7 @@ namespace Bec.TargetFramework.Business.Extensions
                     uaotx = tx.SmsUserAccountOrganisationTransactions.Single(x => x.SmsUserAccountOrganisationTransactionID == update.ParentID);
                     CommonHelper.SetProperty(uaotx.Contact, update.FieldName, update.Value);
                     break;
-                default: 
+                default:
                     throw new Exception();
             }
         }
@@ -86,8 +86,19 @@ namespace Bec.TargetFramework.Business.Extensions
 
         private static void ResolveProperty(IDbContextScope scope, object approved, Guid uaoID, DateTime dateTime, FieldUpdateDTO update)
         {
-            var approvedValue = approved == null ? null : approved.GetType().GetProperty(update.FieldName).GetValue(approved);
-            var approvedStringValue = (approvedValue == null ? string.Empty : approvedValue.ToString()).Trim();
+            var approvedProperty = approved.GetType().GetProperty(update.FieldName);
+            var approvedValue = approved == null ? null : approvedProperty.GetValue(approved);
+            string approvedStringValue;
+            if (approvedProperty.PropertyType == typeof(Nullable<DateTime>) || approvedProperty.PropertyType == typeof(DateTime))
+            {
+                var approvedDateTime =(DateTime?)approvedValue;
+                approvedStringValue = (approvedDateTime == null ? string.Empty : approvedDateTime.Value.ToString("O"));
+            }
+            else
+            {
+                approvedStringValue = (approvedValue == null ? string.Empty : approvedValue.ToString()).Trim();
+            }
+
             update.Value = (update.Value ?? string.Empty).Trim();
 
             var existingUpdate = scope.DbContexts.Get<TargetFrameworkEntities>().FieldUpdates.SingleOrDefault(x =>

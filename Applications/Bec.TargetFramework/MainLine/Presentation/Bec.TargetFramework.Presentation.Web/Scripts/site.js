@@ -720,5 +720,7 @@ function formatDates() {
     $('.format-pending-date').each(function () {
         var originalText = $(this).text();
         $(this).text(dateStringNoTime(originalText));
+        $(this).data('pending-originalval', dateStringNoTime($(this).data('pending-originalval')));
+        $(this).data('pending-value', dateStringNoTime($(this).data('pending-value')));
     });
 }

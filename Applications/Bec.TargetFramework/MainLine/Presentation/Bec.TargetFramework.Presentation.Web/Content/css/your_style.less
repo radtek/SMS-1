@@ -999,7 +999,7 @@ form.smart-form.pending-update-form {
     }
 
     .pending-changes-button {
-        z-index: 0;
+        z-index: 2000; /* high value because of an arbitrary 1050 from modal window */
         border: none;
         background-color: @color-pending-update;
         color: #eee;
@@ -1023,19 +1023,19 @@ form.smart-form.pending-update-form {
 
     div.input input {
         position: relative;
-        z-index: 1;
+        z-index: 2001; /* high value because of an arbitrary 1050 from modal window */
     }
 }
 
-.required{
+.required {
     padding: 2px 8px;
     color: @color-reject;
     background-color: lighten(@color-reject, 60%);
     border-radius: 2px;
 }
 
-input[type=radio]:checked + label.approve-reject-button{
-    background-color:@color-pending-update;
+input[type=radio]:checked + label.approve-reject-button {
+    background-color: @color-pending-update;
 }
 
 // xs and sm
