@@ -47,7 +47,7 @@ $(function () {
             },
             {
                 field: "Price",
-                title: "Price",
+                title: "Purchase Price",
                 template: function (dataItem) { return dataItem.Price > 0 ? formatCurrency(dataItem.Price) : ""; }
             },
             {
