@@ -812,42 +812,23 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task<Address> CompareAndAddAddressIfChanged(Address address, AddressDTO addressDTO, Guid parentID)
+        private Address GetNewAddress(AddressDTO addressDTO, Guid parentID)
         {
-            if (address != null &&
-                address.Line1 == addressDTO.Line1 &&
-                address.Line2 == addressDTO.Line2 &&
-                address.Town == addressDTO.Town &&
-                address.County == addressDTO.County &&
-                address.PostalCode == addressDTO.PostalCode)
-                return address;
-
-            if (string.IsNullOrWhiteSpace(addressDTO.Line1))
+            return new Address
             {
-                return null;
-            }
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var newAdd = new Address
-                {
-                    AddressID = Guid.NewGuid(),
-                    ParentID = parentID,
-                    Line1 = addressDTO.Line1,
-                    Line2 = addressDTO.Line2,
-                    Town = addressDTO.Town,
-                    County = addressDTO.County,
-                    PostalCode = addressDTO.PostalCode,
-                    AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
-                    Name = string.Empty,
-                    IsPrimaryAddress = true,
-                    CreatedOn = DateTime.Now,
-                    CreatedBy = UserNameService.UserName
-                };
-
-                scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(newAdd);
-                await scope.SaveChangesAsync();
-                return newAdd;
-            }
+                AddressID = Guid.NewGuid(),
+                ParentID = parentID,
+                Line1 = addressDTO.Line1 ?? string.Empty,
+                Line2 = addressDTO.Line2 ?? string.Empty,
+                Town = addressDTO.Town ?? string.Empty,
+                County = addressDTO.County ?? string.Empty,
+                PostalCode = addressDTO.PostalCode ?? string.Empty,
+                AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
+                Name = string.Empty,
+                IsPrimaryAddress = true,
+                CreatedOn = DateTime.Now,
+                CreatedBy = UserNameService.UserName
+            };
         }
 
         public async Task AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
@@ -887,14 +868,12 @@ namespace Bec.TargetFramework.Business.Logic
                     SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
                     UserAccountOrganisationID = buyerUaoID,
                     SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
-                    Address = await CompareAndAddAddressIfChanged(null, assignSmsClientToTransactionDTO.RegisteredHomeAddress, uaoTxID),
+                    Address = GetNewAddress(assignSmsClientToTransactionDTO.RegisteredHomeAddress, uaoTxID),
                     ContactID = contactId,
                     CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
-
                 await AddSrcFundsBankAccounts(assignSmsClientToTransactionDTO.SmsSrcFundsBankAccounts, uaoTxID);
-
                 await scope.SaveChangesAsync();
             }
         }
