@@ -37,7 +37,7 @@ $(function () {
                        field: "Telephone",
                        title: "Telephone"
                    },
-                   
+
                    {
                        field: "Title",
                        title: "Title",
@@ -110,8 +110,15 @@ $(function () {
     tabs.showTab($('#tabList').data("selected"));
     findModalLinks();
     setupTabs();
+    switchTabs();
 });
 
+function switchTabs() {
+    $('#tabList li a').click(function (e) {
+        $('#gridSearchInput').val('');
+        $('#gridSearchButton').click();
+    });
+}
 function setupTabs() {
     areConversationsLoaded = false;
     $('#nPanel li a').click(function (e) {
