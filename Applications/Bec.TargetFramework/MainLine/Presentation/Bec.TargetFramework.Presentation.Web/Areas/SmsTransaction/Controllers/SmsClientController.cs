@@ -21,6 +21,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
     {
         private static IEnumerable<UserAccountOrganisationTransactionType> AllowedParties = new[] { UserAccountOrganisationTransactionType.AdditionalBuyer, UserAccountOrganisationTransactionType.Giftor };
         public IOrganisationLogicClient OrganisationClient { get; set; }
+        public ISmsTransactionLogicClient SmsTransactionClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
         public IUserLogicClient UserClient { get; set; }
 
@@ -158,20 +159,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             try
             {
                 var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-
                 var model = new EditBuyerPartyDTO { Dto = new SmsUserAccountOrganisationTransactionDTO() };
                 UpdateModel(model.Dto, "Dto");
                 model.TxID = txID;
                 model.UaoID = uaoID;
-
                 if (FieldUpdates != null)
                 {
                     model.FieldUpdates = (await PendingUpdateExtensions.GetFieldUpdates(HttpContext, ActivityType.SmsTransaction, txID, QueryClient))
                         .Where(x => FieldUpdates.Contains(x.GetHash()));
                 }
-
-                await OrganisationClient.EditBuyerPartyAsync(model);
-
+                await SmsTransactionClient.EditBuyerPartyAsync(model);
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch

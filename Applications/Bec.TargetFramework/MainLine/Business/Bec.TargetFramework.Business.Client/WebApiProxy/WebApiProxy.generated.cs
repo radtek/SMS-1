@@ -976,12 +976,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
 
-		/// <returns></returns>
-		Task EditBuyerPartyAsync(EditBuyerPartyDTO editBuyerPartyDto);
-
-		/// <returns></returns>
-		void EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto);
-
 		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
 		/// <param name="uaoID"></param>
@@ -1061,12 +1055,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		void ResolveSmsTransactionPendingUpdates(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates);
-
-		/// <returns></returns>
-		Task RemovePendingUpdatesAsync(IEnumerable<FieldUpdateDTO> updates);
-
-		/// <returns></returns>
-		void RemovePendingUpdates(IEnumerable<FieldUpdateDTO> updates);
 
 		/// <param name="txID"></param>
 		/// <returns></returns>
@@ -1166,6 +1154,21 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="itemID"></param>
 		/// <returns></returns>
 		void RemoveProductFromShoppingCart(Guid cartID,Guid itemID);
+	}
+
+	public partial interface ISmsTransactionLogicClient : IClientBase	{	
+
+		/// <returns></returns>
+		Task EditSmsTransactionAsync(EditSmsTransactionDTO editSmsTransactionDto);
+
+		/// <returns></returns>
+		void EditSmsTransaction(EditSmsTransactionDTO editSmsTransactionDto);
+
+		/// <returns></returns>
+		Task EditBuyerPartyAsync(EditBuyerPartyDTO editBuyerPartyDto);
+
+		/// <returns></returns>
+		void EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto);
 	}
 
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
@@ -4153,25 +4156,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <returns></returns>
-		public virtual Task EditBuyerPartyAsync(EditBuyerPartyDTO editBuyerPartyDto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<EditBuyerPartyDTO>("api/OrganisationLogic/EditBuyerParty", editBuyerPartyDto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<EditBuyerPartyDTO>("api/OrganisationLogic/EditBuyerParty", editBuyerPartyDto, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
 		/// <param name="uaoID"></param>
@@ -4353,25 +4337,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<List<FieldUpdateDTO>>("api/OrganisationLogic/ResolveSmsTransactionPendingUpdates?txID=" + txID + "&uaoID=" + uaoID, updates, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task RemovePendingUpdatesAsync(IEnumerable<FieldUpdateDTO> updates)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<IEnumerable<FieldUpdateDTO>>("api/OrganisationLogic/RemovePendingUpdates", updates, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void RemovePendingUpdates(IEnumerable<FieldUpdateDTO> updates)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<IEnumerable<FieldUpdateDTO>>("api/OrganisationLogic/RemovePendingUpdates", updates, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4660,6 +4625,66 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/ShoppingCartLogic/RemoveProductFromShoppingCart?cartID=" + cartID + "&itemID=" + itemID, null, _user)).Wait();
+		}
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class SmsTransactionLogicClient : ClientBase, Interfaces.ISmsTransactionLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public SmsTransactionLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public SmsTransactionLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task EditSmsTransactionAsync(EditSmsTransactionDTO editSmsTransactionDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<EditSmsTransactionDTO>("api/SmsTransactionLogic/EditSmsTransaction", editSmsTransactionDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void EditSmsTransaction(EditSmsTransactionDTO editSmsTransactionDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<EditSmsTransactionDTO>("api/SmsTransactionLogic/EditSmsTransaction", editSmsTransactionDto, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task EditBuyerPartyAsync(EditBuyerPartyDTO editBuyerPartyDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<EditBuyerPartyDTO>("api/SmsTransactionLogic/EditBuyerParty", editBuyerPartyDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<EditBuyerPartyDTO>("api/SmsTransactionLogic/EditBuyerParty", editBuyerPartyDto, _user)).Wait();
 		}
 
 		#endregion
