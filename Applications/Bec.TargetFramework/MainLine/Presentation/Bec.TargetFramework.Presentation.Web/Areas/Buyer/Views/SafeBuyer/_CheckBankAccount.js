@@ -52,9 +52,9 @@ function validateSubmit(form) {
         }
         else {
             if (res.result == true)
-                handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode + "&paid=false" }, null, true);
             else
-                handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode + "&paid=false" }, null, true);
         }
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {

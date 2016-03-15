@@ -5,7 +5,7 @@
 @{
     var months = Enumerable.Range(1, 12).Select(s => new SelectListItem { Text = s.ToString(), Value = s.ToString() });
     CartPricingDTO cartPricing = ViewBag.cartPricing;
-    
+
     var shortenedConveyancerName = ViewBag.ConveyancerName.Length > 50 ? ViewBag.ConveyancerName.Substring(0, 50) + "..." : ViewBag.ConveyancerName;
 }
 
@@ -47,6 +47,16 @@
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="step1">
+                                        @if (ViewBag.ExpectedFree)
+                                        {
+                                            <fieldset>
+                                                <div class="alert alert-warning">
+                                                    <h6>Payment Required</h6>
+                                                    <p>We were unable to validate the mortgage details you have provided. It is therefore necessary at this stage to provide payment to use the Safe Buyer product.</p>
+                                                    <p>Our automatic refund process will refund this payment in full when qualifying amendments are provided by your conveyancer.</p>
+                                                </div>
+                                            </fieldset>
+                                        }
                                         <fieldset>
                                             <label>Purchase Summary</label>
                                             <div class="row">

@@ -16,6 +16,7 @@ using EnsureThat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Logic
@@ -31,6 +32,7 @@ namespace Bec.TargetFramework.Business.Logic
         public ShoppingCartLogicController ShoppingCartLogic { get; set; }
         public ProductLogicController ProductLogic { get; set; }
         public TransactionOrderLogicController TransactionOrderLogic { get; set; }
+        public NotificationLogicController NotificationLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
         public ITransferInterfaceLogicClient SiraTransferClient { get; set; }
 
@@ -597,9 +599,37 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var approved = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == txID);
-                SmsTransactionHelper.ResolveSmsTransactionUpdates(scope, approved, uaoID, DateTime.Now, updates);
+                var resolved = SmsTransactionHelper.ResolveSmsTransactionUpdates(scope, approved, uaoID, DateTime.Now, updates);
+
+                if (resolved.Count > 0)
+                {
+                    var notificationConstruct = NotificationLogic.GetLatestNotificationConstructIdFromName("Message");
+                    var message = ConstructMessageFromUpdates(resolved);
+                    var notificationDto = new NotificationDTO
+                    {
+                        CreatedByUserAccountOrganisationID = uaoID,
+                        DateSent = DateTime.Now,
+                        NotificationConstructID = notificationConstruct.NotificationConstructID,
+                        NotificationConstructVersionNumber = notificationConstruct.NotificationConstructVersionNumber,
+                        NotificationData = JsonHelper.SerializeData(new { Message = message }),
+                        NotificationRecipients = new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = approved.CreatedByUserAccountOrganisationID } }
+                    };
+                    await NotificationLogic.SaveNotificationConversationAsync(notificationDto, txID, ActivityType.SmsTransaction, "Changes Requested", false);
+                }
                 await scope.SaveChangesAsync();
             }
+        }
+
+        private string ConstructMessageFromUpdates(List<ResolvedUpdate> updates)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("The following changes have been requested:");
+            foreach (var update in updates)
+            {
+                sb.AppendLine();
+                sb.AppendFormat("{0}: {1}", update.Source, update.NewValue.ValueOr("[Removed]"));
+            }
+            return sb.ToString();
         }
 
         public bool IsSafeBuyerPotentiallyFree(Guid txID)

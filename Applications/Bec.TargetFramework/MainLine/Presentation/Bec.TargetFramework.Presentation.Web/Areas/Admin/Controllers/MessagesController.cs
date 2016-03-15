@@ -242,6 +242,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filter = ODataHelper.Filter<ConversationParticipantDTO>(x => x.ConversationID == conversationId);
             var participants = await QueryClient.QueryAsync<ConversationParticipantDTO>("ConversationParticipants", select + filter);
 
+            //get group participants
+            var selectF = ODataHelper.Select<ConversationSafeSendGroupParticipantDTO>(x => new { x.OrganisationID, uaos = x.SafeSendGroup.UserAccountOrganisationSafeSendGroups.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.OrganisationID }) });
+            var filterF = ODataHelper.Filter<ConversationSafeSendGroupParticipantDTO>(x => x.ConversationID == conversationId);
+            var participantsF = await QueryClient.QueryAsync<ConversationSafeSendGroupParticipantDTO>("ConversationSafeSendGroupParticipants", selectF + filterF);
+
+            if (reply && (conversation.IsSystemMessage || participants.Count() + participantsF.Count() < 2)) return false;
+
             switch (orgTypeName)
             {
                 case "Professional":
@@ -250,9 +257,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     break;
                 case "Lender":
                     //exact uao or in SafeSendGroup
-                    var selectF = ODataHelper.Select<ConversationSafeSendGroupParticipantDTO>(x => new { x.OrganisationID, uaos = x.SafeSendGroup.UserAccountOrganisationSafeSendGroups.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.OrganisationID }) });
-                    var filterF = ODataHelper.Filter<ConversationSafeSendGroupParticipantDTO>(x => x.ConversationID == conversationId);
-                    var participantsF = await QueryClient.QueryAsync<ConversationSafeSendGroupParticipantDTO>("ConversationSafeSendGroupParticipants", selectF + filterF);
                     if (!participants.Any(x => x.UserAccountOrganisationID == uaoID) && !participantsF.Any(x => x.OrganisationID == orgId && x.SafeSendGroup.UserAccountOrganisationSafeSendGroups.Any(y => y.UserAccountOrganisationID == uaoID && y.UserAccountOrganisation.OrganisationID == orgId))) return false;
                     break;
                 default:

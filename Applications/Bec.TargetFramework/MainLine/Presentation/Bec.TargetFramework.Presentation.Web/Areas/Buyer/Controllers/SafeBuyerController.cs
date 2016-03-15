@@ -28,6 +28,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public IOrganisationLogicClient OrganisationClient { get; set; }
         public ISmsTransactionLogicClient SmsTransactionLogicClient { get; set; }
         public IBankAccountLogicClient BankAccountClient { get; set; }
+        public INotificationLogicClient NotificationClient { get; set; }
 
         public async Task<ActionResult> Index(Guid? selectedTransactionId)
         {
@@ -36,7 +37,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 var model = await GetUaots(selectedTransactionId.Value);
                 var uaot = model.FirstOrDefault();
                 ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
-                ViewBag.IsSafeBuyerPotentiallyFree = await SmsTransactionLogicClient.IsSafeBuyerPotentiallyFreeAsync(selectedTransactionId.Value);
+                ViewBag.CheckButtonText = "Check Bank Account";
+                if (!uaot.SmsTransaction.InvoiceID.HasValue && !await SmsTransactionLogicClient.IsSafeBuyerPotentiallyFreeAsync(selectedTransactionId.Value))
+                    ViewBag.CheckButtonText = "Purchase Safe Buyer";                
 
                 var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
                 return View(modelWithUpdates);
@@ -99,6 +102,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                     ViewBag.txID = txID;
                     ViewBag.cartPricing = cartPricing;
                     ViewBag.ConveyancerName = model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                    ViewBag.ExpectedFree = await SmsTransactionLogicClient.IsSafeBuyerPotentiallyFreeAsync(txID);
                     return PartialView("_PurchaseProduct");
                 }
             }
@@ -210,8 +214,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var purchaseProductResult = await SmsTransactionLogicClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, false, orderRequest);
             if (purchaseProductResult.IsPaymentSuccessful)
             {
-                TempData["PaymentSuccessful"] = true;
-
                 var model = (await GetUaots(txID)).FirstOrDefault();
                
                 //check bank account
@@ -381,10 +383,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             
             if (model.Contact.BirthDate.HasValue)
             {
-                updates.AddRange(PendingUpdateExtensions.GetUpdateFromModel(ActivityType.SmsTransaction, model.SmsTransactionID, new List<FieldUpdateDTO> 
+                updates.Add(new FieldUpdateDTO
                 { 
-                    new FieldUpdateDTO { ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "BirthDate", Value = model.Contact.BirthDate.Value.ToString("O") }
-                }));
+                    ActivityType = ActivityType.SmsTransaction.GetIntValue(),
+                    ActivityID = model.SmsTransactionID,
+                    ParentID = model.SmsUserAccountOrganisationTransactionID,
+                    ParentType = FieldUpdateParentType.Contact.GetIntValue(),
+                    FieldName = "BirthDate",
+                    Value = model.Contact.BirthDate.Value.ToString("O")
+                });
             }
 
             await SmsTransactionLogicClient.ResolveSmsTransactionPendingUpdatesAsync(model.SmsTransactionID, uaoID, updates);
