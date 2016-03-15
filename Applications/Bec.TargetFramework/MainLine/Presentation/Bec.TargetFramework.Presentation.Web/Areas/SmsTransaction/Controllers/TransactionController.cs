@@ -61,7 +61,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 }
                 else
                 {
-                    TempData["rowNumber"] = await OrganisationClient.GetSmsTransactionRankAsync(orgID, selectedTransactionID.Value);
+                    TempData["rowNumber"] = await SmsTransactionClient.GetSmsTransactionRankAsync(orgID, selectedTransactionID.Value);
                     TempData["resetSort"] = true;
                 }
                 TempData["SmsTransactionID"] = selectedTransactionID;
@@ -183,7 +183,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             JObject res = await QueryClient.QueryAsync("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
             
             var ids = res["Items"].Select(x => Guid.Parse(((JValue)x["SmsTransactionID"]).Value.ToString()));
-            var pendingUpdates = await OrganisationClient.SmsTransactionPendingUpdateCountAsync(ids);
+            var pendingUpdates = await SmsTransactionClient.SmsTransactionPendingUpdateCountAsync(ids);
             foreach (dynamic tx in res["Items"])
             {
                 var updates = pendingUpdates.SingleOrDefault(x => x.SmsTransactionID == Guid.Parse(tx.SmsTransactionID.ToString()));
@@ -271,7 +271,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var uaoID = HttpContext.GetWebUserObject().UaoID;
             try
             {
-                var transactionID = await OrganisationClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
+                var transactionID = await SmsTransactionClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
                 return Json(new { result = true, txID = transactionID }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -289,7 +289,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public async Task<ActionResult> CheckDuplicateUserSmsTransaction(SmsTransactionDTO smsTransactionDTO, string email)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            if (await OrganisationClient.CheckDuplicateUserSmsTransactionAsync(orgID, email, smsTransactionDTO))
+            if (await SmsTransactionClient.CheckDuplicateUserSmsTransactionAsync(orgID, email, smsTransactionDTO))
             {
                 ViewBag.title = "Warning";
                 ViewBag.message = "A property transaction already exists for this user at this address. Are you sure that you wish to continue?";
@@ -418,7 +418,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             await EnsureCanAdviseProductAndSmsTransactionInOrg(txID, orgID, QueryClient);
 
-            await OrganisationClient.AdviseProductAsync(txID, orgID);
+            await SmsTransactionClient.AdviseProductAsync(txID, orgID);
 
             return RedirectToAction("Index", new { selectedTransactionID = txID, pageNumber = pageNumber });
         }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Bec.TargetFramework.Entities
 {
     [System.Serializable]
-    public class AssignSmsClientToTransactionDTO
+    public class AssignBuyerPartyToTransactionDTO
     {
         public Guid TransactionID { get; set; }
         public Guid AssigningByOrganisationID { get; set; }

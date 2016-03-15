@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Bec.TargetFramework.Entities
 {
     [System.Serializable]
-    public class AddSmsClientDTO
+    public class AddBuyerPartyDTO
     {
         public Guid TransactionID { get; set; }
         public Guid OrganisationID { get; set; }

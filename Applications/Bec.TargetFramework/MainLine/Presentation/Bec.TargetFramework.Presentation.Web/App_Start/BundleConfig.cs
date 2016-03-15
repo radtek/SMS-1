@@ -127,10 +127,10 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Invited").Include("~/Areas/ProOrganisation/Views/Users/Invited.js"));
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Registered").Include("~/Areas/ProOrganisation/Views/Users/Registered.js"));
 
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/SmsClient/AddSmsClient").Include("~/Areas/SmsTransaction/Views/SmsClient/AddSmsClient.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/SmsClient/_EditSmsClient").Include(
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/BuyerParty/AddBuyerParty").Include("~/Areas/SmsTransaction/Views/BuyerParty/AddBuyerParty.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/BuyerParty/_EditBuyerParty").Include(
                 "~/Scripts/Bec/bec.fieldPendingUpdates.js",
-                "~/Areas/SmsTransaction/Views/SmsClient/_EditSmsClient.js"
+                "~/Areas/SmsTransaction/Views/BuyerParty/_EditBuyerParty.js"
                 ));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AddSmsTransaction").Include("~/Areas/SmsTransaction/Views/Transaction/_AddSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AdviseProduct").Include("~/Areas/SmsTransaction/Views/Transaction/_AdviseProduct.js"));

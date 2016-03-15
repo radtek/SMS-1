@@ -17,7 +17,7 @@ using System.Web.Mvc;
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
     [ClaimsRequired("Add", "SmsTransaction", Order = 1000)]
-    public class SmsClientController : ApplicationControllerBase
+    public class BuyerPartyController : ApplicationControllerBase
     {
         private static IEnumerable<UserAccountOrganisationTransactionType> AllowedParties = new[] { UserAccountOrganisationTransactionType.AdditionalBuyer, UserAccountOrganisationTransactionType.Giftor };
         public IOrganisationLogicClient OrganisationClient { get; set; }
@@ -61,29 +61,29 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public ActionResult ViewAddSmsClient(Guid txID, int pageNumber, UserAccountOrganisationTransactionType uaotType)
+        public ActionResult ViewAddBuyerParty(Guid txID, int pageNumber, UserAccountOrganisationTransactionType uaotType)
         {
             ValidateRequestedUaotType(uaotType);
             ViewBag.pageNumber = pageNumber;
             ViewBag.personaName = uaotType.GetStringValue();
-            var model = new AddSmsClientDTO
+            var model = new AddBuyerPartyDTO
             {
                 TransactionID = txID,
                 UserAccountOrganisationTransactionType = uaotType
             };
 
-            return PartialView("AddSmsClient", model);
+            return PartialView("AddBuyerParty", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddSmsClient(AddSmsClientDTO model)
+        public async Task<ActionResult> AddBuyerParty(AddBuyerPartyDTO model)
         {
             ValidateRequestedUaotType(model.UserAccountOrganisationTransactionType);
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             try
             {
-                var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
+                var assignBuyerPartyToTransactionDto = new AssignBuyerPartyToTransactionDTO
                 {
                     Salutation = model.Salutation,
                     FirstName = model.FirstName,
@@ -98,7 +98,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     SmsSrcFundsBankAccounts = model.SmsSrcFundsBankAccounts
                 };
 
-                await OrganisationClient.AssignSmsClientToTransactionAsync(assignSmsClientToTransactionDto);
+                await SmsTransactionClient.AssignBuyerPartyToTransactionAsync(assignBuyerPartyToTransactionDto);
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -113,7 +113,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> ViewEditSmsClient(Guid uaotID, int pageNumber)
+        public async Task<ActionResult> ViewEditBuyerParty(Guid uaotID, int pageNumber)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
@@ -148,13 +148,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             ViewBag.pageNumber = pageNumber;
             ViewBag.IsTemporaryUser = model.UserAccountOrganisation.UserAccount.IsTemporaryAccount;
             ViewBag.canEditBirthDate = await PendingUpdateExtensions.CanEditBirthDate(model.UserAccountOrganisationID, model.SmsTransactionID, QueryClient);
-            return PartialView("_EditSmsClient", await model.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, model.SmsTransactionID, QueryClient));
+            return PartialView("_EditBuyerParty", await model.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, model.SmsTransactionID, QueryClient));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> EditSmsClient(Guid txID, Guid uaoID, IEnumerable<string> FieldUpdates)
+        public async Task<ActionResult> EditBuyerParty(Guid txID, Guid uaoID, IEnumerable<string> FieldUpdates)
         {
             try
             {

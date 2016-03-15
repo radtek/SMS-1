@@ -26,6 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public IAddressLogicClient AddressClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
         public IOrganisationLogicClient OrganisationClient { get; set; }
+        public ISmsTransactionLogicClient SmsTransactionLogicClient { get; set; }
         public IBankAccountLogicClient BankAccountClient { get; set; }
 
         public async Task<ActionResult> Index(Guid? selectedTransactionId)
@@ -35,7 +36,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 var model = await GetUaots(selectedTransactionId.Value);
                 var uaot = model.FirstOrDefault();
                 ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
-                ViewBag.IsSafeBuyerPotentiallyFree = await OrganisationClient.IsSafeBuyerPotentiallyFreeAsync(selectedTransactionId.Value);
+                ViewBag.IsSafeBuyerPotentiallyFree = await SmsTransactionLogicClient.IsSafeBuyerPotentiallyFreeAsync(selectedTransactionId.Value);
 
                 var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
                 return View(modelWithUpdates);
@@ -87,9 +88,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             else
             {
                 await EnsureCanPurchaseProduct(txID, uaoID, QueryClient);
-                var cartPricing = await OrganisationClient.EnsureCartAsync(txID, uaoID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card);
+                var cartPricing = await SmsTransactionLogicClient.EnsureCartAsync(txID, uaoID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card);
 
-                if (await OrganisationClient.SmsTransactionQualifiesFreeAsync(txID))
+                if (await SmsTransactionLogicClient.SmsTransactionQualifiesFreeAsync(txID))
                 {
                     return PartialView("_CheckBankAccount", model);
                 }
@@ -122,10 +123,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
             if (!model.SmsTransaction.InvoiceID.HasValue)
             {
-                if (await OrganisationClient.SmsTransactionQualifiesFreeAsync(model.SmsTransactionID))
+                if (await SmsTransactionLogicClient.SmsTransactionQualifiesFreeAsync(model.SmsTransactionID))
                 {
                     await EnsureCanPurchaseProduct(model.SmsTransactionID, uaoID, QueryClient);
-                    var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(model.SmsTransactionID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, true, null);
+                    var purchaseProductResult = await SmsTransactionLogicClient.PurchaseSafeBuyerProductAsync(model.SmsTransactionID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, true, null);
                 }
                 else
                 {
@@ -206,7 +207,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
 
-            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, false, orderRequest);
+            var purchaseProductResult = await SmsTransactionLogicClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, false, orderRequest);
             if (purchaseProductResult.IsPaymentSuccessful)
             {
                 TempData["PaymentSuccessful"] = true;
@@ -346,7 +347,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public async Task<ActionResult> ViewEdit(Guid txID)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var tx = await OrganisationClient.GetSmsTransactionWithPendingUpdatesAsync(txID);
+            var tx = await SmsTransactionLogicClient.GetSmsTransactionWithPendingUpdatesAsync(txID);
             var uaot = tx.SmsUserAccountOrganisationTransactions.Single(x => x.UserAccountOrganisationID == uaoID);
             ViewBag.canEditBirthDate = await PendingUpdateExtensions.CanEditBirthDate(uaoID, txID, QueryClient);
 
@@ -386,8 +387,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 }));
             }
 
-            await OrganisationClient.ResolveSmsTransactionPendingUpdatesAsync(model.SmsTransactionID, uaoID, updates);
-            await OrganisationClient.ReplaceSrcFundsBankAccountsAsync(model.SmsUserAccountOrganisationTransactionID, model.SmsSrcFundsBankAccounts);
+            await SmsTransactionLogicClient.ResolveSmsTransactionPendingUpdatesAsync(model.SmsTransactionID, uaoID, updates);
+            await SmsTransactionLogicClient.ReplaceSrcFundsBankAccountsAsync(model.SmsUserAccountOrganisationTransactionID, model.SmsSrcFundsBankAccounts);
 
             return Json(new { result = true, selectedTransactionId = model.SmsTransactionID }, JsonRequestBehavior.AllowGet);
         }

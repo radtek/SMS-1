@@ -49,12 +49,12 @@
             }
         </td>
         <td>
-            <a class="btn btn-sm btn-primary" data-modallink="true" title="Edit Transaction Details" data-href="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction", txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+            <a class="btn btn-sm btn-primary" data-modallink="true" title="Edit Transaction Details" data-href="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction", txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })"><i class="fa fa-pencil margin-right-5"></i>Edit/Review Changes</a>
         </td>
     </tr>
 </table>
 
-<h5 class="inline-heading">Related Parties</h5>
+<h5 class="inline-heading">Buyer Parties</h5>
 <div class="btn-group margin-left-10">
     <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
         <i class="fa fa-plus margin-right-5"></i>Add
@@ -62,11 +62,11 @@
     <ul class="dropdown-menu">
         <li>
             <a href="#" data-modallink="true" title="Add Additional Buyer"
-               data-href="@Url.Action("ViewAddSmsClient", "SmsClient", new { area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.AdditionalBuyer, txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })">Additional Buyer</a>
+               data-href="@Url.Action("ViewAddBuyerParty", "BuyerParty", new { area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.AdditionalBuyer, txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })">Additional Buyer</a>
         </li>
         <li>
             <a href="#" data-modallink="true" title="Add Giftor"
-               data-href="@Url.Action("ViewAddSmsClient", "SmsClient", new { area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.Giftor, txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })">Giftor</a>
+               data-href="@Url.Action("ViewAddBuyerParty", "BuyerParty", new { area = "SmsTransaction", uaotType = UserAccountOrganisationTransactionType.Giftor, txID = Model.Dto.SmsTransactionID, pageNumber = ViewBag.pageNumber })">Giftor</a>
         </li>
     </ul>
 </div>
@@ -120,7 +120,7 @@
                 }
             </td>
             <td>
-                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit" data-href="@Url.Action("ViewEditSmsClient", "SmsClient", new { area = "SmsTransaction", uaotID = relatedParty.SmsUserAccountOrganisationTransactionID, pageNumber = ViewBag.pageNumber })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Buyer Party" data-href="@Url.Action("ViewEditBuyerParty", "BuyerParty", new { area = "SmsTransaction", uaotID = relatedParty.SmsUserAccountOrganisationTransactionID, pageNumber = ViewBag.pageNumber })"><i class="fa fa-pencil margin-right-5"></i>Edit/Review Changes</a>
             </td>
         </tr>
     }

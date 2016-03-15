@@ -5,19 +5,19 @@
     setupClientsPostcodeLookup();
 
     function setupForm() {
-        var addSmsClientForm = $("#addSmsClientForm");
-        var submitAddSmsClientBtn = $("#submitAddSmsClientBtn");
+        var addBuyerPartyForm = $("#addBuyerPartyForm");
+        var submitAddBuyerPartyBtn = $("#submitAddBuyerPartyBtn");
 
         makeDatePicker("#birthDateInput", {
             maxDate: new Date()
         });
 
         // submit from when Save button clicked
-        submitAddSmsClientBtn.click(function () {
-            addSmsClientForm.submit();
+        submitAddBuyerPartyBtn.click(function () {
+            addBuyerPartyForm.submit();
         });
 
-        addSmsClientForm.validate({
+        addBuyerPartyForm.validate({
             ignore: '.skip',
             // Rules for form validation
             rules: {
@@ -61,20 +61,20 @@
         });
 
         function submitForm(form) {
-            submitAddSmsClientBtn.prop('disabled', true);
-            var formData = addSmsClientForm.serializeArray();
+            submitAddBuyerPartyBtn.prop('disabled', true);
+            var formData = addBuyerPartyForm.serializeArray();
             fixDate(formData, 'BirthDate', "#birthDateInput");
             ajaxWrapper({
-                url: addSmsClientForm.data("url"),
+                url: addBuyerPartyForm.data("url"),
                 type: "POST",
                 data: formData
             }).done(function (res) {
                 if (res.result === true)
-                    window.location = addSmsClientForm.data('redirectto');
+                    window.location = addBuyerPartyForm.data('redirectto');
                 else {
-                    handleModal({ url: addSmsClientForm.data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                    handleModal({ url: addBuyerPartyForm.data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                         messageButton: function () {
-                            submitAddSmsClientBtn.prop('disabled', false);
+                            submitAddBuyerPartyBtn.prop('disabled', false);
                         }
                     }, true);
                 }
@@ -88,17 +88,17 @@
 
     function setupClientsPostcodeLookup() {
         new findAddress({
-            postcodelookup: '#smsClientPostcodeLookup',
-            line1: '#smsClientLine1',
-            line2: '#smsClientLine2',
-            town: '#smsClientTown',
-            county: '#smsClientCounty',
-            postcode: '#smsClientPostalCode',
-            manualAddress: '#smsClientManualAddress',
-            resList: '#smsClientAddressResults',
-            manAddRow: '#smsClientManAddRow',
-            noMatch: '#smsClientNoMatch',
-            findAddressButton: '#smsClientFindAddressButton'
+            postcodelookup: '#buyerPartyPostcodeLookup',
+            line1: '#buyerPartyLine1',
+            line2: '#buyerPartyLine2',
+            town: '#buyerPartyTown',
+            county: '#buyerPartyCounty',
+            postcode: '#buyerPartyPostalCode',
+            manualAddress: '#buyerPartyManualAddress',
+            resList: '#buyerPartyAddressResults',
+            manAddRow: '#buyerPartyManAddRow',
+            noMatch: '#buyerPartyNoMatch',
+            findAddressButton: '#buyerPartyFindAddressButton'
         }).setup();
     }
 });

@@ -18,6 +18,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
     {
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public IOrganisationLogicClient OrganisationLogicClient { get; set; }
+        public ISmsTransactionLogicClient SmsTransactionLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
 
         public override void HandleMessage(ProductAdvisedEvent handlerEvent)
@@ -27,8 +28,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.ProductAdvised.GetStringValue());
                 var dictionary = new ConcurrentDictionary<string, object>();
                 dictionary.TryAdd("ProductAdvisedNotificationDTO", handlerEvent.ProductAdvisedNotificationDTO);
-                
-                var recipients = OrganisationLogicClient.GetSmsTransactionRelatedPartyUaoIds(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
+
+                var recipients = SmsTransactionLogicClient.GetSmsTransactionRelatedPartyUaoIds(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 var container = new NotificationContainerDTO(
