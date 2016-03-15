@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isProductAdvised, global::System.Nullable<System.DateTime> productAdvisedOn, global::System.Nullable<System.Guid> shoppingCartID, global::System.Nullable<System.Guid> invoiceID, global::System.Nullable<System.DateTime> productDeclinedOn, global::System.Nullable<System.DateTime> productAcceptedOn, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, InvoiceDTO invoice, ShoppingCartDTO shoppingCart) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isProductAdvised, global::System.Nullable<System.DateTime> productAdvisedOn, global::System.Nullable<System.Guid> shoppingCartID, global::System.Nullable<System.Guid> invoiceID, global::System.Nullable<System.DateTime> productDeclinedOn, global::System.Nullable<System.DateTime> productAcceptedOn, global::System.Guid createdByUserAccountOrganisationID, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, InvoiceDTO invoice, ShoppingCartDTO shoppingCart, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -36,7 +36,6 @@ namespace Bec.TargetFramework.Entities
           this.RowVersion = rowVersion;
           this.MortgageApplicationNumber = mortgageApplicationNumber;
           this.LenderName = lenderName;
-          this.CreatedBy = createdBy;
           this.ModifiedOn = modifiedOn;
           this.ModifiedBy = modifiedBy;
           this.IsProductAdvised = isProductAdvised;
@@ -45,11 +44,13 @@ namespace Bec.TargetFramework.Entities
           this.InvoiceID = invoiceID;
           this.ProductDeclinedOn = productDeclinedOn;
           this.ProductAcceptedOn = productAcceptedOn;
+          this.CreatedByUserAccountOrganisationID = createdByUserAccountOrganisationID;
           this.Address = address;
           this.Organisation = organisation;
           this.SmsUserAccountOrganisationTransactions = smsUserAccountOrganisationTransactions;
           this.Invoice = invoice;
           this.ShoppingCart = shoppingCart;
+          this.UserAccountOrganisation = userAccountOrganisation;
         }
 
         #endregion
@@ -93,9 +94,6 @@ namespace Bec.TargetFramework.Entities
         public string LenderName { get; set; }
 
         [DataMember]
-        public string CreatedBy { get; set; }
-
-        [DataMember]
         public global::System.Nullable<System.DateTime> ModifiedOn { get; set; }
 
         [DataMember]
@@ -119,6 +117,9 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public global::System.Nullable<System.DateTime> ProductAcceptedOn { get; set; }
 
+        [DataMember]
+        public global::System.Guid CreatedByUserAccountOrganisationID { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -137,6 +138,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public ShoppingCartDTO ShoppingCart { get; set; }
+
+        [DataMember]
+        public UserAccountOrganisationDTO UserAccountOrganisation { get; set; }
 
         #endregion
     }

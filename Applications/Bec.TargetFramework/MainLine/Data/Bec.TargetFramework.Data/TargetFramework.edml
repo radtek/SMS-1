@@ -3025,6 +3025,10 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="FieldUpdate" EntitySet="FieldUpdates" />
           </AssociationSet>
+          <AssociationSet Name="SmsTransaction_fkUserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.SmsTransaction_fkUserAccountOrganisation">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="SmsTransaction" EntitySet="SmsTransactions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -9862,7 +9866,6 @@
           <Property Name="RowVersion" Type="bigint" Nullable="false" devart:DefaultValue="nextval('sms.&quot;SmsTransaction_RowVersion_seq&quot;'::regclass)" StoreGeneratedPattern="Computed" />
           <Property Name="MortgageApplicationNumber" Type="varchar" MaxLength="50" />
           <Property Name="LenderName" Type="varchar" MaxLength="200" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="IsProductAdvised" Type="boolean" Nullable="false" DefaultValue="true" />
@@ -9871,6 +9874,7 @@
           <Property Name="InvoiceID" Type="uuid" />
           <Property Name="ProductDeclinedOn" Type="timestamptz" />
           <Property Name="ProductAcceptedOn" Type="timestamptz" />
+          <Property Name="CreatedByUserAccountOrganisationID" Type="uuid" Nullable="false" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
           <Key>
@@ -18546,6 +18550,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SmsTransaction_fkUserAccountOrganisation">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="SmsTransaction">
+              <PropertyRef Name="CreatedByUserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -21551,6 +21567,10 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="FieldUpdates" EntitySet="FieldUpdates" />
           </AssociationSet>
+          <AssociationSet Name="SmsTransaction_fkUserAccountOrganisationSet" Association="Bec.TargetFramework.Data.SmsTransaction_fkUserAccountOrganisation">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="SmsTransactions" EntitySet="SmsTransactions" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21956,6 +21976,7 @@
             </ed:Attributes>
           </NavigationProperty>
           <NavigationProperty Name="FieldUpdates" Relationship="Bec.TargetFramework.Data.FieldUpdate_UserAccountOrganisation_fk" FromRole="UserAccountOrganisation" ToRole="FieldUpdates" ed:Guid="bea55244-4057-4b29-9898-30ad8820317a" />
+          <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.SmsTransaction_fkUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="SmsTransactions" ed:Guid="bbc941f6-e79b-4a0d-a71a-c937aa5a502b" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -29530,7 +29551,6 @@
           <Property Name="RowVersion" Type="Int64" Nullable="false" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
           <Property Name="MortgageApplicationNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="bcebbdb6-a408-434c-a56d-3876cafdeaec" />
           <Property Name="LenderName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="19986eb1-64dd-4821-aa87-932c304cfc39" />
-          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a7b58fb5-297e-4763-8543-b8dde014a79f" />
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="68e91921-de9e-4379-9ce5-1c9a4d18e6ad" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="12ec530e-6dc1-42b8-9740-f1b4521a21d0" />
           <Property Name="IsProductAdvised" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="483bf8af-0b11-4d65-8feb-b8c35457d3cc" />
@@ -29539,11 +29559,13 @@
           <Property Name="InvoiceID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3890bf34-13ba-4b58-8736-db96c6c02239" />
           <Property Name="ProductDeclinedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="af7fd9e0-c3f4-4fc6-a897-955631f038d1" />
           <Property Name="ProductAcceptedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="1de28102-0306-4bde-b598-cce6a811ae78" />
+          <Property Name="CreatedByUserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="01c8c581-fdff-4f9a-9d82-6ade5c1aabfe" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsTransaction" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="0e527fdd-2527-424b-a66c-bdc5f6c950bd" />
           <NavigationProperty Name="Invoice" Relationship="Bec.TargetFramework.Data.SmsTransaction_Invoice_fk" FromRole="SmsTransactions" ToRole="Invoice" ed:Guid="9581c506-0c35-481e-92b7-9280dc5d9369" />
           <NavigationProperty Name="ShoppingCart" Relationship="Bec.TargetFramework.Data.SmsTransaction_fk" FromRole="SmsTransactions" ToRole="ShoppingCart" ed:Guid="45a12998-ef34-449e-b36c-231f3d3445d4" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.SmsTransaction_fkUserAccountOrganisation" FromRole="SmsTransactions" ToRole="UserAccountOrganisation" ed:Guid="762968cf-c5ee-4d41-9a63-d70ce9343caf" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus" ed:Guid="87c44c9e-5f30-45e7-bda3-e5d28f150d26">
           <Key>
@@ -37920,6 +37942,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SmsTransaction_fkUserAccountOrganisation" ed:Guid="fbb47072-c2da-4878-b429-08d71ba8d8a3">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="SmsTransactions" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="SmsTransactions">
+              <PropertyRef Name="CreatedByUserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -44531,7 +44565,6 @@
                 <ScalarProperty Name="TenureTypeID" ColumnName="TenureTypeID" />
                 <ScalarProperty Name="MortgageApplicationNumber" ColumnName="MortgageApplicationNumber" />
                 <ScalarProperty Name="LenderName" ColumnName="LenderName" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
@@ -44540,6 +44573,7 @@
                 <ScalarProperty Name="ShoppingCartID" ColumnName="ShoppingCartID" />
                 <ScalarProperty Name="ProductDeclinedOn" ColumnName="ProductDeclinedOn" />
                 <ScalarProperty Name="ProductAcceptedOn" ColumnName="ProductAcceptedOn" />
+                <ScalarProperty Name="CreatedByUserAccountOrganisationID" ColumnName="CreatedByUserAccountOrganisationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

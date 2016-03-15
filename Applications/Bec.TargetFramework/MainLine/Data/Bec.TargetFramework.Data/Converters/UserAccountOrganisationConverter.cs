@@ -70,6 +70,7 @@ namespace Bec.TargetFramework.Entities
               target.OrganisationNotes = source.OrganisationNotes.ToDtosWithRelated(level - 1);
               target.UserAccountOrganisationSafeSendGroups = source.UserAccountOrganisationSafeSendGroups.ToDtosWithRelated(level - 1);
               target.FieldUpdates = source.FieldUpdates.ToDtosWithRelated(level - 1);
+              target.SmsTransactions = source.SmsTransactions.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

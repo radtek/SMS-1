@@ -60,10 +60,6 @@ $(function () {
                 template: function (dataItem) { return dateString(dataItem.ProductAdvisedOn); }
             },
             {
-                field: "CreatedBy",
-                title: "Created By"
-            },
-            {
                 field: "",
                 title: "Decision",
                 template: function (dataItem) {
