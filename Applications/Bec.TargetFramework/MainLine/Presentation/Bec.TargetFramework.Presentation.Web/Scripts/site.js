@@ -485,12 +485,12 @@ var findAddress = function (opts) {
             else {
                 if (!opts.alwaysEditable) self.manAddRow.show();
                 self.checkMan(false);
-                if (self.companyName.length > 0) self.companyName.val(selOpt.attr('data-Company'));
-                if (self.line1.length > 0) self.line1.val(selOpt.attr('data-Line1'));
-                if (self.line2.length > 0) self.line2.val(selOpt.attr('data-Line2'));
-                if (self.town.length > 0) self.town.val(selOpt.attr('data-PostTown'));
-                if (self.county.length > 0) self.county.val(selOpt.attr('data-County'));
-                if (self.postcode.length > 0) self.postcode.val(selOpt.attr('data-Postcode'));
+                if (self.companyName.length > 0) self.companyName.val(selOpt.attr('data-Company')).valid();
+                if (self.line1.length > 0) self.line1.val(selOpt.attr('data-Line1')).valid();
+                if (self.line2.length > 0) self.line2.val(selOpt.attr('data-Line2')).valid();
+                if (self.town.length > 0) self.town.val(selOpt.attr('data-PostTown')).valid();
+                if (self.county.length > 0) self.county.val(selOpt.attr('data-County')).valid();
+                if (self.postcode.length > 0) self.postcode.val(selOpt.attr('data-Postcode')).valid();
             }
         });
 
@@ -719,8 +719,20 @@ function formatDates() {
     });
     $('.format-pending-date').each(function () {
         var originalText = $(this).text();
-        $(this).text(dateStringNoTime(originalText));
-        $(this).data('pending-originalval', dateStringNoTime($(this).data('pending-originalval')));
-        $(this).data('pending-value', dateStringNoTime($(this).data('pending-value')));
+        if (isValidIsoDate(originalText)) {
+            $(this).text(dateStringNoTime(originalText));
+        }
+        var pendingOriginalVal = $(this).data('pending-originalval');
+        if (isValidIsoDate(pendingOriginalVal)) {
+            $(this).data('pending-originalval', dateStringNoTime(pendingOriginalVal));
+        }
+        var pendingValue = $(this).data('pending-value');
+        if (isValidIsoDate(pendingValue)) {
+            $(this).data('pending-value', dateStringNoTime(pendingValue));
+        }
     });
+
+    function isValidIsoDate(value) {
+        return moment(value, moment.ISO_8601, true).isValid();
+    }
 }

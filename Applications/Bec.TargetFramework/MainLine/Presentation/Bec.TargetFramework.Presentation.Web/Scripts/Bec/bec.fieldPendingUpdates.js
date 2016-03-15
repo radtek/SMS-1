@@ -1,4 +1,5 @@
 ﻿(function ($) {
+    // That plugin works together with the HTML helpers: PendingUpdateFieldFor and PendingChangesButtonFor 
     $.fn.fieldPendingUpdates = function (options) {
         
         var self = this;

@@ -1,6 +1,7 @@
 ﻿$(function () {
 
     setupClientPostcodeLookup();
+    formatDates();
 
     $("#editSmsTransaction-form").fieldPendingUpdates({
         selector: '.pending-changes-button',

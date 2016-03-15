@@ -968,11 +968,6 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto)
         {
-            if (!await UserLogic.CanEmailBeUsedAsProfessional(editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email, editBuyerPartyDto.UaoID))
-            {
-                throw new InvalidOperationException("The email cannot be changed.");
-            }
-
             using (var scope = DbContextScopeFactory.Create())
             {
                 var storedUaotx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(x => x.SmsTransactionID == editBuyerPartyDto.TxID && x.UserAccountOrganisationID == editBuyerPartyDto.UaoID);
@@ -980,8 +975,11 @@ namespace Bec.TargetFramework.Business.Logic
                 storedUaotx.Contact.Salutation = editBuyerPartyDto.Dto.Contact.Salutation;
                 storedUaotx.Contact.FirstName = editBuyerPartyDto.Dto.Contact.FirstName;
                 storedUaotx.Contact.LastName = editBuyerPartyDto.Dto.Contact.LastName;
-                storedUaotx.Contact.BirthDate = editBuyerPartyDto.Dto.Contact.BirthDate;
-                storedUaotx.UserAccountOrganisation.UserAccount.Email = editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email;
+
+                if (editBuyerPartyDto.Dto.Contact.BirthDate.HasValue)
+                {
+                    storedUaotx.Contact.BirthDate = editBuyerPartyDto.Dto.Contact.BirthDate;
+                }
 
                 if (editBuyerPartyDto.Dto.Address.AreAllMandatoryFieldsSet())
                 {
@@ -1012,6 +1010,15 @@ namespace Bec.TargetFramework.Business.Logic
                 var isUserRegistered = UserLogic.IsUserAccountRegistered(editBuyerPartyDto.UaoID);
                 if (!isUserRegistered)
                 {
+                    if (string.IsNullOrWhiteSpace(editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email))
+                    {
+                        throw new InvalidOperationException("The email cannot be empty.");
+                    }
+                    if (!await UserLogic.CanEmailBeUsedAsProfessional(editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email, editBuyerPartyDto.UaoID))
+                    {
+                        throw new InvalidOperationException("The email cannot be changed.");
+                    }
+                    storedUaotx.UserAccountOrganisation.UserAccount.Email = editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email;
                     await UserLogic.ChangeUsernameAndEmail(editBuyerPartyDto.UaoID, editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email);
                 }
 
