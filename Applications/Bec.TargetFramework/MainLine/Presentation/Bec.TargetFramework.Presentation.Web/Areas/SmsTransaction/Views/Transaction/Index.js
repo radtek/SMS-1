@@ -62,13 +62,9 @@
                 title: "Created By"
             },
             {
-                field: "UserAccountOrganisation.UserAccount.LastLogin",
-                title: "Last Logged in",
-                template: function (dataItem) {
-                    return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount || !dataItem.UserAccountOrganisation.UserAccount.LastLogin
-                        ? ""
-                        : dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin);
-                }
+                field: "SmsTransaction.ProductAdvisedOn",
+                title: "Product Advised On",
+                template: function (dataItem) { return dataItem.SmsTransaction.ProductAdvisedOn ? dateString(dataItem.SmsTransaction.ProductAdvisedOn) : ""; }
             },
             {
                 field: "",
@@ -94,6 +90,17 @@
                         }));
                     if (noMatchResultsCount > 0) {
                         return '<b class="badge bg-color-red">' + noMatchResultsCount + '</b>';
+                    } else {
+                        return '';
+                    }
+                }
+            },
+            {
+                field: "",
+                title: "Pending Updates",
+                template: function (dataItem) {
+                    if (dataItem.PendingUpdateCount > 0) {
+                        return '<b class="badge bg-color-pending-update">' + dataItem.PendingUpdateCount + '</b>';
                     } else {
                         return '';
                     }

@@ -918,6 +918,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddSmsTransaction(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
 
+		/// <returns></returns>
+		Task<IEnumerable<SmsTransactionPendingUpdateCountDTO>> SmsTransactionPendingUpdateCountAsync(IEnumerable<Guid> ids);
+
+		/// <returns></returns>
+		IEnumerable<SmsTransactionPendingUpdateCountDTO> SmsTransactionPendingUpdateCount(IEnumerable<Guid> ids);
+
 		/// <param name="uaoTxID"></param>
 		/// <returns></returns>
 		Task ReplaceSrcFundsBankAccountsAsync(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts);
@@ -4006,6 +4012,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddSmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID + "&uaoID=" + uaoID, dto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<IEnumerable<SmsTransactionPendingUpdateCountDTO>> SmsTransactionPendingUpdateCountAsync(IEnumerable<Guid> ids)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<IEnumerable<Guid>, IEnumerable<SmsTransactionPendingUpdateCountDTO>>("api/OrganisationLogic/SmsTransactionPendingUpdateCount", ids, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual IEnumerable<SmsTransactionPendingUpdateCountDTO> SmsTransactionPendingUpdateCount(IEnumerable<Guid> ids)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<IEnumerable<Guid>, IEnumerable<SmsTransactionPendingUpdateCountDTO>>("api/OrganisationLogic/SmsTransactionPendingUpdateCount", ids, _user)).Result;
 		}
 
 		/// <summary>

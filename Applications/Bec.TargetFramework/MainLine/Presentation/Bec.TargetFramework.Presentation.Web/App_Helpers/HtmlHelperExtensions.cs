@@ -252,6 +252,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 button.Attributes.Add("data-input-id", inputId);
 
                 button.AddCssClass("pending-changes-button");
+                button.AddCssClass("not-actioned");
                 var icon = new TagBuilder("i");
                 icon.AddCssClass("fa fa-chevron-right");
                 button.InnerHtml = icon.ToString();
