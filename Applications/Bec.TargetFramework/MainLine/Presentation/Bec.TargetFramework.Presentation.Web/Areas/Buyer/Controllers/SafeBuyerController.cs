@@ -101,6 +101,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                     ViewBag.txID = txID;
                     ViewBag.cartPricing = cartPricing;
                     ViewBag.ConveyancerName = model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                    ViewBag.ExpectedFree = await OrganisationClient.IsSafeBuyerPotentiallyFreeAsync(txID);
                     return PartialView("_PurchaseProduct");
                 }
             }

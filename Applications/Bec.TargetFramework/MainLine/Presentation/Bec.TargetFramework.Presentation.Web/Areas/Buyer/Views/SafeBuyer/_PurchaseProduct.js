@@ -83,9 +83,9 @@
                     hideCurrentModal();
 
                     if (res.matchresult == true)
-                        handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                        handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode + "&paid=true" }, null, true);
                     else
-                        handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                        handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode + "&paid=true" }, null, true);
                 }
                 else {
                     handleModal({ url: $("#purchaseProductForm").data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {

@@ -14,6 +14,15 @@
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         <section class="col-xs-12">
+                            @if (Request["paid"] == "true")
+                            {
+                                <fieldset>
+                                    <div class="alert alert-info">
+                                        <h6><i class="fa fa-check-square-o"></i><strong>Payment Successful</strong></h6>
+                                        <p>Your payment was processed successfully</p>
+                                    </div>
+                                </fieldset>
+                            }
                             <fieldset>
                                 <div class="alert alert-success fade in">
                                     <h4><i class="fa fa-check-square-o"></i><strong> Match</strong></h4>
