@@ -33,7 +33,9 @@
 
         if (settings.showFirst) {
             $(settings.container).on('shown.bs.modal', function () {
-                popovers[0].focus();
+                if (popovers[0]){
+                    popovers[0].focus();
+                }                
             });
         }
 
@@ -44,7 +46,6 @@
             }
             if (index >= 0 && index < popovers.length) {
                 setTimeout(function () {
-                    console.log(popovers[index]);
                     popovers[index].focus();
                 }, 100);
             }
