@@ -8,6 +8,12 @@
     setupMortgageSelect();
 
     function setupForm() {
+        var addressDependsRule = function (element) {
+            return _.find($('[name^="Dto.Address"][type="text"]'), function (input) {
+                return $(input).val().trim() !== '';
+            })
+        };
+
         $("#addTransaction-form").validate({
             ignore: '.skip',
             // Rules for form validation
@@ -57,6 +63,22 @@
                         depends: function (element) {
                             return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
                         }
+                    }
+                },
+                "SmsTransactionDTO.Address.Line1": {
+                    required: {
+                        depends: addressDependsRule
+                    }
+                },
+                "SmsTransactionDTO.Address.Town": {
+                    required: {
+                        depends: addressDependsRule
+                    }
+                },
+                "SmsTransactionDTO.Address.PostalCode": {
+                    minlength: 5,
+                    required: {
+                        depends: addressDependsRule
                     }
                 }
             },

@@ -252,7 +252,7 @@
     width: 100%;
 
     .tt-menu {
-        z-index: 300 !important;
+        z-index: 2004 !important;
     }
 
     .tt-suggestion, .empty-message {
@@ -271,7 +271,7 @@
 
 .typeahead-spinner {
     position: absolute;
-    z-index: 700;
+    z-index: 2003;
     color: #7b7b7b;
     width: 10px;
     right: 24px;
@@ -1038,9 +1038,15 @@ form.smart-form.pending-update-form {
         }
     }
 
-    div.input input {
-        position: relative;
-        z-index: 2001; /* high value because of an arbitrary 1050 from modal window */
+    div.input {
+        .icon-append, 
+        .icon-prepend{
+            z-index: 2002;
+        }
+        input {
+            position: relative;
+            z-index: 2001; /* high value because of an arbitrary 1050 from modal window */
+        }
     }
 }
 

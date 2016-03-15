@@ -23,6 +23,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
     public class TransactionController : ApplicationControllerBase
     {
         public IOrganisationLogicClient OrganisationClient { get; set; }
+        public ISmsTransactionLogicClient SmsTransactionClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
         public IProductLogicClient ProductClient { get; set; }
         public IUserLogicClient UserClient { get; set; }
@@ -349,29 +350,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             try
             {
                 var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-                
-                var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID && x.OrganisationID == orgID);
-                var data = Edit.fromD("Dto", Request.Form,
-                    "Address.Line1",
-                    "Address.Line2",
-                    "Address.Town",
-                    "Address.County",
-                    "Address.PostalCode",
-                    "Address.RowVersion",
-                    "LenderName",
-                    "MortgageApplicationNumber",
-                    "Price",
-                    "Reference",
-                    "RowVersion");
-
-                await QueryClient.UpdateGraphAsync("SmsTransactions", data, filter);
-
+                var model = new EditSmsTransactionDTO { Dto = new SmsTransactionDTO() };
+                UpdateModel(model.Dto, "Dto");
+                model.TxID = txID;
+                model.OrgID = orgID;
                 if (FieldUpdates != null)
                 {
-                    var updates = (await PendingUpdateExtensions.GetFieldUpdates(HttpContext, ActivityType.SmsTransaction, txID, QueryClient))
+                    model.FieldUpdates = (await PendingUpdateExtensions.GetFieldUpdates(HttpContext, ActivityType.SmsTransaction, txID, QueryClient))
                         .Where(x => FieldUpdates.Contains(x.GetHash()));
-                    await OrganisationClient.RemovePendingUpdatesAsync(updates);
                 }
+                await SmsTransactionClient.EditSmsTransactionAsync(model);
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch

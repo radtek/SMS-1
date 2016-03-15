@@ -277,8 +277,6 @@ namespace Bec.TargetFramework.Presentation.Web
             }
         }
 
-        
-
         public static MvcHtmlString PendingUpdateFieldFor<TModel, TResult>(this HtmlHelper<TModel> html, Expression<Func<TModel, TResult>> expression,
             string fieldName, FieldUpdateParentType fieldUpdateParentType, Guid parentId, string noValueText)
             where TModel : IPendingUpdateModel

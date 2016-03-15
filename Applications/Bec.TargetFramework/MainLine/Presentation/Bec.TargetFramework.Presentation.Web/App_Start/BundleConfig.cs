@@ -135,6 +135,8 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AddSmsTransaction").Include("~/Areas/SmsTransaction/Views/Transaction/_AddSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AdviseProduct").Include("~/Areas/SmsTransaction/Views/Transaction/_AdviseProduct.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_EditSmsTransaction").Include(
+                "~/Scripts/typeahead.bundle.js",
+                "~/Scripts/Bec/bec.lendersearch.js",
                 "~/Scripts/Bec/bec.fieldPendingUpdates.js",
                 "~/Areas/SmsTransaction/Views/Transaction/_EditSmsTransaction.js"
                 ));

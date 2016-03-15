@@ -542,7 +542,6 @@ namespace Bec.TargetFramework.Business.Logic
             return false;
         }
 
-
         public IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
@@ -814,42 +813,23 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task<Address> CompareAndAddAddressIfChanged(Address address, AddressDTO addressDTO, Guid parentID)
+        private Address GetNewAddress(AddressDTO addressDTO, Guid parentID)
         {
-            if (address != null &&
-                address.Line1 == addressDTO.Line1 &&
-                address.Line2 == addressDTO.Line2 &&
-                address.Town == addressDTO.Town &&
-                address.County == addressDTO.County &&
-                address.PostalCode == addressDTO.PostalCode)
-                return address;
-
-            if (string.IsNullOrWhiteSpace(addressDTO.Line1))
+            return new Address
             {
-                return null;
-            }
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var newAdd = new Address
-                {
                     AddressID = Guid.NewGuid(),
                     ParentID = parentID,
-                    Line1 = addressDTO.Line1,
-                    Line2 = addressDTO.Line2,
-                    Town = addressDTO.Town,
-                    County = addressDTO.County,
-                    PostalCode = addressDTO.PostalCode,
+                Line1 = addressDTO.Line1 ?? string.Empty,
+                Line2 = addressDTO.Line2 ?? string.Empty,
+                Town = addressDTO.Town ?? string.Empty,
+                County = addressDTO.County ?? string.Empty,
+                PostalCode = addressDTO.PostalCode ?? string.Empty,
                     AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
                     Name = string.Empty,
                     IsPrimaryAddress = true,
                     CreatedOn = DateTime.Now,
                     CreatedBy = UserNameService.UserName
                 };
-
-                scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(newAdd);
-                await scope.SaveChangesAsync();
-                return newAdd;
-            }
         }
 
         public async Task AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
@@ -889,14 +869,12 @@ namespace Bec.TargetFramework.Business.Logic
                     SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
                     UserAccountOrganisationID = buyerUaoID,
                     SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
-                    Address = await CompareAndAddAddressIfChanged(null, assignSmsClientToTransactionDTO.RegisteredHomeAddress, uaoTxID),
+                    Address = GetNewAddress(assignSmsClientToTransactionDTO.RegisteredHomeAddress, uaoTxID),
                     ContactID = contactId,
                     CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
-
                 await AddSrcFundsBankAccounts(assignSmsClientToTransactionDTO.SmsSrcFundsBankAccounts, uaoTxID);
-
                 await scope.SaveChangesAsync();
             }
         }
@@ -964,67 +942,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 return Tuple.Create(buyerUaoDto.UserAccountOrganisationID, buyerUaoDto.PrimaryContactID.Value);
             }
-        }
-
-        public async Task EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var storedUaotx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(x => x.SmsTransactionID == editBuyerPartyDto.TxID && x.UserAccountOrganisationID == editBuyerPartyDto.UaoID);
-                
-                storedUaotx.Contact.Salutation = editBuyerPartyDto.Dto.Contact.Salutation;
-                storedUaotx.Contact.FirstName = editBuyerPartyDto.Dto.Contact.FirstName;
-                storedUaotx.Contact.LastName = editBuyerPartyDto.Dto.Contact.LastName;
-
-                if (editBuyerPartyDto.Dto.Contact.BirthDate.HasValue)
-                {
-                    storedUaotx.Contact.BirthDate = editBuyerPartyDto.Dto.Contact.BirthDate;
                 }
-
-                if (editBuyerPartyDto.Dto.Address.AreAllMandatoryFieldsSet())
-                {
-                    if (storedUaotx.Address == null)
-                    {
-                        storedUaotx.Address = new Address
-                        {
-                            AddressID = Guid.NewGuid(),
-                            ParentID = storedUaotx.SmsUserAccountOrganisationTransactionID,
-                            AddressTypeID = AddressTypeIDEnum.Home.GetIntValue(),
-                            Name = string.Empty
-                        };
-                    }
-                    storedUaotx.Address.Line1 = editBuyerPartyDto.Dto.Address.Line1;
-                    storedUaotx.Address.Line2 = editBuyerPartyDto.Dto.Address.Line2;
-                    storedUaotx.Address.Town = editBuyerPartyDto.Dto.Address.Town;
-                    storedUaotx.Address.County = editBuyerPartyDto.Dto.Address.County;
-                    storedUaotx.Address.PostalCode = editBuyerPartyDto.Dto.Address.PostalCode;
-                }
-                else if (storedUaotx.Address != null)
-                {
-                    storedUaotx.Address.IsDeleted = true;
-                    storedUaotx.AddressID = null;
-                }
-
-                await RemovePendingUpdates(editBuyerPartyDto.FieldUpdates ?? Enumerable.Empty<FieldUpdateDTO>());
-
-                var isUserRegistered = UserLogic.IsUserAccountRegistered(editBuyerPartyDto.UaoID);
-                if (!isUserRegistered)
-                {
-                    if (string.IsNullOrWhiteSpace(editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email))
-                    {
-                        throw new InvalidOperationException("The email cannot be empty.");
-                    }
-                    if (!await UserLogic.CanEmailBeUsedAsProfessional(editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email, editBuyerPartyDto.UaoID))
-                    {
-                        throw new InvalidOperationException("The email cannot be changed.");
-                    }
-                    storedUaotx.UserAccountOrganisation.UserAccount.Email = editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email;
-                    await UserLogic.ChangeUsernameAndEmail(editBuyerPartyDto.UaoID, editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email);
-                }
-
-                await scope.SaveChangesAsync();
-            }
-        }
 
         public async Task AddCreditAsync(Guid orgID, Guid transactionOrderID, Guid uaoID, decimal amount, long? rowVersion = null)
         {
@@ -1268,19 +1186,6 @@ namespace Bec.TargetFramework.Business.Logic
                 sb.AppendFormat("{0}: {1}", update.Source, update.NewValue.ValueOr("[Removed]"));
             }
             return sb.ToString();
-        }
-
-        public async Task RemovePendingUpdates(IEnumerable<FieldUpdateDTO> updates)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                foreach (var update in updates)
-                {
-                    var entity = update.ToEntity();
-                    scope.DbContexts.Get<TargetFrameworkEntities>().Entry(entity).State = System.Data.Entity.EntityState.Deleted;
-                }
-                await scope.SaveChangesAsync();
-            }
         }
 
         public bool IsSafeBuyerPotentiallyFree(Guid txID)

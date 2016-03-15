@@ -85,7 +85,7 @@
                 required: {
                     depends: addressDependsRule
                 }
-            },
+            }
         },
 
         // Do not change code below

@@ -197,7 +197,7 @@
   width: 100%;
 }
 .twitter-typeahead .tt-menu {
-  z-index: 300 !important;
+  z-index: 2004 !important;
 }
 .twitter-typeahead .tt-suggestion,
 .twitter-typeahead .empty-message {
@@ -212,7 +212,7 @@
 }
 .typeahead-spinner {
   position: absolute;
-  z-index: 700;
+  z-index: 2003;
   color: #7b7b7b;
   width: 10px;
   right: 24px;
@@ -789,6 +789,10 @@ form.smart-form.pending-update-form .pending-changes-button.actioned.accepted {
 }
 form.smart-form.pending-update-form .pending-changes-button.actioned.rejected {
   background-color: orange;
+}
+form.smart-form.pending-update-form div.input .icon-append,
+form.smart-form.pending-update-form div.input .icon-prepend {
+  z-index: 2002;
 }
 form.smart-form.pending-update-form div.input input {
   position: relative;
