@@ -19,7 +19,11 @@
                     required: true
                 },
                 'Telephone': {
-                    required: true
+                    required: true,
+                    digits: true,
+                    minlength: 11,
+                    maxlength: 11,
+                    ukmobile: true
                 }
             },
             // Do not change code below
