@@ -6,13 +6,13 @@ select "UserAccountOrganisationID" from "UserAccountOrganisation" uao join "User
  where ua."IsDeleted" = false and
   (ua."Username" = tx."CreatedBy" or 
   ("OrganisationID" = tx."OrganisationID" and lower(replace(ua."Username", '.', '')) like concat(lower(substring(tx."CreatedBy", 1, 4)), '%'))) limit 1
-)
+);
 
 --tidy up any null values, set to org admin
 update sms."SmsTransaction" tx set "CreatedByUserAccountOrganisationID" = (
 select "UserAccountOrganisationID" from "UserAccountOrganisation" uao join "UserType" ut on uao."UserTypeID" = ut."UserTypeID"
  where uao."OrganisationID" = tx."OrganisationID" and ut."Name" = 'Organisation Administrator' limit 1
-) where "CreatedByUserAccountOrganisationID" is null
+) where "CreatedByUserAccountOrganisationID" is null;
 
 ALTER TABLE sms."SmsTransaction" ALTER COLUMN "CreatedByUserAccountOrganisationID" SET NOT NULL;
 
