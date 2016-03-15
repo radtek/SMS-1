@@ -639,6 +639,12 @@ a.removeupload {
 .transaction-details-table > tbody > tr > td:last-child {
   width: 75px;
 }
+.transaction-details-table ul li {
+  margin: 5px 0;
+}
+.transaction-details-table ul li:first-child {
+  margin-top: 0;
+}
 .buyer-details-table {
   width: 100%;
 }
@@ -819,6 +825,12 @@ input[type=radio]:checked + label.approve-reject-button {
   top: 0;
   right: 4px;
   cursor: pointer;
+}
+.label-primary {
+  background-color: #a1c324;
+}
+.label-danger {
+  background-color: #a90329;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {

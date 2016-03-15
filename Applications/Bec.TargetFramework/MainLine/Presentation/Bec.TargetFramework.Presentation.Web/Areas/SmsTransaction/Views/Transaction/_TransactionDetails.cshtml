@@ -78,7 +78,8 @@
         <th>Registered Home Address</th>
         <th>Email</th>
         <th>Date of Birth</th>
-        <th>Login Information</th>
+        <th>Safe Buyer</th>
+        <th>Source of Funds</th>
         <th><!--Actions--></th>
     </tr>
     @foreach (var relatedParty in Model.Dto.SmsUserAccountOrganisationTransactions.OrderBy(x => x.SmsUserAccountOrganisationTransactionTypeID))
@@ -102,25 +103,56 @@
                 <p>@Html.PendingUpdateFieldFor(m => relatedParty.Contact.BirthDate, "BirthDate", FieldUpdateParentType.Contact, relatedParty.SmsUserAccountOrganisationTransactionID, string.Empty, FieldUpdateDataType.Date)</p>
             </td>
             <td>
-                @if (relatedParty.UserAccountOrganisation.UserAccount.IsTemporaryAccount)
-                {
-                    if (!string.IsNullOrWhiteSpace(relatedParty.UserAccountOrganisation.PinCode))
+                <ul class="list-unstyled">
+                    @if (Model.Dto.Invoice != null && Model.Dto.Invoice.UserAccountOrganisationID == relatedParty.UserAccountOrganisationID)
                     {
-                        <strong>@relatedParty.UserAccountOrganisation.PinCode</strong>
+                        <li>
+                            <label class="label label-info">Purchased Safe Buyer</label>
+                        </li>
                     }
-                    <a class="btn btn-sm btn-default pull-right" data-modallink="true" title="Regenerate PIN"
-                       data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID=@(Model.Dto.SmsTransactionID)&uaoID=@(relatedParty.UserAccountOrganisationID)&email=@(relatedParty.UserAccountOrganisation.UserAccount.Email)&pageNumber=@(ViewBag.pageNumber)">
-                        <i class="fa fa-repeat margin-right-5"></i>Regenerate PIN
-                    </a>
+                    @if (relatedParty.LatestBankAccountCheck != null)
+                    {
+                        <li>
+                            @if (relatedParty.LatestBankAccountCheck.IsMatch)
+                            {
+                                <label class="label label-primary" title="Bank Account Check Result: Match">Match</label>
+                            }
+                            else
+                            {
+                                <label class="label label-danger margin-top-5" title="Bank Account Check Result: No Match">No Match</label>
+                            }
+                        </li>
+                    }
+                </ul>
+            </td>
+            <td>
+                @if (relatedParty.SmsSrcFundsBankAccounts.Any())
+                {
+                    foreach (var srcOfFunds in relatedParty.SmsSrcFundsBankAccounts)
+                    {
+                        <p>@srcOfFunds.AccountNumber, @srcOfFunds.SortCode</p>
+                    }
                 }
                 else
                 {
-                    var lastLogin = relatedParty.UserAccountOrganisation.UserAccount.LastLogin.HasValue ? relatedParty.UserAccountOrganisation.UserAccount.LastLogin.Value.ToString("O") : string.Empty;
-                    <span class="format-date-time" data-val="@lastLogin"></span>
+                    <p>Not Provided</p>
                 }
             </td>
             <td>
-                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Buyer Party" data-href="@Url.Action("ViewEditBuyerParty", "BuyerParty", new { area = "SmsTransaction", uaotID = relatedParty.SmsUserAccountOrganisationTransactionID, pageNumber = ViewBag.pageNumber })"><i class="fa fa-pencil margin-right-5"></i>Edit/Review Changes</a>
+                <ul class="list-unstyled">
+                    <li>
+                        <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Buyer Party" data-href="@Url.Action("ViewEditBuyerParty", "BuyerParty", new { area = "SmsTransaction", uaotID = relatedParty.SmsUserAccountOrganisationTransactionID, pageNumber = ViewBag.pageNumber })"><i class="fa fa-pencil margin-right-5"></i>Edit/Review Changes</a>
+                    </li>
+                    @if (relatedParty.UserAccountOrganisation.UserAccount.IsTemporaryAccount)
+                    {
+                        <li>
+                            <a class="btn btn-sm btn-default" data-modallink="true" title="Regenerate PIN"
+                               data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID=@(Model.Dto.SmsTransactionID)&uaoID=@(relatedParty.UserAccountOrganisationID)&email=@(relatedParty.UserAccountOrganisation.UserAccount.Email)&pageNumber=@(ViewBag.pageNumber)">
+                                <i class="fa fa-repeat margin-right-5"></i>Regenerate PIN
+                            </a>
+                        </li>
+                    }
+                </ul>
             </td>
         </tr>
     }

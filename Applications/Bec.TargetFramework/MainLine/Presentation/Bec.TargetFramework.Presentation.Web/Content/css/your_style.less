@@ -844,6 +844,12 @@ a.removeupload {
             width: 75px;
         }
     }
+    ul li{
+        margin: 5px 0;
+        &:first-child{
+            margin-top: 0;
+        }
+    }
 }
 
 .buyer-details-table {
@@ -1074,6 +1080,14 @@ input[type=radio]:checked + label.approve-reject-button {
     top: 0;
     right: 4px;
     cursor: pointer;
+}
+
+.label-primary{
+    background-color: @primary-color;
+}
+
+.label-danger{
+    background-color: @color-reject;
 }
 
 // xs and sm

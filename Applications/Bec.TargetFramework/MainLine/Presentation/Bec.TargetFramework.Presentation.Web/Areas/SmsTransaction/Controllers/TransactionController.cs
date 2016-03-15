@@ -213,6 +213,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.ProductAdvisedOn,
                 x.ProductDeclinedOn,
                 x.InvoiceID,
+                x.Invoice.UserAccountOrganisationID,
                 PurchasedOn = x.Invoice.CreatedOn,
                 RelatedParties = x.SmsUserAccountOrganisationTransactions.Select(y => new
                 {
@@ -232,7 +233,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     y.UserAccountOrganisation.UserAccount.Email,
                     y.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
                     y.UserAccountOrganisation.UserAccount.LastLogin,
-                    y.UserAccountOrganisation.PinCode
+                    y.UserAccountOrganisation.PinCode,
+                    y.LatestBankAccountCheck.IsMatch,
+                    SrcOfFunds = y.SmsSrcFundsBankAccounts.Select(z => new
+                    {
+                        z.AccountNumber,
+                        z.SortCode
+                    })
                 })
             });
 
