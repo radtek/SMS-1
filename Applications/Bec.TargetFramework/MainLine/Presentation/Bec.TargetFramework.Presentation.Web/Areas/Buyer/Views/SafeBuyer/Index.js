@@ -2,7 +2,7 @@
     'use strict';
 
     findModalLinks();
-    showAudit(0);
+    showAudit();
     setupTabs();
     setupState();
     setupEditForm();

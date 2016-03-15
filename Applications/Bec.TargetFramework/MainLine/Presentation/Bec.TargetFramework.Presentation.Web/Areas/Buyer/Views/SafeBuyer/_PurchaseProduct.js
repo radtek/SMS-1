@@ -78,7 +78,7 @@
                 type: "POST",
                 data: formData
             }).done(function (res) {
-                
+
                 if (res.paymentresult == true) {
                     hideCurrentModal();
 

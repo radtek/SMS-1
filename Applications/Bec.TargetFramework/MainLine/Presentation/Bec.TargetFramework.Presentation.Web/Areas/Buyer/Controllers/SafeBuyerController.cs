@@ -36,7 +36,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 var model = await GetUaots(selectedTransactionId.Value);
                 var uaot = model.FirstOrDefault();
                 ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
-                ViewBag.IsSafeBuyerPotentiallyFree = await OrganisationClient.IsSafeBuyerPotentiallyFreeAsync(selectedTransactionId.Value);
+                ViewBag.CheckButtonText = "Check Bank Account";
+                if (!uaot.SmsTransaction.InvoiceID.HasValue && !await OrganisationClient.IsSafeBuyerPotentiallyFreeAsync(selectedTransactionId.Value))
+                    ViewBag.CheckButtonText = "Purchase Safe Buyer";                
 
                 var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
                 return View(modelWithUpdates);
@@ -210,8 +212,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, false, orderRequest);
             if (purchaseProductResult.IsPaymentSuccessful)
             {
-                TempData["PaymentSuccessful"] = true;
-
                 var model = (await GetUaots(txID)).FirstOrDefault();
                
                 //check bank account
