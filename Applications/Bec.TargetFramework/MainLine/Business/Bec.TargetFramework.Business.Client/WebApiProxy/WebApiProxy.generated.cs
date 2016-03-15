@@ -437,13 +437,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
+		/// <param name="overrideSubject"></param>
+		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
+		Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,String overrideSubject,Boolean isSystemMessage,NotificationDTO dto);
 
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
+		/// <param name="overrideSubject"></param>
+		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
+		void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,String overrideSubject,Boolean isSystemMessage,NotificationDTO dto);
 
 		/// <returns></returns>
 		Task<Guid> SaveNotificationAsync(NotificationDTO dto);
@@ -2874,11 +2878,14 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
+		/// <param name="overrideSubject"></param>
+		/// <param name="isSystemMessage"></param>
 		/// <returns></returns>
-		public virtual Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto)
+		public virtual Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,String overrideSubject,Boolean isSystemMessage,NotificationDTO dto)
 		{
+			overrideSubject = overrideSubject.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType, dto, _user);
+			return PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType + "&overrideSubject=" + overrideSubject + "&isSystemMessage=" + isSystemMessage, dto, _user);
 		}
 
 		/// <summary>
@@ -2886,10 +2893,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
-		public virtual void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto)
+		/// <param name="overrideSubject"></param>
+		/// <param name="isSystemMessage"></param>
+		public virtual void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,String overrideSubject,Boolean isSystemMessage,NotificationDTO dto)
 		{
+			overrideSubject = overrideSubject.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType, dto, _user)).Wait();
+			Task.Run(() => PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType + "&overrideSubject=" + overrideSubject + "&isSystemMessage=" + isSystemMessage, dto, _user)).Wait();
 		}
 
 		/// <summary>

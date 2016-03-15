@@ -27,6 +27,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public IQueryLogicClient QueryClient { get; set; }
         public IOrganisationLogicClient OrganisationClient { get; set; }
         public IBankAccountLogicClient BankAccountClient { get; set; }
+        public INotificationLogicClient NotificationClient { get; set; }
 
         public async Task<ActionResult> Index(Guid? selectedTransactionId)
         {
@@ -377,13 +378,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "FirstName", Value = model.Contact.FirstName },
                 new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "LastName", Value = model.Contact.LastName },
             });
-            
+
             if (model.Contact.BirthDate.HasValue)
             {
-                updates.AddRange(PendingUpdateExtensions.GetUpdateFromModel(ActivityType.SmsTransaction, model.SmsTransactionID, new List<FieldUpdateDTO> 
-                { 
-                    new FieldUpdateDTO { ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "BirthDate", Value = model.Contact.BirthDate.Value.ToString("O") }
-                }));
+                updates.Add(new FieldUpdateDTO
+                {
+                    ActivityType = ActivityType.SmsTransaction.GetIntValue(),
+                    ActivityID = model.SmsTransactionID,
+                    ParentID = model.SmsUserAccountOrganisationTransactionID,
+                    ParentType = FieldUpdateParentType.Contact.GetIntValue(),
+                    FieldName = "BirthDate",
+                    Value = model.Contact.BirthDate.Value.ToString("O")
+                });
             }
 
             await OrganisationClient.ResolveSmsTransactionPendingUpdatesAsync(model.SmsTransactionID, uaoID, updates);

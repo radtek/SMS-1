@@ -19,6 +19,7 @@ using Bec.TargetFramework.Business.Product.Processor;
 using Bec.TargetFramework.Business.Extensions;
 using Bec.TargetFramework.Transfer.Client.Clients;
 using Bec.TargetFramework.Transfer.Client.Interfaces;
+using System.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -1236,9 +1237,37 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var approved = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == txID);
-                SmsTransactionHelper.ResolveSmsTransactionUpdates(scope, approved, uaoID, DateTime.Now, updates);
+                var resolved = SmsTransactionHelper.ResolveSmsTransactionUpdates(scope, approved, uaoID, DateTime.Now, updates);
+
+                if (resolved.Count > 0)
+                {
+                    var notificationConstruct = NotificationLogic.GetLatestNotificationConstructIdFromName("Message");
+                    var message = ConstructMessageFromUpdates(resolved);
+                    var notificationDto = new NotificationDTO
+                    {
+                        CreatedByUserAccountOrganisationID = uaoID,
+                        DateSent = DateTime.Now,
+                        NotificationConstructID = notificationConstruct.NotificationConstructID,
+                        NotificationConstructVersionNumber = notificationConstruct.NotificationConstructVersionNumber,
+                        NotificationData = JsonHelper.SerializeData(new { Message = message }),
+                        NotificationRecipients = new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = approved.CreatedByUserAccountOrganisationID } }
+                    };
+                    await NotificationLogic.SaveNotificationConversationAsync(notificationDto, txID, ActivityType.SmsTransaction, "Changes Requested", false);
+                }
                 await scope.SaveChangesAsync();
             }
+        }
+
+        private string ConstructMessageFromUpdates(List<ResolvedUpdate> updates)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("The following changes have been requested:");
+            foreach (var update in updates)
+            {
+                sb.AppendLine();
+                sb.AppendFormat("{0}: {1}", update.Source, update.NewValue.ValueOr("[Removed]"));
+            }
+            return sb.ToString();
         }
 
         public async Task RemovePendingUpdates(IEnumerable<FieldUpdateDTO> updates)

@@ -567,6 +567,7 @@
         getSafeSendGroupsPromise.done(function (safesendgroups) {
             messagesTemplatePromise.done(function (template) {
                 var html = $(template({
+                    lonely: currentConversation.participants.length == 1,
                     conversation: currentConversation,
                     showFrom: safesendgroups.length > 1,
                     from: safesendgroups

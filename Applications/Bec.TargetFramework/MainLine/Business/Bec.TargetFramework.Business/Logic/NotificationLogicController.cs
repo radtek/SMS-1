@@ -73,11 +73,11 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SaveNotificationConversationAsync(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
+        public async Task SaveNotificationConversationAsync(NotificationDTO dto, Guid? activityID, ActivityType? activityType, string overrideSubject, bool isSystemMessage)
         {
             if (activityID.HasValue && activityType.HasValue)
             {
-                await SaveConversationWithNotificatino(dto, activityID, activityType);
+                await SaveConversationWithNotificatino(dto, activityID, activityType, overrideSubject, isSystemMessage);
             }
             else
             {
@@ -85,18 +85,19 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task SaveConversationWithNotificatino(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
+        private async Task SaveConversationWithNotificatino(NotificationDTO dto, Guid? activityID, ActivityType? activityType, string overrideSubject, bool isSystemMessage)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var nc = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs.Single(x => x.NotificationConstructID == dto.NotificationConstructID && x.NotificationConstructVersionNumber == dto.NotificationConstructVersionNumber);
                 var at = activityType.GetIntValue();
                 var recipients = dto.NotificationRecipients;
+                string subject = overrideSubject.ValueOr(nc.NotificationSubject);
 
                 foreach (var notificationRecipient in recipients)
                 {
                     var conv = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations
-                        .Where(x => x.Subject == nc.NotificationSubject && x.ActivityID == activityID && x.ActivityType == at)
+                        .Where(x => x.Subject == subject && x.ActivityID == activityID && x.ActivityType == at)
                         .ToList()
                         .FirstOrDefault(x => x.ConversationParticipants.All(y => y.UserAccountOrganisationID == notificationRecipient.UserAccountOrganisationID));
 
@@ -105,11 +106,11 @@ namespace Bec.TargetFramework.Business.Logic
                         conv = new Conversation
                         {
                             ConversationID = Guid.NewGuid(),
-                            Subject = nc.NotificationSubject,
+                            Subject = subject,
                             ActivityID = activityID,
                             ActivityType = activityType.GetIntValue(),
                             ConversationParticipants = new List<ConversationParticipant> { new ConversationParticipant { UserAccountOrganisationID = notificationRecipient.UserAccountOrganisationID.Value } },
-                            IsSystemMessage = true,
+                            IsSystemMessage = isSystemMessage,
                             Latest = dto.DateSent
                         };
 
