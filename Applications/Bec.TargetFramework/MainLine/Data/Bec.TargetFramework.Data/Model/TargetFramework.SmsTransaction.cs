@@ -151,16 +151,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for CreatedBy in the schema.
-        /// </summary>
-        public virtual string CreatedBy
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for ModifiedOn in the schema.
         /// </summary>
         public virtual global::System.Nullable<System.DateTime> ModifiedOn
@@ -239,6 +229,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for CreatedByUserAccountOrganisationID in the schema.
+        /// </summary>
+        public virtual global::System.Guid CreatedByUserAccountOrganisationID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -284,6 +284,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ShoppingCart in the schema.
         /// </summary>
         public virtual ShoppingCart ShoppingCart
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisation in the schema.
+        /// </summary>
+        public virtual UserAccountOrganisation UserAccountOrganisation
         {
             get;
             set;

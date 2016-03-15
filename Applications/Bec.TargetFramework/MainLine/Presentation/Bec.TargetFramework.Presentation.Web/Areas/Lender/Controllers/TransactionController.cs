@@ -44,7 +44,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 x.Address.PostalCode,
                 x.Address.AdditionalAddressInformation,
                 x.CreatedOn,
-                x.CreatedBy,
                 x.LenderName,
                 x.MortgageApplicationNumber,
                 x.Price,

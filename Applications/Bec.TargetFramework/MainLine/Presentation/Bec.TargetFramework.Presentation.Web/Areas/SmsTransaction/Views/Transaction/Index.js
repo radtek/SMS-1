@@ -58,8 +58,9 @@
                 template: function (dataItem) { return dateString(dataItem.SmsTransaction.CreatedOn); }
             },
             {
-                field: "SmsTransaction.CreatedBy",
-                title: "Created By"
+                field: "SmsTransaction.UserAccountOrganisation.Contact.LastName",
+                title: "Created By",
+                template: function (dataItem) { return dataItem.SmsTransaction.UserAccountOrganisation.Contact.FirstName + " " + dataItem.SmsTransaction.UserAccountOrganisation.Contact.LastName; }
             },
             {
                 field: "SmsTransaction.ProductAdvisedOn",

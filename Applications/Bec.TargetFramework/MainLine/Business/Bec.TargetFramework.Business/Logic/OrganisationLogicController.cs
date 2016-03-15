@@ -5,7 +5,6 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.DTO.Notification;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
@@ -584,7 +583,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<Guid> AddSmsTransaction(AddSmsTransactionDTO dto, Guid orgID, Guid uaoID)
         {
-            var transactionId = await SaveSmsTransaction(dto.SmsTransactionDTO, orgID);
+            var transactionId = await SaveSmsTransaction(dto.SmsTransactionDTO, orgID, uaoID);
             
             var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
             {
@@ -604,7 +603,7 @@ namespace Bec.TargetFramework.Business.Logic
             return transactionId;
         }
 
-        private async Task<Guid> SaveSmsTransaction(SmsTransactionDTO dto, Guid orgID)
+        private async Task<Guid> SaveSmsTransaction(SmsTransactionDTO dto, Guid orgID, Guid uaoID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -646,7 +645,7 @@ namespace Bec.TargetFramework.Business.Logic
                     IsProductAdvised = dto.IsProductAdvised,
                     ProductAdvisedOn = dto.IsProductAdvised ? DateTime.Now : (DateTime?)null,
                     CreatedOn = DateTime.Now,
-                    CreatedBy = UserNameService.UserName
+                    CreatedByUserAccountOrganisationID = uaoID
                 };
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
