@@ -336,7 +336,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_CheckBankAccount.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_Edit.js" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\_EditSmsClient.js" />
+    <Content Include="Areas\SmsTransaction\Views\SmsClient\_EditSmsClient.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
@@ -1065,7 +1065,7 @@
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\_EditSmsClient.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\SmsClient\_EditSmsClient.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_Edit.cshtml" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Conveyancer.cshtml" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />

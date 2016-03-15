@@ -86,12 +86,12 @@ namespace Bec.TargetFramework.Business.Extensions
 
         private static void ResolveProperty(IDbContextScope scope, object approved, Guid uaoID, DateTime dateTime, FieldUpdateDTO update)
         {
-            var approvedProperty = approved.GetType().GetProperty(update.FieldName);
-            var approvedValue = approved == null ? null : approvedProperty.GetValue(approved);
+            var approvedProperty = approved == null ? null : approved.GetType().GetProperty(update.FieldName);
+            var approvedValue = approvedProperty == null ? null : approvedProperty.GetValue(approved);
             string approvedStringValue;
-            if (approvedProperty.PropertyType == typeof(Nullable<DateTime>) || approvedProperty.PropertyType == typeof(DateTime))
+            if (approvedProperty != null && (approvedProperty.PropertyType == typeof(Nullable<DateTime>) || approvedProperty.PropertyType == typeof(DateTime)))
             {
-                var approvedDateTime =(DateTime?)approvedValue;
+                var approvedDateTime = (DateTime?)approvedValue;
                 approvedStringValue = (approvedDateTime == null ? string.Empty : approvedDateTime.Value.ToString("O"));
             }
             else

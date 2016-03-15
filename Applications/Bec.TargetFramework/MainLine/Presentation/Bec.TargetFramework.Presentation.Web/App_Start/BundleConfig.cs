@@ -128,16 +128,17 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Registered").Include("~/Areas/ProOrganisation/Views/Users/Registered.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/SmsClient/AddSmsClient").Include("~/Areas/SmsTransaction/Views/SmsClient/AddSmsClient.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/SmsClient/_EditSmsClient").Include(
+                "~/Scripts/Bec/bec.fieldPendingUpdates.js",
+                "~/Areas/SmsTransaction/Views/SmsClient/_EditSmsClient.js"
+                ));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AddSmsTransaction").Include("~/Areas/SmsTransaction/Views/Transaction/_AddSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_AdviseProduct").Include("~/Areas/SmsTransaction/Views/Transaction/_AdviseProduct.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_EditSmsTransaction").Include(
                 "~/Scripts/Bec/bec.fieldPendingUpdates.js",
                 "~/Areas/SmsTransaction/Views/Transaction/_EditSmsTransaction.js"
                 ));
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/_EditSmsClient").Include(
-                "~/Scripts/Bec/bec.fieldPendingUpdates.js",
-                "~/Areas/SmsTransaction/Views/Transaction/_EditSmsClient.js"
-                ));
+            
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewGeneratePIN").Include("~/Areas/SmsTransaction/Views/Shared/_ViewGeneratePIN.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include(
                 "~/Scripts/Bec/bec.fieldPendingUpdates.js",

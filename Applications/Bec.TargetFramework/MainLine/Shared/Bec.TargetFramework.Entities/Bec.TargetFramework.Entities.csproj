@@ -1730,6 +1730,7 @@
     <Compile Include="DTO\AddNewUserToOrganisationDTO.cs" />
     <Compile Include="DTO\Notification\ProductAdvisedNotificationDTO.cs" />
     <Compile Include="DTO\SmsTransactionPendingUpdateCountDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\EditBuyerPartyDTO.cs" />
     <Compile Include="DTO\VerifyCompanyDTO.cs" />
     <Compile Include="DTO\CreateConversationDTO.cs" />
     <Compile Include="DTO\CertificateDetailsDTO.cs" />

@@ -253,6 +253,12 @@ namespace Bec.TargetFramework.Presentation.Web
 
                 button.AddCssClass("pending-changes-button");
                 button.AddCssClass("not-actioned");
+
+                if (fieldUpdateDataType == FieldUpdateDataType.Date)
+                {
+                    button.AddCssClass("format-pending-date");
+                }
+
                 var icon = new TagBuilder("i");
                 icon.AddCssClass("fa fa-chevron-right");
                 button.InnerHtml = icon.ToString();
