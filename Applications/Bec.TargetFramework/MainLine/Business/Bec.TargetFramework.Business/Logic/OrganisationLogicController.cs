@@ -542,70 +542,6 @@ namespace Bec.TargetFramework.Business.Logic
             return false;
         }
 
-        private async Task<Tuple<Guid, Guid>> AddSmsClient(string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
-        {
-            //add becky personal org & user
-            Guid? existingUaoId = null;
-            DefaultOrganisationDTO defaultOrganisation;
-            var personalOrgTypeId = OrganisationTypeEnum.Personal.GetIntValue();
-
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                // get professional default organisation template
-                defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Personal Organisation")).ToDto();
-                Ensure.That(defaultOrganisation).IsNotNull();
-                
-                var existingUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
-                if (existingUao != null)
-                {
-                    if (existingUao.Organisation.OrganisationTypeID != personalOrgTypeId) throw new Exception("The specified email belongs to a system user; this is not currently supported.");
-                    existingUaoId = existingUao.UserAccountOrganisationID;
-                }
-            }
-
-            if (existingUaoId != null)
-            {
-                var contactID = await AddNewContact(existingUaoId.Value, salutation, firstName, lastName, email, phoneNumber, birthDate);
-                return Tuple.Create(existingUaoId.Value, contactID);
-            }
-            else
-            {
-            var companyDTO = new AddCompanyDTO
-            {
-                OrganisationType = OrganisationTypeEnum.Personal,
-                CompanyName = "Personal Organisation",
-                Line1 = "-",
-                RegulatorNumber = "-",
-                OrganisationAdminFirstName = firstName,
-                OrganisationAdminLastName = lastName,
-                OrganisationAdminEmail = email
-            };
-            var contactDTO = new ContactDTO
-            {
-                Salutation = salutation,
-                FirstName = firstName,
-                LastName = lastName,
-                EmailAddress1 = email,
-                BirthDate = birthDate,
-                MobileNumber1 = phoneNumber,
-                CreatedBy = UserNameService.UserName
-            };
-            var personalOrgID = await AddOrganisationAsync(defaultOrganisation, companyDTO);
-            var addNewUserDto = new AddNewUserToOrganisationDTO
-            {
-                OrganisationID = personalOrgID.Value,
-                ContactDTO = contactDTO,
-                UserType = UserTypeEnum.User,
-                AddDefaultRoles = true,
-                SafeSendGroups = Enumerable.Empty<Guid>(),
-                Roles = Enumerable.Empty<Guid>()
-            };
-            var buyerUaoDto = await AddNewUserToOrganisationAsync(addNewUserDto);
-            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
-            
-                return Tuple.Create(buyerUaoDto.UserAccountOrganisationID, buyerUaoDto.PrimaryContactID.Value);
-        }
-        }
 
         public IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID)
         {
@@ -948,6 +884,124 @@ namespace Bec.TargetFramework.Business.Logic
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
 
                 await AddSrcFundsBankAccounts(assignSmsClientToTransactionDTO.SmsSrcFundsBankAccounts, uaoTxID);
+
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        private async Task<Tuple<Guid, Guid>> AddSmsClient(string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
+        {
+            //add becky personal org & user
+            Guid? existingUaoId = null;
+            DefaultOrganisationDTO defaultOrganisation;
+            var personalOrgTypeId = OrganisationTypeEnum.Personal.GetIntValue();
+
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                // get professional default organisation template
+                defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Personal Organisation")).ToDto();
+                Ensure.That(defaultOrganisation).IsNotNull();
+
+                var existingUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
+                if (existingUao != null)
+                {
+                    if (existingUao.Organisation.OrganisationTypeID != personalOrgTypeId) throw new Exception("The specified email belongs to a system user; this is not currently supported.");
+                    existingUaoId = existingUao.UserAccountOrganisationID;
+                }
+            }
+
+            if (existingUaoId != null)
+            {
+                var contactID = await AddNewContact(existingUaoId.Value, salutation, firstName, lastName, email, phoneNumber, birthDate);
+                return Tuple.Create(existingUaoId.Value, contactID);
+            }
+            else
+            {
+                var companyDTO = new AddCompanyDTO
+                {
+                    OrganisationType = OrganisationTypeEnum.Personal,
+                    CompanyName = "Personal Organisation",
+                    Line1 = "-",
+                    RegulatorNumber = "-",
+                    OrganisationAdminFirstName = firstName,
+                    OrganisationAdminLastName = lastName,
+                    OrganisationAdminEmail = email
+                };
+                var contactDTO = new ContactDTO
+                {
+                    Salutation = salutation,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    EmailAddress1 = email,
+                    BirthDate = birthDate,
+                    MobileNumber1 = phoneNumber,
+                    CreatedBy = UserNameService.UserName
+                };
+                var personalOrgID = await AddOrganisationAsync(defaultOrganisation, companyDTO);
+                var addNewUserDto = new AddNewUserToOrganisationDTO
+                {
+                    OrganisationID = personalOrgID.Value,
+                    ContactDTO = contactDTO,
+                    UserType = UserTypeEnum.User,
+                    AddDefaultRoles = true,
+                    SafeSendGroups = Enumerable.Empty<Guid>(),
+                    Roles = Enumerable.Empty<Guid>()
+                };
+                var buyerUaoDto = await AddNewUserToOrganisationAsync(addNewUserDto);
+                await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
+
+                return Tuple.Create(buyerUaoDto.UserAccountOrganisationID, buyerUaoDto.PrimaryContactID.Value);
+            }
+        }
+
+        public async Task EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto)
+        {
+            if (!await UserLogic.CanEmailBeUsedAsProfessional(editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email, editBuyerPartyDto.UaoID))
+            {
+                throw new InvalidOperationException("The email cannot be changed.");
+            }
+
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var storedUaotx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(x => x.SmsTransactionID == editBuyerPartyDto.TxID && x.UserAccountOrganisationID == editBuyerPartyDto.UaoID);
+                
+                storedUaotx.Contact.Salutation = editBuyerPartyDto.Dto.Contact.Salutation;
+                storedUaotx.Contact.FirstName = editBuyerPartyDto.Dto.Contact.FirstName;
+                storedUaotx.Contact.LastName = editBuyerPartyDto.Dto.Contact.LastName;
+                storedUaotx.Contact.BirthDate = editBuyerPartyDto.Dto.Contact.BirthDate;
+                storedUaotx.UserAccountOrganisation.UserAccount.Email = editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email;
+
+                if (editBuyerPartyDto.Dto.Address.AreAllMandatoryFieldsSet())
+                {
+                    if (storedUaotx.Address == null)
+                    {
+                        storedUaotx.Address = new Address
+                        {
+                            AddressID = Guid.NewGuid(),
+                            ParentID = storedUaotx.SmsUserAccountOrganisationTransactionID,
+                            AddressTypeID = AddressTypeIDEnum.Home.GetIntValue(),
+                            Name = string.Empty
+                        };
+                    }
+                    storedUaotx.Address.Line1 = editBuyerPartyDto.Dto.Address.Line1;
+                    storedUaotx.Address.Line2 = editBuyerPartyDto.Dto.Address.Line2;
+                    storedUaotx.Address.Town = editBuyerPartyDto.Dto.Address.Town;
+                    storedUaotx.Address.County = editBuyerPartyDto.Dto.Address.County;
+                    storedUaotx.Address.PostalCode = editBuyerPartyDto.Dto.Address.PostalCode;
+                }
+                else if (storedUaotx.Address != null)
+                {
+                    storedUaotx.Address.IsDeleted = true;
+                    storedUaotx.AddressID = null;
+                }
+
+                await RemovePendingUpdates(editBuyerPartyDto.FieldUpdates ?? Enumerable.Empty<FieldUpdateDTO>());
+
+                var isUserRegistered = UserLogic.IsUserAccountRegistered(editBuyerPartyDto.UaoID);
+                if (!isUserRegistered)
+                {
+                    await UserLogic.ChangeUsernameAndEmail(editBuyerPartyDto.UaoID, editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email);
+                }
 
                 await scope.SaveChangesAsync();
             }

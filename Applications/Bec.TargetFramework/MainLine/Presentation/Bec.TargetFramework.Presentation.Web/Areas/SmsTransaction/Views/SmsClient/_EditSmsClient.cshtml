@@ -8,12 +8,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="editSmsTransactionLabel">Edit Related Party</h4>
+                <h4 class="modal-title" id="editSmsTransactionLabel">Edit Buyer Party</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form data-url="@Url.Action("EditSmsClient", "Transaction", new { area = "SmsTransaction" })" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = ViewBag.txID, pageNumber = ViewBag.pageNumber })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })" id="editSmsTransaction-form" class="smart-form pending-update-form">
+                        <form data-url="@Url.Action("EditSmsClient", "SmsClient", new { area = "SmsTransaction" })" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = ViewBag.txID, pageNumber = ViewBag.pageNumber })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })" id="editSmsTransaction-form" class="smart-form pending-update-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.Hidden("txID", (object)ViewBag.txID)
@@ -21,6 +21,7 @@
                             @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
                             @Html.HiddenFor(m => m.Dto.Address.RowVersion)
                             @Html.HiddenFor(m => m.Dto.Contact.RowVersion)
+                            @Html.HiddenFor(m => m.Dto.UserAccountOrganisation.UserAccount.RowVersion)
                             <fieldset>
                                 <legend>Primary Buyer Details</legend>
                                 <div class="row">
@@ -57,7 +58,7 @@
                                             {
                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                                 @* Currently the email for primary becky is checked against all users hence the check method used: CheckEmailProfessional *@
-                                                @Html.TextBoxFor(m => m.Dto.UserAccountOrganisation.UserAccount.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmailProfessional", "App", new { Area = "", txId = Model.Dto.SmsTransactionID }) })
+                                                @Html.TextBoxFor(m => m.Dto.UserAccountOrganisation.UserAccount.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmailPersonal", "App", new { Area = "", uaoID = Model.Dto.UserAccountOrganisationID, txId = Model.Dto.SmsTransactionID }) })
                                             }
                                             else
                                             {
@@ -72,10 +73,12 @@
                                             @if (ViewBag.canEditBirthDate)
                                             {
                                                 @Html.TextBoxFor(m => m.Dto.Contact.BirthDate, "{0:O}", new { tabindex = "5", id = "birthDateInput", @readonly = "readonly" })
+                                                @Html.PendingChangesButtonFor(m => m.Dto.Contact.BirthDate, "BirthDate", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "birthDateInput", string.Empty, FieldUpdateDataType.Date)
                                             }
                                             else
                                             {
-                                                <input id="birthDateReadOnly" type="text" value="@Model.Dto.Contact.BirthDate.Value.ToString("O")" readonly="readonly" />
+                                                <input name="" id="birthDateReadOnly" type="text" value="@Model.Dto.Contact.BirthDate.Value.ToString("O")" readonly="readonly" />
+                                                @Html.PendingChangesButtonFor(m => m.Dto.Contact.BirthDate, "BirthDate", FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactionID, "birthDateReadOnly", string.Empty, FieldUpdateDataType.Date)
                                             }
                                         </div>
                                     </section>
@@ -175,4 +178,4 @@
     </div>
 </div>
 
-<script async src="@Scripts.Url("~/Scripts/SmsTransaction/Transaction/_EditSmsClient")"></script>
+<script async src="@Scripts.Url("~/Scripts/SmsTransaction/SmsClient/_EditSmsClient")"></script>

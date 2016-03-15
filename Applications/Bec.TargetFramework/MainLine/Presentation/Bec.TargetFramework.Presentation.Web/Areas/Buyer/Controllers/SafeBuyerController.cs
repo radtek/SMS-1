@@ -376,8 +376,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "Salutation", Value = model.Contact.Salutation },
                 new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "FirstName", Value = model.Contact.FirstName },
                 new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "LastName", Value = model.Contact.LastName },
-                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "BirthDate", Value = model.Contact.BirthDate.HasValue ? model.Contact.BirthDate.Value.ToString("O") : null }
             });
+            
+            if (model.Contact.BirthDate.HasValue)
+            {
+                updates.AddRange(PendingUpdateExtensions.GetUpdateFromModel(ActivityType.SmsTransaction, model.SmsTransactionID, new List<FieldUpdateDTO> 
+                { 
+                    new FieldUpdateDTO { ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "BirthDate", Value = model.Contact.BirthDate.Value.ToString("O") }
+                }));
+            }
 
             await OrganisationClient.ResolveSmsTransactionPendingUpdatesAsync(model.SmsTransactionID, uaoID, updates);
             await OrganisationClient.ReplaceSrcFundsBankAccountsAsync(model.SmsUserAccountOrganisationTransactionID, model.SmsSrcFundsBankAccounts);

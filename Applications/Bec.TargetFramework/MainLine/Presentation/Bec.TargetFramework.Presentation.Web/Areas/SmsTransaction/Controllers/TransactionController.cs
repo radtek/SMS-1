@@ -446,12 +446,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             dynamic ret = await client.QueryAsync("SmsTransactions", select + filter);
             if (ret.Items.First.OrganisationID != orgID) throw new AccessViolationException("Operation failed");
         }
-        internal static async Task EnsureEmailNotInUse(string email, Guid? uaoID, IUserLogicClient userLogic)
-        {
-            var isEmailAvailable = await userLogic.CanEmailBeUsedAsProfessionalAsync(email, uaoID);
-            if (!isEmailAvailable) throw new InvalidOperationException("The email cannot be used.");
-        }
-
+        
         internal static async Task EnsureCanGeneratePin(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
         {
             var canGeneratePin = await CanGeneratePin(txID, uaoID, queryClient);
@@ -475,92 +470,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
 
-        [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> ViewEditSmsClient(Guid uaotID, int pageNumber)
-        {
-            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
-            {
-                x.SmsTransactionID,
-                x.SmsUserAccountOrganisationTransactionID,
-                x.Address.Line1,
-                x.Address.Line2,
-                x.Address.Town,
-                x.Address.County,
-                x.Address.PostalCode,
-                x.Address.RowVersion,
-                x.Contact.Salutation,
-                x.Contact.FirstName,
-                x.Contact.LastName,
-                x.Contact.BirthDate,
-                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                x.UserAccountOrganisation.UserAccount.Email,
-                x.UserAccountOrganisationID,
-                rv2 = x.Contact.RowVersion
-            });
-
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaotID && x.SmsTransaction.OrganisationID == orgID);
-
-            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
-            var model = res.First();
-
-            ViewBag.txID = model.SmsTransactionID;
-            ViewBag.uaoID = model.UserAccountOrganisationID;
-            ViewBag.pageNumber = pageNumber;
-            ViewBag.IsTemporaryUser = model.UserAccountOrganisation.UserAccount.IsTemporaryAccount;
-            ViewBag.canEditBirthDate = await PendingUpdateExtensions.CanEditBirthDate(model.UserAccountOrganisationID, model.SmsTransactionID, QueryClient);
-            return PartialView("_EditSmsClient", await model.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, model.SmsTransactionID, QueryClient));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> EditSmsClient(Guid txID, Guid uaoID, IEnumerable<string> FieldUpdates)
-        {
-            try
-            {
-                var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-
-                var modelEmail = Request.Form["Dto.UserAccountOrganisation.UserAccount.Email"];
-                await EnsureEmailNotInUse(modelEmail, uaoID, UserClient);
-
-                var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txID && x.UserAccountOrganisationID == uaoID && x.SmsTransaction.OrganisationID == orgID);
-                var data = Edit.fromD("Dto", Request.Form,
-                    "Address.Line1",
-                    "Address.Line2",
-                    "Address.Town",
-                    "Address.County",
-                    "Address.PostalCode",
-                    "Address.RowVersion",
-                    "Contact.Salutation",
-                    "Contact.FirstName",
-                    "Contact.LastName",
-                    "Contact.BirthDate",
-                    "Contact.RowVersion");
-
-                await QueryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
-                var isUserRegistered = await UserClient.IsUserAccountRegisteredAsync(uaoID);
-                if (!isUserRegistered) await UserClient.ChangeUsernameAndEmailAsync(uaoID, modelEmail);
-                
-                if (FieldUpdates != null)
-                {
-                    var updates = (await PendingUpdateExtensions.GetFieldUpdates(HttpContext, ActivityType.SmsTransaction, txID, QueryClient))
-                        .Where(x => FieldUpdates.Contains(x.GetHash()));
-                    await OrganisationClient.RemovePendingUpdatesAsync(updates);
-                }
-                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
-            }
-            catch
-            {
-                return Json(new
-                {
-                    result = false,
-                    title = "Edit Transaction Failed",
-                    message = "Edit Transacation Failed"
-                }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        
 
         //public ActionResult ViewSendQuote(Guid txID)
         //{

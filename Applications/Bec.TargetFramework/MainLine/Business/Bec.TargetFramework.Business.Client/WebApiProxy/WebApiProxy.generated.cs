@@ -970,6 +970,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
 
+		/// <returns></returns>
+		Task EditBuyerPartyAsync(EditBuyerPartyDTO editBuyerPartyDto);
+
+		/// <returns></returns>
+		void EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto);
+
 		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
 		/// <param name="uaoID"></param>
@@ -4117,6 +4123,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task EditBuyerPartyAsync(EditBuyerPartyDTO editBuyerPartyDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<EditBuyerPartyDTO>("api/OrganisationLogic/EditBuyerParty", editBuyerPartyDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void EditBuyerParty(EditBuyerPartyDTO editBuyerPartyDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<EditBuyerPartyDTO>("api/OrganisationLogic/EditBuyerParty", editBuyerPartyDto, _user)).Wait();
 		}
 
 		/// <summary>
