@@ -31,7 +31,7 @@ $(function () {
                    },
                    {
                        field: "UserAccountOrganisation.Contact.FirstName",
-                       title: "User Name",
+                       title: "Name",
                        template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
                    },
                    {
@@ -80,7 +80,7 @@ $(function () {
                     },
                     {
                         field: "UserAccountOrganisation.Contact.LastName",
-                        title: "User Name",
+                        title: "Name",
                         template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
                     },
                     {
