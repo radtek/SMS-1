@@ -25,7 +25,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public INotificationLogicClient notificationClient { get; set; }
 
         [ClaimsRequired("Add", "SupportItem", Order = 1000)]
-        public async Task<ActionResult> Index(Guid supportItemId)
+        public async Task<ActionResult> Index(Guid? supportItemId)
         {
             if (supportItemId != null && supportItemId != default(Guid))
             {
