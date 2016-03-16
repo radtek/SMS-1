@@ -54,7 +54,8 @@
 
             if (declined) {
                 $('#checkBankAccountBtn').hide();
-                if(advised)
+                $('#editAddDetailsBtn').hide();
+                if (advised)
                     $('#declineAdvisedMessage').show();
                 else
                     $('#declineMessage').show();
@@ -62,6 +63,7 @@
             else {
                 $('#declineButton').show();
                 $('#checkBankAccountBtn').hide();
+                $('#editAddDetailsBtn').hide();
                 if (advised)
                     $('#infoAdviceMessage').show();
                 else
