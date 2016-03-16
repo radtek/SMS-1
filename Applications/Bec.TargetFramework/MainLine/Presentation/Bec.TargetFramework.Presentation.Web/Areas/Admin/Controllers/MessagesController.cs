@@ -80,7 +80,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     case ActivityType.SupportMessage:
                         if (ClaimsHelper.UserHasClaim("Add", "SupportItem"))
                         {
-                            conversationDto.Link = Url.Action("Index", "SupportItem", new { Area = "Admin", selectedTransactionId = conversationDto.ActivityID });
+                            conversationDto.Link = Url.Action("Index", "SupportItem", new { Area = "Admin", supportItemId = conversationDto.ActivityID });
                         }
                         break;
                 }

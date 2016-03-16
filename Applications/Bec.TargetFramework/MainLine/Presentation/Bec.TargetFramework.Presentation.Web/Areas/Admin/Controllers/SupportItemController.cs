@@ -25,8 +25,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public INotificationLogicClient notificationClient { get; set; }
 
         [ClaimsRequired("Add", "SupportItem", Order = 1000)]
-        public ActionResult Index()
+        public async Task<ActionResult> Index(Guid supportItemId)
         {
+            if (supportItemId != null && supportItemId != default(Guid))
+            {
+                var select = ODataHelper.Select<SupportItemDTO>(x => new { x.SupportItemID, x.IsClosed });
+                var filter = ODataHelper.Filter<SupportItemDTO>(x => x.SupportItemID == supportItemId);
+                var res = await queryClient.QueryAsync<SupportItemDTO>("SupportItems", select + filter);
+                var supportItem = res.FirstOrDefault();
+
+                TempData["SupportItemId"] = supportItemId;
+                TempData["tabIndex"] = (supportItem != null) && (supportItem.IsClosed) ? 1 : 0;
+            }
             return View();
         }
         [ClaimsRequired("Add", "SupportItem", Order = 1000)]
@@ -86,7 +96,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public ActionResult ViewAddSupportItem(SupportItemDTO supportItem)
         {
             ViewBag.Email = WebUserHelper.GetWebUserObject(HttpContext).Email;
-            ViewBag.UserName = WebUserHelper.GetWebUserObject(HttpContext).UserName; 
+            ViewBag.UserName = WebUserHelper.GetWebUserObject(HttpContext).UserName;
             return PartialView("_AddSupportItem", supportItem);
         }
         [ClaimsRequired("Send", "SupportItem", Order = 1000)]
@@ -106,7 +116,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex.Message);
-                return Json(new { result = false, title = "Request Message", message =  ex.Message}, JsonRequestBehavior.AllowGet);
+                return Json(new { result = false, title = "Request Message", message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
         [ClaimsRequired("Add", "SupportItem", Order = 1000)]
@@ -134,7 +144,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 var filter = ODataHelper.Filter<SupportItemDTO>(x => x.SupportItemID == supportItemId);
                 var data = Edit.fromD(Request.Form,
-                    "Reason"                   
+                    "Reason"
                   );
                 data.Add("IsClosed", "true");
                 data.Add("ClosedBy", WebUserHelper.GetWebUserObject(HttpContext).Email);

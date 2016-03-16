@@ -1,6 +1,10 @@
 ﻿var requestGrid;
 var areConversationsLoaded;
+
 $(function () {
+    var requestGridContainer = $("#requestGrid");
+    var closedGridContainer = $("#closedGrid");
+
     //set up grid options for the three grids. most are passed straight on to kendo grid.
     requestGrid = new gridItem(
        {
@@ -10,6 +14,7 @@ $(function () {
            type: 'odata-v4',
            serverSorting: true,
            serverPaging: true,
+           jumpToId: requestGridContainer.data("jumpto"),
            defaultSort: [{ field: 'CreatedOn', dir: 'asc' }],
            panels: ['nPanel'],
            change: nChange,
@@ -25,7 +30,7 @@ $(function () {
                        title: "Ticket Number"
                    },
                    {
-                       field: "UserAccountOrganisation.Contact.LastName",
+                       field: "UserAccountOrganisation.Contact.FirstName",
                        title: "User Name",
                        template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
                    },
@@ -58,6 +63,7 @@ $(function () {
             type: 'odata-v4',
             serverSorting: true,
             serverPaging: true,
+            jumpToId: closedGridContainer.data("jumpto"),
             defaultSort: { field: "ClosedOn", dir: "des" },
             panels: ['ePanel'],
             searchElementId: 'gridSearchInput',
