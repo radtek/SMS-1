@@ -34,7 +34,7 @@ $(function () {
                    },
                    {
                        field: "UserAccountOrganisation.Contact.FirstName",
-                       title: "User Name",
+                       title: "Name",
                        template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
                    },
                    {
@@ -85,8 +85,8 @@ $(function () {
                         title: "Ticket Number"
                     },
                     {
-                        field: "UserAccountOrganisation.Contact.FirstName",
-                        title: "User Name",
+                        field: "UserAccountOrganisation.Contact.FirstName",                        
+                        title: "Name",
                         template: function (dataItem) { return (dataItem.UserAccountOrganisation.Contact.Salutation + ' ' + dataItem.UserAccountOrganisation.Contact.FirstName + ' ' + dataItem.UserAccountOrganisation.Contact.LastName); }
                     },
                     {
