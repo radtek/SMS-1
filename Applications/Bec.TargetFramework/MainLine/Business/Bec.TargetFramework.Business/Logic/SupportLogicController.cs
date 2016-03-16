@@ -53,6 +53,15 @@ namespace Bec.TargetFramework.Business.Logic
             await NotificationLogic.CreateConversation(OrgId, supportItemDto.UserAccountOrganisationID, supportItemDto.AttachmentsID, ActivityType.SupportMessage, supportItemDto.SupportItemID, supportItemDto.Title, supportItemDto.Description, recipientUaoIds.ToArray());
             return supportItemDto.SupportItemID;
         }
+
+
+        public int GetSupportItemRank(Guid stID, bool isClose)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().FnSupportTicketRank(stID, isClose).Value;
+            }
+        }
     }
 }
 

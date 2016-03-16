@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <div id="requestGrid" data-url="@Url.Action("GetSupportItems", "SupportItem", new { area = "Admin" })" data-jumpto="@TempData["SupportItemId"]"></div>
+                                <div id="requestGrid" data-url="@Url.Action("GetSupportItems", "SupportItem", new { area = "Admin" })" data-jumpto="@TempData["SupportItemId"]" data-jumptopage="@TempData["pageNumber"]" data-jumptorow="@TempData["rowNumber"]" data-resetsort="@TempData["resetSort"]"></div>
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <div id="closedGrid" data-url="@Url.Action("GetClosedSupportItems", "SupportItem", new { area = "Admin" })" data-jumpto="@TempData["SupportItemId"]"></div>
+                                <div id="closedGrid" data-url="@Url.Action("GetClosedSupportItems", "SupportItem", new { area = "Admin" })" data-jumpto="@TempData["SupportItemId"]" data-jumptopage="@TempData["pageNumber"]" data-jumptorow="@TempData["rowNumber"]" data-resetsort="@TempData["resetSort"]"></div>
                             </div>
                         </div>
                     </div>

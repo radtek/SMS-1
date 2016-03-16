@@ -18533,7 +18533,10 @@
           <Parameter Name="id" Type="uuid" Mode="In" />
           <Parameter Name="newid" Type="uuid" Mode="In" />
         </Function>
-        <Function Name="fn_insertcalloutclaims" IsComposable="true" ReturnType="boolean" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_insertcalloutclaims" />
+        <Function Name="fn_SupportTicketRank" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_SupportTicketRank">
+          <Parameter Name="stid" Type="uuid" Mode="In" />
+          <Parameter Name="isclose" Type="boolean" Mode="In" />
+        </Function>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
@@ -21513,6 +21516,10 @@
             <Parameter Name="uaoid" Mode="In" Type="Guid" />
             <Parameter Name="id" Mode="In" Type="Guid" />
             <Parameter Name="newid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="FnSupportTicketRank" ReturnType="Collection(Int32)" ed:Guid="a20f2228-b8ba-4bb1-97a9-461511e820ce">
+            <Parameter Name="stid" Mode="In" Type="Guid" />
+            <Parameter Name="isclose" Mode="In" Type="Boolean" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -44861,6 +44868,7 @@
           <FunctionImportMapping FunctionImportName="FnGetConversationActivity" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivity" />
           <FunctionImportMapping FunctionImportName="FnGetConversationActivityCount" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivityCount" />
           <FunctionImportMapping FunctionImportName="FnAttachUpload" FunctionName="Bec.TargetFramework.Data.Store.fn_AttachUploads" />
+          <FunctionImportMapping FunctionImportName="FnSupportTicketRank" FunctionName="Bec.TargetFramework.Data.Store.fn_SupportTicketRank" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

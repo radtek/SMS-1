@@ -1181,6 +1181,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="OrgId"></param>
 		/// <returns></returns>
 		Guid CreateSupportItem(Guid OrgId,SupportItemDTO supportItemDto);
+
+		/// <param name="stID"></param>
+		/// <param name="isClose"></param>
+		/// <returns></returns>
+		Task<Int32> GetSupportItemRankAsync(Guid stID,Boolean isClose);
+
+		/// <param name="stID"></param>
+		/// <param name="isClose"></param>
+		/// <returns></returns>
+		Int32 GetSupportItemRank(Guid stID,Boolean isClose);
 	}
 
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
@@ -4701,6 +4711,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<SupportItemDTO, Guid>("api/SupportLogic/CreateSupportItem?OrgId=" + OrgId, supportItemDto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="stID"></param>
+		/// <param name="isClose"></param>
+		/// <returns></returns>
+		public virtual Task<Int32> GetSupportItemRankAsync(Guid stID,Boolean isClose)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Int32>("api/SupportLogic/GetSupportItemRank?stID=" + stID + "&isClose=" + isClose, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="stID"></param>
+		/// <param name="isClose"></param>
+		public virtual Int32 GetSupportItemRank(Guid stID,Boolean isClose)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/SupportLogic/GetSupportItemRank?stID=" + stID + "&isClose=" + isClose, _user)).Result;
 		}
 
 		#endregion

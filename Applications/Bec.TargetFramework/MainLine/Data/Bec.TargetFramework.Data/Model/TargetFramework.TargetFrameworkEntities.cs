@@ -2471,6 +2471,46 @@ namespace Bec.TargetFramework.Data
             }
         }
 
+    
+        /// <summary>
+        /// There are no comments for FnSupportTicketRank in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> FnSupportTicketRank (global::System.Nullable<System.Guid> stid, global::System.Nullable<bool> isclose)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+            global::System.Nullable<int> result;
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnSupportTicketRank";
+                command.Connection = connection;
+                EntityParameter stidParameter = new EntityParameter("stid", System.Data.DbType.Guid);
+                if (stid.HasValue)
+                    stidParameter.Value = stid;
+                command.Parameters.Add(stidParameter);
+                EntityParameter iscloseParameter = new EntityParameter("isclose", System.Data.DbType.Boolean);
+                if (isclose.HasValue)
+                    iscloseParameter.Value = isclose;
+                command.Parameters.Add(iscloseParameter);
+                result = (global::System.Nullable<int>)command.ExecuteScalar();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+            return result;
+        }
+
         #endregion
     }
 }

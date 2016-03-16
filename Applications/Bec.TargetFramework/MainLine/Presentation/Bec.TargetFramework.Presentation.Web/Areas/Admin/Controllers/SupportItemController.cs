@@ -33,9 +33,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 var filter = ODataHelper.Filter<SupportItemDTO>(x => x.SupportItemID == supportItemId);
                 var res = await queryClient.QueryAsync<SupportItemDTO>("SupportItems", select + filter);
                 var supportItem = res.FirstOrDefault();
-
+                var isClose = (supportItem != null) && (supportItem.IsClosed);
                 TempData["SupportItemId"] = supportItemId;
-                TempData["tabIndex"] = (supportItem != null) && (supportItem.IsClosed) ? 1 : 0;
+                TempData["tabIndex"] = isClose ? 1 : 0;
+                var pageNumber = await supportClient.GetSupportItemRankAsync(supportItemId.Value, isClose);
+                TempData["rowNumber"] = pageNumber;
+                TempData["resetSort"] = true;
             }
             return View();
         }
