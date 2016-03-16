@@ -45,7 +45,7 @@ $(function () {
 
                    {
                        field: "Title",
-                       title: "Title",
+                       title: "Subject",
                    },
                    {
                        field: "CreatedOn",
@@ -93,7 +93,7 @@ $(function () {
                    },
                     {
                         field: "Title",
-                        title: "Title",
+                        title: "Subject",
                     },
                     {
                         field: "ClosedOn",
@@ -149,7 +149,7 @@ function nChange(dataItem) {
     $("p#ddnEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email);
     $("p#ddnTelephone").text(dataItem.Telephone);
     $("p#ddnTicketNumber").text(dataItem.TicketNumber);
-    $("p#ddnTitle").text(dataItem.Title || "");
+    $("p#ddnSubject").text(dataItem.Title || "");
     $("p#ddnType").text(getRequestType(dataItem.RequestTypeID));
     $("p#ddnCreatedOn").text(dateString(dataItem.CreatedOn) || "");
     $("div#ddnDescription").text(dataItem.Description || "");
@@ -165,7 +165,7 @@ function eChange(dataItem) {
     $("p#ddcEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email);
     $("p#ddcTelephone").text(dataItem.Telephone);
     $("p#ddcTicketNumber").text(dataItem.TicketNumber);
-    $("p#ddcTitle").text(dataItem.Title || "");
+    $("p#ddcSubject").text(dataItem.Title || "");
     $("p#ddcType").text(getRequestType(dataItem.RequestTypeID));
     $("p#ddcClosedOn").text(dateString(dataItem.ClosedOn) || "");
     $("div#ddcDescription").text(dataItem.Description || "");
