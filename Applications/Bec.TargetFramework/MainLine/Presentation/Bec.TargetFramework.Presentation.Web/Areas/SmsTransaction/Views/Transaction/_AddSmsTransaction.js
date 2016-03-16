@@ -8,10 +8,12 @@
     setupMortgageSelect();
 
     function setupForm() {
-        var addressDependsRule = function (element) {
-            return _.find($('[name^="Dto.Address"][type="text"]'), function (input) {
-                return $(input).val().trim() !== '';
-            })
+        var addressDependsRule = function (namePrefix) {
+            return function (element) {
+                return _.find($('[name^="' + namePrefix + '"][type="text"]'), function (input) {
+                    return $(input).val().trim() !== '';
+                });
+            };
         };
 
         $("#addTransaction-form").validate({
@@ -67,18 +69,34 @@
                 },
                 "SmsTransactionDTO.Address.Line1": {
                     required: {
-                        depends: addressDependsRule
+                        depends: addressDependsRule('SmsTransactionDTO.Address')
                     }
                 },
                 "SmsTransactionDTO.Address.Town": {
                     required: {
-                        depends: addressDependsRule
+                        depends: addressDependsRule('SmsTransactionDTO.Address')
                     }
                 },
                 "SmsTransactionDTO.Address.PostalCode": {
                     minlength: 5,
                     required: {
-                        depends: addressDependsRule
+                        depends: addressDependsRule('SmsTransactionDTO.Address')
+                    }
+                },
+                "RegisteredHomeAddressDTO.Line1": {
+                    required: {
+                        depends: addressDependsRule('RegisteredHomeAddressDTO')
+                    }
+                },
+                "RegisteredHomeAddressDTO.Town": {
+                    required: {
+                        depends: addressDependsRule('RegisteredHomeAddressDTO')
+                    }
+                },
+                "RegisteredHomeAddressDTO.PostalCode": {
+                    minlength: 5,
+                    required: {
+                        depends: addressDependsRule('RegisteredHomeAddressDTO')
                     }
                 }
             },
