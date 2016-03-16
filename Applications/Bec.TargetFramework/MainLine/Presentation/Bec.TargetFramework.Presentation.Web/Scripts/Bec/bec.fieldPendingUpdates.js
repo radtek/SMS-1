@@ -17,7 +17,7 @@
             var fullName = anchorElement.data('pending-fullname');
             var modifiedOn = anchorElement.data('pending-modifiedon');
 
-            var title = 'Pending update from ' + fullName + ', on ' + dateString(modifiedOn);
+            var title = 'Pending change from ' + fullName + ', on ' + dateString(modifiedOn);
 
             var popover = anchorElement.popover({
                 container: settings.container,

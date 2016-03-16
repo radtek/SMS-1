@@ -614,7 +614,7 @@ namespace Bec.TargetFramework.Business.Logic
                         NotificationData = JsonHelper.SerializeData(new { Message = message }),
                         NotificationRecipients = new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = approved.CreatedByUserAccountOrganisationID } }
                     };
-                    await NotificationLogic.SaveNotificationConversationAsync(notificationDto, txID, ActivityType.SmsTransaction, "Changes Requested", false);
+                    await NotificationLogic.SaveNotificationConversationAsync(notificationDto, txID, ActivityType.SmsTransaction, "Pending Changes", false);
                 }
                 await scope.SaveChangesAsync();
             }

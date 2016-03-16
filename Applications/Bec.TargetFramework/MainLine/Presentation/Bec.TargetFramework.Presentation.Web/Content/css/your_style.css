@@ -794,7 +794,7 @@ form.smart-form.pending-update-form .pending-changes-button.actioned.accepted {
   background-color: #a1c324;
 }
 form.smart-form.pending-update-form .pending-changes-button.actioned.rejected {
-  background-color: orange;
+  background-color: #a90329;
 }
 form.smart-form.pending-update-form div.input .icon-append,
 form.smart-form.pending-update-form div.input .icon-prepend {
