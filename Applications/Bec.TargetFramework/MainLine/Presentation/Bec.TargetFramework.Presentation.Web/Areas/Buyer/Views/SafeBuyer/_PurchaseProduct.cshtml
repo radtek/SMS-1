@@ -47,16 +47,6 @@
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="step1">
-                                        @if (ViewBag.ExpectedFree)
-                                        {
-                                            <fieldset>
-                                                <div class="alert alert-warning">
-                                                    <h6>Payment Required</h6>
-                                                    <p>We were unable to validate the mortgage details you have provided. It is therefore necessary at this stage to provide payment to use the Safe Buyer product.</p>
-                                                    <p>Our automatic refund process will refund this payment in full when qualifying amendments are provided by your conveyancer.</p>
-                                                </div>
-                                            </fieldset>
-                                        }
                                         <fieldset>
                                             <label>Purchase Summary</label>
                                             <div class="row">
@@ -170,35 +160,18 @@
                                                             <label for="manualAddress">Edit Address Details</label>
                                                         </section>
                                                     </div>
-
                                                     <div class="row">
                                                         <section class="col col-6">
-                                                            <label class="label">Cardholder Address</label>
+                                                            <label class="label margin-bottom-0">Cardholder Address</label>
+                                                        </section>
+                                                    </div>
+                                                    <div class="row">
+                                                        <section class="col col-6">
                                                             <label class="input">
                                                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                                                 @Html.TextBoxFor(m => m.Line1, new { id = "Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "12", maxlength = 50 })
                                                             </label>
                                                         </section>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <section class="col col-6">
-                                                            <label class="input">
-                                                                @Html.TextBoxFor(m => m.Line2, new { id = "Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "13", maxlength = 50 })
-                                                            </label>
-                                                        </section>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <section class="col col-6">
-                                                            <label class="input">
-                                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                                                @Html.TextBoxFor(m => m.Town, new { id = "Town", @readonly = "readonly", placeholder = "Town", tabindex = "14", maxlength = 50 })
-                                                            </label>
-                                                        </section>
-                                                    </div>
-
-                                                    <div class="row">
                                                         <section class="col col-6">
                                                             <label class="input">
                                                                 @Html.TextBoxFor(m => m.County, new { id = "County", @readonly = "readonly", placeholder = "County", tabindex = "15", maxlength = 50 })
@@ -209,8 +182,22 @@
                                                     <div class="row">
                                                         <section class="col col-6">
                                                             <label class="input">
+                                                                @Html.TextBoxFor(m => m.Line2, new { id = "Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "13", maxlength = 50 })
+                                                            </label>
+                                                        </section>
+                                                        <section class="col col-6">
+                                                            <label class="input">
                                                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                                                 @Html.TextBoxFor(m => m.PostalCode, new { id = "PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "16", maxlength = 50 })
+                                                            </label>
+                                                        </section>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <section class="col col-6">
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                                @Html.TextBoxFor(m => m.Town, new { id = "Town", @readonly = "readonly", placeholder = "Town", tabindex = "14", maxlength = 50 })
                                                             </label>
                                                         </section>
                                                     </div>
@@ -258,10 +245,10 @@
                 </div>
             </div>
             <div class="modal-footer" id="footer">
-                <button type="button" id="cancelPurchase" class="btn btn-default" data-dismiss="modal" tabindex="28">Cancel</button>
+                <button type="button" id="cancelPurchase" class="btn btn-default" data-dismiss="modal" tabindex="30">Cancel</button>
                 <button type="button" id="stepBack" class="btn btn-primary" style="display:none;" tabindex="29"><i class="fa fa-chevron-left margin-right-5"></i>Back</button>
-                <button type="button" id="stepNext" class="btn btn-primary" tabindex="30">Next<i class="fa fa-chevron-right margin-left-5"></i></button>
-                <button type="button" id="submitPurchase" class="btn btn-primary" tabindex="30">Purchase Safe Buyer</button>
+                <button type="button" id="stepNext" class="btn btn-primary" tabindex="28">Next<i class="fa fa-chevron-right margin-left-5"></i></button>
+                <button type="button" id="submitPurchase" class="btn btn-primary" tabindex="28">Purchase Safe Buyer</button>
             </div>
         </div>
     </div>
