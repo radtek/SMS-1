@@ -426,30 +426,41 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
-                x.SmsTransaction.Invoice.InvoiceNumber,
                 x.SmsTransaction.Invoice.StartDate
             });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txID && x.UserAccountOrganisationID == uaoId);
             var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             var uaot = res.FirstOrDefault();
 
+            var adminSelect = ODataHelper.Select<VOrganisationDetailDTO>(x => new { 
+                x.OrganisationName,
+                x.Line1,
+                x.Line2,
+                x.Town,
+                x.County,
+                x.PostalCode,
+                x.VATNumber
+            });
+            var adminFilter = ODataHelper.Filter<VOrganisationDetailDTO>(x => x.OrganisationTypeID == 30);
+            var adminResults = await QueryClient.QueryAsync<VOrganisationDetailDTO>("VOrganisationDetails", adminSelect + adminFilter);
+            var adminOrg = adminResults.Single();
+
             var dtomap = new DTOMap();
             dtomap.Add("SafeBuyerReceiptDTO", new SafeBuyerReceiptDTO
             {
                 BecAddress = new AddressDTO
                 {
-                    Line1 = "114-116 Marlesfield House",
-                    Line2 = "Main Road",
-                    Town = "Sidcup",
-                    County = "Kent",
-                    PostalCode = "DA14 6NG"
+                    Line1 = adminOrg.Line1,
+                    Line2 = adminOrg.Line2,
+                    Town = adminOrg.Town,
+                    County = adminOrg.County,
+                    PostalCode = adminOrg.PostalCode
                 },
-                CompanyName = "BE Consultancy",
+                CompanyName = adminOrg.OrganisationName,
                 CustomerAddress = uaot.Address,
                 CustomerName = string.Join(" ", uaot.Contact.Salutation, uaot.Contact.FirstName, uaot.Contact.LastName),
                 Goods = cartPricing.CartTotalExcludingDiscountsAndTaxAndDeduct,
                 InvoiceDate = uaot.SmsTransaction.Invoice.StartDate.Value,
-                InvoiceNumber = 3,//uaot.SmsTransaction.Invoice.InvoiceNumber.Value,
                 Items = cartPricing.Items.Select(x => new SafeBuyerReceiptItemDTO {
                     Quantity = 1,
                     Description = "Safe Buyer",
@@ -459,7 +470,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 }).ToList(),
                 Total = cartPricing.CartFinalPrice,
                 Vat = cartPricing.Tax,
-                VatNumber = "12345678"
+                VatNumber = adminOrg.VATNumber
             });
 
             var ncSelect = ODataHelper.Select<NotificationConstructDTO>(x => new { x.NotificationConstructID, x.NotificationConstructVersionNumber });
@@ -468,7 +479,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var nc = ncs.OrderByDescending(n => n.NotificationConstructVersionNumber).First();
             var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, dtomap);
 
-            return File(data, "application/pdf", string.Format("BankTransferInstructions.pdf"));
+            return File(data, "application/pdf", "Safe Buyer Reciept.pdf");
         }
     }
 }

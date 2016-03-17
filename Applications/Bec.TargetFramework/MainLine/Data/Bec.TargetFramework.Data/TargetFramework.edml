@@ -9395,6 +9395,7 @@
             <PropertyRef Name="OrganisationID" />
           </Key>
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="OrganisationName" Type="varchar" MaxLength="2000" />
           <Property Name="OrganisationTypeID" Type="int" Nullable="false" />
           <Property Name="OrganisationSubTypeID" Type="int" />
           <Property Name="OrganisationCategoryID" Type="int" />
@@ -29002,6 +29003,7 @@
             <PropertyRef Name="OrganisationID" />
           </Key>
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="ee717d17-40df-48b0-9646-66cd5799d450" />
+          <Property Name="OrganisationName" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="6cf2a407-d4ad-4393-bcbb-d863d28a2640" />
           <Property Name="OrganisationTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="498627c9-fe5a-4d8c-b3d0-7cbc681d2267" />
           <Property Name="OrganisationSubTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="034ae416-d876-4483-88f7-7547f6085476" />
           <Property Name="OrganisationCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="59475f38-34b2-4908-a860-4404ac1e02a4" />
@@ -44188,6 +44190,7 @@
                 <ScalarProperty Name="RegisteredPractitionersCount" ColumnName="RegisteredPractitionersCount" />
                 <ScalarProperty Name="StaffCount" ColumnName="StaffCount" />
                 <ScalarProperty Name="MonthlyCompletionsCount" ColumnName="MonthlyCompletionsCount" />
+                <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

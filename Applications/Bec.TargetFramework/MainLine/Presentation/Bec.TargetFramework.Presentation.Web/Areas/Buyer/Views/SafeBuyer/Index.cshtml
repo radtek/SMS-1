@@ -64,7 +64,12 @@
                                         </div>
                                     </div>
                                 }
-                                
+                                @if (Model.Dto.SmsTransaction.InvoiceID.HasValue)
+                                {
+                                    <div class="col-sm-12">
+                                        <a class="btn btn-primary pull-right" href="@Url.Action("GetReceipt", "SafeBuyer", new { Area = "Buyer" })?txID=@Model.Dto.SmsTransactionID">Download Receipt</a>
+                                    </div>
+                                }
                                 <div id="detailsRow" class="margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Dto.SmsTransaction.ProductAcceptedOn.HasValue? "block" : "none")">
                                     <div class="row">
                                         <div class="col-sm-12">
