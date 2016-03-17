@@ -17,6 +17,12 @@
             addBuyerPartyForm.submit();
         });
 
+        var addressDependsRule = function (element) {
+            return _.find($('[name^="RegisteredHomeAddressDTO"][type="text"]'), function (input) {
+                return $(input).val().trim() !== '';
+            })
+        };
+
         addBuyerPartyForm.validate({
             ignore: '.skip',
             // Rules for form validation
@@ -50,6 +56,22 @@
                     minlength: 11,
                     maxlength: 11,
                     ukmobile: true
+                },
+                "RegisteredHomeAddressDTO.Line1": {
+                    required: {
+                        depends: addressDependsRule
+                    }
+                },
+                "RegisteredHomeAddressDTO.Town": {
+                    required: {
+                        depends: addressDependsRule
+                    }
+                },
+                "RegisteredHomeAddressDTO.PostalCode": {
+                    minlength: 5,
+                    required: {
+                        depends: addressDependsRule
+                    }
                 }
             },
             // Do not change code below

@@ -104,12 +104,6 @@
             </td>
             <td>
                 <ul class="list-unstyled">
-                    @if (Model.Dto.Invoice != null && Model.Dto.Invoice.UserAccountOrganisationID == relatedParty.UserAccountOrganisationID)
-                    {
-                        <li>
-                            <label class="label label-info">Purchased Safe Buyer</label>
-                        </li>
-                    }
                     @if (relatedParty.LatestBankAccountCheck != null)
                     {
                         <li>

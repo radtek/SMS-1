@@ -312,7 +312,6 @@
                 }
                 messagesSpinner.hide();
             }).fail(function (e) {
-                console.log(e);
                 showNewConversationError();
             });
 

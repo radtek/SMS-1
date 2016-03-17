@@ -773,7 +773,7 @@ form.smart-form.pending-update-form .pending-changes-button {
   border-radius: 0 9px 9px 0;
   position: absolute;
   bottom: 6px;
-  padding: 6px 3px 4px 10px;
+  padding: 4px 3px 4px 10px;
   font-size: 0.7em;
   -moz-transition: right ease-in-out 0.1s;
   -o-transition: right ease-in-out 0.1s;
@@ -794,7 +794,7 @@ form.smart-form.pending-update-form .pending-changes-button.actioned.accepted {
   background-color: #a1c324;
 }
 form.smart-form.pending-update-form .pending-changes-button.actioned.rejected {
-  background-color: orange;
+  background-color: #a90329;
 }
 form.smart-form.pending-update-form div.input .icon-append,
 form.smart-form.pending-update-form div.input .icon-prepend {
@@ -815,16 +815,21 @@ form.smart-form.pending-update-form div.input input {
   border-radius: 2px;
 }
 input[type=radio]:checked + label.approve-reject-button {
-  background-color: #6eb0df;
+  border: 1px solid #6eb0df;
+  box-shadow: 0 0 6px #2e99ff;
 }
 .bg-color-pending-update {
   background-color: #6eb0df;
+}
+.popover .arrow {
+  top: -11px !important;
 }
 .popover-close-button {
   position: absolute;
   top: 0;
   right: 4px;
   cursor: pointer;
+  color: #7d7d7d;
 }
 .label-primary {
   background-color: #a1c324;

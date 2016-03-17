@@ -8,7 +8,6 @@
 @color-pending-update: #6EB0DF;
 @color-pending-update-highlight: #2e99ff;
 @color-approved-update: @primary-color;
-@color-rejected-update: orange;
 
 .color-primary {
     color: @primary-color;
@@ -1015,7 +1014,7 @@ form.smart-form.pending-update-form {
         border-radius: 0 9px 9px 0;
         position: absolute;
         bottom: 6px;
-        padding: 6px 3px 4px 10px;
+        padding: 4px 3px 4px 10px;
         font-size: 0.7em;
         -moz-transition: right ease-in-out 0.1s;
         -o-transition: right ease-in-out 0.1s;
@@ -1039,7 +1038,7 @@ form.smart-form.pending-update-form {
             }
 
             &.rejected {
-                background-color: @color-rejected-update;
+                background-color: @color-reject;
             }
         }
     }
@@ -1068,11 +1067,16 @@ form.smart-form.pending-update-form {
 }
 
 input[type=radio]:checked + label.approve-reject-button {
-    background-color: @color-pending-update;
+    border: 1px solid @color-pending-update;
+    box-shadow: 0 0 6px @color-pending-update-highlight
 }
 
 .bg-color-pending-update {
     background-color: @color-pending-update;
+}
+
+.popover .arrow{
+    top: -11px !important; // fix for weird bootstrap behaviour which adds top: 50.% value
 }
 
 .popover-close-button {
@@ -1080,6 +1084,7 @@ input[type=radio]:checked + label.approve-reject-button {
     top: 0;
     right: 4px;
     cursor: pointer;
+    color: @icon-color;
 }
 
 .label-primary{

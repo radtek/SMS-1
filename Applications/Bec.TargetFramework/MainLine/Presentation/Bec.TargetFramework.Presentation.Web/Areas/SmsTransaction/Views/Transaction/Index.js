@@ -98,7 +98,7 @@
             },
             {
                 field: "",
-                title: "Pending Updates",
+                title: "Pending Changes",
                 template: function (dataItem) {
                     if (dataItem.PendingUpdateCount > 0) {
                         return '<b class="badge bg-color-pending-update">' + dataItem.PendingUpdateCount + '</b>';
