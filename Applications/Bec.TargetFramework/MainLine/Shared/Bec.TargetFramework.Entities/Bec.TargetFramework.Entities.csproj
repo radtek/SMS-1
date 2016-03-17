@@ -1729,6 +1729,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DTO\AddNewUserToOrganisationDTO.cs" />
     <Compile Include="DTO\Notification\ProductAdvisedNotificationDTO.cs" />
+    <Compile Include="DTO\SafeBuyerReceiptDTO.cs" />
     <Compile Include="DTO\SmsTransactionPendingUpdateCountDTO.cs" />
     <Compile Include="DTO\SmsTransaction\EditSmsTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\EditBuyerPartyDTO.cs" />

@@ -62,6 +62,7 @@
                                                     <p>Before proceeding with the Safe Buyer product it is neccessary to complete the data marked with <span class="required">Required</span> label using 'Edit' function.</p>
                                                 </div>
                                             }
+                                            <a href="@Url.Action("GetReceipt", "SafeBuyer", new { Area = "Buyer" })?txID=@Model.Dto.SmsTransactionID">Download Receipt</a>
                                         </div>
                                     </div>
                                     <div class="row">
