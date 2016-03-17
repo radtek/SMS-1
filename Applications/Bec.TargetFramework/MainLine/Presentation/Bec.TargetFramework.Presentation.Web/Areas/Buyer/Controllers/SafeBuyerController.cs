@@ -412,5 +412,65 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
             return isTxAddressLine1Provided && isRegisteredHomeAddressLine1Provided && isAnySrcOfFunds;
         }
+
+        public async Task<ActionResult> GetReceipt(Guid txID)
+        {
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var cartPricing = await SmsTransactionLogicClient.EnsureCartAsync(txID, uaoId, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card);
+
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            {
+                x.Address.Line1,
+                x.Address.Line2,
+                x.Address.Town,
+                x.Address.County,
+                x.Address.PostalCode,
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName,
+                x.SmsTransaction.Invoice.InvoiceNumber,
+                x.SmsTransaction.Invoice.StartDate
+            });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txID && x.UserAccountOrganisationID == uaoId);
+            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var uaot = res.FirstOrDefault();
+
+            var dtomap = new DTOMap();
+            dtomap.Add("SafeBuyerReceiptDTO", new SafeBuyerReceiptDTO
+            {
+                BecAddress = new AddressDTO
+                {
+                    Line1 = "114-116 Marlesfield House",
+                    Line2 = "Main Road",
+                    Town = "Sidcup",
+                    County = "Kent",
+                    PostalCode = "DA14 6NG"
+                },
+                CompanyName = "BE Consultancy",
+                CustomerAddress = uaot.Address,
+                CustomerName = string.Join(" ", uaot.Contact.Salutation, uaot.Contact.FirstName, uaot.Contact.LastName),
+                Goods = cartPricing.CartTotalExcludingDiscountsAndTaxAndDeduct,
+                InvoiceDate = uaot.SmsTransaction.Invoice.StartDate.Value,
+                InvoiceNumber = 3,//uaot.SmsTransaction.Invoice.InvoiceNumber.Value,
+                Items = cartPricing.Items.Select(x => new SafeBuyerReceiptItemDTO {
+                    Quantity = 1,
+                    Description = "Safe Buyer",
+                    Goods = x.ProductPrice,
+                    Vat = x.Deductions,
+                    Total = x.PriceInclDiscountsAndDeducts
+                }).ToList(),
+                Total = cartPricing.CartFinalPrice,
+                Vat = cartPricing.Tax,
+                VatNumber = "12345678"
+            });
+
+            var ncSelect = ODataHelper.Select<NotificationConstructDTO>(x => new { x.NotificationConstructID, x.NotificationConstructVersionNumber });
+            var ncFilter = ODataHelper.Filter<NotificationConstructDTO>(x => x.Name == "SafeBuyerReceipt");
+            var ncs = await QueryClient.QueryAsync<NotificationConstructDTO>("NotificationConstructs", ncSelect + ncFilter);
+            var nc = ncs.OrderByDescending(n => n.NotificationConstructVersionNumber).First();
+            var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, dtomap);
+
+            return File(data, "application/pdf", string.Format("BankTransferInstructions.pdf"));
+        }
     }
 }
