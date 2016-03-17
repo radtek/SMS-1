@@ -67,7 +67,7 @@
                     var approveLabel = $('<label for="acceptRadio" class="btn btn-default approve-reject-button margin-left-5"><i class="fa fa-check accept margin-right-5"></i>Use</label>');
                     var approveButton = $('<input type="radio" name="' + anchorElement.data('input-id') + '-radio" id="acceptRadio" class="hidden" />');
 
-                    var rejectLabel = $('<label for="rejectRadio" class="btn btn-default approve-reject-button"><i class="fa fa-times reject margin-right-5"></i>Discard</label>');
+                    var rejectLabel = $('<label for="rejectRadio" class="btn btn-default approve-reject-button margin-left-5"><i class="fa fa-times reject margin-right-5"></i>Discard</label>');
                     var rejectButton = $('<input type="radio" name="' + anchorElement.data('input-id') + '-radio" id="rejectRadio" class="hidden" />');
 
                     var state = $(inputSelector).data('approvereject');
