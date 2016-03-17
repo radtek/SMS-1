@@ -184,8 +184,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ViewNoMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
+        public ActionResult ViewNoMatch(Guid txID, Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
+            ViewBag.txID = txID;
             ViewBag.smsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
             ViewBag.accountNumber = accountNumber;
             ViewBag.sortCode = sortCode;
@@ -193,9 +194,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return PartialView("_NoMatch");
         }
 
-        public ActionResult ViewMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode, string companyName)
+        public ActionResult ViewMatch(Guid txID, string accountNumber, string sortCode, string companyName)
         {
-            ViewBag.smsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
+            ViewBag.txID = txID;
             ViewBag.accountNumber = accountNumber;
             ViewBag.sortCode = sortCode;
             ViewBag.companyName = companyName;
@@ -205,7 +206,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PurchaseProduct(Guid txID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO orderRequest, string accountNumber, string sortCode)
+        public async Task<ActionResult> PurchaseProduct(Guid txID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO orderRequest)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
@@ -213,11 +214,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var purchaseProductResult = await SmsTransactionLogicClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, false, orderRequest);
             if (purchaseProductResult.IsPaymentSuccessful)
             {
-                var model = (await GetUaots(txID)).FirstOrDefault();
-               
-                //check bank account
-                var isMatch = await BankAccountClient.CheckBankAccountAsync(model.SmsTransaction.OrganisationID, currentUserUaoId, model.SmsUserAccountOrganisationTransactionID, accountNumber, sortCode);
-                return Json(new { paymentresult = true, matchresult = isMatch, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
+                TempData["PaymentSuccessful"] = true;
+                return Json(new { paymentresult = true }, JsonRequestBehavior.AllowGet);
             }
             else
             {

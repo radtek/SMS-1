@@ -10,19 +10,10 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("NotifyOrganisationNoMatch", "SafeBuyer", new { area = "Buyer", accountNumber = ViewBag.accountNumber, sortCode = ViewBag.sortCode, smsUserAccountOrganisationTransactionID = ViewBag.smsUserAccountOrganisationTransactionID })" data-index="@ViewBag.index">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-redirectto="@Url.Action("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = ViewBag.txID })">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         <section class="col-xs-12">
-                            @if (Request["paid"] == "true")
-                            {
-                                <fieldset>
-                                    <div class="alert alert-info">
-                                        <h6><i class="fa fa-check-square-o"></i><strong>Payment Successful</strong></h6>
-                                        <p>Your payment was processed successfully</p>
-                                    </div>
-                                </fieldset>
-                            }
                             <fieldset>
                                 <div class="alert alert-success fade in">
                                     <h4><i class="fa fa-check-square-o"></i><strong> Match</strong></h4>
