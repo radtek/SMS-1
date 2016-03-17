@@ -16,7 +16,6 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task CreateAndSaveAudit(WebUserObject wuo, string requestData)
         {
-            var dto = new ContactDTO();
             using (var scope = DbContextScopeFactory.Create())
             {
                 //Generate an audit

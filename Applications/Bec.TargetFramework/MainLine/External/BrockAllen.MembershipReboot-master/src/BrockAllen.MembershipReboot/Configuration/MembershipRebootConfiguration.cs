@@ -76,20 +76,6 @@ namespace BrockAllen.MembershipReboot
             emailValidators.AddRange(items);
         }
         public IValidator<TAccount> EmailValidator { get { return emailValidators; } }
-
-        EventBus eventBus = new EventBus();
-        public IEventBus EventBus { get { return eventBus; } }
-        public void AddEventHandler(params IEventHandler[] handlers)
-        {
-            eventBus.AddRange(handlers);
-        }
-        
-        EventBus validationBus = new EventBus();
-        public IEventBus ValidationBus { get { return validationBus; } }
-        public void AddValidationHandler(params IEventHandler[] handlers)
-        {
-            validationBus.AddRange(handlers);
-        }
         
         public ITwoFactorAuthenticationPolicy TwoFactorAuthenticationPolicy { get; set; }
         public ICrypto Crypto { get; set; }

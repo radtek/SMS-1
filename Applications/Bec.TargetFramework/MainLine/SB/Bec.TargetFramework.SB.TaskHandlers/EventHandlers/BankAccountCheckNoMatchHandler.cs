@@ -24,36 +24,17 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountCheckNoMatch.GetStringValue());
-
-                var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("BankAccountCheckNoMatchNotificationDTO", handlerEvent.BankAccountCheckNoMatchNotificationDto);
-
-                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId, null)
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIdsSync(handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId, null)
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
-                var container = new NotificationContainerDTO(
-                    notificationConstruct,
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                CreateAndPublishContainer(
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.BankAccountCheckNoMatch.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
-                    new NotificationDictionaryDTO
-                    {
-                        NotificationDictionary = dictionary
-                    },
+                    "BankAccountCheckNoMatchNotificationDTO",
+                    handlerEvent.BankAccountCheckNoMatchNotificationDto,
                     ActivityType.SmsTransaction,
-                    handlerEvent.BankAccountCheckNoMatchNotificationDto.TransactionId
-                    );
-
-                var notificationMessage = new NotificationEvent { NotificationContainer = container };
-
-                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
-                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
-
-                Bus.Publish(notificationMessage);
-
-                LogMessageAsCompleted();
+                    handlerEvent.BankAccountCheckNoMatchNotificationDto.TransactionId);
             }
             catch (Exception ex)
             {

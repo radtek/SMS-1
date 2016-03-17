@@ -4,6 +4,10 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.Settings;
+using Bec.TargetFramework.SB.Client.Interfaces;
+using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.Security;
 using EnsureThat;
 using System;
@@ -55,7 +59,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<bool> IsOrganisationInSystem(Guid? orgID, string regulatorNumber)
+        public bool IsOrganisationInSystem(Guid? orgID, string regulatorNumber)
         {
             Ensure.That(regulatorNumber).IsNotNullOrWhiteSpace();
 
@@ -292,7 +296,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<bool> RequiresPersonalDetails(Guid uaoId)
+        public bool RequiresPersonalDetails(Guid uaoId)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -637,6 +641,18 @@ namespace Bec.TargetFramework.Business.Logic
                     setting.Value = safeSendEnabled.ToString();
                 }
                 await scope.SaveChangesAsync();
+            }
+        }
+
+        public bool CanLenderNameBeUsed(string lenderName)
+        {
+            var trimmedLenderName = lenderName != null 
+                ? lenderName.Trim().ToLowerInvariant()
+                : string.Empty;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return !scope.DbContexts.Get<TargetFrameworkEntities>().Lenders
+                    .Any(x => x.Name.ToLower() == trimmedLenderName && x.OrganisationID != null);
             }
         }
     }

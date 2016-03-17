@@ -6,13 +6,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace BrockAllen.MembershipReboot
 {
     public class AggregateValidator<TAccount> : List<IValidator<TAccount>>, IValidator<TAccount>
         where TAccount : UserAccount
     {
-        public ValidationResult Validate(UserAccountService<TAccount> service, TAccount account, string value)
+        public async Task<ValidationResult> ValidateAsync(UserAccountService<TAccount> service, TAccount account, string value)
         {
             if (service == null) throw new ArgumentNullException("service");
             if (account == null) throw new ArgumentNullException("account");
@@ -20,7 +21,7 @@ namespace BrockAllen.MembershipReboot
             var list = new List<ValidationResult>();
             foreach (var item in this)
             {
-                var result = item.Validate(service, account, value);
+                var result = await item.ValidateAsync(service, account, value);
                 if (result != null && result != ValidationResult.Success)
                 {
                     return result;

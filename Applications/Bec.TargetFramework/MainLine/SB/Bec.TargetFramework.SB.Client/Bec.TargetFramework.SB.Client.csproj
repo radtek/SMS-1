@@ -106,7 +106,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\SendNotificationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApiProxy\WebApiProxy.generated.cs" />
   </ItemGroup>

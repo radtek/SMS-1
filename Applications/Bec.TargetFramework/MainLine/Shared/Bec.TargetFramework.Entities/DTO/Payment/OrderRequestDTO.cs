@@ -8,7 +8,6 @@ using System.ComponentModel.DataAnnotations;
 using Bec.TargetFramework.Entities.Helpers;
 using System.Text.RegularExpressions;
 using Bec.TargetFramework.Entities.Enums;
-using Bec.TargetFramework.Entities.Validators;
 
 namespace Bec.TargetFramework.Entities
 {

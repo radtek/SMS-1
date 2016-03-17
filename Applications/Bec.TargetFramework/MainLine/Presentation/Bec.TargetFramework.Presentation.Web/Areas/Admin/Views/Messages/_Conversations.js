@@ -81,7 +81,7 @@
         serverPaging: true,
         pageSize: 10,
         change: selectCurrentOrLatestConversation,
-        schema: { data: "Items", total: "Count" },
+        schema: { data: "Items", total: "Count" }
     });
 
     if (!isActivitySpecificView() && canLoadConversations()) {
@@ -279,7 +279,7 @@
                 },
                 "Message": {
                     required: true
-                },
+                }
             },
 
             // Do not change code below
@@ -395,7 +395,7 @@
                 rules: {
                     "Message": {
                         required: true
-                    },
+                    }
                 },
                 // Do not change code below
                 errorPlacement: function (error, element) {

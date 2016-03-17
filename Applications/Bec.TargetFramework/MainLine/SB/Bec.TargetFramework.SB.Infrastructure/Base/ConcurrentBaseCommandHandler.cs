@@ -38,7 +38,7 @@ namespace Bec.TargetFramework.SB.Handlers.Base
                     {
                         HandleMessage(message);
                     }
-                    catch (System.Exception ex)
+                    catch
                     {
                     	throw;
                     }

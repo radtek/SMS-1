@@ -17,7 +17,6 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
     public class ProductAdvisedHandler : BaseEventHandler<ProductAdvisedEvent>
     {
         public INotificationLogicClient NotificationLogicClient { get; set; }
-        public IOrganisationLogicClient OrganisationLogicClient { get; set; }
         public ISmsTransactionLogicClient SmsTransactionLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
 
@@ -25,35 +24,17 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.ProductAdvised.GetStringValue());
-                var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("ProductAdvisedNotificationDTO", handlerEvent.ProductAdvisedNotificationDTO);
-
-                var recipients = SmsTransactionLogicClient.GetSmsTransactionRelatedPartyUaoIds(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
+                var recipients = SmsTransactionLogicClient.GetSmsTransactionRelatedPartyUaoIdsSync(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
-                var container = new NotificationContainerDTO(
-                    notificationConstruct,
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                CreateAndPublishContainer(
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.ProductAdvised.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
-                    new NotificationDictionaryDTO
-                    {
-                        NotificationDictionary = dictionary
-                    },
+                    "ProductAdvisedNotificationDTO",
+                    handlerEvent.ProductAdvisedNotificationDTO,
                     ActivityType.SmsTransaction,
-                    handlerEvent.ProductAdvisedNotificationDTO.TransactionID
-                    );
-
-                var notificationMessage = new NotificationEvent { NotificationContainer = container };
-
-                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
-                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
-
-                Bus.Publish(notificationMessage);
-
-                LogMessageAsCompleted();
+                    handlerEvent.ProductAdvisedNotificationDTO.TransactionID);
             }
             catch (Exception ex)
             {

@@ -147,6 +147,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
     </Reference>
+    <Reference Include="Stimulsoft.Base, Version=2015.1.8.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Stimulsoft.Base.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stimulsoft.Report, Version=2015.1.8.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Stimulsoft.Report.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Swashbuckle.Core">
       <HintPath>..\..\packages\Swashbuckle.Core.5.0.4\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
@@ -176,8 +186,6 @@
     <Compile Include="BusinessService.Designer.cs">
       <DependentUpon>BusinessService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formatters\JilFormatter.cs" />
-    <Compile Include="Formatters\JsonMediaFormatter.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Program.cs" />

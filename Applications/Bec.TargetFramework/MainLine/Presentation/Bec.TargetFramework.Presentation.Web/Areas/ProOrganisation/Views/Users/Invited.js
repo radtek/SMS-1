@@ -17,7 +17,7 @@ $(function () {
             columns: [
                     {
                         field: "UserID",
-                        hidden: true,
+                        hidden: true
                     },
                     {
                         field: "Contact.LastName",
@@ -55,7 +55,7 @@ $(function () {
             columns: [
                     {
                         field: "UserID",
-                        hidden: true,
+                        hidden: true
                     },
                     {
                         field: "Contact.LastName",

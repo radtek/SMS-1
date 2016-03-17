@@ -43,12 +43,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 {
                     //change password
                     await UserLogicClient.ResetUserPasswordAsync(ua.ID, model.NewPassword, false, model.PIN);
-                    string errorMessage;
-                    if (!LoginController.TryLogin(this, AuthSvc, model.Username, model.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, fileClient, out errorMessage))
-                    {
-                        throw new Exception(string.Format("Authentication failed for the user. {0}", errorMessage));
-                    }
-                    return RedirectToAction("Index", "App", new { area = "" });
+                    var res = await LoginController.TryLoginAsync(this, AuthSvc, model.Username, model.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
+                    if (!res.Success)
+                        throw new Exception(string.Format("Authentication failed for the user. {0}", res.ErrorMessage));
+                    else
+                        return RedirectToAction("Index", "App", new { area = "" });
                 }
                 catch
                 {

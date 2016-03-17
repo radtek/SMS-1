@@ -13,7 +13,7 @@ namespace BrockAllen.MembershipReboot
         where TAccount : UserAccount
     {
         public static readonly IValidator<TAccount> UsernameDoesNotContainAtSign =
-            new DelegateValidator<TAccount>((service, account, value) =>
+            new DelegateValidator<TAccount>(async (service, account, value) =>
             {
                 if (value.Contains("@"))
                 {
@@ -25,7 +25,7 @@ namespace BrockAllen.MembershipReboot
             });
 
         public static readonly IValidator<TAccount> UsernameOnlyContainsLettersAndDigits =
-            new DelegateValidator<TAccount>((service, account, value) =>
+            new DelegateValidator<TAccount>(async (service, account, value) =>
             {
                 if (!value.All(x => Char.IsLetterOrDigit(x)) /*|| value.All(x => Char.IsDigit(x))*/)
                 {
@@ -37,9 +37,9 @@ namespace BrockAllen.MembershipReboot
             });
 
         public static readonly IValidator<TAccount> UsernameMustNotAlreadyExist =
-            new DelegateValidator<TAccount>((service, account, value) =>
+            new DelegateValidator<TAccount>(async (service, account, value) =>
             {
-                if (service.UsernameExists(account.Tenant, value))
+                if (await service.UsernameExistsAsync(account.Tenant, value))
                 {
                     Tracing.Verbose("[UserAccountValidation.EmailMustNotAlreadyExist] validation failed: {0}, {1}, {2}", account.Tenant, account.Username, value);
 
@@ -49,7 +49,7 @@ namespace BrockAllen.MembershipReboot
             });
 
         public static readonly IValidator<TAccount> EmailRequired =
-            new DelegateValidator<TAccount>((service, account, value) =>
+            new DelegateValidator<TAccount>(async (service, account, value) =>
             {
                 if (service.Configuration.RequireAccountVerification &&
                     String.IsNullOrWhiteSpace(value))
@@ -62,7 +62,7 @@ namespace BrockAllen.MembershipReboot
             });
 
         public static readonly IValidator<TAccount> EmailIsValidFormat =
-            new DelegateValidator<TAccount>((service, account, value) =>
+            new DelegateValidator<TAccount>(async (service, account, value) =>
             {
                 if (!String.IsNullOrWhiteSpace(value))
                 {
@@ -78,7 +78,7 @@ namespace BrockAllen.MembershipReboot
             });
 
         public static readonly IValidator<TAccount> EmailIsRequiredIfRequireAccountVerificationEnabled =
-            new DelegateValidator<TAccount>((service, account, value) =>
+            new DelegateValidator<TAccount>(async (service, account, value) =>
             {
                 if (service.Configuration.RequireAccountVerification && String.IsNullOrWhiteSpace(value))
                 {
@@ -88,9 +88,9 @@ namespace BrockAllen.MembershipReboot
             });
 
         public static readonly IValidator<TAccount> EmailMustNotAlreadyExist =
-            new DelegateValidator<TAccount>((service, account, value) =>
+            new DelegateValidator<TAccount>(async (service, account, value) =>
             {
-                if (!String.IsNullOrWhiteSpace(value) && service.EmailExistsOtherThan(account, value))
+                if (!String.IsNullOrWhiteSpace(value) && await service.EmailExistsOtherThanAsync(account, value))
                 {
                     Tracing.Verbose("[UserAccountValidation.EmailMustNotAlreadyExist] validation failed: {0}, {1}, {2}", account.Tenant, account.Username, value);
 
@@ -100,7 +100,7 @@ namespace BrockAllen.MembershipReboot
             });
 
         public static readonly IValidator<TAccount> PasswordMustBeDifferentThanCurrent =
-            new DelegateValidator<TAccount>((service, account, value) =>
+            new DelegateValidator<TAccount>(async (service, account, value) =>
         {
             // Use LastLogin null-check to see if it's a new account
             // we don't want to run this logic if it's a new account

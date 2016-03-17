@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
@@ -76,72 +77,58 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                string errorMessage;
-                if (TryLogin(this, AuthSvc, model.LoginDTO.Email, model.LoginDTO.Password, UserLogicClient, NotificationLogicClient, orgClient, fileClient, out errorMessage))
+                var res = await TryLoginAsync(this, AuthSvc, model.LoginDTO.Email, model.LoginDTO.Password, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
+                if (res.Success)
                 {
                     // the final landing page is decided inside the Home controller
                     return RedirectToAction("Index", "App", new { area = "" });
                 }
                 else
                 {
-                    if (string.IsNullOrWhiteSpace(errorMessage))
-                    {
-                        errorMessage = "Invalid Email or Password";
-                    }
-
-                    ModelState.AddModelError("", errorMessage);
+                    if (string.IsNullOrWhiteSpace(res.ErrorMessage)) res.ErrorMessage = "Invalid Email or Password";
+                    ModelState.AddModelError("", res.ErrorMessage);
                 }
             }
 
             return View(model);
         }
 
-        internal static bool TryLogin(Controller controller, AuthenticationService asvc, string username, string password, IUserLogicClient ulc,
-            INotificationLogicClient nlc, IOrganisationLogicClient olc, IFileLogicClient fileLogic, out string errorMessage)
+        internal static async Task<LoginResult> TryLoginAsync(Controller controller, AuthenticationService asvc, string username, string password, IUserLogicClient ulc,
+            INotificationLogicClient nlc, IOrganisationLogicClient olc, IFileLogicClient fileLogic)
         {
-            errorMessage = string.Empty;
-            var loginValidationResult = ulc.AuthenticateUser(username.Trim(), EncodingHelper.Base64Encode(password.Trim()));
+            var loginValidationResult = await ulc.AuthenticateUserAsync(username.Trim(), EncodingHelper.Base64Encode(password.Trim()));
             if (!loginValidationResult.valid)
-            {
-                errorMessage = loginValidationResult.validationMessage;
-                return false;
-            }
+                return new LoginResult { Success = false, ErrorMessage = loginValidationResult.validationMessage };
+            
             var ua = new BrockAllen.MembershipReboot.UserAccount();
             ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
 
-            var orgs = ulc.GetUserAccountOrganisationWithUserTypeAndOrgType(ua.ID);
+            var orgs = await ulc.GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(ua.ID);
             //take the first org for now, in time we may allow user to switch between associated orgs.
             var org = orgs.First();
 
             var orgID = org.OrganisationID;
             var uaoID = org.UserAccountOrganisationID;
             if (orgID == null)
-            {
                 throw new Exception("User not associated with any organisation");
-            }
 
-            var o = olc.GetOrganisationDTO(orgID);
+            var o = await olc.GetOrganisationDTOAsync(orgID);
             if (!o.IsActive)
-            {
-                return false;
-            }
-
-            string orgName = olc.GetOrganisationDTO(orgID).Name;
-            string orgTypeName = olc.GetOrganisationDTO(orgID).TypeName;
-
-            var additionalClaims = ulc.GetUserClaims(ua.ID, orgID)
+                return new LoginResult { Success = false, ErrorMessage = "Login not allowed" };
+            
+            var additionalClaims = (await ulc.GetUserClaimsAsync(ua.ID, orgID))
                 .Select(uc => new Claim(uc.Type, uc.Value))
                 .ToList();
 
             asvc.SignIn(ua, false, additionalClaims);
-            bool needsTc = (nlc.GetUnreadNotifications(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
+            bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
             bool needsPersonalDetails = org.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue(); // require personal details from all admins initially, personal details are checked at the next stage
 
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, orgTypeName, needsTc, needsPersonalDetails);
-            ulc.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
-            fileLogic.ClearUnusedFiles(uaoID);
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, o.Name, o.TypeName, needsTc, needsPersonalDetails);
+            await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
+            await fileLogic.ClearUnusedFilesAsync(uaoID);
 
-            return true;
+            return new LoginResult { Success = true };
         }
 
         [HttpPost]
@@ -210,15 +197,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             LoginController.logout(this, AuthSvc);
 
-            string errorMessage;
-            if (!TryLogin(this, AuthSvc, model.CreatePermanentLoginModel.RegistrationEmail, model.CreatePermanentLoginModel.NewPassword,
-                UserLogicClient, NotificationLogicClient, orgClient, fileClient, out errorMessage))
+            var res = await TryLoginAsync(this, AuthSvc, model.CreatePermanentLoginModel.RegistrationEmail, model.CreatePermanentLoginModel.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, fileClient);
+            if (!res.Success)
+                throw new Exception(string.Format("Authentication failed for the user. {0}", res.ErrorMessage));
+            else
             {
-                throw new Exception(string.Format("Authentication failed for the user. {0}", errorMessage));
+                TempData["JustRegistered"] = true;
+                return RedirectToAction("Index", "App", new { area = "" });
             }
-
-            TempData["JustRegistered"] = true;
-            return RedirectToAction("Index", "App", new { area = "" });
         }
 
         private bool IsPinValid(UserAccountOrganisationDTO uaoDto, string pin)

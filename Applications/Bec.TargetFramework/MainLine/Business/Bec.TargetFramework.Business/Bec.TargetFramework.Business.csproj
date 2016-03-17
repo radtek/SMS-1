@@ -133,19 +133,9 @@
     <Compile Include="Logic\OrganisationLogicController.cs" />
     <Compile Include="Logic\AddressLogicController.cs" />
     <Compile Include="Logic\UserLogicController.cs" />
-    <Compile Include="Product\Interfaces\ICartPricingStep.cs" />
-    <Compile Include="Product\Interfaces\IProductPricingStep.cs" />
     <Compile Include="Product\Helpers\PricingHelper.cs" />
     <Compile Include="Product\Processor\CartPricingProcessor.cs" />
     <Compile Include="Product\Processor\ProductPricingProcessor.cs" />
-    <Compile Include="Product\Steps\CartDeductionPricingStep.cs" />
-    <Compile Include="Product\Steps\CartDiscountPricingStep.cs" />
-    <Compile Include="Product\Steps\CartPricingStep.cs" />
-    <Compile Include="Product\Steps\ProductAttributePricingStep.cs" />
-    <Compile Include="Product\Steps\ProductDeductionPricingStep.cs" />
-    <Compile Include="Product\Steps\ProductDiscountPricingStep.cs" />
-    <Compile Include="Product\Steps\ProductPricingStep.cs" />
-    <Compile Include="Product\Steps\ProductSpecPricingStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

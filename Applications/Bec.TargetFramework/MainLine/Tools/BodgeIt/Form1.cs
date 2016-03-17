@@ -61,6 +61,7 @@ namespace BodgeIt
         }
 
         private async Task<HttpResponseMessage> SendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
+            where T: class
         {
             var req = new HttpRequestMessage
             {
@@ -84,6 +85,7 @@ namespace BodgeIt
             }
 
         private async Task<JObject> joSendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
+            where T : class
         {
             var r = await SendAsync(client, requestUri, method, user, value);
             var s = await r.Content.ReadAsStringAsync();
@@ -274,64 +276,66 @@ namespace BodgeIt
             var prod = await joSendAsync<object>(client, "api/ProductLogic/GetBankAccountCheckProduct", HttpMethod.Get, "user", null);
             int counter = 0, counter0=0, max = 50;
 
-            SemaphoreSlim _syncLock = new SemaphoreSlim(1);
-
-            Parallel.For(0, max, async i =>
+            using (SemaphoreSlim _syncLock = new SemaphoreSlim(1))
             {
-                Guid transID;
-                var r1 = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddSmsClient?orgID={0}&uaoID={1}&salutation={2}&firstName={3}&lastName={4}&email={5}&birthDate={6}", orgID, uaoID, sal, string.Format(fn, i), string.Format(ln, i), string.Format(em, i), bd.ToString("O")), HttpMethod.Post, "user", null);
-                var userUaoID = await r1.Content.ReadAsAsync<Guid>();
-                SmsTransactionDTO trans = new SmsTransactionDTO
+
+                Parallel.For(0, max, async i =>
                 {
-                    Reference = "Ref",
-                    Address = new AddressDTO
+                    Guid transID;
+                    var r1 = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddSmsClient?orgID={0}&uaoID={1}&salutation={2}&firstName={3}&lastName={4}&email={5}&birthDate={6}", orgID, uaoID, sal, string.Format(fn, i), string.Format(ln, i), string.Format(em, i), bd.ToString("O")), HttpMethod.Post, "user", null);
+                    var userUaoID = await r1.Content.ReadAsAsync<Guid>();
+                    SmsTransactionDTO trans = new SmsTransactionDTO
                     {
-                        Line1 = "Line 1",
-                        Line2 = "Line 2",
-                        Town = "Town",
-                        County = "County",
-                        PostalCode = "PO5T COD3"
+                        Reference = "Ref",
+                        Address = new AddressDTO
+                        {
+                            Line1 = "Line 1",
+                            Line2 = "Line 2",
+                            Town = "Town",
+                            County = "County",
+                            PostalCode = "PO5T COD3"
+                        }
+                    };
+
+                    Interlocked.Increment(ref counter0);
+                    Invoke((MethodInvoker)delegate
+                    {
+                        label16.Text = counter0.ToString();
+                    });
+
+                    await _syncLock.WaitAsync();
+                    try
+                    {
+                        var r2 = await SendAsync<object>(client, string.Format("api/OrganisationLogic/PurchaseProduct?orgID={0}&uaoID={1}&buyerUaoID={2}&productID={3}&productVersion={4}", orgID, uaoID, userUaoID, prod["ProductID"], prod["ProductVersionID"]), HttpMethod.Post, "user", trans);
+                        transID = await r2.Content.ReadAsAsync<Guid>();
                     }
-                };
+                    finally
+                    {
+                        _syncLock.Release();
+                    }
+                    var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
+                    {
+                        UaoID = userUaoID,
+                        TransactionID = transID,
+                        AssigningByOrganisationID = orgID,
+                        UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
+                    };
 
-                Interlocked.Increment(ref counter0);
-                Invoke((MethodInvoker)delegate
-                {
-                    label16.Text = counter0.ToString();
+                    await SendAsync(client, "api/OrganisationLogic/AssignSmsClientToTransaction", HttpMethod.Post, "user", assignSmsClientToTransactionDto);
+
+                    //register becky
+                    Guid beckyOrgID;
+                    getUser(userUaoID, out beckyOrgID, conIndex);
+
+                    await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?orgID={0}&tempUaoId={1}&username=BeckyTest{2}&password={3}", beckyOrgID, userUaoID, i, "Testing123£"), HttpMethod.Post, "user", null);
+
+                    Interlocked.Increment(ref counter);
+                    Invoke((MethodInvoker)delegate
+                    {
+                        label17.Text = counter.ToString();
+                    });
                 });
-
-                await _syncLock.WaitAsync();
-                try
-                {
-                    var r2 = await SendAsync<object>(client, string.Format("api/OrganisationLogic/PurchaseProduct?orgID={0}&uaoID={1}&buyerUaoID={2}&productID={3}&productVersion={4}", orgID, uaoID, userUaoID, prod["ProductID"], prod["ProductVersionID"]), HttpMethod.Post, "user", trans);
-                    transID = await r2.Content.ReadAsAsync<Guid>();
-                }
-                finally
-                {
-                    _syncLock.Release();
-                }
-                var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
-                {
-                    UaoID = userUaoID,
-                    TransactionID = transID,
-                    AssigningByOrganisationID = orgID,
-                    UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
-                };
-
-                await SendAsync(client, "api/OrganisationLogic/AssignSmsClientToTransaction", HttpMethod.Post, "user", assignSmsClientToTransactionDto);
-
-                //register becky
-                Guid beckyOrgID;
-                getUser(userUaoID, out beckyOrgID, conIndex);
-
-                await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?orgID={0}&tempUaoId={1}&username=BeckyTest{2}&password={3}", beckyOrgID, userUaoID, i, "Testing123£"), HttpMethod.Post, "user", null);
-
-                Interlocked.Increment(ref counter);
-                Invoke((MethodInvoker)delegate
-                {
-                    label17.Text = counter.ToString();
-                });
-            });
+            }
         }
 
         private async Task<Tuple<Guid, Guid>> createConveyancingOrg(string username, int conIndex)

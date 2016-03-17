@@ -33,9 +33,9 @@ namespace BrockAllen.MembershipReboot
         protected abstract void IssueToken(ClaimsPrincipal principal, TimeSpan? tokenLifetime = null, bool? persistentCookie = null);
         protected abstract void RevokeToken();
 
-        public virtual void SignIn(Guid userID, bool persistent = false,List<Claim> additionalClaims = null)
+        public virtual async Task SignInAsync(Guid userID, bool persistent = false,List<Claim> additionalClaims = null)
         {
-            var account = this.UserAccountService.GetByID(userID);
+            var account = await this.UserAccountService.GetByIDAsync(userID);
             if (account == null) throw new ArgumentException("Invalid userID");
 
             SignIn(account, AuthenticationMethods.Password, persistent, additionalClaims);
@@ -146,10 +146,10 @@ namespace BrockAllen.MembershipReboot
                     string providerAccountID,
                     IEnumerable<Claim> externalClaims)
         {
-            return await SignInWithLinkedAccount(null, providerName, providerAccountID, externalClaims);
+            return await SignInWithLinkedAccountAsync(null, providerName, providerAccountID, externalClaims);
         }
 
-        public async Task<TAccount> SignInWithLinkedAccount(
+        public async Task<TAccount> SignInWithLinkedAccountAsync(
             string tenant,
             string providerName,
             string providerAccountID,
@@ -171,12 +171,12 @@ namespace BrockAllen.MembershipReboot
             if (user.Identity.IsAuthenticated)
             {
                 // already logged in, so use the current user's account
-                account = this.UserAccountService.GetByID(user.GetUserID());
+                account = await this.UserAccountService.GetByIDAsync(user.GetUserID());
             }
             else
             {
                 // see if there's already an account mapped to this provider
-                account = this.UserAccountService.GetByLinkedAccount(tenant, providerName, providerAccountID);
+                account = await this.UserAccountService.GetByLinkedAccountAsync(tenant, providerName, providerAccountID);
                 if (account == null)
                 {
                     // no account associated, so create one
@@ -189,8 +189,7 @@ namespace BrockAllen.MembershipReboot
 
                     // guess at a name to use
                     var name = claims.GetValue(ClaimTypes.Name);
-                    if (name == null ||
-                        this.UserAccountService.UsernameExists(tenant, name))
+                    if (name == null || await this.UserAccountService.UsernameExistsAsync(tenant, name))
                     {
                         name = email;
                     }
@@ -200,7 +199,7 @@ namespace BrockAllen.MembershipReboot
                     }
 
                     // check to see if email already exists
-                    if (this.UserAccountService.EmailExists(tenant, email))
+                    if (await this.UserAccountService.EmailExistsAsync(tenant, email))
                     {
                         throw new ValidationException(Resources.ValidationMessages.LoginFailEmailAlreadyAssociated);
                     }

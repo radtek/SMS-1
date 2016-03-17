@@ -1,5 +1,4 @@
-﻿using Bec.TargetFramework.Data.Infrastructure;
-using Bec.TargetFramework.SB.Data;
+﻿using Bec.TargetFramework.SB.Data;
 using Bec.TargetFramework.SB.Entities;
 using EnsureThat;
 using Mehdime.Entity;
@@ -15,15 +14,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Helpers
     {
         public static int GetClassificationDataForTypeName(IDbContextReadOnlyScope scope, string categoryName, string typeName)
         {
-            int classificationTypeID = 0;
-
-            List<ClassificationTypeDTO> list = new List<ClassificationTypeDTO>();
-
-            var categoryId = scope.DbContexts.Get<TargetFrameworkCoreEntities>().ClassificationTypeCategories.Single(s => s.Name.Equals(categoryName));
-
-            classificationTypeID = scope.DbContexts.Get<TargetFrameworkCoreEntities>().ClassificationTypes.Single(s => s.Name.Equals(typeName)).ClassificationTypeID;
-
-            return classificationTypeID;
+            return scope.DbContexts.Get<TargetFrameworkCoreEntities>().ClassificationTypes.Single(s => s.Name.Equals(typeName)).ClassificationTypeID;
         }
 
         public static VStatusType GetStatusType(IDbContextReadOnlyScope scope, string statusTypeEnum, string status)
@@ -33,7 +24,6 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Helpers
             Ensure.That(statusTypeEnum).IsNotNullOrEmpty();
 
             return scope.DbContexts.Get<TargetFrameworkCoreEntities>().VStatusTypes.Single(s => s.Name.Equals(status) && s.StatusTypeName.Equals(statusTypeEnum));
-
         }
     }
 }

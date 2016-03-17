@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business
 {
-    public class LogicHelper
+    public static class LogicHelper
     {
         public static VStatusType GetStatusType(IDbContextReadOnlyScope scope, string statusTypeEnum, string status)
         {

@@ -405,14 +405,11 @@ namespace Bec.TargetFramework.Business.Logic
 
         public byte[] RetrieveNotificationConstructData(Guid notificationConstructID, int versionNumber, DTOMap data)
         {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
                 NotificationDictionaryDTO dict = null;
                 if (data != null) dict = data.ToNotificationDictionaryDTO();
                 var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
                 return StandaloneReportGenerator.GenerateReport(construct, dict, NotificationExportFormatIDEnum.PDF);
             }
-        }
 
         public async Task MarkAcceptedAsync(Guid notificationID, Guid userID)
         {
@@ -648,9 +645,11 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<VSafeSendRecipientDTO> GetActivityRecipients(Guid senderUaoID, ActivityType activityTypeID, Guid activityID)
         {
-            var safeSendName = OrganisationSettingName.SafeSendEnabled.ToString();
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
+                switch (activityTypeID)
+                {
+                    case ActivityType.SmsTransaction:
                 var org = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).Organisation;
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsSafeSendGroup || x.RelatedID != senderUaoID));
                 
@@ -662,17 +661,14 @@ namespace Bec.TargetFramework.Business.Logic
                     case "Lender":
                         ret = ret.Where(x => x.OrganisationTypeName != "Personal" && x.OrganisationTypeName != "Lender");
                         break;
-                    case "Professional":
-                        var purchased = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Any(x => x.SmsTransactionID == activityID && x.InvoiceID != null);                        
-                        var setting = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationSettings.Where(x => x.OrganisationID == org.OrganisationID && x.Name == safeSendName).FirstOrDefault();
-                        var enabled = setting != null && bool.Parse(setting.Value) == true;
-                        if (!enabled || !purchased) ret = ret.Where(x => x.OrganisationTypeName != "Personal");
-                        break;
                 }
                 ret = ret.OrderBy(x => x.IsSafeSendGroup).ThenByDescending(x => x.OrganisationName).ThenBy(x => x.LastName);
                 var ret2 = ret.ToDtos();
                 foreach (var item in ret2) item.Hash = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(item.OrganisationID.ToString() + item.RelatedID.ToString())).Select(c => c.ToString("x2")));
                 return ret2;
+                    default:
+                        throw new Exception("Invalid activity type");
+                }
             }
         }
 

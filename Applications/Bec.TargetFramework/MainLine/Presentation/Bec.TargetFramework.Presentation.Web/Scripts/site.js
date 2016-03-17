@@ -262,7 +262,7 @@ var gridItem = function (options) {
                     read: getGridDataFromUrl(this.options)
                 },
                 schema: this.options.schema,
-                sort: loadGridSort(this.options) || this.options.defaultSort,
+                sort: loadGridSort(this.options) || this.options.defaultSort
             },
             height: 300,
             selectable: "row",

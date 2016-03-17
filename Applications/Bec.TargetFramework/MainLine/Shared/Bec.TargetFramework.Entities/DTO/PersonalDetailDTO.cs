@@ -4,8 +4,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Entities.Validators;
-using FluentValidation;
 
 namespace Bec.TargetFramework.Entities
 {

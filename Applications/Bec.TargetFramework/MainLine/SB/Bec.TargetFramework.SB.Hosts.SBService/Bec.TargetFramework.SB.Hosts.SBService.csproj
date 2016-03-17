@@ -258,7 +258,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Formatters\JilFormatter.cs" />
     <Compile Include="Handlers\BusEventHandler.cs" />
     <Compile Include="Helpers\LogicHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
@@ -311,10 +310,6 @@
     <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Client\Bec.TargetFramework.Business.Client.csproj">
       <Project>{cf410eab-4608-4239-bff9-9a729da9fbb5}</Project>
       <Name>Bec.TargetFramework.Business.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
-      <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
-      <Name>Bec.TargetFramework.Data.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\External\Mehdime.Entity\Mehdime.Entity.csproj">
       <Project>{4830bafd-4163-473e-b00f-65f274ac165f}</Project>
@@ -382,7 +377,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Formatters\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

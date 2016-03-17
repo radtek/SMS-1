@@ -4,13 +4,14 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace BrockAllen.MembershipReboot
 {
     public interface IValidator<TAccount>
         where TAccount : UserAccount
     {
-        ValidationResult Validate(UserAccountService<TAccount> service, TAccount account, string value);
+        Task<ValidationResult> ValidateAsync(UserAccountService<TAccount> service, TAccount account, string value);
     }
 }
     

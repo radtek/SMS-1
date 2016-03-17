@@ -23,30 +23,12 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.NewInternalMessages.GetStringValue());
-
-                var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("NewInternalMessagesNotificationDTO", handlerEvent.NewInternalMessagesNotificationDTO);
-
-                var container = new NotificationContainerDTO(
-                    notificationConstruct,
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                CreateAndPublishContainer(
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.NewInternalMessages.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     handlerEvent.NewInternalMessagesNotificationDTO.NotificationRecipientDtos,
-                    new NotificationDictionaryDTO
-                    {
-                        NotificationDictionary = dictionary
-                    });
-
-                var notificationMessage = new NotificationEvent { NotificationContainer = container };
-
-                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
-                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
-
-                Bus.Publish(notificationMessage);
-
-                LogMessageAsCompleted();
+                    "NewInternalMessagesNotificationDTO",
+                    handlerEvent.NewInternalMessagesNotificationDTO);
             }
             catch (Exception ex)
             {

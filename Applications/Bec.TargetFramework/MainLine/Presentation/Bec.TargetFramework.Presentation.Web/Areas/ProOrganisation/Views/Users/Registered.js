@@ -59,7 +59,7 @@ function makeOneGrid(suffix) {
             columns: [
                 {
                     field: "UserID",
-                    hidden: true,
+                    hidden: true
                 },
                 {
                     field: "Contact.LastName",

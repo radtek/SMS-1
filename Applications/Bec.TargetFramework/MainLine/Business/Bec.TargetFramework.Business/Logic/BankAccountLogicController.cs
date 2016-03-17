@@ -5,7 +5,6 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.DTO.Notification;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
@@ -25,7 +24,7 @@ namespace Bec.TargetFramework.Business.Logic
         public UserLogicController UserLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
 
-        public async Task<bool> HasOrganisationAnySafeBankAccount(Guid organisationID)
+        public bool HasOrganisationAnySafeBankAccount(Guid organisationID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -219,16 +218,13 @@ namespace Bec.TargetFramework.Business.Logic
             switch (currentStatus)
             {
                 case BankAccountStatusEnum.Safe:
-                    if (change.BankAccountStatus == BankAccountStatusEnum.FraudSuspicion ||
-                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;
-                    break;
+                    return change.BankAccountStatus == BankAccountStatusEnum.FraudSuspicion || change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud;
                 case BankAccountStatusEnum.FraudSuspicion:
                 case BankAccountStatusEnum.PendingValidation:
-                    if (change.BankAccountStatus == BankAccountStatusEnum.Safe ||
-                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;
-                    break;
+                    return change.BankAccountStatus == BankAccountStatusEnum.Safe || change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud;
+                default: 
+                    return false;
             }
-            return false;
         }
 
         private async Task AdditionalOperationForStatusChange(VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
@@ -246,6 +242,8 @@ namespace Bec.TargetFramework.Business.Logic
                 case BankAccountStatusEnum.PotentialFraud:
                     await PublishBankAccountStateChangeNotification<BankAccountMarkedAsPotentialFraudNotificationDTO>(NotificationConstructEnum.BankAccountMarkedAsPotentialFraud.GetStringValue(), bankAccount, bankAccountStatusChangeRequest);
                     break;
+                default: 
+                    throw new Exception("Invalid Status");
             }
         }
 
@@ -255,7 +253,7 @@ namespace Bec.TargetFramework.Business.Logic
             where TNotification : BankAccountStateChangeNotificationDTO, new()
         {
             var financeAdministratorRoleName = OrganisationRoleName.FinanceAdministrator.GetStringValue();
-            var roles = await UserLogic.GetRoles(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID, 1);
+            var roles = UserLogic.GetRoles(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID, 1);
             var isFinanceAdmin = roles.Any(r => r.OrganisationRole.RoleName == financeAdministratorRoleName);
             string markedBy;
             if (isFinanceAdmin)

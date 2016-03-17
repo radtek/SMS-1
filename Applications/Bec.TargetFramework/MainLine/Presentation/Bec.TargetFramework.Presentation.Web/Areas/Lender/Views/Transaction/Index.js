@@ -30,7 +30,7 @@ $(function () {
         columns: [
             {
                 field: "SmsTransactionID",
-                hidden: true,
+                hidden: true
             },
             {
                 field: "",
@@ -170,7 +170,7 @@ $(function () {
         var data = _.map(orderedParties, function (uaot) {
             return _.extend({}, uaot, {
                 fullName: uaot.Contact.Salutation + " " + uaot.Contact.FirstName + " " + uaot.Contact.LastName,
-                formattedBirthDate: dateStringNoTime(uaot.Contact.BirthDate),
+                formattedBirthDate: dateStringNoTime(uaot.Contact.BirthDate)
             });
         });
 

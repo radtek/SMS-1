@@ -50,7 +50,6 @@
     <Compile Include="AccountService\DebuggerEventHandler.cs" />
     <Compile Include="AccountService\IPartialUserLogicController.cs" />
     <Compile Include="AccountService\PasswordResetQuestionAnswer.cs" />
-    <Compile Include="AccountService\UserAccountValidator.cs" />
     <Compile Include="Account\LinkedAccountClaim.cs" />
     <Compile Include="Account\TwoFactorAuthToken.cs" />
     <Compile Include="Account\PasswordResetSecret.cs" />

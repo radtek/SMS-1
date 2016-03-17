@@ -17,7 +17,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public PartialViewResult LatestConversations()
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var model = NotificationLogicClient.GetLatestUnreadConversations(uaoId, 20);
+            var model = NotificationLogicClient.GetLatestUnreadConversationsSync(uaoId, 20);
 
             return PartialView("_LatestConversations", model);
         }
@@ -25,7 +25,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public int GetLatestConversationsCount()
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            return NotificationLogicClient.GetUnreadConversationsCount(uaoId);
+            return NotificationLogicClient.GetUnreadConversationsCountSync(uaoId);
         }
     }
 }

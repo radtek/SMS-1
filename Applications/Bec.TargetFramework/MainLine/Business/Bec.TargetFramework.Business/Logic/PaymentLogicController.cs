@@ -178,14 +178,11 @@ namespace Bec.TargetFramework.Business.Logic
                     // if processing exception
                     if (e.Message.ToString() == "ProcessingException")
                     {
-                        //IPGApiOrderResponse orderResponse = new IPGApiOrderResponse();
                         string xml = (((System.Web.Services.Protocols.SoapException)(e)).Detail).InnerXml;
-
-                        IPGApiOrderResponse orderResponse = null;
 
                         XmlSerializer serializer = new XmlSerializer(typeof(IPGApiOrderResponse), "http://ipg-online.com/ipgapi/schemas/ipgapi");
 
-                        orderResponse = (IPGApiOrderResponse)serializer.Deserialize(new StringReader(xml));
+                        IPGApiOrderResponse orderResponse = (IPGApiOrderResponse)serializer.Deserialize(new StringReader(xml));
 
                         Ensure.That(orderResponse).IsNotNull();
 

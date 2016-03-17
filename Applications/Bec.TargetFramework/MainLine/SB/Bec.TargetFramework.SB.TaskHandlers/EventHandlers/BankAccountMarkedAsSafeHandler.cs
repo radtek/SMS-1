@@ -24,36 +24,17 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountMarkedAsSafe.GetStringValue());
-
-                var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("BankAccountMarkedAsSafeNotificationDTO", handlerEvent.BankAccountMarkedAsSafeNotificationDto);
-
-                var recipients =  NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationId, null)
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIdsSync(handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationId, null)
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
-                var container = new NotificationContainerDTO(
-                    notificationConstruct,
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                CreateAndPublishContainer(
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.BankAccountMarkedAsSafe.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
-                    new NotificationDictionaryDTO
-                    {
-                        NotificationDictionary = dictionary
-                    },
+                    "BankAccountMarkedAsSafeNotificationDTO",
+                    handlerEvent.BankAccountMarkedAsSafeNotificationDto,
                     ActivityType.BankAccount,
-                    handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationBankAccountID
-                    );
-
-                var notificationMessage = new NotificationEvent { NotificationContainer = container };
-
-                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
-                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
-
-                Bus.Publish(notificationMessage);
-
-                LogMessageAsCompleted();
+                    handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationBankAccountID);
             }
             catch (Exception ex)
             {

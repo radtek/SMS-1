@@ -341,7 +341,7 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         throw new InvalidOperationException("The email cannot be empty.");
                     }
-                    if (!await UserLogic.CanEmailBeUsedAsProfessional(editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email, editBuyerPartyDto.UaoID))
+                    if (!UserLogic.CanEmailBeUsedAsProfessional(editBuyerPartyDto.Dto.UserAccountOrganisation.UserAccount.Email, editBuyerPartyDto.UaoID))
                     {
                         throw new InvalidOperationException("The email cannot be changed.");
                     }

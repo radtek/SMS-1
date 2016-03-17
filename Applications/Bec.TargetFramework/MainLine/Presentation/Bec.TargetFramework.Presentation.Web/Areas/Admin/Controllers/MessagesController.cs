@@ -99,7 +99,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
             var data = await NotificationClient.GetMessagesAsync(conversationId, uaoId, page, pageSize);
-            NotificationClient.MarkAsRead(uaoId, conversationId);
+            await NotificationClient.MarkAsReadAsync(uaoId, conversationId);
 
             foreach (var item in data)
             {
@@ -184,7 +184,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             try
             {
-                var orgID = HttpContext.GetWebUserObject().OrganisationID;
                 var uaoID = HttpContext.GetWebUserObject().UaoID;
                 await NotificationClient.CreateConversationAsync(addConversationDto.FromHash, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, false, addConversationDto.RecipientHashes.ToArray());
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
@@ -307,7 +306,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             var filterTxUaot = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == activityId && x.UserAccountOrganisationID == uaoId);
                             var resultTxUaot = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", selectTxUaot + filterTxUaot);
                             var txUaot = resultTxUaot.FirstOrDefault();
-                            if (!CanAccessSmsTransactionConversation(tx, isSystemMessage, reply)) return false;
                             return txUaot != null && ClaimsAuthorization.CheckAccess("View", "MyTransactions");
                         case OrganisationTypeEnum.Professional:
                             return tx.OrganisationID == orgId && ClaimsAuthorization.CheckAccess("View", "SmsTransaction");
@@ -330,18 +328,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             }
 
             return false;
-        }
-
-        private bool CanAccessSmsTransactionConversation(SmsTransactionDTO tx, bool isSystemMessage, bool reply)
-        {
-            if (reply)
-            {
-                return tx.InvoiceID.HasValue;
-            }
-            else
-            {
-                return tx.InvoiceID.HasValue || isSystemMessage;
-            }
         }
 
         public async Task<string> UploadFile(Guid id, HttpPostedFileBase file)
@@ -390,15 +376,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<object> DownloadFile(Guid fileID, Guid parentID)
         {
-            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-
             var select = ODataHelper.Select<NotificationDTO>(x => new { x.ConversationID });
             var filter = ODataHelper.Filter<NotificationDTO>(x => x.NotificationID == parentID);
             var message = (await QueryClient.QueryAsync<NotificationDTO>("Notifications", select + filter)).FirstOrDefault();
 
             if (!await CanAccessConversation(message.ConversationID.Value)) return NotAuthorised();
             var file = await FileClient.DownloadFileAsync(fileID, parentID);
-            var ext = System.IO.Path.GetExtension(file.Name);
             return File(file.Data, file.Type, file.Name);
         }
 

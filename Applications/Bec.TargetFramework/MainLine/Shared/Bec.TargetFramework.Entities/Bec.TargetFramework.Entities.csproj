@@ -2004,21 +2004,12 @@
     <Compile Include="Settings\ExperianIDCheckSettings.cs" />
     <Compile Include="Settings\PaymentSettings.cs" />
     <Compile Include="Enums\PaymentTransactionType.cs" />
-    <Compile Include="Validators\BaseValidator.cs" />
     <Compile Include="WebUserHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\FluentValidation\FluentValidation.Mvc5\FluentValidation.Mvc5.csproj">
-      <Project>{23e384ef-5a39-4d73-a8d5-ef48c71c128f}</Project>
-      <Name>FluentValidation.Mvc5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\FluentValidation\FluentValidation\FluentValidation.csproj">
-      <Project>{dae0249b-4f69-4ac9-9a17-aa23e0795316}</Project>
-      <Name>FluentValidation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
       <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>

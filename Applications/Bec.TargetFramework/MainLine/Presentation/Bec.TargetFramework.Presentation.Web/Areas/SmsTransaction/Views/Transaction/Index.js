@@ -30,7 +30,7 @@
         columns: [
             {
                 field: "SmsTransactionID",
-                hidden: true,
+                hidden: true
             },
             {
                 field: "UserAccountOrganisation.UserAccount.Email",

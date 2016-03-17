@@ -35,7 +35,7 @@
         // Do not change code below
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());
-        },
+        }
     });
    
     makeDatePicker("#birthDateInput", {

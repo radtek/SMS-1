@@ -260,7 +260,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         private async Task<IEnumerable<Tuple<int, bool, bool, Guid, string>>> GetRolesForEdit(Guid orgID, Guid uaoID, bool userIsSRO)
         {
             var allRoles = await GetAllRoles(orgID);
-            var userRoles = userClient.GetRoles(uaoID, 0);
+            var userRoles = await userClient.GetRolesAsync(uaoID, 0);
 
             var result = new List<Tuple<int, bool, bool, Guid, string>>();
             for (int i = 0; i < allRoles.Count; i++)
@@ -317,7 +317,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         private async Task<IEnumerable<SafeSendGroupEditEntry>> GetSafeSendGroupsForEdit(Guid orgID, Guid uaoID)
         {
             var allSafeSendGroups = await GetAllSafeSendGroups(orgID);
-            var userSafeSendGroups = userClient.GetSafeSendGroups(uaoID);
+            var userSafeSendGroups = await userClient.GetSafeSendGroupsAsync(uaoID);
             var result = allSafeSendGroups.Select((f, i) => new SafeSendGroupEditEntry
             {
                 SafeSendGroupID = f.SafeSendGroupID,

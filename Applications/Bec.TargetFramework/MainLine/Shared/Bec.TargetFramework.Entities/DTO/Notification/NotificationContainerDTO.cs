@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Entities
             DataAsJson = JsonHelper.SerializeData(data);
         }
 
-        public NotificationContainerDTO(NotificationConstructDTO notificationConstruct, CommonSettings commonSettings, List<NotificationRecipientDTO> recipients, NotificationDictionaryDTO data, ActivityType? activityType = null, Guid? activityID = null)
+        public NotificationContainerDTO(NotificationConstructDTO notificationConstruct, CommonSettings commonSettings, List<NotificationRecipientDTO> recipients, NotificationDictionaryDTO data, ActivityType? activityType, Guid? activityID)
         {
             Ensure.Argument.NotNull(recipients);
             Recipients = recipients;

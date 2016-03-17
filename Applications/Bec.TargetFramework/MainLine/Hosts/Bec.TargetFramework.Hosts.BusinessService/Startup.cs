@@ -22,10 +22,6 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         {
             var config = new HttpConfiguration();
 
-            // TBC fix issue with Jil for de-serializing NotificationDTO
-            //config.Formatters.RemoveAt(0);
-            //config.Formatters.Insert(0, new JilFormatter());
-
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

@@ -23,8 +23,8 @@ namespace Bec.TargetFramework.Business.Logic
 {
     public class QueryLogicController : ApiController
     {
-        TargetFrameworkEntities db;
-        Type dbType = typeof(TargetFrameworkEntities);
+        readonly TargetFrameworkEntities db;
+        readonly Type dbType = typeof(TargetFrameworkEntities);
         public QueryLogicController()
         {
             db = new TargetFrameworkEntities();
@@ -39,8 +39,7 @@ namespace Bec.TargetFramework.Business.Logic
             var entitySetContext = new ODataQueryContext(model, itemType, Request.ODataProperties().Path);
             var options = new ODataQueryOptions(entitySetContext, Request);
 
-            //ODataQuerySettings settings = new ODataQuerySettings { PageSize = 10 };
-            var res = options.ApplyTo(dbSet);//, settings);
+            var res = options.ApplyTo(dbSet);
             return Ok(new QueryResult { Items = res, Count = Request.ODataProperties().TotalCount, NextLink = Request.ODataProperties().NextLink });
         }
 

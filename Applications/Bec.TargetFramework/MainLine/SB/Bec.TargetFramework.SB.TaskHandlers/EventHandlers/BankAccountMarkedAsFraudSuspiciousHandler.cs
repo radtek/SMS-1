@@ -24,36 +24,17 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountMarkedAsFraudSuspicious.GetStringValue());
-
-                var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("BankAccountMarkedAsFraudSuspiciousNotificationDTO", handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto);
-                
-                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto.OrganisationId, null)
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIdsSync(handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto.OrganisationId, null)
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
-                var container = new NotificationContainerDTO(
-                    notificationConstruct,
-                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
+                CreateAndPublishContainer(
+                    NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.BankAccountMarkedAsFraudSuspicious.GetStringValue()),
+                    SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
-                    new NotificationDictionaryDTO 
-                    {
-                        NotificationDictionary = dictionary
-                    },
+                    "BankAccountMarkedAsFraudSuspiciousNotificationDTO",
+                    handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto,
                     ActivityType.BankAccount,
-                    handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto.OrganisationBankAccountID
-                    );
-
-                var notificationMessage = new NotificationEvent { NotificationContainer = container };
-
-                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
-                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
-                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
-
-                Bus.Publish(notificationMessage);
-
-                LogMessageAsCompleted();
+                    handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto.OrganisationBankAccountID);
             }
             catch (Exception ex)
             {

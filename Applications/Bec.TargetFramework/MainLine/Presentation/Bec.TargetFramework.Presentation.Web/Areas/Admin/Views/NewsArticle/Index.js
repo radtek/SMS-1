@@ -14,7 +14,7 @@ $(function () {
         columns: [
             {
                 field: "NewsArticleID",
-                hidden: true,
+                hidden: true
             },
             {
                 field: "Title",
@@ -24,7 +24,7 @@ $(function () {
                 field: "DateTime",
                 title: "Date",
                 template: function (dataItem) { return dateStringNoTime(dataItem.DateTime); }
-            },
+            }
         ]
     });
 

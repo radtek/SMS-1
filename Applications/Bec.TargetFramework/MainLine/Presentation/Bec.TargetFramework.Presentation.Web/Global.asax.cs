@@ -12,7 +12,6 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog.Helpers;
 using System.Web.Helpers;
 using System.Security.Claims;
-using FluentValidation.Mvc;
 using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure;
 namespace Bec.TargetFramework.Presentation.Web
@@ -36,7 +35,6 @@ namespace Bec.TargetFramework.Presentation.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            FluentValidationModelValidatorProvider.Configure();
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
             MvcHandler.DisableMvcResponseHeader = true;
         }

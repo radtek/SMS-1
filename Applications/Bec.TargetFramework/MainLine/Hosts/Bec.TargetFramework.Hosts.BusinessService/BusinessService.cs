@@ -17,9 +17,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         private Autofac.IContainer m_IocContainer { get; set; }
 
         private IDisposable m_Server = null;
-
-        private IBus m_Bus;
-
+        
         public BusinessService()
         {
             InitializeComponent();

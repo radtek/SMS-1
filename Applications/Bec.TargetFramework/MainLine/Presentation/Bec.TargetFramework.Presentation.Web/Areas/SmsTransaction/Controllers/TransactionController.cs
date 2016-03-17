@@ -45,7 +45,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var orgs = await QueryClient.QueryAsync<VOrganisationWithStatusAndAdminDTO>("VOrganisationWithStatusAndAdmins", select + filter);
             var org = orgs.First();
             ViewBag.OrganisationName = org.Name;
-            ViewBag.HasOrganisationAnySafeBankAccounts = BankAccountClient.HasOrganisationAnySafeBankAccount(orgID);
+            ViewBag.HasOrganisationAnySafeBankAccounts = await BankAccountClient.HasOrganisationAnySafeBankAccountAsync(orgID);
 
             return View();
         }
@@ -258,10 +258,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
-        public ActionResult ViewAddSmsTransaction()
+        public async Task<ActionResult> ViewAddSmsTransaction()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            var hasOrganisationAnySafeBankAccounts = BankAccountClient.HasOrganisationAnySafeBankAccount(orgID);
+            var hasOrganisationAnySafeBankAccounts = await BankAccountClient.HasOrganisationAnySafeBankAccountAsync(orgID);
             if (!hasOrganisationAnySafeBankAccounts)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);

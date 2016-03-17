@@ -17,7 +17,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public async Task<ActionResult> Check(Guid? orgID, string regulatorNumber)
         {
             var isInSystem = await OrganisationClient.IsOrganisationInSystemAsync(orgID, regulatorNumber);
-            var settings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
+            var settings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
             if (isInSystem)
                 return Json("The organisation with above SRA ID/MIS Number is already registered in the Safe Move Scheme." + (orgID.HasValue ? "": " Email us on " + settings.SupportEmailAddress + " if this concerns you."), JsonRequestBehavior.AllowGet);
             else

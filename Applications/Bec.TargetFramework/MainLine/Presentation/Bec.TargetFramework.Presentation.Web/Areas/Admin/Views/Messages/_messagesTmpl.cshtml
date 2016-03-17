@@ -28,9 +28,9 @@
     <div class="message-item">
         <div class="row">
             {{#if conversation.issystemmessage}}
-            <div class="alert alert-info"><i class="fa-fw fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation because it is a system generated message.</div>
+            <div class="alert alert-info"><i class="fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation because it is a system generated message.</div>
             {{else if lonely}}
-            <div class="alert alert-info"><i class="fa-fw fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation.</div>
+            <div class="alert alert-info"><i class="fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation.</div>
             {{else}}
             <div class="col-xs-12">
                 <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">

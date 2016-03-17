@@ -209,38 +209,47 @@
     <Reference Include="Stimulsoft.Base, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Base.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stimulsoft.Client.Designer, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Client.Designer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stimulsoft.Controls, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Controls.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stimulsoft.Controls.Win, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Controls.Win.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stimulsoft.Database.Wpf, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Database.Wpf.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stimulsoft.Editor, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Editor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stimulsoft.Report, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Report.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stimulsoft.Report.Check, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Report.Check.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Stimulsoft.Report.Helper, Version=2014.3.0.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Stimulsoft.Report.Helper.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -334,10 +343,6 @@
     <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Client\Bec.TargetFramework.Business.Client.csproj">
       <Project>{cf410eab-4608-4239-bff9-9a729da9fbb5}</Project>
       <Name>Bec.TargetFramework.Business.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
-      <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
-      <Name>Bec.TargetFramework.Data.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data\Bec.TargetFramework.Data.csproj">
       <Project>{f050fc5d-c63c-4453-a98e-c3db7d0f255a}</Project>
