@@ -1,0 +1,88 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@model AddHelpItemDTO
+
+<div id="editAddHelpItemModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="editAddHelpItemLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="editAddHelpItemContainer">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editAddHelpItemLabel">Edit Help Item</h4>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("EditAddHelpItem", "Help", new { area = "Admin" })" method="POST" id="editAddHelpItem-form" class="smart-form">
+                    @Html.ValidationBootstrap()
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.HelpTypeName)
+                    @Html.HiddenFor(m => m.HelpItemID)
+                    @Html.HiddenFor(m => m.TempStoreID)
+                    @Html.HiddenFor(m => m.DisplayOrder)
+                    <div class="row">
+                        <fieldset>
+
+                            <div>
+                                <section>
+                                    <label class="label">Title</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.Title, new { tabindex = "1", maxlength = 200 })
+                                        <i></i>
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">Description</label>
+                                    <label class="input ">
+                                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", tabindex = "2", rows = 7, style = "width:100%; resize:none;" })
+                                    </label>
+                                </section>
+                                <section id="uiSelectorSection">
+                                    <label class="label">UI Selector</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.UiSelector, new { tabindex = "3", maxlength = 200 })
+                                    </label>
+                                </section>
+                                <section id="uiSelectorParentSection">
+                                    <label class="label">UI Selector Parent</label>
+                                    <label class="input">
+                                        @Html.TextBoxFor(m => m.UiSelectorParent, new { tabindex = "4", maxlength = 200 })
+                                    </label>
+                                </section>
+                                <section id="uiPositionSection">
+                                    <label class="label">UI Position</label>
+                                    <label class="select">
+                                        @Html.DropDownListFor(m => m.UiPosition, Html.EnumListWithIntValue<HelpPositionEnum>(), "Please Select", new { tabindex = "5" })
+                                        <i></i>
+                                    </label>
+                                </section>
+                                <section id="effectionFromSection">
+                                    <label class="label">Effective From</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.EffectiveFrom, new { tabindex = "5", @class = "dateinput" })
+                                    </label>
+                                </section>
+                                <section id="rolesSection">
+                                    <label class="label">Roles</label>
+                                    <label class="input">
+                                        @Html.ListBoxFor(m => m.SelectedRoles, new SelectList(Model.Roles, "RoleID", "RoleName"), new { multiple = "multiple", @id = "ddlRolesEdit", style = "width:100%; resize:none;" })
+                                    </label>
+                                </section>
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" id="editAddHelpItemControls">
+                <button type="button" id="cancelEditAddHelpItem" class="btn btn-default" data-dismiss="modal" tabindex="30">
+                    Cancel
+                </button>
+                <button type="button" id="submitEditAddHelpItem" class="btn btn-primary" tabindex="5">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Help/_EditAddHelpItem")"></script>

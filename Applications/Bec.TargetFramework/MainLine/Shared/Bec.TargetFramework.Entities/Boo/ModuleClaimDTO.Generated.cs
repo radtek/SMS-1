@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ModuleClaimDTO() {
         }
 
-        public ModuleClaimDTO(global::System.Guid claimID, global::System.Nullable<System.Guid> roleID, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, global::System.Guid moduleID, bool isActive, bool isDeleted, int moduleVersionNumber, global::System.Nullable<System.Guid> moduleRoleID, ModuleDTO module, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, RoleDTO role, ModuleRoleDTO moduleRole, OperationDTO operation) {
+        public ModuleClaimDTO(global::System.Guid claimID, global::System.Nullable<System.Guid> roleID, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, global::System.Guid moduleID, bool isActive, bool isDeleted, int moduleVersionNumber, global::System.Nullable<System.Guid> moduleRoleID, ModuleDTO module, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, ModuleRoleDTO moduleRole, OperationDTO operation, RoleDTO role) {
 
           this.ClaimID = claimID;
           this.RoleID = roleID;
@@ -39,9 +39,9 @@ namespace Bec.TargetFramework.Entities
           this.Resource = resource;
           this.State = state;
           this.StateItem = stateItem;
-          this.Role = role;
           this.ModuleRole = moduleRole;
           this.Operation = operation;
+          this.Role = role;
         }
 
         #endregion
@@ -98,13 +98,13 @@ namespace Bec.TargetFramework.Entities
         public StateItemDTO StateItem { get; set; }
 
         [DataMember]
-        public RoleDTO Role { get; set; }
-
-        [DataMember]
         public ModuleRoleDTO ModuleRole { get; set; }
 
         [DataMember]
         public OperationDTO Operation { get; set; }
+
+        [DataMember]
+        public RoleDTO Role { get; set; }
 
         #endregion
     }

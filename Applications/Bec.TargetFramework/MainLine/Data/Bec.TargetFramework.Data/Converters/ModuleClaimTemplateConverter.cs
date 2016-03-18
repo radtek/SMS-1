@@ -48,8 +48,8 @@ namespace Bec.TargetFramework.Entities
               target.State = source.State.ToDtoWithRelated(level - 1);
               target.StateItem = source.StateItem.ToDtoWithRelated(level - 1);
               target.ModuleRoleTemplate = source.ModuleRoleTemplate.ToDtoWithRelated(level - 1);
-              target.Role = source.Role.ToDtoWithRelated(level - 1);
               target.Operation = source.Operation.ToDtoWithRelated(level - 1);
+              target.Role = source.Role.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

@@ -63,6 +63,11 @@
         }
     }
 
+    if ($('#content').data("welcome") === "True") {
+        $('#firstLogin').data("autorun", "False");
+        handleModal({ url: $('#content').data("welcomeurl") }, null, true);
+    }
+
 });
 
 // Publicly available!!! Used by _ConfirmDetails.js too

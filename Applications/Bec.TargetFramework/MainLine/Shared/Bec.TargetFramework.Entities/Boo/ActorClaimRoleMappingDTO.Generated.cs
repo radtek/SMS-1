@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ActorClaimRoleMappingDTO() {
         }
 
-        public ActorClaimRoleMappingDTO(global::System.Guid actorClaimRoleMappingID, global::System.Nullable<System.Guid> actorID, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, global::System.Nullable<System.Guid> roleID, bool isActive, bool isDeleted, ActorDTO actor, OperationDTO operation, ResourceDTO resource, RoleDTO role, StateDTO state, StateItemDTO stateItem) {
+        public ActorClaimRoleMappingDTO(global::System.Guid actorClaimRoleMappingID, global::System.Nullable<System.Guid> actorID, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, global::System.Nullable<System.Guid> roleID, bool isActive, bool isDeleted, ActorDTO actor, OperationDTO operation, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, RoleDTO role) {
 
           this.ActorClaimRoleMappingID = actorClaimRoleMappingID;
           this.ActorID = actorID;
@@ -36,9 +36,9 @@ namespace Bec.TargetFramework.Entities
           this.Actor = actor;
           this.Operation = operation;
           this.Resource = resource;
-          this.Role = role;
           this.State = state;
           this.StateItem = stateItem;
+          this.Role = role;
         }
 
         #endregion
@@ -86,13 +86,13 @@ namespace Bec.TargetFramework.Entities
         public ResourceDTO Resource { get; set; }
 
         [DataMember]
-        public RoleDTO Role { get; set; }
-
-        [DataMember]
         public StateDTO State { get; set; }
 
         [DataMember]
         public StateItemDTO StateItem { get; set; }
+
+        [DataMember]
+        public RoleDTO Role { get; set; }
 
         #endregion
     }

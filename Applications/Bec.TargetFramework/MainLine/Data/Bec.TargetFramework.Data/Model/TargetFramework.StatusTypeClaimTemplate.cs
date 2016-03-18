@@ -180,15 +180,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for Role in the schema.
-        /// </summary>
-        public virtual Role Role
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for StatusTypeRoleTemplate in the schema.
         /// </summary>
         public virtual StatusTypeRoleTemplate StatusTypeRoleTemplate
@@ -201,6 +192,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for StatusTypeTemplate in the schema.
         /// </summary>
         public virtual StatusTypeTemplate StatusTypeTemplate
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Role in the schema.
+        /// </summary>
+        public virtual Role Role
         {
             get;
             set;

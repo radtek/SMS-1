@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ClassificationTypeDTO() {
         }
 
-        public ClassificationTypeDTO(int classificationTypeID, string name, string description, int classificationTypeCategoryID, global::System.Nullable<int> parentClassificationTypeCategoryID, bool isActive, bool isDeleted, List<PasswordResetSecretDTO> passwordResetSecrets, ClassificationTypeCategoryDTO classificationTypeCategory_ClassificationTypeCategoryID, ClassificationTypeCategoryDTO classificationTypeCategory_ParentClassificationTypeCategoryID, List<UserAccountArchiveDTO> userAccountArchives, List<OrganisationDTO> organisations) {
+        public ClassificationTypeDTO(int classificationTypeID, string name, string description, int classificationTypeCategoryID, global::System.Nullable<int> parentClassificationTypeCategoryID, bool isActive, bool isDeleted, List<PasswordResetSecretDTO> passwordResetSecrets, ClassificationTypeCategoryDTO classificationTypeCategory_ClassificationTypeCategoryID, ClassificationTypeCategoryDTO classificationTypeCategory_ParentClassificationTypeCategoryID, List<UserAccountArchiveDTO> userAccountArchives, List<OrganisationDTO> organisations, List<HelpDTO> helps, List<HelpItemDTO> helpItems) {
 
           this.ClassificationTypeID = classificationTypeID;
           this.Name = name;
@@ -36,6 +36,8 @@ namespace Bec.TargetFramework.Entities
           this.ClassificationTypeCategory_ParentClassificationTypeCategoryID = classificationTypeCategory_ParentClassificationTypeCategoryID;
           this.UserAccountArchives = userAccountArchives;
           this.Organisations = organisations;
+          this.Helps = helps;
+          this.HelpItems = helpItems;
         }
 
         #endregion
@@ -81,6 +83,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<OrganisationDTO> Organisations { get; set; }
+
+        [DataMember]
+        public List<HelpDTO> Helps { get; set; }
+
+        [DataMember]
+        public List<HelpItemDTO> HelpItems { get; set; }
 
         #endregion
     }

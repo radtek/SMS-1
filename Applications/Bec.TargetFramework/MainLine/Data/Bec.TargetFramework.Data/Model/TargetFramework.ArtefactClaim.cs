@@ -144,15 +144,6 @@ namespace Bec.TargetFramework.Data
         #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for Role in the schema.
-        /// </summary>
-        public virtual Role Role
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ArtefactRole in the schema.
         /// </summary>
         public virtual ArtefactRole ArtefactRole
@@ -201,6 +192,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for StateItem in the schema.
         /// </summary>
         public virtual StateItem StateItem
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Role in the schema.
+        /// </summary>
+        public virtual Role Role
         {
             get;
             set;

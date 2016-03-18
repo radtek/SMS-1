@@ -63,7 +63,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 buyerCity = x.Address.City,
                 buyerCounty = x.Address.County,
                 buyerPostalCode = x.Address.PostalCode,
-                x.Confirmed,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
@@ -240,7 +239,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.Contact.FirstName,
                 x.Contact.LastName,
                 x.Contact.BirthDate,
-                x.Confirmed,
                 x.CreatedOn,
                 x.SmsTransactionID,
                 x.SmsTransaction.Price,
@@ -333,6 +331,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             await QueryClient.UpdateGraphAsync("SmsTransactions", JObject.FromObject(new { ProductDeclinedOn = DateTime.Now }), filter);
 
             return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = txID });
+        }
+
+        public ActionResult Welcome()
+        {
+            return PartialView();
         }
     }
 }

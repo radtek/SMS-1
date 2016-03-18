@@ -1053,11 +1053,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<InterfacePanelTemplate> InterfacePanelTemplates { get; set; }
     
         /// <summary>
-        /// There are no comments for Role in the schema.
-        /// </summary>
-        public virtual DbSet<Role> Roles { get; set; }
-    
-        /// <summary>
         /// There are no comments for ArtefactNotificationConstructTemplate in the schema.
         /// </summary>
         public virtual DbSet<ArtefactNotificationConstructTemplate> ArtefactNotificationConstructTemplates { get; set; }
@@ -2061,6 +2056,41 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for UserAccountOrganisationSafeSendGroup in the schema.
         /// </summary>
         public virtual DbSet<UserAccountOrganisationSafeSendGroup> UserAccountOrganisationSafeSendGroups { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Help in the schema.
+        /// </summary>
+        public virtual DbSet<Help> Helps { get; set; }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationHelpViewed in the schema.
+        /// </summary>
+        public virtual DbSet<UserAccountOrganisationHelpViewed> UserAccountOrganisationHelpVieweds { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VOrganisationRoleHierarchy in the schema.
+        /// </summary>
+        public virtual DbSet<VOrganisationRoleHierarchy> VOrganisationRoleHierarchies { get; set; }
+    
+        /// <summary>
+        /// There are no comments for TempJsonDatum in the schema.
+        /// </summary>
+        public virtual DbSet<TempJsonDatum> TempJsonData { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Role in the schema.
+        /// </summary>
+        public virtual DbSet<Role> Roles { get; set; }
+    
+        /// <summary>
+        /// There are no comments for HelpItem in the schema.
+        /// </summary>
+        public virtual DbSet<HelpItem> HelpItems { get; set; }
+    
+        /// <summary>
+        /// There are no comments for HelpRole in the schema.
+        /// </summary>
+        public virtual DbSet<HelpRole> HelpRoles { get; set; }
 
         #region Methods
 
@@ -2493,6 +2523,78 @@ namespace Bec.TargetFramework.Data
               if (needClose)
                 connection.Close();
             }
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnGetHelpItem in the schema.
+        /// </summary>
+        public virtual ObjectResult<HelpItem> FnGetHelpItem (global::System.Nullable<System.Guid> UserAccountOrganisationID, global::System.Nullable<int> HelpTypeID, string UiPageUrl)
+        {
+            ObjectParameter UserAccountOrganisationIDParameter;
+            if (UserAccountOrganisationID.HasValue)
+            {
+                UserAccountOrganisationIDParameter = new ObjectParameter("UserAccountOrganisationID", UserAccountOrganisationID);
+            }
+            else
+            {
+                UserAccountOrganisationIDParameter = new ObjectParameter("UserAccountOrganisationID", typeof(global::System.Nullable<System.Guid>));
+            }
+            ObjectParameter HelpTypeIDParameter;
+            if (HelpTypeID.HasValue)
+            {
+                HelpTypeIDParameter = new ObjectParameter("HelpTypeID", HelpTypeID);
+            }
+            else
+            {
+                HelpTypeIDParameter = new ObjectParameter("HelpTypeID", typeof(global::System.Nullable<int>));
+            }
+            ObjectParameter UiPageUrlParameter;
+            if (UiPageUrl != null)
+            {
+                UiPageUrlParameter = new ObjectParameter("UiPageUrl", UiPageUrl);
+            }
+            else
+            {
+                UiPageUrlParameter = new ObjectParameter("UiPageUrl", typeof(string));
+            }
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HelpItem>("TargetFrameworkEntities.FnGetHelpItem", UserAccountOrganisationIDParameter, HelpTypeIDParameter, UiPageUrlParameter);
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnGetHelpItem in the schema.
+        /// </summary>
+        public virtual ObjectResult<HelpItem> FnGetHelpItem(global::System.Nullable<System.Guid> UserAccountOrganisationID, global::System.Nullable<int> HelpTypeID, string UiPageUrl, MergeOption mergeOption)
+        {
+            ObjectParameter UserAccountOrganisationIDParameter;
+            if (UserAccountOrganisationID.HasValue)
+            {
+                UserAccountOrganisationIDParameter = new ObjectParameter("UserAccountOrganisationID", UserAccountOrganisationID);
+            }
+            else
+            {
+                UserAccountOrganisationIDParameter = new ObjectParameter("UserAccountOrganisationID", typeof(global::System.Nullable<System.Guid>));
+            }
+            ObjectParameter HelpTypeIDParameter;
+            if (HelpTypeID.HasValue)
+            {
+                HelpTypeIDParameter = new ObjectParameter("HelpTypeID", HelpTypeID);
+            }
+            else
+            {
+                HelpTypeIDParameter = new ObjectParameter("HelpTypeID", typeof(global::System.Nullable<int>));
+            }
+            ObjectParameter UiPageUrlParameter;
+            if (UiPageUrl != null)
+            {
+                UiPageUrlParameter = new ObjectParameter("UiPageUrl", UiPageUrl);
+            }
+            else
+            {
+                UiPageUrlParameter = new ObjectParameter("UiPageUrl", typeof(string));
+            }
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HelpItem>("TargetFrameworkEntities.FnGetHelpItem", mergeOption, UserAccountOrganisationIDParameter, HelpTypeIDParameter, UiPageUrlParameter);
         }
 
         #endregion

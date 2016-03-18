@@ -48,10 +48,10 @@ namespace Bec.TargetFramework.Entities
             // Navigation Properties
             if (level > 0) {
               target.DefaultOrganisationTemplate = source.DefaultOrganisationTemplate.ToDtoWithRelated(level - 1);
-              target.Role = source.Role.ToDtoWithRelated(level - 1);
               target.DefaultOrganisationGroupRoleTemplates = source.DefaultOrganisationGroupRoleTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationRoleClaimTemplates = source.DefaultOrganisationRoleClaimTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationRoleTargetTemplates = source.DefaultOrganisationRoleTargetTemplates.ToDtosWithRelated(level - 1);
+              target.Role = source.Role.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

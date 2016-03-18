@@ -501,6 +501,10 @@
     <Compile Include="Boo\FnGetConversationActivityResultDTO.Generated.cs">
       <DependentUpon>FnGetConversationActivityResultDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\FnGetHelpItemResultDTO.cs" />
+    <Compile Include="Boo\FnGetHelpItemResultDTO.Generated.cs">
+      <DependentUpon>FnGetHelpItemResultDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\FnGetUserClaimResultDTO.cs" />
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
       <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
@@ -526,6 +530,19 @@
       <DependentUpon>GroupRoleDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\GroupTemplateRoleDTO.cs" />
+    <Compile Include="Boo\HelpDTO.cs" />
+    <Compile Include="Boo\HelpDTO.Generated.cs">
+      <DependentUpon>HelpDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\HelpItemDTO.cs" />
+    <Compile Include="Boo\HelpItemDTO.Generated.cs">
+      <DependentUpon>HelpItemDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\HelpItemRoleDTO.cs" />
+    <Compile Include="Boo\HelpRoleDTO.cs" />
+    <Compile Include="Boo\HelpRoleDTO.Generated.cs">
+      <DependentUpon>HelpRoleDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\IdentityCheckProviderDTO.cs" />
     <Compile Include="Boo\InterfacePanelTemplateDTO.cs" />
     <Compile Include="Boo\InterfacePanelTemplateDTO.Generated.cs">
@@ -1470,6 +1487,10 @@
     <Compile Include="Boo\TaxRateTemplateDTO.Generated.cs">
       <DependentUpon>TaxRateTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\TempJsonDatumDTO.cs" />
+    <Compile Include="Boo\TempJsonDatumDTO.Generated.cs">
+      <DependentUpon>TempJsonDatumDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\TenantDTO.Generated.cs">
       <DependentUpon>TenantDTO.cs</DependentUpon>
     </Compile>
@@ -1527,6 +1548,10 @@
     </Compile>
     <Compile Include="Boo\UserAccountOrganisationGroupDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationHelpViewedDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationHelpViewedDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationHelpViewedDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\UserAccountOrganisationRoleDTO.Generated.cs">
       <DependentUpon>UserAccountOrganisationRoleDTO.cs</DependentUpon>
@@ -1657,6 +1682,10 @@
     <Compile Include="Boo\VOrganisationPaymentMethodStatusDTO.Generated.cs">
       <DependentUpon>VOrganisationPaymentMethodStatusDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VOrganisationRoleHierarchyDTO.cs" />
+    <Compile Include="Boo\VOrganisationRoleHierarchyDTO.Generated.cs">
+      <DependentUpon>VOrganisationRoleHierarchyDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VOrganisationStatusDTO.Generated.cs">
       <DependentUpon>VOrganisationStatusDTO.cs</DependentUpon>
     </Compile>
@@ -1723,6 +1752,8 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\AddHelpDTO.cs" />
+    <Compile Include="DTO\AddHelpItemDTO.cs" />
     <Compile Include="DTO\AddNewUserToOrganisationDTO.cs" />
     <Compile Include="DTO\Notification\ProductAdvisedNotificationDTO.cs" />
     <Compile Include="DTO\VerifyCompanyDTO.cs" />
@@ -1974,6 +2005,7 @@
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\BrokerBusinessTypeEnum.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
+    <Compile Include="Enums\HelpEnum.cs" />
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
     <Compile Include="Enums\BrokerTypeEnum.cs" />

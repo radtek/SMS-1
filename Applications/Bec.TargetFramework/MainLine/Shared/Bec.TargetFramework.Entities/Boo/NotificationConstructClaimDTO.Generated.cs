@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public NotificationConstructClaimDTO() {
         }
 
-        public NotificationConstructClaimDTO(global::System.Guid notificationConstructClaimID, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, global::System.Nullable<System.Guid> notificationRoleConstructID, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> roleID, OperationDTO operation, NotificationConstructDTO notificationConstruct, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, RoleDTO role, NotificationConstructRoleDTO notificationConstructRole) {
+        public NotificationConstructClaimDTO(global::System.Guid notificationConstructClaimID, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, global::System.Nullable<System.Guid> notificationRoleConstructID, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> roleID, OperationDTO operation, NotificationConstructDTO notificationConstruct, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, NotificationConstructRoleDTO notificationConstructRole, RoleDTO role) {
 
           this.NotificationConstructClaimID = notificationConstructClaimID;
           this.NotificationConstructID = notificationConstructID;
@@ -40,8 +40,8 @@ namespace Bec.TargetFramework.Entities
           this.Resource = resource;
           this.State = state;
           this.StateItem = stateItem;
-          this.Role = role;
           this.NotificationConstructRole = notificationConstructRole;
+          this.Role = role;
         }
 
         #endregion
@@ -101,10 +101,10 @@ namespace Bec.TargetFramework.Entities
         public StateItemDTO StateItem { get; set; }
 
         [DataMember]
-        public RoleDTO Role { get; set; }
+        public NotificationConstructRoleDTO NotificationConstructRole { get; set; }
 
         [DataMember]
-        public NotificationConstructRoleDTO NotificationConstructRole { get; set; }
+        public RoleDTO Role { get; set; }
 
         #endregion
     }

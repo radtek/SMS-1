@@ -1,0 +1,44 @@
+﻿@using Bec.TargetFramework.Entities
+@model AddHelpDTO
+
+<style>
+    .k-grid tbody .k-button {
+        min-width: 20px;
+        width: 24px;
+    }
+</style>
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="deleteHelpLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteHelpLabel">Delete Help</h4>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("DeleteHelp", "Help", new { area = "Admin" })" method="POST" id="deleteHelp-form" class="smart-form">
+                    @Html.ValidationBootstrap()
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.HelpID)
+                    <fieldset>
+                        <div class="row">
+                            <div class="row">
+                                <section class="col">
+                                    <label class="label">Are you sure you want to delete '@Model.Name'?</label>
+                                </section>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer" id="deleteHelpControls">
+                <button type="button" id="cancelDeleteHelp" class="btn btn-default" data-dismiss="modal" tabindex="30">
+                    Cancel
+                </button>
+                <button type="button" id="submitDeleteHelp" class="btn btn-primary" tabindex="31">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Help/_DeleteHelp")"></script>

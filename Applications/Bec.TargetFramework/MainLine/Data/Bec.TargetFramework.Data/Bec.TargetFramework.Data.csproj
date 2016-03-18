@@ -166,12 +166,16 @@
     <Compile Include="Converters\FieldDetailTemplateConverter.cs" />
     <Compile Include="Converters\FileConverter.cs" />
     <Compile Include="Converters\FnGetConversationActivityResultConverter.cs" />
+    <Compile Include="Converters\FnGetHelpItemResultConverter.cs" />
     <Compile Include="Converters\FnGetUserClaimResultConverter.cs" />
     <Compile Include="Converters\GlobalAccountingPeriodConverter.cs" />
     <Compile Include="Converters\GlobalDirectDebitCollectionPeriodConverter.cs" />
     <Compile Include="Converters\GlobalPaymentMethodConverter.cs" />
     <Compile Include="Converters\GroupConverter.cs" />
     <Compile Include="Converters\GroupRoleConverter.cs" />
+    <Compile Include="Converters\HelpConverter.cs" />
+    <Compile Include="Converters\HelpItemConverter.cs" />
+    <Compile Include="Converters\HelpRoleConverter.cs" />
     <Compile Include="Converters\InterfacePanelTemplateConverter.cs" />
     <Compile Include="Converters\InvoiceConverter.cs" />
     <Compile Include="Converters\InvoiceLineItemConverter.cs" />
@@ -388,6 +392,7 @@
     <Compile Include="Converters\SubscriptionConverter.cs" />
     <Compile Include="Converters\TaxRateConverter.cs" />
     <Compile Include="Converters\TaxRateTemplateConverter.cs" />
+    <Compile Include="Converters\TempJsonDatumConverter.cs" />
     <Compile Include="Converters\TenantConverter.cs" />
     <Compile Include="Converters\TimeoutentityConverter.cs" />
     <Compile Include="Converters\TransactionLevelComponentConverter.cs" />
@@ -407,6 +412,7 @@
     <Compile Include="Converters\UserAccountLoginSessionDatumConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationGroupConverter.cs" />
+    <Compile Include="Converters\UserAccountOrganisationHelpViewedConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationRoleConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationSafeSendGroupConverter.cs" />
     <Compile Include="Converters\UserAccountOrganisationSecondaryUserTypeConverter.cs" />
@@ -446,6 +452,7 @@
     <Compile Include="Converters\VOrganisationFinancialStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationLedgerTransactionBalanceConverter.cs" />
     <Compile Include="Converters\VOrganisationPaymentMethodStatusConverter.cs" />
+    <Compile Include="Converters\VOrganisationRoleHierarchyConverter.cs" />
     <Compile Include="Converters\VOrganisationStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationUserTypeConverter.cs" />
     <Compile Include="Converters\VOrganisationWithStatusAndAdminConverter.cs" />
@@ -567,12 +574,16 @@
     <Compile Include="Model\TargetFramework.FieldDetailTemplate.cs" />
     <Compile Include="Model\TargetFramework.File.cs" />
     <Compile Include="Model\TargetFramework.FnGetConversationActivityResult.cs" />
+    <Compile Include="Model\TargetFramework.FnGetHelpItemResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetUserClaimResult.cs" />
     <Compile Include="Model\TargetFramework.GlobalAccountingPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalDirectDebitCollectionPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalPaymentMethod.cs" />
     <Compile Include="Model\TargetFramework.Group.cs" />
     <Compile Include="Model\TargetFramework.GroupRole.cs" />
+    <Compile Include="Model\TargetFramework.Help.cs" />
+    <Compile Include="Model\TargetFramework.HelpItem.cs" />
+    <Compile Include="Model\TargetFramework.HelpRole.cs" />
     <Compile Include="Model\TargetFramework.InterfacePanelTemplate.cs" />
     <Compile Include="Model\TargetFramework.Invoice.cs" />
     <Compile Include="Model\TargetFramework.InvoiceLineItem.cs" />
@@ -792,6 +803,7 @@
     </Compile>
     <Compile Include="Model\TargetFramework.TaxRate.cs" />
     <Compile Include="Model\TargetFramework.TaxRateTemplate.cs" />
+    <Compile Include="Model\TargetFramework.TempJsonDatum.cs" />
     <Compile Include="Model\TargetFramework.Tenant.cs" />
     <Compile Include="Model\TargetFramework.Timeoutentity.cs" />
     <Compile Include="Model\TargetFramework.TransactionLevelComponent.cs" />
@@ -811,6 +823,7 @@
     <Compile Include="Model\TargetFramework.UserAccountLoginSessionDatum.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisation.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationGroup.cs" />
+    <Compile Include="Model\TargetFramework.UserAccountOrganisationHelpViewed.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationRole.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationSafeSendGroup.cs" />
     <Compile Include="Model\TargetFramework.UserAccountOrganisationSecondaryUserType.cs" />
@@ -850,6 +863,7 @@
     <Compile Include="Model\TargetFramework.VOrganisationFinancialStatus.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationLedgerTransactionBalance.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationPaymentMethodStatus.cs" />
+    <Compile Include="Model\TargetFramework.VOrganisationRoleHierarchy.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationStatus.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationUserType.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationWithStatusAndAdmin.cs" />

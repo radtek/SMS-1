@@ -1,0 +1,49 @@
+﻿@using Bec.TargetFramework.Entities.Enums
+<!-- MAIN CONTENT -->
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
+    <div class="row">
+        <div class="col-sm-8 col-lg-9">
+            <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-question-circle margin-right-10"></i>Help Management</h2>
+            <a id="addHelpButton" data-href="@Url.Action("AddHelp", "Help", new { area  = "Admin" })" data-modallink="true" class="btn btn-primary btn-sm inline-heading">
+                <i class="fa fa-plus margin-right-5"></i>Add Help
+            </a>
+        </div>
+
+        <div class="col-sm-4 col-lg-3 smart-form">
+            <div class="input-group margin-top-15 margin-bottom-5">
+                <label class="input">
+                    <i class="icon-append fa fa-times clear-search-icon" id="clearGridSearch"></i>
+                    <input type="text" class="form-control" id="gridSearchInput">
+                </label>
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-header-search" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
+                </span>
+            </div>
+            <div>
+                <p class="pull-left">Help Type: @Html.DropDownList("helpTypeFilter", Html.EnumListWithIntValue<HelpTypeEnum>(), new { id = "helpTypeFilter" })</p>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="well">
+                    <div id="txGrid" data-url="@Url.Action("GetHelp", "Help", new { area = "Admin" })" data-resetsort="@TempData["resetSort"]" data-jumpto="@TempData["HelpID"]"></div>
+                </div>
+            </div>
+
+            <div class="row hidden" id="helpPanel">
+            </div>
+        </div>
+
+        
+    </div>
+
+    
+</div>
+    @section Scripts {
+        <script async src="@Scripts.Url("~/Scripts/Admin/Help/Index")"></script>
+    }

@@ -9,9 +9,39 @@
     }
 
     <div id="logout" class="margin-top-10 margin-left-10 pull-right">
-        <a href="@Url.Action("Index", "Logout", new {area = "Account"})" class="btn btn-default" title="Logout">Log out<i class="fa fa-sign-out margin-left-10"></i></a>
+        <a href="@Url.Action("Index", "Logout", new {area = "Account"})" class="btn btn-default" title="Logout" id="logOut">Log out<i class="fa fa-sign-out margin-left-10"></i></a>
     </div>
-    
+
+    <div class="dropdown pull-right margin-left-10  margin-top-10">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="helpMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Help Functions">
+            <i class="fa fa-lg fa-question-circle"></i>
+            Help
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="helpMenu">
+            <li style="height: 30px">
+                <a id="tourButton" title="Show System Introduction">
+                    <i class="fa fa-bus"></i>
+                    <span class="header-btn-text">Tour</span>
+                </a>
+            </li>
+            
+            <li style="height: 30px">
+                <a id="showMeHowButton" title="Show Page Introduction">
+                    <i class="fa fa-eye"></i>
+                    <span class="header-btn-text">Show Me How</span>
+                </a>
+            </li>
+            <li style="height: 30px">
+                <a id="showCalloutButton" title="Show Page Introduction">
+                    <i class="fa fa-eye"></i>
+                    <span class="header-btn-text">Callout</span>
+                </a>
+
+            </li>
+        </ul>
+    </div>
+
     <div class="dropdown pull-right margin-top-10">
         <button class="btn btn-default dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="User Functions">
             <i class="fa fa-user"></i>
@@ -22,7 +52,7 @@
                 <span>@Context.GetUserName()</span>
             </li>
             <li>
-                <a href="@Url.Action("ChangePassword", "MyAccount", new {area = "Account", ReturnUrl = Request.Url.PathAndQuery })" title="Change Password"><i class="fa fa-key"></i><span class="header-btn-text">Change Password</span></a>
+                <a href="@Url.Action("ChangePassword", "MyAccount", new {area = "Account", ReturnUrl = Request.Url.PathAndQuery })" title="Change Password" id="changePassword"><i class="fa fa-key"></i><span class="header-btn-text">Change Password</span></a>
             </li>
         </ul>
     </div>
@@ -30,4 +60,6 @@
     <div id="welcome-message" class="pull-right margin-top-15 margin-right-15 hidden-xs">
         <span>@Context.GetEmail()</span>
     </div>
+  
 }
+

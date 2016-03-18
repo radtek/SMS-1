@@ -135,81 +135,9 @@ namespace Bec.TargetFramework.Data
         #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for ModuleClaims in the schema.
+        /// There are no comments for ArtefactClaims in the schema.
         /// </summary>
-        public virtual ICollection<ModuleClaim> ModuleClaims
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for DefaultOrganisationRoleTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<DefaultOrganisationRoleTemplate> DefaultOrganisationRoleTemplates
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for ProductClaims in the schema.
-        /// </summary>
-        public virtual ICollection<ProductClaim> ProductClaims
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for ProductClaimTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<ProductClaimTemplate> ProductClaimTemplates
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for StatusTypeClaimTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<StatusTypeClaimTemplate> StatusTypeClaimTemplates
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for DefaultOrganisationRoles in the schema.
-        /// </summary>
-        public virtual ICollection<DefaultOrganisationRole> DefaultOrganisationRoles
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for ModuleClaimTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<ModuleClaimTemplate> ModuleClaimTemplates
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for NotificationConstructClaims in the schema.
-        /// </summary>
-        public virtual ICollection<NotificationConstructClaim> NotificationConstructClaims
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for NotificationConstructClaimTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<NotificationConstructClaimTemplate> NotificationConstructClaimTemplates
+        public virtual ICollection<ArtefactClaim> ArtefactClaims
         {
             get;
             set;
@@ -225,18 +153,54 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for ArtefactClaims in the schema.
+        /// There are no comments for DefaultOrganisationRoles in the schema.
         /// </summary>
-        public virtual ICollection<ArtefactClaim> ArtefactClaims
+        public virtual ICollection<DefaultOrganisationRole> DefaultOrganisationRoles
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for GroupRoles in the schema.
+        /// There are no comments for DefaultOrganisationRoleTemplates in the schema.
         /// </summary>
-        public virtual ICollection<GroupRole> GroupRoles
+        public virtual ICollection<DefaultOrganisationRoleTemplate> DefaultOrganisationRoleTemplates
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ModuleClaims in the schema.
+        /// </summary>
+        public virtual ICollection<ModuleClaim> ModuleClaims
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ModuleClaimTemplates in the schema.
+        /// </summary>
+        public virtual ICollection<ModuleClaimTemplate> ModuleClaimTemplates
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for NotificationConstructClaimTemplates in the schema.
+        /// </summary>
+        public virtual ICollection<NotificationConstructClaimTemplate> NotificationConstructClaimTemplates
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ProductClaimTemplates in the schema.
+        /// </summary>
+        public virtual ICollection<ProductClaimTemplate> ProductClaimTemplates
         {
             get;
             set;
@@ -252,9 +216,63 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
+        /// There are no comments for GroupRoles in the schema.
+        /// </summary>
+        public virtual ICollection<GroupRole> GroupRoles
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
         /// There are no comments for ActorClaimRoleMappings in the schema.
         /// </summary>
         public virtual ICollection<ActorClaimRoleMapping> ActorClaimRoleMappings
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ProductClaims in the schema.
+        /// </summary>
+        public virtual ICollection<ProductClaim> ProductClaims
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for NotificationConstructClaims in the schema.
+        /// </summary>
+        public virtual ICollection<NotificationConstructClaim> NotificationConstructClaims
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for StatusTypeClaimTemplates in the schema.
+        /// </summary>
+        public virtual ICollection<StatusTypeClaimTemplate> StatusTypeClaimTemplates
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for HelpItems in the schema.
+        /// </summary>
+        public virtual ICollection<HelpItem> HelpItems
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for HelpRoles in the schema.
+        /// </summary>
+        public virtual ICollection<HelpRole> HelpRoles
         {
             get;
             set;

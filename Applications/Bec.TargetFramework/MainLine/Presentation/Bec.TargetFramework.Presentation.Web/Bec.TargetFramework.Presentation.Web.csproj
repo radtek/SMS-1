@@ -191,6 +191,7 @@
     <Compile Include="Areas\Admin\Controllers\MessagesNotificationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
+    <Compile Include="Areas\Admin\Controllers\HelpController.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\Admin\Models\OrganisationSettingsModel.cs" />
@@ -259,6 +260,15 @@
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
+    <Content Include="Areas\Admin\Views\Help\Index.js" />
+    <Content Include="Areas\Admin\Views\Help\_AddEditHelpItem.js" />
+    <Content Include="Areas\Admin\Views\Help\_DeleteHelpItem.js" />
+    <Content Include="Areas\Admin\Views\Help\_DeleteHelp.js" />
+    <Content Include="Areas\Admin\Views\Help\_EditHelpItem.js" />
+    <Content Include="Areas\Admin\Views\Help\_EditHelp.js" />
+    <Content Include="Areas\Admin\Views\Help\_EditAddHelpItem.js" />
+    <Content Include="Areas\Admin\Views\Help\_AddHelpItem.js" />
+    <Content Include="Areas\Admin\Views\Help\_AddHelp.js" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.js" />
     <Content Include="Areas\Admin\Views\NewsArticle\Index.js" />
     <Content Include="Areas\Admin\Views\NewsArticle\_AddNewsArticle.js" />
@@ -270,19 +280,26 @@
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Admin\Views\Shared\_Unverify.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\Welcome.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
     <Content Include="Areas\Lender\Views\Transaction\Index.js" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\Welcome.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AdviseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
     <Content Include="BingSiteAuth.xml" />
+    <Content Include="Content\css\hopscotch.css" />
+    <Content Include="Content\css\index.css" />
     <Content Include="Content\css\sms-font.css">
       <DependentUpon>sms-font.less</DependentUpon>
     </Content>
     <Content Include="Content\css\sms-font.min.css">
       <DependentUpon>sms-font.css</DependentUpon>
     </Content>
+    <Content Include="Content\css\tomorrow.css" />
     <Content Include="Content\Fonts\sms-font.svg" />
+    <Content Include="Content\img\sprite-green.png" />
+    <Content Include="Content\img\sprite-orange.png" />
     <Content Include="Content\websiteLayout\images\flow1.jpg" />
     <Content Include="Content\websiteLayout\images\flow2.jpg" />
     <Content Include="Content\websiteLayout\images\flow3.jpg" />
@@ -311,6 +328,7 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
+    <Content Include="Scripts\hopscotch.js" />
     <Content Include="Scripts\Libs\handlebars-v4.0.5.js" />
     <Content Include="Scripts\Libs\jquery.scrollTo.js" />
     <Content Include="Areas\Admin\Views\Messages\_Conversations.js" />
@@ -906,9 +924,27 @@
     <Content Include="Areas\Lender\Views\Transaction\_transactionDetailsTmpl.cshtml" />
     <Content Include="Areas\Lender\Views\Transaction\_partiesDetailsTmpl.cshtml" />
     <Content Include="Areas\Lender\Views\_ViewStart.cshtml" />
+    <Content Include="Scripts\sizzle.js" />
+    <Content Include="Scripts\sizzle.min.js" />
+    <Content Include="Views\Shared\HelpTemplates\Callout\helptype_Tmpl.cshtml" />
+    <None Include="Views\Shared\HelpTemplates\Tour\helptype_Tmpl.cshtml" />
+    <Content Include="Views\Shared\_Tour.js" />
     <Content Include="Views\Shared\_bankAccountChecksDetailsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\OrganisationSetting\EditOrganisationSettings.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Users\_RegisteredDetailsTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_AddHelp.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\TypeTemplates\Callout\helptype_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\TypeTemplates\Tour\helptype_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\TypeTemplates\ShowMeHow\helptype_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_AddHelpItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_EditAddHelpItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_EditHelp.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_AddEditHelpItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_EditHelpItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_DeleteHelp.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\_DeleteHelpItem.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\Welcome.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1855,6 +1891,8 @@
     <Content Include="Views\Home\TutorialsForProfessionals.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\Article.cshtml" />
+    <Content Include="Views\Shared\_Tour.cshtml" />
+    <Content Include="Scripts\sizzle.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Lender\Views\Shared\" />

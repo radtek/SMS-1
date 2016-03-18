@@ -192,6 +192,18 @@ namespace Bec.TargetFramework.Presentation.Web
             return new SelectList(rejects, "Value", "Text");
         }
 
+        public static SelectList EnumListWithIntValue<T>(this HtmlHelper helper)
+        {
+            List<object> rejects = new List<object>();
+            Type eType = typeof(T);
+            foreach (var item in Enum.GetValues(eType))
+            {
+                var member = eType.GetMember(item.ToString())[0];
+                 rejects.Add(new { Text = item.ToString(), Value = Convert.ToInt32(item) });
+            }
+            return new SelectList(rejects, "Value", "Text");
+        }
+
         public static SelectList EnumListString<T>(this HtmlHelper helper)
         {
             List<object> rejects = new List<object>();
@@ -204,7 +216,7 @@ namespace Bec.TargetFramework.Presentation.Web
             }
             return new SelectList(rejects, "Value", "Text");
         }
-        
+
         public static MvcHtmlString Timeago(this HtmlHelper helper, DateTime dateTime)
         {
             return MvcHtmlString.Create(dateTime.ToRelativeDate());

@@ -21,4 +21,6 @@
 
         toastr[toastTypeValue](message, title, optionsOverride);
     });
+
+    
 });

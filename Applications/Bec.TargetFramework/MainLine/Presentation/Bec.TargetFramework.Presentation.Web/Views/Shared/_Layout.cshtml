@@ -33,8 +33,8 @@
 
     <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/kendo.metro.min.css" rel="stylesheet" />
-    
 
+    
     <!-- Startup image for web apps -->
     <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
     <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
@@ -43,8 +43,8 @@
     <!-- get these synchronously, then load page-specific scripts asynchronously -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    
     @Scripts.Render("~/bundles/scripts/site")
-
     @RenderSection("Scripts", false)
 </head>
 
@@ -62,7 +62,10 @@
     @RenderSection("pagespecific", false)
 
     @Html.Partial("_Toastr")
+    @Html.Partial("_Tour")
     <!--smart admin is a bit poor and must live at the end of the body element-->
     @Scripts.Render("~/bundles/scripts/smartadmin")
+
+
 </body>
 </html>

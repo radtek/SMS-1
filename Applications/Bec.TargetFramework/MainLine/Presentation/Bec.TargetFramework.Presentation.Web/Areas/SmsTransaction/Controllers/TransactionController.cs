@@ -95,7 +95,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.ProductAdvisedOn,
                 x.SmsTransaction.ProductDeclinedOn,
                 x.SmsTransaction.InvoiceID,
-                x.Confirmed,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,

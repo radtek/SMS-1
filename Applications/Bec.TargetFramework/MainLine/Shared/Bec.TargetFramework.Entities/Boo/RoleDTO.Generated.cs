@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public RoleDTO() {
         }
 
-        public RoleDTO(global::System.Guid roleID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, bool isActive, bool isDeleted, global::System.Nullable<bool> isGlobal, List<ModuleClaimDTO> moduleClaims, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<ProductClaimDTO> productClaims, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<GroupRoleDTO> groupRoles, List<RoleClaimDTO> roleClaims, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings) {
+        public RoleDTO(global::System.Guid roleID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, bool isActive, bool isDeleted, global::System.Nullable<bool> isGlobal, List<ArtefactClaimDTO> artefactClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<ModuleClaimDTO> moduleClaims, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<RoleClaimDTO> roleClaims, List<GroupRoleDTO> groupRoles, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings, List<ProductClaimDTO> productClaims, List<NotificationConstructClaimDTO> notificationConstructClaims, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<HelpItemDTO> helpItems, List<HelpRoleDTO> helpRoles) {
 
           this.RoleID = roleID;
           this.RoleName = roleName;
@@ -34,20 +34,22 @@ namespace Bec.TargetFramework.Entities
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
           this.IsGlobal = isGlobal;
-          this.ModuleClaims = moduleClaims;
-          this.DefaultOrganisationRoleTemplates = defaultOrganisationRoleTemplates;
-          this.ProductClaims = productClaims;
-          this.ProductClaimTemplates = productClaimTemplates;
-          this.StatusTypeClaimTemplates = statusTypeClaimTemplates;
-          this.DefaultOrganisationRoles = defaultOrganisationRoles;
-          this.ModuleClaimTemplates = moduleClaimTemplates;
-          this.NotificationConstructClaims = notificationConstructClaims;
-          this.NotificationConstructClaimTemplates = notificationConstructClaimTemplates;
-          this.ArtefactClaimTemplates = artefactClaimTemplates;
           this.ArtefactClaims = artefactClaims;
-          this.GroupRoles = groupRoles;
+          this.ArtefactClaimTemplates = artefactClaimTemplates;
+          this.DefaultOrganisationRoles = defaultOrganisationRoles;
+          this.DefaultOrganisationRoleTemplates = defaultOrganisationRoleTemplates;
+          this.ModuleClaims = moduleClaims;
+          this.ModuleClaimTemplates = moduleClaimTemplates;
+          this.NotificationConstructClaimTemplates = notificationConstructClaimTemplates;
+          this.ProductClaimTemplates = productClaimTemplates;
           this.RoleClaims = roleClaims;
+          this.GroupRoles = groupRoles;
           this.ActorClaimRoleMappings = actorClaimRoleMappings;
+          this.ProductClaims = productClaims;
+          this.NotificationConstructClaims = notificationConstructClaims;
+          this.StatusTypeClaimTemplates = statusTypeClaimTemplates;
+          this.HelpItems = helpItems;
+          this.HelpRoles = helpRoles;
         }
 
         #endregion
@@ -89,46 +91,52 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public List<ModuleClaimDTO> ModuleClaims { get; set; }
-
-        [DataMember]
-        public List<DefaultOrganisationRoleTemplateDTO> DefaultOrganisationRoleTemplates { get; set; }
-
-        [DataMember]
-        public List<ProductClaimDTO> ProductClaims { get; set; }
-
-        [DataMember]
-        public List<ProductClaimTemplateDTO> ProductClaimTemplates { get; set; }
-
-        [DataMember]
-        public List<StatusTypeClaimTemplateDTO> StatusTypeClaimTemplates { get; set; }
-
-        [DataMember]
-        public List<DefaultOrganisationRoleDTO> DefaultOrganisationRoles { get; set; }
-
-        [DataMember]
-        public List<ModuleClaimTemplateDTO> ModuleClaimTemplates { get; set; }
-
-        [DataMember]
-        public List<NotificationConstructClaimDTO> NotificationConstructClaims { get; set; }
-
-        [DataMember]
-        public List<NotificationConstructClaimTemplateDTO> NotificationConstructClaimTemplates { get; set; }
+        public List<ArtefactClaimDTO> ArtefactClaims { get; set; }
 
         [DataMember]
         public List<ArtefactClaimTemplateDTO> ArtefactClaimTemplates { get; set; }
 
         [DataMember]
-        public List<ArtefactClaimDTO> ArtefactClaims { get; set; }
+        public List<DefaultOrganisationRoleDTO> DefaultOrganisationRoles { get; set; }
 
         [DataMember]
-        public List<GroupRoleDTO> GroupRoles { get; set; }
+        public List<DefaultOrganisationRoleTemplateDTO> DefaultOrganisationRoleTemplates { get; set; }
+
+        [DataMember]
+        public List<ModuleClaimDTO> ModuleClaims { get; set; }
+
+        [DataMember]
+        public List<ModuleClaimTemplateDTO> ModuleClaimTemplates { get; set; }
+
+        [DataMember]
+        public List<NotificationConstructClaimTemplateDTO> NotificationConstructClaimTemplates { get; set; }
+
+        [DataMember]
+        public List<ProductClaimTemplateDTO> ProductClaimTemplates { get; set; }
 
         [DataMember]
         public List<RoleClaimDTO> RoleClaims { get; set; }
 
         [DataMember]
+        public List<GroupRoleDTO> GroupRoles { get; set; }
+
+        [DataMember]
         public List<ActorClaimRoleMappingDTO> ActorClaimRoleMappings { get; set; }
+
+        [DataMember]
+        public List<ProductClaimDTO> ProductClaims { get; set; }
+
+        [DataMember]
+        public List<NotificationConstructClaimDTO> NotificationConstructClaims { get; set; }
+
+        [DataMember]
+        public List<StatusTypeClaimTemplateDTO> StatusTypeClaimTemplates { get; set; }
+
+        [DataMember]
+        public List<HelpItemDTO> HelpItems { get; set; }
+
+        [DataMember]
+        public List<HelpRoleDTO> HelpRoles { get; set; }
 
         #endregion
     }

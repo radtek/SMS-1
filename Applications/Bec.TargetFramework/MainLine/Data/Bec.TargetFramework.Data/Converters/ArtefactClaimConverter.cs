@@ -43,13 +43,13 @@ namespace Bec.TargetFramework.Entities
 
             // Navigation Properties
             if (level > 0) {
-              target.Role = source.Role.ToDtoWithRelated(level - 1);
               target.ArtefactRole = source.ArtefactRole.ToDtoWithRelated(level - 1);
               target.Artefact = source.Artefact.ToDtoWithRelated(level - 1);
               target.Operation = source.Operation.ToDtoWithRelated(level - 1);
               target.Resource = source.Resource.ToDtoWithRelated(level - 1);
               target.State = source.State.ToDtoWithRelated(level - 1);
               target.StateItem = source.StateItem.ToDtoWithRelated(level - 1);
+              target.Role = source.Role.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

@@ -189,18 +189,18 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for Role in the schema.
+        /// There are no comments for NotificationConstructRole in the schema.
         /// </summary>
-        public virtual Role Role
+        public virtual NotificationConstructRole NotificationConstructRole
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for NotificationConstructRole in the schema.
+        /// There are no comments for Role in the schema.
         /// </summary>
-        public virtual NotificationConstructRole NotificationConstructRole
+        public virtual Role Role
         {
             get;
             set;

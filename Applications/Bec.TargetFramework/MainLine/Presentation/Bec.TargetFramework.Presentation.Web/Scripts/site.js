@@ -122,6 +122,7 @@ function findModalLinks() {
         if (!$(e.target).prop('disabled')) {
             $(e.target).prop('disabled', true);
             e.preventDefault();
+            console.log($(this).data('href'));
             ajaxWrapper({
                 url: $(this).data('href'),
                 cache: false
@@ -690,6 +691,21 @@ var defTmpl = function (path, states, types) {
     }
 }
 
+var defTmplWithNoContent  = function (templateUrl, path, states, types) {
+    for (var i = 0; i < states.length; i++) {
+        this[states[i]] = {};
+        for (var j = 0; j < types.length; j++) {
+            this[states[i]][types[j].description] = $.Deferred();
+            getIt(this[states[i]][types[j].description], states, types, i, j);
+        }
+    }
+
+    function getIt(d, states, types, i, j) {
+        ajaxWrapper({ url: templateUrl + '?view=' + path + types[j].name + "/" + states[i] + '_Tmpl.cshtml' })
+            .done(function (res) { d.resolve(Handlebars.compile(res)); });
+    }
+}
+
 function showtoastrError(){
     toastr.error("Sorry, something went wrong. This issue has been logged and will be investigated by our team.<br />In the meantime, please go back and try again.", "Error",
         {
@@ -710,3 +726,4 @@ if (!String.prototype.format) {
         });
     };
 }
+

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ProductClaimTemplateDTO() {
         }
 
-        public ProductClaimTemplateDTO(global::System.Guid productClaimTemplateID, global::System.Guid productTemplateID, int productVersionID, global::System.Nullable<System.Guid> roleID, global::System.Nullable<System.Guid> productRoleTemplateID, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, bool isActive, bool isDeleted, OperationDTO operation, ProductRoleTemplateDTO productRoleTemplate, ProductTemplateDTO productTemplate, ResourceDTO resource, RoleDTO role, StateDTO state, StateItemDTO stateItem) {
+        public ProductClaimTemplateDTO(global::System.Guid productClaimTemplateID, global::System.Guid productTemplateID, int productVersionID, global::System.Nullable<System.Guid> roleID, global::System.Nullable<System.Guid> productRoleTemplateID, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, bool isActive, bool isDeleted, OperationDTO operation, ProductRoleTemplateDTO productRoleTemplate, ProductTemplateDTO productTemplate, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, RoleDTO role) {
 
           this.ProductClaimTemplateID = productClaimTemplateID;
           this.ProductTemplateID = productTemplateID;
@@ -39,9 +39,9 @@ namespace Bec.TargetFramework.Entities
           this.ProductRoleTemplate = productRoleTemplate;
           this.ProductTemplate = productTemplate;
           this.Resource = resource;
-          this.Role = role;
           this.State = state;
           this.StateItem = stateItem;
+          this.Role = role;
         }
 
         #endregion
@@ -98,13 +98,13 @@ namespace Bec.TargetFramework.Entities
         public ResourceDTO Resource { get; set; }
 
         [DataMember]
-        public RoleDTO Role { get; set; }
-
-        [DataMember]
         public StateDTO State { get; set; }
 
         [DataMember]
         public StateItemDTO StateItem { get; set; }
+
+        [DataMember]
+        public RoleDTO Role { get; set; }
 
         #endregion
     }

@@ -386,6 +386,24 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationHelpVieweds in the schema.
+        /// </summary>
+        public virtual ICollection<UserAccountOrganisationHelpViewed> UserAccountOrganisationHelpVieweds
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for TempJsonData in the schema.
+        /// </summary>
+        public virtual ICollection<TempJsonDatum> TempJsonData
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public DefaultOrganisationRoleTemplateDTO() {
         }
 
-        public DefaultOrganisationRoleTemplateDTO(global::System.Guid defaultOrganisationRoleTemplateID, global::System.Guid defaultOrganisationTemplateID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> roleID, bool isActive, bool isDeleted, global::System.Nullable<bool> isDefaultOrganisationSpecific, int defaultOrganisationTemplateVersionNumber, bool isDefault, DefaultOrganisationTemplateDTO defaultOrganisationTemplate, RoleDTO role, List<DefaultOrganisationGroupRoleTemplateDTO> defaultOrganisationGroupRoleTemplates, List<DefaultOrganisationRoleClaimTemplateDTO> defaultOrganisationRoleClaimTemplates, List<DefaultOrganisationRoleTargetTemplateDTO> defaultOrganisationRoleTargetTemplates) {
+        public DefaultOrganisationRoleTemplateDTO(global::System.Guid defaultOrganisationRoleTemplateID, global::System.Guid defaultOrganisationTemplateID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> roleID, bool isActive, bool isDeleted, global::System.Nullable<bool> isDefaultOrganisationSpecific, int defaultOrganisationTemplateVersionNumber, bool isDefault, DefaultOrganisationTemplateDTO defaultOrganisationTemplate, List<DefaultOrganisationGroupRoleTemplateDTO> defaultOrganisationGroupRoleTemplates, List<DefaultOrganisationRoleClaimTemplateDTO> defaultOrganisationRoleClaimTemplates, List<DefaultOrganisationRoleTargetTemplateDTO> defaultOrganisationRoleTargetTemplates, RoleDTO role) {
 
           this.DefaultOrganisationRoleTemplateID = defaultOrganisationRoleTemplateID;
           this.DefaultOrganisationTemplateID = defaultOrganisationTemplateID;
@@ -40,10 +40,10 @@ namespace Bec.TargetFramework.Entities
           this.DefaultOrganisationTemplateVersionNumber = defaultOrganisationTemplateVersionNumber;
           this.IsDefault = isDefault;
           this.DefaultOrganisationTemplate = defaultOrganisationTemplate;
-          this.Role = role;
           this.DefaultOrganisationGroupRoleTemplates = defaultOrganisationGroupRoleTemplates;
           this.DefaultOrganisationRoleClaimTemplates = defaultOrganisationRoleClaimTemplates;
           this.DefaultOrganisationRoleTargetTemplates = defaultOrganisationRoleTargetTemplates;
+          this.Role = role;
         }
 
         #endregion
@@ -103,9 +103,6 @@ namespace Bec.TargetFramework.Entities
         public DefaultOrganisationTemplateDTO DefaultOrganisationTemplate { get; set; }
 
         [DataMember]
-        public RoleDTO Role { get; set; }
-
-        [DataMember]
         public List<DefaultOrganisationGroupRoleTemplateDTO> DefaultOrganisationGroupRoleTemplates { get; set; }
 
         [DataMember]
@@ -113,6 +110,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<DefaultOrganisationRoleTargetTemplateDTO> DefaultOrganisationRoleTargetTemplates { get; set; }
+
+        [DataMember]
+        public RoleDTO Role { get; set; }
 
         #endregion
     }

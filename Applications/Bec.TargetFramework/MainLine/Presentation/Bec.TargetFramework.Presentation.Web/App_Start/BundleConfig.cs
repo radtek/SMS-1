@@ -20,7 +20,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/content/css/smartadmin-skins.min.css",
                 "~/content/css/smartadmin-rtl.min.css",
                 "~/content/css/your_style.min.css",
-                "~/content/site.css"
+                "~/content/site.css",
+                "~/content/css/hopscotch.css"
                 ));
 
             bundles.Add(new StyleBundle("~/content/websitelayout/css/style").Include(
@@ -78,7 +79,9 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/kendo/kendo.selectable.min.js",
                 "~/Scripts/kendo/kendo.grid.min.js",
                 "~/Scripts/kendo/kendo.aspnetmvc.min.js",
-                "~/Scripts/dropzone/dropzone.js"
+                "~/Scripts/dropzone/dropzone.js",
+                "~/Scripts/hopscotch.js",
+                "~/Scripts/sizzle.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/Account/AcceptTCs/Index").Include("~/Areas/Account/Views/AcceptTCs/Index.js"));
@@ -154,6 +157,18 @@ namespace Bec.TargetFramework.Presentation.Web
 
             bundles.Add(new ScriptBundle("~/Scripts/Lender/Transaction/Index").Include("~/Areas/Lender/Views/Transaction/Index.js"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/Index").Include("~/Areas/Admin/Views/Help/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddHelp").Include("~/Areas/Admin/Views/Help/_AddHelp.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddHelpItem").Include("~/Areas/Admin/Views/Help/_AddHelpItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditAddHelpItem").Include("~/Areas/Admin/Views/Help/_EditAddHelpItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditHelp").Include("~/Areas/Admin/Views/Help/_EditHelp.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_EditHelpItem").Include("~/Areas/Admin/Views/Help/_EditHelpItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_AddEditHelpItem").Include("~/Areas/Admin/Views/Help/_AddEditHelpItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_DeleteHelpItem").Include("~/Areas/Admin/Views/Help/_DeleteHelpItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_DeleteHelp").Include("~/Areas/Admin/Views/Help/_DeleteHelp.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/HelpShared").Include("~/Areas/Admin/Views/Help/HelpShared.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_Tour").Include("~/Views/Shared/_Tour.js"));
+            
             BundleTable.EnableOptimizations = true;
         }
     }

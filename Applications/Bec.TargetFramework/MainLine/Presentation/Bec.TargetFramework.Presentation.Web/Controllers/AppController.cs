@@ -21,6 +21,8 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public IUserLogicClient UserClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
 
+        public IHelpLogicClient HelpClient { get; set; }
+
         public ActionResult Index()
         {
             TempData["WelcomeMessage"] = TempData["JustRegistered"];

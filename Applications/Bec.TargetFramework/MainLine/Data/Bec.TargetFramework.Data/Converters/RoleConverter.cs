@@ -42,20 +42,22 @@ namespace Bec.TargetFramework.Entities
 
             // Navigation Properties
             if (level > 0) {
-              target.ModuleClaims = source.ModuleClaims.ToDtosWithRelated(level - 1);
-              target.DefaultOrganisationRoleTemplates = source.DefaultOrganisationRoleTemplates.ToDtosWithRelated(level - 1);
-              target.ProductClaims = source.ProductClaims.ToDtosWithRelated(level - 1);
-              target.ProductClaimTemplates = source.ProductClaimTemplates.ToDtosWithRelated(level - 1);
-              target.StatusTypeClaimTemplates = source.StatusTypeClaimTemplates.ToDtosWithRelated(level - 1);
-              target.DefaultOrganisationRoles = source.DefaultOrganisationRoles.ToDtosWithRelated(level - 1);
-              target.ModuleClaimTemplates = source.ModuleClaimTemplates.ToDtosWithRelated(level - 1);
-              target.NotificationConstructClaims = source.NotificationConstructClaims.ToDtosWithRelated(level - 1);
-              target.NotificationConstructClaimTemplates = source.NotificationConstructClaimTemplates.ToDtosWithRelated(level - 1);
-              target.ArtefactClaimTemplates = source.ArtefactClaimTemplates.ToDtosWithRelated(level - 1);
               target.ArtefactClaims = source.ArtefactClaims.ToDtosWithRelated(level - 1);
-              target.GroupRoles = source.GroupRoles.ToDtosWithRelated(level - 1);
+              target.ArtefactClaimTemplates = source.ArtefactClaimTemplates.ToDtosWithRelated(level - 1);
+              target.DefaultOrganisationRoles = source.DefaultOrganisationRoles.ToDtosWithRelated(level - 1);
+              target.DefaultOrganisationRoleTemplates = source.DefaultOrganisationRoleTemplates.ToDtosWithRelated(level - 1);
+              target.ModuleClaims = source.ModuleClaims.ToDtosWithRelated(level - 1);
+              target.ModuleClaimTemplates = source.ModuleClaimTemplates.ToDtosWithRelated(level - 1);
+              target.NotificationConstructClaimTemplates = source.NotificationConstructClaimTemplates.ToDtosWithRelated(level - 1);
+              target.ProductClaimTemplates = source.ProductClaimTemplates.ToDtosWithRelated(level - 1);
               target.RoleClaims = source.RoleClaims.ToDtosWithRelated(level - 1);
+              target.GroupRoles = source.GroupRoles.ToDtosWithRelated(level - 1);
               target.ActorClaimRoleMappings = source.ActorClaimRoleMappings.ToDtosWithRelated(level - 1);
+              target.ProductClaims = source.ProductClaims.ToDtosWithRelated(level - 1);
+              target.NotificationConstructClaims = source.NotificationConstructClaims.ToDtosWithRelated(level - 1);
+              target.StatusTypeClaimTemplates = source.StatusTypeClaimTemplates.ToDtosWithRelated(level - 1);
+              target.HelpItems = source.HelpItems.ToDtosWithRelated(level - 1);
+              target.HelpRoles = source.HelpRoles.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

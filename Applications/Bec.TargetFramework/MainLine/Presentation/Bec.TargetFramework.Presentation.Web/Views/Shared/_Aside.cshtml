@@ -7,43 +7,43 @@
                 @if (ClaimsHelper.UserHasClaim("View", "SmsTransactionsOverview"))
                 {
                     <li class="@Html.RouteIf("active", "Transaction", "Index")">
-                        <a href="@Url.Action("Index", "Transaction", new { Area = "Lender" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
+                        <a href="@Url.Action("Index", "Transaction", new { Area = "Lender" })" id="lenderTransactionsMenu"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
                     </li>
                 }
                 @if (ClaimsHelper.UserHasClaim("View", "MyTransactions"))
                 {
                     <li class="@Html.RouteIf("active", "SafeBuyer", "Index")">
-                        <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
+                        <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer" })" id="buyerTransactionMenu"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
                     </li>
                 }
                 @if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
                 {
                     <li class="@Html.RouteIf("active", "Transaction", "Index")">
-                        <a href="@Url.Action("Index", "Transaction", new { Area = "SmsTransaction" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
+                        <a href="@Url.Action("Index", "Transaction", new { Area = "SmsTransaction" })" id="smsTransactionsMenu"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
                     </li>
                 }
                 @if (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("View", "Products"))
                 {
                     <li class="@Html.RouteIf("active", "Downloads", "Index")">
-                        <a href="@Url.Action("Index", "Downloads", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-download"></i> <span class="menu-item-parent">Downloads</span></a>
+                        <a href="@Url.Action("Index", "Downloads", new { Area = "ProOrganisation" })" id="downloadsMenu"><i class="fa fa-lg fa-fw fa-download"></i> <span class="menu-item-parent">Downloads</span></a>
                     </li>
                 }
                 <li class="@Html.RouteIf("active", "Messages", "Index")">
-                    <a href="@Url.Action("Index", "Messages", new { Area = "Admin" })"><i class="sms sms-lg sms-fw sms-safe-send"></i> <span class="menu-item-parent">Safe Send Messages</span></a>
+                    <a href="@Url.Action("Index", "Messages", new { Area = "Admin" })" id="safeSendMessagesMenu"><i class="sms sms-lg sms-fw sms-safe-send"></i> <span class="menu-item-parent">Safe Send Messages</span></a>
                 </li>
                 @if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
                 {
                     <li class="@Html.RouteIf("active", "Account", "index")">
-                        <a href="@Url.Action("index", "Account", new { Area = "BankAccount" })"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Manage Bank Accounts</span></a>
+                        <a href="@Url.Action("index", "Account", new { Area = "BankAccount" })" id="manageBankAccountMenu"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Manage Bank Accounts</span></a>
                     </li>
                 }
                 @if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
                 {
                     <li class="@Html.RouteIf("open", "Finance")">
-                        <a href="#"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Finance</span></a>
+                        <a href="#"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent" id="financeMenu">Finance</span></a>
                         <ul>
                             <li class="@Html.RouteIf("active", "Finance", "OutstandingBankAccounts")">
-                                <a href="@Url.Action("OutstandingBankAccounts", "Finance", new { area = "Admin" })">View Bank Accounts</a>
+                                <a href="@Url.Action("OutstandingBankAccounts", "Finance", new { area = "Admin" })" id="viewBankAccoutMenu">View Bank Accounts</a>
                             </li>
                         </ul>
                     </li>
@@ -51,13 +51,13 @@
                 @if (ClaimsHelper.UserHasClaim("Add", "Company"))
                 {
                     <li class="@Html.RouteIf("open", "Company")">
-                        <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Company</span></a>
+                        <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent" id="companyMenu">Company</span></a>
                         <ul>
                             <li class="@Html.RouteIf("active", "Company", "Provisional")">
-                                <a href="@Url.Action("Provisional", "Company", new { area = "Admin" })">View Provisional Companies</a>
+                                <a href="@Url.Action("Provisional", "Company", new { area = "Admin" })" id="companyViewProvisionalMenu">View Provisional Companies</a>
                             </li>
                             <li class="@Html.RouteIf("active", "Company", "Qualified")">
-                                <a href="@Url.Action("Qualified", "Company", new { area = "Admin" })">View Qualified Companies</a>
+                                <a href="@Url.Action("Qualified", "Company", new { area = "Admin" })" id="companyViewQualifiedMenu">View Qualified Companies</a>
                             </li>
                         </ul>
                     </li>
@@ -65,13 +65,13 @@
                 @if (ClaimsHelper.UserHasClaim("Add", "ProUsers"))
                 {
                     <li class="@Html.RouteIf("open", "Users")">
-                        <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Users</span></a>
+                        <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent" id="usersMenu">Users</span></a>
                         <ul>
                             <li class="@Html.RouteIf("active", "Users", "Invited")">
-                                <a href="@Url.Action("Invited", "Users", new { area = "ProOrganisation" })">View Invited Users</a>
+                                <a href="@Url.Action("Invited", "Users", new { area = "ProOrganisation" })" id="usersViewInvitedUsersMenu">View Invited Users</a>
                             </li>
                             <li class="@Html.RouteIf("active", "Users", "Registered")">
-                                <a href="@Url.Action("Registered", "Users", new { area = "ProOrganisation" })">View Registered Users</a>
+                                <a href="@Url.Action("Registered", "Users", new { area = "ProOrganisation" })" id="usersViewRegisteredUsersMenu">View Registered Users</a>
                             </li>
                         </ul>
                     </li>
@@ -80,29 +80,44 @@
                 @if (ClaimsHelper.UserHasClaim("Add", "Company"))
                 {
                     <li class="@Html.RouteIf("open", "Reporting")">
-                        <a href="#"><i class="fa fa-lg fa-fw fa-file-text-o"></i> <span class="menu-item-parent">Reports</span></a>
+                        <a href="#"><i class="fa fa-lg fa-fw fa-file-text-o"></i> <span class="menu-item-parent" id="reportsMenu">Reports</span></a>
                         <ul>
                             <li class="@Html.RouteIf("active", "Reporting", "Transactions")">
-                                <a href="@Url.Action("Transactions", "Reporting", new { area = "Admin" })">Transactions</a>
+                                <a href="@Url.Action("Transactions", "Reporting", new { area = "Admin" })" id="reportsTransactionsMenu">Transactions</a>
                             </li>
                             <li class="@Html.RouteIf("active", "Reporting", "Firms")">
-                                <a href="@Url.Action("Firms", "Reporting", new { area = "Admin" })">Firms</a>
+                                <a href="@Url.Action("Firms", "Reporting", new { area = "Admin" })" id="reportsFirmsMenu">Firms</a>
                             </li>
                             <li class="@Html.RouteIf("active", "Reporting", "Users")">
-                                <a href="@Url.Action("Users", "Reporting", new { area = "Admin" })">Users</a>
+                                <a href="@Url.Action("Users", "Reporting", new { area = "Admin" })" id="reportsUsersMenu">Users</a>
                             </li>
                         </ul>
                     </li>
                     <li class="@Html.RouteIf("active", "NewsArticle", "Index")">
-                        <a href="@Url.Action("Index", "NewsArticle", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-newspaper-o"></i> <span class="menu-item-parent">News Articles</span></a>
+                        <a href="@Url.Action("Index", "NewsArticle", new { Area = "Admin" })" id="newsArticlesMenu"><i class="fa fa-lg fa-fw fa-newspaper-o"></i> <span class="menu-item-parent">News Articles</span></a>
                     </li>
                 }
                 @* Just a temporary solution for SRO Ana access control *@
                 @if (ClaimsHelper.UserHasClaim("Add", "ProUsers") && ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
                 {
                     <li class="@Html.RouteIf("active", "OrganisationSetting", "EditOrganisationSettings")">
-                        <a href="@Url.Action("EditOrganisationSettings", "OrganisationSetting", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-cog"></i> <span class="menu-item-parent">Organisation Settings</span></a>
+                        <a href="@Url.Action("EditOrganisationSettings", "OrganisationSetting", new { Area = "Admin" })" id="organisationSettingsMenu"><i class="fa fa-lg fa-fw fa-cog"></i> <span class="menu-item-parent">Organisation Settings</span></a>
                     </li>
+                }
+                
+                @if (ClaimsHelper.UserHasClaim("View", "SupportManagement"))
+                {
+                    <li>
+                        <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent" id="supportMenu">Support</span></a>
+                        <ul>
+                            @if (ClaimsHelper.UserHasClaim("Add", "Help"))
+                            { 
+                                <li class="@Html.RouteIf("active", "Help", "Index")">
+                                    <a href="@Url.Action("Index", "Help", new { area = "Admin" })" id="helpManagementMenu">Help Management</a>
+                                </li>
+                                }
+                            </ul>
+                        </li>
                 }
             </ul>
         </nav>

@@ -1,0 +1,49 @@
+﻿
+<div class="col-sm-4">
+    <!-- well -->
+    <div class="well">
+        <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true" data-href="@Url.Action("EditHelp", "Help", new { area = "Admin" })?hID={{HelpID}}"><i class="fa fa-pencil margin-right-5"></i>Edit Tour</a>
+        <a id="deleteButton" class="btn btn-primary btn-sm" data-modallink="true" data-href="@Url.Action("DeleteHelp", "Help", new { area = "Admin" })?hID={{HelpID}}"><i class="fa fa-pencil margin-right-5"></i>Delete Tour</a>
+        <h5>Tour</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{Name}}</p></dd>
+            <dt>Description:</dt>
+            <dd><p>{{Description}}</p></dd>
+        </dl>
+    </div>
+</div>
+
+
+<div class="col-sm-8">
+    <!-- well -->
+    <div class="well">
+        <h5>Items</h5>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>UI Selector</th>
+                    <th>UI Position</th>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each helpItems}}
+                <tr>
+                    <td >{{Title}}</td>
+                    <td >{{UiSelector}}</td>
+                    <td >{{ClassificationType.Name}}</td>
+                    <td width="20%">
+                        <table>
+                            {{#each Roles}}
+                            <tr><td>{{RoleName}}</td></tr>
+                            {{/each}}
+                        </table>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

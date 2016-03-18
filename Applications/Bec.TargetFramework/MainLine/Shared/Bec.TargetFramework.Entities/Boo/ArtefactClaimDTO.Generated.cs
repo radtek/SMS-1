@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ArtefactClaimDTO() {
         }
 
-        public ArtefactClaimDTO(global::System.Guid artefactClaimID, global::System.Nullable<System.Guid> artefactID, global::System.Nullable<int> artefactVersionNumber, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> artefactRoleID, global::System.Nullable<System.Guid> roleID, RoleDTO role, ArtefactRoleDTO artefactRole, ArtefactDTO artefact, OperationDTO operation, ResourceDTO resource, StateDTO state, StateItemDTO stateItem) {
+        public ArtefactClaimDTO(global::System.Guid artefactClaimID, global::System.Nullable<System.Guid> artefactID, global::System.Nullable<int> artefactVersionNumber, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> artefactRoleID, global::System.Nullable<System.Guid> roleID, ArtefactRoleDTO artefactRole, ArtefactDTO artefact, OperationDTO operation, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, RoleDTO role) {
 
           this.ArtefactClaimID = artefactClaimID;
           this.ArtefactID = artefactID;
@@ -35,13 +35,13 @@ namespace Bec.TargetFramework.Entities
           this.IsDeleted = isDeleted;
           this.ArtefactRoleID = artefactRoleID;
           this.RoleID = roleID;
-          this.Role = role;
           this.ArtefactRole = artefactRole;
           this.Artefact = artefact;
           this.Operation = operation;
           this.Resource = resource;
           this.State = state;
           this.StateItem = stateItem;
+          this.Role = role;
         }
 
         #endregion
@@ -86,9 +86,6 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public RoleDTO Role { get; set; }
-
-        [DataMember]
         public ArtefactRoleDTO ArtefactRole { get; set; }
 
         [DataMember]
@@ -105,6 +102,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public StateItemDTO StateItem { get; set; }
+
+        [DataMember]
+        public RoleDTO Role { get; set; }
 
         #endregion
     }

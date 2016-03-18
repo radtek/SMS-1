@@ -10,7 +10,8 @@
     var heading = "";
 }
 
-<div id="content" class="buyer-transactions" data-advised="@Model.SmsTransaction.IsProductAdvised" data-purchased="@Model.SmsTransaction.InvoiceID.HasValue" data-declined="@Model.SmsTransaction.ProductDeclinedOn.HasValue">
+<div id="content" class="buyer-transactions" data-advised="@Model.SmsTransaction.IsProductAdvised" data-purchased="@Model.SmsTransaction.InvoiceID.HasValue" data-declined="@Model.SmsTransaction.ProductDeclinedOn.HasValue"
+     data-welcome="@TempData["WelcomeMessage"]" data-welcomeurl="@Url.Action("Welcome", "SafeBuyer", new { Area = "Buyer" })" >
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
             <i class="fa fa-home fa-lg margin-right-10"></i>

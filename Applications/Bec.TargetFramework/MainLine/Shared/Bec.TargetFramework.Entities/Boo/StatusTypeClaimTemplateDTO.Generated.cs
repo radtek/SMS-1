@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public StatusTypeClaimTemplateDTO() {
         }
 
-        public StatusTypeClaimTemplateDTO(global::System.Guid statusTypeClaimTemplateID, global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> roleID, global::System.Nullable<System.Guid> statusTypeRoleTemplateID, OperationDTO operation, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, RoleDTO role, StatusTypeRoleTemplateDTO statusTypeRoleTemplate, StatusTypeTemplateDTO statusTypeTemplate) {
+        public StatusTypeClaimTemplateDTO(global::System.Guid statusTypeClaimTemplateID, global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, global::System.Nullable<System.Guid> resourceID, global::System.Nullable<System.Guid> operationID, global::System.Nullable<System.Guid> stateID, global::System.Nullable<System.Guid> stateItemID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> roleID, global::System.Nullable<System.Guid> statusTypeRoleTemplateID, OperationDTO operation, ResourceDTO resource, StateDTO state, StateItemDTO stateItem, StatusTypeRoleTemplateDTO statusTypeRoleTemplate, StatusTypeTemplateDTO statusTypeTemplate, RoleDTO role) {
 
           this.StatusTypeClaimTemplateID = statusTypeClaimTemplateID;
           this.StatusTypeTemplateID = statusTypeTemplateID;
@@ -39,9 +39,9 @@ namespace Bec.TargetFramework.Entities
           this.Resource = resource;
           this.State = state;
           this.StateItem = stateItem;
-          this.Role = role;
           this.StatusTypeRoleTemplate = statusTypeRoleTemplate;
           this.StatusTypeTemplate = statusTypeTemplate;
+          this.Role = role;
         }
 
         #endregion
@@ -98,13 +98,13 @@ namespace Bec.TargetFramework.Entities
         public StateItemDTO StateItem { get; set; }
 
         [DataMember]
-        public RoleDTO Role { get; set; }
-
-        [DataMember]
         public StatusTypeRoleTemplateDTO StatusTypeRoleTemplate { get; set; }
 
         [DataMember]
         public StatusTypeTemplateDTO StatusTypeTemplate { get; set; }
+
+        [DataMember]
+        public RoleDTO Role { get; set; }
 
         #endregion
     }

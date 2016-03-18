@@ -181,15 +181,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for Role in the schema.
-        /// </summary>
-        public virtual Role Role
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ModuleRole in the schema.
         /// </summary>
         public virtual ModuleRole ModuleRole
@@ -202,6 +193,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for Operation in the schema.
         /// </summary>
         public virtual Operation Operation
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Role in the schema.
+        /// </summary>
+        public virtual Role Role
         {
             get;
             set;

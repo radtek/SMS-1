@@ -151,15 +151,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for Role in the schema.
-        /// </summary>
-        public virtual Role Role
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for State in the schema.
         /// </summary>
         public virtual State State
@@ -172,6 +163,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for StateItem in the schema.
         /// </summary>
         public virtual StateItem StateItem
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Role in the schema.
+        /// </summary>
+        public virtual Role Role
         {
             get;
             set;

@@ -1,0 +1,38 @@
+﻿@using Bec.TargetFramework.Entities
+@model AddHelpItemDTO
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="deleteHelpItemLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteHelpItemLabel">Delete Help</h4>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("DeleteHelpItem", "Help", new { area = "Admin" })" method="POST" id="deleteHelpItem-form" class="smart-form">
+                    @Html.ValidationBootstrap()
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.HelpItemID)
+                    <fieldset>
+                        <div class="row">
+                            <div class="row">
+                                <section class="col">
+                                    <label class="label">Are you sure you want to delete '@Model.Title'?</label>
+                                </section>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer" id="deleteHelpItemControls">
+                <button type="button" id="cancelDeleteHelpItem" class="btn btn-default" data-dismiss="modal" tabindex="30">
+                    Cancel
+                </button>
+                <button type="button" id="submitDeleteHelpItem" class="btn btn-primary" tabindex="5">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Help/_DeleteHelpItem")"></script>

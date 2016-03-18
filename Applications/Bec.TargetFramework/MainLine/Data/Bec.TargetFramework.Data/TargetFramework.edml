@@ -208,7 +208,6 @@
           <EntitySet Name="Contacts" EntityType="Bec.TargetFramework.Data.Store.Contact" store:Type="Tables" Schema="public" Table="Contact" />
           <EntitySet Name="ModuleDependencyTemplates" EntityType="Bec.TargetFramework.Data.Store.ModuleDependencyTemplate" store:Type="Tables" Schema="public" Table="ModuleDependencyTemplate" />
           <EntitySet Name="InterfacePanelTemplates" EntityType="Bec.TargetFramework.Data.Store.InterfacePanelTemplate" store:Type="Tables" Schema="public" Table="InterfacePanelTemplate" />
-          <EntitySet Name="Roles" EntityType="Bec.TargetFramework.Data.Store.Role" store:Type="Tables" Schema="public" Table="Role" />
           <EntitySet Name="ArtefactNotificationConstructTemplates" EntityType="Bec.TargetFramework.Data.Store.ArtefactNotificationConstructTemplate" store:Type="Tables" Schema="public" Table="ArtefactNotificationConstructTemplate" />
           <EntitySet Name="ArtefactRoleTemplates" EntityType="Bec.TargetFramework.Data.Store.ArtefactRoleTemplate" store:Type="Tables" Schema="public" Table="ArtefactRoleTemplate" />
           <EntitySet Name="ArtefactDependencyTemplates" EntityType="Bec.TargetFramework.Data.Store.ArtefactDependencyTemplate" store:Type="Tables" Schema="public" Table="ArtefactDependencyTemplate" />
@@ -420,6 +419,14 @@
           <EntitySet Name="ConversationSafeSendGroupParticipants" EntityType="Bec.TargetFramework.Data.Store.ConversationSafeSendGroupParticipant" store:Type="Tables" Schema="public" Table="ConversationSafeSendGroupParticipant" />
           <EntitySet Name="SafeSendGroups" EntityType="Bec.TargetFramework.Data.Store.SafeSendGroup" store:Type="Tables" Schema="public" Table="SafeSendGroup" />
           <EntitySet Name="UserAccountOrganisationSafeSendGroups" EntityType="Bec.TargetFramework.Data.Store.UserAccountOrganisationSafeSendGroup" store:Type="Tables" Schema="public" Table="UserAccountOrganisationSafeSendGroup" />
+          <EntitySet Name="Helps" EntityType="Bec.TargetFramework.Data.Store.Help" store:Type="Tables" Schema="public" Table="Help" />
+          <EntitySet Name="UserAccountOrganisationHelpVieweds" EntityType="Bec.TargetFramework.Data.Store.UserAccountOrganisationHelpViewed" store:Type="Tables" Schema="public" Table="UserAccountOrganisationHelpViewed" />
+          <EntitySet Name="vOrganisationRoleHierarchies" EntityType="Bec.TargetFramework.Data.Store.vOrganisationRoleHierarchy" store:Type="Views" Schema="public" Table="vOrganisationRoleHierarchy" />
+          <EntitySet Name="TempJsonData" EntityType="Bec.TargetFramework.Data.Store.TempJsonData" store:Type="Tables" Schema="public" Table="TempJsonData" />
+          <EntitySet Name="Roles" EntityType="Bec.TargetFramework.Data.Store.Role" store:Type="Tables" Schema="public" Table="Role" />
+          <EntitySet Name="HelpItems" EntityType="Bec.TargetFramework.Data.Store.HelpItem" store:Type="Tables" Schema="public" Table="HelpItem" />
+          <EntitySet Name="HelpItemRoles" EntityType="Bec.TargetFramework.Data.Store.HelpItemRole" store:Type="Tables" Schema="public" Table="HelpItemRole" />
+          <EntitySet Name="HelpRoles" EntityType="Bec.TargetFramework.Data.Store.HelpRole" store:Type="Tables" Schema="public" Table="HelpRole" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -486,10 +493,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_ModuleRoleClaim_StateItem" Association="Bec.TargetFramework.Data.Store.fk_ModuleRoleClaim_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
-            <End Role="ModuleClaim" EntitySet="ModuleClaims" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ModuleClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_ModuleClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="ModuleClaim" EntitySet="ModuleClaims" />
           </AssociationSet>
           <AssociationSet Name="fk_ModuleClaim_ModuleRole" Association="Bec.TargetFramework.Data.Store.fk_ModuleClaim_ModuleRole">
@@ -682,10 +685,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_DefaultOrganisationRole_DefaultOrganisationT" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationRole_DefaultOrganisationT">
             <End Role="DefaultOrganisationTemplate" EntitySet="DefaultOrganisationTemplates" />
-            <End Role="DefaultOrganisationRoleTemplate" EntitySet="DefaultOrganisationRoleTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_DefaultOrganisationRole_RoleT" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationRole_RoleT">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="DefaultOrganisationRoleTemplate" EntitySet="DefaultOrganisationRoleTemplates" />
           </AssociationSet>
           <AssociationSet Name="fk_ModuleStatusTypeTemplate_ModuleTemplate" Association="Bec.TargetFramework.Data.Store.fk_ModuleStatusTypeTemplate_ModuleTemplate">
@@ -1048,10 +1047,6 @@
             <End Role="Resource" EntitySet="Resources" />
             <End Role="ProductClaim" EntitySet="ProductClaims" />
           </AssociationSet>
-          <AssociationSet Name="fk_ProductClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_ProductClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ProductClaim" EntitySet="ProductClaims" />
-          </AssociationSet>
           <AssociationSet Name="fk_ProductClaim_State" Association="Bec.TargetFramework.Data.Store.fk_ProductClaim_State">
             <End Role="State" EntitySet="States" />
             <End Role="ProductClaim" EntitySet="ProductClaims" />
@@ -1162,10 +1157,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_ProductClaimTemplate_Resource" Association="Bec.TargetFramework.Data.Store.fk_ProductClaimTemplate_Resource">
             <End Role="Resource" EntitySet="Resources" />
-            <End Role="ProductClaimTemplate" EntitySet="ProductClaimTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProductClaimTemplate_Role" Association="Bec.TargetFramework.Data.Store.fk_ProductClaimTemplate_Role">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="ProductClaimTemplate" EntitySet="ProductClaimTemplates" />
           </AssociationSet>
           <AssociationSet Name="fk_ProductClaimTemplate_State" Association="Bec.TargetFramework.Data.Store.fk_ProductClaimTemplate_State">
@@ -1452,10 +1443,6 @@
             <End Role="StateItem" EntitySet="StateItems" />
             <End Role="StatusTypeClaimTemplate" EntitySet="StatusTypeClaimTemplates" />
           </AssociationSet>
-          <AssociationSet Name="fk_StatusTypeClaimTemplate_Role" Association="Bec.TargetFramework.Data.Store.fk_StatusTypeClaimTemplate_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="StatusTypeClaimTemplate" EntitySet="StatusTypeClaimTemplates" />
-          </AssociationSet>
           <AssociationSet Name="fk_StatusTypeClaimTemplate_StatusTypeRoleTemplate" Association="Bec.TargetFramework.Data.Store.fk_StatusTypeClaimTemplate_StatusTypeRoleTemplate">
             <End Role="StatusTypeRoleTemplate" EntitySet="StatusTypeRoleTemplates" />
             <End Role="StatusTypeClaimTemplate" EntitySet="StatusTypeClaimTemplates" />
@@ -1540,10 +1527,6 @@
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationRole" EntitySet="DefaultOrganisationRoles" />
           </AssociationSet>
-          <AssociationSet Name="fk_DefaultOrganisationRole_Role" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationRole_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="DefaultOrganisationRole" EntitySet="DefaultOrganisationRoles" />
-          </AssociationSet>
           <AssociationSet Name="FK UnitMap" Association="Bec.TargetFramework.Data.Store.FK UnitMap">
             <End Role="OrganisationUnit" EntitySet="OrganisationUnits" />
             <End Role="OrganisationUnitStructure" EntitySet="OrganisationUnitStructures" />
@@ -1576,10 +1559,6 @@
             <End Role="ModuleRoleTemplate" EntitySet="ModuleRoleTemplates" />
             <End Role="ModuleClaimTemplate" EntitySet="ModuleClaimTemplates" />
           </AssociationSet>
-          <AssociationSet Name="fk_ModuleClaimTemplate_Role" Association="Bec.TargetFramework.Data.Store.fk_ModuleClaimTemplate_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ModuleClaimTemplate" EntitySet="ModuleClaimTemplates" />
-          </AssociationSet>
           <AssociationSet Name="fk_ModuleRoleClaimTemplate_Operation" Association="Bec.TargetFramework.Data.Store.fk_ModuleRoleClaimTemplate_Operation">
             <End Role="Operation" EntitySet="Operations" />
             <End Role="ModuleClaimTemplate" EntitySet="ModuleClaimTemplates" />
@@ -1602,10 +1581,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_NotificationConstructRoleClaim_StateItem" Association="Bec.TargetFramework.Data.Store.fk_NotificationConstructRoleClaim_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
-            <End Role="NotificationConstructClaim" EntitySet="NotificationConstructClaims" />
-          </AssociationSet>
-          <AssociationSet Name="fk_NotificationConstructClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_NotificationConstructClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="NotificationConstructClaim" EntitySet="NotificationConstructClaims" />
           </AssociationSet>
           <AssociationSet Name="fk_NotificationConstructRoleClaim_NotificationConstructRole" Association="Bec.TargetFramework.Data.Store.fk_NotificationConstructRoleClaim_NotificationConstructRole">
@@ -1634,10 +1609,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_NotificationConstructRoleClaimTemplate_StateItem" Association="Bec.TargetFramework.Data.Store.fk_NotificationConstructRoleClaimTemplate_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
-            <End Role="NotificationConstructClaimTemplate" EntitySet="NotificationConstructClaimTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ModuleClaim_ModuleRole1" Association="Bec.TargetFramework.Data.Store.fk_ModuleClaim_ModuleRole1">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="NotificationConstructClaimTemplate" EntitySet="NotificationConstructClaimTemplates" />
           </AssociationSet>
           <AssociationSet Name="fk_AttachmentDetailGroup_AttachmentDetail" Association="Bec.TargetFramework.Data.Store.fk_AttachmentDetailGroup_AttachmentDetail">
@@ -1715,14 +1686,6 @@
           <AssociationSet Name="fk_ArtefactClaimTemplate_StateItem" Association="Bec.TargetFramework.Data.Store.fk_ArtefactClaimTemplate_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
             <End Role="ArtefactClaimTemplate" EntitySet="ArtefactClaimTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ArtefactClaimTemplate_Role" Association="Bec.TargetFramework.Data.Store.fk_ArtefactClaimTemplate_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ArtefactClaimTemplate" EntitySet="ArtefactClaimTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ArtefactClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_ArtefactClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ArtefactClaim" EntitySet="ArtefactClaims" />
           </AssociationSet>
           <AssociationSet Name="fk_ArtefactClaim_ArtefactRole" Association="Bec.TargetFramework.Data.Store.fk_ArtefactClaim_ArtefactRole">
             <End Role="ArtefactRole" EntitySet="ArtefactRoles" />
@@ -1830,10 +1793,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_GroupTemplateRole_GroupTemplate" Association="Bec.TargetFramework.Data.Store.FK_GroupTemplateRole_GroupTemplate">
             <End Role="Group" EntitySet="Groups" />
-            <End Role="GroupRole" EntitySet="GroupRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupTemplateRole_RoleTemplate" Association="Bec.TargetFramework.Data.Store.FK_GroupTemplateRole_RoleTemplate">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="GroupRole" EntitySet="GroupRoles" />
           </AssociationSet>
           <AssociationSet Name="fk_ModulePluginTemplate_ModuleTemplate" Association="Bec.TargetFramework.Data.Store.fk_ModulePluginTemplate_ModuleTemplate">
@@ -2026,10 +1985,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_RoleTemplateClaim_StateItem" Association="Bec.TargetFramework.Data.Store.fk_RoleTemplateClaim_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
-            <End Role="RoleClaim" EntitySet="RoleClaims" />
-          </AssociationSet>
-          <AssociationSet Name="fk_RoleTemplateClaim_RoleTemplate" Association="Bec.TargetFramework.Data.Store.fk_RoleTemplateClaim_RoleTemplate">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="RoleClaim" EntitySet="RoleClaims" />
           </AssociationSet>
           <AssociationSet Name="fk_ModuleArtefactTemplate_ModuleTemplate" Association="Bec.TargetFramework.Data.Store.fk_ModuleArtefactTemplate_ModuleTemplate">
@@ -2514,10 +2469,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_ActorClaim_Resource" Association="Bec.TargetFramework.Data.Store.fk_ActorClaim_Resource">
             <End Role="Resource" EntitySet="Resources" />
-            <End Role="ActorClaimRoleMapping" EntitySet="ActorClaimRoleMappings" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ActorClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_ActorClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="ActorClaimRoleMapping" EntitySet="ActorClaimRoleMappings" />
           </AssociationSet>
           <AssociationSet Name="fk_ActorClaim_State" Association="Bec.TargetFramework.Data.Store.fk_ActorClaim_State">
@@ -3019,6 +2970,98 @@
           <AssociationSet Name="UserAccountOrganisationFunction_Function_fk" Association="Bec.TargetFramework.Data.Store.UserAccountOrganisationFunction_Function_fk">
             <End Role="SafeSendGroup" EntitySet="SafeSendGroups" />
             <End Role="UserAccountOrganisationSafeSendGroup" EntitySet="UserAccountOrganisationSafeSendGroups" />
+          </AssociationSet>
+          <AssociationSet Name="UAO_UaoHelpViewed" Association="Bec.TargetFramework.Data.Store.UAO_UaoHelpViewed">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="UserAccountOrganisationHelpViewed" EntitySet="UserAccountOrganisationHelpVieweds" />
+          </AssociationSet>
+          <AssociationSet Name="HelpTypeiD_Classificiation" Association="Bec.TargetFramework.Data.Store.HelpTypeiD_Classificiation">
+            <End Role="ClassificationType" EntitySet="ClassificationTypes" />
+            <End Role="Help" EntitySet="Helps" />
+          </AssociationSet>
+          <AssociationSet Name="Help_HelpItem" Association="Bec.TargetFramework.Data.Store.Help_HelpItem">
+            <End Role="Help" EntitySet="Helps" />
+            <End Role="HelpItem" EntitySet="HelpItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ArtefactClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_ArtefactClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ArtefactClaim" EntitySet="ArtefactClaims" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ArtefactClaimTemplate_Role" Association="Bec.TargetFramework.Data.Store.fk_ArtefactClaimTemplate_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ArtefactClaimTemplate" EntitySet="ArtefactClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DefaultOrganisationRole_Role" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationRole_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="DefaultOrganisationRole" EntitySet="DefaultOrganisationRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DefaultOrganisationRole_RoleT" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationRole_RoleT">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="DefaultOrganisationRoleTemplate" EntitySet="DefaultOrganisationRoleTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ModuleClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_ModuleClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ModuleClaim" EntitySet="ModuleClaims" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ModuleClaimTemplate_Role" Association="Bec.TargetFramework.Data.Store.fk_ModuleClaimTemplate_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ModuleClaimTemplate" EntitySet="ModuleClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ModuleClaim_ModuleRole1" Association="Bec.TargetFramework.Data.Store.fk_ModuleClaim_ModuleRole1">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="NotificationConstructClaimTemplate" EntitySet="NotificationConstructClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProductClaimTemplate_Role" Association="Bec.TargetFramework.Data.Store.fk_ProductClaimTemplate_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ProductClaimTemplate" EntitySet="ProductClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RoleTemplateClaim_RoleTemplate" Association="Bec.TargetFramework.Data.Store.fk_RoleTemplateClaim_RoleTemplate">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RoleClaim" EntitySet="RoleClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupTemplateRole_RoleTemplate" Association="Bec.TargetFramework.Data.Store.FK_GroupTemplateRole_RoleTemplate">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="GroupRole" EntitySet="GroupRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ActorClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_ActorClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ActorClaimRoleMapping" EntitySet="ActorClaimRoleMappings" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProductClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_ProductClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ProductClaim" EntitySet="ProductClaims" />
+          </AssociationSet>
+          <AssociationSet Name="fk_NotificationConstructClaim_Role" Association="Bec.TargetFramework.Data.Store.fk_NotificationConstructClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="NotificationConstructClaim" EntitySet="NotificationConstructClaims" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeClaimTemplate_Role" Association="Bec.TargetFramework.Data.Store.fk_StatusTypeClaimTemplate_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="StatusTypeClaimTemplate" EntitySet="StatusTypeClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="HelpItemID_UAOID" Association="Bec.TargetFramework.Data.Store.HelpItemID_UAOID">
+            <End Role="HelpItem" EntitySet="HelpItems" />
+            <End Role="UserAccountOrganisationHelpViewed" EntitySet="UserAccountOrganisationHelpVieweds" />
+          </AssociationSet>
+          <AssociationSet Name="HelpItem_HelpItemRole" Association="Bec.TargetFramework.Data.Store.HelpItem_HelpItemRole">
+            <End Role="HelpItem" EntitySet="HelpItems" />
+            <End Role="HelpItemRole" EntitySet="HelpItemRoles" />
+          </AssociationSet>
+          <AssociationSet Name="HelpItemRole_fk" Association="Bec.TargetFramework.Data.Store.HelpItemRole_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="HelpItemRole" EntitySet="HelpItemRoles" />
+          </AssociationSet>
+          <AssociationSet Name="HelpRole_fk" Association="Bec.TargetFramework.Data.Store.HelpRole_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="HelpRole" EntitySet="HelpRoles" />
+          </AssociationSet>
+          <AssociationSet Name="TempJsonData_fk" Association="Bec.TargetFramework.Data.Store.TempJsonData_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="TempJsonData" EntitySet="TempJsonData" />
+          </AssociationSet>
+          <AssociationSet Name="HelpItem_fk" Association="Bec.TargetFramework.Data.Store.HelpItem_fk">
+            <End Role="ClassificationType" EntitySet="ClassificationTypes" />
+            <End Role="HelpItem" EntitySet="HelpItems" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -6319,21 +6362,6 @@
           <Property Name="IsGridPanel" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="IsGlobal" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="InterfacePanelTemplateLabel" Type="varchar" MaxLength="200" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
-          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="300" />
-          <Property Name="RoleDescription" Type="varchar" Nullable="false" MaxLength="500" />
-          <Property Name="RoleTypeID" Type="int" />
-          <Property Name="RoleSubTypeID" Type="int" />
-          <Property Name="RoleCategoryID" Type="int" />
-          <Property Name="RoleSubCategoryID" Type="int" />
-          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
-          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="IsGlobal" Type="boolean" DefaultValue="true" />
         </EntityType>
         <EntityType Name="ArtefactNotificationConstructTemplate">
           <Key>
@@ -9966,7 +9994,7 @@
           <Property Name="SmsUserAccountOrganisationTransactionID" Type="uuid" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="SmsTransactionID" Type="uuid" Nullable="false" />
-          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" />
+          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="AddressID" Type="uuid" />
           <Property Name="ContactID" Type="uuid" Nullable="false" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
@@ -10155,6 +10183,106 @@
           <Property Name="SafeSendGroupID" Type="uuid" Nullable="false" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="Help">
+          <Key>
+            <PropertyRef Name="HelpID" />
+          </Key>
+          <Property Name="HelpID" Type="uuid" Nullable="false" devart:DefaultValue="" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="HelpTypeID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="UiPageUrl" Type="varchar" MaxLength="400" />
+        </EntityType>
+        <EntityType Name="UserAccountOrganisationHelpViewed">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="HelpItemID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="HelpItemID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="vOrganisationRoleHierarchy">
+          <Key>
+            <PropertyRef Name="OrganisationRoleID" />
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="RoleName" />
+            <PropertyRef Name="Level" />
+            <PropertyRef Name="RoleHierarchyID" />
+          </Key>
+          <Property Name="OrganisationRoleID" Type="uuid" Nullable="false" />
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="ParentRoleID" Type="uuid" />
+          <Property Name="ParentRoleName" Type="varchar" MaxLength="300" />
+          <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="RoleHierarchyID" Type="uuid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TempJsonData">
+          <Key>
+            <PropertyRef Name="TempJsonDataID" />
+          </Key>
+          <Property Name="TempJsonDataID" Type="uuid" Nullable="false" devart:DefaultValue="" />
+          <Property Name="JsonData" Type="json" Nullable="false" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="('now'::text)::date" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="RoleDescription" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="RoleTypeID" Type="int" />
+          <Property Name="RoleSubTypeID" Type="int" />
+          <Property Name="RoleCategoryID" Type="int" />
+          <Property Name="RoleSubCategoryID" Type="int" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="IsGlobal" Type="boolean" DefaultValue="true" />
+        </EntityType>
+        <EntityType Name="HelpItem">
+          <Key>
+            <PropertyRef Name="HelpItemID" />
+          </Key>
+          <Property Name="HelpItemID" Type="uuid" Nullable="false" devart:DefaultValue="" />
+          <Property Name="HelpID" Type="uuid" Nullable="false" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="400" />
+          <Property Name="Description" Type="varchar" />
+          <Property Name="UiSelector" Type="varchar" MaxLength="400" />
+          <Property Name="UiSelectorParent" Type="varchar" MaxLength="400" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="DisplayOrder" Type="int" devart:DefaultValue="(-1)" />
+          <Property Name="EffectiveFrom" Type="timestamptz" />
+          <Property Name="UiPosition" Type="int" />
+        </EntityType>
+        <EntityType Name="HelpItemRole">
+          <Key>
+            <PropertyRef Name="HelpItemID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="HelpItemID" Type="uuid" Nullable="false" />
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HelpRole">
+          <Key>
+            <PropertyRef Name="HelpRoleID" />
+          </Key>
+          <Property Name="HelpRoleID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -10383,18 +10511,6 @@
             </Principal>
             <Dependent Role="ModuleClaim">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ModuleClaim_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="ModuleClaim" Type="Bec.TargetFramework.Data.Store.ModuleClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ModuleClaim">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11043,18 +11159,6 @@
             <Dependent Role="DefaultOrganisationRoleTemplate">
               <PropertyRef Name="DefaultOrganisationTemplateID" />
               <PropertyRef Name="DefaultOrganisationTemplateVersionNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_DefaultOrganisationRole_RoleT">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="DefaultOrganisationRoleTemplate" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationRoleTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="DefaultOrganisationRoleTemplate">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -12246,18 +12350,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ProductClaim_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="ProductClaim" Type="Bec.TargetFramework.Data.Store.ProductClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ProductClaim">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ProductClaim_State">
           <End Role="State" Type="Bec.TargetFramework.Data.Store.State" Multiplicity="0..1" />
           <End Role="ProductClaim" Type="Bec.TargetFramework.Data.Store.ProductClaim" Multiplicity="*" />
@@ -12619,18 +12711,6 @@
             </Principal>
             <Dependent Role="ProductClaimTemplate">
               <PropertyRef Name="ResourceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProductClaimTemplate_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="ProductClaimTemplate" Type="Bec.TargetFramework.Data.Store.ProductClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ProductClaimTemplate">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -13550,18 +13630,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_StatusTypeClaimTemplate_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="StatusTypeClaimTemplate" Type="Bec.TargetFramework.Data.Store.StatusTypeClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="StatusTypeClaimTemplate">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_StatusTypeClaimTemplate_StatusTypeRoleTemplate">
           <End Role="StatusTypeRoleTemplate" Type="Bec.TargetFramework.Data.Store.StatusTypeRoleTemplate" Multiplicity="0..1" />
           <End Role="StatusTypeClaimTemplate" Type="Bec.TargetFramework.Data.Store.StatusTypeClaimTemplate" Multiplicity="*" />
@@ -13842,18 +13910,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_DefaultOrganisationRole_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="DefaultOrganisationRole" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="DefaultOrganisationRole">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK UnitMap">
           <End Role="OrganisationUnit" Type="Bec.TargetFramework.Data.Store.OrganisationUnit" Multiplicity="1" />
           <End Role="OrganisationUnitStructure" Type="Bec.TargetFramework.Data.Store.OrganisationUnitStructure" Multiplicity="*" />
@@ -13954,18 +14010,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ModuleClaimTemplate_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="ModuleClaimTemplate" Type="Bec.TargetFramework.Data.Store.ModuleClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ModuleClaimTemplate">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ModuleRoleClaimTemplate_Operation">
           <End Role="Operation" Type="Bec.TargetFramework.Data.Store.Operation" Multiplicity="0..1" />
           <End Role="ModuleClaimTemplate" Type="Bec.TargetFramework.Data.Store.ModuleClaimTemplate" Multiplicity="*" />
@@ -14037,18 +14081,6 @@
             </Principal>
             <Dependent Role="NotificationConstructClaim">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_NotificationConstructClaim_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="NotificationConstructClaim" Type="Bec.TargetFramework.Data.Store.NotificationConstructClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="NotificationConstructClaim">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14135,18 +14167,6 @@
             </Principal>
             <Dependent Role="NotificationConstructClaimTemplate">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ModuleClaim_ModuleRole1">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="NotificationConstructClaimTemplate" Type="Bec.TargetFramework.Data.Store.NotificationConstructClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="NotificationConstructClaimTemplate">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14385,30 +14405,6 @@
             </Principal>
             <Dependent Role="ArtefactClaimTemplate">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ArtefactClaimTemplate_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="ArtefactClaimTemplate" Type="Bec.TargetFramework.Data.Store.ArtefactClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ArtefactClaimTemplate">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ArtefactClaim_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="ArtefactClaim" Type="Bec.TargetFramework.Data.Store.ArtefactClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ArtefactClaim">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14755,18 +14751,6 @@
             </Principal>
             <Dependent Role="GroupRole">
               <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupTemplateRole_RoleTemplate">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
-          <End Role="GroupRole" Type="Bec.TargetFramework.Data.Store.GroupRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="GroupRole">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -15403,18 +15387,6 @@
             </Principal>
             <Dependent Role="RoleClaim">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_RoleTemplateClaim_RoleTemplate">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
-          <End Role="RoleClaim" Type="Bec.TargetFramework.Data.Store.RoleClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="RoleClaim">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -16966,18 +16938,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ActorClaim_Role">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
-          <End Role="ActorClaimRoleMapping" Type="Bec.TargetFramework.Data.Store.ActorClaimRoleMapping" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ActorClaimRoleMapping">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ActorClaim_State">
           <End Role="State" Type="Bec.TargetFramework.Data.Store.State" Multiplicity="0..1" />
           <End Role="ActorClaimRoleMapping" Type="Bec.TargetFramework.Data.Store.ActorClaimRoleMapping" Multiplicity="*" />
@@ -18512,6 +18472,282 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="UAO_UaoHelpViewed">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="UserAccountOrganisationHelpViewed" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisationHelpViewed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationHelpViewed">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpTypeiD_Classificiation">
+          <End Role="ClassificationType" Type="Bec.TargetFramework.Data.Store.ClassificationType" Multiplicity="1" />
+          <End Role="Help" Type="Bec.TargetFramework.Data.Store.Help" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationType">
+              <PropertyRef Name="ClassificationTypeID" />
+            </Principal>
+            <Dependent Role="Help">
+              <PropertyRef Name="HelpTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Help_HelpItem">
+          <End Role="Help" Type="Bec.TargetFramework.Data.Store.Help" Multiplicity="1" />
+          <End Role="HelpItem" Type="Bec.TargetFramework.Data.Store.HelpItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Help">
+              <PropertyRef Name="HelpID" />
+            </Principal>
+            <Dependent Role="HelpItem">
+              <PropertyRef Name="HelpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ArtefactClaim_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="ArtefactClaim" Type="Bec.TargetFramework.Data.Store.ArtefactClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ArtefactClaim">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ArtefactClaimTemplate_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="ArtefactClaimTemplate" Type="Bec.TargetFramework.Data.Store.ArtefactClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ArtefactClaimTemplate">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DefaultOrganisationRole_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="DefaultOrganisationRole" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="DefaultOrganisationRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DefaultOrganisationRole_RoleT">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="DefaultOrganisationRoleTemplate" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationRoleTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="DefaultOrganisationRoleTemplate">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ModuleClaim_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="ModuleClaim" Type="Bec.TargetFramework.Data.Store.ModuleClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ModuleClaim">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ModuleClaimTemplate_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="ModuleClaimTemplate" Type="Bec.TargetFramework.Data.Store.ModuleClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ModuleClaimTemplate">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ModuleClaim_ModuleRole1">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="NotificationConstructClaimTemplate" Type="Bec.TargetFramework.Data.Store.NotificationConstructClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="NotificationConstructClaimTemplate">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProductClaimTemplate_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="ProductClaimTemplate" Type="Bec.TargetFramework.Data.Store.ProductClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ProductClaimTemplate">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RoleTemplateClaim_RoleTemplate">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="RoleClaim" Type="Bec.TargetFramework.Data.Store.RoleClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="RoleClaim">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupTemplateRole_RoleTemplate">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="GroupRole" Type="Bec.TargetFramework.Data.Store.GroupRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="GroupRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ActorClaim_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="ActorClaimRoleMapping" Type="Bec.TargetFramework.Data.Store.ActorClaimRoleMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ActorClaimRoleMapping">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProductClaim_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="ProductClaim" Type="Bec.TargetFramework.Data.Store.ProductClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ProductClaim">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_NotificationConstructClaim_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="NotificationConstructClaim" Type="Bec.TargetFramework.Data.Store.NotificationConstructClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="NotificationConstructClaim">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeClaimTemplate_Role">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="0..1" />
+          <End Role="StatusTypeClaimTemplate" Type="Bec.TargetFramework.Data.Store.StatusTypeClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="StatusTypeClaimTemplate">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpItemID_UAOID">
+          <End Role="HelpItem" Type="Bec.TargetFramework.Data.Store.HelpItem" Multiplicity="1" />
+          <End Role="UserAccountOrganisationHelpViewed" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisationHelpViewed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HelpItem">
+              <PropertyRef Name="HelpItemID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationHelpViewed">
+              <PropertyRef Name="HelpItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpItem_HelpItemRole">
+          <End Role="HelpItem" Type="Bec.TargetFramework.Data.Store.HelpItem" Multiplicity="1" />
+          <End Role="HelpItemRole" Type="Bec.TargetFramework.Data.Store.HelpItemRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HelpItem">
+              <PropertyRef Name="HelpItemID" />
+            </Principal>
+            <Dependent Role="HelpItemRole">
+              <PropertyRef Name="HelpItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpItemRole_fk">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="HelpItemRole" Type="Bec.TargetFramework.Data.Store.HelpItemRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="HelpItemRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpRole_fk">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="HelpRole" Type="Bec.TargetFramework.Data.Store.HelpRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="HelpRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TempJsonData_fk">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="TempJsonData" Type="Bec.TargetFramework.Data.Store.TempJsonData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="TempJsonData">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpItem_fk">
+          <End Role="ClassificationType" Type="Bec.TargetFramework.Data.Store.ClassificationType" Multiplicity="0..1" />
+          <End Role="HelpItem" Type="Bec.TargetFramework.Data.Store.HelpItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationType">
+              <PropertyRef Name="ClassificationTypeID" />
+            </Principal>
+            <Dependent Role="HelpItem">
+              <PropertyRef Name="UiPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18566,6 +18802,11 @@
           <Parameter Name="uaoid" Type="uuid" Mode="In" />
           <Parameter Name="id" Type="uuid" Mode="In" />
           <Parameter Name="newid" Type="uuid" Mode="In" />
+        </Function>
+        <Function Name="fn_GetHelpItems" devart:IsConcealedFunction="true" devart:ReturnType="HelpItem" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetHelpItems">
+          <Parameter Name="UserAccountOrganisationID" Type="uuid" Mode="In" />
+          <Parameter Name="HelpTypeID" Type="int" Mode="In" />
+          <Parameter Name="UiPageUrl" Type="varchar" Mode="In" />
         </Function>
       </Schema>
     </edmx:StorageModels>
@@ -18770,7 +19011,6 @@
           <EntitySet Name="Contacts" EntityType="Bec.TargetFramework.Data.Contact" />
           <EntitySet Name="ModuleDependencyTemplates" EntityType="Bec.TargetFramework.Data.ModuleDependencyTemplate" />
           <EntitySet Name="InterfacePanelTemplates" EntityType="Bec.TargetFramework.Data.InterfacePanelTemplate" />
-          <EntitySet Name="Roles" EntityType="Bec.TargetFramework.Data.Role" />
           <EntitySet Name="ArtefactNotificationConstructTemplates" EntityType="Bec.TargetFramework.Data.ArtefactNotificationConstructTemplate" />
           <EntitySet Name="ArtefactRoleTemplates" EntityType="Bec.TargetFramework.Data.ArtefactRoleTemplate" />
           <EntitySet Name="ArtefactDependencyTemplates" EntityType="Bec.TargetFramework.Data.ArtefactDependencyTemplate" />
@@ -18972,6 +19212,13 @@
           <EntitySet Name="ConversationSafeSendGroupParticipants" EntityType="Bec.TargetFramework.Data.ConversationSafeSendGroupParticipant" />
           <EntitySet Name="SafeSendGroups" EntityType="Bec.TargetFramework.Data.SafeSendGroup" />
           <EntitySet Name="UserAccountOrganisationSafeSendGroups" EntityType="Bec.TargetFramework.Data.UserAccountOrganisationSafeSendGroup" />
+          <EntitySet Name="Helps" EntityType="Bec.TargetFramework.Data.Help" />
+          <EntitySet Name="UserAccountOrganisationHelpVieweds" EntityType="Bec.TargetFramework.Data.UserAccountOrganisationHelpViewed" />
+          <EntitySet Name="VOrganisationRoleHierarchies" EntityType="Bec.TargetFramework.Data.VOrganisationRoleHierarchy" />
+          <EntitySet Name="TempJsonData" EntityType="Bec.TargetFramework.Data.TempJsonDatum" />
+          <EntitySet Name="Roles" EntityType="Bec.TargetFramework.Data.Role" />
+          <EntitySet Name="HelpItems" EntityType="Bec.TargetFramework.Data.HelpItem" />
+          <EntitySet Name="HelpRoles" EntityType="Bec.TargetFramework.Data.HelpRole" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -19038,10 +19285,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_ModuleRoleClaim_StateItemSet" Association="Bec.TargetFramework.Data.fk_ModuleRoleClaim_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
-            <End Role="ModuleClaims" EntitySet="ModuleClaims" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ModuleClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_ModuleClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="ModuleClaims" EntitySet="ModuleClaims" />
           </AssociationSet>
           <AssociationSet Name="fk_ModuleClaim_ModuleRoleSet" Association="Bec.TargetFramework.Data.fk_ModuleClaim_ModuleRole">
@@ -19226,10 +19469,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_DefaultOrganisationRole_DefaultOrganisationTSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_DefaultOrganisationT">
             <End Role="DefaultOrganisationTemplate" EntitySet="DefaultOrganisationTemplates" />
-            <End Role="DefaultOrganisationRoleTemplates" EntitySet="DefaultOrganisationRoleTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_DefaultOrganisationRole_RoleTSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_RoleT">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="DefaultOrganisationRoleTemplates" EntitySet="DefaultOrganisationRoleTemplates" />
           </AssociationSet>
           <AssociationSet Name="fk_ModuleStatusTypeTemplate_ModuleTemplateSet" Association="Bec.TargetFramework.Data.fk_ModuleStatusTypeTemplate_ModuleTemplate">
@@ -19584,10 +19823,6 @@
             <End Role="Resource" EntitySet="Resources" />
             <End Role="ProductClaims" EntitySet="ProductClaims" />
           </AssociationSet>
-          <AssociationSet Name="fk_ProductClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_ProductClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ProductClaims" EntitySet="ProductClaims" />
-          </AssociationSet>
           <AssociationSet Name="fk_ProductClaim_StateSet" Association="Bec.TargetFramework.Data.fk_ProductClaim_State">
             <End Role="State" EntitySet="States" />
             <End Role="ProductClaims" EntitySet="ProductClaims" />
@@ -19698,10 +19933,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_ProductClaimTemplate_ResourceSet" Association="Bec.TargetFramework.Data.fk_ProductClaimTemplate_Resource">
             <End Role="Resource" EntitySet="Resources" />
-            <End Role="ProductClaimTemplates" EntitySet="ProductClaimTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProductClaimTemplate_RoleSet" Association="Bec.TargetFramework.Data.fk_ProductClaimTemplate_Role">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="ProductClaimTemplates" EntitySet="ProductClaimTemplates" />
           </AssociationSet>
           <AssociationSet Name="fk_ProductClaimTemplate_StateSet" Association="Bec.TargetFramework.Data.fk_ProductClaimTemplate_State">
@@ -19964,10 +20195,6 @@
             <End Role="StateItem" EntitySet="StateItems" />
             <End Role="StatusTypeClaimTemplates" EntitySet="StatusTypeClaimTemplates" />
           </AssociationSet>
-          <AssociationSet Name="fk_StatusTypeClaimTemplate_RoleSet" Association="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="StatusTypeClaimTemplates" EntitySet="StatusTypeClaimTemplates" />
-          </AssociationSet>
           <AssociationSet Name="fk_StatusTypeClaimTemplate_StatusTypeRoleTemplateSet" Association="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_StatusTypeRoleTemplate">
             <End Role="StatusTypeRoleTemplate" EntitySet="StatusTypeRoleTemplates" />
             <End Role="StatusTypeClaimTemplates" EntitySet="StatusTypeClaimTemplates" />
@@ -20052,10 +20279,6 @@
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationRoles" EntitySet="DefaultOrganisationRoles" />
           </AssociationSet>
-          <AssociationSet Name="fk_DefaultOrganisationRole_RoleSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="DefaultOrganisationRoles" EntitySet="DefaultOrganisationRoles" />
-          </AssociationSet>
           <AssociationSet Name="FK_UnitMapSet" Association="Bec.TargetFramework.Data.FK_UnitMap">
             <End Role="OrganisationUnit" EntitySet="OrganisationUnits" />
             <End Role="OrganisationUnitStructures" EntitySet="OrganisationUnitStructures" />
@@ -20088,10 +20311,6 @@
             <End Role="ModuleRoleTemplate" EntitySet="ModuleRoleTemplates" />
             <End Role="ModuleClaimTemplates" EntitySet="ModuleClaimTemplates" />
           </AssociationSet>
-          <AssociationSet Name="fk_ModuleClaimTemplate_RoleSet" Association="Bec.TargetFramework.Data.fk_ModuleClaimTemplate_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ModuleClaimTemplates" EntitySet="ModuleClaimTemplates" />
-          </AssociationSet>
           <AssociationSet Name="fk_ModuleRoleClaimTemplate_OperationSet" Association="Bec.TargetFramework.Data.fk_ModuleRoleClaimTemplate_Operation">
             <End Role="Operation" EntitySet="Operations" />
             <End Role="ModuleClaimTemplates" EntitySet="ModuleClaimTemplates" />
@@ -20114,10 +20333,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_NotificationConstructRoleClaim_StateItemSet" Association="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaim_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
-            <End Role="NotificationConstructClaims" EntitySet="NotificationConstructClaims" />
-          </AssociationSet>
-          <AssociationSet Name="fk_NotificationConstructClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_NotificationConstructClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="NotificationConstructClaims" EntitySet="NotificationConstructClaims" />
           </AssociationSet>
           <AssociationSet Name="fk_NotificationConstructRoleClaim_NotificationConstructRoleSet" Association="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaim_NotificationConstructRole">
@@ -20146,10 +20361,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_NotificationConstructRoleClaimTemplate_StateItemSet" Association="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaimTemplate_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
-            <End Role="NotificationConstructClaimTemplates" EntitySet="NotificationConstructClaimTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ModuleClaim_ModuleRole1Set" Association="Bec.TargetFramework.Data.fk_ModuleClaim_ModuleRole1">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="NotificationConstructClaimTemplates" EntitySet="NotificationConstructClaimTemplates" />
           </AssociationSet>
           <AssociationSet Name="fk_AttachmentDetailGroup_AttachmentDetailSet" Association="Bec.TargetFramework.Data.fk_AttachmentDetailGroup_AttachmentDetail">
@@ -20219,14 +20430,6 @@
           <AssociationSet Name="fk_ArtefactClaimTemplate_StateItemSet" Association="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
             <End Role="ArtefactClaimTemplates" EntitySet="ArtefactClaimTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ArtefactClaimTemplate_RoleSet" Association="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ArtefactClaimTemplates" EntitySet="ArtefactClaimTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ArtefactClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_ArtefactClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="ArtefactClaims" EntitySet="ArtefactClaims" />
           </AssociationSet>
           <AssociationSet Name="fk_ArtefactClaim_ArtefactRoleSet" Association="Bec.TargetFramework.Data.fk_ArtefactClaim_ArtefactRole">
             <End Role="ArtefactRole" EntitySet="ArtefactRoles" />
@@ -20334,10 +20537,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_GroupTemplateRole_GroupTemplateSet" Association="Bec.TargetFramework.Data.FK_GroupTemplateRole_GroupTemplate">
             <End Role="Group" EntitySet="Groups" />
-            <End Role="GroupRoles" EntitySet="GroupRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupTemplateRole_RoleTemplateSet" Association="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="GroupRoles" EntitySet="GroupRoles" />
           </AssociationSet>
           <AssociationSet Name="fk_ModulePluginTemplate_ModuleTemplateSet" Association="Bec.TargetFramework.Data.fk_ModulePluginTemplate_ModuleTemplate">
@@ -20530,10 +20729,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_RoleTemplateClaim_StateItemSet" Association="Bec.TargetFramework.Data.fk_RoleTemplateClaim_StateItem">
             <End Role="StateItem" EntitySet="StateItems" />
-            <End Role="RoleClaims" EntitySet="RoleClaims" />
-          </AssociationSet>
-          <AssociationSet Name="fk_RoleTemplateClaim_RoleTemplateSet" Association="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="RoleClaims" EntitySet="RoleClaims" />
           </AssociationSet>
           <AssociationSet Name="fk_ModuleArtefactTemplate_ModuleTemplateSet" Association="Bec.TargetFramework.Data.fk_ModuleArtefactTemplate_ModuleTemplate">
@@ -21002,10 +21197,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_ActorClaim_ResourceSet" Association="Bec.TargetFramework.Data.fk_ActorClaim_Resource">
             <End Role="Resource" EntitySet="Resources" />
-            <End Role="ActorClaimRoleMappings" EntitySet="ActorClaimRoleMappings" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ActorClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_ActorClaim_Role">
-            <End Role="Role" EntitySet="Roles" />
             <End Role="ActorClaimRoleMappings" EntitySet="ActorClaimRoleMappings" />
           </AssociationSet>
           <AssociationSet Name="fk_ActorClaim_StateSet" Association="Bec.TargetFramework.Data.fk_ActorClaim_State">
@@ -21512,6 +21703,94 @@
             <End Role="SafeSendGroup" EntitySet="SafeSendGroups" />
             <End Role="UserAccountOrganisationSafeSendGroups" EntitySet="UserAccountOrganisationSafeSendGroups" />
           </AssociationSet>
+          <AssociationSet Name="UAO_UaoHelpViewedSet" Association="Bec.TargetFramework.Data.UAO_UaoHelpViewed">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="UserAccountOrganisationHelpVieweds" EntitySet="UserAccountOrganisationHelpVieweds" />
+          </AssociationSet>
+          <AssociationSet Name="HelpTypeiD_ClassificiationSet" Association="Bec.TargetFramework.Data.HelpTypeiD_Classificiation">
+            <End Role="ClassificationType" EntitySet="ClassificationTypes" />
+            <End Role="Helps" EntitySet="Helps" />
+          </AssociationSet>
+          <AssociationSet Name="Help_HelpItemSet" Association="Bec.TargetFramework.Data.Help_HelpItem">
+            <End Role="Help" EntitySet="Helps" />
+            <End Role="HelpItems" EntitySet="HelpItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ArtefactClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_ArtefactClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ArtefactClaims" EntitySet="ArtefactClaims" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ArtefactClaimTemplate_RoleSet" Association="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ArtefactClaimTemplates" EntitySet="ArtefactClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DefaultOrganisationRole_RoleSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="DefaultOrganisationRoles" EntitySet="DefaultOrganisationRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DefaultOrganisationRole_RoleTSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_RoleT">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="DefaultOrganisationRoleTemplates" EntitySet="DefaultOrganisationRoleTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ModuleClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_ModuleClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ModuleClaims" EntitySet="ModuleClaims" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ModuleClaimTemplate_RoleSet" Association="Bec.TargetFramework.Data.fk_ModuleClaimTemplate_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ModuleClaimTemplates" EntitySet="ModuleClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ModuleClaim_ModuleRole1Set" Association="Bec.TargetFramework.Data.fk_ModuleClaim_ModuleRole1">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="NotificationConstructClaimTemplates" EntitySet="NotificationConstructClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProductClaimTemplate_RoleSet" Association="Bec.TargetFramework.Data.fk_ProductClaimTemplate_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ProductClaimTemplates" EntitySet="ProductClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RoleTemplateClaim_RoleTemplateSet" Association="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RoleClaims" EntitySet="RoleClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupTemplateRole_RoleTemplateSet" Association="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="GroupRoles" EntitySet="GroupRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ActorClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_ActorClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ActorClaimRoleMappings" EntitySet="ActorClaimRoleMappings" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProductClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_ProductClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="ProductClaims" EntitySet="ProductClaims" />
+          </AssociationSet>
+          <AssociationSet Name="fk_NotificationConstructClaim_RoleSet" Association="Bec.TargetFramework.Data.fk_NotificationConstructClaim_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="NotificationConstructClaims" EntitySet="NotificationConstructClaims" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeClaimTemplate_RoleSet" Association="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="StatusTypeClaimTemplates" EntitySet="StatusTypeClaimTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="HelpItemID_UAOIDSet" Association="Bec.TargetFramework.Data.HelpItemID_UAOID">
+            <End Role="HelpItem" EntitySet="HelpItems" />
+            <End Role="UserAccountOrganisationHelpVieweds" EntitySet="UserAccountOrganisationHelpVieweds" />
+          </AssociationSet>
+          <AssociationSet Name="HelpItem_RoleSet" Association="Bec.TargetFramework.Data.HelpItem_Role">
+            <End Role="HelpItems" EntitySet="HelpItems" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="HelpRole_fkSet" Association="Bec.TargetFramework.Data.HelpRole_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="HelpRoles" EntitySet="HelpRoles" />
+          </AssociationSet>
+          <AssociationSet Name="TempJsonData_fkSet" Association="Bec.TargetFramework.Data.TempJsonData_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="TempJsonData" EntitySet="TempJsonData" />
+          </AssociationSet>
+          <AssociationSet Name="HelpItem_fkSet" Association="Bec.TargetFramework.Data.HelpItem_fk">
+            <End Role="ClassificationType" EntitySet="ClassificationTypes" />
+            <End Role="HelpItems" EntitySet="HelpItems" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21566,6 +21845,11 @@
             <Parameter Name="uaoid" Mode="In" Type="Guid" />
             <Parameter Name="id" Mode="In" Type="Guid" />
             <Parameter Name="newid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="FnGetHelpItem" EntitySet="HelpItems" ReturnType="Collection(Bec.TargetFramework.Data.HelpItem)" ed:Guid="acc90839-3399-49bb-ad51-95568ebc8ec9">
+            <Parameter Name="UserAccountOrganisationID" Mode="In" Type="Guid" />
+            <Parameter Name="HelpTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="UiPageUrl" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -21753,9 +22037,9 @@
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_ModuleRoleClaim_Resource" FromRole="ModuleClaims" ToRole="Resource" ed:Guid="9929a33f-1721-4dbe-96c3-0cb40891aa31" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_ModuleRoleClaim_State" FromRole="ModuleClaims" ToRole="State" ed:Guid="e51be841-3d83-449a-a299-f86e4e39d49f" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_ModuleRoleClaim_StateItem" FromRole="ModuleClaims" ToRole="StateItem" ed:Guid="adee0764-f788-4ac3-ae81-d648f24ba34e" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_Role" FromRole="ModuleClaims" ToRole="Role" ed:Guid="817f8fe4-fe2a-4d43-ba5c-86b3e0bd222d" />
           <NavigationProperty Name="ModuleRole" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_ModuleRole" FromRole="ModuleClaims" ToRole="ModuleRole" ed:Guid="08a47f65-7500-4e25-8170-aba42faf3a01" />
           <NavigationProperty Name="Operation" Relationship="Bec.TargetFramework.Data.fk_ModuleRoleClaim_Operation" FromRole="ModuleClaims" ToRole="Operation" ed:Guid="35038b94-eb96-48f2-b201-82ee787c0da0" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_Role" FromRole="ModuleClaims" ToRole="Role" ed:Guid="a1657c48-916c-4626-9b5c-ac14ac9e055d" />
         </EntityType>
         <EntityType Name="DefaultOrganisationLedgerTemplate" ed:Guid="a84b8e21-5de9-44dd-9379-aabf881f8aaf">
           <Key>
@@ -21916,6 +22200,8 @@
               </ed:Attribute>
             </ed:Attributes>
           </NavigationProperty>
+          <NavigationProperty Name="UserAccountOrganisationHelpVieweds" Relationship="Bec.TargetFramework.Data.UAO_UaoHelpViewed" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationHelpVieweds" ed:Guid="aed9e2d8-f2f4-4dbf-baf3-42218b1199c0" />
+          <NavigationProperty Name="TempJsonData" Relationship="Bec.TargetFramework.Data.TempJsonData_fk" FromRole="UserAccountOrganisation" ToRole="TempJsonData" ed:Guid="409c1095-43ad-454d-9580-0d881c5b71be" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -22330,10 +22616,10 @@
           <Property Name="DefaultOrganisationTemplateVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="1c7bedda-c237-4a2c-945b-3c28ecb75ec2" />
           <Property Name="IsDefault" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="580402a7-0600-4017-bf6c-b7db1233c34c" />
           <NavigationProperty Name="DefaultOrganisationTemplate" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_DefaultOrganisationT" FromRole="DefaultOrganisationRoleTemplates" ToRole="DefaultOrganisationTemplate" ed:Guid="4b8b12cc-0789-4f3d-9709-05ea850bed8d" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_RoleT" FromRole="DefaultOrganisationRoleTemplates" ToRole="Role" ed:Guid="50ec3067-497d-49e3-942a-f9fc1bc3ba03" />
           <NavigationProperty Name="DefaultOrganisationGroupRoleTemplates" Relationship="Bec.TargetFramework.Data.FK_DefaultonGroupDefault_DefaultOrganisationRoleT" FromRole="DefaultOrganisationRoleTemplate" ToRole="DefaultOrganisationGroupRoleTemplates" ed:Guid="bf71ccff-bb3c-46ba-9b17-e2bf35f16b04" />
           <NavigationProperty Name="DefaultOrganisationRoleClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRoleClaim_DefaultOrganisationRoleT" FromRole="DefaultOrganisationRoleTemplate" ToRole="DefaultOrganisationRoleClaimTemplates" ed:Guid="19c2d5ce-a8f8-4b6b-98b2-9a45a6ac9fdb" />
           <NavigationProperty Name="DefaultOrganisationRoleTargetTemplates" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRoleTarget_DefaultOrganisationT" FromRole="DefaultOrganisationRoleTemplate" ToRole="DefaultOrganisationRoleTargetTemplates" ed:Guid="85301a4a-2733-45ee-899a-b406dc57764b" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_RoleT" FromRole="DefaultOrganisationRoleTemplates" ToRole="Role" ed:Guid="7d468497-a6c1-4fb4-af6b-62183817e6af" />
         </EntityType>
         <EntityType Name="ModuleStatusTypeTemplate" ed:Guid="837877cb-fabe-4f27-a673-b20093ae598c">
           <Key>
@@ -23385,9 +23671,9 @@
           <NavigationProperty Name="ProductRole" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_ProductRole" FromRole="ProductClaims" ToRole="ProductRole" ed:Guid="83ed35a9-6f50-46a7-873a-282c4fd5c997" />
           <NavigationProperty Name="Product" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_Product" FromRole="ProductClaims" ToRole="Product" ed:Guid="2b1cc52e-0c87-40ce-8a61-951e9191d162" />
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_Resource" FromRole="ProductClaims" ToRole="Resource" ed:Guid="25497bcb-75b5-4592-8431-561eb3e37d86" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_Role" FromRole="ProductClaims" ToRole="Role" ed:Guid="6b339445-0816-4bb8-89c7-981df11f4cbd" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_State" FromRole="ProductClaims" ToRole="State" ed:Guid="c1608feb-8db1-4288-bd29-b0a1fe98e811" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_StateItem" FromRole="ProductClaims" ToRole="StateItem" ed:Guid="b8e637c7-01b6-4d19-a7ac-ee4b139cebf8" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_Role" FromRole="ProductClaims" ToRole="Role" ed:Guid="8bc994e2-66a0-4273-b59e-78229fea8064" />
         </EntityType>
         <EntityType Name="OrganisationTeamSetting" ed:Guid="0f2da8e0-fbf5-444a-88fe-490df8e37a44">
           <Key>
@@ -23666,9 +23952,9 @@
           <NavigationProperty Name="ProductRoleTemplate" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_ProductRoleTemplate" FromRole="ProductClaimTemplates" ToRole="ProductRoleTemplate" ed:Guid="d4e39542-c693-49bc-a7cd-e30daf25d467" />
           <NavigationProperty Name="ProductTemplate" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_ProductTemplate" FromRole="ProductClaimTemplates" ToRole="ProductTemplate" ed:Guid="d81de2f8-336e-43e9-ad54-b921075efde1" />
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_Resource" FromRole="ProductClaimTemplates" ToRole="Resource" ed:Guid="2fe33a80-2216-4ade-9ed0-bee49fc572aa" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_Role" FromRole="ProductClaimTemplates" ToRole="Role" ed:Guid="219b8d98-8106-454e-92ab-e578b372164b" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_State" FromRole="ProductClaimTemplates" ToRole="State" ed:Guid="e0ed4725-80cb-4257-8292-873c639e467f" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_StateItem" FromRole="ProductClaimTemplates" ToRole="StateItem" ed:Guid="0151ddc0-963b-4fdb-8134-77e28ef41a50" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_Role" FromRole="ProductClaimTemplates" ToRole="Role" ed:Guid="5e033b6a-8563-4c4f-bbc7-3a8b50fe9362" />
         </EntityType>
         <EntityType Name="ProductRoleTemplate" ed:Guid="d9b85be9-e31a-4c77-970a-88c8f51e4146">
           <Key>
@@ -24468,9 +24754,9 @@
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_Resource" FromRole="StatusTypeClaimTemplates" ToRole="Resource" ed:Guid="c8f4a18e-b05f-4696-b519-7d09d9efc572" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_State" FromRole="StatusTypeClaimTemplates" ToRole="State" ed:Guid="ad0a8f49-ae04-45e3-8778-8181441e83d9" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_StateItem" FromRole="StatusTypeClaimTemplates" ToRole="StateItem" ed:Guid="eef2bf6e-8cf5-4c21-8953-637b450f1bff" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_Role" FromRole="StatusTypeClaimTemplates" ToRole="Role" ed:Guid="d0541e9e-a54a-4fc5-811c-5f8f00df6b2f" />
           <NavigationProperty Name="StatusTypeRoleTemplate" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_StatusTypeRoleTemplate" FromRole="StatusTypeClaimTemplates" ToRole="StatusTypeRoleTemplate" ed:Guid="08f5c67c-bd51-4c49-b329-33649f33980e" />
           <NavigationProperty Name="StatusTypeTemplate" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_StatusTypeTemplate" FromRole="StatusTypeClaimTemplates" ToRole="StatusTypeTemplate" ed:Guid="b61b52a4-8369-4728-bfd3-b96a7f17174f" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_Role" FromRole="StatusTypeClaimTemplates" ToRole="Role" ed:Guid="66c90052-31f5-4e3e-92f2-c530f346dc97" />
         </EntityType>
         <EntityType Name="StatusTypeValueTemplate" ed:Guid="63afb3fb-6ddb-4396-b358-df669e608428">
           <Key>
@@ -24747,7 +25033,7 @@
           <NavigationProperty Name="DefaultOrganisationRoleTargets" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRoleTarget_DefaultOrganisation" FromRole="DefaultOrganisationRole" ToRole="DefaultOrganisationRoleTargets" ed:Guid="d2ba4c73-0207-4147-8623-275f3104d15f" />
           <NavigationProperty Name="DefaultOrganisationGroupRoles" Relationship="Bec.TargetFramework.Data.FK_DefaultonGroupDefault_DefaultOrganisationRole" FromRole="DefaultOrganisationRole" ToRole="DefaultOrganisationGroupRoles" ed:Guid="bef803ef-5912-4158-a4b5-0d09e3c33400" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_DefaultOrganisation" FromRole="DefaultOrganisationRoles" ToRole="DefaultOrganisation" ed:Guid="cdccff96-8bfd-4816-b97e-960ede0cc62f" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_Role" FromRole="DefaultOrganisationRoles" ToRole="Role" ed:Guid="6f4a598d-a220-40f5-85f6-70660c95614d" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_Role" FromRole="DefaultOrganisationRoles" ToRole="Role" ed:Guid="b6feb5e5-5440-4761-956f-0a94bfd36978" />
         </EntityType>
         <EntityType Name="OrganisationGroup" ed:Guid="41e3296c-c5c3-462a-9b16-2ab8b57f916d">
           <Key>
@@ -24831,8 +25117,8 @@
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_ModuleRoleClaimTemplate_State" FromRole="ModuleClaimTemplates" ToRole="State" ed:Guid="a7318761-9e60-458c-8a4d-1439a993132d" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_ModuleRoleClaimTemplate_StateItem" FromRole="ModuleClaimTemplates" ToRole="StateItem" ed:Guid="776a2557-5f3c-4583-857a-110387fdf054" />
           <NavigationProperty Name="ModuleRoleTemplate" Relationship="Bec.TargetFramework.Data.fk_ModuleClaimTemplate_ModuleRoleTemplate" FromRole="ModuleClaimTemplates" ToRole="ModuleRoleTemplate" ed:Guid="f73283ad-f358-4b8c-9605-ebb56b748f36" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ModuleClaimTemplate_Role" FromRole="ModuleClaimTemplates" ToRole="Role" ed:Guid="d14b5299-4d83-4d3a-ade9-df81b2923720" />
           <NavigationProperty Name="Operation" Relationship="Bec.TargetFramework.Data.fk_ModuleRoleClaimTemplate_Operation" FromRole="ModuleClaimTemplates" ToRole="Operation" ed:Guid="bdeb6734-7b10-4b0f-b849-08d775c0e19f" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ModuleClaimTemplate_Role" FromRole="ModuleClaimTemplates" ToRole="Role" ed:Guid="eea21a01-6741-4335-9682-c6b6be9f9582" />
         </EntityType>
         <EntityType Name="NotificationConstructClaim" ed:Guid="ed708ae6-fc65-463b-9939-7ab058d4e354">
           <Key>
@@ -24854,8 +25140,8 @@
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaim_Resource" FromRole="NotificationConstructClaims" ToRole="Resource" ed:Guid="1a49ee51-3c93-46a0-842e-b53c3385c262" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaim_State" FromRole="NotificationConstructClaims" ToRole="State" ed:Guid="6bd7f83b-58e9-4c26-8577-4fa72d609ee1" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaim_StateItem" FromRole="NotificationConstructClaims" ToRole="StateItem" ed:Guid="403b85f4-eeb6-4684-87a4-8835032a1695" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructClaim_Role" FromRole="NotificationConstructClaims" ToRole="Role" ed:Guid="3d9a4666-0a6b-49bc-86ae-629cd1729bf6" />
           <NavigationProperty Name="NotificationConstructRole" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaim_NotificationConstructRole" FromRole="NotificationConstructClaims" ToRole="NotificationConstructRole" ed:Guid="5b2aadaf-bd14-4cf7-a4b4-472f641f27e4" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructClaim_Role" FromRole="NotificationConstructClaims" ToRole="Role" ed:Guid="9fe19f41-b16c-4701-a324-d732cb4c9409" />
         </EntityType>
         <EntityType Name="NotificationConstructClaimTemplate" ed:Guid="83f06dd4-cf3e-4b1a-8113-fd573c24774f">
           <Key>
@@ -24878,7 +25164,7 @@
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaimTemplate_Resource" FromRole="NotificationConstructClaimTemplates" ToRole="Resource" ed:Guid="8cb33eeb-27d7-447c-9501-84b3fe563c47" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaimTemplate_State" FromRole="NotificationConstructClaimTemplates" ToRole="State" ed:Guid="e1c54ef5-f8eb-431b-bc09-3fd2b29c1ad9" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructRoleClaimTemplate_StateItem" FromRole="NotificationConstructClaimTemplates" ToRole="StateItem" ed:Guid="0d6a9625-8b17-4ac8-9ad3-20ba27bbe29d" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_ModuleRole1" FromRole="NotificationConstructClaimTemplates" ToRole="Role" ed:Guid="af8ae056-0d48-462f-8bc5-2a64f2485a80" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_ModuleRole1" FromRole="NotificationConstructClaimTemplates" ToRole="Role" ed:Guid="57a80ddb-936d-4ace-b5e8-a152982e9a64" />
         </EntityType>
         <EntityType Name="AttachmentDetailGroup" ed:Guid="b9ba3925-a73a-4b63-9084-b96b26a80cee">
           <Key>
@@ -24991,7 +25277,7 @@
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_Resource" FromRole="ArtefactClaimTemplates" ToRole="Resource" ed:Guid="29424b64-c112-433b-9175-88f3fed5a2df" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_State" FromRole="ArtefactClaimTemplates" ToRole="State" ed:Guid="e05b7665-5599-4a7d-ada4-f0253f190897" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_StateItem" FromRole="ArtefactClaimTemplates" ToRole="StateItem" ed:Guid="db19409c-0b1b-4652-a8ba-b21aab115f47" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_Role" FromRole="ArtefactClaimTemplates" ToRole="Role" ed:Guid="7ac7dbec-f5f7-40be-9e6e-951ff5602a76" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_Role" FromRole="ArtefactClaimTemplates" ToRole="Role" ed:Guid="8889bba1-8440-464f-9161-6684cd620597" />
         </EntityType>
         <EntityType Name="ArtefactClaim" ed:Guid="e4bc8ec9-35c1-46c8-8e95-3cb3568b14d5">
           <Key>
@@ -25008,13 +25294,13 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="51c7cc6f-f816-4dae-9269-f937b56d066f" />
           <Property Name="ArtefactRoleID" Type="Guid" ed:ValidateRequired="False" ed:Guid="f0abbcb1-cb89-4449-af2b-264afb7a2a7d" />
           <Property Name="RoleID" Type="Guid" ed:ValidateRequired="False" ed:Guid="2d3549f6-27a9-47e8-9dbd-01f94285ad7a" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_Role" FromRole="ArtefactClaims" ToRole="Role" ed:Guid="d95a6892-c2ab-4911-9136-c2e4beb6c1d3" />
           <NavigationProperty Name="ArtefactRole" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_ArtefactRole" FromRole="ArtefactClaims" ToRole="ArtefactRole" ed:Guid="bc203d04-7c82-4c8b-97c9-4df08f96d6c7" />
           <NavigationProperty Name="Artefact" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_Artefact" FromRole="ArtefactClaims" ToRole="Artefact" ed:Guid="35ace77b-2f9f-4d7f-a896-ed982c686c7d" />
           <NavigationProperty Name="Operation" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_Operation" FromRole="ArtefactClaims" ToRole="Operation" ed:Guid="78d769bc-db5f-464f-89df-e681b576b822" />
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_Resource" FromRole="ArtefactClaims" ToRole="Resource" ed:Guid="73bb392a-96d3-43af-9221-531f56cc6410" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_State" FromRole="ArtefactClaims" ToRole="State" ed:Guid="7ec785a5-3860-4397-b5a8-416657da2c56" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_StateItem" FromRole="ArtefactClaims" ToRole="StateItem" ed:Guid="f7668692-9485-450b-b83b-beb4408dc6bb" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_Role" FromRole="ArtefactClaims" ToRole="Role" ed:Guid="ecc3fe06-9bef-44fa-bb75-1a5f3c3de459" />
         </EntityType>
         <EntityType Name="ArtefactNotificationConstruct" ed:Guid="ea761962-4ddc-48a8-9611-117aca637ecd">
           <Key>
@@ -25175,7 +25461,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="ac503010-a313-4ed3-9c0f-3d9592da4280" />
           <Property Name="IsGlobal" Type="Boolean" DefaultValue="true" ed:ValidateRequired="False" ed:Guid="d72dcb16-c21a-40bb-8749-2446302f98c5" />
           <NavigationProperty Name="Group" Relationship="Bec.TargetFramework.Data.FK_GroupTemplateRole_GroupTemplate" FromRole="GroupRoles" ToRole="Group" ed:Guid="91f0a545-a5f8-4357-999a-4d32ad8b7cdb" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate" FromRole="GroupRoles" ToRole="Role" ed:Guid="32d85341-0e29-41a4-90c8-6a3cfa57e7ea" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate" FromRole="GroupRoles" ToRole="Role" ed:Guid="aae37e8f-a20c-404d-ad3b-0ecd54fe9890" />
         </EntityType>
         <EntityType Name="ModulePluginTemplate" ed:Guid="e3d57686-d24d-4b55-aaaf-76c1b9b3a5da">
           <Key>
@@ -25593,35 +25879,6 @@
           <Property Name="InterfacePanelTemplateLabel" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="e4e8c3e4-af7e-40f5-b322-61cf36ac4007" />
           <NavigationProperty Name="InterfacePanelTemplates_ParentIPTemplateID_ParentIPTemplateVersionNumber" Relationship="Bec.TargetFramework.Data.fk_InterfacePanelTemplate_InterfacePanelTemplate" FromRole="InterfacePanelTemplate_ParentIPTemplateID_ParentIPTemplateVersionNumber" ToRole="InterfacePanelTemplates_ParentIPTemplateID_ParentIPTemplateVersionNumber" ed:Guid="6c1d6432-6969-48a2-9032-00d786c2f7cf" />
           <NavigationProperty Name="InterfacePanelTemplate_ParentIPTemplateID_ParentIPTemplateVersionNumber" Relationship="Bec.TargetFramework.Data.fk_InterfacePanelTemplate_InterfacePanelTemplate" FromRole="InterfacePanelTemplates_ParentIPTemplateID_ParentIPTemplateVersionNumber" ToRole="InterfacePanelTemplate_ParentIPTemplateID_ParentIPTemplateVersionNumber" ed:Guid="dc63fa53-f15a-447b-a14a-dd1ececf099a" />
-        </EntityType>
-        <EntityType Name="Role" ed:Guid="8cd0c1f2-f332-4af0-84f9-d6b7854f83b9">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="38f447e3-dda4-4d1c-b620-c12ef5fdc74c" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="43b61359-d16d-48b2-825e-7ceb8dec2c06" />
-          <Property Name="RoleDescription" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="8d061422-df6f-48ee-b962-46e8027a8591" />
-          <Property Name="RoleTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="17926ba6-b16e-435d-a214-bba95eb3b2eb" />
-          <Property Name="RoleSubTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="b3363ca7-3d49-4b5a-a6af-6b0c2bb4b652" />
-          <Property Name="RoleCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="dfe03ce0-3656-4717-938f-dbedd27bb7bd" />
-          <Property Name="RoleSubCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="036bb466-fc8f-4a7f-8d6e-343cda0f509c" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="90f6e53f-f6ac-4380-a6dc-35811553bb3c" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="eb1425de-3f8f-4360-8acd-cdee54529994" />
-          <Property Name="IsGlobal" Type="Boolean" DefaultValue="true" ed:ValidateRequired="False" ed:Guid="31f52419-fafd-406e-838f-7e8a441b0d6b" />
-          <NavigationProperty Name="ModuleClaims" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_Role" FromRole="Role" ToRole="ModuleClaims" ed:Guid="907897e5-2986-40f0-9607-8d79779dc50b" />
-          <NavigationProperty Name="DefaultOrganisationRoleTemplates" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_RoleT" FromRole="Role" ToRole="DefaultOrganisationRoleTemplates" ed:Guid="2370eb5c-c697-44d8-86b5-83d4268a95f7" />
-          <NavigationProperty Name="ProductClaims" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_Role" FromRole="Role" ToRole="ProductClaims" ed:Guid="1364fc0f-afe2-4aba-aa06-f4b8cc714caa" />
-          <NavigationProperty Name="ProductClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_Role" FromRole="Role" ToRole="ProductClaimTemplates" ed:Guid="a17e7def-1774-40a0-8a18-1bc3793ad2b0" />
-          <NavigationProperty Name="StatusTypeClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_Role" FromRole="Role" ToRole="StatusTypeClaimTemplates" ed:Guid="3ee11bd4-1c90-42eb-a77e-26bbbe7911d4" />
-          <NavigationProperty Name="DefaultOrganisationRoles" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_Role" FromRole="Role" ToRole="DefaultOrganisationRoles" ed:Guid="cbfad729-d5aa-424a-9817-c2ccbef6c4e4" />
-          <NavigationProperty Name="ModuleClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_ModuleClaimTemplate_Role" FromRole="Role" ToRole="ModuleClaimTemplates" ed:Guid="86594153-c07f-488f-80be-e4c0ca07b59e" />
-          <NavigationProperty Name="NotificationConstructClaims" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructClaim_Role" FromRole="Role" ToRole="NotificationConstructClaims" ed:Guid="6383668d-59f0-4cc0-8c59-8033493103e2" />
-          <NavigationProperty Name="NotificationConstructClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_ModuleRole1" FromRole="Role" ToRole="NotificationConstructClaimTemplates" ed:Guid="4b929189-7528-4812-939f-aedfa9b0d63d" />
-          <NavigationProperty Name="ArtefactClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_Role" FromRole="Role" ToRole="ArtefactClaimTemplates" ed:Guid="74107c6e-5848-4d39-8864-0252f360d550" />
-          <NavigationProperty Name="ArtefactClaims" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_Role" FromRole="Role" ToRole="ArtefactClaims" ed:Guid="f54b01e8-ffeb-4aaa-a471-2246b3841cb5" />
-          <NavigationProperty Name="GroupRoles" Relationship="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate" FromRole="Role" ToRole="GroupRoles" ed:Guid="4bc91bc2-3db0-415b-962b-eb79674b7dcd" />
-          <NavigationProperty Name="RoleClaims" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate" FromRole="Role" ToRole="RoleClaims" ed:Guid="63066d49-f80f-438d-8b02-70eff94865a5" />
-          <NavigationProperty Name="ActorClaimRoleMappings" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Role" FromRole="Role" ToRole="ActorClaimRoleMappings" ed:Guid="b7871133-2654-4a69-8524-685d07076476" />
         </EntityType>
         <EntityType Name="ArtefactNotificationConstructTemplate" ed:Guid="e750caa7-7e55-4341-997e-0781986ad75e">
           <Key>
@@ -26192,6 +26449,8 @@
           <NavigationProperty Name="ClassificationTypeCategory_ParentClassificationTypeCategoryID" Relationship="Bec.TargetFramework.Data.FK_ClassificationType_ClassificationTypeCategory2" FromRole="ClassificationTypes_ParentClassificationTypeCategoryID" ToRole="ClassificationTypeCategory_ParentClassificationTypeCategoryID" ed:Guid="e910cfa0-ce95-40f8-a9df-e0eb17e713f6" />
           <NavigationProperty Name="UserAccountArchives" Relationship="Bec.TargetFramework.Data.fk_ClassificationType_ClassificationTypeID" FromRole="ClassificationType" ToRole="UserAccountArchives" ed:Guid="01fc26b5-d9b3-4bf3-86b9-c2139dac5ae7" />
           <NavigationProperty Name="Organisations" Relationship="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk" FromRole="ClassificationType" ToRole="Organisations" ed:Guid="be6b1a4b-11e8-4e7a-b458-275ade79b40b" />
+          <NavigationProperty Name="Helps" Relationship="Bec.TargetFramework.Data.HelpTypeiD_Classificiation" FromRole="ClassificationType" ToRole="Helps" ed:Guid="ef152e5d-acd6-4710-8bb8-fbdf9d04ab55" />
+          <NavigationProperty Name="HelpItems" Relationship="Bec.TargetFramework.Data.HelpItem_fk" FromRole="ClassificationType" ToRole="HelpItems" ed:Guid="9eacaecc-5f4d-40c9-b5c7-1d5b342cfe14" />
         </EntityType>
         <EntityType Name="PluginTemplate" ed:Guid="83beeb84-1c59-40c0-93d2-bc4364ec7474">
           <Key>
@@ -26710,7 +26969,7 @@
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_Resource" FromRole="RoleClaims" ToRole="Resource" ed:Guid="c0b357aa-f202-46d6-97d3-53a77c08edf9" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_State" FromRole="RoleClaims" ToRole="State" ed:Guid="c75839de-1693-4def-9299-333aa21ce57d" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_StateItem" FromRole="RoleClaims" ToRole="StateItem" ed:Guid="0bfa3646-06c1-4586-b20c-46e076782c69" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate" FromRole="RoleClaims" ToRole="Role" ed:Guid="0ed8281b-915a-47a8-a39a-211d0a74cc9f" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate" FromRole="RoleClaims" ToRole="Role" ed:Guid="31da0b55-a57f-40b0-9a0d-ba5e1d8e7a1f" />
         </EntityType>
         <EntityType Name="ArtefactTemplate" ed:Guid="cf576fa0-4013-4867-bd74-4997c071862a">
           <Key>
@@ -28640,9 +28899,9 @@
           <NavigationProperty Name="Actor" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Actor" FromRole="ActorClaimRoleMappings" ToRole="Actor" ed:Guid="b1faf787-8d35-456c-a767-95e4137dd31f" />
           <NavigationProperty Name="Operation" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Operation" FromRole="ActorClaimRoleMappings" ToRole="Operation" ed:Guid="f5bb67d2-2ca2-4903-a707-1b381f81aca5" />
           <NavigationProperty Name="Resource" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Resource" FromRole="ActorClaimRoleMappings" ToRole="Resource" ed:Guid="d2251f47-af0d-4261-a47c-ee00ab2ecec6" />
-          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Role" FromRole="ActorClaimRoleMappings" ToRole="Role" ed:Guid="d26b1f21-7db4-4217-8c91-74fed37e7303" />
           <NavigationProperty Name="State" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_State" FromRole="ActorClaimRoleMappings" ToRole="State" ed:Guid="cbb08ebf-cd69-4d66-8f47-d80c9496dcd8" />
           <NavigationProperty Name="StateItem" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_StateItem" FromRole="ActorClaimRoleMappings" ToRole="StateItem" ed:Guid="917954d4-94f1-4786-91cb-8905b8121017" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Role" FromRole="ActorClaimRoleMappings" ToRole="Role" ed:Guid="f723b8e1-3271-474a-9e51-0d85999621a3" />
         </EntityType>
         <EntityType Name="Actor" ed:Guid="cf58b820-f3da-49d7-94fb-e4e1612334b2">
           <Key>
@@ -29829,6 +30088,124 @@
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_UserAccountOrganisation_fk" FromRole="UserAccountOrganisationSafeSendGroups" ToRole="UserAccountOrganisation" ed:Guid="6a7d0fff-3ce1-488a-92c0-e1962d555437" />
           <NavigationProperty Name="SafeSendGroup" Relationship="Bec.TargetFramework.Data.UserAccountOrganisationFunction_Function_fk" FromRole="UserAccountOrganisationSafeSendGroups" ToRole="SafeSendGroup" ed:Guid="de3e18a4-e134-439d-a2b6-58dd55e2fdb0" />
         </EntityType>
+        <EntityType Name="Help" ed:Guid="0fe196e4-0c36-4e22-8156-4e8a0d01bb5d">
+          <Key>
+            <PropertyRef Name="HelpID" />
+          </Key>
+          <Property Name="HelpID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="783f8555-502b-427f-836f-c8b0e30f1b48" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="400" Unicode="true" ed:ValidateMaxLength="400" ed:ValidateRequired="True" ed:Guid="4b25038f-40fe-4f66-8cba-89f250029732" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="12d6678e-d0ef-4062-b45c-12042bd1abde" />
+          <Property Name="HelpTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="686458a4-cf31-4c37-814d-e474c1be3707" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="0874ca68-ad63-4882-a9a0-f2973c9b483c" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="886c54fd-3d7b-462c-89f0-0cf6e8182656" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="61c138e6-78c7-4471-8bf3-e1a6ed6216d6" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="dd48ff66-51e1-459f-861b-26fcf628c9e3" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="fbf162a8-d735-4533-9889-60db6198fe46" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="704a1ee9-57f0-4107-9258-199058b3d1e4" />
+          <Property Name="UiPageUrl" Type="String" MaxLength="400" Unicode="true" ed:ValidateMaxLength="400" ed:ValidateRequired="False" ed:Guid="eb92da69-070d-4071-b372-011b12d571c5" />
+          <NavigationProperty Name="ClassificationType" Relationship="Bec.TargetFramework.Data.HelpTypeiD_Classificiation" FromRole="Helps" ToRole="ClassificationType" ed:Guid="1e17e5d2-73eb-43c9-85bf-dd650c57e968" />
+          <NavigationProperty Name="HelpItems" Relationship="Bec.TargetFramework.Data.Help_HelpItem" FromRole="Help" ToRole="HelpItems" ed:Guid="8df44e31-570e-47ad-af5e-67ec65bcc1fd" />
+        </EntityType>
+        <EntityType Name="UserAccountOrganisationHelpViewed" ed:Guid="c075ae4f-d426-4d2a-93bf-a6c3946b50fe">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="HelpItemID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="08a458f6-072d-4510-a723-0171c3fefcb7" />
+          <Property Name="HelpItemID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f656e805-b828-46bf-b867-281e4efd2f76" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="74e58065-d334-4da3-8426-366d034bd6ab" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.UAO_UaoHelpViewed" FromRole="UserAccountOrganisationHelpVieweds" ToRole="UserAccountOrganisation" ed:Guid="4763cec7-089f-4543-b21c-5c30e04b91f9" />
+          <NavigationProperty Name="HelpItem" Relationship="Bec.TargetFramework.Data.HelpItemID_UAOID" FromRole="UserAccountOrganisationHelpVieweds" ToRole="HelpItem" ed:Guid="481dcb71-c863-43c2-92da-9a6639e808a8" />
+        </EntityType>
+        <EntityType Name="VOrganisationRoleHierarchy" ed:Guid="91bffcac-dcf8-4aa5-b686-f092004a901c">
+          <Key>
+            <PropertyRef Name="OrganisationRoleID" />
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="RoleName" />
+            <PropertyRef Name="Level" />
+            <PropertyRef Name="RoleHierarchyID" />
+          </Key>
+          <Property Name="OrganisationRoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c5d58262-47b9-4e0c-90b7-10f1d89a7476" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f70b6561-a930-4362-a71b-dbb5379dda4c" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="09975c8a-7f56-415b-934b-221a94753e16" />
+          <Property Name="ParentRoleID" Type="Guid" ed:ValidateRequired="False" ed:Guid="ab1a8946-d5dc-4c1e-94d5-dd083e6fcc10" />
+          <Property Name="ParentRoleName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="9f1c464d-45dc-4a01-9fb1-eb62edffc7cc" />
+          <Property Name="Level" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="ddb34574-f1f7-4101-b4bd-634c2c259e78" />
+          <Property Name="RoleHierarchyID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="021d9b11-7cde-4503-a476-14a754ce2aae" />
+        </EntityType>
+        <EntityType Name="TempJsonDatum" ed:Guid="fdaaac4d-6963-430a-b3a5-69278d0ba568">
+          <Key>
+            <PropertyRef Name="TempJsonDataID" />
+          </Key>
+          <Property Name="TempJsonDataID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="8e4f80fd-9383-4073-8dcd-dfd053c44b5d" />
+          <Property Name="JsonData" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="6b7aad93-0952-4671-8198-e919014ee2e3" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="055b397f-52e5-4bc3-93fd-7e415d6cac04" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="25ac7a18-be87-4e9d-8261-ce3a2019df88" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.TempJsonData_fk" FromRole="TempJsonData" ToRole="UserAccountOrganisation" ed:Guid="7075521b-fedd-4da8-bf2f-fe0aee773a33" />
+        </EntityType>
+        <EntityType Name="Role" ed:Guid="d245759e-7e7a-4b26-baa3-71a6f6a418e7">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="4fc89314-610f-43ec-a9f9-82210759bd67" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="90d7ade5-af66-4414-96b3-107437560c27" />
+          <Property Name="RoleDescription" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="2d7135d8-c5ca-4415-848d-4a9b3390efeb" />
+          <Property Name="RoleTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="535346ad-8456-40a1-aa82-ee69fa6b201d" />
+          <Property Name="RoleSubTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="8d07b1c5-4dee-4a18-925f-583f33e92d38" />
+          <Property Name="RoleCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="8c5f4a78-a18d-4784-ac50-51d79ba6aacd" />
+          <Property Name="RoleSubCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="4287256f-3b64-4457-86de-3a37090b424e" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="16526dd5-3d81-4489-99e8-0b244de274c0" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="a3a8de64-05d7-45a6-a4ee-fd3757aab28e" />
+          <Property Name="IsGlobal" Type="Boolean" DefaultValue="true" ed:ValidateRequired="False" ed:Guid="a31d282b-b426-4d70-8e73-f2b742a2985f" />
+          <NavigationProperty Name="ArtefactClaims" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaim_Role" FromRole="Role" ToRole="ArtefactClaims" ed:Guid="8cd914b6-e624-4087-adb4-8d1d8de4824e" />
+          <NavigationProperty Name="ArtefactClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_ArtefactClaimTemplate_Role" FromRole="Role" ToRole="ArtefactClaimTemplates" ed:Guid="3a120c55-facb-43aa-affc-24ab5da89426" />
+          <NavigationProperty Name="DefaultOrganisationRoles" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_Role" FromRole="Role" ToRole="DefaultOrganisationRoles" ed:Guid="2ad3dc8b-4d41-40f9-a310-2f6ceb318e9e" />
+          <NavigationProperty Name="DefaultOrganisationRoleTemplates" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_RoleT" FromRole="Role" ToRole="DefaultOrganisationRoleTemplates" ed:Guid="010b0bba-7bb8-443b-9395-a340fce350e4" />
+          <NavigationProperty Name="ModuleClaims" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_Role" FromRole="Role" ToRole="ModuleClaims" ed:Guid="143ef9b2-b9fd-4743-ac18-30498bcfce13" />
+          <NavigationProperty Name="ModuleClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_ModuleClaimTemplate_Role" FromRole="Role" ToRole="ModuleClaimTemplates" ed:Guid="ce147701-4d2c-46f8-91f3-6e6599f04fba" />
+          <NavigationProperty Name="NotificationConstructClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_ModuleClaim_ModuleRole1" FromRole="Role" ToRole="NotificationConstructClaimTemplates" ed:Guid="e6a911cf-4c6b-4085-804f-27e717868a9c" />
+          <NavigationProperty Name="ProductClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_ProductClaimTemplate_Role" FromRole="Role" ToRole="ProductClaimTemplates" ed:Guid="3ed9b0e7-a8f9-4ecd-b379-27a3f783eb2f" />
+          <NavigationProperty Name="RoleClaims" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate" FromRole="Role" ToRole="RoleClaims" ed:Guid="235acd48-2cb1-405f-b247-83eaa2a90453" />
+          <NavigationProperty Name="GroupRoles" Relationship="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate" FromRole="Role" ToRole="GroupRoles" ed:Guid="5bc75055-b75e-4b82-92b2-74ada64e7de7" />
+          <NavigationProperty Name="ActorClaimRoleMappings" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Role" FromRole="Role" ToRole="ActorClaimRoleMappings" ed:Guid="81ce59b6-ea26-40dc-85f9-036cdaccbc88" />
+          <NavigationProperty Name="ProductClaims" Relationship="Bec.TargetFramework.Data.fk_ProductClaim_Role" FromRole="Role" ToRole="ProductClaims" ed:Guid="38eb674a-934e-49ff-b681-698769fffe6f" />
+          <NavigationProperty Name="NotificationConstructClaims" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructClaim_Role" FromRole="Role" ToRole="NotificationConstructClaims" ed:Guid="79bd5661-b931-4f37-b761-d5f8ff7c1d4e" />
+          <NavigationProperty Name="StatusTypeClaimTemplates" Relationship="Bec.TargetFramework.Data.fk_StatusTypeClaimTemplate_Role" FromRole="Role" ToRole="StatusTypeClaimTemplates" ed:Guid="796054fb-95d2-4cca-8cf3-f2f6d9ee44b3" />
+          <NavigationProperty Name="HelpItems" Relationship="Bec.TargetFramework.Data.HelpItem_Role" FromRole="Roles" ToRole="HelpItems" ed:Guid="d85103fe-949a-438d-b6e2-744e437e2680" />
+          <NavigationProperty Name="HelpRoles" Relationship="Bec.TargetFramework.Data.HelpRole_fk" FromRole="Role" ToRole="HelpRoles" ed:Guid="0bd6437d-d8a8-45ff-b1ef-ab1d1e87288a" />
+        </EntityType>
+        <EntityType Name="HelpItem" ed:Guid="682f862d-550c-445f-b76c-6b72b688f511">
+          <Key>
+            <PropertyRef Name="HelpItemID" />
+          </Key>
+          <Property Name="HelpItemID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="1282029d-b222-421f-a7a0-800e0ae76dde" />
+          <Property Name="HelpID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="bca0ecc3-ca04-4616-b20d-4d7cc5fd618a" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="400" Unicode="true" ed:ValidateMaxLength="400" ed:ValidateRequired="True" ed:Guid="e03b537f-67db-4128-a0dd-1133f0b62c72" />
+          <Property Name="Description" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="f0037407-036f-4de6-8c80-6a648909165f" />
+          <Property Name="UiSelector" Type="String" MaxLength="400" Unicode="true" ed:ValidateMaxLength="400" ed:ValidateRequired="False" ed:Guid="601b4a18-3ed3-40e5-bb39-2c71d36c4a94" />
+          <Property Name="UiSelectorParent" Type="String" MaxLength="400" Unicode="true" ed:ValidateMaxLength="400" ed:ValidateRequired="False" ed:Guid="eec56428-c36e-4d8e-82d3-5895ab96dbc9" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="23f91e1b-c8d9-4e05-bad3-a00256ca7c2c" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="04bb4ef0-9863-43b7-8836-8e4520baf9b5" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="a6103580-8450-41d9-a904-e4ae9cfbe2e5" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="cb6be0ae-b032-47a4-b771-4861cc16a15d" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="fa2ec521-1c6c-4a4c-bdc6-1e36bc5097fb" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="734c5ed2-e149-48ea-b29f-4ae650902e47" />
+          <Property Name="DisplayOrder" Type="Int32" ed:ValidateRequired="False" ed:Guid="85a20cbb-6b94-4301-a2ea-84a4f5ca74a5" />
+          <Property Name="EffectiveFrom" Type="DateTime" ed:ValidateRequired="False" ed:Guid="8d8643df-91fb-4f17-b6ff-0eec0425e5c9" />
+          <Property Name="UiPosition" Type="Int32" ed:ValidateRequired="False" ed:Guid="e64612a7-cf45-425d-b68d-eb47a93a258d" />
+          <NavigationProperty Name="Help" Relationship="Bec.TargetFramework.Data.Help_HelpItem" FromRole="HelpItems" ToRole="Help" ed:Guid="1bc29edc-5a7c-41f0-b465-b0297ae32c6c" />
+          <NavigationProperty Name="UserAccountOrganisationHelpVieweds" Relationship="Bec.TargetFramework.Data.HelpItemID_UAOID" FromRole="HelpItem" ToRole="UserAccountOrganisationHelpVieweds" ed:Guid="fcc6c30e-4487-413f-a91a-2d799bce7e1c" />
+          <NavigationProperty Name="Roles" Relationship="Bec.TargetFramework.Data.HelpItem_Role" FromRole="HelpItems" ToRole="Roles" ed:Guid="32479a32-3f60-4e71-91d5-fbc1aadf2c62" />
+          <NavigationProperty Name="ClassificationType" Relationship="Bec.TargetFramework.Data.HelpItem_fk" FromRole="HelpItems" ToRole="ClassificationType" ed:Guid="02c458f6-3cfd-4498-8ec8-426579c34b13" />
+        </EntityType>
+        <EntityType Name="HelpRole" ed:Guid="77e7c990-1bdc-4895-a9fe-1027da981e5c">
+          <Key>
+            <PropertyRef Name="HelpRoleID" />
+          </Key>
+          <Property Name="HelpRoleID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="856b03cb-073f-4140-a3e8-7207e998a2b8" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="005cfe3c-6f24-4c9c-a275-99130be1629f" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.HelpRole_fk" FromRole="HelpRoles" ToRole="Role" ed:Guid="45d21a8a-a9ca-47f9-8eab-d2c3733f8252" />
+        </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
           <Property Name="ClaimName" Type="String" ed:ValidateRequired="False" ed:Guid="f6b1a92d-95a2-4d2d-9619-09eedd1608ce" />
@@ -29837,6 +30214,23 @@
           <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="43040755-4378-46d9-8b16-a21a053a5140" />
           <Property Name="Subject" Type="String" ed:ValidateRequired="False" ed:Guid="796a7a83-7288-4c35-9617-369267ae4ed9" />
           <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="dd9e2988-d392-48c7-9f86-3dfeafc11ef1" />
+        </ComplexType>
+        <ComplexType Name="FnGetHelpItemResult" ed:Guid="4d71b301-4236-41a2-a830-597f2c2e932a">
+          <Property Name="HelpItemID" Type="Guid" ed:ValidateRequired="False" ed:Guid="c63efcab-d16f-4e9a-920c-9b6f77afd767" />
+          <Property Name="HelpID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b3d94b38-2081-4e88-9973-201025a30c1a" />
+          <Property Name="Title" Type="String" ed:ValidateRequired="False" ed:Guid="fb913c8e-89b6-4cd2-a244-c093783f6339" />
+          <Property Name="Description" Type="String" ed:ValidateRequired="False" ed:Guid="d89e8f16-d220-4d52-b1c8-ab2ab8839d61" />
+          <Property Name="UiSelector" Type="String" ed:ValidateRequired="False" ed:Guid="5262c615-7b6c-45e6-9323-ba7fb0ea0079" />
+          <Property Name="UiSelectorParent" Type="String" ed:ValidateRequired="False" ed:Guid="0e7a1342-e21e-4e5e-8091-5ec9ef0a7bdf" />
+          <Property Name="IsActive" Type="Boolean" ed:ValidateRequired="False" ed:Guid="1f70ecd5-2b7b-4285-ac33-9a39efc677e6" />
+          <Property Name="IsDeleted" Type="Boolean" ed:ValidateRequired="False" ed:Guid="c72d08bd-ef16-4bdd-b7b3-bafb8112829b" />
+          <Property Name="CreatedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="1ba815ec-1d87-4ab1-ae33-b83eeaf52396" />
+          <Property Name="CreatedBy" Type="String" ed:ValidateRequired="False" ed:Guid="485e7bf4-a595-40f2-87e5-5e1f3a20cd60" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="2927f56b-27a1-4f7d-95cf-aa206624d639" />
+          <Property Name="ModifiedBy" Type="String" ed:ValidateRequired="False" ed:Guid="31ee908b-44b2-49e6-b6cf-360780cf5b85" />
+          <Property Name="DisplayOrder" Type="Int32" ed:ValidateRequired="False" ed:Guid="10cfd6fa-16f6-4e9a-8c62-71ae3de361df" />
+          <Property Name="EffectiveFrom" Type="DateTime" ed:ValidateRequired="False" ed:Guid="30115104-c937-4e8c-b285-25f1db4f324e" />
+          <Property Name="UiPosition" Type="Int32" ed:ValidateRequired="False" ed:Guid="188d6daf-bb6d-4639-8464-50f3817a183a" />
         </ComplexType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" ed:Guid="6c29f688-1789-4f51-8fdc-69eb94245a4b">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.DefaultOrganisation" Multiplicity="1" />
@@ -30065,18 +30459,6 @@
             </Principal>
             <Dependent Role="ModuleClaims">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ModuleClaim_Role" ed:Guid="d380a825-f3e0-4605-bc14-5978466e03af">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="ModuleClaims" Type="Bec.TargetFramework.Data.ModuleClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ModuleClaims">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -30699,18 +31081,6 @@
             <Dependent Role="DefaultOrganisationRoleTemplates">
               <PropertyRef Name="DefaultOrganisationTemplateID" />
               <PropertyRef Name="DefaultOrganisationTemplateVersionNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_DefaultOrganisationRole_RoleT" ed:Guid="44212a5e-c918-43d8-b0e6-e214475ffc28">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="DefaultOrganisationRoleTemplates" Type="Bec.TargetFramework.Data.DefaultOrganisationRoleTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="DefaultOrganisationRoleTemplates">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -31874,18 +32244,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ProductClaim_Role" ed:Guid="eb808936-131f-45b5-80d1-cfe63efcfce3">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="ProductClaims" Type="Bec.TargetFramework.Data.ProductClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ProductClaims">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ProductClaim_State" ed:Guid="82f23696-e0ff-4b10-80e7-63ad2d673b08">
           <End Role="State" Type="Bec.TargetFramework.Data.State" Multiplicity="0..1" />
           <End Role="ProductClaims" Type="Bec.TargetFramework.Data.ProductClaim" Multiplicity="*" />
@@ -32247,18 +32605,6 @@
             </Principal>
             <Dependent Role="ProductClaimTemplates">
               <PropertyRef Name="ResourceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProductClaimTemplate_Role" ed:Guid="5b86b634-2f11-4ea4-9800-962b0e7ea65a">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="ProductClaimTemplates" Type="Bec.TargetFramework.Data.ProductClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ProductClaimTemplates">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -33096,18 +33442,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_StatusTypeClaimTemplate_Role" ed:Guid="6a6dd28d-a036-4ef6-8b4e-b12e98da6872">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="StatusTypeClaimTemplates" Type="Bec.TargetFramework.Data.StatusTypeClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="StatusTypeClaimTemplates">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_StatusTypeClaimTemplate_StatusTypeRoleTemplate" ed:Guid="126815f0-f517-4365-82c3-93d057038765">
           <End Role="StatusTypeRoleTemplate" Type="Bec.TargetFramework.Data.StatusTypeRoleTemplate" Multiplicity="0..1" />
           <End Role="StatusTypeClaimTemplates" Type="Bec.TargetFramework.Data.StatusTypeClaimTemplate" Multiplicity="*" />
@@ -33388,18 +33722,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_DefaultOrganisationRole_Role" ed:Guid="172bc618-a00d-4aea-a65b-4f9bb8b7eabe">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="DefaultOrganisationRoles" Type="Bec.TargetFramework.Data.DefaultOrganisationRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="DefaultOrganisationRoles">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UnitMap" ed:Guid="6d6ac52b-acbe-4f1c-b02d-365ce4fd1f8b">
           <End Role="OrganisationUnit" Type="Bec.TargetFramework.Data.OrganisationUnit" Multiplicity="1" />
           <End Role="OrganisationUnitStructures" Type="Bec.TargetFramework.Data.OrganisationUnitStructure" Multiplicity="*" />
@@ -33500,18 +33822,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ModuleClaimTemplate_Role" ed:Guid="1da280c8-376c-4afb-92e3-6111d23c0383">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="ModuleClaimTemplates" Type="Bec.TargetFramework.Data.ModuleClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ModuleClaimTemplates">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ModuleRoleClaimTemplate_Operation" ed:Guid="21f666aa-8a76-4589-a6d1-28cb40be2e83">
           <End Role="Operation" Type="Bec.TargetFramework.Data.Operation" Multiplicity="0..1" />
           <End Role="ModuleClaimTemplates" Type="Bec.TargetFramework.Data.ModuleClaimTemplate" Multiplicity="*" />
@@ -33583,18 +33893,6 @@
             </Principal>
             <Dependent Role="NotificationConstructClaims">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_NotificationConstructClaim_Role" ed:Guid="948f9d68-a3de-4a0a-9ca6-dfb437ff096f">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="NotificationConstructClaims" Type="Bec.TargetFramework.Data.NotificationConstructClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="NotificationConstructClaims">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -33681,18 +33979,6 @@
             </Principal>
             <Dependent Role="NotificationConstructClaimTemplates">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ModuleClaim_ModuleRole1" ed:Guid="ab444f73-0881-42c2-899a-3e26ab93044c">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="NotificationConstructClaimTemplates" Type="Bec.TargetFramework.Data.NotificationConstructClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="NotificationConstructClaimTemplates">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -33907,30 +34193,6 @@
             </Principal>
             <Dependent Role="ArtefactClaimTemplates">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ArtefactClaimTemplate_Role" ed:Guid="de458442-abbd-4f97-97ba-a78861f08527">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="ArtefactClaimTemplates" Type="Bec.TargetFramework.Data.ArtefactClaimTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ArtefactClaimTemplates">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ArtefactClaim_Role" ed:Guid="9bca1ca8-3d29-4a28-9c70-16018ae083e6">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="ArtefactClaims" Type="Bec.TargetFramework.Data.ArtefactClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ArtefactClaims">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -34277,18 +34539,6 @@
             </Principal>
             <Dependent Role="GroupRoles">
               <PropertyRef Name="GroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupTemplateRole_RoleTemplate" ed:Guid="79a30a6b-ef7a-45ab-8279-13fb582510ee">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
-          <End Role="GroupRoles" Type="Bec.TargetFramework.Data.GroupRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="GroupRoles">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -34925,18 +35175,6 @@
             </Principal>
             <Dependent Role="RoleClaims">
               <PropertyRef Name="StateItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_RoleTemplateClaim_RoleTemplate" ed:Guid="055569cf-b6ef-420a-a3a4-3a8c831367cd">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
-          <End Role="RoleClaims" Type="Bec.TargetFramework.Data.RoleClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="RoleClaims">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -36289,18 +36527,6 @@
             </Principal>
             <Dependent Role="ActorClaimRoleMappings">
               <PropertyRef Name="ResourceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ActorClaim_Role" ed:Guid="eb143287-1cb7-4ea3-8d83-5a0d8b5bd408">
-          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
-          <End Role="ActorClaimRoleMappings" Type="Bec.TargetFramework.Data.ActorClaimRoleMapping" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ActorClaimRoleMappings">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -37847,6 +38073,262 @@
             </Principal>
             <Dependent Role="UserAccountOrganisationSafeSendGroups">
               <PropertyRef Name="SafeSendGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UAO_UaoHelpViewed" ed:Guid="87f645f8-ffdd-45bb-9bfd-83980eabd754">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="UserAccountOrganisationHelpVieweds" Type="Bec.TargetFramework.Data.UserAccountOrganisationHelpViewed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationHelpVieweds">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpTypeiD_Classificiation" ed:Guid="12f6cea9-b699-49ab-bafe-04c2fff148d9">
+          <End Role="ClassificationType" Type="Bec.TargetFramework.Data.ClassificationType" Multiplicity="1" />
+          <End Role="Helps" Type="Bec.TargetFramework.Data.Help" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationType">
+              <PropertyRef Name="ClassificationTypeID" />
+            </Principal>
+            <Dependent Role="Helps">
+              <PropertyRef Name="HelpTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Help_HelpItem" ed:Guid="6d0d6c82-e579-499c-8b7d-2509c98d8c1b">
+          <End Role="Help" Type="Bec.TargetFramework.Data.Help" Multiplicity="1" />
+          <End Role="HelpItems" Type="Bec.TargetFramework.Data.HelpItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Help">
+              <PropertyRef Name="HelpID" />
+            </Principal>
+            <Dependent Role="HelpItems">
+              <PropertyRef Name="HelpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ArtefactClaim_Role" ed:Guid="0d7d095a-95fa-4aeb-ae06-977060ff86c4">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="ArtefactClaims" Type="Bec.TargetFramework.Data.ArtefactClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ArtefactClaims">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ArtefactClaimTemplate_Role" ed:Guid="d4f67ea5-93ec-4212-8478-ed0c767895b6">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="ArtefactClaimTemplates" Type="Bec.TargetFramework.Data.ArtefactClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ArtefactClaimTemplates">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DefaultOrganisationRole_Role" ed:Guid="dd9c59b5-1225-496a-9c7a-58f0f91d747c">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="DefaultOrganisationRoles" Type="Bec.TargetFramework.Data.DefaultOrganisationRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="DefaultOrganisationRoles">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DefaultOrganisationRole_RoleT" ed:Guid="64743969-913f-4478-a915-7d215ab447a3">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="DefaultOrganisationRoleTemplates" Type="Bec.TargetFramework.Data.DefaultOrganisationRoleTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="DefaultOrganisationRoleTemplates">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ModuleClaim_Role" ed:Guid="27d373ce-e4d3-46d7-bfa8-dd9c679ccd43">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="ModuleClaims" Type="Bec.TargetFramework.Data.ModuleClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ModuleClaims">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ModuleClaimTemplate_Role" ed:Guid="a8593a65-c80b-4f84-9942-ed55cc77f58a">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="ModuleClaimTemplates" Type="Bec.TargetFramework.Data.ModuleClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ModuleClaimTemplates">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ModuleClaim_ModuleRole1" ed:Guid="dd402687-10a1-4099-8673-fbdcd56c6d63">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="NotificationConstructClaimTemplates" Type="Bec.TargetFramework.Data.NotificationConstructClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="NotificationConstructClaimTemplates">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProductClaimTemplate_Role" ed:Guid="a0810fc7-ebd8-48c9-8068-38ade94e2dea">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="ProductClaimTemplates" Type="Bec.TargetFramework.Data.ProductClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ProductClaimTemplates">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RoleTemplateClaim_RoleTemplate" ed:Guid="8b57a33b-8462-4272-bbf4-4378032c022b">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="RoleClaims" Type="Bec.TargetFramework.Data.RoleClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="RoleClaims">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupTemplateRole_RoleTemplate" ed:Guid="63c050e5-27ea-48d9-b4d5-a4dc9c6d8c44">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="GroupRoles" Type="Bec.TargetFramework.Data.GroupRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="GroupRoles">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ActorClaim_Role" ed:Guid="f4e67176-15a7-454e-933b-847133c02e24">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="ActorClaimRoleMappings" Type="Bec.TargetFramework.Data.ActorClaimRoleMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ActorClaimRoleMappings">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProductClaim_Role" ed:Guid="4d19bb55-84b2-4923-ae4f-da6dd5ec1327">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="ProductClaims" Type="Bec.TargetFramework.Data.ProductClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ProductClaims">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_NotificationConstructClaim_Role" ed:Guid="386bcd53-e3e5-46f7-9aca-8ee0cedaac75">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="NotificationConstructClaims" Type="Bec.TargetFramework.Data.NotificationConstructClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="NotificationConstructClaims">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeClaimTemplate_Role" ed:Guid="31b62230-9596-4429-865f-5fb3d02f76a3">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="0..1" />
+          <End Role="StatusTypeClaimTemplates" Type="Bec.TargetFramework.Data.StatusTypeClaimTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="StatusTypeClaimTemplates">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpItemID_UAOID" ed:Guid="4fe2be99-c8dc-4e66-af5b-894ccb37797b">
+          <End Role="HelpItem" Type="Bec.TargetFramework.Data.HelpItem" Multiplicity="1" />
+          <End Role="UserAccountOrganisationHelpVieweds" Type="Bec.TargetFramework.Data.UserAccountOrganisationHelpViewed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HelpItem">
+              <PropertyRef Name="HelpItemID" />
+            </Principal>
+            <Dependent Role="UserAccountOrganisationHelpVieweds">
+              <PropertyRef Name="HelpItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpItem_Role" ed:Guid="9bdf6f57-64e9-4afe-88a2-af29bb3afd52">
+          <End Role="HelpItems" Type="Bec.TargetFramework.Data.HelpItem" Multiplicity="*" />
+          <End Role="Roles" Type="Bec.TargetFramework.Data.Role" Multiplicity="*" />
+        </Association>
+        <Association Name="HelpRole_fk" ed:Guid="a0c13462-4789-4f3e-bca8-98250196c4da">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="HelpRoles" Type="Bec.TargetFramework.Data.HelpRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="HelpRoles">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TempJsonData_fk" ed:Guid="55669062-edd2-4929-9757-3f660c305e8d">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="TempJsonData" Type="Bec.TargetFramework.Data.TempJsonDatum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="TempJsonData">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HelpItem_fk" ed:Guid="a28b7e05-304a-44cc-91a7-f751ebf443b2">
+          <End Role="ClassificationType" Type="Bec.TargetFramework.Data.ClassificationType" Multiplicity="0..1" />
+          <End Role="HelpItems" Type="Bec.TargetFramework.Data.HelpItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationType">
+              <PropertyRef Name="ClassificationTypeID" />
+            </Principal>
+            <Dependent Role="HelpItems">
+              <PropertyRef Name="UiPosition" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -41161,22 +41643,6 @@
                 <ScalarProperty Name="IsGridPanel" ColumnName="IsGridPanel" />
                 <ScalarProperty Name="IsGlobal" ColumnName="IsGlobal" />
                 <ScalarProperty Name="InterfacePanelTemplateLabel" ColumnName="InterfacePanelTemplateLabel" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Role">
-              <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
-                <ScalarProperty Name="RoleTypeID" ColumnName="RoleTypeID" />
-                <ScalarProperty Name="RoleSubTypeID" ColumnName="RoleSubTypeID" />
-                <ScalarProperty Name="RoleCategoryID" ColumnName="RoleCategoryID" />
-                <ScalarProperty Name="RoleSubCategoryID" ColumnName="RoleSubCategoryID" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="IsGlobal" ColumnName="IsGlobal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44762,6 +45228,100 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Helps">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Help">
+              <MappingFragment StoreEntitySet="Helps">
+                <ScalarProperty Name="HelpID" ColumnName="HelpID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="HelpTypeID" ColumnName="HelpTypeID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="UiPageUrl" ColumnName="UiPageUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccountOrganisationHelpVieweds">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.UserAccountOrganisationHelpViewed">
+              <MappingFragment StoreEntitySet="UserAccountOrganisationHelpVieweds">
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="HelpItemID" ColumnName="HelpItemID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VOrganisationRoleHierarchies">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VOrganisationRoleHierarchy">
+              <MappingFragment StoreEntitySet="vOrganisationRoleHierarchies">
+                <ScalarProperty Name="OrganisationRoleID" ColumnName="OrganisationRoleID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="ParentRoleID" ColumnName="ParentRoleID" />
+                <ScalarProperty Name="ParentRoleName" ColumnName="ParentRoleName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="RoleHierarchyID" ColumnName="RoleHierarchyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TempJsonData">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.TempJsonDatum">
+              <MappingFragment StoreEntitySet="TempJsonData">
+                <ScalarProperty Name="TempJsonDataID" ColumnName="TempJsonDataID" />
+                <ScalarProperty Name="JsonData" ColumnName="JsonData" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+                <ScalarProperty Name="RoleTypeID" ColumnName="RoleTypeID" />
+                <ScalarProperty Name="RoleSubTypeID" ColumnName="RoleSubTypeID" />
+                <ScalarProperty Name="RoleCategoryID" ColumnName="RoleCategoryID" />
+                <ScalarProperty Name="RoleSubCategoryID" ColumnName="RoleSubCategoryID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsGlobal" ColumnName="IsGlobal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HelpItems">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.HelpItem">
+              <MappingFragment StoreEntitySet="HelpItems">
+                <ScalarProperty Name="HelpItemID" ColumnName="HelpItemID" />
+                <ScalarProperty Name="HelpID" ColumnName="HelpID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UiSelector" ColumnName="UiSelector" />
+                <ScalarProperty Name="UiSelectorParent" ColumnName="UiSelectorParent" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="EffectiveFrom" ColumnName="EffectiveFrom" />
+                <ScalarProperty Name="UiPosition" ColumnName="UiPosition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HelpRoles">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.HelpRole">
+              <MappingFragment StoreEntitySet="HelpRoles">
+                <ScalarProperty Name="HelpRoleID" ColumnName="HelpRoleID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <AssociationSetMapping Name="BucketTemplate_DefaultOrganisationTemplateSet" TypeName="Bec.TargetFramework.Data.BucketTemplate_DefaultOrganisationTemplate" StoreEntitySet="DefaultOrganisationBucketTemplates">
             <EndProperty Name="BucketTemplates">
               <ScalarProperty Name="BucketTemplateID" ColumnName="BucketTemplateID" />
@@ -44908,6 +45468,14 @@
               <ScalarProperty Name="DeductionVersionNumber" ColumnName="DeductionVersionNumber" />
             </EndProperty>
           </AssociationSetMapping>
+          <AssociationSetMapping Name="HelpItem_RoleSet" TypeName="Bec.TargetFramework.Data.HelpItem_Role" StoreEntitySet="HelpItemRoles">
+            <EndProperty Name="HelpItems">
+              <ScalarProperty Name="HelpItemID" ColumnName="HelpItemID" />
+            </EndProperty>
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+            </EndProperty>
+          </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="FnGetUserClaim" FunctionName="Bec.TargetFramework.Data.Store.fn_GetUserClaims" />
           <FunctionImportMapping FunctionImportName="FnAddUserToTemporaryOrganisation" FunctionName="Bec.TargetFramework.Data.Store.fn_AddUserToTemporaryOrganisation" />
           <FunctionImportMapping FunctionImportName="FnAddUserToOrganisation" FunctionName="Bec.TargetFramework.Data.Store.fn_AddUserToOrganisation" />
@@ -44917,6 +45485,7 @@
           <FunctionImportMapping FunctionImportName="FnGetConversationActivity" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivity" />
           <FunctionImportMapping FunctionImportName="FnGetConversationActivityCount" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivityCount" />
           <FunctionImportMapping FunctionImportName="FnAttachUpload" FunctionName="Bec.TargetFramework.Data.Store.fn_AttachUploads" />
+          <FunctionImportMapping FunctionImportName="FnGetHelpItem" FunctionName="Bec.TargetFramework.Data.Store.fn_GetHelpItems" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -112,6 +112,7 @@
     <Compile Include="Logic\FileLogicController.cs" />
     <Compile Include="Logic\InvoiceLogicController.cs" />
     <Compile Include="Logic\BankAccountLogicController.cs" />
+    <Compile Include="Logic\HelpLogicController.cs" />
     <Compile Include="Logic\PaymentLogicController.cs" />
     <Compile Include="Logic\ProductLogicController.cs" />
     <Compile Include="Logic\QueryLogicController.cs" />
