@@ -13,8 +13,7 @@
                 data: $('#confirmDetails-form').serializeArray(),
                 method: "POST"
             }).done(function () {
-                showAudit();
-                hideCurrentModal();
+                window.location = $("#confirmDetails-form").data("redirectto");
             }).fail(function (e) {
                 if (!hasRedirect(e.responseJSON)) {
                     showtoastrError();

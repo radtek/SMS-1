@@ -2,7 +2,6 @@
     'use strict';
     setupAddressFinder();
     setupPaymentForm();
-    setupWizard();
 
     function setupAddressFinder() {
         new findAddress({
@@ -21,6 +20,10 @@
     }
 
     function setupPaymentForm() {
+
+        $("#submitPurchase").click(function () {
+            $("#purchaseProductForm").submit();
+        });
 
         $("#purchaseProductForm").validate({
             ignore: '.skip',
@@ -80,12 +83,7 @@
             }).done(function (res) {
 
                 if (res.paymentresult == true) {
-                    hideCurrentModal();
-
-                    if (res.matchresult == true)
-                        handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode + "&paid=true" }, null, true);
-                    else
-                        handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode + "&paid=true" }, null, true);
+                    window.location = $("#purchaseProductForm").data("redirectto");
                 }
                 else {
                     handleModal({ url: $("#purchaseProductForm").data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
@@ -104,46 +102,6 @@
                 }
             });
         }
-    }
-
-    function setupWizard() {
-        var wizard = $('#purchaseWizard').bootstrapWizard({
-            tabClass: 'form-wizard',
-            onTabShow: function (tab, navigation, index) {
-                var total = navigation.find('li').length;
-                var first = index == 0;
-                var last = index == total - 1;
-
-                if (first) {
-                    $('#stepBack').hide();
-                }
-                else {
-                    $('#stepBack').show();
-                }
-
-                if (last) {
-                    $('#submitPurchase').show();
-                    $('#stepNext').hide();
-                }
-                else {
-                    $('#submitPurchase').hide();
-                    $('#stepNext').show();
-                }
-            },
-            onTabClick: function (tab, navigation, index) {
-                return false;
-            }
-        });
-
-        $("#submitPurchase").click(checkWizardValid(wizard, "#purchaseProductForm"));
-
-        $("#stepNext").click(function () {
-            wizard.bootstrapWizard('next');
-        });
-
-        $("#stepBack").click(function () {
-            wizard.bootstrapWizard('previous');
-        });
     }
 });
 

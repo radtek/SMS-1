@@ -38,8 +38,9 @@
         </h2>
         <div class="col-sm-12">
             <div class="well">
-                <div id="transactionContainer" data-url="@Url.Action("ViewMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = Model.Dto.SmsUserAccountOrganisationTransactionID, companyName = companyName })"
-                     data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = Model.Dto.SmsUserAccountOrganisationTransactionID })"
+                <div id="transactionContainer"
+                     data-url="@Url.Action("ViewMatch", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID, smsUserAccountOrganisationTransactionID = Model.Dto.SmsUserAccountOrganisationTransactionID, companyName = companyName })"
+                     data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID, smsUserAccountOrganisationTransactionID = Model.Dto.SmsUserAccountOrganisationTransactionID })"
                      data-companyname="@companyName" data-phone="@tel">
                     <div id="transactionTabs" class="tabbable custom-tabs shadow margin-top-10">
                         <ul class="nav nav-tabs">
@@ -52,6 +53,23 @@
                         <div class="tab-content padding-top-10">
                             <div class="tab-pane active" id="transactionDetailsPanel">
 
+                                @if (TempData["PaymentSuccessful"] != null)
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10">
+                                                <i class="fa fa-info margin-right-5"></i><strong>Payment Successful</strong>
+                                                <p>Safe Buyer was successfully purchased. Please follow the instructions below.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.Dto.SmsTransaction.InvoiceID.HasValue)
+                                {
+                                    <div class="col-sm-12">
+                                        <a class="btn btn-primary pull-right" href="@Url.Action("GetReceipt", "SafeBuyer", new { Area = "Buyer" })?txID=@Model.Dto.SmsTransactionID">Download Receipt</a>
+                                    </div>
+                                }
                                 <div id="detailsRow" class="margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Dto.ProductAcceptedOn.HasValue? "block" : "none")">
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -62,7 +80,6 @@
                                                     <p>Before proceeding with the Safe Buyer product it is neccessary to complete the data marked with <span class="required">Required</span> label using 'Edit' function.</p>
                                                 </div>
                                             }
-                                            <a href="@Url.Action("GetReceipt", "SafeBuyer", new { Area = "Buyer" })?txID=@Model.Dto.SmsTransactionID">Download Receipt</a>
                                         </div>
                                     </div>
                                     <div class="row">
