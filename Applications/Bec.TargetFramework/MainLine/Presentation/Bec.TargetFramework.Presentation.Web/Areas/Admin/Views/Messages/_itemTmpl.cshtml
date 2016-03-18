@@ -18,7 +18,7 @@
                     {{#if isFromProfessionalUser}}
                     <strong>{{Message.OrganisationName}}</strong> >
                     {{/if}}
-                    <strong> {{Message.FirstName}} {{Message.LastName}}</strong>
+                    <strong> {{Message.FirstName}} {{#if Message.HideLastName}}{{else}}{{Message.LastName}}{{/if}}</strong>
                     <span class="text-muted">wrote on {{Message.DateSent}}</span>
                 </div>
                 {{#if isMessage}}

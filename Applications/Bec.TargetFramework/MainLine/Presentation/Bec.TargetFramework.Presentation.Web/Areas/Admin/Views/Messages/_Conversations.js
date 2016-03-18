@@ -172,6 +172,7 @@
                         item.icon = 'fa-comment-o';
                         item.Message.FirstName = "Safe Move Scheme";
                         item.Message.UserType = "Safe Move Scheme"
+                        item.Message.HideLastName = true;
                         break;
                 }
                 item.Message.DateSent = dateString(item.Message.DateSent);
