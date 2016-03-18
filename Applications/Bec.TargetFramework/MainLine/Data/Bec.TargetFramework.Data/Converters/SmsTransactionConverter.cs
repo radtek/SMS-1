@@ -47,8 +47,6 @@ namespace Bec.TargetFramework.Entities
             target.ProductAdvisedOn = source.ProductAdvisedOn;
             target.ShoppingCartID = source.ShoppingCartID;
             target.InvoiceID = source.InvoiceID;
-            target.ProductDeclinedOn = source.ProductDeclinedOn;
-            target.ProductAcceptedOn = source.ProductAcceptedOn;
             target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
 
             // Navigation Properties
@@ -93,8 +91,6 @@ namespace Bec.TargetFramework.Entities
             target.ProductAdvisedOn = source.ProductAdvisedOn;
             target.ShoppingCartID = source.ShoppingCartID;
             target.InvoiceID = source.InvoiceID;
-            target.ProductDeclinedOn = source.ProductDeclinedOn;
-            target.ProductAcceptedOn = source.ProductAcceptedOn;
             target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
 
             // User-defined partial method

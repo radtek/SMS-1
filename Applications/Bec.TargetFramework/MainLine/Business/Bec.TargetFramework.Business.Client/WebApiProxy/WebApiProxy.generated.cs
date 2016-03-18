@@ -299,8 +299,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		TransactionOrderPaymentDTO PurchaseSafeBuyerProductSync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest);
 		Task<IEnumerable<SmsTransactionPendingUpdateCountDTO>> SmsTransactionPendingUpdateCountAsync(IEnumerable<Guid> ids);
 		IEnumerable<SmsTransactionPendingUpdateCountDTO> SmsTransactionPendingUpdateCountSync(IEnumerable<Guid> ids);
-		Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyUaoIdsAsync(Guid txID);
-		IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIdsSync(Guid txID);
+		Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsAsync(Guid txID);
+		IEnumerable<Guid> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsSync(Guid txID);
 		Task<Boolean> CheckDuplicateUserSmsTransactionAsync(Guid orgID,String email,SmsTransactionDTO dto);
 		Boolean CheckDuplicateUserSmsTransactionSync(Guid orgID,String email,SmsTransactionDTO dto);
 		Task AdviseProductAsync(Guid txID,Guid orgID);
@@ -2050,16 +2050,16 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<IEnumerable<Guid>, IEnumerable<SmsTransactionPendingUpdateCountDTO>>("api/SmsTransactionLogic/SmsTransactionPendingUpdateCount", ids, _user)).Result;
 		}
 
-		public virtual Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyUaoIdsAsync(Guid txID)
+		public virtual Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsAsync(Guid txID)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<IEnumerable<Guid>>("api/SmsTransactionLogic/GetSmsTransactionRelatedPartyUaoIds?txID=" + txID, _user);
+			return GetAsync<IEnumerable<Guid>>("api/SmsTransactionLogic/GetSmsTransactionRelatedPartyDeclinedProductUaoIds?txID=" + txID, _user);
 		}
 
-		public virtual IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIdsSync(Guid txID)
+		public virtual IEnumerable<Guid> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsSync(Guid txID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/SmsTransactionLogic/GetSmsTransactionRelatedPartyUaoIds?txID=" + txID, _user)).Result;
+			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/SmsTransactionLogic/GetSmsTransactionRelatedPartyDeclinedProductUaoIds?txID=" + txID, _user)).Result;
 		}
 
 		public virtual Task<Boolean> CheckDuplicateUserSmsTransactionAsync(Guid orgID,String email,SmsTransactionDTO dto)

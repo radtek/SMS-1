@@ -211,26 +211,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for ProductDeclinedOn in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.DateTime> ProductDeclinedOn
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for ProductAcceptedOn in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.DateTime> ProductAcceptedOn
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for CreatedByUserAccountOrganisationID in the schema.
         /// </summary>
         public virtual global::System.Guid CreatedByUserAccountOrganisationID

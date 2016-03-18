@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isProductAdvised, global::System.Nullable<System.DateTime> productAdvisedOn, global::System.Nullable<System.Guid> shoppingCartID, global::System.Nullable<System.Guid> invoiceID, global::System.Nullable<System.DateTime> productDeclinedOn, global::System.Nullable<System.DateTime> productAcceptedOn, global::System.Guid createdByUserAccountOrganisationID, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, InvoiceDTO invoice, ShoppingCartDTO shoppingCart, UserAccountOrganisationDTO userAccountOrganisation) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isProductAdvised, global::System.Nullable<System.DateTime> productAdvisedOn, global::System.Nullable<System.Guid> shoppingCartID, global::System.Nullable<System.Guid> invoiceID, global::System.Guid createdByUserAccountOrganisationID, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, InvoiceDTO invoice, ShoppingCartDTO shoppingCart, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -42,8 +42,6 @@ namespace Bec.TargetFramework.Entities
           this.ProductAdvisedOn = productAdvisedOn;
           this.ShoppingCartID = shoppingCartID;
           this.InvoiceID = invoiceID;
-          this.ProductDeclinedOn = productDeclinedOn;
-          this.ProductAcceptedOn = productAcceptedOn;
           this.CreatedByUserAccountOrganisationID = createdByUserAccountOrganisationID;
           this.Address = address;
           this.Organisation = organisation;
@@ -110,12 +108,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.Guid> InvoiceID { get; set; }
-
-        [DataMember]
-        public global::System.Nullable<System.DateTime> ProductDeclinedOn { get; set; }
-
-        [DataMember]
-        public global::System.Nullable<System.DateTime> ProductAcceptedOn { get; set; }
 
         [DataMember]
         public global::System.Guid CreatedByUserAccountOrganisationID { get; set; }

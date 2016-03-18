@@ -42,6 +42,8 @@ namespace Bec.TargetFramework.Entities
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
             target.LatestBankAccountCheckID = source.LatestBankAccountCheckID;
+            target.ProductAcceptedOn = source.ProductAcceptedOn;
+            target.ProductDeclinedOn = source.ProductDeclinedOn;
 
             // Navigation Properties
             if (level > 0) {
@@ -82,6 +84,8 @@ namespace Bec.TargetFramework.Entities
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
             target.LatestBankAccountCheckID = source.LatestBankAccountCheckID;
+            target.ProductAcceptedOn = source.ProductAcceptedOn;
+            target.ProductDeclinedOn = source.ProductDeclinedOn;
 
             // User-defined partial method
             OnEntityCreating(source, target);

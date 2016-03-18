@@ -9872,8 +9872,6 @@
           <Property Name="ProductAdvisedOn" Type="timestamptz" />
           <Property Name="ShoppingCartID" Type="uuid" />
           <Property Name="InvoiceID" Type="uuid" />
-          <Property Name="ProductDeclinedOn" Type="timestamptz" />
-          <Property Name="ProductAcceptedOn" Type="timestamptz" />
           <Property Name="CreatedByUserAccountOrganisationID" Type="uuid" Nullable="false" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
@@ -9986,6 +9984,8 @@
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="LatestBankAccountCheckID" Type="uuid" />
+          <Property Name="ProductAcceptedOn" Type="timestamptz" />
+          <Property Name="ProductDeclinedOn" Type="timestamptz" />
         </EntityType>
         <EntityType Name="Lender">
           <Key>
@@ -29557,8 +29557,6 @@
           <Property Name="ProductAdvisedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7c4a4acd-4ab4-4d84-b9fc-c06b56412c9f" />
           <Property Name="ShoppingCartID" Type="Guid" ed:ValidateRequired="False" ed:Guid="49a8f39d-afe8-4801-afbd-f5458a51c720" />
           <Property Name="InvoiceID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3890bf34-13ba-4b58-8736-db96c6c02239" />
-          <Property Name="ProductDeclinedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="af7fd9e0-c3f4-4fc6-a897-955631f038d1" />
-          <Property Name="ProductAcceptedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="1de28102-0306-4bde-b598-cce6a811ae78" />
           <Property Name="CreatedByUserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="01c8c581-fdff-4f9a-9d82-6ade5c1aabfe" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
@@ -29684,6 +29682,8 @@
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="b918e258-f61e-4ac1-8935-ea4f2ee7dd5e" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="555dbde7-5dc1-441c-86c2-87f6de85936e" />
           <Property Name="LatestBankAccountCheckID" Type="Guid" ed:ValidateRequired="False" ed:Guid="a0c391f2-2c6b-4575-92cc-eb0895cb5ce1" />
+          <Property Name="ProductAcceptedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="b3c5c6c7-f0d4-40ff-8071-d4c5cfcfb3cc" />
+          <Property Name="ProductDeclinedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="42ab23a3-7a7e-4f60-9781-c0ceaf2657c6" />
           <NavigationProperty Name="SmsTransaction" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsTransaction" ed:Guid="9ffe38ae-e45b-4556-9674-ea7f0b226303" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactionType" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsUserAccountOrganisationTransactionType" ed:Guid="9fdc3040-736e-4bd0-a00e-260837db38e9" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Address" ed:Guid="8935e715-92aa-485a-ba4c-720eb05fb917" />
@@ -44571,8 +44571,6 @@
                 <ScalarProperty Name="IsProductAdvised" ColumnName="IsProductAdvised" />
                 <ScalarProperty Name="ProductAdvisedOn" ColumnName="ProductAdvisedOn" />
                 <ScalarProperty Name="ShoppingCartID" ColumnName="ShoppingCartID" />
-                <ScalarProperty Name="ProductDeclinedOn" ColumnName="ProductDeclinedOn" />
-                <ScalarProperty Name="ProductAcceptedOn" ColumnName="ProductAcceptedOn" />
                 <ScalarProperty Name="CreatedByUserAccountOrganisationID" ColumnName="CreatedByUserAccountOrganisationID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -44679,6 +44677,8 @@
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="LatestBankAccountCheckID" ColumnName="LatestBankAccountCheckID" />
+                <ScalarProperty Name="ProductAcceptedOn" ColumnName="ProductAcceptedOn" />
+                <ScalarProperty Name="ProductDeclinedOn" ColumnName="ProductDeclinedOn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -24,10 +24,11 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var recipients = SmsTransactionLogicClient.GetSmsTransactionRelatedPartyUaoIdsSync(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
+                var recipients = SmsTransactionLogicClient.GetSmsTransactionRelatedPartyDeclinedProductUaoIdsSync(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
-
-                CreateAndPublishContainer(
+                if (recipients.Any())
+                {
+                    CreateAndPublishContainer(
                     NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.ProductAdvised.GetStringValue()),
                     SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
@@ -35,6 +36,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                     handlerEvent.ProductAdvisedNotificationDTO,
                     ActivityType.SmsTransaction,
                     handlerEvent.ProductAdvisedNotificationDTO.TransactionID);
+                }
             }
             catch (Exception ex)
             {

@@ -77,7 +77,6 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/kendo/kendo.userevents.min.js",
                 "~/Scripts/kendo/kendo.selectable.min.js",
                 "~/Scripts/kendo/kendo.grid.min.js",
-                "~/Scripts/kendo/kendo.aspnetmvc.min.js",
                 "~/Scripts/dropzone/dropzone.js"
                 ));
 

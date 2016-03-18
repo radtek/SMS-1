@@ -72,7 +72,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             }
         }
 
-        public async Task<ActionResult> GetSmsTransactions(string search, SmsTransactionDecisionEnum decisionFilter, SmsTransactionNoMatchEnum noMatchFilter)
+        public async Task<ActionResult> GetSmsTransactions(string search, SmsTransactionNoMatchEnum noMatchFilter)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
@@ -100,8 +100,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Price,
                 x.SmsTransaction.IsProductAdvised,
                 x.SmsTransaction.ProductAdvisedOn,
-                x.SmsTransaction.ProductDeclinedOn,
                 x.SmsTransaction.InvoiceID,
+                x.ProductAcceptedOn,
+                x.ProductDeclinedOn,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
@@ -117,7 +118,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 PurchasedByLastName = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.LastName,
                 x.LatestBankAccountCheck.CheckedOn,
                 SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode }),
-                BankAccountChecks = x.SmsTransaction.SmsUserAccountOrganisationTransactions.Select(y => new
+                BuyerParties = x.SmsTransaction.SmsUserAccountOrganisationTransactions.Select(y => new
                 {
                     Check = y.SmsBankAccountChecks.Select(z => new
                     {
@@ -131,11 +132,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                         z.AccountNumber,
                         z.SortCode
                     }),
-                    PersonaSalutation = y.Contact.Salutation,
-                    PersonaFirstName = y.Contact.FirstName,
-                    PersonaLastName = y.Contact.LastName,
-                    PersonaTypeID = y.SmsUserAccountOrganisationTransactionTypeID,
-                    PersonaTypeDescription = y.SmsUserAccountOrganisationTransactionType.Description
+                    y.Contact.Salutation,
+                    y.Contact.FirstName,
+                    y.Contact.LastName,
+                    y.SmsUserAccountOrganisationTransactionTypeID,
+                    y.SmsUserAccountOrganisationTransactionType.Description,
+                    y.ProductAcceptedOn,
+                    y.ProductDeclinedOn
                 }),
             });
 
@@ -157,16 +160,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     x.SmsTransaction.Address.Line1.ToLower().Contains(search) ||
                     x.SmsTransaction.Address.PostalCode.ToLower().Contains(search)
                     ));
-            }
-
-            switch (decisionFilter)
-            {
-                case SmsTransactionDecisionEnum.Declined:
-                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.ProductDeclinedOn != null && x.SmsTransaction.Invoice == null));
-                    break;
-                case SmsTransactionDecisionEnum.Purchased:
-                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.InvoiceID != null));
-                    break;
             }
 
             switch (noMatchFilter)
@@ -211,7 +204,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.Price,
                 x.IsProductAdvised,
                 x.ProductAdvisedOn,
-                x.ProductDeclinedOn,
                 x.InvoiceID,
                 x.Invoice.UserAccountOrganisationID,
                 PurchasedOn = x.Invoice.CreatedOn,
@@ -235,6 +227,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     y.UserAccountOrganisation.UserAccount.LastLogin,
                     y.UserAccountOrganisation.PinCode,
                     y.LatestBankAccountCheck.IsMatch,
+                    y.ProductAcceptedOn,
+                    y.ProductDeclinedOn,
                     SrcOfFunds = y.SmsSrcFundsBankAccounts.Select(z => new
                     {
                         z.AccountNumber,

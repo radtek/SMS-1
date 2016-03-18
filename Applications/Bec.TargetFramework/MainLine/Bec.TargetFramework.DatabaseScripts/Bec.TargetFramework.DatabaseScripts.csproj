@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Development\PendingNext\03_PurchaseDeclineDecisionPerBuyerParty.sql" />
     <Content Include="Development\PendingNext\02_SafeBuyerForFreeSettings.sql" />
     <Content Include="Development\PendingNext\01_FieldUpdateTable.sql" />
     <Content Include="Development\PendingNext\SmsUaoUpdate.sql" />

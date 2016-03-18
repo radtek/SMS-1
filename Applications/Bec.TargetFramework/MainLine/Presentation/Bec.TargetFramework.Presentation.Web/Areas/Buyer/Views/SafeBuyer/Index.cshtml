@@ -29,8 +29,8 @@
 <div id="content" class="buyer-transactions"
      data-advised="@Model.Dto.SmsTransaction.IsProductAdvised"
      data-purchased="@Model.Dto.SmsTransaction.InvoiceID.HasValue"
-     data-declined="@Model.Dto.SmsTransaction.ProductDeclinedOn.HasValue"
-     data-accepted="@Model.Dto.SmsTransaction.ProductAcceptedOn.HasValue">
+     data-declined="@Model.Dto.ProductDeclinedOn.HasValue"
+     data-accepted="@Model.Dto.ProductAcceptedOn.HasValue">
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
             <i class="fa fa-home fa-lg margin-right-10"></i>
@@ -52,13 +52,13 @@
                         <div class="tab-content padding-top-10">
                             <div class="tab-pane active" id="transactionDetailsPanel">
 
-                                <div id="detailsRow" class="margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Dto.SmsTransaction.ProductAcceptedOn.HasValue? "block" : "none")">
+                                <div id="detailsRow" class="margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Dto.ProductAcceptedOn.HasValue? "block" : "none")">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             @if (!areDetailsComplete)
                                             {
                                                 <div class="alert alert-info">
-                                                    <i class="fa fa-info margin-right-5"></i><strong>Information </strong>
+                                                    <h5><i class="fa fa-info"></i><strong>Information</strong></h5>
                                                     <p>Before proceeding with the Safe Buyer product it is neccessary to complete the data marked with <span class="required">Required</span> label using 'Edit' function.</p>
                                                 </div>
                                             }
@@ -210,10 +210,10 @@
                                         <a id="editAddDetailsBtn" class="btn btn-primary margin-right-10 pull-right" data-modallink="true" data-href="@Url.Action("ViewEdit", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID })">
                                             <i class="fa fa-pencil margin-right-5"></i>Edit / Add Details
                                         </a>
-                                        <a id="declineButton" style="display:none;" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewDeclineProduct", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID })">
+                                        <a id="declineButton" style="display:none;" data-modallink="true" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right" data-href="@Url.Action("ViewDeclineProduct", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID, uaoTxID = Model.Dto.SmsUserAccountOrganisationTransactionID })">
                                             No, I’ll decline the advice and proceed at my own risk
                                         </a>
-                                        <form id="acceptProductForm" action="@Url.Action("AcceptProduct", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID })" method="post">
+                                        <form id="acceptProductForm" action="@Url.Action("AcceptProduct", "SafeBuyer", new { area = "Buyer", txID = Model.Dto.SmsTransactionID, uaoTxID = Model.Dto.SmsUserAccountOrganisationTransactionID })" method="post">
                                             @Html.AntiForgeryToken()
                                             <button type="submit" id="acceptProductBtn" style="display:none;" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right">
                                                 Yes, I want to use Safe Buyer

@@ -17,6 +17,7 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bec.TargetFramework.Presentation.Web.Areas.Buyer.Models;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 {
@@ -246,6 +247,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.Contact.LastName,
                 x.Contact.BirthDate,
                 x.CreatedOn,
+                x.ProductDeclinedOn,
+                x.ProductAcceptedOn,
                 x.SmsTransactionID,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
@@ -259,8 +262,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsTransaction.InvoiceID,
                 x.SmsTransaction.IsProductAdvised,
-                x.SmsTransaction.ProductDeclinedOn,
-                x.SmsTransaction.ProductAcceptedOn,
                 x.SmsUserAccountOrganisationTransactionTypeID,
                 x.SmsUserAccountOrganisationTransactionID,
                 Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
@@ -311,38 +312,73 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return model.SmsTransaction.OrganisationID;
         }
 
-        public async Task<ActionResult> ViewDeclineProduct(Guid txID)
+        public async Task<ActionResult> ViewDeclineProduct(Guid txID, Guid uaoTxID)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
+            await EnsureCanDeclineProduct(txID, uaoTxID, currentUserUaoId, QueryClient);
             ViewBag.txID = txID;
+            ViewBag.uaoTxID = uaoTxID;
             return PartialView("_DeclineProduct");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeclineProduct(Guid txID)
+        public async Task<ActionResult> DeclineProduct(Guid txID, Guid uaoTxID)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
-
-            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
-            await QueryClient.UpdateGraphAsync("SmsTransactions", JObject.FromObject(new { ProductDeclinedOn = DateTime.Now }), filter);
+            await EnsureCanDeclineProduct(txID, uaoTxID, currentUserUaoId, QueryClient);
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaoTxID);
+            await QueryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", JObject.FromObject(new { ProductDeclinedOn = DateTime.Now }), filter);
 
             return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = txID });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AcceptProduct(Guid txID)
+        public async Task<ActionResult> AcceptProduct(Guid txID, Guid uaoTxID)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
+            await EnsureCanAcceptProduct(txID, uaoTxID, currentUserUaoId, QueryClient);
 
-            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
-            await QueryClient.UpdateGraphAsync("SmsTransactions", JObject.FromObject(new { ProductAcceptedOn = DateTime.Now }), filter);
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaoTxID);
+            await QueryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", JObject.FromObject(new { ProductAcceptedOn = DateTime.Now }), filter);
 
             return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = txID });
+        }
+
+        internal static async Task EnsureCanAcceptProduct(Guid txID, Guid uaoTxID, Guid uaoID, IQueryLogicClient queryClient)
+        {
+            await EnsureCanMakeDecision(txID, uaoTxID, uaoID, SafeBuyerDecision.Accept, queryClient);
+        }
+
+        internal static async Task EnsureCanDeclineProduct(Guid txID, Guid uaoTxID, Guid uaoID, IQueryLogicClient queryClient)
+        {
+            await EnsureCanMakeDecision(txID, uaoTxID, uaoID, SafeBuyerDecision.Decline, queryClient);
+        }
+
+        internal static async Task EnsureCanMakeDecision(Guid txID, Guid uaoTxID, Guid uaoID, SafeBuyerDecision decision, IQueryLogicClient queryClient)
+        {
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.UserAccountOrganisationID == uaoID &&
+                x.SmsTransactionID == txID &&
+                x.SmsUserAccountOrganisationTransactionID == uaoTxID);
+            switch (decision)
+            {
+                case SafeBuyerDecision.Accept:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.ProductAcceptedOn == null));
+                    break;
+                case SafeBuyerDecision.Decline:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.ProductDeclinedOn == null));
+                    break;
+            }
+            var filter = ODataHelper.Filter(where);
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.FirstOrDefault();
+            if (model == null)
+            {
+                throw new AccessViolationException("Operation failed");
+            }
         }
 
         public async Task<ActionResult> ViewEdit(Guid txID)

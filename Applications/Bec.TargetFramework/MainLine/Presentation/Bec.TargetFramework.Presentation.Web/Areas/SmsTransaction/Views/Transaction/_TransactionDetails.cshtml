@@ -3,12 +3,28 @@
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Models
 @model PendingUpdateModel<SmsTransactionDTO>
+@helper GetPendingUpdateIndicatorIfNeeded(IEnumerable<string> fieldNames, FieldUpdateParentType parentType, IEnumerable<Guid> parentIDs)
+{
+    if (Model.FieldUpdates.Any(x => fieldNames.Contains(x.FieldName) && x.ParentType == parentType.GetIntValue() && parentIDs.Contains(x.ParentID)))
+    {
+        <span class="fa fa-circle pending-update" title="Pending Changes"></span>
+    }
+}
 <h5>Transaction Details</h5>
 <table class="table transaction-details-table">
     <tr>
-        <th>Transaction Address</th>
-        <th>Mortgage Details</th>
-        <th>Purchase Price</th>
+        <th>
+            Transaction Address
+            @GetPendingUpdateIndicatorIfNeeded(new[] { "Line1", "Line2", "Town", "County", "PostalCode" }, FieldUpdateParentType.SmsTransactionAddress, new[] { Model.Dto.SmsTransactionID })
+        </th>
+        <th>
+            Mortgage Details
+            @GetPendingUpdateIndicatorIfNeeded(new[] { "LenderName", "MortgageApplicationNumber" }, FieldUpdateParentType.SmsTransaction, new[] { Model.Dto.SmsTransactionID })
+        </th>
+        <th>
+            Purchase Price
+            @GetPendingUpdateIndicatorIfNeeded(new[] { "Price" }, FieldUpdateParentType.SmsTransaction, new[] { Model.Dto.SmsTransactionID })
+        </th>
         <th>Product: Safe Buyer</th>
         <th><!--Actions--></th>
     </tr>
@@ -74,10 +90,19 @@
 <table class="table transaction-details-table">
     <tr>
         <th>Type</th>
-        <th>Full Name</th>
-        <th>Registered Home Address</th>
+        <th>
+            Full Name
+            @GetPendingUpdateIndicatorIfNeeded(new[] { "Salutation", "FirstName", "LastName" }, FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactions.Select(x => x.SmsUserAccountOrganisationTransactionID))
+        </th>
+        <th>
+            Registered Home Address
+            @GetPendingUpdateIndicatorIfNeeded(new[] { "Line1", "Line2", "Town", "County", "PostalCode" }, FieldUpdateParentType.RegisteredHomeAddress, Model.Dto.SmsUserAccountOrganisationTransactions.Select(x => x.SmsUserAccountOrganisationTransactionID))
+        </th>
         <th>Email</th>
-        <th>Date of Birth</th>
+        <th>
+            Date of Birth
+            @GetPendingUpdateIndicatorIfNeeded(new[] { "BirthDate" }, FieldUpdateParentType.Contact, Model.Dto.SmsUserAccountOrganisationTransactions.Select(x => x.SmsUserAccountOrganisationTransactionID))
+        </th>
         <th>Safe Buyer</th>
         <th>Source of Funds</th>
         <th><!--Actions--></th>
@@ -104,6 +129,21 @@
             </td>
             <td>
                 <ul class="list-unstyled">
+                    <li>
+                        @if (relatedParty.ProductAcceptedOn.HasValue)
+                        {
+                            <span><i class="fa fa-check margin-right-5"></i>Accepted</span>
+                        }
+                        else if (relatedParty.ProductDeclinedOn.HasValue)
+                        {
+                            <span><i class="fa fa-exclamation-triangle margin-right-5"></i>Declined</span>
+                        }
+                        else
+                        {
+                            <label class="label label-outstanding-decisions" title="Buyer Party Decision">No Decision</label>
+                        }
+                    </li>
+
                     @if (relatedParty.LatestBankAccountCheck != null)
                     {
                         <li>

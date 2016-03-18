@@ -696,7 +696,8 @@ a.removeupload {
 }
 .alert h5 {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  font-size: 1.1em;
 }
 .alert h5 strong {
   margin-left: 5px;
@@ -726,6 +727,8 @@ a.removeupload {
 }
 .pending-update {
   color: #6eb0df;
+}
+a.pending-update {
   font-weight: bold;
   cursor: pointer;
 }
@@ -849,6 +852,25 @@ input[type=radio]:checked + label.approve-reject-button {
 }
 .label-danger {
   background-color: #a90329;
+}
+.transaction-issues {
+  display: inline-block;
+  width: 25px;
+}
+.transaction-issues .badge {
+  padding: 5px;
+}
+.color-pending {
+  color: #6eb0df;
+}
+.color-no-match {
+  color: #a90329;
+}
+.color-outstanding-decisions {
+  color: #888;
+}
+.label-outstanding-decisions {
+  background-color: #888;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {

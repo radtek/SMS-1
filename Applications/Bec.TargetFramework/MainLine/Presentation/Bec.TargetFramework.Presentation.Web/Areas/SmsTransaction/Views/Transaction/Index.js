@@ -69,42 +69,34 @@
             },
             {
                 field: "",
-                title: "Decision",
+                title: "Required Actions",
+                width: 120,
                 template: function (dataItem) {
-                    if (dataItem.SmsTransaction.Invoice) {
-                        return 'Purchased';
-                    } else if (dataItem.SmsTransaction.ProductDeclinedOn) {
-                        return 'Declined';
-                    } else {
-                        return '';
-                    }
-                }
-            },
-            {
-                field: "",
-                title: "Safe Buyer No Matches",
-                template: function (dataItem) {
+                    var notActionedPartiesCount = _.filter(dataItem.SmsTransaction.SmsUserAccountOrganisationTransactions, function (uaot){
+                        return !uaot.ProductAcceptedOn && !uaot.ProductDeclinedOn;
+                    }).length;
                     var noMatchResultsCount = _.sum(
                         _.map(dataItem.SmsTransaction.SmsUserAccountOrganisationTransactions, function (item) {
                             var noMatchesPerPersona = _.filter(item.SmsBankAccountChecks, { IsMatch: false });
                             return noMatchesPerPersona.length;
                         }));
+
+                    var resultText = '';
+                    var emptyBox = '<span class="transaction-issues">&nbsp;</span>';
+                    if (notActionedPartiesCount > 0) {
+                        resultText += '<span class="transaction-issues"><b class="badge" title="Outstanding Decisions">' + notActionedPartiesCount + '</b></span>';
+                    } else {
+                        resultText += emptyBox;
+                    }
                     if (noMatchResultsCount > 0) {
-                        return '<b class="badge bg-color-red">' + noMatchResultsCount + '</b>';
+                        resultText += '<span class="transaction-issues"><b class="badge bg-color-red" title="Safe Buyer No Matches">' + noMatchResultsCount + '</b></span>';
                     } else {
-                        return '';
+                        resultText += emptyBox;
                     }
-                }
-            },
-            {
-                field: "",
-                title: "Pending Changes",
-                template: function (dataItem) {
                     if (dataItem.PendingUpdateCount > 0) {
-                        return '<b class="badge bg-color-pending-update">' + dataItem.PendingUpdateCount + '</b>';
-                    } else {
-                        return '';
-                    }
+                        resultText += '<span class="transaction-issues"><b class="badge bg-color-pending-update" title="Pending Changes">' + dataItem.PendingUpdateCount + '</b></span>';
+                    } 
+                    return resultText;
                 }
             }
         ]

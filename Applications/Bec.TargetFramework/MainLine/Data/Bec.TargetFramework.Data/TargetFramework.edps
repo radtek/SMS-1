@@ -1790,6 +1790,8 @@
       <Exclude Name="ModifiedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
       <Exclude Name="ModifiedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
       <Exclude Name="LatestBankAccountCheckID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="ProductAcceptedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="ProductDeclinedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
       <Exclude Name="SmsUserAccountOrganisationTransaction_pkey" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
       <Exclude Name="SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
       <Exclude Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />

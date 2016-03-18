@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsUserAccountOrganisationTransactionDTO() {
         }
 
-        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Nullable<System.Guid> addressID, global::System.Guid contactID, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, global::System.Nullable<System.Guid> latestBankAccountCheckID, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation, List<SmsBankAccountCheckDTO> smsBankAccountChecks, SmsBankAccountCheckDTO latestBankAccountCheck, List<SmsSrcFundsBankAccountDTO> smsSrcFundsBankAccounts) {
+        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Nullable<System.Guid> addressID, global::System.Guid contactID, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, global::System.Nullable<System.Guid> latestBankAccountCheckID, global::System.Nullable<System.DateTime> productAcceptedOn, global::System.Nullable<System.DateTime> productDeclinedOn, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation, List<SmsBankAccountCheckDTO> smsBankAccountChecks, SmsBankAccountCheckDTO latestBankAccountCheck, List<SmsSrcFundsBankAccountDTO> smsSrcFundsBankAccounts) {
 
           this.SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
           this.UserAccountOrganisationID = userAccountOrganisationID;
@@ -37,6 +37,8 @@ namespace Bec.TargetFramework.Entities
           this.ModifiedOn = modifiedOn;
           this.ModifiedBy = modifiedBy;
           this.LatestBankAccountCheckID = latestBankAccountCheckID;
+          this.ProductAcceptedOn = productAcceptedOn;
+          this.ProductDeclinedOn = productDeclinedOn;
           this.SmsTransaction = smsTransaction;
           this.SmsUserAccountOrganisationTransactionType = smsUserAccountOrganisationTransactionType;
           this.Address = address;
@@ -89,6 +91,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.Guid> LatestBankAccountCheckID { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> ProductAcceptedOn { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> ProductDeclinedOn { get; set; }
 
         #endregion
 

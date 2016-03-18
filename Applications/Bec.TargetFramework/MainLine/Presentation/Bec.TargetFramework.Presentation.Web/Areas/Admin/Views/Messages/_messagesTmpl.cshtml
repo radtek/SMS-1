@@ -13,12 +13,12 @@
     <span class="text-muted">Participants:</span>
     <span>
         {{#each conversation.participants}}
-            {{#if IsSafeSendGroup}}
-                {{OrganisationName}} > {{FirstName}};
-            {{else}}
-                {{#if IsProfessionalOrganisation}}{{OrganisationName}} > {{/if}}
-                {{FirstName}} {{LastName}};
-            {{/if}}
+        {{#if IsSafeSendGroup}}
+        {{OrganisationName}} > {{FirstName}};
+        {{else}}
+        {{#if IsProfessionalOrganisation}}{{OrganisationName}} > {{/if}}
+        {{FirstName}} {{LastName}};
+        {{/if}}
         {{/each}}
     </span>
 </div>
@@ -28,9 +28,15 @@
     <div class="message-item">
         <div class="row">
             {{#if conversation.issystemmessage}}
-            <div class="alert alert-info"><i class="fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation because it is a system generated message.</div>
+            <div class="alert alert-info">
+                <h5><i class="fa fa-info"></i><strong>Information</strong></h5>
+                <p>You cannot reply to this conversation because it is a system generated message.</p>
+            </div>
             {{else if lonely}}
-            <div class="alert alert-info"><i class="fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation.</div>
+            <div class="alert alert-info">
+                <h5><i class="fa fa-info"></i><strong>Information</strong></h5>
+                <p>You cannot reply to this conversation.</p>
+            </div>
             {{else}}
             <div class="col-xs-12">
                 <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
@@ -38,17 +44,17 @@
                     <input type="hidden" name="AttachmentsID" id="AttachmentsID" />
                     <div class="row display-table">
                         {{#if showFrom}}
-                            <div class="col-xs-12">
-                                <label class="label">From: </label>
-                                <label class="select">
-                                    <select name="fromHash">
-                                        {{#each from}}
-                                        <option value="{{Hash}}">{{Display}}</option>
-                                        {{/each}}
-                                    </select>
-                                    <i></i>
-                                </label>
-                            </div>
+                        <div class="col-xs-12">
+                            <label class="label">From: </label>
+                            <label class="select">
+                                <select name="fromHash">
+                                    {{#each from}}
+                                    <option value="{{Hash}}">{{Display}}</option>
+                                    {{/each}}
+                                </select>
+                                <i></i>
+                            </label>
+                        </div>
                         {{/if}}
                         <div class="col-xs-11">
                             <fieldset>

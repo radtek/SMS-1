@@ -476,12 +476,15 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIds(Guid txID)
+        public IEnumerable<Guid> GetSmsTransactionRelatedPartyDeclinedProductUaoIds(Guid txID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
-                    .Where(x => x.SmsTransactionID == txID)
+                    .Where(x => 
+                        x.SmsTransactionID == txID && 
+                        x.ProductDeclinedOn != null && 
+                        x.ProductAcceptedOn == null)
                     .Select(x => x.UserAccountOrganisationID)
                     .ToList();
             }
@@ -517,7 +520,6 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task AdviseProduct(Guid txID, Guid orgID)
         {
-            var requiresNotification = false;
             using (var scope = DbContextScopeFactory.Create())
             {
                 var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions
@@ -531,13 +533,9 @@ namespace Bec.TargetFramework.Business.Logic
                 transaction.ModifiedOn = DateTime.Now;
                 transaction.ModifiedBy = UserNameService.UserName;
                 await scope.SaveChangesAsync();
-                requiresNotification = transaction.ProductDeclinedOn.HasValue;
             }
 
-            if (requiresNotification)
-            {
-                await PublishProductAdvisedNotification(txID, orgID);
-            }
+            await PublishProductAdvisedNotification(txID, orgID);
         }
 
         private async Task PublishProductAdvisedNotification(Guid txID, Guid orgID)

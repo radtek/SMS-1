@@ -20,6 +20,7 @@
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.Hidden("txID", (object)ViewBag.txID)
+                            @Html.Hidden("uaoTxID", (object)ViewBag.uaoTxID)
                             <fieldset>
                                 <label>Are you sure you wish to decline?</label>
                             </fieldset>
