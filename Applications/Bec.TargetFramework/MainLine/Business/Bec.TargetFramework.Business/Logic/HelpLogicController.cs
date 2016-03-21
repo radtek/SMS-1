@@ -302,8 +302,8 @@ namespace Bec.TargetFramework.Business.Logic
 
                     existingHelpItem = new HelpItem
                     {
-                        CreatedOn = DateTime.Now,
-                        CreatedBy = UserNameService.UserName,
+                        CreatedOn = dto.CreatedOn,
+                        CreatedBy = dto.CreatedBy,
                         Description = dto.Description,
                         Title = dto.Title,
                         HelpID = dto.HelpID,
@@ -333,8 +333,8 @@ namespace Bec.TargetFramework.Business.Logic
                 }
                 else
                 {
-                    existingHelpItem.ModifiedOn = DateTime.Now;
-                    existingHelpItem.ModifiedBy =UserNameService.UserName;
+                    existingHelpItem.ModifiedOn =dto.ModifiedOn;
+                    existingHelpItem.ModifiedBy =dto.ModifiedBy;
                     existingHelpItem.Description = dto.Description;
                     existingHelpItem.Title = dto.Title;
                     existingHelpItem.EffectiveFrom = dto.EffectiveFrom;
@@ -392,8 +392,8 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     existingHelp = new Help
                     {
-                        CreatedOn = DateTime.Now,
-                        CreatedBy = UserNameService.UserName,
+                        CreatedOn = dto.CreatedOn,
+                        CreatedBy = dto.CreatedBy,
                         Description = dto.Description,
                         Name = dto.Name,
                         HelpTypeID = dto.HelpTypeID,
@@ -411,8 +411,8 @@ namespace Bec.TargetFramework.Business.Logic
                         {
                             var hi = new HelpItem
                             {
-                                CreatedOn = DateTime.Now,
-                                CreatedBy = UserNameService.UserName,
+                                CreatedOn = helpItem.CreatedOn,
+                                CreatedBy = helpItem.CreatedBy,
                                 Description = helpItem.Description,
                                 Title = helpItem.Title,
                                 HelpID = existingHelp.HelpID,
@@ -444,8 +444,8 @@ namespace Bec.TargetFramework.Business.Logic
                 }
                 else
                 {
-                    existingHelp.ModifiedOn = DateTime.Now;
-                    existingHelp.ModifiedBy = UserNameService.UserName;
+                    existingHelp.ModifiedOn = dto.ModifiedOn;
+                    existingHelp.ModifiedBy = dto.ModifiedBy;
                     existingHelp.Description = dto.Description;
                     existingHelp.Name = dto.Name;
                     existingHelp.UiPageUrl = dto.UiPageUrl;
@@ -457,25 +457,13 @@ namespace Bec.TargetFramework.Business.Logic
 
 
         public IEnumerable<RoleDTO> GetHelpRoles()
-        { 
-            string key = "GetHelpRoles";
-
-            using (var cacheClient = CacheProvider.CreateCacheClient(Logger))
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var cachedList = cacheClient.Get<IEnumerable<RoleDTO>>(key);
-
-                if(cachedList == null)
-                {
-                    using (var scope = DbContextScopeFactory.CreateReadOnly())
-                    {
-                        // load all vclassification
-                        cachedList = scope.DbContexts.Get<TargetFrameworkEntities>().Roles.Where(s => s.HelpRoles.Any()).ToDtos();
-                        cacheClient.Set(key, cachedList, DateTime.Now.AddHours(8));
-                    }
-                }
-
-                return cachedList;
+                // load all vclassification
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Roles.Where(s => s.HelpRoles.Any()).ToDtos();
             }
         }
+
     }
 }

@@ -10,7 +10,7 @@
     $("#EffectiveFrom").each(function () {
         $(this).datepicker(
         {
-            dateFormat: "dd/mm/yy",
+            dateFormat: "dd/mm/yyyy",
             defaultDate: new Date($(this).val())
         });
     });
@@ -69,9 +69,8 @@
     function hideShowElements()
     {
         var helpType = $("#HelpTypeName").val();
-        showHideAndClearValueElement("#effectionFromSection", "#EffectiveFrom", (helpType === "Callout"));
-        showHideAndClearValueElement("#uiPositionSection", "#UiPosition", (helpType !== "Callout"));
-        showHideAndClearValueElement("#uiSelectorParentSection", "#UiSelectorParent", (helpType !== "Callout"));
+        showHideAndClearValueElement("#effectionFromSection", (helpType === "Callout"));
+        showHideAndClearValueElement("#uiPositionSection", (helpType !== "Callout"));
     }
     function showHideAndClearValueElement(sectionName, show) {
         if (show) {

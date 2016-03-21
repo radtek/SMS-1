@@ -1,0 +1,55 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Presentation.Web.Models
+@model SrcFundsModel
+@{
+    var isRequired = Model.IsRequired;
+    List<SmsSrcFundsBankAccountDTO> existingAccounts = Model.SmsSrcFundsBankAccounts;
+    if (existingAccounts == null)
+    {
+        existingAccounts = new List<SmsSrcFundsBankAccountDTO>();
+    }
+    if (existingAccounts.Count == 0)
+    {
+        existingAccounts.Add(new SmsSrcFundsBankAccountDTO { AccountNumber = "", SortCode = "" });
+    }
+}
+<div id="srcFundsBankAccounts" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })" data-index="@existingAccounts.Count">
+    @for (int i = 0; i < existingAccounts.Count; i++)
+    {
+        <div class="row" id="bankAccountRow-@i">
+            <section class="col col-6">
+                <label class="label">Account Number</label>
+                <label class="input">
+                    @if (isRequired)
+                    {
+                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                    }
+                    <input type="text" name="SmsSrcFundsBankAccounts[@i].AccountNumber" maxlength="8" @(new HtmlString(isRequired ? @"data-rule-required=""true""" : "")) data-rule-digits="true" data-rule-minlength="8" value="@existingAccounts[i].AccountNumber" />
+                </label>
+            </section>
+            <section class="col col-5">
+                <label class="label">Sort Code</label>
+                <label class="input">
+                    @if (isRequired)
+                    {
+                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                    }
+                    <input type="text" name="SmsSrcFundsBankAccounts[@i].SortCode" maxlength="6" @(new HtmlString(isRequired ? @"data-rule-required=""true""" : "")) data-rule-digits="true" data-rule-minlength="6" value="@existingAccounts[i].SortCode" />
+                </label>
+            </section>
+            <section class="col-sm-1">
+                @if (i > 0)
+                {
+                    <label class="label">&nbsp;</label>
+                    <a data-parent-id="bankAccountRow-@i" class="delete-src-of-funds-entry"><i class="fa fa-minus margin-right-10"></i></a>
+                }
+            </section>
+        </div>
+    }
+    <div id="addNextBankAccountRow" class="row add-next-bank-account-row">
+        <section class="col col-5">
+            <a id="addNextBankAccountBtn" href="#" class="add-next-bank-account-btn"><i class="fa fa-plus margin-right-10"></i>Add Next Bank Account</a>
+        </section>
+    </div>
+</div>
+<script async src="@Scripts.Url("~/Scripts/Shared/_SrcFundsBankAccounts")"></script>

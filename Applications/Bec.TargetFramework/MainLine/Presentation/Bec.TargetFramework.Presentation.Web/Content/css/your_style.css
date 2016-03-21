@@ -197,7 +197,7 @@
   width: 100%;
 }
 .twitter-typeahead .tt-menu {
-  z-index: 300 !important;
+  z-index: 2004 !important;
 }
 .twitter-typeahead .tt-suggestion,
 .twitter-typeahead .empty-message {
@@ -212,7 +212,7 @@
 }
 .typeahead-spinner {
   position: absolute;
-  z-index: 700;
+  z-index: 2003;
   color: #7b7b7b;
   width: 10px;
   right: 24px;
@@ -223,14 +223,17 @@
   right: 38px;
 }
 .search-form input.invalid,
-.smart-form input.invalid {
+.smart-form input.invalid,
+form input.invalid {
   border: 1px solid #a90329;
   background-color: #fff0f0;
 }
 .search-form em.invalid,
-.smart-form em.invalid {
+.smart-form em.invalid,
+form em.invalid {
   display: block;
   margin-top: 0;
+  margin-bottom: 5px;
   padding: 0 1px;
   font-style: normal;
   font-size: 11px;
@@ -277,6 +280,10 @@
 .btn-primary[disabled] {
   background-color: #a1c324 !important;
   border-color: #7d981c !important;
+}
+.open > .dropdown-toggle.btn-primary {
+  border: 1px solid #a1c324 !important;
+  background-color: #a8cc26 !important;
 }
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
@@ -347,7 +354,8 @@
 .btn-header > :first-child > a {
   cursor: pointer !important;
 }
-.icon-append {
+.icon-append,
+.icon-prepend {
   z-index: 200;
 }
 #userMenu {
@@ -370,6 +378,12 @@
   list-style: none;
 }
 .delete-entry {
+  display: inline-block;
+  color: #a90329;
+  margin-top: 7px;
+  cursor: pointer;
+}
+.delete-src-of-funds-entry {
   display: inline-block;
   color: #a90329;
   margin-top: 7px;
@@ -619,6 +633,32 @@ a.removeupload {
   word-break: normal;
   white-space: pre-wrap;
 }
+.transaction-details-table > tbody > tr:first-child th {
+  border-top: none;
+}
+.transaction-details-table > tbody > tr:hover > td {
+  background-color: #e8f3c0;
+}
+.transaction-details-table > tbody > tr > td:last-child {
+  width: 75px;
+}
+.transaction-details-table ul li {
+  margin: 5px 0;
+}
+.transaction-details-table ul li:first-child {
+  margin-top: 0;
+}
+.buyer-details-table {
+  width: 100%;
+}
+.buyer-details-table tbody tr td {
+  padding-top: 6px;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+.buyer-details-table tbody tr td:first-child {
+  width: 150px;
+}
 .match {
   color: #7d981c;
 }
@@ -656,7 +696,8 @@ a.removeupload {
 }
 .alert h5 {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  font-size: 1.1em;
 }
 .alert h5 strong {
   margin-left: 5px;
@@ -673,10 +714,163 @@ a.removeupload {
   background-color: inherit;
 }
 .alert-info {
-  border-color: #6EB0DF;
+  border-color: #6eb0df;
 }
 .alert-warning {
   border-color: #dfb56c;
+}
+.accept {
+  color: #24bb43;
+}
+.reject {
+  color: #a90329;
+}
+.pending-update {
+  color: #6eb0df;
+}
+a.pending-update {
+  font-weight: bold;
+  cursor: pointer;
+}
+.empty-pending-value {
+  text-decoration: line-through;
+}
+.tooltip > .tooltip-inner {
+  background-color: #333;
+  color: white;
+}
+.popover .pending-update-table td {
+  padding: 2px;
+  border: none;
+}
+.popover .pending-update-table tr > td:last-child {
+  width: 100%;
+}
+.popover .pending-update-table .pending-no-value {
+  color: #aaa;
+}
+.transaction-details {
+  position: relative;
+}
+.transaction-details h5 {
+  margin-left: 9px;
+}
+.transaction-details .transaction-details-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: #FBFBFB;
+  opacity: 0.8;
+}
+.transaction-details .transaction-details-spinner .fa-spinner {
+  position: relative;
+  left: 50%;
+  top: 30%;
+}
+form.smart-form.pending-update-form .pending-changes-input .pending-changes-button,
+form.smart-form.pending-update-form .pending-changes-input input {
+  box-shadow: 0 0 6px #2e99ff;
+}
+form.smart-form.pending-update-form .pending-changes-input .pending-changes-button:focus,
+form.smart-form.pending-update-form .pending-changes-input input:focus {
+  box-shadow: 0 0 6px #2e99ff !important;
+  border-color: #2e99ff;
+}
+form.smart-form.pending-update-form .pending-changes-button {
+  z-index: 2000;
+  /* high value because of an arbitrary 1050 from modal window */
+  border: none;
+  color: #eee;
+  -moz-border-radius: 0 9px 9px 0;
+  -webkit-border-radius: 0 9px 9px 0;
+  border-radius: 0 9px 9px 0;
+  position: absolute;
+  bottom: 6px;
+  padding: 4px 3px 4px 10px;
+  font-size: 0.7em;
+  -moz-transition: right ease-in-out 0.1s;
+  -o-transition: right ease-in-out 0.1s;
+  -webkit-transition: right ease-in-out 0.1s;
+  transition: right ease-in-out 0.1s;
+}
+form.smart-form.pending-update-form .pending-changes-button.not-actioned {
+  right: -10px;
+  background-color: #6eb0df;
+}
+form.smart-form.pending-update-form .pending-changes-button.not-actioned:hover {
+  right: -14px;
+}
+form.smart-form.pending-update-form .pending-changes-button.actioned {
+  right: -14px;
+}
+form.smart-form.pending-update-form .pending-changes-button.actioned.accepted {
+  background-color: #a1c324;
+}
+form.smart-form.pending-update-form .pending-changes-button.actioned.rejected {
+  background-color: #a90329;
+}
+form.smart-form.pending-update-form div.input .icon-append,
+form.smart-form.pending-update-form div.input .icon-prepend {
+  z-index: 2002;
+}
+form.smart-form.pending-update-form div.input input {
+  position: relative;
+  z-index: 2001;
+  /* high value because of an arbitrary 1050 from modal window */
+}
+.fa-reject-fix {
+  margin-right: 1px;
+}
+.required {
+  padding: 2px 8px;
+  color: #a90329;
+  background-color: #fee0e7;
+  border-radius: 2px;
+}
+input[type=radio]:checked + label.approve-reject-button {
+  border: 1px solid #6eb0df;
+  box-shadow: 0 0 6px #2e99ff;
+}
+.bg-color-pending-update {
+  background-color: #6eb0df;
+}
+.popover .arrow {
+  top: -11px !important;
+}
+.popover-close-button {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  cursor: pointer;
+  color: #7d7d7d;
+}
+.label-primary {
+  background-color: #a1c324;
+}
+.label-danger {
+  background-color: #a90329;
+}
+.transaction-issues {
+  display: inline-block;
+  width: 25px;
+}
+.transaction-issues .badge {
+  padding: 5px;
+}
+.color-pending {
+  color: #6eb0df;
+}
+.color-no-match {
+  color: #a90329;
+}
+.color-outstanding-decisions {
+  color: #888;
+}
+.label-outstanding-decisions {
+  background-color: #888;
 }
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {

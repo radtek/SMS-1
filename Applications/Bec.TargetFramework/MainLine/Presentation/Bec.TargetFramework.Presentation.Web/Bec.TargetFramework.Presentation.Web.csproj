@@ -163,6 +163,7 @@
   <ItemGroup>
     <Compile Include="App_Helpers\CaptchaService.cs" />
     <Compile Include="App_Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="App_Helpers\PendingUpdateExtensions.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="App_Helpers\ControllerExtensions.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
@@ -198,15 +199,15 @@
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
+    <Compile Include="Areas\Buyer\Models\SafeBuyerDecision.cs" />
     <Compile Include="Areas\Lender\Controllers\TransactionController.cs" />
     <Compile Include="Areas\Lender\LenderAreaRegistration.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\Models\FunctionEditEntry.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
-    <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
+    <Compile Include="Areas\SmsTransaction\Controllers\BuyerPartyController.cs" />
     <Compile Include="Areas\Buyer\Controllers\SafeBuyerController.cs" />
-    <Compile Include="Areas\SmsTransaction\Controllers\AdditionalBuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\TransactionController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
@@ -229,6 +230,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Edit.cs" />
+    <Compile Include="Helpers\ExpandoObjectExtensions.cs" />
     <Compile Include="Helpers\LoginResult.cs" />
     <Compile Include="Helpers\ODataHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
@@ -238,8 +240,10 @@
     <Compile Include="Areas\Account\Models\CreatePermanentLoginModel.cs" />
     <Compile Include="Models\Faq.cs" />
     <Compile Include="Models\FaqGroup.cs" />
+    <Compile Include="Models\PendingUpdateModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SrcFundsModel.cs" />
     <Compile Include="Models\ToastrNotification\ToastMessage.cs" />
     <Compile Include="Models\ToastrNotification\Toastr.cs" />
     <Compile Include="Models\ToastrNotification\ToastType.cs" />
@@ -280,13 +284,13 @@
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Admin\Views\Shared\_Unverify.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
-    <Content Include="Areas\Buyer\Views\SafeBuyer\Welcome.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
     <Content Include="Areas\Lender\Views\Transaction\Index.js" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\Welcome.js" />
+    <Content Include="Areas\SmsTransaction\Views\BuyerParty\AddBuyerParty.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AdviseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_EditSmsTransaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\hopscotch.css" />
     <Content Include="Content\css\index.css" />
@@ -317,6 +321,7 @@
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Create Your Account.mp4" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.jpg" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.mp4" />
+    <Content Include="Scripts\Bec\bec.fieldPendingUpdates.js" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use Safe Buyer Product.mp4" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use Safe Buyer Product.jpg" />
     <Content Include="Scripts\Bec\bec.lendersearch.js" />
@@ -344,12 +349,10 @@
     <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.js" />
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.js" />
     <Content Include="Areas\ProOrganisation\Views\Users\Registered.js" />
-    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_CheckBankAccount.js" />
-    <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.js" />
-    <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_Edit.js" />
+    <Content Include="Areas\SmsTransaction\Views\BuyerParty\_EditBuyerParty.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
@@ -924,19 +927,20 @@
     <Content Include="Areas\Lender\Views\Transaction\_transactionDetailsTmpl.cshtml" />
     <Content Include="Areas\Lender\Views\Transaction\_partiesDetailsTmpl.cshtml" />
     <Content Include="Areas\Lender\Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Templates\_bankAccountChecksDetailsTmpl.cshtml" />
     <Content Include="Scripts\sizzle.js" />
     <Content Include="Scripts\sizzle.min.js" />
-    <Content Include="Views\Shared\HelpTemplates\Callout\helptype_Tmpl.cshtml" />
-    <None Include="Views\Shared\HelpTemplates\Tour\helptype_Tmpl.cshtml" />
     <Content Include="Views\Shared\_Tour.js" />
     <Content Include="Views\Shared\_bankAccountChecksDetailsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\OrganisationSetting\EditOrganisationSettings.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Users\_RegisteredDetailsTmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\BuyerParty\AddBuyerParty.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_EditSmsTransaction.cshtml" />
     <Content Include="Areas\Admin\Views\Help\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_AddHelp.cshtml" />
-    <Content Include="Areas\Admin\Views\Help\TypeTemplates\Callout\helptype_Tmpl.cshtml" />
-    <Content Include="Areas\Admin\Views\Help\TypeTemplates\Tour\helptype_Tmpl.cshtml" />
-    <Content Include="Areas\Admin\Views\Help\TypeTemplates\ShowMeHow\helptype_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\HelpTemplates\Callout\grid_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\HelpTemplates\Tour\grid_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Help\HelpTemplates\ShowMeHow\grid_Tmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_AddHelpItem.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_EditAddHelpItem.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_EditHelp.cshtml" />
@@ -1052,6 +1056,7 @@
     <Content Include="Scripts\Libs\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="sitemap.txt" />
+    <Content Include="Views\Shared\_SrcFundsBankAccounts.js" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
@@ -1082,12 +1087,8 @@
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\_relatedPartiesTmpl.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\_primaryBuyerDetailsTmpl.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
-    <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\BuyerParty\_EditBuyerParty.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_Edit.cshtml" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Conveyancer.cshtml" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.ttf" />
@@ -1863,7 +1864,7 @@
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
     <Content Include="Views\App\Denied.cshtml" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversations.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\_transactionDetailsTmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_TransactionDetails.cshtml" />
     <Content Include="Views\Shared\_Captcha.cshtml" />
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\BuyersAtRisk.cshtml" />
@@ -1876,7 +1877,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\LendersCompliance.cshtml" />
     <Content Include="Views\Shared\_Toastr.cshtml" />
-    <Content Include="Areas\Buyer\Views\SafeBuyer\_srcFundsBankAccountTmpl.cshtml" />
+    <Content Include="Views\Shared\Templates\_srcFundsBankAccountTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
     <Content Include="Views\Home\ConveyancingFirmFaq.cshtml" />
@@ -1891,8 +1892,11 @@
     <Content Include="Views\Home\TutorialsForProfessionals.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\Article.cshtml" />
+    <Content Include="Views\Shared\_SrcFundsBankAccounts.cshtml" />
     <Content Include="Views\Shared\_Tour.cshtml" />
     <Content Include="Scripts\sizzle.min.map" />
+    <Content Include="Views\Shared\HelpTemplates\Callout\display_Tmpl.cshtml" />
+    <Content Include="Views\Shared\HelpTemplates\Tour\display_Tmpl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Lender\Views\Shared\" />

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public RoleDTO() {
         }
 
-        public RoleDTO(global::System.Guid roleID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, bool isActive, bool isDeleted, global::System.Nullable<bool> isGlobal, List<ArtefactClaimDTO> artefactClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<ModuleClaimDTO> moduleClaims, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<RoleClaimDTO> roleClaims, List<GroupRoleDTO> groupRoles, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings, List<ProductClaimDTO> productClaims, List<NotificationConstructClaimDTO> notificationConstructClaims, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<HelpItemDTO> helpItems, List<HelpRoleDTO> helpRoles) {
+        public RoleDTO(global::System.Guid roleID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, bool isActive, bool isDeleted, global::System.Nullable<bool> isGlobal, List<ArtefactClaimDTO> artefactClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<ModuleClaimDTO> moduleClaims, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<RoleClaimDTO> roleClaims, List<GroupRoleDTO> groupRoles, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings, List<ProductClaimDTO> productClaims, List<NotificationConstructClaimDTO> notificationConstructClaims, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<HelpItemDTO> helpItems, List<HelpRoleDTO> helpRoles, List<RoleHierarchyDTO> roleHierarchies_ParentRoleID, List<RoleHierarchyDTO> roleHierarchies_RoleID) {
 
           this.RoleID = roleID;
           this.RoleName = roleName;
@@ -50,6 +50,8 @@ namespace Bec.TargetFramework.Entities
           this.StatusTypeClaimTemplates = statusTypeClaimTemplates;
           this.HelpItems = helpItems;
           this.HelpRoles = helpRoles;
+          this.RoleHierarchies_ParentRoleID = roleHierarchies_ParentRoleID;
+          this.RoleHierarchies_RoleID = roleHierarchies_RoleID;
         }
 
         #endregion
@@ -137,6 +139,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<HelpRoleDTO> HelpRoles { get; set; }
+
+        [DataMember]
+        public List<RoleHierarchyDTO> RoleHierarchies_ParentRoleID { get; set; }
+
+        [DataMember]
+        public List<RoleHierarchyDTO> RoleHierarchies_RoleID { get; set; }
 
         #endregion
     }

@@ -10,13 +10,24 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="confirmDetails-form" class="smart-form margin-top-10" method="post" data-url="@Url.Action("NotifyOrganisationNoMatch", "SafeBuyer", new { area = "Buyer" })" data-index="@ViewBag.index">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" method="post"
+                          data-url="@Url.Action("NotifyOrganisationNoMatch", "SafeBuyer", new { area = "Buyer" })"
+                          data-redirectto="@Url.Action("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = ViewBag.txID })">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.Hidden("accountNumber", (string)ViewBag.accountNumber)
                         @Html.Hidden("sortCode", (string)ViewBag.sortCode)
                         @Html.Hidden("smsUserAccountOrganisationTransactionID", (Guid)ViewBag.smsUserAccountOrganisationTransactionID)
                         <section class="col-xs-12">
+                            @if (Request["paid"] == "true")
+                            {
+                                <fieldset>
+                                    <div class="alert alert-info">
+                                        <h6><i class="fa fa-check-square-o"></i><strong>Payment Successful</strong></h6>
+                                        <p>Your payment was processed successfully</p>
+                                    </div>
+                                </fieldset>
+                            }
                             <fieldset>
                                 <div class="alert alert-danger fade in">
                                     <h4 class="alert alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds to account <strong>@ViewBag.accountNumber</strong> with sort code <strong>@ViewBag.sortCode</strong>.</h4>

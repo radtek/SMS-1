@@ -56,6 +56,7 @@ namespace Bec.TargetFramework.Entities
               target.BucketTemplates = source.BucketTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationShoppingCartBlueprintTemplates = source.DefaultOrganisationShoppingCartBlueprintTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationPaymentMethodTemplates = source.DefaultOrganisationPaymentMethodTemplates.ToDtosWithRelated(level - 1);
+              target.DefaultOrganisationWorkflowTemplates = source.DefaultOrganisationWorkflowTemplates.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

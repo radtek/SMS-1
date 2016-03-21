@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public HelpItemDTO() {
         }
 
-        public HelpItemDTO(global::System.Guid helpItemID, global::System.Guid helpID, string title, string description, string uiSelector, string uiSelectorParent, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, global::System.Nullable<int> displayOrder, global::System.Nullable<System.DateTime> effectiveFrom, global::System.Nullable<int> uiPosition, HelpDTO help, List<UserAccountOrganisationHelpViewedDTO> userAccountOrganisationHelpVieweds, List<RoleDTO> roles, ClassificationTypeDTO classificationType) {
+        public HelpItemDTO(global::System.Guid helpItemID, global::System.Guid helpID, string title, string description, string uiSelector, string uiSelectorParent, bool isActive, bool isDeleted, global::System.DateTime createdOn, global::System.Guid createdBy, global::System.Nullable<System.DateTime> modifiedOn, global::System.Nullable<System.Guid> modifiedBy, global::System.Nullable<int> displayOrder, global::System.Nullable<System.DateTime> effectiveFrom, global::System.Nullable<int> uiPosition, HelpDTO help, List<UserAccountOrganisationHelpViewedDTO> userAccountOrganisationHelpVieweds, List<RoleDTO> roles, ClassificationTypeDTO classificationType, UserAccountOrganisationDTO userAccountOrganisation_CreatedBy, UserAccountOrganisationDTO userAccountOrganisation_ModifiedBy) {
 
           this.HelpItemID = helpItemID;
           this.HelpID = helpID;
@@ -43,6 +43,8 @@ namespace Bec.TargetFramework.Entities
           this.UserAccountOrganisationHelpVieweds = userAccountOrganisationHelpVieweds;
           this.Roles = roles;
           this.ClassificationType = classificationType;
+          this.UserAccountOrganisation_CreatedBy = userAccountOrganisation_CreatedBy;
+          this.UserAccountOrganisation_ModifiedBy = userAccountOrganisation_ModifiedBy;
         }
 
         #endregion
@@ -77,13 +79,13 @@ namespace Bec.TargetFramework.Entities
         public global::System.DateTime CreatedOn { get; set; }
 
         [DataMember]
-        public string CreatedBy { get; set; }
+        public global::System.Guid CreatedBy { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.DateTime> ModifiedOn { get; set; }
 
         [DataMember]
-        public string ModifiedBy { get; set; }
+        public global::System.Nullable<System.Guid> ModifiedBy { get; set; }
 
         [DataMember]
         public global::System.Nullable<int> DisplayOrder { get; set; }
@@ -109,6 +111,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public ClassificationTypeDTO ClassificationType { get; set; }
+
+        [DataMember]
+        public UserAccountOrganisationDTO UserAccountOrganisation_CreatedBy { get; set; }
+
+        [DataMember]
+        public UserAccountOrganisationDTO UserAccountOrganisation_ModifiedBy { get; set; }
 
         #endregion
     }

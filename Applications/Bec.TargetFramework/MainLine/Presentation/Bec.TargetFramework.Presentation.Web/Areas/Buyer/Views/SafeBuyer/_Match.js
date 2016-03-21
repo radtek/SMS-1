@@ -2,7 +2,6 @@
     'use strict';
 
     $('#yesButton').on('click', function () {
-        showAudit();
-        hideCurrentModal();
+        window.location = $("#confirmDetails-form").data("redirectto");
     });
 });

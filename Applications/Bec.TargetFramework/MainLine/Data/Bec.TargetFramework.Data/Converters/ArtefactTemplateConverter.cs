@@ -47,8 +47,8 @@ namespace Bec.TargetFramework.Entities
               target.ArtefactRoleTemplates = source.ArtefactRoleTemplates.ToDtosWithRelated(level - 1);
               target.ArtefactDependencyTemplates_ArtefactTemplateID_ArtefactTemplateVersionNumber = source.ArtefactDependencyTemplates_ArtefactTemplateID_ArtefactTemplateVersionNumber.ToDtosWithRelated(level - 1);
               target.ModuleArtefactTemplates = source.ModuleArtefactTemplates.ToDtosWithRelated(level - 1);
-              target.StatusTypeTemplates = source.StatusTypeTemplates.ToDtosWithRelated(level - 1);
               target.ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber = source.ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber.ToDtosWithRelated(level - 1);
+              target.ArtefactStatusTypeTemplates = source.ArtefactStatusTypeTemplates.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

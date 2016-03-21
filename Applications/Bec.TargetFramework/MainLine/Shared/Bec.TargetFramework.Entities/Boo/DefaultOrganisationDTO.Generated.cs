@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public DefaultOrganisationDTO() {
         }
 
-        public DefaultOrganisationDTO(global::System.Guid defaultOrganisationID, string name, string description, bool isActive, bool isDeleted, int defaultOrganisationVersionNumber, global::System.Nullable<System.Guid> defaultOrganisationTemplateID, global::System.Nullable<int> defaultOrganisationTemplateVersionNumber, int organisationTypeID, List<DefaultOrganisationLedgerDTO> defaultOrganisationLedgers, List<DefaultOrganisationModuleDTO> defaultOrganisationModules, List<DefaultOrganisationStatusTypeDTO> defaultOrganisationStatusTypes, List<DefaultOrganisationProductDTO> defaultOrganisationProducts, List<DefaultOrganisationTargetDTO> defaultOrganisationTargets, List<DefaultOrganisationUserTargetDTO> defaultOrganisationUserTargets, DefaultOrganisationTemplateDTO defaultOrganisationTemplate, OrganisationTypeDTO organisationType, List<DefaultOrganisationNotificationConstructDTO> defaultOrganisationNotificationConstructs, List<DefaultOrganisationUserTypeDTO> defaultOrganisationUserTypes, List<DefaultOrganisationBranchDTO> defaultOrganisationBranches, List<DefaultOrganisationArtefactDTO> defaultOrganisationArtefacts, List<DefaultOrganisationGroupDTO> defaultOrganisationGroups, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<BucketTemplateDTO> bucketTemplates, List<DefaultOrganisationShoppingCartBlueprintDTO> defaultOrganisationShoppingCartBlueprints, List<DefaultOrganisationPaymentMethodDTO> defaultOrganisationPaymentMethods, List<OrganisationDTO> organisations) {
+        public DefaultOrganisationDTO(global::System.Guid defaultOrganisationID, string name, string description, bool isActive, bool isDeleted, int defaultOrganisationVersionNumber, global::System.Nullable<System.Guid> defaultOrganisationTemplateID, global::System.Nullable<int> defaultOrganisationTemplateVersionNumber, int organisationTypeID, List<DefaultOrganisationLedgerDTO> defaultOrganisationLedgers, List<DefaultOrganisationModuleDTO> defaultOrganisationModules, List<DefaultOrganisationStatusTypeDTO> defaultOrganisationStatusTypes, List<DefaultOrganisationProductDTO> defaultOrganisationProducts, List<DefaultOrganisationTargetDTO> defaultOrganisationTargets, List<DefaultOrganisationUserTargetDTO> defaultOrganisationUserTargets, DefaultOrganisationTemplateDTO defaultOrganisationTemplate, OrganisationTypeDTO organisationType, List<DefaultOrganisationNotificationConstructDTO> defaultOrganisationNotificationConstructs, List<DefaultOrganisationUserTypeDTO> defaultOrganisationUserTypes, List<DefaultOrganisationBranchDTO> defaultOrganisationBranches, List<DefaultOrganisationArtefactDTO> defaultOrganisationArtefacts, List<DefaultOrganisationGroupDTO> defaultOrganisationGroups, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<BucketTemplateDTO> bucketTemplates, List<DefaultOrganisationShoppingCartBlueprintDTO> defaultOrganisationShoppingCartBlueprints, List<DefaultOrganisationPaymentMethodDTO> defaultOrganisationPaymentMethods, List<OrganisationDTO> organisations, List<DefaultOrganisationWorkflowDTO> defaultOrganisationWorkflows) {
 
           this.DefaultOrganisationID = defaultOrganisationID;
           this.Name = name;
@@ -51,6 +51,7 @@ namespace Bec.TargetFramework.Entities
           this.DefaultOrganisationShoppingCartBlueprints = defaultOrganisationShoppingCartBlueprints;
           this.DefaultOrganisationPaymentMethods = defaultOrganisationPaymentMethods;
           this.Organisations = organisations;
+          this.DefaultOrganisationWorkflows = defaultOrganisationWorkflows;
         }
 
         #endregion
@@ -141,6 +142,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<OrganisationDTO> Organisations { get; set; }
+
+        [DataMember]
+        public List<DefaultOrganisationWorkflowDTO> DefaultOrganisationWorkflows { get; set; }
 
         #endregion
     }

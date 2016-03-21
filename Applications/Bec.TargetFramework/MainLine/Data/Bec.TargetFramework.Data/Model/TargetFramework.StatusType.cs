@@ -205,15 +205,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for Artefacts in the schema.
-        /// </summary>
-        public virtual ICollection<Artefact> Artefacts
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for InvoiceProcessLogs in the schema.
         /// </summary>
         public virtual ICollection<InvoiceProcessLog> InvoiceProcessLogs
@@ -307,6 +298,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for OrganisationBankAccountStatus in the schema.
         /// </summary>
         public virtual ICollection<OrganisationBankAccountStatus> OrganisationBankAccountStatus
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ArtefactStatusTypes in the schema.
+        /// </summary>
+        public virtual ICollection<ArtefactStatusType> ArtefactStatusTypes
         {
             get;
             set;

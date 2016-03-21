@@ -25,7 +25,6 @@ namespace Bec.TargetFramework.Data
         {
           this.IsActive = true;
           this.IsDeleted = false;
-          this.Confirmed = false;
         }
 
         #region Properties
@@ -151,9 +150,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for Confirmed in the schema.
+        /// There are no comments for LatestBankAccountCheckID in the schema.
         /// </summary>
-        public virtual bool Confirmed
+        public virtual global::System.Nullable<System.Guid> LatestBankAccountCheckID
         {
             get;
             set;
@@ -161,9 +160,19 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for LatestBankAccountCheckID in the schema.
+        /// There are no comments for ProductAcceptedOn in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> LatestBankAccountCheckID
+        public virtual global::System.Nullable<System.DateTime> ProductAcceptedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ProductDeclinedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> ProductDeclinedOn
         {
             get;
             set;

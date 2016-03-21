@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ArtefactTemplateDTO() {
         }
 
-        public ArtefactTemplateDTO(global::System.Guid artefactTemplateID, int artefactTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, List<ArtefactProductTemplateDTO> artefactProductTemplates, List<ArtefactSubscriptionTemplateDTO> artefactSubscriptionTemplates, List<DefaultOrganisationArtefactTemplateDTO> defaultOrganisationArtefactTemplates, List<ArtefactDTO> artefacts, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactNotificationConstructTemplateDTO> artefactNotificationConstructTemplates, List<ArtefactRoleTemplateDTO> artefactRoleTemplates, List<ArtefactDependencyTemplateDTO> artefactDependencyTemplates_ArtefactTemplateID_ArtefactTemplateVersionNumber, List<ModuleArtefactTemplateDTO> moduleArtefactTemplates, List<StatusTypeTemplateDTO> statusTypeTemplates, List<ArtefactDependencyTemplateDTO> artefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber) {
+        public ArtefactTemplateDTO(global::System.Guid artefactTemplateID, int artefactTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, List<ArtefactProductTemplateDTO> artefactProductTemplates, List<ArtefactSubscriptionTemplateDTO> artefactSubscriptionTemplates, List<DefaultOrganisationArtefactTemplateDTO> defaultOrganisationArtefactTemplates, List<ArtefactDTO> artefacts, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactNotificationConstructTemplateDTO> artefactNotificationConstructTemplates, List<ArtefactRoleTemplateDTO> artefactRoleTemplates, List<ArtefactDependencyTemplateDTO> artefactDependencyTemplates_ArtefactTemplateID_ArtefactTemplateVersionNumber, List<ModuleArtefactTemplateDTO> moduleArtefactTemplates, List<ArtefactDependencyTemplateDTO> artefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber, List<ArtefactStatusTypeTemplateDTO> artefactStatusTypeTemplates) {
 
           this.ArtefactTemplateID = artefactTemplateID;
           this.ArtefactTemplateVersionNumber = artefactTemplateVersionNumber;
@@ -39,8 +39,8 @@ namespace Bec.TargetFramework.Entities
           this.ArtefactRoleTemplates = artefactRoleTemplates;
           this.ArtefactDependencyTemplates_ArtefactTemplateID_ArtefactTemplateVersionNumber = artefactDependencyTemplates_ArtefactTemplateID_ArtefactTemplateVersionNumber;
           this.ModuleArtefactTemplates = moduleArtefactTemplates;
-          this.StatusTypeTemplates = statusTypeTemplates;
           this.ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber = artefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber;
+          this.ArtefactStatusTypeTemplates = artefactStatusTypeTemplates;
         }
 
         #endregion
@@ -97,10 +97,10 @@ namespace Bec.TargetFramework.Entities
         public List<ModuleArtefactTemplateDTO> ModuleArtefactTemplates { get; set; }
 
         [DataMember]
-        public List<StatusTypeTemplateDTO> StatusTypeTemplates { get; set; }
+        public List<ArtefactDependencyTemplateDTO> ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber { get; set; }
 
         [DataMember]
-        public List<ArtefactDependencyTemplateDTO> ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber { get; set; }
+        public List<ArtefactStatusTypeTemplateDTO> ArtefactStatusTypeTemplates { get; set; }
 
         #endregion
     }

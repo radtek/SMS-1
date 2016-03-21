@@ -20,7 +20,7 @@
     }
 
     function setupPaymentForm() {
-        // submit from when Save button clicked
+
         $("#submitPurchase").click(function () {
             $("#purchaseProductForm").submit();
         });
@@ -52,6 +52,16 @@
                 },
                 PostalCode: {
                     required: true
+                },
+                accountNumber: {
+                    required: true,
+                    digits: true,
+                    minlength: 8
+                },
+                sortCode: {
+                    required: true,
+                    digits: true,
+                    minlength: 6
                 }
             },
 
@@ -71,15 +81,11 @@
                 type: "POST",
                 data: formData
             }).done(function (res) {
-                if (res.result == true) {
-                    if ($("#purchaseProductForm").data("redirectto")) {
-                        window.location = $("#purchaseProductForm").data("redirectto");
-                    } else {
-                        hideCurrentModal();
-                    }
+
+                if (res.paymentresult == true) {
+                    window.location = $("#purchaseProductForm").data("redirectto");
                 }
                 else {
-                    $('#txID').val(res.txID);
                     handleModal({ url: $("#purchaseProductForm").data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                         messageButton: function () {
                             $("#submitPurchase").prop('disabled', false);
@@ -88,7 +94,6 @@
                 }
             }).fail(function (e) {
                 if (!hasRedirect(e.responseJSON)) {
-                    console.log(e);
                     handleModal({ url: $("#purchaseProductForm").data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
                         messageButton: function () {
                             $("#submitPurchase").prop('disabled', false);

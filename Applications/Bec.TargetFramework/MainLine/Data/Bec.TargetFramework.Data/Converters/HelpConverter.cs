@@ -45,6 +45,8 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.ClassificationType = source.ClassificationType.ToDtoWithRelated(level - 1);
               target.HelpItems = source.HelpItems.ToDtosWithRelated(level - 1);
+              target.UserAccountOrganisation_CreatedBy = source.UserAccountOrganisation_CreatedBy.ToDtoWithRelated(level - 1);
+              target.UserAccountOrganisation_ModifiedBy = source.UserAccountOrganisation_ModifiedBy.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

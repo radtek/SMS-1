@@ -1138,4 +1138,19 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Bank Account")]
         BankAccount = 803002
     }
+
+    public enum FieldUpdateParentType
+    {
+        SmsTransaction = 0,
+        Contact = 1,
+        SmsTransactionAddress = 2,
+        RegisteredHomeAddress = 3
+    }
+
+    public enum FieldUpdateDataType
+    {
+        String = 0,
+        Date = 1,
+        Money = 2
+    }
 }

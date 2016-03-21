@@ -1,4 +1,5 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
+﻿using Bec.TargetFramework.Presentation.Web.App_Helpers;
+using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.DTO.Event;
 using Bec.TargetFramework.Entities.DTO.Notification;
@@ -16,6 +17,7 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bec.TargetFramework.Presentation.Web.Areas.Buyer.Models;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 {
@@ -25,7 +27,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public IAddressLogicClient AddressClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
         public IOrganisationLogicClient OrganisationClient { get; set; }
+        public ISmsTransactionLogicClient SmsTransactionLogicClient { get; set; }
         public IBankAccountLogicClient BankAccountClient { get; set; }
+        public INotificationLogicClient NotificationClient { get; set; }
 
         public async Task<ActionResult> Index(Guid? selectedTransactionId)
         {
@@ -34,7 +38,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 var model = await GetUaots(selectedTransactionId.Value);
                 var uaot = model.FirstOrDefault();
                 ViewBag.OrganisationSafeSendEnabled = await OrganisationClient.IsSafeSendEnabledAsync(uaot.SmsTransaction.OrganisationID);
-                return View(uaot);
+                ViewBag.CheckButtonText = "Check Bank Account";
+                if (!uaot.SmsTransaction.InvoiceID.HasValue && !await SmsTransactionLogicClient.IsSafeBuyerPotentiallyFreeAsync(selectedTransactionId.Value))
+                    ViewBag.CheckButtonText = "Purchase Safe Buyer";                
+
+                var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, selectedTransactionId.Value, QueryClient);
+                return View(modelWithUpdates);
             }
             else
             {
@@ -51,67 +60,52 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             }
         }
 
-        public async Task<ActionResult> ViewConfirmDetails(Guid txID)
+        public async Task<ActionResult> ViewCheckBankAccount(Guid txID)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            var isTransactionDataComplete = await IsTransactionDataComplete(txID);
+            if (!isTransactionDataComplete)
+            {
+                ViewBag.title = "Information";
+                ViewBag.message = "Before proceeding with the Safe Buyer product you have to fill all the required details.";
+                ViewBag.button = "Close";
+                return PartialView("_Message");
+            }
+            
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
-                x.SmsTransactionID,
-                buyerLine1 = x.Address.Line1,
-                buyerLine2 = x.Address.Line2,
-                buyerTown = x.Address.Town,
-                buyerCity = x.Address.City,
-                buyerCounty = x.Address.County,
-                buyerPostalCode = x.Address.PostalCode,
-                x.SmsTransaction.Price,
-                x.SmsTransaction.LenderName,
-                x.SmsTransaction.MortgageApplicationNumber,
-                x.SmsTransaction.OrganisationID,
-                x.SmsTransaction.Address.Line1,
-                x.SmsTransaction.Address.Line2,
-                x.SmsTransaction.Address.Town,
-                x.SmsTransaction.Address.City,
-                x.SmsTransaction.Address.County,
-                x.SmsTransaction.Address.PostalCode,
                 CompanyNames = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
                 x.SmsUserAccountOrganisationTransactionID,
-                x.SmsUserAccountOrganisationTransactionTypeID,
-                x.Contact.Salutation,
-                x.Contact.FirstName,
-                x.Contact.LastName,
-                x.Contact.BirthDate,
-                ContactRowVersion = x.Contact.RowVersion,
-                TxRowVersion = x.SmsTransaction.RowVersion
+                x.SmsTransaction.InvoiceID
             });
 
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
             var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             var model = res.First();
 
-            await EnsureCanConfirmDetailsAndCheckBankAccount(model.SmsUserAccountOrganisationTransactionID, uaoID, QueryClient);
-
-            var canEditBirthDate = await CanEditBirthDate(uaoID);
-
-            ViewBag.smsUserAccountOrganisationTransactionID = model.SmsUserAccountOrganisationTransactionID;
-            ViewBag.canEditBirthDate = canEditBirthDate;
-
-            if(model.Confirmed)
+            if (model.SmsTransaction.InvoiceID.HasValue)
+            {
+                await EnsureCanCheckBankAccount(model.SmsUserAccountOrganisationTransactionID, uaoID, QueryClient);
                 return PartialView("_CheckBankAccount", model);
+            }
             else
-                return PartialView("_ConfirmDetails", model);
-        }
+            {
+                await EnsureCanPurchaseProduct(txID, uaoID, QueryClient);
+                var cartPricing = await SmsTransactionLogicClient.EnsureCartAsync(txID, uaoID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ConfirmDetails(SmsUserAccountOrganisationTransactionDTO dto, string accountNumber, string sortCode)
-        {
-            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var txOrgID = await EnsureCanConfirmDetailsAndCheckBankAccount(dto.SmsUserAccountOrganisationTransactionID, uaoID, QueryClient);
-            //update tx
-            dto = await OrganisationClient.UpdateSmsUserAccountOrganisationTransactionAsync(uaoID, accountNumber, sortCode, dto);
-            //check bank account
-            var isMatch = await BankAccountClient.CheckBankAccountAsync(txOrgID, uaoID, dto.SmsUserAccountOrganisationTransactionID, accountNumber, sortCode);
-            return Json(new { result = isMatch, data = dto, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
+                if (await SmsTransactionLogicClient.SmsTransactionQualifiesFreeAsync(txID))
+                {
+                    return PartialView("_CheckBankAccount", model);
+                }
+                else
+                {
+                    ViewBag.txID = txID;
+                    ViewBag.cartPricing = cartPricing;
+                    ViewBag.ConveyancerName = model.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                    return PartialView("_PurchaseProduct");
+                }
+            }
         }
 
         [HttpPost]
@@ -119,7 +113,31 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public async Task<ActionResult> CheckBankAccount(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var txOrgID = await EnsureCanConfirmDetailsAndCheckBankAccount(smsUserAccountOrganisationTransactionID, uaoID, QueryClient);
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            {
+                CompanyNames = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
+                x.SmsUserAccountOrganisationTransactionID,
+                x.SmsTransaction.InvoiceID,
+                x.SmsTransactionID
+            });
+
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsUserAccountOrganisationTransactionID == smsUserAccountOrganisationTransactionID);
+            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.First();
+
+            if (!model.SmsTransaction.InvoiceID.HasValue)
+            {
+                if (await SmsTransactionLogicClient.SmsTransactionQualifiesFreeAsync(model.SmsTransactionID))
+                {
+                    await EnsureCanPurchaseProduct(model.SmsTransactionID, uaoID, QueryClient);
+                    var purchaseProductResult = await SmsTransactionLogicClient.PurchaseSafeBuyerProductAsync(model.SmsTransactionID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, true, null);
+                }
+                else
+                {
+                    return Json(new { failed = true }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            var txOrgID = await EnsureCanCheckBankAccount(smsUserAccountOrganisationTransactionID, uaoID, QueryClient);
 
             //check bank account
             var isMatch = await BankAccountClient.CheckBankAccountAsync(txOrgID, uaoID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
@@ -143,35 +161,33 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
             var aSelect = ODataHelper.Select<SmsBankAccountCheckDTO>(a => new { a.CheckedOn, a.IsMatch, a.BankAccountNumber, a.SortCode, a.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.SmsTransaction.OrganisationID });
             var aFilter = ODataHelper.Filter<SmsBankAccountCheckDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaotxID && x.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.UserAccountOrganisationID == uaoID);
+            var aOrderBy = ODataHelper.OrderBy<SmsBankAccountCheckDTO>(x => new { x.CheckedOn }) +" desc";
 
+            List<VOrganisationBankAccountsWithStatusDTO> orgBankAccounts = null;
             var r = new List<object>();
-            foreach (var res in (await QueryClient.QueryAsync<SmsBankAccountCheckDTO>("SmsBankAccountChecks", aSelect + aFilter)).OrderByDescending(x => x.CheckedOn))
+            foreach (var res in await QueryClient.QueryAsync<SmsBankAccountCheckDTO>("SmsBankAccountChecks", aSelect + aFilter + aOrderBy))
             {
-                var accountNumber = res.BankAccountNumber;
-                var sortCode = res.SortCode;
+                //only one org for one tx:
+                if (orgBankAccounts == null) 
+                    orgBankAccounts = await BankAccountClient.GetOrganisationBankAccountsAsync(res.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.SmsTransaction.OrganisationID);
+
                 var result = "nomatch";
 
                 if (res.IsMatch)
                 {
-                    var orgID = res.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.SmsTransaction.OrganisationID;
                     result = "warn";
-                    var bSelect = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.IsActive, Status = x.OrganisationBankAccountStatus.Select(y => new { y.StatusChangedOn, y.StatusTypeValue.Name }) });
-                    var bFilter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
-                    var bas = await QueryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", bSelect + bFilter);
-                    var ba = bas.SingleOrDefault();
-                    if (ba != null && ba.IsActive)
-                    {
-                        var st = ba.OrganisationBankAccountStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
-                        if (st.StatusTypeValue.Name == "Safe") result = "match";
-                    }
+                    var ba = orgBankAccounts.SingleOrDefault(x => x.BankAccountNumber == res.BankAccountNumber && x.SortCode == res.SortCode);
+                    if (ba != null && ba.IsActive && ba.Status == "Safe")
+                        result = "match";
                 }
                 r.Add(new { date = res.CheckedOn, accountNumber = res.BankAccountNumber, sortCode = res.SortCode, result = result });
             }
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ViewNoMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
+        public ActionResult ViewNoMatch(Guid txID, Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
+            ViewBag.txID = txID;
             ViewBag.smsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
             ViewBag.accountNumber = accountNumber;
             ViewBag.sortCode = sortCode;
@@ -179,9 +195,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return PartialView("_NoMatch");
         }
 
-        public ActionResult ViewMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode, string companyName)
+        public ActionResult ViewMatch(Guid txID, string accountNumber, string sortCode, string companyName)
         {
-            ViewBag.smsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
+            ViewBag.txID = txID;
             ViewBag.accountNumber = accountNumber;
             ViewBag.sortCode = sortCode;
             ViewBag.companyName = companyName;
@@ -189,35 +205,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return PartialView("_Match");
         }
 
-        public async Task<ActionResult> ViewPurchaseProduct(Guid txID)
-        {
-            var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
-            var cartPricing = await OrganisationClient.EnsureCartAsync(txID, currentUserUaoId, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card);
-            ViewBag.txID = txID;
-            ViewBag.cartPricing = cartPricing;
-            return PartialView("_PurchaseProduct");
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PurchaseProduct(Guid txID)//, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO orderRequest)
+        public async Task<ActionResult> PurchaseProduct(Guid txID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO orderRequest)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
 
-            //TODO: 'toggle' off
-            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, new OrderRequestDTO());
+            var purchaseProductResult = await SmsTransactionLogicClient.PurchaseSafeBuyerProductAsync(txID, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card, false, orderRequest);
             if (purchaseProductResult.IsPaymentSuccessful)
             {
                 TempData["PaymentSuccessful"] = true;
-                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { paymentresult = true }, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 return Json(new
                 {
-                    result = false,
+                    paymentresult = false,
                     title = "Payment Unsuccessful",
                     message = purchaseProductResult.ErrorMessage
                 }, JsonRequestBehavior.AllowGet);
@@ -240,6 +245,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.Contact.LastName,
                 x.Contact.BirthDate,
                 x.CreatedOn,
+                x.ProductDeclinedOn,
+                x.ProductAcceptedOn,
                 x.SmsTransactionID,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
@@ -253,7 +260,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsTransaction.InvoiceID,
                 x.SmsTransaction.IsProductAdvised,
-                x.SmsTransaction.ProductDeclinedOn,
                 x.SmsUserAccountOrganisationTransactionTypeID,
                 x.SmsUserAccountOrganisationTransactionID,
                 Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
@@ -269,14 +275,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var orderByDesc = order + " desc";
             var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + ODataHelper.Filter(filter) + orderByDesc);
             return data;
-        }
-
-        private async Task<bool> CanEditBirthDate(Guid uaoID)
-        {
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.Confirmed);
-            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
-            return !res.Any();
         }
 
         internal static async Task EnsureCanPurchaseProduct(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
@@ -295,7 +293,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             }
         }
 
-        internal static async Task<Guid> EnsureCanConfirmDetailsAndCheckBankAccount(Guid uaoTxID, Guid uaoID, IQueryLogicClient queryClient)
+        internal static async Task<Guid> EnsureCanCheckBankAccount(Guid uaoTxID, Guid uaoID, IQueryLogicClient queryClient)
         {
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID, x.SmsTransaction.OrganisationID });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
@@ -312,30 +310,212 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return model.SmsTransaction.OrganisationID;
         }
 
-        public async Task<ActionResult> ViewDeclineProduct(Guid txID)
+        public async Task<ActionResult> ViewDeclineProduct(Guid txID, Guid uaoTxID)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
+            await EnsureCanDeclineProduct(txID, uaoTxID, currentUserUaoId, QueryClient);
             ViewBag.txID = txID;
+            ViewBag.uaoTxID = uaoTxID;
             return PartialView("_DeclineProduct");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeclineProduct(Guid txID)
+        public async Task<ActionResult> DeclineProduct(Guid txID, Guid uaoTxID)
         {
             var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
-
-            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
-            await QueryClient.UpdateGraphAsync("SmsTransactions", JObject.FromObject(new { ProductDeclinedOn = DateTime.Now }), filter);
+            await EnsureCanDeclineProduct(txID, uaoTxID, currentUserUaoId, QueryClient);
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaoTxID);
+            await QueryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", JObject.FromObject(new { ProductDeclinedOn = DateTime.Now }), filter);
 
             return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = txID });
         }
 
-        public ActionResult Welcome()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AcceptProduct(Guid txID, Guid uaoTxID)
         {
-            return PartialView();
+            var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await EnsureCanAcceptProduct(txID, uaoTxID, currentUserUaoId, QueryClient);
+
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaoTxID);
+            await QueryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", JObject.FromObject(new { ProductAcceptedOn = DateTime.Now }), filter);
+
+            return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = txID });
+        }
+
+        internal static async Task EnsureCanAcceptProduct(Guid txID, Guid uaoTxID, Guid uaoID, IQueryLogicClient queryClient)
+        {
+            await EnsureCanMakeDecision(txID, uaoTxID, uaoID, SafeBuyerDecision.Accept, queryClient);
+        }
+
+        internal static async Task EnsureCanDeclineProduct(Guid txID, Guid uaoTxID, Guid uaoID, IQueryLogicClient queryClient)
+        {
+            await EnsureCanMakeDecision(txID, uaoTxID, uaoID, SafeBuyerDecision.Decline, queryClient);
+        }
+
+        internal static async Task EnsureCanMakeDecision(Guid txID, Guid uaoTxID, Guid uaoID, SafeBuyerDecision decision, IQueryLogicClient queryClient)
+        {
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.UserAccountOrganisationID == uaoID &&
+                x.SmsTransactionID == txID &&
+                x.SmsUserAccountOrganisationTransactionID == uaoTxID);
+            switch (decision)
+            {
+                case SafeBuyerDecision.Accept:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.ProductAcceptedOn == null));
+                    break;
+                case SafeBuyerDecision.Decline:
+                    where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.ProductDeclinedOn == null));
+                    break;
+            }
+            var filter = ODataHelper.Filter(where);
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.FirstOrDefault();
+            if (model == null)
+            {
+                throw new AccessViolationException("Operation failed");
+            }
+        }
+
+        public async Task<ActionResult> ViewEdit(Guid txID)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var tx = await SmsTransactionLogicClient.GetSmsTransactionWithPendingUpdatesAsync(txID);
+            var uaot = tx.SmsUserAccountOrganisationTransactions.Single(x => x.UserAccountOrganisationID == uaoID);
+            ViewBag.canEditBirthDate = await PendingUpdateExtensions.CanEditBirthDate(uaoID, txID, QueryClient);
+
+            return PartialView("_Edit", uaot);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(SmsUserAccountOrganisationTransactionDTO model)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            List<FieldUpdateDTO> updates = PendingUpdateExtensions.GetUpdateFromModel(ActivityType.SmsTransaction, model.SmsTransactionID, new List<FieldUpdateDTO> { 
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransaction.GetIntValue(), FieldName = "LenderName", Value = model.SmsTransaction.LenderName },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransaction.GetIntValue(), FieldName = "MortgageApplicationNumber", Value = model.SmsTransaction.MortgageApplicationNumber },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransaction.GetIntValue(), FieldName = "Price", Value = model.SmsTransaction.Price.ToString() },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "Line1", Value = model.SmsTransaction.Address.Line1 },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "Line2", Value = model.SmsTransaction.Address.Line2 },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "Town", Value = model.SmsTransaction.Address.Town },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "County", Value = model.SmsTransaction.Address.County },
+                new FieldUpdateDTO {  ParentID = model.SmsTransactionID, ParentType = FieldUpdateParentType.SmsTransactionAddress.GetIntValue(), FieldName = "PostalCode", Value = model.SmsTransaction.Address.PostalCode },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "Line1", Value = model.Address.Line1 },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "Line2", Value = model.Address.Line2 },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "Town", Value = model.Address.Town },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "County", Value = model.Address.County },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.RegisteredHomeAddress.GetIntValue(), FieldName = "PostalCode", Value = model.Address.PostalCode },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "Salutation", Value = model.Contact.Salutation },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "FirstName", Value = model.Contact.FirstName },
+                new FieldUpdateDTO {  ParentID = model.SmsUserAccountOrganisationTransactionID, ParentType = FieldUpdateParentType.Contact.GetIntValue(), FieldName = "LastName", Value = model.Contact.LastName },
+            });
+            
+            if (model.Contact.BirthDate.HasValue)
+            {
+                updates.Add(new FieldUpdateDTO
+                { 
+                    ActivityType = ActivityType.SmsTransaction.GetIntValue(),
+                    ActivityID = model.SmsTransactionID,
+                    ParentID = model.SmsUserAccountOrganisationTransactionID,
+                    ParentType = FieldUpdateParentType.Contact.GetIntValue(),
+                    FieldName = "BirthDate",
+                    Value = model.Contact.BirthDate.Value.ToString("O")
+                });
+            }
+
+            await SmsTransactionLogicClient.ResolveSmsTransactionPendingUpdatesAsync(model.SmsTransactionID, uaoID, updates);
+            await SmsTransactionLogicClient.ReplaceSrcFundsBankAccountsAsync(model.SmsUserAccountOrganisationTransactionID, model.SmsSrcFundsBankAccounts);
+
+            return Json(new { result = true, selectedTransactionId = model.SmsTransactionID }, JsonRequestBehavior.AllowGet);
+        }
+
+        private async Task<bool> IsTransactionDataComplete(Guid txID)
+        {
+            var model = await GetUaots(txID);
+            var uaot = model.FirstOrDefault();
+
+            var modelWithUpdates = await uaot.WithFieldUpdates(HttpContext, ActivityType.SmsTransaction, txID, QueryClient);
+
+            var isTxAddressLine1Provided = !string.IsNullOrWhiteSpace(modelWithUpdates.GetPendingOrApprovedValueFor(m => m.Dto.SmsTransaction.Address.Line1, "Line1", FieldUpdateParentType.SmsTransactionAddress, modelWithUpdates.Dto.SmsTransactionID));
+            var isRegisteredHomeAddressLine1Provided = !string.IsNullOrWhiteSpace(modelWithUpdates.GetPendingOrApprovedValueFor(m => m.Dto.Address.Line1, "Line1", FieldUpdateParentType.RegisteredHomeAddress, modelWithUpdates.Dto.SmsUserAccountOrganisationTransactionID));
+            var isAnySrcOfFunds = modelWithUpdates.Dto.SmsSrcFundsBankAccounts.Any();
+
+            return isTxAddressLine1Provided && isRegisteredHomeAddressLine1Provided && isAnySrcOfFunds;
+        }
+
+        public async Task<ActionResult> GetReceipt(Guid txID)
+        {
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var cartPricing = await SmsTransactionLogicClient.EnsureCartAsync(txID, uaoId, PaymentCardTypeIDEnum.Visa_Credit, PaymentMethodTypeIDEnum.Credit_Card);
+
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            {
+                x.Address.Line1,
+                x.Address.Line2,
+                x.Address.Town,
+                x.Address.County,
+                x.Address.PostalCode,
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName,
+                x.SmsTransaction.Invoice.StartDate
+            });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txID && x.UserAccountOrganisationID == uaoId);
+            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var uaot = res.FirstOrDefault();
+
+            var adminSelect = ODataHelper.Select<VOrganisationDetailDTO>(x => new { 
+                x.OrganisationName,
+                x.Line1,
+                x.Line2,
+                x.Town,
+                x.County,
+                x.PostalCode,
+                x.VATNumber
+            });
+            var adminFilter = ODataHelper.Filter<VOrganisationDetailDTO>(x => x.OrganisationTypeID == 30);
+            var adminResults = await QueryClient.QueryAsync<VOrganisationDetailDTO>("VOrganisationDetails", adminSelect + adminFilter);
+            var adminOrg = adminResults.Single();
+
+            var dtomap = new DTOMap();
+            dtomap.Add("SafeBuyerReceiptDTO", new SafeBuyerReceiptDTO
+            {
+                BecAddress = new AddressDTO
+                {
+                    Line1 = adminOrg.Line1,
+                    Line2 = adminOrg.Line2,
+                    Town = adminOrg.Town,
+                    County = adminOrg.County,
+                    PostalCode = adminOrg.PostalCode
+                },
+                CompanyName = adminOrg.OrganisationName,
+                CustomerAddress = uaot.Address,
+                CustomerName = string.Join(" ", uaot.Contact.Salutation, uaot.Contact.FirstName, uaot.Contact.LastName),
+                Goods = cartPricing.CartTotalExcludingDiscountsAndTaxAndDeduct,
+                InvoiceDate = uaot.SmsTransaction.Invoice.StartDate.Value,
+                Items = cartPricing.Items.Select(x => new SafeBuyerReceiptItemDTO {
+                    Quantity = 1,
+                    Description = "Safe Buyer",
+                    Goods = x.ProductPrice,
+                    Vat = x.Deductions,
+                    Total = x.PriceInclDiscountsAndDeducts
+                }).ToList(),
+                Total = cartPricing.CartFinalPrice,
+                Vat = cartPricing.Tax,
+                VatNumber = adminOrg.VATNumber
+            });
+
+            var ncSelect = ODataHelper.Select<NotificationConstructDTO>(x => new { x.NotificationConstructID, x.NotificationConstructVersionNumber });
+            var ncFilter = ODataHelper.Filter<NotificationConstructDTO>(x => x.Name == "SafeBuyerReceipt");
+            var ncs = await QueryClient.QueryAsync<NotificationConstructDTO>("NotificationConstructs", ncSelect + ncFilter);
+            var nc = ncs.OrderByDescending(n => n.NotificationConstructVersionNumber).First();
+            var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, dtomap);
+
+            return File(data, "application/pdf", "Safe Buyer Reciept.pdf");
         }
     }
 }

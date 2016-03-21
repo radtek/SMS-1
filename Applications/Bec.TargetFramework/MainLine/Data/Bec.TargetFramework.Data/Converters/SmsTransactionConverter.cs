@@ -41,14 +41,13 @@ namespace Bec.TargetFramework.Entities
             target.RowVersion = source.RowVersion;
             target.MortgageApplicationNumber = source.MortgageApplicationNumber;
             target.LenderName = source.LenderName;
-            target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
             target.IsProductAdvised = source.IsProductAdvised;
             target.ProductAdvisedOn = source.ProductAdvisedOn;
             target.ShoppingCartID = source.ShoppingCartID;
             target.InvoiceID = source.InvoiceID;
-            target.ProductDeclinedOn = source.ProductDeclinedOn;
+            target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
 
             // Navigation Properties
             if (level > 0) {
@@ -57,6 +56,7 @@ namespace Bec.TargetFramework.Entities
               target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
               target.Invoice = source.Invoice.ToDtoWithRelated(level - 1);
               target.ShoppingCart = source.ShoppingCart.ToDtoWithRelated(level - 1);
+              target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -85,14 +85,13 @@ namespace Bec.TargetFramework.Entities
             target.RowVersion = source.RowVersion;
             target.MortgageApplicationNumber = source.MortgageApplicationNumber;
             target.LenderName = source.LenderName;
-            target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
             target.IsProductAdvised = source.IsProductAdvised;
             target.ProductAdvisedOn = source.ProductAdvisedOn;
             target.ShoppingCartID = source.ShoppingCartID;
             target.InvoiceID = source.InvoiceID;
-            target.ProductDeclinedOn = source.ProductDeclinedOn;
+            target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

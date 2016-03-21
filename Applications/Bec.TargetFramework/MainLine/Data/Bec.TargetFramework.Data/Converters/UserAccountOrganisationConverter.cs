@@ -71,6 +71,12 @@ namespace Bec.TargetFramework.Entities
               target.UserAccountOrganisationSafeSendGroups = source.UserAccountOrganisationSafeSendGroups.ToDtosWithRelated(level - 1);
               target.UserAccountOrganisationHelpVieweds = source.UserAccountOrganisationHelpVieweds.ToDtosWithRelated(level - 1);
               target.TempJsonData = source.TempJsonData.ToDtosWithRelated(level - 1);
+              target.FieldUpdates = source.FieldUpdates.ToDtosWithRelated(level - 1);
+              target.SmsTransactions = source.SmsTransactions.ToDtosWithRelated(level - 1);
+              target.Helps_CreatedBy = source.Helps_CreatedBy.ToDtosWithRelated(level - 1);
+              target.Helps_ModifiedBy = source.Helps_ModifiedBy.ToDtosWithRelated(level - 1);
+              target.HelpItems_CreatedBy = source.HelpItems_CreatedBy.ToDtosWithRelated(level - 1);
+              target.HelpItems_ModifiedBy = source.HelpItems_ModifiedBy.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

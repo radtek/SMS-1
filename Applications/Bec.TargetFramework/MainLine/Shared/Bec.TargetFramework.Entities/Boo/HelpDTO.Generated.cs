@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public HelpDTO() {
         }
 
-        public HelpDTO(global::System.Guid helpID, string name, string description, int helpTypeID, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, string uiPageUrl, ClassificationTypeDTO classificationType, List<HelpItemDTO> helpItems) {
+        public HelpDTO(global::System.Guid helpID, string name, string description, int helpTypeID, bool isActive, bool isDeleted, global::System.DateTime createdOn, global::System.Guid createdBy, global::System.Nullable<System.DateTime> modifiedOn, global::System.Nullable<System.Guid> modifiedBy, string uiPageUrl, ClassificationTypeDTO classificationType, List<HelpItemDTO> helpItems, UserAccountOrganisationDTO userAccountOrganisation_CreatedBy, UserAccountOrganisationDTO userAccountOrganisation_ModifiedBy) {
 
           this.HelpID = helpID;
           this.Name = name;
@@ -37,6 +37,8 @@ namespace Bec.TargetFramework.Entities
           this.UiPageUrl = uiPageUrl;
           this.ClassificationType = classificationType;
           this.HelpItems = helpItems;
+          this.UserAccountOrganisation_CreatedBy = userAccountOrganisation_CreatedBy;
+          this.UserAccountOrganisation_ModifiedBy = userAccountOrganisation_ModifiedBy;
         }
 
         #endregion
@@ -65,13 +67,13 @@ namespace Bec.TargetFramework.Entities
         public global::System.DateTime CreatedOn { get; set; }
 
         [DataMember]
-        public string CreatedBy { get; set; }
+        public global::System.Guid CreatedBy { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.DateTime> ModifiedOn { get; set; }
 
         [DataMember]
-        public string ModifiedBy { get; set; }
+        public global::System.Nullable<System.Guid> ModifiedBy { get; set; }
 
         [DataMember]
         public string UiPageUrl { get; set; }
@@ -85,6 +87,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<HelpItemDTO> HelpItems { get; set; }
+
+        [DataMember]
+        public UserAccountOrganisationDTO UserAccountOrganisation_CreatedBy { get; set; }
+
+        [DataMember]
+        public UserAccountOrganisationDTO UserAccountOrganisation_ModifiedBy { get; set; }
 
         #endregion
     }

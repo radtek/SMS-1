@@ -122,7 +122,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for CreatedBy in the schema.
         /// </summary>
-        public virtual string CreatedBy
+        public virtual global::System.Guid CreatedBy
         {
             get;
             set;
@@ -142,7 +142,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for ModifiedBy in the schema.
         /// </summary>
-        public virtual string ModifiedBy
+        public virtual global::System.Nullable<System.Guid> ModifiedBy
         {
             get;
             set;
@@ -214,6 +214,24 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ClassificationType in the schema.
         /// </summary>
         public virtual ClassificationType ClassificationType
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisation_CreatedBy in the schema.
+        /// </summary>
+        public virtual UserAccountOrganisation UserAccountOrganisation_CreatedBy
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisation_ModifiedBy in the schema.
+        /// </summary>
+        public virtual UserAccountOrganisation UserAccountOrganisation_ModifiedBy
         {
             get;
             set;

@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ServiceStack.Text;
 using System.Collections.Specialized;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace Bec.TargetFramework.Business.Client.Interfaces
 {
@@ -56,8 +58,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
             string _user = getHttpContextUser();
             var jobj = await GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + urlEncodedId + "?" + query, _user);
             Newtonsoft.Json.Linq.JArray arr = jobj["Items"] as Newtonsoft.Json.Linq.JArray;
-
-            return arr.Select(i => i.ToObject<T>());
+            return arr.Select(i => JsonConvert.DeserializeObject<T>(i.ToString())).ToList();
         }
 
         public virtual Task UpdateGraphAsync(String id, Newtonsoft.Json.Linq.JObject patch, string filter)

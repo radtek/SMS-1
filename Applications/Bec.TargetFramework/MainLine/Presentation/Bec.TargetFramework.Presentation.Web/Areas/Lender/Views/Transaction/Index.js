@@ -47,7 +47,7 @@ $(function () {
             },
             {
                 field: "Price",
-                title: "Price",
+                title: "Purchase Price",
                 template: function (dataItem) { return dataItem.Price > 0 ? formatCurrency(dataItem.Price) : ""; }
             },
             {
@@ -60,36 +60,34 @@ $(function () {
                 template: function (dataItem) { return dateString(dataItem.ProductAdvisedOn); }
             },
             {
-                field: "CreatedBy",
-                title: "Created By"
-            },
-            {
                 field: "",
-                title: "Decision",
+                title: "Required Actions",
+                width: 120,
                 template: function (dataItem) {
-                    if (dataItem.Invoice) {
-                        return 'Purchased';
-                    } else if (dataItem.ProductDeclinedOn) {
-                        return 'Declined';
-                    } else {
-                        return '';
-                    }
-                }
-            },
-            {
-                field: "",
-                title: "Safe Buyer No Matches",
-                template: function (dataItem) {
+                    var notActionedPartiesCount = _.filter(dataItem.SmsUserAccountOrganisationTransactions, function (uaot) {
+                        return !uaot.ProductAcceptedOn && !uaot.ProductDeclinedOn;
+                    }).length;
+                    console.log(dataItem.SmsUserAccountOrganisationTransactions);
+                    console.log(notActionedPartiesCount);
                     var noMatchResultsCount = _.sum(
                         _.map(dataItem.SmsUserAccountOrganisationTransactions, function (item) {
                             var noMatchesPerPersona = _.filter(item.SmsBankAccountChecks, { IsMatch: false });
                             return noMatchesPerPersona.length;
                         }));
-                    if (noMatchResultsCount > 0) {
-                        return '<b class="badge bg-color-red">' + noMatchResultsCount + '</b>';
+
+                    var resultText = '';
+                    var emptyBox = '<span class="transaction-issues">&nbsp;</span>';
+                    if (notActionedPartiesCount > 0) {
+                        resultText += '<span class="transaction-issues"><b class="badge" title="Outstanding Decisions">' + notActionedPartiesCount + '</b></span>';
                     } else {
-                        return '';
+                        resultText += emptyBox;
                     }
+                    if (noMatchResultsCount > 0) {
+                        resultText += '<span class="transaction-issues"><b class="badge bg-color-red" title="Safe Buyer No Matches">' + noMatchResultsCount + '</b></span>';
+                    } else {
+                        resultText += emptyBox;
+                    }
+                    return resultText;
                 }
             }
         ]
@@ -101,7 +99,7 @@ $(function () {
 
     setupTemplatePromise(transactionDetailsTemplatePromise, getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'Lender'));
     setupTemplatePromise(partiesTemplatePromise, getRazorViewPath('_partiesDetailsTmpl', 'Transaction', 'Lender'));
-    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared', ''));
+    setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared/Templates', ''));
 
     function setupTabs() {
         areConversationsLoaded = false;

@@ -51,20 +51,29 @@ $(function () {
             {
                 field: "CreatedOn",
                 title: "Created On",
-                template: function (dataItem) { return kendo.toString(kendo.parseDate(dataItem.CreatedOn),'dd MMM yyyy'); }
+                template: function (dataItem) { return kendo.toString(kendo.parseDate(dataItem.CreatedOn),'dd/MM/yyyy'); }
             },
             {
-                field: "CreatedBy",
-                title: "Created By"
+                field: "UserAccountOrganisation_CreatedBy.Contact.FirstName",
+                title: "Created By",
+                template: function (dataItem) {
+                    return (dataItem.UserAccountOrganisation_CreatedBy.Contact.FirstName + " " + dataItem.UserAccountOrganisation_CreatedBy.Contact.LastName);
+                }
             },
             {
                 field: "ModifiedOn",
                 title: "Modified On",
-                template: function (dataItem) { if (dataItem.ModifiedOn == null) { return '' } else return kendo.toString(kendo.parseDate(dataItem.ModifiedOn), 'dd MMM yyyy'); }
+                template: function (dataItem) { if (dataItem.ModifiedOn == null) { return '' } else return kendo.toString(kendo.parseDate(dataItem.ModifiedOn), 'dd/MM/yyyy'); }
             },
             {
                 field: "ModifiedBy",
-                title: "Modified By"
+                title: "Modified By",
+                template: function (dataItem) {
+                    if (dataItem.UserAccountOrganisation_ModifiedBy != null)
+                        return (dataItem.UserAccountOrganisation_ModifiedBy.Contact.FirstName + " " + dataItem.UserAccountOrganisation_ModifiedBy.Contact.LastName);
+                    else
+                        return "";
+                }
             }
         ]
     });
@@ -73,8 +82,8 @@ $(function () {
     hGrid.makeGrid();
     findModalLinks();
 
-    promises = new defTmpl('Help/TypeTemplates/',
-        ['helptype'],
+    promises = new defTmpl('Help/HelpTemplates/',
+        ['grid'],
         [
             { name: 'Tour', description: 'Tour' },
             { name: 'Callout', description: 'Callout' },
@@ -92,7 +101,7 @@ $(function () {
         // sort items
         data.helpItems.sort(function (a, b) { return a.DisplayOrder - b.DisplayOrder });
 
-        promises.helptype[dataItem.ClassificationType.Name].done(function (template) {
+        promises.grid[dataItem.ClassificationType.Name].done(function (template) {
             var html = template(data);
             $('#helpPanel').html(html);
         });

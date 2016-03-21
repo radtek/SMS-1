@@ -75,6 +75,14 @@
     <Reference Include="Autofac.Integration.WebApi.Owin">
       <HintPath>..\..\packages\Autofac.WebApi2.Owin.3.2.0\lib\net45\Autofac.Integration.WebApi.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Bec.TargetFramework.Transfer.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Bec.TargetFramework.Transfer.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Bec.TargetFramework.Transfer.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Bec.TargetFramework.Transfer.Entities.dll</HintPath>
+    </Reference>
     <Reference Include="Devart.Data.PostgreSql.Entity, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Devart.Data.PostgreSql.Entity.dll</HintPath>

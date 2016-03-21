@@ -50,7 +50,6 @@ namespace Bec.TargetFramework.Entities
               target.StatusTypeClaims = source.StatusTypeClaims.ToDtosWithRelated(level - 1);
               target.OrganisationStatusTypes = source.OrganisationStatusTypes.ToDtosWithRelated(level - 1);
               target.StatusTypeValues = source.StatusTypeValues.ToDtosWithRelated(level - 1);
-              target.Artefacts = source.Artefacts.ToDtosWithRelated(level - 1);
               target.InvoiceProcessLogs = source.InvoiceProcessLogs.ToDtosWithRelated(level - 1);
               target.TransactionOrderProcessLogs = source.TransactionOrderProcessLogs.ToDtosWithRelated(level - 1);
               target.PlanSubscriptionBillingPeriods = source.PlanSubscriptionBillingPeriods.ToDtosWithRelated(level - 1);
@@ -62,6 +61,7 @@ namespace Bec.TargetFramework.Entities
               target.ServiceInterfaceProcessLogs = source.ServiceInterfaceProcessLogs.ToDtosWithRelated(level - 1);
               target.ProductPurchaseBusTaskProcessLogs = source.ProductPurchaseBusTaskProcessLogs.ToDtosWithRelated(level - 1);
               target.OrganisationBankAccountStatus = source.OrganisationBankAccountStatus.ToDtosWithRelated(level - 1);
+              target.ArtefactStatusTypes = source.ArtefactStatusTypes.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

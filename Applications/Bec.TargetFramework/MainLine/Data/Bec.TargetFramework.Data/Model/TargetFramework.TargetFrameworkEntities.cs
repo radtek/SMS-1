@@ -1048,11 +1048,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<ModuleDependencyTemplate> ModuleDependencyTemplates { get; set; }
     
         /// <summary>
-        /// There are no comments for InterfacePanelTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<InterfacePanelTemplate> InterfacePanelTemplates { get; set; }
-    
-        /// <summary>
         /// There are no comments for ArtefactNotificationConstructTemplate in the schema.
         /// </summary>
         public virtual DbSet<ArtefactNotificationConstructTemplate> ArtefactNotificationConstructTemplates { get; set; }
@@ -2091,6 +2086,126 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for HelpRole in the schema.
         /// </summary>
         public virtual DbSet<HelpRole> HelpRoles { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ApplicationStageWorkflow in the schema.
+        /// </summary>
+        public virtual DbSet<ApplicationStageWorkflow> ApplicationStageWorkflows { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ArtefactDependencyStatusType in the schema.
+        /// </summary>
+        public virtual DbSet<ArtefactDependencyStatusType> ArtefactDependencyStatusTypes { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ArtefactDependencyStatusTypeTemplate in the schema.
+        /// </summary>
+        public virtual DbSet<ArtefactDependencyStatusTypeTemplate> ArtefactDependencyStatusTypeTemplates { get; set; }
+    
+        /// <summary>
+        /// There are no comments for BusTaskHandler in the schema.
+        /// </summary>
+        public virtual DbSet<BusTaskHandler> BusTaskHandlers { get; set; }
+    
+        /// <summary>
+        /// There are no comments for DefaultOrganisationWorkflow in the schema.
+        /// </summary>
+        public virtual DbSet<DefaultOrganisationWorkflow> DefaultOrganisationWorkflows { get; set; }
+    
+        /// <summary>
+        /// There are no comments for DefaultOrganisationWorkflowTemplate in the schema.
+        /// </summary>
+        public virtual DbSet<DefaultOrganisationWorkflowTemplate> DefaultOrganisationWorkflowTemplates { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ProductPurchaseBusTaskProcessDetail in the schema.
+        /// </summary>
+        public virtual DbSet<ProductPurchaseBusTaskProcessDetail> ProductPurchaseBusTaskProcessDetails { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ProductPurchaseReference in the schema.
+        /// </summary>
+        public virtual DbSet<ProductPurchaseReference> ProductPurchaseReferences { get; set; }
+    
+        /// <summary>
+        /// There are no comments for TFEventMessageSubscriber in the schema.
+        /// </summary>
+        public virtual DbSet<TFEventMessageSubscriber> TFEventMessageSubscribers { get; set; }
+    
+        /// <summary>
+        /// There are no comments for TFEventType in the schema.
+        /// </summary>
+        public virtual DbSet<TFEventType> TFEventTypes { get; set; }
+    
+        /// <summary>
+        /// There are no comments for TFEvent in the schema.
+        /// </summary>
+        public virtual DbSet<TFEvent> TFEvents { get; set; }
+    
+        /// <summary>
+        /// There are no comments for TFEventTFEventMessageSubscriber in the schema.
+        /// </summary>
+        public virtual DbSet<TFEventTFEventMessageSubscriber> TFEventTFEventMessageSubscribers { get; set; }
+    
+        /// <summary>
+        /// There are no comments for BusTask in the schema.
+        /// </summary>
+        public virtual DbSet<BusTask> BusTasks { get; set; }
+    
+        /// <summary>
+        /// There are no comments for PasswordResetRequest in the schema.
+        /// </summary>
+        public virtual DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
+    
+        /// <summary>
+        /// There are no comments for RoleHierarchy in the schema.
+        /// </summary>
+        public virtual DbSet<RoleHierarchy> RoleHierarchies { get; set; }
+    
+        /// <summary>
+        /// There are no comments for FieldUpdate in the schema.
+        /// </summary>
+        public virtual DbSet<FieldUpdate> FieldUpdates { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VClaim in the schema.
+        /// </summary>
+        public virtual DbSet<VClaim> VClaims { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VNotificationConstructGroupNotificationConstruct in the schema.
+        /// </summary>
+        public virtual DbSet<VNotificationConstructGroupNotificationConstruct> VNotificationConstructGroupNotificationConstructs { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VConversationUnreadPerActiveUao in the schema.
+        /// </summary>
+        public virtual DbSet<VConversationUnreadPerActiveUao> VConversationUnreadPerActiveUaos { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VConversationActivity in the schema.
+        /// </summary>
+        public virtual DbSet<VConversationActivity> VConversationActivities { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ArtefactStatusTypeTemplate in the schema.
+        /// </summary>
+        public virtual DbSet<ArtefactStatusTypeTemplate> ArtefactStatusTypeTemplates { get; set; }
+    
+        /// <summary>
+        /// There are no comments for WorkflowTemplate in the schema.
+        /// </summary>
+        public virtual DbSet<WorkflowTemplate> WorkflowTemplates { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Workflow in the schema.
+        /// </summary>
+        public virtual DbSet<Workflow> Workflows { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ArtefactStatusType in the schema.
+        /// </summary>
+        public virtual DbSet<ArtefactStatusType> ArtefactStatusTypes { get; set; }
 
         #region Methods
 
@@ -2361,78 +2476,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for FnGetConversationActivity in the schema.
-        /// </summary>
-        public virtual ObjectResult<FnGetConversationActivityResult> FnGetConversationActivity (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid, global::System.Nullable<int> l, global::System.Nullable<int> o, string userorgtypename, global::System.Nullable<System.Guid> uaoid)
-        {
-            ObjectParameter orgidParameter;
-            if (orgid.HasValue)
-            {
-                orgidParameter = new ObjectParameter("orgid", orgid);
-            }
-            else
-            {
-                orgidParameter = new ObjectParameter("orgid", typeof(global::System.Nullable<System.Guid>));
-            }
-            ObjectParameter activitytypeParameter;
-            if (activitytype.HasValue)
-            {
-                activitytypeParameter = new ObjectParameter("activitytype", activitytype);
-            }
-            else
-            {
-                activitytypeParameter = new ObjectParameter("activitytype", typeof(global::System.Nullable<int>));
-            }
-            ObjectParameter activityidParameter;
-            if (activityid.HasValue)
-            {
-                activityidParameter = new ObjectParameter("activityid", activityid);
-            }
-            else
-            {
-                activityidParameter = new ObjectParameter("activityid", typeof(global::System.Nullable<System.Guid>));
-            }
-            ObjectParameter lParameter;
-            if (l.HasValue)
-            {
-                lParameter = new ObjectParameter("l", l);
-            }
-            else
-            {
-                lParameter = new ObjectParameter("l", typeof(global::System.Nullable<int>));
-            }
-            ObjectParameter oParameter;
-            if (o.HasValue)
-            {
-                oParameter = new ObjectParameter("o", o);
-            }
-            else
-            {
-                oParameter = new ObjectParameter("o", typeof(global::System.Nullable<int>));
-            }
-            ObjectParameter userorgtypenameParameter;
-            if (userorgtypename != null)
-            {
-                userorgtypenameParameter = new ObjectParameter("userorgtypename", userorgtypename);
-            }
-            else
-            {
-                userorgtypenameParameter = new ObjectParameter("userorgtypename", typeof(string));
-            }
-            ObjectParameter uaoidParameter;
-            if (uaoid.HasValue)
-            {
-                uaoidParameter = new ObjectParameter("uaoid", uaoid);
-            }
-            else
-            {
-                uaoidParameter = new ObjectParameter("uaoid", typeof(global::System.Nullable<System.Guid>));
-            }
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FnGetConversationActivityResult>("TargetFrameworkEntities.FnGetConversationActivity", orgidParameter, activitytypeParameter, activityidParameter, lParameter, oParameter, userorgtypenameParameter, uaoidParameter);
-        }
-
-    
-        /// <summary>
         /// There are no comments for FnGetConversationActivityCount in the schema.
         /// </summary>
         public virtual global::System.Nullable<long> FnGetConversationActivityCount (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid, string userorgtypename, global::System.Nullable<System.Guid> uaoid)
@@ -2595,6 +2638,78 @@ namespace Bec.TargetFramework.Data
                 UiPageUrlParameter = new ObjectParameter("UiPageUrl", typeof(string));
             }
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HelpItem>("TargetFrameworkEntities.FnGetHelpItem", mergeOption, UserAccountOrganisationIDParameter, HelpTypeIDParameter, UiPageUrlParameter);
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnGetConversationActivity in the schema.
+        /// </summary>
+        public virtual ObjectResult<FnGetConversationActivityResult> FnGetConversationActivity (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid, global::System.Nullable<int> l, global::System.Nullable<int> o, string userorgtypename, global::System.Nullable<System.Guid> uaoid)
+        {
+            ObjectParameter orgidParameter;
+            if (orgid.HasValue)
+            {
+                orgidParameter = new ObjectParameter("orgid", orgid);
+            }
+            else
+            {
+                orgidParameter = new ObjectParameter("orgid", typeof(global::System.Nullable<System.Guid>));
+            }
+            ObjectParameter activitytypeParameter;
+            if (activitytype.HasValue)
+            {
+                activitytypeParameter = new ObjectParameter("activitytype", activitytype);
+            }
+            else
+            {
+                activitytypeParameter = new ObjectParameter("activitytype", typeof(global::System.Nullable<int>));
+            }
+            ObjectParameter activityidParameter;
+            if (activityid.HasValue)
+            {
+                activityidParameter = new ObjectParameter("activityid", activityid);
+            }
+            else
+            {
+                activityidParameter = new ObjectParameter("activityid", typeof(global::System.Nullable<System.Guid>));
+            }
+            ObjectParameter lParameter;
+            if (l.HasValue)
+            {
+                lParameter = new ObjectParameter("l", l);
+            }
+            else
+            {
+                lParameter = new ObjectParameter("l", typeof(global::System.Nullable<int>));
+            }
+            ObjectParameter oParameter;
+            if (o.HasValue)
+            {
+                oParameter = new ObjectParameter("o", o);
+            }
+            else
+            {
+                oParameter = new ObjectParameter("o", typeof(global::System.Nullable<int>));
+            }
+            ObjectParameter userorgtypenameParameter;
+            if (userorgtypename != null)
+            {
+                userorgtypenameParameter = new ObjectParameter("userorgtypename", userorgtypename);
+            }
+            else
+            {
+                userorgtypenameParameter = new ObjectParameter("userorgtypename", typeof(string));
+            }
+            ObjectParameter uaoidParameter;
+            if (uaoid.HasValue)
+            {
+                uaoidParameter = new ObjectParameter("uaoid", uaoid);
+            }
+            else
+            {
+                uaoidParameter = new ObjectParameter("uaoid", typeof(global::System.Nullable<System.Guid>));
+            }
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FnGetConversationActivityResult>("TargetFrameworkEntities.FnGetConversationActivity", orgidParameter, activitytypeParameter, activityidParameter, lParameter, oParameter, userorgtypenameParameter, uaoidParameter);
         }
 
         #endregion

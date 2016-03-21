@@ -35,12 +35,17 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public DateTime CreatedOn { get; set; }
         [DataMember]
-        public string CreatedBy { get; set; }
+        public Guid CreatedBy { get; set; }
 
         [DataMember]
         public DateTime? ModifiedOn { get; set; }
         [DataMember]
-        public string ModifiedBy { get; set; }
+        public Guid? ModifiedBy { get; set; }
+
+        [DataMember]
+        public string CreatedByName { get; set; }
+        [DataMember]
+        public string ModifiedByName { get; set; }
 
 
         [DataMember]

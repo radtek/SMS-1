@@ -64,7 +64,6 @@
             $('#genRequestLabel').text(e.message);
         }).fail(function (e) {
             if (!hasRedirect(e.responseJSON)) {
-                console.log(e);
                 $('#genRequestLabel').text("An error has occured");
             }
         }).always(function () {

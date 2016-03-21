@@ -36,6 +36,11 @@ namespace Bec.TargetFramework.Entities
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
 
+            // Navigation Properties
+            if (level > 0) {
+              target.ApplicationStageWorkflows = source.ApplicationStageWorkflows.ToDtosWithRelated(level - 1);
+            }
+
             // User-defined partial method
             OnDtoCreating(source, target);
 

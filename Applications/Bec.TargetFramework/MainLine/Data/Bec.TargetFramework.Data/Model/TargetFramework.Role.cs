@@ -277,6 +277,24 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for RoleHierarchies_ParentRoleID in the schema.
+        /// </summary>
+        public virtual ICollection<RoleHierarchy> RoleHierarchies_ParentRoleID
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for RoleHierarchies_RoleID in the schema.
+        /// </summary>
+        public virtual ICollection<RoleHierarchy> RoleHierarchies_RoleID
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

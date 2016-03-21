@@ -202,6 +202,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var addHelpItems = await GetHelpItemsFromTempStore(helpItem.TempStoreID);
             helpItem.DisplayOrder = addHelpItems.Count;
+            helpItem.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            helpItem.CreatedOn = DateTime.Now;
             addHelpItems.Add(helpItem);
             await AddHelpItemsToTempStore(helpItem.TempStoreID, addHelpItems);
             return Json(new { success = true, action = "AddHelpItem" });
@@ -231,8 +233,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             try
             {
+                help.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+                help.CreatedOn = DateTime.Now;
+
                 await HelpClient.SaveHelpAsync(help);
                 await HelpClient.DeleteTempStoreAsync(WebUserHelper.GetWebUserObject(HttpContext).UaoID, help.TempStoreID);
+
+                TempData["JumpToHelpID"] = help.HelpID;
             }
             catch(Exception ex)
             {
@@ -254,23 +261,28 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ClaimsRequired("Edit", "Help", Order = 1017)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditHelp(AddHelpDTO dto)
+        public async Task<ActionResult> EditHelp(AddHelpDTO help)
         {
             try
             {
-                await HelpClient.SaveHelpAsync(dto);
+                help.ModifiedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+                help.ModifiedOn = DateTime.Now;
+
+                await HelpClient.SaveHelpAsync(help);
+
+                TempData["JumpToHelpID"] = help.HelpID;
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
 
-                this.AddToastMessage("Help Saved Unsuccessfully", "Help " + dto.Name + " has saved unsuccessfully. Please try again", ToastType.Success);
+                this.AddToastMessage("Help Saved Unsuccessfully", "Help " + help.Name + " has saved unsuccessfully. Please try again", ToastType.Success);
             }
 
             return RedirectToAction("Index");
         }
 
-        [ClaimsRequired("Edit", "Help", Order = 1018)]
+        [ClaimsRequired("Delete", "Help", Order = 1018)]
         public async Task<ActionResult> DeleteHelpItemTemp(Guid hiID,Guid tempStoreID)
         {
             var helpItems = await GetHelpItemsFromTempStore(tempStoreID);
@@ -292,7 +304,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(new { success = true, action = "DeleteHelpItemTemp" });
         }
 
-        [ClaimsRequired("Edit", "Help", Order = 1019)]
+        [ClaimsRequired("Delete", "Help", Order = 1019)]
         public async Task<ActionResult> DeleteHelpItem(Guid hiID)
         {
             var helpItem = await HelpClient.GetHelpItemAsync(hiID);
@@ -300,7 +312,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return PartialView("_DeleteHelpItem", helpItem);
         }
 
-        [ClaimsRequired("Edit", "Help", Order = 1020)]
+        [ClaimsRequired("Delete", "Help", Order = 1020)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteHelpItem(AddHelpItemDTO dto)
@@ -310,7 +322,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(new { success = true, action = "DeleteHelpItem" });
         }
 
-        [ClaimsRequired("Edit", "Help", Order = 1021)]
+        [ClaimsRequired("Delete", "Help", Order = 1021)]
         public async Task<ActionResult> DeleteHelp(Guid hID)
         {
             var help = await HelpClient.GetHelpAsync(hID);
@@ -358,9 +370,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ClaimsRequired("Edit", "Help", Order = 1027)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditHelpItem(AddHelpItemDTO dto)
+        public async Task<ActionResult> EditHelpItem(AddHelpItemDTO help)
         {
-            await HelpClient.SaveHelpItemAsync(dto);
+            help.ModifiedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            help.ModifiedOn = DateTime.Now;
+
+            await HelpClient.SaveHelpItemAsync(help);
 
             return Json(new { success = true, action = "EditHelpItem" });
         }
@@ -384,6 +399,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddEditHelpItem(AddHelpItemDTO helpItem)
         {
+            helpItem.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            helpItem.CreatedOn = DateTime.Now;
+
             await HelpClient.SaveHelpItemAsync(helpItem);
             return Json(new { success = true, action = "AddEditHelpItem" });
         }
@@ -437,10 +455,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 x.Description,
                 x.UiPageUrl,
                 x.CreatedOn,
-                x.CreatedBy,
                 x.ModifiedOn,
-                x.ModifiedBy,
-                HelpItems = x.HelpItems.Select(b => new { b.HelpItemID, b.Title, b.UiSelector, b.EffectiveFrom,b.ClassificationType.Name, b.CreatedOn, b.CreatedBy, b.Description, b.DisplayOrder, blah = b.Roles.Select(r => new { r.RoleName }) })
+                cfn = x.UserAccountOrganisation_CreatedBy.Contact.FirstName,
+                cln = x.UserAccountOrganisation_CreatedBy.Contact.LastName,
+                x.UserAccountOrganisation_ModifiedBy.Contact.FirstName,
+                x.UserAccountOrganisation_ModifiedBy.Contact.LastName,
+                HelpItems = x.HelpItems.Select(b => new { b.HelpItemID, b.Title, b.UiSelector, b.EffectiveFrom, b.ClassificationType.Name, 
+                    cfn = b.UserAccountOrganisation_CreatedBy.Contact.FirstName, 
+                    cln =b.UserAccountOrganisation_CreatedBy.Contact.LastName,
+                    b.UserAccountOrganisation_ModifiedBy.Contact.FirstName,
+                    b.UserAccountOrganisation_ModifiedBy.Contact.LastName, 
+                    b.CreatedBy, b.Description, b.DisplayOrder, blah = b.Roles.Select(r => new { r.RoleName }) })
             });
 
             var tourTypeID = helpTypeList.Single(s => s.ClassificationTypeID.Equals(HelpTypeEnum.Tour.GetIntValue())).ClassificationTypeID;

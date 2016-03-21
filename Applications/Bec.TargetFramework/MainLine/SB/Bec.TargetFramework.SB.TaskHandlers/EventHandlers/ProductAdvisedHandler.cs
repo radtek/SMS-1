@@ -17,17 +17,18 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
     public class ProductAdvisedHandler : BaseEventHandler<ProductAdvisedEvent>
     {
         public INotificationLogicClient NotificationLogicClient { get; set; }
-        public IOrganisationLogicClient OrganisationLogicClient { get; set; }
+        public ISmsTransactionLogicClient SmsTransactionLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
 
         public override void HandleMessage(ProductAdvisedEvent handlerEvent)
         {
             try
             {
-                var recipients = OrganisationLogicClient.GetSmsTransactionRelatedPartyUaoIdsSync(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
-                   .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
-
-                CreateAndPublishContainer(
+                var recipients = SmsTransactionLogicClient.GetSmsTransactionRelatedPartyDeclinedProductUaoIdsSync(handlerEvent.ProductAdvisedNotificationDTO.TransactionID)
+                    .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
+                if (recipients.Any())
+                {
+                    CreateAndPublishContainer(
                     NotificationLogicClient.GetLatestNotificationConstructIdFromNameSync(NotificationConstructEnum.ProductAdvised.GetStringValue()),
                     SettingsClient.GetSettingsSync().AsSettings<CommonSettings>(),
                     recipients,
@@ -35,6 +36,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                     handlerEvent.ProductAdvisedNotificationDTO,
                     ActivityType.SmsTransaction,
                     handlerEvent.ProductAdvisedNotificationDTO.TransactionID);
+                }
             }
             catch (Exception ex)
             {

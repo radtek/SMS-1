@@ -176,18 +176,18 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for StatusTypeTemplates in the schema.
+        /// There are no comments for ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber in the schema.
         /// </summary>
-        public virtual ICollection<StatusTypeTemplate> StatusTypeTemplates
+        public virtual ICollection<ArtefactDependencyTemplate> ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber in the schema.
+        /// There are no comments for ArtefactStatusTypeTemplates in the schema.
         /// </summary>
-        public virtual ICollection<ArtefactDependencyTemplate> ArtefactDependencyTemplates_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber
+        public virtual ICollection<ArtefactStatusTypeTemplate> ArtefactStatusTypeTemplates
         {
             get;
             set;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Bec.TargetFramework.Entities
 {
@@ -6,6 +7,8 @@ namespace Bec.TargetFramework.Entities
     public class AddSmsTransactionDTO
     {
         public SmsTransactionDTO SmsTransactionDTO { get; set; }
+        public AddressDTO RegisteredHomeAddressDTO { get; set; }
+        public IEnumerable<SmsSrcFundsBankAccountDTO> SmsSrcFundsBankAccounts { get; set; }
         public Guid? BuyerUaoID { get; set; }
         public string Salutation { get; set; }
         public string FirstName { get; set; }

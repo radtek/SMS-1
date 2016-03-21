@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ArtefactDependencyDTO() {
         }
 
-        public ArtefactDependencyDTO(global::System.Guid artefactDependencyID, global::System.Guid artefactID, int artefactVersionNumber, global::System.Guid dependencyArtefactID, int dependencyArtefactVersionNumber, global::System.Guid artefactDependencyTemplateID, bool isActive, bool isDeleted, ArtefactDTO artefact_ArtefactID_ArtefactVersionNumber, ArtefactDependencyTemplateDTO artefactDependencyTemplate, ArtefactDTO artefact_DependencyArtefactID_DependencyArtefactVersionNumber) {
+        public ArtefactDependencyDTO(global::System.Guid artefactDependencyID, global::System.Guid artefactID, int artefactVersionNumber, global::System.Guid dependencyArtefactID, int dependencyArtefactVersionNumber, global::System.Guid artefactDependencyTemplateID, bool isActive, bool isDeleted, ArtefactDTO artefact_ArtefactID_ArtefactVersionNumber, ArtefactDependencyTemplateDTO artefactDependencyTemplate, ArtefactDTO artefact_DependencyArtefactID_DependencyArtefactVersionNumber, List<ArtefactDependencyStatusTypeDTO> artefactDependencyStatusTypes) {
 
           this.ArtefactDependencyID = artefactDependencyID;
           this.ArtefactID = artefactID;
@@ -35,6 +35,7 @@ namespace Bec.TargetFramework.Entities
           this.Artefact_ArtefactID_ArtefactVersionNumber = artefact_ArtefactID_ArtefactVersionNumber;
           this.ArtefactDependencyTemplate = artefactDependencyTemplate;
           this.Artefact_DependencyArtefactID_DependencyArtefactVersionNumber = artefact_DependencyArtefactID_DependencyArtefactVersionNumber;
+          this.ArtefactDependencyStatusTypes = artefactDependencyStatusTypes;
         }
 
         #endregion
@@ -77,6 +78,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public ArtefactDTO Artefact_DependencyArtefactID_DependencyArtefactVersionNumber { get; set; }
+
+        [DataMember]
+        public List<ArtefactDependencyStatusTypeDTO> ArtefactDependencyStatusTypes { get; set; }
 
         #endregion
     }

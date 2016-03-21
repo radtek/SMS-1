@@ -21,5 +21,15 @@
             <p>{{Address.PostalCode}}</p>
         </dd>
         {{/if}}
+        <dt>Decision:</dt>
+        <dd>
+            {{#if ProductAcceptedOn}}
+            <span><i class="fa fa-check margin-right-5"></i>Accepted</span>
+            {{else if ProductDeclinedOn}}
+            <span><i class="fa fa-exclamation-triangle margin-right-5"></i>Declined</span>
+            {{else}}
+            <label class="label label-outstanding-decisions" title="Buyer Party Decision">No Decision</label>
+            {{/if}}
+        </dd>
     </dl>
 {{/each}}

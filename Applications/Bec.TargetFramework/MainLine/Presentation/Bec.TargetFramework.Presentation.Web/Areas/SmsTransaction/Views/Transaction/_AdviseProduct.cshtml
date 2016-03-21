@@ -13,8 +13,7 @@
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>
-                                <input type="hidden" name="transactionId" value="@ViewBag.transactionId" />
-                                <input type="hidden" name="primaryBuyerUaoId" value="@ViewBag.primaryBuyerUaoId" />
+                                <input type="hidden" name="txID" value="@ViewBag.txID" />
                                 @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
 
                                 <div class="row">

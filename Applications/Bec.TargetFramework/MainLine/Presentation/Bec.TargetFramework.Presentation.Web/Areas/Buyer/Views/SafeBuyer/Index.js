@@ -2,18 +2,27 @@
     'use strict';
 
     findModalLinks();
-    showAudit(0);
-    setupDates();
+    showAudit();
     setupTabs();
     setupState();
+    setupEditForm();
+    formatDates();
 
-    function setupDates() {
-        $('.format-date').each(function () {
-            $(this).text(dateStringNoTime($(this).data("val")));
+    $('#transactionDetailsPanel').fieldPendingUpdates();
+
+    function setupEditForm() {
+        makeDatePicker("#birthDateInput", {
+            maxDate: new Date()
         });
-
-        $('.format-number').each(function () {
-            $(this).text(formatCurrency($(this).data("val")));
+        $('#lenderSearch').lenderSearch({
+            searchUrl: $('#lenderSearch').data("url")
+        });
+        $('#buyingWithMortgage').click(function () {
+            $('#mortgageDetails').toggle(this.checked);
+            if (!this.checked) {
+                $('#lenderSearch').val('');
+                $('#lenderAppNumber').val('');
+            }
         });
     }
 
@@ -36,18 +45,17 @@
 
     function setupState() {
         var advised = $('#content').data('advised') == "True";
-        var purchased = $('#content').data('purchased') == "True";
+        var accepted = $('#content').data('accepted') == "True";
         var declined = $('#content').data('declined') == "True";
-
-        console.log("advised: " + advised + ", purchased: " + purchased + ", declined: " + declined);
-
-        if (!purchased) {
-            $('#purchaseProductBtn').show();
+        
+        if (!accepted) {
+            $('#acceptProductBtn').show();
             $('#infoBankAccountCheck').hide();
 
             if (declined) {
                 $('#checkBankAccountBtn').hide();
-                if(advised)
+                $('#editAddDetailsBtn').hide();
+                if (advised)
                     $('#declineAdvisedMessage').show();
                 else
                     $('#declineMessage').show();
@@ -55,6 +63,7 @@
             else {
                 $('#declineButton').show();
                 $('#checkBankAccountBtn').hide();
+                $('#editAddDetailsBtn').hide();
                 if (advised)
                     $('#infoAdviceMessage').show();
                 else
@@ -70,7 +79,6 @@
 
 });
 
-// Publicly available!!! Used by _ConfirmDetails.js too
 function showAudit() {
     var matchTemplate = Handlebars.compile(
     '<div class="alert alert-success fade in margin-left-10 margin-right-10">' +

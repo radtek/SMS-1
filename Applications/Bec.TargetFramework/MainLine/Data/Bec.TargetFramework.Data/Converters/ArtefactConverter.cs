@@ -50,8 +50,8 @@ namespace Bec.TargetFramework.Entities
               target.ArtefactNotificationConstructs = source.ArtefactNotificationConstructs.ToDtosWithRelated(level - 1);
               target.ArtefactDependencies_ArtefactID_ArtefactVersionNumber = source.ArtefactDependencies_ArtefactID_ArtefactVersionNumber.ToDtosWithRelated(level - 1);
               target.ArtefactRoles = source.ArtefactRoles.ToDtosWithRelated(level - 1);
-              target.StatusTypes = source.StatusTypes.ToDtosWithRelated(level - 1);
               target.ArtefactDependencies_DependencyArtefactID_DependencyArtefactVersionNumber = source.ArtefactDependencies_DependencyArtefactID_DependencyArtefactVersionNumber.ToDtosWithRelated(level - 1);
+              target.ArtefactStatusTypes = source.ArtefactStatusTypes.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

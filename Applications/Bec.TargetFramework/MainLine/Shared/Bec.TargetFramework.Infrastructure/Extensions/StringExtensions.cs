@@ -26,5 +26,10 @@ namespace Bec.TargetFramework.Infrastructure.Extensions
         {
             return value.Equals(other.Trim(), StringComparison.InvariantCultureIgnoreCase);
         }
+
+        public static string ValueOr(this string value, string substitute)
+        {
+            return string.IsNullOrWhiteSpace(value) ? substitute : value;
+        }
     }
 }

@@ -59,6 +59,7 @@ namespace Bec.TargetFramework.Entities
               target.DefaultOrganisationShoppingCartBlueprints = source.DefaultOrganisationShoppingCartBlueprints.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationPaymentMethods = source.DefaultOrganisationPaymentMethods.ToDtosWithRelated(level - 1);
               target.Organisations = source.Organisations.ToDtosWithRelated(level - 1);
+              target.DefaultOrganisationWorkflows = source.DefaultOrganisationWorkflows.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

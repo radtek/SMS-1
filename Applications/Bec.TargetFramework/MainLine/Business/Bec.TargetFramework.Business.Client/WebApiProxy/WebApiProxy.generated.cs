@@ -22,14 +22,8 @@ using nClam;
 #region Proxies
 namespace Bec.TargetFramework.Business.Client
 {
-	/// <summary>
-	/// Client configuration.
-	/// </summary>
 	public partial class Configuration
 	{
-		/// <summary>
-		/// Web Api Base Address.
-		/// </summary>
 		public static string WebApiProxyBaseAddress = "http://localhost:9000";
 		
 	}
@@ -62,202 +56,54 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	}
 
 	public partial interface IAddressLogicClient : IClientBase	{	
-
-		/// <param name="postCode"></param>
-		/// <param name="buildingNameOrNumber"></param>
-		/// <returns></returns>
 		Task<List<PostCodeDTO>> FindAddressesByPostCodeAsync(String postCode,String buildingNameOrNumber);
-
-		/// <param name="postCode"></param>
-		/// <param name="buildingNameOrNumber"></param>
-		/// <returns></returns>
 		List<PostCodeDTO> FindAddressesByPostCodeSync(String postCode,String buildingNameOrNumber);
-
-		/// <param name="postCode"></param>
-		/// <returns></returns>
 		Task<GoogleGeoCodeResponse> GeoCodePostcodeAsync(String postCode);
-
-		/// <param name="postCode"></param>
-		/// <returns></returns>
 		GoogleGeoCodeResponse GeoCodePostcodeSync(String postCode);
 	}
 
 	public partial interface IBankAccountLogicClient : IClientBase	{	
-
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID);
-
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		Boolean HasOrganisationAnySafeBankAccountSync(Guid organisationID);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
 		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
 		List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccountsSync(Guid orgID);
-
-		/// <returns></returns>
 		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync();
-
-		/// <returns></returns>
 		List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccountsSync();
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
 		Task<Guid> AddBankAccountAsync(Guid orgID,OrganisationBankAccountDTO accountDTO);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
 		Guid AddBankAccountSync(Guid orgID,OrganisationBankAccountDTO accountDTO);
-
-		/// <returns></returns>
 		Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
-
-		/// <returns></returns>
 		void AddBankAccountStatusSync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
-
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="smsUserAccountOrganisationTransactionId"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
 		Task<Boolean> CheckBankAccountAsync(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
-
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="smsUserAccountOrganisationTransactionId"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
 		Boolean CheckBankAccountSync(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
-
-		/// <param name="uaoID"></param>
-		/// <param name="smsUserAccountOrganisationTransactionId"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <param name="isMatch"></param>
-		/// <returns></returns>
 		Task WriteCheckAuditAsync(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch);
-
-		/// <param name="uaoID"></param>
-		/// <param name="smsUserAccountOrganisationTransactionId"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <param name="isMatch"></param>
-		/// <returns></returns>
 		void WriteCheckAuditSync(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch);
-
-		/// <param name="orgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="active"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes);
-
-		/// <param name="orgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="active"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		void ToggleBankAccountActiveSync(Guid orgID,Guid baID,Boolean active,String notes);
-
-		/// <param name="uaoID"></param>
-		/// <param name="uaotxID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
 		Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
-
-		/// <param name="uaoID"></param>
-		/// <param name="uaotxID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
 		void PublishCheckNoMatchNotificationSync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
 	}
 
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
-
-		/// <returns></returns>
 		Task<List<CountryCodeDTO>> GetCountriesAsync();
-
-		/// <returns></returns>
 		List<CountryCodeDTO> GetCountriesSync();
-
-		/// <param name="typeName"></param>
-		/// <returns></returns>
 		Task<List<ClassificationTypeDTO>> GetRootClassificationDataForTypeNameAsync(String typeName);
-
-		/// <param name="typeName"></param>
-		/// <returns></returns>
 		List<ClassificationTypeDTO> GetRootClassificationDataForTypeNameSync(String typeName);
-
-		/// <param name="classificationTypeID"></param>
-		/// <returns></returns>
 		Task<List<ClassificationTypeDTO>> GetSubClassificationDataForParentIDAsync(Int32 classificationTypeID);
-
-		/// <param name="classificationTypeID"></param>
-		/// <returns></returns>
 		List<ClassificationTypeDTO> GetSubClassificationDataForParentIDSync(Int32 classificationTypeID);
-
-		/// <param name="categoryName"></param>
-		/// <param name="typeName"></param>
-		/// <returns></returns>
 		Task<Int32> GetClassificationDataForTypeNameAsync(String categoryName,String typeName);
-
-		/// <param name="categoryName"></param>
-		/// <param name="typeName"></param>
-		/// <returns></returns>
 		Int32 GetClassificationDataForTypeNameSync(String categoryName,String typeName);
 	}
 
 	public partial interface IFileLogicClient : IClientBase	{	
-
-		/// <returns></returns>
 		Task<ClamScanResult> UploadFileAsync(FileDTO file);
-
-		/// <returns></returns>
 		ClamScanResult UploadFileSync(FileDTO file);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Task ClearUnusedFilesAsync(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		void ClearUnusedFilesSync(Guid uaoID);
-
-		/// <param name="fileID"></param>
-		/// <param name="parentID"></param>
-		/// <returns></returns>
 		Task<FileDTO> DownloadFileAsync(Guid fileID,Guid parentID);
-
-		/// <param name="fileID"></param>
-		/// <param name="parentID"></param>
-		/// <returns></returns>
 		FileDTO DownloadFileSync(Guid fileID,Guid parentID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="id"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
 		Task RemovePendingUploadAsync(Guid uaoID,Guid id,String filename);
-
-		/// <param name="uaoID"></param>
-		/// <param name="id"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
 		void RemovePendingUploadSync(Guid uaoID,Guid id,String filename);
-
-		/// <returns></returns>
 		Task<ClamScanResult> ScanForVirusAsync(ScanBytesDTO data);
-
-		/// <returns></returns>
 		ClamScanResult ScanForVirusSync(ScanBytesDTO data);
 	}
 
@@ -407,1377 +253,336 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	}
 
 	public partial interface IInvoiceLogicClient : IClientBase	{	
-
-		/// <param name="shoppingCartId"></param>
-		/// <returns></returns>
 		Task<Boolean> DoesInvoiceExistForShoppingCartAsync(Guid shoppingCartId);
-
-		/// <param name="shoppingCartId"></param>
-		/// <returns></returns>
 		Boolean DoesInvoiceExistForShoppingCartSync(Guid shoppingCartId);
-
-		/// <returns></returns>
 		Task<VOrganisationDetailDTO> GetPaymentProviderOrganisationDetailAsync();
-
-		/// <returns></returns>
 		VOrganisationDetailDTO GetPaymentProviderOrganisationDetailSync();
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task<VInvoiceWithCurrentTransactionOrderStatusDTO> GetInvoiceWithCurrentTransactionOrderStatusAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		VInvoiceWithCurrentTransactionOrderStatusDTO GetInvoiceWithCurrentTransactionOrderStatusSync(Guid invoiceID);
-
-		/// <param name="shoppingCartId"></param>
-		/// <returns></returns>
 		Task<InvoiceDTO> GetInvoiceForShoppingCartAsync(Guid shoppingCartId);
-
-		/// <param name="shoppingCartId"></param>
-		/// <returns></returns>
 		InvoiceDTO GetInvoiceForShoppingCartSync(Guid shoppingCartId);
-
-		/// <param name="cartID"></param>
-		/// <param name="reference"></param>
-		/// <returns></returns>
 		Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID,String reference);
-
-		/// <param name="cartID"></param>
-		/// <param name="reference"></param>
-		/// <returns></returns>
 		InvoiceDTO CreateAndSaveInvoiceFromShoppingCartSync(Guid cartID,String reference);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task DeleteInvoiceAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void DeleteInvoiceSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task FreezeInvoiceAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void FreezeInvoiceSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task CloseInvoiceAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void CloseInvoiceSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
 		Task MarkInvoiceWithAccountingStatusAsync(Guid invoiceID,InvoiceAccountingStatusIDEnum value);
-
-		/// <param name="invoiceID"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
 		void MarkInvoiceWithAccountingStatusSync(Guid invoiceID,InvoiceAccountingStatusIDEnum value);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task MarkInvoiceAsPaidAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void MarkInvoiceAsPaidSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task MarkInvoiceAsUnpaidAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void MarkInvoiceAsUnpaidSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task MarkInvoiceAsCancelledAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void MarkInvoiceAsCancelledSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task MarkInvoiceAsProcessingAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void MarkInvoiceAsProcessingSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task MarkInvoiceAsPaymentDueAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void MarkInvoiceAsPaymentDueSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task MarkInvoiceAsActiveAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void MarkInvoiceAsActiveSync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		Task MarkInvoiceAsPaymentScheduledAsync(Guid invoiceID);
-
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		void MarkInvoiceAsPaymentScheduledSync(Guid invoiceID);
 	}
 
 	public partial interface IMiscLogicClient : IClientBase	{	
-
-		/// <returns></returns>
 		Task<Guid> AddNewsArticleAsync(NewsArticleDTO dto);
-
-		/// <returns></returns>
 		Guid AddNewsArticleSync(NewsArticleDTO dto);
 	}
 
 	public partial interface INotificationLogicClient : IClientBase	{	
-
-		/// <param name="uaoID"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="notifcationConstructID"></param>
-		/// <param name="notificationConstructVersion"></param>
-		/// <param name="notificationParentID"></param>
-		/// <param name="isRead"></param>
-		/// <param name="sentInLast"></param>
-		/// <returns></returns>
 		Task<Boolean> HasNotificationAlreadyBeenSentInTheLastTimePeriodAsync(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
-
-		/// <param name="uaoID"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="notifcationConstructID"></param>
-		/// <param name="notificationConstructVersion"></param>
-		/// <param name="notificationParentID"></param>
-		/// <param name="isRead"></param>
-		/// <param name="sentInLast"></param>
-		/// <returns></returns>
 		Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriodSync(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
-
-		/// <param name="orgID"></param>
-		/// <param name="rolename"></param>
-		/// <returns></returns>
 		Task<IEnumerable<Guid>> GetNotificationOrganisationUaoIdsAsync(Guid orgID,String rolename);
-
-		/// <param name="orgID"></param>
-		/// <param name="rolename"></param>
-		/// <returns></returns>
 		IEnumerable<Guid> GetNotificationOrganisationUaoIdsSync(Guid orgID,String rolename);
-
-		/// <param name="activityID"></param>
-		/// <param name="activityType"></param>
-		/// <returns></returns>
-		Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
-
-		/// <param name="activityID"></param>
-		/// <param name="activityType"></param>
-		/// <returns></returns>
-		void SaveNotificationConversationSync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
-
-		/// <returns></returns>
+		Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,String overrideSubject,Boolean isSystemMessage,NotificationDTO dto);
+		void SaveNotificationConversationSync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,String overrideSubject,Boolean isSystemMessage,NotificationDTO dto);
 		Task<Guid> SaveNotificationAsync(NotificationDTO dto);
-
-		/// <returns></returns>
 		Guid SaveNotificationSync(NotificationDTO dto);
-
-		/// <param name="userTypeID"></param>
-		/// <param name="organisationTypeID"></param>
-		/// <param name="enumValue"></param>
-		/// <returns></returns>
 		Task<List<VNotificationConstructGroupDTO>> GetNotificationGroupConstructsAsync(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue);
-
-		/// <param name="userTypeID"></param>
-		/// <param name="organisationTypeID"></param>
-		/// <param name="enumValue"></param>
-		/// <returns></returns>
 		List<VNotificationConstructGroupDTO> GetNotificationGroupConstructsSync(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue);
-
-		/// <param name="organisationNotificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		Task<NotificationConstructDTO> GetNotificationConstructAsync(Guid organisationNotificationConstructID,Int32 versionNumber);
-
-		/// <param name="organisationNotificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		NotificationConstructDTO GetNotificationConstructSync(Guid organisationNotificationConstructID,Int32 versionNumber);
-
-		/// <param name="userAccountOrganisationID"></param>
-		/// <param name="userTypeID"></param>
-		/// <param name="organisationTypeId"></param>
-		/// <param name="groupEnumValue"></param>
-		/// <returns></returns>
 		Task<List<VNotificationWithUAOVerificationCodeDTO>> GetAllUserNotificationsForUserWithNotificationGroupNotAcceptedAsync(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue);
-
-		/// <param name="userAccountOrganisationID"></param>
-		/// <param name="userTypeID"></param>
-		/// <param name="organisationTypeId"></param>
-		/// <param name="groupEnumValue"></param>
-		/// <returns></returns>
 		List<VNotificationWithUAOVerificationCodeDTO> GetAllUserNotificationsForUserWithNotificationGroupNotAcceptedSync(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue);
-
-		/// <param name="name"></param>
-		/// <returns></returns>
 		Task<NotificationConstructDTO> GetLatestNotificationConstructIdFromNameAsync(String name);
-
-		/// <param name="name"></param>
-		/// <returns></returns>
 		NotificationConstructDTO GetLatestNotificationConstructIdFromNameSync(String name);
-
-		/// <param name="organisationNotificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		Task<VNotificationConstructDTO> GetNotificationConstructViewDataAsync(Guid organisationNotificationConstructID,Int32 versionNumber);
-
-		/// <param name="organisationNotificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		VNotificationConstructDTO GetNotificationConstructViewDataSync(Guid organisationNotificationConstructID,Int32 versionNumber);
-
-		/// <param name="organisationID"></param>
-		/// <param name="userAccountOrganisationID"></param>
-		/// <returns></returns>
 		Task<IEnumerable<VDefaultEmailAddressDTO>> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
-
-		/// <param name="organisationID"></param>
-		/// <param name="userAccountOrganisationID"></param>
-		/// <returns></returns>
 		IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetailSync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
-
-		/// <param name="userAccountOrganisationId"></param>
-		/// <param name="count"></param>
-		/// <returns></returns>
 		Task<List<ConversationDTO>> GetLatestUnreadConversationsAsync(Guid userAccountOrganisationId,Int32 count);
-
-		/// <param name="userAccountOrganisationId"></param>
-		/// <param name="count"></param>
-		/// <returns></returns>
 		List<ConversationDTO> GetLatestUnreadConversationsSync(Guid userAccountOrganisationId,Int32 count);
-
-		/// <param name="userAccountOrganisationId"></param>
-		/// <returns></returns>
 		Task<Int32> GetUnreadConversationsCountAsync(Guid userAccountOrganisationId);
-
-		/// <param name="userAccountOrganisationId"></param>
-		/// <returns></returns>
 		Int32 GetUnreadConversationsCountSync(Guid userAccountOrganisationId);
-
-		/// <param name="userAccountOrganisationId"></param>
-		/// <returns></returns>
 		Task<List<VNotificationViewOnlyUaoDTO>> GetInternalAsync(Guid userAccountOrganisationId);
-
-		/// <param name="userAccountOrganisationId"></param>
-		/// <returns></returns>
 		List<VNotificationViewOnlyUaoDTO> GetInternalSync(Guid userAccountOrganisationId);
-
-		/// <param name="notificationId"></param>
-		/// <param name="userAccountOrganisationId"></param>
-		/// <param name="notificationExportFormat"></param>
-		/// <returns></returns>
 		Task<NotificationContentDTO> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat);
-
-		/// <param name="notificationId"></param>
-		/// <param name="userAccountOrganisationId"></param>
-		/// <param name="notificationExportFormat"></param>
-		/// <returns></returns>
 		NotificationContentDTO GetNotificationContentSync(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat);
-
-		/// <param name="userId"></param>
-		/// <param name="types"></param>
-		/// <returns></returns>
 		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] types);
-
-		/// <param name="userId"></param>
-		/// <param name="types"></param>
-		/// <returns></returns>
 		List<VNotificationInternalUnreadDTO> GetUnreadNotificationsSync(Guid userId,NotificationConstructEnum[] types);
-
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID);
-
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		NotificationResultDTO GetTcAndCsTextSync(Guid accountID);
-
-		/// <param name="notificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		Task<Byte[]> RetrieveNotificationConstructDataAsync(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
-
-		/// <param name="notificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		Byte[] RetrieveNotificationConstructDataSync(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
-
-		/// <param name="notificationID"></param>
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		Task MarkAcceptedAsync(Guid notificationID,Guid userID);
-
-		/// <param name="notificationID"></param>
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		void MarkAcceptedSync(Guid notificationID,Guid userID);
-
-		/// <param name="eventStatusID"></param>
-		/// <param name="status"></param>
-		/// <param name="recipients"></param>
-		/// <param name="subject"></param>
-		/// <param name="body"></param>
-		/// <returns></returns>
 		Task UpdateEventStatusAsync(Guid eventStatusID,String status,String recipients,String subject,String body);
-
-		/// <param name="eventStatusID"></param>
-		/// <param name="status"></param>
-		/// <param name="recipients"></param>
-		/// <param name="subject"></param>
-		/// <param name="body"></param>
-		/// <returns></returns>
 		void UpdateEventStatusSync(Guid eventStatusID,String status,String recipients,String subject,String body);
-
-		/// <param name="eventName"></param>
-		/// <param name="eventReference"></param>
-		/// <returns></returns>
 		Task<List<EventStatusDTO>> GetEventStatusAsync(String eventName,String eventReference);
-
-		/// <param name="eventName"></param>
-		/// <param name="eventReference"></param>
-		/// <returns></returns>
 		List<EventStatusDTO> GetEventStatusSync(String eventName,String eventReference);
-
-		/// <returns></returns>
 		Task PublishNewInternalMessagesNotificationEventAsync(IEnumerable<Guid> recipientUaoIds);
-
-		/// <returns></returns>
 		void PublishNewInternalMessagesNotificationEventSync(IEnumerable<Guid> recipientUaoIds);
-
-		/// <param name="fromHash"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="attachmentsID"></param>
-		/// <param name="activityTypeID"></param>
-		/// <param name="activityID"></param>
-		/// <param name="subject"></param>
-		/// <param name="message"></param>
-		/// <param name="isSystemMessage"></param>
-		/// <returns></returns>
 		Task<Guid> CreateConversationAsync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
-
-		/// <param name="fromHash"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="attachmentsID"></param>
-		/// <param name="activityTypeID"></param>
-		/// <param name="activityID"></param>
-		/// <param name="subject"></param>
-		/// <param name="message"></param>
-		/// <param name="isSystemMessage"></param>
-		/// <returns></returns>
 		Guid CreateConversationSync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes);
-
-		/// <param name="fromHash"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="conversationID"></param>
-		/// <param name="attachmentsID"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
 		Task ReplyToConversationAsync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
-
-		/// <param name="fromHash"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="conversationID"></param>
-		/// <param name="attachmentsID"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
 		void ReplyToConversationSync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
-
-		/// <param name="uaoID"></param>
-		/// <param name="conversationID"></param>
-		/// <returns></returns>
 		Task MarkAsReadAsync(Guid uaoID,Guid conversationID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="conversationID"></param>
-		/// <returns></returns>
 		void MarkAsReadSync(Guid uaoID,Guid conversationID);
-
-		/// <param name="senderUaoID"></param>
-		/// <param name="activityTypeID"></param>
-		/// <param name="activityID"></param>
-		/// <returns></returns>
 		Task<List<VSafeSendRecipientDTO>> GetActivityRecipientsAsync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID);
-
-		/// <param name="senderUaoID"></param>
-		/// <param name="activityTypeID"></param>
-		/// <param name="activityID"></param>
-		/// <returns></returns>
 		List<VSafeSendRecipientDTO> GetActivityRecipientsSync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID);
-
-		/// <param name="conversationId"></param>
-		/// <param name="uaoId"></param>
-		/// <param name="page"></param>
-		/// <param name="pageSize"></param>
-		/// <returns></returns>
 		Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
-
-		/// <param name="conversationId"></param>
-		/// <param name="uaoId"></param>
-		/// <param name="page"></param>
-		/// <param name="pageSize"></param>
-		/// <returns></returns>
 		IEnumerable<MessageDTO> GetMessagesSync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
-
-		/// <param name="uaoID"></param>
-		/// <param name="convID"></param>
-		/// <returns></returns>
 		Task<Int32> GetConversationRankAsync(Guid uaoID,Guid convID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="convID"></param>
-		/// <returns></returns>
 		Int32 GetConversationRankSync(Guid uaoID,Guid convID);
-
-		/// <param name="uaoId"></param>
-		/// <param name="activityType"></param>
-		/// <param name="activityId"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
-		/// <returns></returns>
 		Task<ConversationResultDTO<VConversationDTO>> GetConversationsAsync(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip);
-
-		/// <param name="uaoId"></param>
-		/// <param name="activityType"></param>
-		/// <param name="activityId"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
-		/// <returns></returns>
 		ConversationResultDTO<VConversationDTO> GetConversationsSync(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip);
-
-		/// <param name="uaoID"></param>
-		/// <param name="userOrgTypeName"></param>
-		/// <param name="orgID"></param>
-		/// <param name="activityType"></param>
-		/// <param name="activityId"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
-		/// <returns></returns>
 		Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
-
-		/// <param name="uaoID"></param>
-		/// <param name="userOrgTypeName"></param>
-		/// <param name="orgID"></param>
-		/// <param name="activityType"></param>
-		/// <param name="activityId"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
-		/// <returns></returns>
 		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivitySync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
-
-		/// <param name="uaoId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
 		Task<List<CreateConversationRecipientDTO>> GetUserSafeSendGroupsAsync(Guid uaoId,Guid orgId);
-
-		/// <param name="uaoId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
 		List<CreateConversationRecipientDTO> GetUserSafeSendGroupsSync(Guid uaoId,Guid orgId);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
-
-		/// <param name="days"></param>
-		/// <param name="hours"></param>
-		/// <param name="minutes"></param>
-		/// <returns></returns>
 		Task ExpireTemporaryLoginsAsync(Int32 days,Int32 hours,Int32 minutes);
-
-		/// <param name="days"></param>
-		/// <param name="hours"></param>
-		/// <param name="minutes"></param>
-		/// <returns></returns>
 		void ExpireTemporaryLoginsSync(Int32 days,Int32 hours,Int32 minutes);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Task ExpireUserAccountOrganisationAsync(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		void ExpireUserAccountOrganisationSync(Guid uaoID);
-
-		/// <param name="orgID"></param>
-		/// <param name="regulatorNumber"></param>
-		/// <returns></returns>
 		Task<Boolean> IsOrganisationInSystemAsync(Nullable<Guid> orgID,String regulatorNumber);
-
-		/// <param name="orgID"></param>
-		/// <param name="regulatorNumber"></param>
-		/// <returns></returns>
 		Boolean IsOrganisationInSystemSync(Nullable<Guid> orgID,String regulatorNumber);
-
-		/// <returns></returns>
 		Task RejectOrganisationAsync(RejectCompanyDTO dto);
-
-		/// <returns></returns>
 		void RejectOrganisationSync(RejectCompanyDTO dto);
-
-		/// <returns></returns>
 		Task UnverifyOrganisationAsync(RejectCompanyDTO dto);
-
-		/// <returns></returns>
 		void UnverifyOrganisationSync(RejectCompanyDTO dto);
-
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		Task ActivateOrganisationAsync(Guid organisationID);
-
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		void ActivateOrganisationSync(Guid organisationID);
-
-		/// <param name="orgStatus"></param>
-		/// <returns></returns>
 		Task<List<VOrganisationWithStatusAndAdminDTO>> GetCompaniesAsync(ProfessionalOrganisationStatusEnum orgStatus);
-
-		/// <param name="orgStatus"></param>
-		/// <returns></returns>
 		List<VOrganisationWithStatusAndAdminDTO> GetCompaniesSync(ProfessionalOrganisationStatusEnum orgStatus);
-
-		/// <returns></returns>
 		Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(AddCompanyDTO dto);
-
-		/// <returns></returns>
 		Guid AddNewUnverifiedOrganisationAndAdministratorSync(AddCompanyDTO dto);
-
-		/// <returns></returns>
 		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(AddNewUserToOrganisationDTO dto);
-
-		/// <returns></returns>
 		UserAccountOrganisationDTO AddNewUserToOrganisationSync(AddNewUserToOrganisationDTO dto);
-
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		Task AddPersonalDetailsAsync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto);
-
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		void AddPersonalDetailsSync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto);
-
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		Task<Boolean> RequiresPersonalDetailsAsync(Guid uaoId);
-
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		Boolean RequiresPersonalDetailsSync(Guid uaoId);
-
-		/// <param name="userOrgID"></param>
-		/// <param name="type"></param>
-		/// <returns></returns>
 		Task CreateTsAndCsNotificationAsync(Guid userOrgID,NotificationConstructEnum type);
-
-		/// <param name="userOrgID"></param>
-		/// <param name="type"></param>
-		/// <returns></returns>
 		void CreateTsAndCsNotificationSync(Guid userOrgID,NotificationConstructEnum type);
-
-		/// <returns></returns>
+		Task<Nullable<Guid>> AddOrganisationAsync();
+		Nullable<Guid> AddOrganisationSync();
 		Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync();
-
-		/// <returns></returns>
 		Nullable<Guid> GetTemporaryOrganisationBranchIDSync();
-
-		/// <param name="id"></param>
-		/// <returns></returns>
 		Task<VOrganisationDTO> GetOrganisationDTOAsync(Guid id);
-
-		/// <param name="id"></param>
-		/// <returns></returns>
 		VOrganisationDTO GetOrganisationDTOSync(Guid id);
-
-		/// <param name="id"></param>
-		/// <returns></returns>
 		Task<VOrganisationWithStatusAndAdminDTO> GetOrganisationWithStatusAndAdminAsync(Guid id);
-
-		/// <param name="id"></param>
-		/// <returns></returns>
 		VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdminSync(Guid id);
-
-		/// <param name="orgID"></param>
-		/// <param name="enumType"></param>
-		/// <param name="status"></param>
-		/// <param name="reason"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		Task AddOrganisationStatusAsync(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
-
-		/// <param name="orgID"></param>
-		/// <param name="enumType"></param>
-		/// <param name="status"></param>
-		/// <param name="reason"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		void AddOrganisationStatusSync(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
-
-		/// <param name="orgID"></param>
-		/// <param name="email"></param>
-		/// <returns></returns>
-		Task<Boolean> CheckDuplicateUserSmsTransactionAsync(Guid orgID,String email,SmsTransactionDTO dto);
-
-		/// <param name="orgID"></param>
-		/// <param name="email"></param>
-		/// <returns></returns>
-		Boolean CheckDuplicateUserSmsTransactionSync(Guid orgID,String email,SmsTransactionDTO dto);
-
-		/// <param name="txID"></param>
-		/// <returns></returns>
-		Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyUaoIdsAsync(Guid txID);
-
-		/// <param name="txID"></param>
-		/// <returns></returns>
-		IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIdsSync(Guid txID);
-
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		Task<Guid> AddSmsTransactionAsync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
-
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		Guid AddSmsTransactionSync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
-
-		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
-		Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
-
-		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
-		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransactionSync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
-
-		/// <param name="txID"></param>
-		/// <param name="orgID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
-		/// <returns></returns>
-		Task AdviseProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
-
-		/// <param name="txID"></param>
-		/// <param name="orgID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
-		/// <returns></returns>
-		void AdviseProductSync(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
-
-		/// <param name="txID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="cardTypeEnum"></param>
-		/// <param name="paymentTypeEnum"></param>
-		/// <returns></returns>
-		Task<CartPricingDTO> EnsureCartAsync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
-
-		/// <param name="txID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="cardTypeEnum"></param>
-		/// <param name="paymentTypeEnum"></param>
-		/// <returns></returns>
-		CartPricingDTO EnsureCartSync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
-
-		/// <param name="smsTransactionID"></param>
-		/// <param name="cardType"></param>
-		/// <param name="methodType"></param>
-		/// <returns></returns>
-		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest);
-
-		/// <param name="smsTransactionID"></param>
-		/// <param name="cardType"></param>
-		/// <param name="methodType"></param>
-		/// <returns></returns>
-		TransactionOrderPaymentDTO PurchaseSafeBuyerProductSync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest);
-
-		/// <returns></returns>
-		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
-
-		/// <returns></returns>
-		void AssignSmsClientToTransactionSync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
-
-		/// <param name="orgID"></param>
-		/// <param name="transactionOrderID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="amount"></param>
-		/// <param name="rowVersion"></param>
-		/// <returns></returns>
-		Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
-
-		/// <param name="orgID"></param>
-		/// <param name="transactionOrderID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="amount"></param>
-		/// <param name="rowVersion"></param>
-		/// <returns></returns>
-		void AddCreditSync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
-
-		/// <returns></returns>
 		Task UpdateOrganisationDetailsAsync(VerifyCompanyDTO dto);
-
-		/// <returns></returns>
 		void UpdateOrganisationDetailsSync(VerifyCompanyDTO dto);
-
-		/// <param name="orgID"></param>
-		/// <param name="txID"></param>
-		/// <returns></returns>
-		Task<Int32> GetSmsTransactionRankAsync(Guid orgID,Guid txID);
-
-		/// <param name="orgID"></param>
-		/// <param name="txID"></param>
-		/// <returns></returns>
-		Int32 GetSmsTransactionRankSync(Guid orgID,Guid txID);
-
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		Task AddNotesAsync(Guid orgID,Guid uaoID,String notes);
-
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		void AddNotesSync(Guid orgID,Guid uaoID,String notes);
-
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		Task<Boolean> IsSafeSendEnabledAsync(Guid organisationID);
-
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		Boolean IsSafeSendEnabledSync(Guid organisationID);
-
-		/// <param name="orgID"></param>
-		/// <param name="safeSendEnabled"></param>
-		/// <returns></returns>
 		Task AddOrUpdateSafeSendEnabledAsync(Guid orgID,Boolean safeSendEnabled);
-
-		/// <param name="orgID"></param>
-		/// <param name="safeSendEnabled"></param>
-		/// <returns></returns>
 		void AddOrUpdateSafeSendEnabledSync(Guid orgID,Boolean safeSendEnabled);
-
-		/// <param name="lenderName"></param>
-		/// <returns></returns>
 		Task<Boolean> CanLenderNameBeUsedAsync(String lenderName);
-
-		/// <param name="lenderName"></param>
-		/// <returns></returns>
 		Boolean CanLenderNameBeUsedSync(String lenderName);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
-
-		/// <param name="transactionOrderId"></param>
-		/// <returns></returns>
 		Task<TransactionOrderPaymentDTO> GetTheSuccessfulOrderPaymentForTransactionOrderAsync(Guid transactionOrderId);
-
-		/// <param name="transactionOrderId"></param>
-		/// <returns></returns>
 		TransactionOrderPaymentDTO GetTheSuccessfulOrderPaymentForTransactionOrderSync(Guid transactionOrderId);
-
-		/// <param name="transactionOrderId"></param>
-		/// <returns></returns>
 		Task<Boolean> DoesASuccessfulOrderPaymentExistForTransactionOrderAsync(Guid transactionOrderId);
-
-		/// <param name="transactionOrderId"></param>
-		/// <returns></returns>
 		Boolean DoesASuccessfulOrderPaymentExistForTransactionOrderSync(Guid transactionOrderId);
-
-		/// <returns></returns>
 		Task<TransactionOrderPaymentDTO> ProcessPaymentTransactionAsync(OrderRequestDTO request);
-
-		/// <returns></returns>
 		TransactionOrderPaymentDTO ProcessPaymentTransactionSync(OrderRequestDTO request);
 	}
 
 	public partial interface IProductLogicClient : IClientBase	{	
-
-		/// <returns></returns>
 		Task<ProductDTO> GetTopUpProductAsync();
-
-		/// <returns></returns>
 		ProductDTO GetTopUpProductSync();
-
-		/// <returns></returns>
 		Task<ProductDetailDTO> GetBankAccountCheckProductAsync();
-
-		/// <returns></returns>
 		ProductDetailDTO GetBankAccountCheckProductSync();
 	}
 
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
-
-		/// <param name="userAccountOrganisationID"></param>
-		/// <param name="cardTypeEnum"></param>
-		/// <param name="paymentTypeEnum"></param>
-		/// <param name="countryCode"></param>
-		/// <returns></returns>
 		Task<ShoppingCartDTO> CreateShoppingCartAsync(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode);
-
-		/// <param name="userAccountOrganisationID"></param>
-		/// <param name="cardTypeEnum"></param>
-		/// <param name="paymentTypeEnum"></param>
-		/// <param name="countryCode"></param>
-		/// <returns></returns>
 		ShoppingCartDTO CreateShoppingCartSync(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode);
-
-		/// <param name="cartID"></param>
-		/// <param name="productID"></param>
-		/// <param name="versionNumber"></param>
-		/// <param name="quantity"></param>
-		/// <param name="customerPrice"></param>
-		/// <returns></returns>
 		Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice);
-
-		/// <param name="cartID"></param>
-		/// <param name="productID"></param>
-		/// <param name="versionNumber"></param>
-		/// <param name="quantity"></param>
-		/// <param name="customerPrice"></param>
-		/// <returns></returns>
 		void AddProductToShoppingCartSync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice);
-
-		/// <param name="cartID"></param>
-		/// <param name="itemID"></param>
-		/// <returns></returns>
 		Task RemoveProductFromShoppingCartAsync(Guid cartID,Guid itemID);
-
-		/// <param name="cartID"></param>
-		/// <param name="itemID"></param>
-		/// <returns></returns>
 		void RemoveProductFromShoppingCartSync(Guid cartID,Guid itemID);
 	}
 
+	public partial interface ISmsTransactionLogicClient : IClientBase	{	
+		Task<Guid> AddSmsTransactionAsync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
+		Guid AddSmsTransactionSync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
+		Task EditSmsTransactionAsync(EditSmsTransactionDTO editSmsTransactionDto);
+		void EditSmsTransactionSync(EditSmsTransactionDTO editSmsTransactionDto);
+		Task AssignBuyerPartyToTransactionAsync(AssignBuyerPartyToTransactionDTO assignBuyerPartyToTransactionDTO);
+		void AssignBuyerPartyToTransactionSync(AssignBuyerPartyToTransactionDTO assignBuyerPartyToTransactionDTO);
+		Task EditBuyerPartyAsync(EditBuyerPartyDTO editBuyerPartyDto);
+		void EditBuyerPartySync(EditBuyerPartyDTO editBuyerPartyDto);
+		Task ReplaceSrcFundsBankAccountsAsync(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts);
+		void ReplaceSrcFundsBankAccountsSync(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts);
+		Task<Int32> GetSmsTransactionRankAsync(Guid orgID,Guid txID);
+		Int32 GetSmsTransactionRankSync(Guid orgID,Guid txID);
+		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest);
+		TransactionOrderPaymentDTO PurchaseSafeBuyerProductSync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest);
+		Task<IEnumerable<SmsTransactionPendingUpdateCountDTO>> SmsTransactionPendingUpdateCountAsync(IEnumerable<Guid> ids);
+		IEnumerable<SmsTransactionPendingUpdateCountDTO> SmsTransactionPendingUpdateCountSync(IEnumerable<Guid> ids);
+		Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsAsync(Guid txID);
+		IEnumerable<Guid> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsSync(Guid txID);
+		Task<Boolean> CheckDuplicateUserSmsTransactionAsync(Guid orgID,String email,SmsTransactionDTO dto);
+		Boolean CheckDuplicateUserSmsTransactionSync(Guid orgID,String email,SmsTransactionDTO dto);
+		Task AdviseProductAsync(Guid txID,Guid orgID);
+		void AdviseProductSync(Guid txID,Guid orgID);
+		Task<SmsTransactionDTO> GetSmsTransactionWithPendingUpdatesAsync(Guid txID);
+		SmsTransactionDTO GetSmsTransactionWithPendingUpdatesSync(Guid txID);
+		Task ResolveSmsTransactionPendingUpdatesAsync(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates);
+		void ResolveSmsTransactionPendingUpdatesSync(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates);
+		Task<Boolean> IsSafeBuyerPotentiallyFreeAsync(Guid txID);
+		Boolean IsSafeBuyerPotentiallyFreeSync(Guid txID);
+		Task<Boolean> SmsTransactionQualifiesFreeAsync(Guid txID);
+		Boolean SmsTransactionQualifiesFreeSync(Guid txID);
+		Task<CartPricingDTO> EnsureCartAsync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
+		CartPricingDTO EnsureCartSync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
+	}
+
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
-
-		/// <returns></returns>
 		Task<Dictionary<String, String>> GetSettingsAsync();
-
-		/// <returns></returns>
 		Dictionary<String, String> GetSettingsSync();
 	}
 
 	public partial interface ITransactionOrderLogicClient : IClientBase	{	
-
-		/// <param name="invoiceId"></param>
-		/// <returns></returns>
 		Task<TransactionOrderDTO> GetTransactionForInvoiceAsync(Guid invoiceId);
-
-		/// <param name="invoiceId"></param>
-		/// <returns></returns>
 		TransactionOrderDTO GetTransactionForInvoiceSync(Guid invoiceId);
-
-		/// <param name="invoiceId"></param>
-		/// <returns></returns>
 		Task<Boolean> DoesTransactionExistForInvoiceAsync(Guid invoiceId);
-
-		/// <param name="invoiceId"></param>
-		/// <returns></returns>
 		Boolean DoesTransactionExistForInvoiceSync(Guid invoiceId);
-
-		/// <param name="invoiceID"></param>
-		/// <param name="typeEnumValue"></param>
-		/// <returns></returns>
 		Task<TransactionOrderDTO> CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
-
-		/// <param name="invoiceID"></param>
-		/// <param name="typeEnumValue"></param>
-		/// <returns></returns>
 		TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTOSync(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
 	}
 
 	public partial interface IUserAccountAuditLogicClient : IClientBase	{	
-
-		/// <param name="requestData"></param>
-		/// <returns></returns>
 		Task CreateAndSaveAuditAsync(String requestData,WebUserObject wuo);
-
-		/// <param name="requestData"></param>
-		/// <returns></returns>
 		void CreateAndSaveAuditSync(String requestData,WebUserObject wuo);
 	}
 
 	public partial interface IUserLogicClient : IClientBase, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{	
-
-		/// <param name="username"></param>
-		/// <param name="password"></param>
-		/// <returns></returns>
 		Task<UserLoginValidation> AuthenticateUserAsync(String username,String password);
-
-		/// <param name="username"></param>
-		/// <param name="password"></param>
-		/// <returns></returns>
 		UserLoginValidation AuthenticateUserSync(String username,String password);
-
-		/// <returns></returns>
 		Task<ContactDTO> AddUserAsync(ContactDTO dto);
-
-		/// <returns></returns>
 		ContactDTO AddUserSync(ContactDTO dto);
-
-		/// <param name="userID"></param>
-		/// <param name="newPassword"></param>
-		/// <param name="doNotRequirePin"></param>
-		/// <param name="pin"></param>
-		/// <returns></returns>
 		Task ResetUserPasswordAsync(Guid userID,String newPassword,Boolean doNotRequirePin,String pin);
-
-		/// <param name="userID"></param>
-		/// <param name="newPassword"></param>
-		/// <param name="doNotRequirePin"></param>
-		/// <param name="pin"></param>
-		/// <returns></returns>
 		void ResetUserPasswordSync(Guid userID,String newPassword,Boolean doNotRequirePin,String pin);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		Task<Boolean> HasPasswordExpiredAsync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		Boolean HasPasswordExpiredSync(Guid userID);
-
-		/// <param name="userId"></param>
-		/// <param name="lockUser"></param>
-		/// <returns></returns>
 		Task LockOrUnlockUserAsync(Guid userId,Boolean lockUser);
-
-		/// <param name="userId"></param>
-		/// <param name="lockUser"></param>
-		/// <returns></returns>
 		void LockOrUnlockUserSync(Guid userId,Boolean lockUser);
-
-		/// <param name="userName"></param>
-		/// <returns></returns>
 		Task<Boolean> IsUserExistAsync(String userName);
-
-		/// <param name="userName"></param>
-		/// <returns></returns>
 		Boolean IsUserExistSync(String userName);
-
-		/// <param name="email"></param>
-		/// <returns></returns>
 		Task<Boolean> IsEmailExistAsync(String email);
-
-		/// <param name="email"></param>
-		/// <returns></returns>
 		Boolean IsEmailExistSync(String email);
-
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		Task<Boolean> IsUserAccountRegisteredAsync(Guid uaoId);
-
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		Boolean IsUserAccountRegisteredSync(Guid uaoId);
-
-		/// <param name="contactID"></param>
-		/// <returns></returns>
 		Task<IEnumerable<AddressDTO>> GetUserAddressesAsync(Guid contactID);
-
-		/// <param name="contactID"></param>
-		/// <returns></returns>
 		IEnumerable<AddressDTO> GetUserAddressesSync(Guid contactID);
-
-		/// <returns></returns>
 		Task<List<UserAccount>> GetAllUserAccountAsync();
-
-		/// <returns></returns>
 		List<UserAccount> GetAllUserAccountSync();
-
-		/// <param name="key"></param>
-		/// <returns></returns>
 		Task<UserAccount> GetUserAccountAsync(Guid key);
-
-		/// <param name="key"></param>
-		/// <returns></returns>
 		UserAccount GetUserAccountSync(Guid key);
-
-		/// <param name="email"></param>
-		/// <returns></returns>
 		Task<UserAccount> GetBAUserAccountByEmailAsync(String email);
-
-		/// <param name="email"></param>
-		/// <returns></returns>
 		UserAccount GetBAUserAccountByEmailSync(String email);
-
-		/// <param name="email"></param>
-		/// <param name="id"></param>
-		/// <returns></returns>
 		Task<UserAccount> GetBAUserAccountByEmailAndNotIDAsync(String email,Guid id);
-
-		/// <param name="email"></param>
-		/// <param name="id"></param>
-		/// <returns></returns>
 		UserAccount GetBAUserAccountByEmailAndNotIDSync(String email,Guid id);
-
-		/// <param name="username"></param>
-		/// <returns></returns>
 		Task<UserAccount> GetBAUserAccountByUsernameAsync(String username);
-
-		/// <param name="username"></param>
-		/// <returns></returns>
 		UserAccount GetBAUserAccountByUsernameSync(String username);
-
-		/// <param name="email"></param>
-		/// <param name="permanentAccountonly"></param>
-		/// <returns></returns>
 		Task<List<UserAccountDTO>> GetUserAccountByEmailAsync(String email,Boolean permanentAccountonly);
-
-		/// <param name="email"></param>
-		/// <param name="permanentAccountonly"></param>
-		/// <returns></returns>
 		List<UserAccountDTO> GetUserAccountByEmailSync(String email,Boolean permanentAccountonly);
-
-		/// <param name="userName"></param>
-		/// <returns></returns>
 		Task<UserAccountDTO> GetUserAccountByUsernameAsync(String userName);
-
-		/// <param name="userName"></param>
-		/// <returns></returns>
 		UserAccountDTO GetUserAccountByUsernameSync(String userName);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		Task<List<ContactDTO>> GetUserContactsAsync(Guid userId);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		List<ContactDTO> GetUserContactsSync(Guid userId);
-
-		/// <param name="key"></param>
-		/// <returns></returns>
 		Task<List<UserAccount>> GetUserAccountsAsync(Guid key);
-
-		/// <param name="key"></param>
-		/// <returns></returns>
 		List<UserAccount> GetUserAccountsSync(Guid key);
-
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		Task<List<UserAccountOrganisationDTO>> GetUserAccountOrganisationAsync(Guid accountID);
-
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		List<UserAccountOrganisationDTO> GetUserAccountOrganisationSync(Guid accountID);
-
-		/// <returns></returns>
 		Task AddUserAccountAsync(UserAccount user);
-
-		/// <returns></returns>
 		void AddUserAccountSync(UserAccount user);
-
-		/// <returns></returns>
 		Task RemoveUserAccountAsync(UserAccount user);
-
-		/// <returns></returns>
 		void RemoveUserAccountSync(UserAccount user);
-
-		/// <returns></returns>
 		Task UpdateUserAccountAsync(UserAccount user);
-
-		/// <returns></returns>
 		void UpdateUserAccountSync(UserAccount user);
-
-		/// <param name="userId"></param>
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		Task<List<UserClaimDTO>> GetUserClaimsAsync(Guid userId,Guid organisationID);
-
-		/// <param name="userId"></param>
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		List<UserClaimDTO> GetUserClaimsSync(Guid userId,Guid organisationID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Task<ContactDTO> GetUserAccountOrganisationPrimaryContactAsync(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		ContactDTO GetUserAccountOrganisationPrimaryContactSync(Guid uaoID);
-
-		/// <param name="accountID"></param>
-		/// <param name="personalOrg"></param>
-		/// <returns></returns>
 		Task<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationUserTypeOrganisationTypeAsync(Guid accountID,Boolean personalOrg);
-
-		/// <param name="accountID"></param>
-		/// <param name="personalOrg"></param>
-		/// <returns></returns>
 		VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationTypeSync(Guid accountID,Boolean personalOrg);
-
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		Task<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>> GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(Guid accountID);
-
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgTypeSync(Guid accountID);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		Task<List<String>> UserLoginSessionsAsync(Guid userId);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		List<String> UserLoginSessionsSync(Guid userId);
-
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		Task LogEveryoneElseOutAsync(Guid userId,String sessionId);
-
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		void LogEveryoneElseOutSync(Guid userId,String sessionId);
-
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		Task LogUserOutAsync(Guid userId,String sessionId);
-
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		void LogUserOutSync(Guid userId,String sessionId);
-
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <param name="userHostAddress"></param>
-		/// <param name="userIdAddress"></param>
-		/// <param name="userLocation"></param>
-		/// <returns></returns>
 		Task SaveUserAccountLoginSessionAsync(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation);
-
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <param name="userHostAddress"></param>
-		/// <param name="userIdAddress"></param>
-		/// <param name="userLocation"></param>
-		/// <returns></returns>
 		void SaveUserAccountLoginSessionSync(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation);
-
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		Task SaveUserAccountLoginSessionDataAsync(Guid userId,String sessionId,Dictionary<String, String> requestData);
-
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		void SaveUserAccountLoginSessionDataSync(Guid userId,String sessionId,Dictionary<String, String> requestData);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		Task<Boolean> DoesUserExistAsync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		Boolean DoesUserExistSync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		Task<UserAccountOrganisationDTO> GetPermanentUAOAsync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		UserAccountOrganisationDTO GetPermanentUAOSync(Guid userID);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		Task<Guid> GetPersonalUserAccountOrganisationAsync(Guid userId);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		Guid GetPersonalUserAccountOrganisationSync(Guid userId);
-
-		/// <param name="userName"></param>
-		/// <param name="password"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		Task<UserAccount> CreateAccountAsync(String userName,String password,String email,String phoneNumber,Guid userId);
-
-		/// <param name="userName"></param>
-		/// <param name="password"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		UserAccount CreateAccountSync(String userName,String password,String email,String phoneNumber,Guid userId);
-
-		/// <returns></returns>
 		Task CreateContactAsync(ContactDTO contactDTO);
-
-		/// <returns></returns>
 		void CreateContactSync(ContactDTO contactDTO);
-
-		/// <param name="parentID"></param>
-		/// <returns></returns>
 		Task<Boolean> ContactExistsAsync(Guid parentID);
-
-		/// <param name="parentID"></param>
-		/// <returns></returns>
 		Boolean ContactExistsSync(Guid parentID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		Task DeleteAccountAsync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		void DeleteAccountSync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		Task CloseAccountAsync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		void CloseAccountSync(Guid userID);
-
-		/// <returns></returns>
 		Task<List<VUserAccountNotLoggedInDTO>> GetUserAccountsNotLoggedInAsync();
-
-		/// <returns></returns>
 		List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedInSync();
-
-		/// <param name="email"></param>
-		/// <returns></returns>
 		Task SendUsernameReminderAsync(String email);
-
-		/// <param name="email"></param>
-		/// <returns></returns>
 		void SendUsernameReminderSync(String email);
-
-		/// <param name="username"></param>
-		/// <returns></returns>
 		Task CreatePasswordResetRequestAsync(String username);
-
-		/// <param name="username"></param>
-		/// <returns></returns>
 		void CreatePasswordResetRequestSync(String username);
-
-		/// <param name="phoneNumber"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
 		Task SendTextMessageAsync(String phoneNumber,String message);
-
-		/// <param name="phoneNumber"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
 		void SendTextMessageSync(String phoneNumber,String message);
-
-		/// <param name="uaoID"></param>
-		/// <param name="blank"></param>
-		/// <param name="overwriteExisting"></param>
-		/// <param name="sendToMobilePhone"></param>
-		/// <returns></returns>
 		Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone);
-
-		/// <param name="uaoID"></param>
-		/// <param name="blank"></param>
-		/// <param name="overwriteExisting"></param>
-		/// <param name="sendToMobilePhone"></param>
-		/// <returns></returns>
 		void GeneratePinSync(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Task<Boolean> IncrementInvalidPINAsync(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Boolean IncrementInvalidPINSync(Guid uaoID);
-
-		/// <param name="uaoId"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="password"></param>
-		/// <returns></returns>
 		Task RegisterUserAsync(Guid uaoId,String phoneNumber,String password);
-
-		/// <param name="uaoId"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="password"></param>
-		/// <returns></returns>
 		void RegisterUserSync(Guid uaoId,String phoneNumber,String password);
-
-		/// <param name="uaoID"></param>
-		/// <param name="withRelatedLevel"></param>
-		/// <returns></returns>
 		Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID,Int32 withRelatedLevel);
-
-		/// <param name="uaoID"></param>
-		/// <param name="withRelatedLevel"></param>
-		/// <returns></returns>
 		List<UserAccountOrganisationRoleDTO> GetRolesSync(Guid uaoID,Int32 withRelatedLevel);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Task<List<UserAccountOrganisationSafeSendGroupDTO>> GetSafeSendGroupsAsync(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroupsSync(Guid uaoID);
-
-		/// <param name="uaoId"></param>
-		/// <param name="newUsername"></param>
-		/// <returns></returns>
 		Task ChangeUsernameAndEmailAsync(Guid uaoId,String newUsername);
-
-		/// <param name="uaoId"></param>
-		/// <param name="newUsername"></param>
-		/// <returns></returns>
 		void ChangeUsernameAndEmailSync(Guid uaoId,String newUsername);
-
-		/// <param name="email"></param>
-		/// <param name="txId"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Task<Boolean> CanEmailBeUsedAsPersonalAsync(String email,Nullable<Guid> txId,Nullable<Guid> uaoID);
-
-		/// <param name="email"></param>
-		/// <param name="txId"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Boolean CanEmailBeUsedAsPersonalSync(String email,Nullable<Guid> txId,Nullable<Guid> uaoID);
-
-		/// <param name="email"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Task<Boolean> CanEmailBeUsedAsProfessionalAsync(String email,Nullable<Guid> uaoID);
-
-		/// <param name="email"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		Boolean CanEmailBeUsedAsProfessionalSync(String email,Nullable<Guid> uaoID);
 	}
 
@@ -1787,19 +592,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 #region Clients
 namespace Bec.TargetFramework.Business.Client.Clients
 {
-	/// <summary>
-	/// Client base class.
-	/// </summary>
 	public abstract partial class ClientBase : IDisposable
 	{
-		/// <summary>
-		/// Gests the HttpClient.
-		/// </summary>
 		public HttpClient HttpClient { get; protected set; }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ClientBase"/> class.
-		/// </summary>
 		protected ClientBase(string url)
 		{
 			HttpClient = new HttpClient()
@@ -1835,11 +631,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
             }		
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ClientBase"/> class.
-		/// </summary>
-		/// <param name="handler">The handler.</param>
-		/// <param name="disposeHandler">if set to <c>true</c> [dispose handler].</param>
 		protected ClientBase(HttpMessageHandler handler,string url, bool disposeHandler = true)
 		{
 			HttpClient = new HttpClient(handler, disposeHandler)
@@ -1848,9 +639,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			};
 		}
 
-		/// <summary>
-		/// Releases the unmanaged resources and disposes of the managed resources.       
-		/// </summary>
 		public void Dispose()
 		{
 			HttpClient.Dispose();
@@ -1923,32 +711,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
             return string.Concat(values.Select(v => "&" + name + "=" + v.ToString()));
         }
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class AddressLogicClient : ClientBase, Interfaces.IAddressLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public AddressLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public AddressLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="postCode"></param>
-		/// <param name="buildingNameOrNumber"></param>
-		/// <returns></returns>
 		public virtual Task<List<PostCodeDTO>> FindAddressesByPostCodeAsync(String postCode,String buildingNameOrNumber)
 		{
 			postCode = postCode.UrlEncode();
@@ -1957,11 +730,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, List<PostCodeDTO>>("api/AddressLogic/FindAddressesByPostCodeAsync?postCode=" + postCode + "&buildingNameOrNumber=" + buildingNameOrNumber, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="postCode"></param>
-		/// <param name="buildingNameOrNumber"></param>
 		public virtual List<PostCodeDTO> FindAddressesByPostCodeSync(String postCode,String buildingNameOrNumber)
 		{
 			postCode = postCode.UrlEncode();
@@ -1970,11 +738,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, List<PostCodeDTO>>("api/AddressLogic/FindAddressesByPostCodeAsync?postCode=" + postCode + "&buildingNameOrNumber=" + buildingNameOrNumber, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="postCode"></param>
-		/// <returns></returns>
 		public virtual Task<GoogleGeoCodeResponse> GeoCodePostcodeAsync(String postCode)
 		{
 			postCode = postCode.UrlEncode();
@@ -1982,10 +745,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, GoogleGeoCodeResponse>("api/AddressLogic/GeoCodePostcodeAsync?postCode=" + postCode, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="postCode"></param>
 		public virtual GoogleGeoCodeResponse GeoCodePostcodeSync(String postCode)
 		{
 			postCode = postCode.UrlEncode();
@@ -1995,136 +754,77 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class BankAccountLogicClient : ClientBase, Interfaces.IBankAccountLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public BankAccountLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public BankAccountLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/BankAccountLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
 		public virtual Boolean HasOrganisationAnySafeBankAccountSync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/BankAccountLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
 		public virtual Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
 		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccountsSync(Guid orgID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOutstandingBankAccounts", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccountsSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOutstandingBankAccounts", _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
 		public virtual Task<Guid> AddBankAccountAsync(Guid orgID,OrganisationBankAccountDTO accountDTO)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<OrganisationBankAccountDTO, Guid>("api/BankAccountLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
 		public virtual Guid AddBankAccountSync(Guid orgID,OrganisationBankAccountDTO accountDTO)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<OrganisationBankAccountDTO, Guid>("api/BankAccountLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<OrganisationBankAccountStateChangeDTO>("api/BankAccountLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void AddBankAccountStatusSync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<OrganisationBankAccountStateChangeDTO>("api/BankAccountLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="smsUserAccountOrganisationTransactionId"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> CheckBankAccountAsync(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
@@ -2133,14 +833,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, Boolean>("api/BankAccountLogic/CheckBankAccount?orgID=" + orgID + "&uaoID=" + uaoID + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="smsUserAccountOrganisationTransactionId"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
 		public virtual Boolean CheckBankAccountSync(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
@@ -2149,15 +841,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, Boolean>("api/BankAccountLogic/CheckBankAccount?orgID=" + orgID + "&uaoID=" + uaoID + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="smsUserAccountOrganisationTransactionId"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <param name="isMatch"></param>
-		/// <returns></returns>
 		public virtual Task WriteCheckAuditAsync(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch)
 		{
 			accountNumber = accountNumber.UrlEncode();
@@ -2166,14 +849,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/BankAccountLogic/WriteCheckAudit?uaoID=" + uaoID + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode + "&isMatch=" + isMatch, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="smsUserAccountOrganisationTransactionId"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <param name="isMatch"></param>
 		public virtual void WriteCheckAuditSync(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch)
 		{
 			accountNumber = accountNumber.UrlEncode();
@@ -2182,14 +857,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/BankAccountLogic/WriteCheckAudit?uaoID=" + uaoID + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode + "&isMatch=" + isMatch, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="active"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		public virtual Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes)
 		{
 			notes = notes.UrlEncode();
@@ -2197,13 +864,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/BankAccountLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="active"></param>
-		/// <param name="notes"></param>
 		public virtual void ToggleBankAccountActiveSync(Guid orgID,Guid baID,Boolean active,String notes)
 		{
 			notes = notes.UrlEncode();
@@ -2211,14 +871,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/BankAccountLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="uaotxID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
 		public virtual Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
@@ -2227,13 +879,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/BankAccountLogic/PublishCheckNoMatchNotification?uaoID=" + uaoID + "&uaotxID=" + uaotxID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="uaotxID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
 		public virtual void PublishCheckNoMatchNotificationSync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
@@ -2244,50 +889,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class ClassificationDataLogicClient : ClientBase, Interfaces.IClassificationDataLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public ClassificationDataLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public ClassificationDataLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<List<CountryCodeDTO>> GetCountriesAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<CountryCodeDTO>>("api/ClassificationDataLogic/GetCountries", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual List<CountryCodeDTO> GetCountriesSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<CountryCodeDTO>>("api/ClassificationDataLogic/GetCountries", _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="typeName"></param>
-		/// <returns></returns>
 		public virtual Task<List<ClassificationTypeDTO>> GetRootClassificationDataForTypeNameAsync(String typeName)
 		{
 			typeName = typeName.UrlEncode();
@@ -2295,10 +919,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<List<ClassificationTypeDTO>>("api/ClassificationDataLogic/GetRootClassificationDataForTypeName?typeName=" + typeName, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="typeName"></param>
 		public virtual List<ClassificationTypeDTO> GetRootClassificationDataForTypeNameSync(String typeName)
 		{
 			typeName = typeName.UrlEncode();
@@ -2306,33 +926,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<List<ClassificationTypeDTO>>("api/ClassificationDataLogic/GetRootClassificationDataForTypeName?typeName=" + typeName, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="classificationTypeID"></param>
-		/// <returns></returns>
 		public virtual Task<List<ClassificationTypeDTO>> GetSubClassificationDataForParentIDAsync(Int32 classificationTypeID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<ClassificationTypeDTO>>("api/ClassificationDataLogic/GetSubClassificationDataForParentID?classificationTypeID=" + classificationTypeID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="classificationTypeID"></param>
 		public virtual List<ClassificationTypeDTO> GetSubClassificationDataForParentIDSync(Int32 classificationTypeID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<ClassificationTypeDTO>>("api/ClassificationDataLogic/GetSubClassificationDataForParentID?classificationTypeID=" + classificationTypeID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="categoryName"></param>
-		/// <param name="typeName"></param>
-		/// <returns></returns>
 		public virtual Task<Int32> GetClassificationDataForTypeNameAsync(String categoryName,String typeName)
 		{
 			categoryName = categoryName.UrlEncode();
@@ -2341,11 +946,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<Int32>("api/ClassificationDataLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="categoryName"></param>
-		/// <param name="typeName"></param>
 		public virtual Int32 GetClassificationDataForTypeNameSync(String categoryName,String typeName)
 		{
 			categoryName = categoryName.UrlEncode();
@@ -2356,96 +956,53 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class FileLogicClient : ClientBase, Interfaces.IFileLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public FileLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public FileLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<ClamScanResult> UploadFileAsync(FileDTO file)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFileAsync", file, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual ClamScanResult UploadFileSync(FileDTO file)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFileAsync", file, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		public virtual Task ClearUnusedFilesAsync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/FileLogic/ClearUnusedFilesAsync?uaoID=" + uaoID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
 		public virtual void ClearUnusedFilesSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/FileLogic/ClearUnusedFilesAsync?uaoID=" + uaoID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="fileID"></param>
-		/// <param name="parentID"></param>
-		/// <returns></returns>
 		public virtual Task<FileDTO> DownloadFileAsync(Guid fileID,Guid parentID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?fileID=" + fileID + "&parentID=" + parentID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="fileID"></param>
-		/// <param name="parentID"></param>
 		public virtual FileDTO DownloadFileSync(Guid fileID,Guid parentID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?fileID=" + fileID + "&parentID=" + parentID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="id"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
 		public virtual Task RemovePendingUploadAsync(Guid uaoID,Guid id,String filename)
 		{
 			filename = filename.UrlEncode();
@@ -2453,12 +1010,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/FileLogic/RemovePendingUploadAsync?uaoID=" + uaoID + "&id=" + id + "&filename=" + filename, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="id"></param>
-		/// <param name="filename"></param>
 		public virtual void RemovePendingUploadSync(Guid uaoID,Guid id,String filename)
 		{
 			filename = filename.UrlEncode();
@@ -2466,19 +1017,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/FileLogic/RemovePendingUploadAsync?uaoID=" + uaoID + "&id=" + id + "&filename=" + filename, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<ClamScanResult> ScanForVirusAsync(ScanBytesDTO data)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<ScanBytesDTO, ClamScanResult>("api/FileLogic/ScanForVirus", data, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual ClamScanResult ScanForVirusSync(ScanBytesDTO data)
 		{
 			string _user = getHttpContextUser();
@@ -2870,109 +1414,63 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// </summary>
 	public partial class InvoiceLogicClient : ClientBase, Interfaces.IInvoiceLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public InvoiceLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public InvoiceLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="shoppingCartId"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> DoesInvoiceExistForShoppingCartAsync(Guid shoppingCartId)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/InvoiceLogic/DoesInvoiceExistForShoppingCart?shoppingCartId=" + shoppingCartId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="shoppingCartId"></param>
 		public virtual Boolean DoesInvoiceExistForShoppingCartSync(Guid shoppingCartId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/InvoiceLogic/DoesInvoiceExistForShoppingCart?shoppingCartId=" + shoppingCartId, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<VOrganisationDetailDTO> GetPaymentProviderOrganisationDetailAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<VOrganisationDetailDTO>("api/InvoiceLogic/GetPaymentProviderOrganisationDetail", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual VOrganisationDetailDTO GetPaymentProviderOrganisationDetailSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VOrganisationDetailDTO>("api/InvoiceLogic/GetPaymentProviderOrganisationDetail", _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task<VInvoiceWithCurrentTransactionOrderStatusDTO> GetInvoiceWithCurrentTransactionOrderStatusAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<VInvoiceWithCurrentTransactionOrderStatusDTO>("api/InvoiceLogic/GetInvoiceWithCurrentTransactionOrderStatus?invoiceID=" + invoiceID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual VInvoiceWithCurrentTransactionOrderStatusDTO GetInvoiceWithCurrentTransactionOrderStatusSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VInvoiceWithCurrentTransactionOrderStatusDTO>("api/InvoiceLogic/GetInvoiceWithCurrentTransactionOrderStatus?invoiceID=" + invoiceID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="shoppingCartId"></param>
-		/// <returns></returns>
 		public virtual Task<InvoiceDTO> GetInvoiceForShoppingCartAsync(Guid shoppingCartId)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<InvoiceDTO>("api/InvoiceLogic/GetInvoiceForShoppingCart?shoppingCartId=" + shoppingCartId, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="shoppingCartId"></param>
 		public virtual InvoiceDTO GetInvoiceForShoppingCartSync(Guid shoppingCartId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<InvoiceDTO>("api/InvoiceLogic/GetInvoiceForShoppingCart?shoppingCartId=" + shoppingCartId, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="cartID"></param>
-		/// <param name="reference"></param>
-		/// <returns></returns>
 		public virtual Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID,String reference)
 		{
 			reference = reference.UrlEncode();
@@ -2980,11 +1478,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID + "&reference=" + reference, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="cartID"></param>
-		/// <param name="reference"></param>
 		public virtual InvoiceDTO CreateAndSaveInvoiceFromShoppingCartSync(Guid cartID,String reference)
 		{
 			reference = reference.UrlEncode();
@@ -2992,233 +1485,132 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID + "&reference=" + reference, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task DeleteInvoiceAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return DeleteAsync("api/InvoiceLogic/DeleteInvoiceAsync?invoiceID=" + invoiceID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void DeleteInvoiceSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => DeleteAsync("api/InvoiceLogic/DeleteInvoiceAsync?invoiceID=" + invoiceID, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task FreezeInvoiceAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/FreezeInvoiceAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void FreezeInvoiceSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/FreezeInvoiceAsync?invoiceID=" + invoiceID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task CloseInvoiceAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/CloseInvoiceAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void CloseInvoiceSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/CloseInvoiceAsync?invoiceID=" + invoiceID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
 		public virtual Task MarkInvoiceWithAccountingStatusAsync(Guid invoiceID,InvoiceAccountingStatusIDEnum value)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/MarkInvoiceWithAccountingStatusAsync?invoiceID=" + invoiceID + "&value=" + value, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <param name="value"></param>
 		public virtual void MarkInvoiceWithAccountingStatusSync(Guid invoiceID,InvoiceAccountingStatusIDEnum value)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceWithAccountingStatusAsync?invoiceID=" + invoiceID + "&value=" + value, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task MarkInvoiceAsPaidAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaidAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void MarkInvoiceAsPaidSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaidAsync?invoiceID=" + invoiceID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task MarkInvoiceAsUnpaidAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsUnpaidAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void MarkInvoiceAsUnpaidSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsUnpaidAsync?invoiceID=" + invoiceID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task MarkInvoiceAsCancelledAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsCancelledAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void MarkInvoiceAsCancelledSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsCancelledAsync?invoiceID=" + invoiceID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task MarkInvoiceAsProcessingAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsProcessingAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void MarkInvoiceAsProcessingSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsProcessingAsync?invoiceID=" + invoiceID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task MarkInvoiceAsPaymentDueAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaymentDueAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void MarkInvoiceAsPaymentDueSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaymentDueAsync?invoiceID=" + invoiceID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task MarkInvoiceAsActiveAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsActiveAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void MarkInvoiceAsActiveSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsActiveAsync?invoiceID=" + invoiceID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <returns></returns>
 		public virtual Task MarkInvoiceAsPaymentScheduledAsync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/InvoiceLogic/MarkInvoiceAsPaymentScheduledAsync?invoiceID=" + invoiceID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
 		public virtual void MarkInvoiceAsPaymentScheduledSync(Guid invoiceID)
 		{
 			string _user = getHttpContextUser();
@@ -3227,39 +1619,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class MiscLogicClient : ClientBase, Interfaces.IMiscLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public MiscLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public MiscLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<Guid> AddNewsArticleAsync(NewsArticleDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<NewsArticleDTO, Guid>("api/MiscLogic/AddNewsArticle", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual Guid AddNewsArticleSync(NewsArticleDTO dto)
 		{
 			string _user = getHttpContextUser();
@@ -3268,65 +1644,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class NotificationLogicClient : ClientBase, Interfaces.INotificationLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public NotificationLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public NotificationLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="notifcationConstructID"></param>
-		/// <param name="notificationConstructVersion"></param>
-		/// <param name="notificationParentID"></param>
-		/// <param name="isRead"></param>
-		/// <param name="sentInLast"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> HasNotificationAlreadyBeenSentInTheLastTimePeriodAsync(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/NotificationLogic/HasNotificationAlreadyBeenSentInTheLastTimePeriod?uaoID=" + uaoID + "&organisationId=" + organisationId + "&notifcationConstructID=" + notifcationConstructID + "&notificationConstructVersion=" + notificationConstructVersion + "&notificationParentID=" + notificationParentID + "&isRead=" + isRead + "&sentInLast=" + sentInLast, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="notifcationConstructID"></param>
-		/// <param name="notificationConstructVersion"></param>
-		/// <param name="notificationParentID"></param>
-		/// <param name="isRead"></param>
-		/// <param name="sentInLast"></param>
 		public virtual Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriodSync(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/NotificationLogic/HasNotificationAlreadyBeenSentInTheLastTimePeriod?uaoID=" + uaoID + "&organisationId=" + organisationId + "&notifcationConstructID=" + notifcationConstructID + "&notificationConstructVersion=" + notificationConstructVersion + "&notificationParentID=" + notificationParentID + "&isRead=" + isRead + "&sentInLast=" + sentInLast, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="rolename"></param>
-		/// <returns></returns>
 		public virtual Task<IEnumerable<Guid>> GetNotificationOrganisationUaoIdsAsync(Guid orgID,String rolename)
 		{
 			rolename = rolename.UrlEncode();
@@ -3334,11 +1674,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUaoIds?orgID=" + orgID + "&rolename=" + rolename, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="rolename"></param>
 		public virtual IEnumerable<Guid> GetNotificationOrganisationUaoIdsSync(Guid orgID,String rolename)
 		{
 			rolename = rolename.UrlEncode();
@@ -3346,128 +1681,68 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUaoIds?orgID=" + orgID + "&rolename=" + rolename, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="activityID"></param>
-		/// <param name="activityType"></param>
-		/// <returns></returns>
-		public virtual Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto)
+		public virtual Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,String overrideSubject,Boolean isSystemMessage,NotificationDTO dto)
 		{
+			overrideSubject = overrideSubject.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType, dto, _user);
+			return PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType + "&overrideSubject=" + overrideSubject + "&isSystemMessage=" + isSystemMessage, dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="activityID"></param>
-		/// <param name="activityType"></param>
-		public virtual void SaveNotificationConversationSync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto)
+		public virtual void SaveNotificationConversationSync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,String overrideSubject,Boolean isSystemMessage,NotificationDTO dto)
 		{
+			overrideSubject = overrideSubject.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType, dto, _user)).Wait();
+			Task.Run(() => PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType + "&overrideSubject=" + overrideSubject + "&isSystemMessage=" + isSystemMessage, dto, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<Guid> SaveNotificationAsync(NotificationDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<NotificationDTO, Guid>("api/NotificationLogic/SaveNotificationAsync", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual Guid SaveNotificationSync(NotificationDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<NotificationDTO, Guid>("api/NotificationLogic/SaveNotificationAsync", dto, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userTypeID"></param>
-		/// <param name="organisationTypeID"></param>
-		/// <param name="enumValue"></param>
-		/// <returns></returns>
 		public virtual Task<List<VNotificationConstructGroupDTO>> GetNotificationGroupConstructsAsync(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VNotificationConstructGroupDTO>>("api/NotificationLogic/GetNotificationGroupConstructs?userTypeID=" + userTypeID + "&organisationTypeID=" + organisationTypeID + "&enumValue=" + enumValue, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userTypeID"></param>
-		/// <param name="organisationTypeID"></param>
-		/// <param name="enumValue"></param>
 		public virtual List<VNotificationConstructGroupDTO> GetNotificationGroupConstructsSync(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VNotificationConstructGroupDTO>>("api/NotificationLogic/GetNotificationGroupConstructs?userTypeID=" + userTypeID + "&organisationTypeID=" + organisationTypeID + "&enumValue=" + enumValue, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationNotificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		public virtual Task<NotificationConstructDTO> GetNotificationConstructAsync(Guid organisationNotificationConstructID,Int32 versionNumber)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<NotificationConstructDTO>("api/NotificationLogic/GetNotificationConstruct?organisationNotificationConstructID=" + organisationNotificationConstructID + "&versionNumber=" + versionNumber, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationNotificationConstructID"></param>
-		/// <param name="versionNumber"></param>
 		public virtual NotificationConstructDTO GetNotificationConstructSync(Guid organisationNotificationConstructID,Int32 versionNumber)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<NotificationConstructDTO>("api/NotificationLogic/GetNotificationConstruct?organisationNotificationConstructID=" + organisationNotificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationID"></param>
-		/// <param name="userTypeID"></param>
-		/// <param name="organisationTypeId"></param>
-		/// <param name="groupEnumValue"></param>
-		/// <returns></returns>
 		public virtual Task<List<VNotificationWithUAOVerificationCodeDTO>> GetAllUserNotificationsForUserWithNotificationGroupNotAcceptedAsync(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VNotificationWithUAOVerificationCodeDTO>>("api/NotificationLogic/GetAllUserNotificationsForUserWithNotificationGroupNotAccepted?userAccountOrganisationID=" + userAccountOrganisationID + "&userTypeID=" + userTypeID + "&organisationTypeId=" + organisationTypeId + "&groupEnumValue=" + groupEnumValue, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationID"></param>
-		/// <param name="userTypeID"></param>
-		/// <param name="organisationTypeId"></param>
-		/// <param name="groupEnumValue"></param>
 		public virtual List<VNotificationWithUAOVerificationCodeDTO> GetAllUserNotificationsForUserWithNotificationGroupNotAcceptedSync(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VNotificationWithUAOVerificationCodeDTO>>("api/NotificationLogic/GetAllUserNotificationsForUserWithNotificationGroupNotAccepted?userAccountOrganisationID=" + userAccountOrganisationID + "&userTypeID=" + userTypeID + "&organisationTypeId=" + organisationTypeId + "&groupEnumValue=" + groupEnumValue, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
 		public virtual Task<NotificationConstructDTO> GetLatestNotificationConstructIdFromNameAsync(String name)
 		{
 			name = name.UrlEncode();
@@ -3475,10 +1750,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<NotificationConstructDTO>("api/NotificationLogic/GetLatestNotificationConstructIdFromName?name=" + name, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
 		public virtual NotificationConstructDTO GetLatestNotificationConstructIdFromNameSync(String name)
 		{
 			name = name.UrlEncode();
@@ -3486,241 +1757,126 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<NotificationConstructDTO>("api/NotificationLogic/GetLatestNotificationConstructIdFromName?name=" + name, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationNotificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		public virtual Task<VNotificationConstructDTO> GetNotificationConstructViewDataAsync(Guid organisationNotificationConstructID,Int32 versionNumber)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<VNotificationConstructDTO>("api/NotificationLogic/GetNotificationConstructViewData?organisationNotificationConstructID=" + organisationNotificationConstructID + "&versionNumber=" + versionNumber, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationNotificationConstructID"></param>
-		/// <param name="versionNumber"></param>
 		public virtual VNotificationConstructDTO GetNotificationConstructViewDataSync(Guid organisationNotificationConstructID,Int32 versionNumber)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VNotificationConstructDTO>("api/NotificationLogic/GetNotificationConstructViewData?organisationNotificationConstructID=" + organisationNotificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="userAccountOrganisationID"></param>
-		/// <returns></returns>
 		public virtual Task<IEnumerable<VDefaultEmailAddressDTO>> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, IEnumerable<VDefaultEmailAddressDTO>>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="userAccountOrganisationID"></param>
 		public virtual IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetailSync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, IEnumerable<VDefaultEmailAddressDTO>>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationId"></param>
-		/// <param name="count"></param>
-		/// <returns></returns>
 		public virtual Task<List<ConversationDTO>> GetLatestUnreadConversationsAsync(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<ConversationDTO>>("api/NotificationLogic/GetLatestUnreadConversations?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationId"></param>
-		/// <param name="count"></param>
 		public virtual List<ConversationDTO> GetLatestUnreadConversationsSync(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<ConversationDTO>>("api/NotificationLogic/GetLatestUnreadConversations?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationId"></param>
-		/// <returns></returns>
 		public virtual Task<Int32> GetUnreadConversationsCountAsync(Guid userAccountOrganisationId)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<Int32>("api/NotificationLogic/GetUnreadConversationsCount?userAccountOrganisationId=" + userAccountOrganisationId, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationId"></param>
 		public virtual Int32 GetUnreadConversationsCountSync(Guid userAccountOrganisationId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/NotificationLogic/GetUnreadConversationsCount?userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationId"></param>
-		/// <returns></returns>
 		public virtual Task<List<VNotificationViewOnlyUaoDTO>> GetInternalAsync(Guid userAccountOrganisationId)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetInternal?userAccountOrganisationId=" + userAccountOrganisationId, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationId"></param>
 		public virtual List<VNotificationViewOnlyUaoDTO> GetInternalSync(Guid userAccountOrganisationId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetInternal?userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="notificationId"></param>
-		/// <param name="userAccountOrganisationId"></param>
-		/// <param name="notificationExportFormat"></param>
-		/// <returns></returns>
 		public virtual Task<NotificationContentDTO> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<NotificationContentDTO>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId + "&notificationExportFormat=" + notificationExportFormat, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="notificationId"></param>
-		/// <param name="userAccountOrganisationId"></param>
-		/// <param name="notificationExportFormat"></param>
 		public virtual NotificationContentDTO GetNotificationContentSync(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<NotificationContentDTO>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId + "&notificationExportFormat=" + notificationExportFormat, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="types"></param>
-		/// <returns></returns>
 		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] types)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("types", types), _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="types"></param>
 		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotificationsSync(Guid userId,NotificationConstructEnum[] types)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("types", types), _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		public virtual Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
 		public virtual NotificationResultDTO GetTcAndCsTextSync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="notificationConstructID"></param>
-		/// <param name="versionNumber"></param>
-		/// <returns></returns>
 		public virtual Task<Byte[]> RetrieveNotificationConstructDataAsync(Guid notificationConstructID,Int32 versionNumber,DTOMap data)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<DTOMap, Byte[]>("api/NotificationLogic/RetrieveNotificationConstructData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, data, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="notificationConstructID"></param>
-		/// <param name="versionNumber"></param>
 		public virtual Byte[] RetrieveNotificationConstructDataSync(Guid notificationConstructID,Int32 versionNumber,DTOMap data)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<DTOMap, Byte[]>("api/NotificationLogic/RetrieveNotificationConstructData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, data, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="notificationID"></param>
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		public virtual Task MarkAcceptedAsync(Guid notificationID,Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID + "&userID=" + userID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="notificationID"></param>
-		/// <param name="userID"></param>
 		public virtual void MarkAcceptedSync(Guid notificationID,Guid userID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAcceptedAsync?notificationID=" + notificationID + "&userID=" + userID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="eventStatusID"></param>
-		/// <param name="status"></param>
-		/// <param name="recipients"></param>
-		/// <param name="subject"></param>
-		/// <param name="body"></param>
-		/// <returns></returns>
 		public virtual Task UpdateEventStatusAsync(Guid eventStatusID,String status,String recipients,String subject,String body)
 		{
 			status = status.UrlEncode();
@@ -3731,14 +1887,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/NotificationLogic/UpdateEventStatusAsync?eventStatusID=" + eventStatusID + "&status=" + status + "&recipients=" + recipients + "&subject=" + subject + "&body=" + body, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="eventStatusID"></param>
-		/// <param name="status"></param>
-		/// <param name="recipients"></param>
-		/// <param name="subject"></param>
-		/// <param name="body"></param>
 		public virtual void UpdateEventStatusSync(Guid eventStatusID,String status,String recipients,String subject,String body)
 		{
 			status = status.UrlEncode();
@@ -3749,12 +1897,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/UpdateEventStatusAsync?eventStatusID=" + eventStatusID + "&status=" + status + "&recipients=" + recipients + "&subject=" + subject + "&body=" + body, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="eventName"></param>
-		/// <param name="eventReference"></param>
-		/// <returns></returns>
 		public virtual Task<List<EventStatusDTO>> GetEventStatusAsync(String eventName,String eventReference)
 		{
 			eventName = eventName.UrlEncode();
@@ -3763,11 +1905,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<List<EventStatusDTO>>("api/NotificationLogic/GetEventStatus?eventName=" + eventName + "&eventReference=" + eventReference, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="eventName"></param>
-		/// <param name="eventReference"></param>
 		public virtual List<EventStatusDTO> GetEventStatusSync(String eventName,String eventReference)
 		{
 			eventName = eventName.UrlEncode();
@@ -3776,37 +1913,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<List<EventStatusDTO>>("api/NotificationLogic/GetEventStatus?eventName=" + eventName + "&eventReference=" + eventReference, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task PublishNewInternalMessagesNotificationEventAsync(IEnumerable<Guid> recipientUaoIds)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", recipientUaoIds, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void PublishNewInternalMessagesNotificationEventSync(IEnumerable<Guid> recipientUaoIds)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", recipientUaoIds, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="fromHash"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="attachmentsID"></param>
-		/// <param name="activityTypeID"></param>
-		/// <param name="activityID"></param>
-		/// <param name="subject"></param>
-		/// <param name="message"></param>
-		/// <param name="isSystemMessage"></param>
-		/// <returns></returns>
 		public virtual Task<Guid> CreateConversationAsync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
 			fromHash = fromHash.UrlEncode();
@@ -3816,17 +1934,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="fromHash"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="attachmentsID"></param>
-		/// <param name="activityTypeID"></param>
-		/// <param name="activityID"></param>
-		/// <param name="subject"></param>
-		/// <param name="message"></param>
-		/// <param name="isSystemMessage"></param>
 		public virtual Guid CreateConversationSync(String fromHash,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Boolean isSystemMessage,String[] participantHashes)
 		{
 			fromHash = fromHash.UrlEncode();
@@ -3836,15 +1943,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<String[], Guid>("api/NotificationLogic/CreateConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + "&isSystemMessage=" + isSystemMessage + mapArray("participantHashes", participantHashes), participantHashes, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="fromHash"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="conversationID"></param>
-		/// <param name="attachmentsID"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
 		public virtual Task ReplyToConversationAsync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
 			fromHash = fromHash.UrlEncode();
@@ -3853,14 +1951,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/NotificationLogic/ReplyToConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="fromHash"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="conversationID"></param>
-		/// <param name="attachmentsID"></param>
-		/// <param name="message"></param>
 		public virtual void ReplyToConversationSync(String fromHash,Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
 			fromHash = fromHash.UrlEncode();
@@ -3869,144 +1959,66 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?fromHash=" + fromHash + "&uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="conversationID"></param>
-		/// <returns></returns>
 		public virtual Task MarkAsReadAsync(Guid uaoID,Guid conversationID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="conversationID"></param>
 		public virtual void MarkAsReadSync(Guid uaoID,Guid conversationID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="senderUaoID"></param>
-		/// <param name="activityTypeID"></param>
-		/// <param name="activityID"></param>
-		/// <returns></returns>
 		public virtual Task<List<VSafeSendRecipientDTO>> GetActivityRecipientsAsync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VSafeSendRecipientDTO>>("api/NotificationLogic/GetActivityRecipients?senderUaoID=" + senderUaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="senderUaoID"></param>
-		/// <param name="activityTypeID"></param>
-		/// <param name="activityID"></param>
 		public virtual List<VSafeSendRecipientDTO> GetActivityRecipientsSync(Guid senderUaoID,ActivityType activityTypeID,Guid activityID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VSafeSendRecipientDTO>>("api/NotificationLogic/GetActivityRecipients?senderUaoID=" + senderUaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="conversationId"></param>
-		/// <param name="uaoId"></param>
-		/// <param name="page"></param>
-		/// <param name="pageSize"></param>
-		/// <returns></returns>
 		public virtual Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="conversationId"></param>
-		/// <param name="uaoId"></param>
-		/// <param name="page"></param>
-		/// <param name="pageSize"></param>
 		public virtual IEnumerable<MessageDTO> GetMessagesSync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="convID"></param>
-		/// <returns></returns>
 		public virtual Task<Int32> GetConversationRankAsync(Guid uaoID,Guid convID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<Int32>("api/NotificationLogic/GetConversationRank?uaoID=" + uaoID + "&convID=" + convID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="convID"></param>
 		public virtual Int32 GetConversationRankSync(Guid uaoID,Guid convID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/NotificationLogic/GetConversationRank?uaoID=" + uaoID + "&convID=" + convID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <param name="activityType"></param>
-		/// <param name="activityId"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
-		/// <returns></returns>
 		public virtual Task<ConversationResultDTO<VConversationDTO>> GetConversationsAsync(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<ConversationResultDTO<VConversationDTO>>("api/NotificationLogic/GetConversations?uaoId=" + uaoId + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <param name="activityType"></param>
-		/// <param name="activityId"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
 		public virtual ConversationResultDTO<VConversationDTO> GetConversationsSync(Guid uaoId,Nullable<ActivityType> activityType,Nullable<Guid> activityId,Int32 take,Int32 skip)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ConversationResultDTO<VConversationDTO>>("api/NotificationLogic/GetConversations?uaoId=" + uaoId + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="userOrgTypeName"></param>
-		/// <param name="orgID"></param>
-		/// <param name="activityType"></param>
-		/// <param name="activityId"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
-		/// <returns></returns>
 		public virtual Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
 		{
 			userOrgTypeName = userOrgTypeName.UrlEncode();
@@ -4014,16 +2026,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&userOrgTypeName=" + userOrgTypeName + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="userOrgTypeName"></param>
-		/// <param name="orgID"></param>
-		/// <param name="activityType"></param>
-		/// <param name="activityId"></param>
-		/// <param name="take"></param>
-		/// <param name="skip"></param>
 		public virtual ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivitySync(Guid uaoID,String userOrgTypeName,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
 		{
 			userOrgTypeName = userOrgTypeName.UrlEncode();
@@ -4031,23 +2033,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&userOrgTypeName=" + userOrgTypeName + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
 		public virtual Task<List<CreateConversationRecipientDTO>> GetUserSafeSendGroupsAsync(Guid uaoId,Guid orgId)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<CreateConversationRecipientDTO>>("api/NotificationLogic/GetUserSafeSendGroups?uaoId=" + uaoId + "&orgId=" + orgId, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <param name="orgId"></param>
 		public virtual List<CreateConversationRecipientDTO> GetUserSafeSendGroupsSync(Guid uaoId,Guid orgId)
 		{
 			string _user = getHttpContextUser();
@@ -4056,78 +2047,41 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class OrganisationLogicClient : ClientBase, Interfaces.IOrganisationLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public OrganisationLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public OrganisationLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="days"></param>
-		/// <param name="hours"></param>
-		/// <param name="minutes"></param>
-		/// <returns></returns>
 		public virtual Task ExpireTemporaryLoginsAsync(Int32 days,Int32 hours,Int32 minutes)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/OrganisationLogic/ExpireTemporaryLoginsAsync?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="days"></param>
-		/// <param name="hours"></param>
-		/// <param name="minutes"></param>
 		public virtual void ExpireTemporaryLoginsSync(Int32 days,Int32 hours,Int32 minutes)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireTemporaryLoginsAsync?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		public virtual Task ExpireUserAccountOrganisationAsync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/OrganisationLogic/ExpireUserAccountOrganisationAsync?uaoID=" + uaoID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
 		public virtual void ExpireUserAccountOrganisationSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireUserAccountOrganisationAsync?uaoID=" + uaoID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="regulatorNumber"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> IsOrganisationInSystemAsync(Nullable<Guid> orgID,String regulatorNumber)
 		{
 			regulatorNumber = regulatorNumber.UrlEncode();
@@ -4135,11 +2089,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, Boolean>("api/OrganisationLogic/IsOrganisationInSystem?orgID=" + orgID + "&regulatorNumber=" + regulatorNumber, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="regulatorNumber"></param>
 		public virtual Boolean IsOrganisationInSystemSync(Nullable<Guid> orgID,String regulatorNumber)
 		{
 			regulatorNumber = regulatorNumber.UrlEncode();
@@ -4147,259 +2096,162 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsOrganisationInSystem?orgID=" + orgID + "&regulatorNumber=" + regulatorNumber, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task RejectOrganisationAsync(RejectCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<RejectCompanyDTO>("api/OrganisationLogic/RejectOrganisationAsync", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void RejectOrganisationSync(RejectCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<RejectCompanyDTO>("api/OrganisationLogic/RejectOrganisationAsync", dto, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task UnverifyOrganisationAsync(RejectCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<RejectCompanyDTO>("api/OrganisationLogic/UnverifyOrganisationAsync", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void UnverifyOrganisationSync(RejectCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<RejectCompanyDTO>("api/OrganisationLogic/UnverifyOrganisationAsync", dto, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		public virtual Task ActivateOrganisationAsync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/OrganisationLogic/ActivateOrganisationAsync?organisationID=" + organisationID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
 		public virtual void ActivateOrganisationSync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ActivateOrganisationAsync?organisationID=" + organisationID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgStatus"></param>
-		/// <returns></returns>
 		public virtual Task<List<VOrganisationWithStatusAndAdminDTO>> GetCompaniesAsync(ProfessionalOrganisationStatusEnum orgStatus)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/GetCompanies?orgStatus=" + orgStatus, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgStatus"></param>
 		public virtual List<VOrganisationWithStatusAndAdminDTO> GetCompaniesSync(ProfessionalOrganisationStatusEnum orgStatus)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/GetCompanies?orgStatus=" + orgStatus, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(AddCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual Guid AddNewUnverifiedOrganisationAndAdministratorSync(AddCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync", dto, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(AddNewUserToOrganisationDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<AddNewUserToOrganisationDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual UserAccountOrganisationDTO AddNewUserToOrganisationSync(AddNewUserToOrganisationDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddNewUserToOrganisationDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync", dto, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		public virtual Task AddPersonalDetailsAsync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<AddPersonalDetailsDTO>("api/OrganisationLogic/AddPersonalDetails?uaoId=" + uaoId, addPersonalDetailsDto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
 		public virtual void AddPersonalDetailsSync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<AddPersonalDetailsDTO>("api/OrganisationLogic/AddPersonalDetails?uaoId=" + uaoId, addPersonalDetailsDto, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> RequiresPersonalDetailsAsync(Guid uaoId)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/OrganisationLogic/RequiresPersonalDetails?uaoId=" + uaoId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
 		public virtual Boolean RequiresPersonalDetailsSync(Guid uaoId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/RequiresPersonalDetails?uaoId=" + uaoId, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userOrgID"></param>
-		/// <param name="type"></param>
-		/// <returns></returns>
 		public virtual Task CreateTsAndCsNotificationAsync(Guid userOrgID,NotificationConstructEnum type)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID=" + userOrgID + "&type=" + type, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userOrgID"></param>
-		/// <param name="type"></param>
 		public virtual void CreateTsAndCsNotificationSync(Guid userOrgID,NotificationConstructEnum type)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID=" + userOrgID + "&type=" + type, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
+		public virtual Task<Nullable<Guid>> AddOrganisationAsync()
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Nullable<Guid>>("api/OrganisationLogic/AddOrganisationAsync", null, _user);
+		}
+
+		public virtual Nullable<Guid> AddOrganisationSync()
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Nullable<Guid>>("api/OrganisationLogic/AddOrganisationAsync", null, _user)).Result;
+		}
+
 		public virtual Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<Nullable<Guid>>("api/OrganisationLogic/GetTemporaryOrganisationBranchID", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual Nullable<Guid> GetTemporaryOrganisationBranchIDSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Nullable<Guid>>("api/OrganisationLogic/GetTemporaryOrganisationBranchID", _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
 		public virtual Task<VOrganisationDTO> GetOrganisationDTOAsync(Guid id)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<VOrganisationDTO>("api/OrganisationLogic/GetOrganisationDTO?id=" + id, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
 		public virtual VOrganisationDTO GetOrganisationDTOSync(Guid id)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VOrganisationDTO>("api/OrganisationLogic/GetOrganisationDTO?id=" + id, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
 		public virtual Task<VOrganisationWithStatusAndAdminDTO> GetOrganisationWithStatusAndAdminAsync(Guid id)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<VOrganisationWithStatusAndAdminDTO>("api/OrganisationLogic/GetOrganisationWithStatusAndAdmin?id=" + id, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
 		public virtual VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdminSync(Guid id)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VOrganisationWithStatusAndAdminDTO>("api/OrganisationLogic/GetOrganisationWithStatusAndAdmin?id=" + id, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="enumType"></param>
-		/// <param name="status"></param>
-		/// <param name="reason"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		public virtual Task AddOrganisationStatusAsync(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes)
 		{
 			notes = notes.UrlEncode();
@@ -4407,14 +2259,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/OrganisationLogic/AddOrganisationStatusAsync?orgID=" + orgID + "&enumType=" + enumType + "&status=" + status + "&reason=" + reason + "&notes=" + notes, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="enumType"></param>
-		/// <param name="status"></param>
-		/// <param name="reason"></param>
-		/// <param name="notes"></param>
 		public virtual void AddOrganisationStatusSync(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes)
 		{
 			notes = notes.UrlEncode();
@@ -4422,278 +2266,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrganisationStatusAsync?orgID=" + orgID + "&enumType=" + enumType + "&status=" + status + "&reason=" + reason + "&notes=" + notes, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="email"></param>
-		/// <returns></returns>
-		public virtual Task<Boolean> CheckDuplicateUserSmsTransactionAsync(Guid orgID,String email,SmsTransactionDTO dto)
-		{
-			email = email.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<SmsTransactionDTO, Boolean>("api/OrganisationLogic/CheckDuplicateUserSmsTransaction?orgID=" + orgID + "&email=" + email, dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="email"></param>
-		public virtual Boolean CheckDuplicateUserSmsTransactionSync(Guid orgID,String email,SmsTransactionDTO dto)
-		{
-			email = email.UrlEncode();
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SmsTransactionDTO, Boolean>("api/OrganisationLogic/CheckDuplicateUserSmsTransaction?orgID=" + orgID + "&email=" + email, dto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="txID"></param>
-		/// <returns></returns>
-		public virtual Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyUaoIdsAsync(Guid txID)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<IEnumerable<Guid>>("api/OrganisationLogic/GetSmsTransactionRelatedPartyUaoIds?txID=" + txID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="txID"></param>
-		public virtual IEnumerable<Guid> GetSmsTransactionRelatedPartyUaoIdsSync(Guid txID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/OrganisationLogic/GetSmsTransactionRelatedPartyUaoIds?txID=" + txID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		public virtual Task<Guid> AddSmsTransactionAsync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<AddSmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID + "&uaoID=" + uaoID, dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		public virtual Guid AddSmsTransactionSync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<AddSmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID + "&uaoID=" + uaoID, dto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		/// <returns></returns>
-		public virtual Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
-		{
-			accountNumber = accountNumber.UrlEncode();
-			sortCode = sortCode.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransactionSync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
-		{
-			accountNumber = accountNumber.UrlEncode();
-			sortCode = sortCode.UrlEncode();
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="txID"></param>
-		/// <param name="orgID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
-		/// <returns></returns>
-		public virtual Task AdviseProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="txID"></param>
-		/// <param name="orgID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
-		public virtual void AdviseProductSync(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="txID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="cardTypeEnum"></param>
-		/// <param name="paymentTypeEnum"></param>
-		/// <returns></returns>
-		public virtual Task<CartPricingDTO> EnsureCartAsync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, CartPricingDTO>("api/OrganisationLogic/EnsureCart?txID=" + txID + "&uaoID=" + uaoID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="txID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="cardTypeEnum"></param>
-		/// <param name="paymentTypeEnum"></param>
-		public virtual CartPricingDTO EnsureCartSync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, CartPricingDTO>("api/OrganisationLogic/EnsureCart?txID=" + txID + "&uaoID=" + uaoID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="smsTransactionID"></param>
-		/// <param name="cardType"></param>
-		/// <param name="methodType"></param>
-		/// <returns></returns>
-		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType, orderRequest, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="smsTransactionID"></param>
-		/// <param name="cardType"></param>
-		/// <param name="methodType"></param>
-		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProductSync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,OrderRequestDTO orderRequest)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType, orderRequest, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void AssignSmsClientToTransactionSync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="transactionOrderID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="amount"></param>
-		/// <param name="rowVersion"></param>
-		/// <returns></returns>
-		public virtual Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount + "&rowVersion=" + rowVersion, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="transactionOrderID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="amount"></param>
-		/// <param name="rowVersion"></param>
-		public virtual void AddCreditSync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount + "&rowVersion=" + rowVersion, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task UpdateOrganisationDetailsAsync(VerifyCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/UpdateOrganisationDetails", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void UpdateOrganisationDetailsSync(VerifyCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/UpdateOrganisationDetails", dto, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="txID"></param>
-		/// <returns></returns>
-		public virtual Task<Int32> GetSmsTransactionRankAsync(Guid orgID,Guid txID)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<Int32>("api/OrganisationLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="txID"></param>
-		public virtual Int32 GetSmsTransactionRankSync(Guid orgID,Guid txID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Int32>("api/OrganisationLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
 		public virtual Task AddNotesAsync(Guid orgID,Guid uaoID,String notes)
 		{
 			notes = notes.UrlEncode();
@@ -4701,12 +2285,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/OrganisationLogic/AddNotes?orgID=" + orgID + "&uaoID=" + uaoID + "&notes=" + notes, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="uaoID"></param>
-		/// <param name="notes"></param>
 		public virtual void AddNotesSync(Guid orgID,Guid uaoID,String notes)
 		{
 			notes = notes.UrlEncode();
@@ -4714,55 +2292,30 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddNotes?orgID=" + orgID + "&uaoID=" + uaoID + "&notes=" + notes, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> IsSafeSendEnabledAsync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeSendEnabled?organisationID=" + organisationID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
 		public virtual Boolean IsSafeSendEnabledSync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsSafeSendEnabled?organisationID=" + organisationID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="safeSendEnabled"></param>
-		/// <returns></returns>
 		public virtual Task AddOrUpdateSafeSendEnabledAsync(Guid orgID,Boolean safeSendEnabled)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="safeSendEnabled"></param>
 		public virtual void AddOrUpdateSafeSendEnabledSync(Guid orgID,Boolean safeSendEnabled)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrUpdateSafeSendEnabled?orgID=" + orgID + "&safeSendEnabled=" + safeSendEnabled, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="lenderName"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> CanLenderNameBeUsedAsync(String lenderName)
 		{
 			lenderName = lenderName.UrlEncode();
@@ -4770,10 +2323,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, Boolean>("api/OrganisationLogic/CanLenderNameBeUsed?lenderName=" + lenderName, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="lenderName"></param>
 		public virtual Boolean CanLenderNameBeUsedSync(String lenderName)
 		{
 			lenderName = lenderName.UrlEncode();
@@ -4783,81 +2332,47 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class PaymentLogicClient : ClientBase, Interfaces.IPaymentLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public PaymentLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public PaymentLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="transactionOrderId"></param>
-		/// <returns></returns>
 		public virtual Task<TransactionOrderPaymentDTO> GetTheSuccessfulOrderPaymentForTransactionOrderAsync(Guid transactionOrderId)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<TransactionOrderPaymentDTO>("api/PaymentLogic/GetTheSuccessfulOrderPaymentForTransactionOrder?transactionOrderId=" + transactionOrderId, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="transactionOrderId"></param>
 		public virtual TransactionOrderPaymentDTO GetTheSuccessfulOrderPaymentForTransactionOrderSync(Guid transactionOrderId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<TransactionOrderPaymentDTO>("api/PaymentLogic/GetTheSuccessfulOrderPaymentForTransactionOrder?transactionOrderId=" + transactionOrderId, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="transactionOrderId"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> DoesASuccessfulOrderPaymentExistForTransactionOrderAsync(Guid transactionOrderId)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/PaymentLogic/DoesASuccessfulOrderPaymentExistForTransactionOrder?transactionOrderId=" + transactionOrderId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="transactionOrderId"></param>
 		public virtual Boolean DoesASuccessfulOrderPaymentExistForTransactionOrderSync(Guid transactionOrderId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/PaymentLogic/DoesASuccessfulOrderPaymentExistForTransactionOrder?transactionOrderId=" + transactionOrderId, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<TransactionOrderPaymentDTO> ProcessPaymentTransactionAsync(OrderRequestDTO request)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/PaymentLogic/ProcessPaymentTransaction", request, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual TransactionOrderPaymentDTO ProcessPaymentTransactionSync(OrderRequestDTO request)
 		{
 			string _user = getHttpContextUser();
@@ -4866,58 +2381,35 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class ProductLogicClient : ClientBase, Interfaces.IProductLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public ProductLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public ProductLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<ProductDTO> GetTopUpProductAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<ProductDTO>("api/ProductLogic/GetTopUpProduct", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual ProductDTO GetTopUpProductSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetTopUpProduct", _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<ProductDetailDTO> GetBankAccountCheckProductAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<ProductDetailDTO>("api/ProductLogic/GetBankAccountCheckProduct", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual ProductDetailDTO GetBankAccountCheckProductSync()
 		{
 			string _user = getHttpContextUser();
@@ -4926,34 +2418,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class ShoppingCartLogicClient : ClientBase, Interfaces.IShoppingCartLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public ShoppingCartLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public ShoppingCartLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationID"></param>
-		/// <param name="cardTypeEnum"></param>
-		/// <param name="paymentTypeEnum"></param>
-		/// <param name="countryCode"></param>
-		/// <returns></returns>
 		public virtual Task<ShoppingCartDTO> CreateShoppingCartAsync(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode)
 		{
 			countryCode = countryCode.UrlEncode();
@@ -4961,13 +2436,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, ShoppingCartDTO>("api/ShoppingCartLogic/CreateShoppingCartAsync?userAccountOrganisationID=" + userAccountOrganisationID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum + "&countryCode=" + countryCode, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userAccountOrganisationID"></param>
-		/// <param name="cardTypeEnum"></param>
-		/// <param name="paymentTypeEnum"></param>
-		/// <param name="countryCode"></param>
 		public virtual ShoppingCartDTO CreateShoppingCartSync(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode)
 		{
 			countryCode = countryCode.UrlEncode();
@@ -4975,52 +2443,24 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, ShoppingCartDTO>("api/ShoppingCartLogic/CreateShoppingCartAsync?userAccountOrganisationID=" + userAccountOrganisationID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum + "&countryCode=" + countryCode, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="cartID"></param>
-		/// <param name="productID"></param>
-		/// <param name="versionNumber"></param>
-		/// <param name="quantity"></param>
-		/// <param name="customerPrice"></param>
-		/// <returns></returns>
 		public virtual Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity + "&customerPrice=" + customerPrice, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="cartID"></param>
-		/// <param name="productID"></param>
-		/// <param name="versionNumber"></param>
-		/// <param name="quantity"></param>
-		/// <param name="customerPrice"></param>
 		public virtual void AddProductToShoppingCartSync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity + "&customerPrice=" + customerPrice, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="cartID"></param>
-		/// <param name="itemID"></param>
-		/// <returns></returns>
 		public virtual Task RemoveProductFromShoppingCartAsync(Guid cartID,Guid itemID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/ShoppingCartLogic/RemoveProductFromShoppingCart?cartID=" + cartID + "&itemID=" + itemID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="cartID"></param>
-		/// <param name="itemID"></param>
 		public virtual void RemoveProductFromShoppingCartSync(Guid cartID,Guid itemID)
 		{
 			string _user = getHttpContextUser();
@@ -5029,39 +2469,230 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
+	public partial class SmsTransactionLogicClient : ClientBase, Interfaces.ISmsTransactionLogicClient	{		
+
+		public SmsTransactionLogicClient(string url) : base(url)
+		{
+		}
+
+		public SmsTransactionLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		public virtual Task<Guid> AddSmsTransactionAsync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<AddSmsTransactionDTO, Guid>("api/SmsTransactionLogic/AddSmsTransaction?orgID=" + orgID + "&uaoID=" + uaoID, dto, _user);
+		}
+
+		public virtual Guid AddSmsTransactionSync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<AddSmsTransactionDTO, Guid>("api/SmsTransactionLogic/AddSmsTransaction?orgID=" + orgID + "&uaoID=" + uaoID, dto, _user)).Result;
+		}
+
+		public virtual Task EditSmsTransactionAsync(EditSmsTransactionDTO editSmsTransactionDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<EditSmsTransactionDTO>("api/SmsTransactionLogic/EditSmsTransaction", editSmsTransactionDto, _user);
+		}
+
+		public virtual void EditSmsTransactionSync(EditSmsTransactionDTO editSmsTransactionDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<EditSmsTransactionDTO>("api/SmsTransactionLogic/EditSmsTransaction", editSmsTransactionDto, _user)).Wait();
+		}
+
+		public virtual Task AssignBuyerPartyToTransactionAsync(AssignBuyerPartyToTransactionDTO assignBuyerPartyToTransactionDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<AssignBuyerPartyToTransactionDTO>("api/SmsTransactionLogic/AssignBuyerPartyToTransaction", assignBuyerPartyToTransactionDTO, _user);
+		}
+
+		public virtual void AssignBuyerPartyToTransactionSync(AssignBuyerPartyToTransactionDTO assignBuyerPartyToTransactionDTO)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<AssignBuyerPartyToTransactionDTO>("api/SmsTransactionLogic/AssignBuyerPartyToTransaction", assignBuyerPartyToTransactionDTO, _user)).Wait();
+		}
+
+		public virtual Task EditBuyerPartyAsync(EditBuyerPartyDTO editBuyerPartyDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<EditBuyerPartyDTO>("api/SmsTransactionLogic/EditBuyerParty", editBuyerPartyDto, _user);
+		}
+
+		public virtual void EditBuyerPartySync(EditBuyerPartyDTO editBuyerPartyDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<EditBuyerPartyDTO>("api/SmsTransactionLogic/EditBuyerParty", editBuyerPartyDto, _user)).Wait();
+	}
+
+		public virtual Task ReplaceSrcFundsBankAccountsAsync(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<IEnumerable<SmsSrcFundsBankAccountDTO>>("api/SmsTransactionLogic/ReplaceSrcFundsBankAccounts?uaoTxID=" + uaoTxID, srcFundsBankAccounts, _user);
+		}
+
+		public virtual void ReplaceSrcFundsBankAccountsSync(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<IEnumerable<SmsSrcFundsBankAccountDTO>>("api/SmsTransactionLogic/ReplaceSrcFundsBankAccounts?uaoTxID=" + uaoTxID, srcFundsBankAccounts, _user)).Wait();
+		}
+
+		public virtual Task<Int32> GetSmsTransactionRankAsync(Guid orgID,Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Int32>("api/SmsTransactionLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user);
+		}
+
+		public virtual Int32 GetSmsTransactionRankSync(Guid orgID,Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/SmsTransactionLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user)).Result;
+		}
+
+		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/SmsTransactionLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType + "&free=" + free, orderRequest, _user);
+		}
+
+		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProductSync(Guid smsTransactionID,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,Boolean free,OrderRequestDTO orderRequest)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/SmsTransactionLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&cardType=" + cardType + "&methodType=" + methodType + "&free=" + free, orderRequest, _user)).Result;
+		}
+
+		public virtual Task<IEnumerable<SmsTransactionPendingUpdateCountDTO>> SmsTransactionPendingUpdateCountAsync(IEnumerable<Guid> ids)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<IEnumerable<Guid>, IEnumerable<SmsTransactionPendingUpdateCountDTO>>("api/SmsTransactionLogic/SmsTransactionPendingUpdateCount", ids, _user);
+		}
+
+		public virtual IEnumerable<SmsTransactionPendingUpdateCountDTO> SmsTransactionPendingUpdateCountSync(IEnumerable<Guid> ids)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<IEnumerable<Guid>, IEnumerable<SmsTransactionPendingUpdateCountDTO>>("api/SmsTransactionLogic/SmsTransactionPendingUpdateCount", ids, _user)).Result;
+		}
+
+		public virtual Task<IEnumerable<Guid>> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsAsync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<IEnumerable<Guid>>("api/SmsTransactionLogic/GetSmsTransactionRelatedPartyDeclinedProductUaoIds?txID=" + txID, _user);
+	}
+
+		public virtual IEnumerable<Guid> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsSync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/SmsTransactionLogic/GetSmsTransactionRelatedPartyDeclinedProductUaoIds?txID=" + txID, _user)).Result;
+		}
+
+		public virtual Task<Boolean> CheckDuplicateUserSmsTransactionAsync(Guid orgID,String email,SmsTransactionDTO dto)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<SmsTransactionDTO, Boolean>("api/SmsTransactionLogic/CheckDuplicateUserSmsTransaction?orgID=" + orgID + "&email=" + email, dto, _user);
+		}
+
+		public virtual Boolean CheckDuplicateUserSmsTransactionSync(Guid orgID,String email,SmsTransactionDTO dto)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<SmsTransactionDTO, Boolean>("api/SmsTransactionLogic/CheckDuplicateUserSmsTransaction?orgID=" + orgID + "&email=" + email, dto, _user)).Result;
+		}
+
+		public virtual Task AdviseProductAsync(Guid txID,Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/SmsTransactionLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID, null, _user);
+		}
+
+		public virtual void AdviseProductSync(Guid txID,Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/SmsTransactionLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID, null, _user)).Wait();
+		}
+
+		public virtual Task<SmsTransactionDTO> GetSmsTransactionWithPendingUpdatesAsync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<SmsTransactionDTO>("api/SmsTransactionLogic/GetSmsTransactionWithPendingUpdates?txID=" + txID, _user);
+		}
+
+		public virtual SmsTransactionDTO GetSmsTransactionWithPendingUpdatesSync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<SmsTransactionDTO>("api/SmsTransactionLogic/GetSmsTransactionWithPendingUpdates?txID=" + txID, _user)).Result;
+	}
+
+		public virtual Task ResolveSmsTransactionPendingUpdatesAsync(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<List<FieldUpdateDTO>>("api/SmsTransactionLogic/ResolveSmsTransactionPendingUpdates?txID=" + txID + "&uaoID=" + uaoID, updates, _user);
+		}
+
+		public virtual void ResolveSmsTransactionPendingUpdatesSync(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<List<FieldUpdateDTO>>("api/SmsTransactionLogic/ResolveSmsTransactionPendingUpdates?txID=" + txID + "&uaoID=" + uaoID, updates, _user)).Wait();
+		}
+
+		public virtual Task<Boolean> IsSafeBuyerPotentiallyFreeAsync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/SmsTransactionLogic/IsSafeBuyerPotentiallyFree?txID=" + txID, null, _user);
+		}
+
+		public virtual Boolean IsSafeBuyerPotentiallyFreeSync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/SmsTransactionLogic/IsSafeBuyerPotentiallyFree?txID=" + txID, null, _user)).Result;
+		}
+
+		public virtual Task<Boolean> SmsTransactionQualifiesFreeAsync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/SmsTransactionLogic/SmsTransactionQualifiesFree?txID=" + txID, null, _user);
+		}
+
+		public virtual Boolean SmsTransactionQualifiesFreeSync(Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/SmsTransactionLogic/SmsTransactionQualifiesFree?txID=" + txID, null, _user)).Result;
+		}
+
+		public virtual Task<CartPricingDTO> EnsureCartAsync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, CartPricingDTO>("api/SmsTransactionLogic/EnsureCart?txID=" + txID + "&uaoID=" + uaoID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum, null, _user);
+		}
+
+		public virtual CartPricingDTO EnsureCartSync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, CartPricingDTO>("api/SmsTransactionLogic/EnsureCart?txID=" + txID + "&uaoID=" + uaoID + "&cardTypeEnum=" + cardTypeEnum + "&paymentTypeEnum=" + paymentTypeEnum, null, _user)).Result;
+		}
+
+		#endregion
+	}
 	public partial class TFSettingsLogicClient : ClientBase, Interfaces.ITFSettingsLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public TFSettingsLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public TFSettingsLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<Dictionary<String, String>> GetSettingsAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<Dictionary<String, String>>("api/TFSettingsLogic/GetSettings", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual Dictionary<String, String> GetSettingsSync()
 		{
 			string _user = getHttpContextUser();
@@ -5070,85 +2701,47 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class TransactionOrderLogicClient : ClientBase, Interfaces.ITransactionOrderLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public TransactionOrderLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public TransactionOrderLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceId"></param>
-		/// <returns></returns>
 		public virtual Task<TransactionOrderDTO> GetTransactionForInvoiceAsync(Guid invoiceId)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<TransactionOrderDTO>("api/TransactionOrderLogic/GetTransactionForInvoice?invoiceId=" + invoiceId, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceId"></param>
 		public virtual TransactionOrderDTO GetTransactionForInvoiceSync(Guid invoiceId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<TransactionOrderDTO>("api/TransactionOrderLogic/GetTransactionForInvoice?invoiceId=" + invoiceId, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceId"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> DoesTransactionExistForInvoiceAsync(Guid invoiceId)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/TransactionOrderLogic/DoesTransactionExistForInvoice?invoiceId=" + invoiceId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceId"></param>
 		public virtual Boolean DoesTransactionExistForInvoiceSync(Guid invoiceId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/TransactionOrderLogic/DoesTransactionExistForInvoice?invoiceId=" + invoiceId, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <param name="typeEnumValue"></param>
-		/// <returns></returns>
 		public virtual Task<TransactionOrderDTO> CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(Guid invoiceID,TransactionTypeIDEnum typeEnumValue)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, TransactionOrderDTO>("api/TransactionOrderLogic/CreateAndSaveTransactionOrderFromShoppingCartDTO?invoiceID=" + invoiceID + "&typeEnumValue=" + typeEnumValue, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="invoiceID"></param>
-		/// <param name="typeEnumValue"></param>
 		public virtual TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTOSync(Guid invoiceID,TransactionTypeIDEnum typeEnumValue)
 		{
 			string _user = getHttpContextUser();
@@ -5157,31 +2750,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class UserAccountAuditLogicClient : ClientBase, Interfaces.IUserAccountAuditLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public UserAccountAuditLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public UserAccountAuditLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="requestData"></param>
-		/// <returns></returns>
 		public virtual Task CreateAndSaveAuditAsync(String requestData,WebUserObject wuo)
 		{
 			requestData = requestData.UrlEncode();
@@ -5189,10 +2768,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<WebUserObject>("api/UserAccountAuditLogic/CreateAndSaveAudit?requestData=" + requestData, wuo, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="requestData"></param>
 		public virtual void CreateAndSaveAuditSync(String requestData,WebUserObject wuo)
 		{
 			requestData = requestData.UrlEncode();
@@ -5202,32 +2777,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class UserLogicClient : ClientBase, Interfaces.IUserLogicClient, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public UserLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public UserLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="username"></param>
-		/// <param name="password"></param>
-		/// <returns></returns>
 		public virtual Task<UserLoginValidation> AuthenticateUserAsync(String username,String password)
 		{
 			username = username.UrlEncode();
@@ -5236,11 +2796,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, UserLoginValidation>("api/UserLogic/AuthenticateUserAsync?username=" + username + "&password=" + password, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="username"></param>
-		/// <param name="password"></param>
 		public virtual UserLoginValidation AuthenticateUserSync(String username,String password)
 		{
 			username = username.UrlEncode();
@@ -5249,33 +2804,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, UserLoginValidation>("api/UserLogic/AuthenticateUserAsync?username=" + username + "&password=" + password, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<ContactDTO> AddUserAsync(ContactDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<ContactDTO, ContactDTO>("api/UserLogic/AddUserAsync", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual ContactDTO AddUserSync(ContactDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<ContactDTO, ContactDTO>("api/UserLogic/AddUserAsync", dto, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <param name="newPassword"></param>
-		/// <param name="doNotRequirePin"></param>
-		/// <param name="pin"></param>
-		/// <returns></returns>
 		public virtual Task ResetUserPasswordAsync(Guid userID,String newPassword,Boolean doNotRequirePin,String pin)
 		{
 			newPassword = newPassword.UrlEncode();
@@ -5284,13 +2824,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/ResetUserPasswordAsync?userID=" + userID + "&newPassword=" + newPassword + "&doNotRequirePin=" + doNotRequirePin + "&pin=" + pin, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <param name="newPassword"></param>
-		/// <param name="doNotRequirePin"></param>
-		/// <param name="pin"></param>
 		public virtual void ResetUserPasswordSync(Guid userID,String newPassword,Boolean doNotRequirePin,String pin)
 		{
 			newPassword = newPassword.UrlEncode();
@@ -5299,55 +2832,30 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/ResetUserPasswordAsync?userID=" + userID + "&newPassword=" + newPassword + "&doNotRequirePin=" + doNotRequirePin + "&pin=" + pin, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> HasPasswordExpiredAsync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/UserLogic/HasPasswordExpired?userID=" + userID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
 		public virtual Boolean HasPasswordExpiredSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/HasPasswordExpired?userID=" + userID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="lockUser"></param>
-		/// <returns></returns>
 		public virtual Task LockOrUnlockUserAsync(Guid userId,Boolean lockUser)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/UserLogic/LockOrUnlockUserAsync?userId=" + userId + "&lockUser=" + lockUser, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="lockUser"></param>
 		public virtual void LockOrUnlockUserSync(Guid userId,Boolean lockUser)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/LockOrUnlockUserAsync?userId=" + userId + "&lockUser=" + lockUser, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userName"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> IsUserExistAsync(String userName)
 		{
 			userName = userName.UrlEncode();
@@ -5355,10 +2863,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, Boolean>("api/UserLogic/IsUserExist?userName=" + userName, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userName"></param>
 		public virtual Boolean IsUserExistSync(String userName)
 		{
 			userName = userName.UrlEncode();
@@ -5366,11 +2870,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsUserExist?userName=" + userName, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> IsEmailExistAsync(String email)
 		{
 			email = email.UrlEncode();
@@ -5378,10 +2877,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, Boolean>("api/UserLogic/IsEmailExist?email=" + email, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
 		public virtual Boolean IsEmailExistSync(String email)
 		{
 			email = email.UrlEncode();
@@ -5389,93 +2884,54 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsEmailExist?email=" + email, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> IsUserAccountRegisteredAsync(Guid uaoId)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/UserLogic/IsUserAccountRegistered?uaoId=" + uaoId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
 		public virtual Boolean IsUserAccountRegisteredSync(Guid uaoId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsUserAccountRegistered?uaoId=" + uaoId, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="contactID"></param>
-		/// <returns></returns>
 		public virtual Task<IEnumerable<AddressDTO>> GetUserAddressesAsync(Guid contactID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<IEnumerable<AddressDTO>>("api/UserLogic/GetUserAddresses?contactID=" + contactID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="contactID"></param>
 		public virtual IEnumerable<AddressDTO> GetUserAddressesSync(Guid contactID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<IEnumerable<AddressDTO>>("api/UserLogic/GetUserAddresses?contactID=" + contactID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<List<UserAccount>> GetAllUserAccountAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<UserAccount>>("api/UserLogic/GetAllUserAccountAsync", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual List<UserAccount> GetAllUserAccountSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccount>>("api/UserLogic/GetAllUserAccountAsync", _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
 		public virtual Task<UserAccount> GetUserAccountAsync(Guid key)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<UserAccount>("api/UserLogic/GetUserAccountAsync?key=" + key, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="key"></param>
 		public virtual UserAccount GetUserAccountSync(Guid key)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetUserAccountAsync?key=" + key, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <returns></returns>
 		public virtual Task<UserAccount> GetBAUserAccountByEmailAsync(String email)
 		{
 			email = email.UrlEncode();
@@ -5483,10 +2939,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAsync?email=" + email, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
 		public virtual UserAccount GetBAUserAccountByEmailSync(String email)
 		{
 			email = email.UrlEncode();
@@ -5494,12 +2946,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAsync?email=" + email, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="id"></param>
-		/// <returns></returns>
 		public virtual Task<UserAccount> GetBAUserAccountByEmailAndNotIDAsync(String email,Guid id)
 		{
 			email = email.UrlEncode();
@@ -5507,11 +2953,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAndNotIDAsync?email=" + email + "&id=" + id, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="id"></param>
 		public virtual UserAccount GetBAUserAccountByEmailAndNotIDSync(String email,Guid id)
 		{
 			email = email.UrlEncode();
@@ -5519,11 +2960,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAndNotIDAsync?email=" + email + "&id=" + id, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="username"></param>
-		/// <returns></returns>
 		public virtual Task<UserAccount> GetBAUserAccountByUsernameAsync(String username)
 		{
 			username = username.UrlEncode();
@@ -5531,10 +2967,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByUsernameAsync?username=" + username, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="username"></param>
 		public virtual UserAccount GetBAUserAccountByUsernameSync(String username)
 		{
 			username = username.UrlEncode();
@@ -5542,12 +2974,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByUsernameAsync?username=" + username, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="permanentAccountonly"></param>
-		/// <returns></returns>
 		public virtual Task<List<UserAccountDTO>> GetUserAccountByEmailAsync(String email,Boolean permanentAccountonly)
 		{
 			email = email.UrlEncode();
@@ -5555,11 +2981,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<List<UserAccountDTO>>("api/UserLogic/GetUserAccountByEmail?email=" + email + "&permanentAccountonly=" + permanentAccountonly, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="permanentAccountonly"></param>
 		public virtual List<UserAccountDTO> GetUserAccountByEmailSync(String email,Boolean permanentAccountonly)
 		{
 			email = email.UrlEncode();
@@ -5567,11 +2988,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<List<UserAccountDTO>>("api/UserLogic/GetUserAccountByEmail?email=" + email + "&permanentAccountonly=" + permanentAccountonly, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userName"></param>
-		/// <returns></returns>
 		public virtual Task<UserAccountDTO> GetUserAccountByUsernameAsync(String userName)
 		{
 			userName = userName.UrlEncode();
@@ -5579,10 +2995,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<UserAccountDTO>("api/UserLogic/GetUserAccountByUsername?userName=" + userName, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userName"></param>
 		public virtual UserAccountDTO GetUserAccountByUsernameSync(String userName)
 		{
 			userName = userName.UrlEncode();
@@ -5590,241 +3002,138 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<UserAccountDTO>("api/UserLogic/GetUserAccountByUsername?userName=" + userName, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		public virtual Task<List<ContactDTO>> GetUserContactsAsync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<ContactDTO>>("api/UserLogic/GetUserContacts?userId=" + userId, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
 		public virtual List<ContactDTO> GetUserContactsSync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<ContactDTO>>("api/UserLogic/GetUserContacts?userId=" + userId, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
 		public virtual Task<List<UserAccount>> GetUserAccountsAsync(Guid key)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<UserAccount>>("api/UserLogic/GetUserAccounts?key=" + key, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="key"></param>
 		public virtual List<UserAccount> GetUserAccountsSync(Guid key)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccount>>("api/UserLogic/GetUserAccounts?key=" + key, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		public virtual Task<List<UserAccountOrganisationDTO>> GetUserAccountOrganisationAsync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<UserAccountOrganisationDTO>>("api/UserLogic/GetUserAccountOrganisation?accountID=" + accountID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
 		public virtual List<UserAccountOrganisationDTO> GetUserAccountOrganisationSync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationDTO>>("api/UserLogic/GetUserAccountOrganisation?accountID=" + accountID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task AddUserAccountAsync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<UserAccount>("api/UserLogic/AddUserAccountAsync", user, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void AddUserAccountSync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/AddUserAccountAsync", user, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task RemoveUserAccountAsync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<UserAccount>("api/UserLogic/RemoveUserAccountAsync", user, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void RemoveUserAccountSync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/RemoveUserAccountAsync", user, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task UpdateUserAccountAsync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<UserAccount>("api/UserLogic/UpdateUserAccountAsync", user, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void UpdateUserAccountSync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/UpdateUserAccountAsync", user, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
 		public virtual Task<List<UserClaimDTO>> GetUserClaimsAsync(Guid userId,Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<UserClaimDTO>>("api/UserLogic/GetUserClaims?userId=" + userId + "&organisationID=" + organisationID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="organisationID"></param>
 		public virtual List<UserClaimDTO> GetUserClaimsSync(Guid userId,Guid organisationID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserClaimDTO>>("api/UserLogic/GetUserClaims?userId=" + userId + "&organisationID=" + organisationID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		public virtual Task<ContactDTO> GetUserAccountOrganisationPrimaryContactAsync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<ContactDTO>("api/UserLogic/GetUserAccountOrganisationPrimaryContact?uaoID=" + uaoID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
 		public virtual ContactDTO GetUserAccountOrganisationPrimaryContactSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ContactDTO>("api/UserLogic/GetUserAccountOrganisationPrimaryContact?uaoID=" + uaoID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="personalOrg"></param>
-		/// <returns></returns>
 		public virtual Task<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationUserTypeOrganisationTypeAsync(Guid accountID,Boolean personalOrg)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<VUserAccountOrganisationUserTypeOrganisationTypeDTO>("api/UserLogic/GetUserAccountOrganisationUserTypeOrganisationType?accountID=" + accountID + "&personalOrg=" + personalOrg, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="personalOrg"></param>
 		public virtual VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationTypeSync(Guid accountID,Boolean personalOrg)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VUserAccountOrganisationUserTypeOrganisationTypeDTO>("api/UserLogic/GetUserAccountOrganisationUserTypeOrganisationType?accountID=" + accountID + "&personalOrg=" + personalOrg, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <returns></returns>
 		public virtual Task<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>> GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>>("api/UserLogic/GetUserAccountOrganisationWithUserTypeAndOrgType?accountID=" + accountID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
 		public virtual List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgTypeSync(Guid accountID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>>("api/UserLogic/GetUserAccountOrganisationWithUserTypeAndOrgType?accountID=" + accountID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		public virtual Task<List<String>> UserLoginSessionsAsync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, List<String>>("api/UserLogic/UserLoginSessions?userId=" + userId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
 		public virtual List<String> UserLoginSessionsSync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, List<String>>("api/UserLogic/UserLoginSessions?userId=" + userId, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		public virtual Task LogEveryoneElseOutAsync(Guid userId,String sessionId)
 		{
 			sessionId = sessionId.UrlEncode();
@@ -5832,11 +3141,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/LogEveryoneElseOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
 		public virtual void LogEveryoneElseOutSync(Guid userId,String sessionId)
 		{
 			sessionId = sessionId.UrlEncode();
@@ -5844,12 +3148,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/LogEveryoneElseOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		public virtual Task LogUserOutAsync(Guid userId,String sessionId)
 		{
 			sessionId = sessionId.UrlEncode();
@@ -5857,11 +3155,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/LogUserOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
 		public virtual void LogUserOutSync(Guid userId,String sessionId)
 		{
 			sessionId = sessionId.UrlEncode();
@@ -5869,15 +3162,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/LogUserOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <param name="userHostAddress"></param>
-		/// <param name="userIdAddress"></param>
-		/// <param name="userLocation"></param>
-		/// <returns></returns>
 		public virtual Task SaveUserAccountLoginSessionAsync(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation)
 		{
 			sessionId = sessionId.UrlEncode();
@@ -5888,14 +3172,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/SaveUserAccountLoginSessionAsync?userId=" + userId + "&sessionId=" + sessionId + "&userHostAddress=" + userHostAddress + "&userIdAddress=" + userIdAddress + "&userLocation=" + userLocation, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <param name="userHostAddress"></param>
-		/// <param name="userIdAddress"></param>
-		/// <param name="userLocation"></param>
 		public virtual void SaveUserAccountLoginSessionSync(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation)
 		{
 			sessionId = sessionId.UrlEncode();
@@ -5906,12 +3182,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/SaveUserAccountLoginSessionAsync?userId=" + userId + "&sessionId=" + sessionId + "&userHostAddress=" + userHostAddress + "&userIdAddress=" + userIdAddress + "&userLocation=" + userLocation, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
-		/// <returns></returns>
 		public virtual Task SaveUserAccountLoginSessionDataAsync(Guid userId,String sessionId,Dictionary<String, String> requestData)
 		{
 			sessionId = sessionId.UrlEncode();
@@ -5919,11 +3189,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<Dictionary<String, String>>("api/UserLogic/SaveUserAccountLoginSessionDataAsync?userId=" + userId + "&sessionId=" + sessionId, requestData, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="sessionId"></param>
 		public virtual void SaveUserAccountLoginSessionDataSync(Guid userId,String sessionId,Dictionary<String, String> requestData)
 		{
 			sessionId = sessionId.UrlEncode();
@@ -5931,78 +3196,42 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<Dictionary<String, String>>("api/UserLogic/SaveUserAccountLoginSessionDataAsync?userId=" + userId + "&sessionId=" + sessionId, requestData, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> DoesUserExistAsync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/UserLogic/DoesUserExist?userID=" + userID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
 		public virtual Boolean DoesUserExistSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/DoesUserExist?userID=" + userID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		public virtual Task<UserAccountOrganisationDTO> GetPermanentUAOAsync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<UserAccountOrganisationDTO>("api/UserLogic/GetPermanentUAO?userID=" + userID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
 		public virtual UserAccountOrganisationDTO GetPermanentUAOSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<UserAccountOrganisationDTO>("api/UserLogic/GetPermanentUAO?userID=" + userID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		public virtual Task<Guid> GetPersonalUserAccountOrganisationAsync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<Guid>("api/UserLogic/GetPersonalUserAccountOrganisation?userId=" + userId, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
 		public virtual Guid GetPersonalUserAccountOrganisationSync(Guid userId)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Guid>("api/UserLogic/GetPersonalUserAccountOrganisation?userId=" + userId, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userName"></param>
-		/// <param name="password"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="userId"></param>
-		/// <returns></returns>
 		public virtual Task<UserAccount> CreateAccountAsync(String userName,String password,String email,String phoneNumber,Guid userId)
 		{
 			userName = userName.UrlEncode();
@@ -6013,14 +3242,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&phoneNumber=" + phoneNumber + "&userId=" + userId, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userName"></param>
-		/// <param name="password"></param>
-		/// <param name="email"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="userId"></param>
 		public virtual UserAccount CreateAccountSync(String userName,String password,String email,String phoneNumber,Guid userId)
 		{
 			userName = userName.UrlEncode();
@@ -6031,112 +3252,66 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&phoneNumber=" + phoneNumber + "&userId=" + userId, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task CreateContactAsync(ContactDTO contactDTO)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<ContactDTO>("api/UserLogic/CreateContactAsync", contactDTO, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void CreateContactSync(ContactDTO contactDTO)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<ContactDTO>("api/UserLogic/CreateContactAsync", contactDTO, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="parentID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> ContactExistsAsync(Guid parentID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/UserLogic/ContactExists?parentID=" + parentID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="parentID"></param>
 		public virtual Boolean ContactExistsSync(Guid parentID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/ContactExists?parentID=" + parentID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		public virtual Task DeleteAccountAsync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return DeleteAsync("api/UserLogic/DeleteAccountAsync?userID=" + userID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
 		public virtual void DeleteAccountSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => DeleteAsync("api/UserLogic/DeleteAccountAsync?userID=" + userID, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <returns></returns>
 		public virtual Task CloseAccountAsync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/UserLogic/CloseAccountAsync?userID=" + userID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
 		public virtual void CloseAccountSync(Guid userID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/CloseAccountAsync?userID=" + userID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<List<VUserAccountNotLoggedInDTO>> GetUserAccountsNotLoggedInAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<VUserAccountNotLoggedInDTO>>("api/UserLogic/GetUserAccountsNotLoggedIn", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedInSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VUserAccountNotLoggedInDTO>>("api/UserLogic/GetUserAccountsNotLoggedIn", _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <returns></returns>
 		public virtual Task SendUsernameReminderAsync(String email)
 		{
 			email = email.UrlEncode();
@@ -6144,10 +3319,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/SendUsernameReminderAsync?email=" + email, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
 		public virtual void SendUsernameReminderSync(String email)
 		{
 			email = email.UrlEncode();
@@ -6155,11 +3326,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/SendUsernameReminderAsync?email=" + email, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="username"></param>
-		/// <returns></returns>
 		public virtual Task CreatePasswordResetRequestAsync(String username)
 		{
 			username = username.UrlEncode();
@@ -6167,10 +3333,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/CreatePasswordResetRequestAsync?username=" + username, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="username"></param>
 		public virtual void CreatePasswordResetRequestSync(String username)
 		{
 			username = username.UrlEncode();
@@ -6178,12 +3340,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/CreatePasswordResetRequestAsync?username=" + username, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="phoneNumber"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
 		public virtual Task SendTextMessageAsync(String phoneNumber,String message)
 		{
 			phoneNumber = phoneNumber.UrlEncode();
@@ -6192,11 +3348,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/SendTextMessage?phoneNumber=" + phoneNumber + "&message=" + message, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="phoneNumber"></param>
-		/// <param name="message"></param>
 		public virtual void SendTextMessageSync(String phoneNumber,String message)
 		{
 			phoneNumber = phoneNumber.UrlEncode();
@@ -6205,61 +3356,30 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/SendTextMessage?phoneNumber=" + phoneNumber + "&message=" + message, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="blank"></param>
-		/// <param name="overwriteExisting"></param>
-		/// <param name="sendToMobilePhone"></param>
-		/// <returns></returns>
 		public virtual Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting + "&sendToMobilePhone=" + sendToMobilePhone, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="blank"></param>
-		/// <param name="overwriteExisting"></param>
-		/// <param name="sendToMobilePhone"></param>
 		public virtual void GeneratePinSync(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting + "&sendToMobilePhone=" + sendToMobilePhone, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> IncrementInvalidPINAsync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/UserLogic/IncrementInvalidPINAsync?uaoID=" + uaoID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
 		public virtual Boolean IncrementInvalidPINSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IncrementInvalidPINAsync?uaoID=" + uaoID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="password"></param>
-		/// <returns></returns>
 		public virtual Task RegisterUserAsync(Guid uaoId,String phoneNumber,String password)
 		{
 			phoneNumber = phoneNumber.UrlEncode();
@@ -6268,12 +3388,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/RegisterUserAsync?uaoId=" + uaoId + "&phoneNumber=" + phoneNumber + "&password=" + password, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <param name="phoneNumber"></param>
-		/// <param name="password"></param>
 		public virtual void RegisterUserSync(Guid uaoId,String phoneNumber,String password)
 		{
 			phoneNumber = phoneNumber.UrlEncode();
@@ -6282,56 +3396,30 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?uaoId=" + uaoId + "&phoneNumber=" + phoneNumber + "&password=" + password, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="withRelatedLevel"></param>
-		/// <returns></returns>
 		public virtual Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID,Int32 withRelatedLevel)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="withRelatedLevel"></param>
 		public virtual List<UserAccountOrganisationRoleDTO> GetRolesSync(Guid uaoID,Int32 withRelatedLevel)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		public virtual Task<List<UserAccountOrganisationSafeSendGroupDTO>> GetSafeSendGroupsAsync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<List<UserAccountOrganisationSafeSendGroupDTO>>("api/UserLogic/GetSafeSendGroups?uaoID=" + uaoID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
 		public virtual List<UserAccountOrganisationSafeSendGroupDTO> GetSafeSendGroupsSync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationSafeSendGroupDTO>>("api/UserLogic/GetSafeSendGroups?uaoID=" + uaoID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <param name="newUsername"></param>
-		/// <returns></returns>
 		public virtual Task ChangeUsernameAndEmailAsync(Guid uaoId,String newUsername)
 		{
 			newUsername = newUsername.UrlEncode();
@@ -6339,11 +3427,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/UserLogic/ChangeUsernameAndEmail?uaoId=" + uaoId + "&newUsername=" + newUsername, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		/// <param name="newUsername"></param>
 		public virtual void ChangeUsernameAndEmailSync(Guid uaoId,String newUsername)
 		{
 			newUsername = newUsername.UrlEncode();
@@ -6351,13 +3434,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/UserLogic/ChangeUsernameAndEmail?uaoId=" + uaoId + "&newUsername=" + newUsername, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="txId"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> CanEmailBeUsedAsPersonalAsync(String email,Nullable<Guid> txId,Nullable<Guid> uaoID)
 		{
 			email = email.UrlEncode();
@@ -6365,12 +3441,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsPersonal?email=" + email + "&txId=" + txId + "&uaoID=" + uaoID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="txId"></param>
-		/// <param name="uaoID"></param>
 		public virtual Boolean CanEmailBeUsedAsPersonalSync(String email,Nullable<Guid> txId,Nullable<Guid> uaoID)
 		{
 			email = email.UrlEncode();
@@ -6378,12 +3448,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsPersonal?email=" + email + "&txId=" + txId + "&uaoID=" + uaoID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> CanEmailBeUsedAsProfessionalAsync(String email,Nullable<Guid> uaoID)
 		{
 			email = email.UrlEncode();
@@ -6391,11 +3455,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsProfessional?email=" + email + "&uaoID=" + uaoID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="uaoID"></param>
 		public virtual Boolean CanEmailBeUsedAsProfessionalSync(String email,Nullable<Guid> uaoID)
 		{
 			email = email.UrlEncode();

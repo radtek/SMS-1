@@ -51,6 +51,8 @@ namespace Bec.TargetFramework.Entities
               target.UserAccountOrganisationHelpVieweds = source.UserAccountOrganisationHelpVieweds.ToDtosWithRelated(level - 1);
               target.Roles = source.Roles.ToDtosWithRelated(level - 1);
               target.ClassificationType = source.ClassificationType.ToDtoWithRelated(level - 1);
+              target.UserAccountOrganisation_CreatedBy = source.UserAccountOrganisation_CreatedBy.ToDtoWithRelated(level - 1);
+              target.UserAccountOrganisation_ModifiedBy = source.UserAccountOrganisation_ModifiedBy.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

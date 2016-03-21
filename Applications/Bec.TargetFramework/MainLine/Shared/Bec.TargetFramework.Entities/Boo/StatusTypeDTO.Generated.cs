@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public StatusTypeDTO() {
         }
 
-        public StatusTypeDTO(global::System.Guid statusTypeID, int statusTypeVersionNumber, string name, string description, bool isActive, bool isDeleted, global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, StatusTypeTemplateDTO statusTypeTemplate, List<StatusTypeRoleDTO> statusTypeRoles, List<ModuleStatusTypeDTO> moduleStatusTypes, List<DefaultOrganisationStatusTypeDTO> defaultOrganisationStatusTypes, List<StatusTypeStructureDTO> statusTypeStructures, List<UserAccountOrganisationStatusDTO> userAccountOrganisationStatus, List<OrganisationStatusDTO> organisationStatus, List<StatusTypeClaimDTO> statusTypeClaims, List<OrganisationStatusTypeDTO> organisationStatusTypes, List<StatusTypeValueDTO> statusTypeValues, List<ArtefactDTO> artefacts, List<InvoiceProcessLogDTO> invoiceProcessLogs, List<TransactionOrderProcessLogDTO> transactionOrderProcessLogs, List<PlanSubscriptionBillingProcessLogDTO> planSubscriptionBillingPeriods, List<PlanSubscriptionProcessLogDTO> planSubscriptionProcessLogs, List<OrganisationFinancialDetailDTO> organisationFinancialDetails, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationDirectDebitMandateProcessLogDTO> organisationDirectDebitMandateProcessLogs, List<ProductPurchaseProcessLogDTO> productPurchaseProcessLogs, List<ServiceInterfaceProcessLogDTO> serviceInterfaceProcessLogs, List<ProductPurchaseBusTaskProcessLogDTO> productPurchaseBusTaskProcessLogs, List<OrganisationBankAccountStatusDTO> organisationBankAccountStatus) {
+        public StatusTypeDTO(global::System.Guid statusTypeID, int statusTypeVersionNumber, string name, string description, bool isActive, bool isDeleted, global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, StatusTypeTemplateDTO statusTypeTemplate, List<StatusTypeRoleDTO> statusTypeRoles, List<ModuleStatusTypeDTO> moduleStatusTypes, List<DefaultOrganisationStatusTypeDTO> defaultOrganisationStatusTypes, List<StatusTypeStructureDTO> statusTypeStructures, List<UserAccountOrganisationStatusDTO> userAccountOrganisationStatus, List<OrganisationStatusDTO> organisationStatus, List<StatusTypeClaimDTO> statusTypeClaims, List<OrganisationStatusTypeDTO> organisationStatusTypes, List<StatusTypeValueDTO> statusTypeValues, List<InvoiceProcessLogDTO> invoiceProcessLogs, List<TransactionOrderProcessLogDTO> transactionOrderProcessLogs, List<PlanSubscriptionBillingProcessLogDTO> planSubscriptionBillingPeriods, List<PlanSubscriptionProcessLogDTO> planSubscriptionProcessLogs, List<OrganisationFinancialDetailDTO> organisationFinancialDetails, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationDirectDebitMandateProcessLogDTO> organisationDirectDebitMandateProcessLogs, List<ProductPurchaseProcessLogDTO> productPurchaseProcessLogs, List<ServiceInterfaceProcessLogDTO> serviceInterfaceProcessLogs, List<ProductPurchaseBusTaskProcessLogDTO> productPurchaseBusTaskProcessLogs, List<OrganisationBankAccountStatusDTO> organisationBankAccountStatus, List<ArtefactStatusTypeDTO> artefactStatusTypes) {
 
           this.StatusTypeID = statusTypeID;
           this.StatusTypeVersionNumber = statusTypeVersionNumber;
@@ -42,7 +42,6 @@ namespace Bec.TargetFramework.Entities
           this.StatusTypeClaims = statusTypeClaims;
           this.OrganisationStatusTypes = organisationStatusTypes;
           this.StatusTypeValues = statusTypeValues;
-          this.Artefacts = artefacts;
           this.InvoiceProcessLogs = invoiceProcessLogs;
           this.TransactionOrderProcessLogs = transactionOrderProcessLogs;
           this.PlanSubscriptionBillingPeriods = planSubscriptionBillingPeriods;
@@ -54,6 +53,7 @@ namespace Bec.TargetFramework.Entities
           this.ServiceInterfaceProcessLogs = serviceInterfaceProcessLogs;
           this.ProductPurchaseBusTaskProcessLogs = productPurchaseBusTaskProcessLogs;
           this.OrganisationBankAccountStatus = organisationBankAccountStatus;
+          this.ArtefactStatusTypes = artefactStatusTypes;
         }
 
         #endregion
@@ -119,9 +119,6 @@ namespace Bec.TargetFramework.Entities
         public List<StatusTypeValueDTO> StatusTypeValues { get; set; }
 
         [DataMember]
-        public List<ArtefactDTO> Artefacts { get; set; }
-
-        [DataMember]
         public List<InvoiceProcessLogDTO> InvoiceProcessLogs { get; set; }
 
         [DataMember]
@@ -153,6 +150,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<OrganisationBankAccountStatusDTO> OrganisationBankAccountStatus { get; set; }
+
+        [DataMember]
+        public List<ArtefactStatusTypeDTO> ArtefactStatusTypes { get; set; }
 
         #endregion
     }

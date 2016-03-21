@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("NotifyOrganisationNoMatch", "SafeBuyer", new { area = "Buyer", accountNumber = ViewBag.accountNumber, sortCode = ViewBag.sortCode, smsUserAccountOrganisationTransactionID = ViewBag.smsUserAccountOrganisationTransactionID })" data-index="@ViewBag.index">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-redirectto="@Url.Action("Index", "SafeBuyer", new { area = "Buyer", selectedTransactionId = ViewBag.txID })">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         <section class="col-xs-12">

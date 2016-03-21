@@ -5,7 +5,7 @@ function checkRedirect(response) {
     if (hasRedirect(response)) window.location.href = response.RedirectUrl;
 }
 
-function hasRedirect(response){
+function hasRedirect(response) {
     return response && response.HasRedirectUrl;
 }
 
@@ -158,11 +158,6 @@ function handleHelp() {
             div.addClass('help-show');
     });
 }
-
-//function hideParentModal() {
-//    //the child modal hasn't been hidden yet
-//    modalStack[modalStack.length - 2].modal('hide');
-//};
 
 function hideCurrentModal() {
     modalStack[modalStack.length - 1].modal('hide');
@@ -445,7 +440,7 @@ function showDuplicates(selector, headingSelector, dataItem) {
 }
 
 function formatCurrency(val) {
-    return accounting.formatMoney(val, "£ ", 2);
+    return accounting.formatMoney(val, "£", 2);
 }
 
 var findAddress = function (opts) {
@@ -464,6 +459,10 @@ var findAddress = function (opts) {
     this.manAddRow = $(opts.manAddRow);
     this.noMatch = $(opts.noMatch);
     this.findAddressButton = $(opts.findAddressButton);
+
+    opts = $.extend({
+        alwaysEditable: false
+    }, opts);
 
     var self = this;
 
@@ -485,7 +484,7 @@ var findAddress = function (opts) {
                 }
             }
             else {
-                self.manAddRow.show();
+                if (!opts.alwaysEditable) self.manAddRow.show();
                 self.checkMan(false);
                 if (self.companyName.length > 0) self.companyName.val(selOpt.attr('data-Company')).valid();
                 if (self.line1.length > 0) self.line1.val(selOpt.attr('data-Line1')).valid();
@@ -556,7 +555,7 @@ var findAddress = function (opts) {
 
     this.checkMan = function (check) {
         self.manualAddress.prop('checked', check);
-        self.lockFields(!check);
+        if (!opts.alwaysEditable) self.lockFields(!check);
     }
 
     this.lockFields = function (lock) {
@@ -727,3 +726,29 @@ if (!String.prototype.format) {
     };
 }
 
+function formatDates() {
+    $('.format-date').each(function () {
+        $(this).text(dateStringNoTime($(this).data("val")));
+    });
+    $('.format-date-time').each(function () {
+        $(this).text(dateString($(this).data("val")));
+    });
+    $('.format-pending-date').each(function () {
+        var originalText = $(this).text();
+        if (isValidIsoDate(originalText)) {
+            $(this).text(dateStringNoTime(originalText));
+        }
+        var pendingOriginalVal = $(this).data('pending-originalval');
+        if (isValidIsoDate(pendingOriginalVal)) {
+            $(this).data('pending-originalval', dateStringNoTime(pendingOriginalVal));
+        }
+        var pendingValue = $(this).data('pending-value');
+        if (isValidIsoDate(pendingValue)) {
+            $(this).data('pending-value', dateStringNoTime(pendingValue));
+        }
+    });
+
+    function isValidIsoDate(value) {
+        return moment(value, moment.ISO_8601, true).isValid();
+    }
+}

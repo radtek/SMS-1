@@ -58,6 +58,8 @@ namespace Bec.TargetFramework.Entities
               target.StatusTypeClaimTemplates = source.StatusTypeClaimTemplates.ToDtosWithRelated(level - 1);
               target.HelpItems = source.HelpItems.ToDtosWithRelated(level - 1);
               target.HelpRoles = source.HelpRoles.ToDtosWithRelated(level - 1);
+              target.RoleHierarchies_ParentRoleID = source.RoleHierarchies_ParentRoleID.ToDtosWithRelated(level - 1);
+              target.RoleHierarchies_RoleID = source.RoleHierarchies_RoleID.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

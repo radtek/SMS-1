@@ -129,6 +129,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for ArtefactDependencyStatusTypeTemplates in the schema.
+        /// </summary>
+        public virtual ICollection<ArtefactDependencyStatusTypeTemplate> ArtefactDependencyStatusTypeTemplates
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public InvoiceLineItemDTO() {
         }
 
-        public InvoiceLineItemDTO(global::System.Guid invoiceLineItemID, global::System.Nullable<System.Guid> invoiceID, global::System.DateTime dateFrom, global::System.DateTime dateTo, decimal singleProductPrice, global::System.Nullable<decimal> taxTotal, decimal price, decimal quantity, string description, int invoiceLineItemTypeID, global::System.Nullable<System.Guid> parentID, decimal priceInclTax, string countryCode, bool isCredit, global::System.Nullable<decimal> singleProductPriceInclTaxAndDeduct, decimal singleProductPriceExclTaxAndDeduct, bool isDebit, global::System.Nullable<System.Guid> productID, global::System.Nullable<decimal> taxTotalPercentage, global::System.Nullable<decimal> taxTotalValue, global::System.Nullable<decimal> discountTotalValue, global::System.Nullable<decimal> discountTotalPercentage, global::System.Nullable<decimal> deductionTotalValue, global::System.Nullable<decimal> deductionTotalPercentage, global::System.Nullable<decimal> deductionTotal, bool isActive, bool isDeleted, bool isClosed, global::System.Nullable<System.Guid> planSubscriptionPeriodID, bool isFrozenPendingPayment, global::System.Nullable<int> productVersionID, decimal priceExclTax, global::System.Nullable<decimal> discountTotal, bool isDepositProduct, global::System.Nullable<System.Guid> accountID, List<ShoppingCartItemDTO> shoppingCartItems, CountryCodeDTO countryCode1, InvoiceDTO invoice, ProductDTO product, List<TransactionOrderItemDTO> transactionOrderItems, PlanSubscriptionPeriodDTO planSubscriptionPeriod, List<ProductPurchaseDTO> productPurchases, List<OrganisationProductPurchaseDTO> organisationProductPurchases, AccountDTO account) {
+        public InvoiceLineItemDTO(global::System.Guid invoiceLineItemID, global::System.Nullable<System.Guid> invoiceID, global::System.DateTime dateFrom, global::System.DateTime dateTo, decimal singleProductPrice, global::System.Nullable<decimal> taxTotal, decimal price, decimal quantity, string description, int invoiceLineItemTypeID, global::System.Nullable<System.Guid> parentID, decimal priceInclTax, string countryCode, bool isCredit, global::System.Nullable<decimal> singleProductPriceInclTaxAndDeduct, decimal singleProductPriceExclTaxAndDeduct, bool isDebit, global::System.Nullable<System.Guid> productID, global::System.Nullable<decimal> taxTotalPercentage, global::System.Nullable<decimal> taxTotalValue, global::System.Nullable<decimal> discountTotalValue, global::System.Nullable<decimal> discountTotalPercentage, global::System.Nullable<decimal> deductionTotalValue, global::System.Nullable<decimal> deductionTotalPercentage, global::System.Nullable<decimal> deductionTotal, bool isActive, bool isDeleted, bool isClosed, global::System.Nullable<System.Guid> planSubscriptionPeriodID, bool isFrozenPendingPayment, global::System.Nullable<int> productVersionID, decimal priceExclTax, global::System.Nullable<decimal> discountTotal, bool isDepositProduct, global::System.Nullable<System.Guid> accountID, List<ShoppingCartItemDTO> shoppingCartItems, CountryCodeDTO countryCode1, InvoiceDTO invoice, ProductDTO product, List<TransactionOrderItemDTO> transactionOrderItems, PlanSubscriptionPeriodDTO planSubscriptionPeriod, List<ProductPurchaseDTO> productPurchases, List<OrganisationProductPurchaseDTO> organisationProductPurchases, AccountDTO account, List<ProductPurchaseReferenceDTO> productPurchaseReferences) {
 
           this.InvoiceLineItemID = invoiceLineItemID;
           this.InvoiceID = invoiceID;
@@ -68,6 +68,7 @@ namespace Bec.TargetFramework.Entities
           this.ProductPurchases = productPurchases;
           this.OrganisationProductPurchases = organisationProductPurchases;
           this.Account = account;
+          this.ProductPurchaseReferences = productPurchaseReferences;
         }
 
         #endregion
@@ -209,6 +210,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public AccountDTO Account { get; set; }
+
+        [DataMember]
+        public List<ProductPurchaseReferenceDTO> ProductPurchaseReferences { get; set; }
 
         #endregion
     }

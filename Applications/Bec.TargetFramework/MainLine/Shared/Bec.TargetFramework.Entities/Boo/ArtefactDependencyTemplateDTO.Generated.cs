@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ArtefactDependencyTemplateDTO() {
         }
 
-        public ArtefactDependencyTemplateDTO(global::System.Guid artefactDependencyTemplateID, global::System.Guid artefactTemplateID, int artefactTemplateVersionNumber, global::System.Guid dependencyArtefactTemplateID, int dependencyArtefactTemplateVersionNumber, bool isActive, bool isDeleted, ArtefactTemplateDTO artefactTemplate_ArtefactTemplateID_ArtefactTemplateVersionNumber, List<ArtefactDependencyDTO> artefactDependencies, ArtefactTemplateDTO artefactTemplate_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber) {
+        public ArtefactDependencyTemplateDTO(global::System.Guid artefactDependencyTemplateID, global::System.Guid artefactTemplateID, int artefactTemplateVersionNumber, global::System.Guid dependencyArtefactTemplateID, int dependencyArtefactTemplateVersionNumber, bool isActive, bool isDeleted, ArtefactTemplateDTO artefactTemplate_ArtefactTemplateID_ArtefactTemplateVersionNumber, List<ArtefactDependencyDTO> artefactDependencies, ArtefactTemplateDTO artefactTemplate_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber, List<ArtefactDependencyStatusTypeTemplateDTO> artefactDependencyStatusTypeTemplates) {
 
           this.ArtefactDependencyTemplateID = artefactDependencyTemplateID;
           this.ArtefactTemplateID = artefactTemplateID;
@@ -34,6 +34,7 @@ namespace Bec.TargetFramework.Entities
           this.ArtefactTemplate_ArtefactTemplateID_ArtefactTemplateVersionNumber = artefactTemplate_ArtefactTemplateID_ArtefactTemplateVersionNumber;
           this.ArtefactDependencies = artefactDependencies;
           this.ArtefactTemplate_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber = artefactTemplate_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber;
+          this.ArtefactDependencyStatusTypeTemplates = artefactDependencyStatusTypeTemplates;
         }
 
         #endregion
@@ -73,6 +74,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public ArtefactTemplateDTO ArtefactTemplate_DependencyArtefactTemplateID_DependencyArtefactTemplateVersionNumber { get; set; }
+
+        [DataMember]
+        public List<ArtefactDependencyStatusTypeTemplateDTO> ArtefactDependencyStatusTypeTemplates { get; set; }
 
         #endregion
     }

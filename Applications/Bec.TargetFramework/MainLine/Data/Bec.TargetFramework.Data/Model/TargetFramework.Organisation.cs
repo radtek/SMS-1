@@ -693,15 +693,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for LegalOrganisationDetail in the schema.
-        /// </summary>
-        public virtual LegalOrganisationDetail LegalOrganisationDetail
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for OrganisationNotes in the schema.
         /// </summary>
         public virtual ICollection<OrganisationNote> OrganisationNotes
@@ -732,6 +723,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ConversationSafeSendGroupParticipants in the schema.
         /// </summary>
         public virtual ICollection<ConversationSafeSendGroupParticipant> ConversationSafeSendGroupParticipants
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for LegalOrganisationDetail in the schema.
+        /// </summary>
+        public virtual LegalOrganisationDetail LegalOrganisationDetail
         {
             get;
             set;

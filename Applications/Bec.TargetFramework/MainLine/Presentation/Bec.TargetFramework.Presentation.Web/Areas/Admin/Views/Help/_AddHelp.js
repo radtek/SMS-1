@@ -117,7 +117,7 @@
                 template: function(dataItem) {
                     if (dataItem.EffectiveFrom == null) {
                         return ""
-                    } else return kendo.toString(kendo.parseDate(dataItem.EffectiveFrom), "dd MMM yyyy");
+                    } else return kendo.toString(kendo.parseDate(dataItem.EffectiveFrom), "dd/MM/yyyy");
                 }
             },
             {
@@ -202,9 +202,9 @@
 
     function hideShowElementsBasedOnHelpType(helpType) {
         if (helpType === "ShowMeHow") {
-            showHideAndClearValueElement("#uiPageUrlSection", "#UiPageUrl", true);
+            showHideAndClearValueElement("#uiPageUrlSection", true);
         } else {
-            showHideAndClearValueElement("#uiPageUrlSection", "#UiPageUrl", false);
+            showHideAndClearValueElement("#uiPageUrlSection", false);
         }
     }
 

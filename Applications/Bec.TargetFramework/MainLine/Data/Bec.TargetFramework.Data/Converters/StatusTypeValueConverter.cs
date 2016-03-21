@@ -55,6 +55,7 @@ namespace Bec.TargetFramework.Entities
               target.ServiceInterfaceProcessLogs = source.ServiceInterfaceProcessLogs.ToDtosWithRelated(level - 1);
               target.ProductPurchaseBusTaskProcessLogs = source.ProductPurchaseBusTaskProcessLogs.ToDtosWithRelated(level - 1);
               target.OrganisationBankAccountStatus = source.OrganisationBankAccountStatus.ToDtosWithRelated(level - 1);
+              target.ArtefactDependencyStatusTypes = source.ArtefactDependencyStatusTypes.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

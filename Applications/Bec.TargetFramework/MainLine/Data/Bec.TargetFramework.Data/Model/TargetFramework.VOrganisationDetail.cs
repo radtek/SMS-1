@@ -38,6 +38,16 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for OrganisationName in the schema.
+        /// </summary>
+        public virtual string OrganisationName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for OrganisationTypeID in the schema.
         /// </summary>
         public virtual int OrganisationTypeID

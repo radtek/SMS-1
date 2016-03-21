@@ -32,6 +32,7 @@ namespace Bec.TargetFramework.Business.Logic
         public InvoiceLogicController InvoiceLogic { get; set; }
         public TransactionOrderLogicController TransactionOrderLogic { get; set; }
         public OrganisationLogicController OrganisationLogic { get; set; }
+        public ClassificationDataLogicController ClassificationLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
 
         private CreditCardTxTypeType ConvertChargeType(PaymentChargeTypeEnum enumValue)
@@ -306,7 +307,7 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         if (cartItem.ProductID == creditProd.ProductID)
                         {
-                            await OrganisationLogic.AddCreditAsync(
+                            await AddCreditAsync(
                                 txOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID,
                                 request.TransactionOrderID,
                                 txOrder.Invoice.ShoppingCart.UserAccountOrganisation.UserAccountOrganisationID,
@@ -319,6 +320,29 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             return responseDto;
+        }
+
+        private async Task AddCreditAsync(Guid orgID, Guid transactionOrderID, Guid uaoID, decimal amount, long? rowVersion = null)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
+                var account = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x =>
+                    x.OrganisationID == orgID &&
+                    x.LedgerAccountTypeID == creditType);
+                if (rowVersion.HasValue && account.RowVersion != rowVersion) throw new Exception("The credit account has been updated by another user. Please go back and try again");
+
+                account.OrganisationLedgerTransactions.Add(new OrganisationLedgerTransaction
+                {
+                    TransactionOrderID = transactionOrderID,
+                    BalanceOn = DateTime.Now,
+                    Amount = amount,
+                    CreatedBy = uaoID
+                });
+                account.Balance += amount; //using rowversion for concurrency
+                account.UpdatedOn = DateTime.Now;
+                await scope.SaveChangesAsync();
+            }
         }
 
         private string DetermineErrorCodeFromApprovalCode(string approvalCode)

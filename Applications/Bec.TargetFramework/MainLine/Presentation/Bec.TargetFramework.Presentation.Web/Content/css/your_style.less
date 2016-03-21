@@ -3,6 +3,11 @@
 @primary-color: #a1c324;
 @text-color: black;
 @icon-color: #7d7d7d;
+@color-accept: #24bb43;
+@color-reject: #a90329;
+@color-pending-update: #6EB0DF;
+@color-pending-update-highlight: #2e99ff;
+@color-approved-update: @primary-color;
 
 .color-primary {
     color: @primary-color;
@@ -15,7 +20,7 @@
 .bg-color-transparent {
     background: transparent !important;
 }
-
+ 
 // Boxmodel
 .padding {
     &-top {
@@ -183,9 +188,9 @@
 
         .ajax-dropdown {
             width: 430px;
-            height:400px;
-            padding-top:0;
-            border-top:0;
+            height: 400px;
+            padding-top: 0;
+            border-top: 0;
         }
 
         .ajax-dropdown:before,
@@ -246,7 +251,7 @@
     width: 100%;
 
     .tt-menu {
-        z-index: 300 !important;
+        z-index: 2004 !important;
     }
 
     .tt-suggestion, .empty-message {
@@ -265,7 +270,7 @@
 
 .typeahead-spinner {
     position: absolute;
-    z-index: 700;
+    z-index: 2003;
     color: #7b7b7b;
     width: 10px;
     right: 24px;
@@ -278,7 +283,8 @@
 }
 
 .search-form,
-.smart-form {
+.smart-form,
+form {
     input.invalid {
         border: 1px solid #a90329;
         background-color: #fff0f0;
@@ -287,6 +293,7 @@
     em.invalid {
         display: block;
         margin-top: 0;
+        margin-bottom: 5px;
         padding: 0 1px;
         font-style: normal;
         font-size: 11px;
@@ -350,6 +357,11 @@
     }
 }
 
+.open > .dropdown-toggle.btn-primary {
+    border: 1px solid @primary-color !important;
+    background-color: lighten(@primary-color, 2%) !important;
+}
+
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
     background-color: lighten(@primary-color, 10%);
@@ -361,10 +373,12 @@
     -moz-box-shadow: 0 -2px 0 @primary-color;
     box-shadow: 0 -2px 0 @primary-color;
 }
+
 .nav-tabs > li {
     & > a > .sms {
         opacity: .5;
     }
+
     &.active > a > .sms {
         opacity: 1;
     }
@@ -379,19 +393,17 @@
 
             border-color: #bdbdbd !important;
         }
-        
-
     }
 
-    .toggle input:checked+i {
+    .toggle input:checked + i {
         border-color: @primary-color;
     }
 
-    .toggle input+input[type=hidden]+i:before{
+    .toggle input + input[type=hidden] + i:before {
         background-color: #ccc;
     }
 
-    .toggle input:checked+input[type=hidden]+i:before {
+    .toggle input:checked + input[type=hidden] + i:before {
         background-color: @primary-color;
     }
 
@@ -452,7 +464,7 @@
     cursor: pointer !important;
 }
 
-.icon-append {
+.icon-append, .icon-prepend {
     z-index: 200;
 }
 
@@ -493,6 +505,10 @@
     color: #a90329;
     margin-top: 7px;
     cursor: pointer;
+}
+
+.delete-src-of-funds-entry {
+    .delete-entry;
 }
 
 .add-next-bank-account {
@@ -739,25 +755,27 @@
     dt {
         margin-bottom: 2px;
     }
+
     dd {
         margin-bottom: 10px;
-        &#personalBankAccountsTable{
+
+        &#personalBankAccountsTable {
             margin-top: 5px;
         }
+
         p {
             margin: 0;
         }
     }
-
 }
 
-.buyer-transaction-list{
-    p{
+.buyer-transaction-list {
+    p {
         margin: 0;
     }
 }
 
-.transaction-icon{
+.transaction-icon {
     color: darken(@icon-color, 10%);
 }
 
@@ -766,10 +784,11 @@
     width: 0;
 }
 
-.dropzone{
+.dropzone {
     margin-top: 8px !important;
-    min-height:100px;
-    .dz-default.dz-message{
+    min-height: 100px;
+
+    .dz-default.dz-message {
         margin: 40px 0 !important;
         top: 0 !important;
         left: 0 !important;
@@ -777,50 +796,93 @@
         height: 18px !important;
         text-align: center;
     }
-    .dz-remove{
+
+    .dz-remove {
         background-image: none !important;
         background-color: @primary-color !important;
         border-color: @primary-color !important;
         cursor: pointer !important;
-        &:hover{
+
+        &:hover {
             background-color: darken(@primary-color, 5%) !important;
         }
     }
 }
 
-a.attachment{
-    margin-right:12px;
+a.attachment {
+    margin-right: 12px;
 }
 
-a.removeupload{
-    cursor:pointer;
+a.removeupload {
+    cursor: pointer;
 }
 
-.notification-body{
-    padding-left:0;
+.notification-body {
+    padding-left: 0;
 }
 
 .notes {
-    pre{
+    pre {
         -ms-word-break: normal;
         word-break: normal;
-        white-space:pre-wrap;
+        white-space: pre-wrap;
     }
 }
 
-.match{
-    color:darken(@primary-color, 10%);
+.transaction-details-table {
+    & > tbody {
+        & > tr:first-child {
+            th {
+                border-top: none;
+            }
+        }
+
+        & > tr:hover {
+            & > td {
+                background-color: lighten(@primary-color, 40%);
+            }
+        }
+
+        & > tr > td:last-child {
+            width: 75px;
+        }
+    }
+    ul li{
+        margin: 5px 0;
+        &:first-child{
+            margin-top: 0;
+        }
+    }
 }
 
-.match-bg{
+.buyer-details-table {
+    width: 100%;
+
+    tbody tr td {
+        padding-top: 6px;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+
+        &:first-child {
+            width: 150px;
+        }
+    }
+}
+
+.match {
+    color: darken(@primary-color, 10%);
+}
+
+.match-bg {
     .bg-color-primary !important;
     color: #fff;
 }
+
 .table tr.match-bg td {
     .match-bg !important;
 }
 
-.no-match-bg{
+.no-match-bg {
     color: #fff;
     background-color: #c26565 !important;
     text-shadow: none;
@@ -830,20 +892,20 @@ a.removeupload{
     .no-match-bg;
 }
 
-.error{
-    color:red;
+.error {
+    color: red;
 }
 
-.btn-header-search{
+.btn-header-search {
     padding: 6px 12px 6px 12px;
 }
 
-.clear-search-icon{
+.clear-search-icon {
     cursor: pointer;
-    display:none;
+    display: none;
 }
 
-.badge{
+.badge {
     padding: 2px 3px 3px;
     font-size: 10px;
 }
@@ -851,7 +913,8 @@ a.removeupload{
 .alert{
     h5{
         margin-top: 0;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+        font-size: 1.1em;
         strong{
             margin-left: 5px;
         }
@@ -870,12 +933,207 @@ a.removeupload{
     background-color: inherit;
 }
 
-.alert-info{
-    border-color: #6EB0DF; 
+.alert-info {
+    border-color: @color-pending-update;
 }
 
-.alert-warning{
+.alert-warning {
     border-color: #dfb56c;
+}
+
+.accept {
+    color: @color-accept;
+}
+
+.reject {
+    color: @color-reject;
+}
+
+.pending-update {
+    color: @color-pending-update;
+    a& {
+        font-weight: bold;
+        cursor: pointer;
+    }
+}
+
+
+
+.empty-pending-value {
+    text-decoration: line-through;
+}
+
+.tooltip {
+    & > .tooltip-inner {
+        background-color: #333;
+        color: white;
+    }
+}
+
+.popover .pending-update-table {
+    td {
+        padding: 2px;
+        border: none;
+    }
+
+    tr > td:last-child {
+        width: 100%;
+    }
+
+    .pending-no-value {
+        color: #aaa;
+    }
+}
+
+.transaction-details {
+    position: relative;
+
+    h5 {
+        margin-left: 9px;
+    }
+
+    .transaction-details-spinner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        background-color: #FBFBFB;
+        opacity: 0.8;
+
+        .fa-spinner {
+            position: relative;
+            left: 50%;
+            top: 30%;
+        }
+    }
+}
+
+
+
+form.smart-form.pending-update-form {
+
+    .pending-changes-input {
+        .pending-changes-button, input {
+            box-shadow: 0 0 6px @color-pending-update-highlight;
+
+            &:focus {
+                box-shadow: 0 0 6px @color-pending-update-highlight !important;
+                border-color: @color-pending-update-highlight;
+            }
+        }
+    }
+
+    .pending-changes-button {
+        z-index: 2000; /* high value because of an arbitrary 1050 from modal window */
+        border: none;
+        color: #eee;
+        -moz-border-radius: 0 9px 9px 0;
+        -webkit-border-radius: 0 9px 9px 0;
+        border-radius: 0 9px 9px 0;
+        position: absolute;
+        bottom: 6px;
+        padding: 4px 3px 4px 10px;
+        font-size: 0.7em;
+        -moz-transition: right ease-in-out 0.1s;
+        -o-transition: right ease-in-out 0.1s;
+        -webkit-transition: right ease-in-out 0.1s;
+        transition: right ease-in-out 0.1s;
+
+        &.not-actioned {
+            right: -10px;
+            background-color: @color-pending-update;
+
+            &:hover {
+                right: -14px;
+            }
+        }
+
+        &.actioned {
+            right: -14px;
+
+            &.accepted {
+                background-color: @color-approved-update;
+            }
+
+            &.rejected {
+                background-color: @color-reject;
+            }
+        }
+    }
+
+    div.input {
+        .icon-append, 
+        .icon-prepend{
+            z-index: 2002;
+        }
+        input {
+            position: relative;
+            z-index: 2001; /* high value because of an arbitrary 1050 from modal window */
+        }
+    }
+}
+
+.fa-reject-fix {
+    margin-right: 1px;
+}
+
+.required {
+    padding: 2px 8px;
+    color: @color-reject;
+    background-color: lighten(@color-reject, 60%);
+    border-radius: 2px;
+}
+
+input[type=radio]:checked + label.approve-reject-button {
+    border: 1px solid @color-pending-update;
+    box-shadow: 0 0 6px @color-pending-update-highlight
+}
+
+.bg-color-pending-update {
+    background-color: @color-pending-update;
+}
+
+.popover .arrow{
+    top: -11px !important; // fix for weird bootstrap behaviour which adds top: 50.% value
+}
+
+.popover-close-button {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    cursor: pointer;
+    color: @icon-color;
+}
+
+.label-primary{
+    background-color: @primary-color;
+}
+
+.label-danger{
+    background-color: @color-reject;
+}
+
+.transaction-issues{
+    display: inline-block;
+    width: 25px;
+    .badge{
+        padding: 5px;
+    }
+}
+
+.color-pending{
+    color: @color-pending-update;
+}
+.color-no-match{
+    color: @color-reject;
+}
+.color-outstanding-decisions{
+    color: #888;
+}
+.label-outstanding-decisions{
+    background-color: #888;
 }
 
 // xs and sm

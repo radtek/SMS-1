@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public DefaultOrganisationTemplateDTO() {
         }
 
-        public DefaultOrganisationTemplateDTO(global::System.Guid defaultOrganisationTemplateID, int defaultOrganisationTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, int organisationTypeID, List<DefaultOrganisationProductTemplateDTO> defaultOrganisationProductTemplates, List<DefaultOrganisationUserTypeTemplateDTO> defaultOrganisationUserTypeTemplates, List<DefaultOrganisationLedgerTemplateDTO> defaultOrganisationLedgerTemplates, OrganisationTypeDTO organisationType, List<DefaultOrganisationNotificationConstructTemplateDTO> defaultOrganisationNotificationConstructTemplates, List<DefaultOrganisationModuleTemplateDTO> defaultOrganisationModuleTemplates, List<DefaultOrganisationBranchTemplateDTO> defaultOrganisationBranchTemplates, List<DefaultOrganisationArtefactTemplateDTO> defaultOrganisationArtefactTemplates, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<DefaultOrganisationTargetTemplateDTO> defaultOrganisationTargetTemplates, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<DefaultOrganisationUserTargetTemplateDTO> defaultOrganisationUserTargetTemplates, List<DefaultOrganisationGroupTemplateDTO> defaultOrganisationGroupTemplates, List<DefaultOrganisationDTO> defaultOrganisations, List<BucketTemplateDTO> bucketTemplates, List<DefaultOrganisationShoppingCartBlueprintTemplateDTO> defaultOrganisationShoppingCartBlueprintTemplates, List<DefaultOrganisationPaymentMethodTemplateDTO> defaultOrganisationPaymentMethodTemplates) {
+        public DefaultOrganisationTemplateDTO(global::System.Guid defaultOrganisationTemplateID, int defaultOrganisationTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, int organisationTypeID, List<DefaultOrganisationProductTemplateDTO> defaultOrganisationProductTemplates, List<DefaultOrganisationUserTypeTemplateDTO> defaultOrganisationUserTypeTemplates, List<DefaultOrganisationLedgerTemplateDTO> defaultOrganisationLedgerTemplates, OrganisationTypeDTO organisationType, List<DefaultOrganisationNotificationConstructTemplateDTO> defaultOrganisationNotificationConstructTemplates, List<DefaultOrganisationModuleTemplateDTO> defaultOrganisationModuleTemplates, List<DefaultOrganisationBranchTemplateDTO> defaultOrganisationBranchTemplates, List<DefaultOrganisationArtefactTemplateDTO> defaultOrganisationArtefactTemplates, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<DefaultOrganisationTargetTemplateDTO> defaultOrganisationTargetTemplates, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<DefaultOrganisationUserTargetTemplateDTO> defaultOrganisationUserTargetTemplates, List<DefaultOrganisationGroupTemplateDTO> defaultOrganisationGroupTemplates, List<DefaultOrganisationDTO> defaultOrganisations, List<BucketTemplateDTO> bucketTemplates, List<DefaultOrganisationShoppingCartBlueprintTemplateDTO> defaultOrganisationShoppingCartBlueprintTemplates, List<DefaultOrganisationPaymentMethodTemplateDTO> defaultOrganisationPaymentMethodTemplates, List<DefaultOrganisationWorkflowTemplateDTO> defaultOrganisationWorkflowTemplates) {
 
           this.DefaultOrganisationTemplateID = defaultOrganisationTemplateID;
           this.DefaultOrganisationTemplateVersionNumber = defaultOrganisationTemplateVersionNumber;
@@ -48,6 +48,7 @@ namespace Bec.TargetFramework.Entities
           this.BucketTemplates = bucketTemplates;
           this.DefaultOrganisationShoppingCartBlueprintTemplates = defaultOrganisationShoppingCartBlueprintTemplates;
           this.DefaultOrganisationPaymentMethodTemplates = defaultOrganisationPaymentMethodTemplates;
+          this.DefaultOrganisationWorkflowTemplates = defaultOrganisationWorkflowTemplates;
         }
 
         #endregion
@@ -129,6 +130,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<DefaultOrganisationPaymentMethodTemplateDTO> DefaultOrganisationPaymentMethodTemplates { get; set; }
+
+        [DataMember]
+        public List<DefaultOrganisationWorkflowTemplateDTO> DefaultOrganisationWorkflowTemplates { get; set; }
 
         #endregion
     }

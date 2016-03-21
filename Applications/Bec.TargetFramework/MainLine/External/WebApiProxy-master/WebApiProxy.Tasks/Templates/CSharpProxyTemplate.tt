@@ -28,14 +28,8 @@ using nClam;
 #region Proxies
 namespace <#= Configuration.Namespace#>
 {
-	/// <summary>
-	/// Client configuration.
-	/// </summary>
 	public partial class Configuration
 	{
-		/// <summary>
-		/// Web Api Base Address.
-		/// </summary>
 		public static string <#= Configuration.Name #>BaseAddress = "<#= Configuration.Metadata.Host #>";
 		
 	}
@@ -94,21 +88,11 @@ namespace <#= Configuration.Namespace#>.Interfaces
 				parameterList = string.Join(",", q.ToArray());
 		}		
 #>
-
-<# foreach(var p in method.UrlParameters) { #>
-		/// <param name="<#= p.Name #>"><#= p.Description #></param>
-<# } #>
-		/// <returns></returns>
 		<#= String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">" #> <#= mName #>Async(<#= parameterList#>);
-
-<# foreach(var p in method.UrlParameters) {#>
-		/// <param name="<#= p.Name #>"><#= p.Description #></param>
-<# } #>
-		/// <returns></returns>
 		<#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= mName #>Sync(<#= parameterList#>);
 <#}#><##>
 	}
-
+	 
 <#}#><##>
 <#}#><##>
 }
@@ -117,19 +101,10 @@ namespace <#= Configuration.Namespace#>.Interfaces
 #region Clients
 namespace <#= Configuration.Namespace#>.Clients
 {
-	/// <summary>
-	/// Client base class.
-	/// </summary>
 	public abstract partial class ClientBase : IDisposable
 	{
-		/// <summary>
-		/// Gests the HttpClient.
-		/// </summary>
 		public HttpClient HttpClient { get; protected set; }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ClientBase"/> class.
-		/// </summary>
 		protected ClientBase(string url)
 		{
 			HttpClient = new HttpClient()
@@ -165,11 +140,6 @@ namespace <#= Configuration.Namespace#>.Clients
             }		
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ClientBase"/> class.
-		/// </summary>
-		/// <param name="handler">The handler.</param>
-		/// <param name="disposeHandler">if set to <c>true</c> [dispose handler].</param>
 		protected ClientBase(HttpMessageHandler handler,string url, bool disposeHandler = true)
 		{
 			HttpClient = new HttpClient(handler, disposeHandler)
@@ -178,9 +148,6 @@ namespace <#= Configuration.Namespace#>.Clients
 			};
 		}
 
-		/// <summary>
-		/// Releases the unmanaged resources and disposes of the managed resources.       
-		/// </summary>
 		public void Dispose()
 		{
 			HttpClient.Dispose();
@@ -255,22 +222,13 @@ namespace <#= Configuration.Namespace#>.Clients
 	}
 <# foreach(var definition in Configuration.Metadata.Definitions) { #>
 <# if(!definition.Name.StartsWith("QueryLogic")){ #><##>
-	/// <summary>
-	/// <#= definition.Description.ToSummary() #>
-	/// </summary>
 	public partial class <#=definition.Name#><#= Configuration.ClientSuffix#> : ClientBase, Interfaces.I<#=definition.Name#><#=Configuration.ClientSuffix#><#if(definition.Name == "UserLogic"){#>, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController<#}#>
 	{		
 
-		/// <summary>
-		/// <#= definition.Description.ToSummary() #>
-		/// </summary>
 		public <#=definition.Name#><#= Configuration.ClientSuffix#>(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// <#= definition.Description.ToSummary() #>
-		/// </summary>
 		public <#=definition.Name#><#= Configuration.ClientSuffix#>(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
@@ -348,13 +306,6 @@ namespace <#= Configuration.Namespace#>.Clients
 		var array = "";
 		if(method.ArrayParameters.Any()) array = string.Concat(method.ArrayParameters.Select(a => " + mapArray(\"" + a + "\", " + a + ")"));
 #>
-		/// <summary>
-		/// <#= method.Description #>
-		/// </summary>
-<# foreach(var p in method.UrlParameters) { #>
-		/// <param name="<#= p.Name #>"><#= p.Description #></param>
-<# } #>
-		/// <returns></returns>
 		public virtual <#= String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">" #> <#= mName #>Async(<#= parameterList#>)
 		{
 <# foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { #>
@@ -364,12 +315,6 @@ namespace <#= Configuration.Namespace#>.Clients
 			return <#=methodVerb#>Async<#= bodyTypeString #>(<#=url#><#=array#><#= (postOrPut || methodVerb == "Delete") ? bodyParameterString:""#>, _user);
 		}
 
-		/// <summary>
-		/// <#= method.Description #>
-		/// </summary>
-<# foreach(var p in method.UrlParameters) { #>
-		/// <param name="<#= p.Name #>"><#= p.Description #></param>
-<# } #>
 		public virtual <#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= mName #>Sync(<#= parameterList#>)
 		{
 <# foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { #>

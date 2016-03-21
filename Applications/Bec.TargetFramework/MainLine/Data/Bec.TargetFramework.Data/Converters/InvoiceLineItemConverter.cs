@@ -76,6 +76,7 @@ namespace Bec.TargetFramework.Entities
               target.ProductPurchases = source.ProductPurchases.ToDtosWithRelated(level - 1);
               target.OrganisationProductPurchases = source.OrganisationProductPurchases.ToDtosWithRelated(level - 1);
               target.Account = source.Account.ToDtoWithRelated(level - 1);
+              target.ProductPurchaseReferences = source.ProductPurchaseReferences.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

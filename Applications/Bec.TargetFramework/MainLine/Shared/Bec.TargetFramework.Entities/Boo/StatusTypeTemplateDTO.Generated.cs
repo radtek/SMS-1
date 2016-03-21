@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public StatusTypeTemplateDTO() {
         }
 
-        public StatusTypeTemplateDTO(global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, List<StatusTypeDTO> statusTypes, List<ModuleStatusTypeTemplateDTO> moduleStatusTypeTemplates, List<StatusTypeRoleTemplateDTO> statusTypeRoleTemplates, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<StatusTypeStructureTemplateDTO> statusTypeStructureTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<StatusTypeValueTemplateDTO> statusTypeValueTemplates, List<ArtefactTemplateDTO> artefactTemplates) {
+        public StatusTypeTemplateDTO(global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, List<StatusTypeDTO> statusTypes, List<ModuleStatusTypeTemplateDTO> moduleStatusTypeTemplates, List<StatusTypeRoleTemplateDTO> statusTypeRoleTemplates, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<StatusTypeStructureTemplateDTO> statusTypeStructureTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<StatusTypeValueTemplateDTO> statusTypeValueTemplates, List<ArtefactStatusTypeTemplateDTO> artefactStatusTypeTemplates) {
 
           this.StatusTypeTemplateID = statusTypeTemplateID;
           this.StatusTypeTemplateVersionNumber = statusTypeTemplateVersionNumber;
@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Entities
           this.StatusTypeStructureTemplates = statusTypeStructureTemplates;
           this.StatusTypeClaimTemplates = statusTypeClaimTemplates;
           this.StatusTypeValueTemplates = statusTypeValueTemplates;
-          this.ArtefactTemplates = artefactTemplates;
+          this.ArtefactStatusTypeTemplates = artefactStatusTypeTemplates;
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace Bec.TargetFramework.Entities
         public List<StatusTypeValueTemplateDTO> StatusTypeValueTemplates { get; set; }
 
         [DataMember]
-        public List<ArtefactTemplateDTO> ArtefactTemplates { get; set; }
+        public List<ArtefactStatusTypeTemplateDTO> ArtefactStatusTypeTemplates { get; set; }
 
         #endregion
     }

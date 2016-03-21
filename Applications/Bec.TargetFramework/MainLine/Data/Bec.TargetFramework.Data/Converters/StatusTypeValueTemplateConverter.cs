@@ -42,6 +42,7 @@ namespace Bec.TargetFramework.Entities
               target.DefaultOrganisationStatusTypeTemplates = source.DefaultOrganisationStatusTypeTemplates.ToDtosWithRelated(level - 1);
               target.StatusTypeStructureTemplates = source.StatusTypeStructureTemplates.ToDtosWithRelated(level - 1);
               target.StatusTypeTemplate = source.StatusTypeTemplate.ToDtoWithRelated(level - 1);
+              target.ArtefactDependencyStatusTypeTemplates = source.ArtefactDependencyStatusTypeTemplates.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

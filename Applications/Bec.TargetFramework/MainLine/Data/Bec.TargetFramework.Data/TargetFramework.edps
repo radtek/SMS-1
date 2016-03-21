@@ -201,7 +201,6 @@
         <File Name="TargetFramework.Notification.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.Contact.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.ModuleDependencyTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
-        <File Name="TargetFramework.InterfacePanelTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.ArtefactNotificationConstructTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.ArtefactRoleTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.ArtefactDependencyTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
@@ -410,6 +409,30 @@
         <File Name="TargetFramework.Role.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.HelpItem.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.HelpRole.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ApplicationStageWorkflow.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ArtefactDependencyStatusType.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ArtefactDependencyStatusTypeTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.BusTaskHandler.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.DefaultOrganisationWorkflow.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.DefaultOrganisationWorkflowTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ProductPurchaseBusTaskProcessDetail.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ProductPurchaseReference.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.TFEventMessageSubscriber.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.TFEventType.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.TFEvent.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.TFEventTFEventMessageSubscriber.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.BusTask.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.PasswordResetRequest.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.RoleHierarchy.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.FieldUpdate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VClaim.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VNotificationConstructGroupNotificationConstruct.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VConversationUnreadPerActiveUao.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VConversationActivity.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ArtefactStatusTypeTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.WorkflowTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.Workflow.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ArtefactStatusType.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetConversationActivityResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetHelpItemResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
@@ -805,8 +828,6 @@
         <File Name="ContactDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ModuleDependencyTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="ModuleDependencyTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="InterfacePanelTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="InterfacePanelTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ArtefactNotificationConstructTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="ArtefactNotificationConstructTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ArtefactRoleTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1223,6 +1244,54 @@
         <File Name="HelpItemDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="HelpRoleDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="HelpRoleDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ApplicationStageWorkflowDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ApplicationStageWorkflowDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ArtefactDependencyStatusTypeDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ArtefactDependencyStatusTypeDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ArtefactDependencyStatusTypeTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ArtefactDependencyStatusTypeTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="BusTaskHandlerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="BusTaskHandlerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="DefaultOrganisationWorkflowDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="DefaultOrganisationWorkflowDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="DefaultOrganisationWorkflowTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="DefaultOrganisationWorkflowTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ProductPurchaseBusTaskProcessDetailDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ProductPurchaseBusTaskProcessDetailDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ProductPurchaseReferenceDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ProductPurchaseReferenceDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="TFEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="TFEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="TFEventTypeDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="TFEventTypeDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="TFEventDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="TFEventDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="TFEventTFEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="TFEventTFEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="BusTaskDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="BusTaskDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="PasswordResetRequestDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="PasswordResetRequestDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="RoleHierarchyDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="RoleHierarchyDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="FieldUpdateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="FieldUpdateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VClaimDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VClaimDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VNotificationConstructGroupNotificationConstructDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VNotificationConstructGroupNotificationConstructDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VConversationUnreadPerActiveUaoDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VConversationUnreadPerActiveUaoDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VConversationActivityDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VConversationActivityDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ArtefactStatusTypeTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ArtefactStatusTypeTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="WorkflowTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="WorkflowTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="WorkflowDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="WorkflowDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ArtefactStatusTypeDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ArtefactStatusTypeDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetConversationActivityResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1425,7 +1494,6 @@
         <File Name="NotificationConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ContactConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ModuleDependencyTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
-        <File Name="InterfacePanelTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ArtefactNotificationConstructTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ArtefactRoleTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ArtefactDependencyTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1634,6 +1702,30 @@
         <File Name="RoleConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="HelpItemConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="HelpRoleConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ApplicationStageWorkflowConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ArtefactDependencyStatusTypeConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ArtefactDependencyStatusTypeTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="BusTaskHandlerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="DefaultOrganisationWorkflowConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="DefaultOrganisationWorkflowTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ProductPurchaseBusTaskProcessDetailConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ProductPurchaseReferenceConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="TFEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="TFEventTypeConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="TFEventConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="TFEventTFEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="BusTaskConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="PasswordResetRequestConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="RoleHierarchyConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="FieldUpdateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VClaimConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VNotificationConstructGroupNotificationConstructConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VConversationUnreadPerActiveUaoConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VConversationActivityConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ArtefactStatusTypeTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="WorkflowTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="WorkflowConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ArtefactStatusTypeConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetConversationActivityResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetHelpItemResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1801,23 +1893,6 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
-      <Exclude Name="ConversationID" Table="public.Conversation" Type="Column" />
-      <Exclude Name="Subject" Table="public.Conversation" Type="Column" />
-      <Exclude Name="ActivityType" Table="public.Conversation" Type="Column" />
-      <Exclude Name="ActivityID" Table="public.Conversation" Type="Column" />
-      <Exclude Name="IsSystemMessage" Table="public.Conversation" Type="Column" />
-      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
-      <Exclude Name="Conversation_pkey" Table="public.Conversation" Type="Constraint" />
-      <Exclude Name="UserAccountID" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserSessionID" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserIPAddress" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserHostAddress" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserLocation" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserLoginDate" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserLogoutDate" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserHasLoggedOut" Table="public.UserAccountLoginSession" Type="Column" />
-      <Exclude Name="UserAccountLoginSession_pkey" Table="public.UserAccountLoginSession" Type="Constraint" />
-      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1937,8 +2012,6 @@
       <Exclude Name="OrganisationName" Table="public.vSafeSendRecipient" Type="Column" />
       <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipient" Type="Column" />
       <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
-      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
@@ -1952,7 +2025,6 @@
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="RelatedID" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

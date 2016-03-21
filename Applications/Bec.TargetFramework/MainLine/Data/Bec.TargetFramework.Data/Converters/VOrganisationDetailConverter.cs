@@ -30,6 +30,7 @@ namespace Bec.TargetFramework.Entities
 
             // Properties
             target.OrganisationID = source.OrganisationID;
+            target.OrganisationName = source.OrganisationName;
             target.OrganisationTypeID = source.OrganisationTypeID;
             target.OrganisationSubTypeID = source.OrganisationSubTypeID;
             target.OrganisationCategoryID = source.OrganisationCategoryID;
@@ -143,6 +144,7 @@ namespace Bec.TargetFramework.Entities
 
             // Properties
             target.OrganisationID = source.OrganisationID;
+            target.OrganisationName = source.OrganisationName;
             target.OrganisationTypeID = source.OrganisationTypeID;
             target.OrganisationSubTypeID = source.OrganisationSubTypeID;
             target.OrganisationCategoryID = source.OrganisationCategoryID;

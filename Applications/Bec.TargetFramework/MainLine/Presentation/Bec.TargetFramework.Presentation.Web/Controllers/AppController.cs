@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Entities.Enums;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
@@ -20,13 +21,15 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public IAddressLogicClient AddressClient { get; set; }
         public IUserLogicClient UserClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
+        public IMiscLogicClient MiscClient { get; set; }
 
         public IHelpLogicClient HelpClient { get; set; }
 
         public ActionResult Index()
         {
             TempData["WelcomeMessage"] = TempData["JustRegistered"];
-            TempData["JustRegistered"] = false;
+
+            CheckWhetherserJustLoggedIn();
 
             if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
             {
@@ -52,6 +55,17 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             {
                 return View();
             }
+        }
+
+        private void CheckWhetherserJustLoggedIn()
+        {
+            var urlReferer = Request.UrlReferrer;
+            if (urlReferer != null && urlReferer.AbsoluteUri.ToLower().Contains("account/login") && Request.IsAuthenticated)
+            {
+                TempData["JustLoggedOn"] = true;
+            }
+            else
+                TempData["JustLoggedOn"] = false;
         }
 
         public ActionResult Denied()

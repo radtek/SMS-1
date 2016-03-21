@@ -73,11 +73,11 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SaveNotificationConversationAsync(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
+        public async Task SaveNotificationConversationAsync(NotificationDTO dto, Guid? activityID, ActivityType? activityType, string overrideSubject, bool isSystemMessage)
         {
             if (activityID.HasValue && activityType.HasValue)
             {
-                await SaveConversationWithNotificatino(dto, activityID, activityType);
+                await SaveConversationWithNotificatino(dto, activityID, activityType, overrideSubject, isSystemMessage);
             }
             else
             {
@@ -85,18 +85,19 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task SaveConversationWithNotificatino(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
+        private async Task SaveConversationWithNotificatino(NotificationDTO dto, Guid? activityID, ActivityType? activityType, string overrideSubject, bool isSystemMessage)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var nc = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs.Single(x => x.NotificationConstructID == dto.NotificationConstructID && x.NotificationConstructVersionNumber == dto.NotificationConstructVersionNumber);
                 var at = activityType.GetIntValue();
                 var recipients = dto.NotificationRecipients;
+                string subject = overrideSubject.ValueOr(nc.NotificationSubject);
 
                 foreach (var notificationRecipient in recipients)
                 {
                     var conv = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations
-                        .Where(x => x.Subject == nc.NotificationSubject && x.ActivityID == activityID && x.ActivityType == at)
+                        .Where(x => x.Subject == subject && x.ActivityID == activityID && x.ActivityType == at)
                         .ToList()
                         .FirstOrDefault(x => x.ConversationParticipants.All(y => y.UserAccountOrganisationID == notificationRecipient.UserAccountOrganisationID));
 
@@ -105,11 +106,11 @@ namespace Bec.TargetFramework.Business.Logic
                         conv = new Conversation
                         {
                             ConversationID = Guid.NewGuid(),
-                            Subject = nc.NotificationSubject,
+                            Subject = subject,
                             ActivityID = activityID,
                             ActivityType = activityType.GetIntValue(),
                             ConversationParticipants = new List<ConversationParticipant> { new ConversationParticipant { UserAccountOrganisationID = notificationRecipient.UserAccountOrganisationID.Value } },
-                            IsSystemMessage = true,
+                            IsSystemMessage = isSystemMessage,
                             Latest = dto.DateSent
                         };
 
@@ -502,7 +503,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 foreach (var p in participants)
                 {
-                    if (p.IsSafeSendGroup)
+                    if (p.IsSafeSendGroup.GetValueOrDefault(false))
                         conv.ConversationSafeSendGroupParticipants.Add(new ConversationSafeSendGroupParticipant { OrganisationID = p.OrganisationID, SafeSendGroupID = p.RelatedID });
                     else
                         conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p.RelatedID });
@@ -570,8 +571,8 @@ namespace Bec.TargetFramework.Business.Logic
                 if (from == null) throw new Exception("Illegal sender");
                 if (from.IsSafeSendGroup) n.CreatedBySafeSendGroupID = from.Value;
 
-                var uaoRecipients = recipients.Where(x => !x.IsSafeSendGroup).Select(x => x.RelatedID);
-                foreach (var group in recipients.Where(x => x.IsSafeSendGroup).GroupBy(x => x.OrganisationID).Select(x => new { Org = x.Key, SafeSendGroups = x.Select(y => y.RelatedID).ToList() }))
+                var uaoRecipients = recipients.Where(x => !x.IsSafeSendGroup.GetValueOrDefault(false)).Select(x => x.RelatedID);
+                foreach (var group in recipients.Where(x => x.IsSafeSendGroup.GetValueOrDefault(false)).GroupBy(x => x.OrganisationID).Select(x => new { Org = x.Key, SafeSendGroups = x.Select(y => y.RelatedID).ToList() }))
                 {
                     var safeSendGroupUaoIDs = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationSafeSendGroups
                         .Where(x => x.UserAccountOrganisation.OrganisationID == group.Org && group.SafeSendGroups.Contains(x.SafeSendGroupID))
@@ -650,7 +651,7 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     case ActivityType.SmsTransaction:
                 var org = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).Organisation;
-                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsSafeSendGroup || x.RelatedID != senderUaoID));
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsSafeSendGroup.GetValueOrDefault(false) || x.RelatedID != senderUaoID));
                 
                 switch (org.OrganisationType.Name)
                 {
@@ -752,7 +753,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var convs = ret.Select(x => x.ConversationID);
                 var q = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreads.Where(x => x.UserAccountOrganisationID == uaoID && convs.Contains(x.ConversationID));
                 var unreads = q.ToDictionary(x => x.ConversationID, x => x.UnreadCount);
-
+      
                 foreach (var item in ret)
                 {
                     item.Unread = unreads.ContainsKey(item.ConversationID.Value) && unreads[item.ConversationID.Value] > 0;

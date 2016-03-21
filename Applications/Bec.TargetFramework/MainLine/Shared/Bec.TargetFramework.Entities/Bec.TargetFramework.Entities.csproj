@@ -86,6 +86,9 @@
       <DependentUpon>ApplicationStageDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\ApplicationStageWorkflowDTO.cs" />
+    <Compile Include="Boo\ApplicationStageWorkflowDTO.Generated.cs">
+      <DependentUpon>ApplicationStageWorkflowDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ApplicationTraceLogDTO.cs" />
     <Compile Include="Boo\ArtefactClaimDTO.cs" />
     <Compile Include="Boo\ArtefactClaimDTO.Generated.cs">
@@ -98,6 +101,14 @@
     <Compile Include="Boo\ArtefactDependencyDTO.cs" />
     <Compile Include="Boo\ArtefactDependencyDTO.Generated.cs">
       <DependentUpon>ArtefactDependencyDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactDependencyStatusTypeDTO.cs" />
+    <Compile Include="Boo\ArtefactDependencyStatusTypeDTO.Generated.cs">
+      <DependentUpon>ArtefactDependencyStatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactDependencyStatusTypeTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactDependencyStatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactDependencyStatusTypeTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\ArtefactDependencyTemplateDTO.cs" />
     <Compile Include="Boo\ArtefactDependencyTemplateDTO.Generated.cs">
@@ -130,6 +141,14 @@
     <Compile Include="Boo\ArtefactRoleTemplateDTO.cs" />
     <Compile Include="Boo\ArtefactRoleTemplateDTO.Generated.cs">
       <DependentUpon>ArtefactRoleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactStatusTypeDTO.cs" />
+    <Compile Include="Boo\ArtefactStatusTypeDTO.Generated.cs">
+      <DependentUpon>ArtefactStatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactStatusTypeTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactStatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactStatusTypeTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\ArtefactSubscriptionDTO.cs" />
     <Compile Include="Boo\ArtefactSubscriptionDTO.Generated.cs">
@@ -190,7 +209,13 @@
     <Compile Include="Boo\BusMessageProcessLogDTO.cs" />
     <Compile Include="Boo\BusMessageStatusDTO.cs" />
     <Compile Include="Boo\BusTaskDTO.cs" />
+    <Compile Include="Boo\BusTaskDTO.Generated.cs">
+      <DependentUpon>BusTaskDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\BusTaskHandlerDTO.cs" />
+    <Compile Include="Boo\BusTaskHandlerDTO.Generated.cs">
+      <DependentUpon>BusTaskHandlerDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\BusTaskProcessLogDTO.cs" />
     <Compile Include="Boo\BusTaskScheduleDTO.cs" />
     <Compile Include="Boo\BusTaskScheduleProcessLogDTO.cs" />
@@ -446,7 +471,13 @@
       <DependentUpon>DefaultOrganisationUserTypeTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\DefaultOrganisationWorkflowDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationWorkflowDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationWorkflowDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\DefaultOrganisationWorkflowTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationWorkflowTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationWorkflowTemplateDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\DirectDebitMandateDTO.cs" />
     <Compile Include="Boo\DirectDebitMandateDTO.Generated.cs">
       <DependentUpon>DirectDebitMandateDTO.cs</DependentUpon>
@@ -492,6 +523,10 @@
     <Compile Include="Boo\FieldDetailTemplateDTO.cs" />
     <Compile Include="Boo\FieldDetailTemplateDTO.Generated.cs">
       <DependentUpon>FieldDetailTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\FieldUpdateDTO.cs" />
+    <Compile Include="Boo\FieldUpdateDTO.Generated.cs">
+      <DependentUpon>FieldUpdateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\FileDTO.cs" />
     <Compile Include="Boo\FileDTO.Generated.cs">
@@ -545,9 +580,6 @@
     </Compile>
     <Compile Include="Boo\IdentityCheckProviderDTO.cs" />
     <Compile Include="Boo\InterfacePanelTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\InviteDTO.cs" />
     <Compile Include="Boo\InvoiceDTO.cs" />
     <Compile Include="Boo\InvoiceDTO.Generated.cs">
@@ -1030,6 +1062,9 @@
       <DependentUpon>PackageTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\PasswordResetRequestDTO.cs" />
+    <Compile Include="Boo\PasswordResetRequestDTO.Generated.cs">
+      <DependentUpon>PasswordResetRequestDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\PasswordResetSecretDTO.cs" />
     <Compile Include="Boo\PasswordResetSecretDTO.Generated.cs">
       <DependentUpon>PasswordResetSecretDTO.cs</DependentUpon>
@@ -1204,6 +1239,10 @@
     </Compile>
     <Compile Include="Boo\ProductProductTaskDTO.cs" />
     <Compile Include="Boo\ProductProductTaskTemplateDTO.cs" />
+    <Compile Include="Boo\ProductPurchaseBusTaskProcessDetailDTO.cs" />
+    <Compile Include="Boo\ProductPurchaseBusTaskProcessDetailDTO.Generated.cs">
+      <DependentUpon>ProductPurchaseBusTaskProcessDetailDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ProductPurchaseBusTaskProcessLogDTO.cs" />
     <Compile Include="Boo\ProductPurchaseBusTaskProcessLogDTO.Generated.cs">
       <DependentUpon>ProductPurchaseBusTaskProcessLogDTO.cs</DependentUpon>
@@ -1217,6 +1256,10 @@
       <DependentUpon>ProductPurchaseProcessLogDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\ProductPurchaseProductTaskDTO.cs" />
+    <Compile Include="Boo\ProductPurchaseReferenceDTO.cs" />
+    <Compile Include="Boo\ProductPurchaseReferenceDTO.Generated.cs">
+      <DependentUpon>ProductPurchaseReferenceDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ProductRelationshipBlueprintDTO.cs" />
     <Compile Include="Boo\ProductRelationshipBlueprintDTO.Generated.cs">
       <DependentUpon>ProductRelationshipBlueprintDTO.cs</DependentUpon>
@@ -1331,6 +1374,10 @@
     <Compile Include="Boo\RoleDTO.cs" />
     <Compile Include="Boo\RoleDTO.Generated.cs">
       <DependentUpon>RoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RoleHierarchyDTO.cs" />
+    <Compile Include="Boo\RoleHierarchyDTO.Generated.cs">
+      <DependentUpon>RoleHierarchyDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\RoleTemplateClaimDTO.cs" />
     <Compile Include="Boo\SafeSendGroupDTO.cs" />
@@ -1494,6 +1541,19 @@
     <Compile Include="Boo\TenantDTO.Generated.cs">
       <DependentUpon>TenantDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\TFEventDTO.Generated.cs">
+      <DependentUpon>TFEventDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TFEventMessageSubscriberDTO.Generated.cs">
+      <DependentUpon>TFEventMessageSubscriberDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TFEventTFEventMessageSubscriberDTO.cs" />
+    <Compile Include="Boo\TFEventTFEventMessageSubscriberDTO.Generated.cs">
+      <DependentUpon>TFEventTFEventMessageSubscriberDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TFEventTypeDTO.Generated.cs">
+      <DependentUpon>TFEventTypeDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\TimeoutentityDTO.Generated.cs">
       <DependentUpon>TimeoutentityDTO.cs</DependentUpon>
     </Compile>
@@ -1587,6 +1647,10 @@
     <Compile Include="Boo\VBranchDTO.Generated.cs">
       <DependentUpon>VBranchDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VClaimDTO.cs" />
+    <Compile Include="Boo\VClaimDTO.Generated.cs">
+      <DependentUpon>VClaimDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VClaimSourceDTO.Generated.cs">
       <DependentUpon>VClaimSourceDTO.cs</DependentUpon>
     </Compile>
@@ -1595,6 +1659,10 @@
     </Compile>
     <Compile Include="Boo\VCompanyDTO.Generated.cs">
       <DependentUpon>VCompanyDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VConversationActivityDTO.cs" />
+    <Compile Include="Boo\VConversationActivityDTO.Generated.cs">
+      <DependentUpon>VConversationActivityDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VConversationDTO.cs" />
     <Compile Include="Boo\VConversationDTO.Generated.cs">
@@ -1605,6 +1673,9 @@
     <Compile Include="Boo\VConversationUnreadDTO.cs" />
     <Compile Include="Boo\VConversationUnreadDTO.Generated.cs">
       <DependentUpon>VConversationUnreadDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VConversationUnreadPerActiveUaoDTO.Generated.cs">
+      <DependentUpon>VConversationUnreadPerActiveUaoDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VCountryAndCurrencyDTO.Generated.cs">
       <DependentUpon>VCountryAndCurrencyDTO.cs</DependentUpon>
@@ -1644,6 +1715,9 @@
     </Compile>
     <Compile Include="Boo\VNotificationConstructGroupDTO.Generated.cs">
       <DependentUpon>VNotificationConstructGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationConstructGroupNotificationConstructDTO.Generated.cs">
+      <DependentUpon>VNotificationConstructGroupNotificationConstructDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VNotificationInternalDTO.cs" />
     <Compile Include="Boo\VNotificationInternalUnreadDTO.Generated.cs">
@@ -1751,11 +1825,23 @@
     <Compile Include="Boo\VUserStatusDTO.Generated.cs">
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\WorkflowDTO.cs" />
+    <Compile Include="Boo\WorkflowDTO.Generated.cs">
+      <DependentUpon>WorkflowDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\WorkflowTemplateDTO.cs" />
+    <Compile Include="Boo\WorkflowTemplateDTO.Generated.cs">
+      <DependentUpon>WorkflowTemplateDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="DTO\AddHelpDTO.cs" />
     <Compile Include="DTO\AddHelpItemDTO.cs" />
     <Compile Include="DTO\AddNewUserToOrganisationDTO.cs" />
     <Compile Include="DTO\Notification\ProductAdvisedNotificationDTO.cs" />
+    <Compile Include="DTO\SafeBuyerReceiptDTO.cs" />
+    <Compile Include="DTO\SmsTransactionPendingUpdateCountDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\EditSmsTransactionDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\EditBuyerPartyDTO.cs" />
     <Compile Include="DTO\VerifyCompanyDTO.cs" />
     <Compile Include="DTO\CreateConversationDTO.cs" />
     <Compile Include="DTO\CertificateDetailsDTO.cs" />

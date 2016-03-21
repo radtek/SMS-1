@@ -145,7 +145,7 @@
                     field: "EffectiveFrom",
                     title: "Effective From",
                     width: 100,
-                    template: function (dataItem) { if (dataItem.EffectiveFrom == null) { return '' } else return kendo.toString(kendo.parseDate(dataItem.EffectiveFrom), 'dd MMM yyyy'); }
+                    template: function (dataItem) { if (dataItem.EffectiveFrom == null) { return '' } else return kendo.toString(kendo.parseDate(dataItem.EffectiveFrom), 'dd/MM/yyyy'); }
                 },
                 {
                     command: { name: "Up", text: "", imageClass: "k-icon k-i-arrowhead-n", click: upItem }, title: " ",

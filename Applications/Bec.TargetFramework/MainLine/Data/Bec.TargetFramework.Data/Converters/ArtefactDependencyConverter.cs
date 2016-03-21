@@ -43,6 +43,7 @@ namespace Bec.TargetFramework.Entities
               target.Artefact_ArtefactID_ArtefactVersionNumber = source.Artefact_ArtefactID_ArtefactVersionNumber.ToDtoWithRelated(level - 1);
               target.ArtefactDependencyTemplate = source.ArtefactDependencyTemplate.ToDtoWithRelated(level - 1);
               target.Artefact_DependencyArtefactID_DependencyArtefactVersionNumber = source.Artefact_DependencyArtefactID_DependencyArtefactVersionNumber.ToDtoWithRelated(level - 1);
+              target.ArtefactDependencyStatusTypes = source.ArtefactDependencyStatusTypes.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

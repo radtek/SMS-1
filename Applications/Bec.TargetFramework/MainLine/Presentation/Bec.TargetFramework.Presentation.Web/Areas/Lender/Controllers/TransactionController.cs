@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetSmsTransactions(string search, SmsTransactionDecisionEnum decisionFilter, SmsTransactionNoMatchEnum noMatchFilter)
+        public async Task<ActionResult> GetSmsTransactions(string search, SmsTransactionNoMatchEnum noMatchFilter)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
@@ -44,13 +44,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 x.Address.PostalCode,
                 x.Address.AdditionalAddressInformation,
                 x.CreatedOn,
-                x.CreatedBy,
                 x.LenderName,
                 x.MortgageApplicationNumber,
                 x.Price,
                 x.IsProductAdvised,
                 x.ProductAdvisedOn,
-                x.ProductDeclinedOn,
                 OrgNames = x.Organisation.OrganisationDetails.Select(y => new { y.Name }),
                 PurchasedOn = x.Invoice.CreatedOn,
                 PurchasedBySalutation = x.Invoice.UserAccountOrganisation.Contact.Salutation,
@@ -60,6 +58,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                 {
                     y.SmsUserAccountOrganisationTransactionTypeID,
                     y.SmsUserAccountOrganisationTransactionType.Description,
+                    y.ProductAcceptedOn,
+                    y.ProductDeclinedOn,
                     y.Contact.Salutation,
                     y.Contact.FirstName,
                     y.Contact.LastName,
@@ -105,16 +105,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Lender.Controllers
                     x.Organisation.OrganisationDetails.Any(y => y.Name.ToLower().Contains(search)) ||
                     x.SmsUserAccountOrganisationTransactions.Any(y => y.Contact.FirstName.ToLower().Contains(search) || y.Contact.LastName.ToLower().Contains(search))
                     ));
-            }
-
-            switch (decisionFilter)
-            {
-                case SmsTransactionDecisionEnum.Declined:
-                    where = Expression.And(where, ODataHelper.Expression<SmsTransactionDTO>(x => x.ProductDeclinedOn != null && x.Invoice == null));
-                    break;
-                case SmsTransactionDecisionEnum.Purchased:
-                    where = Expression.And(where, ODataHelper.Expression<SmsTransactionDTO>(x => x.InvoiceID != null));
-                    break;
             }
 
             switch (noMatchFilter)

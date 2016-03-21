@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ProductPurchaseBusTaskProcessLogDTO() {
         }
 
-        public ProductPurchaseBusTaskProcessLogDTO(global::System.Guid productPurchaseProductTaskID, global::System.Guid productPurchaseID, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, global::System.DateTime createdOn, bool isComplete, string processMessage, string processDetail, global::System.Nullable<System.Guid> productBusTaskID, bool hasError, global::System.Nullable<System.Guid> parentID, int numberOfRetries, ProductBusTaskDTO productBusTask, ProductPurchaseDTO productPurchase, StatusTypeDTO statusType, StatusTypeValueDTO statusTypeValue, List<ServiceInterfaceProcessLogDTO> serviceInterfaceProcessLogs) {
+        public ProductPurchaseBusTaskProcessLogDTO(global::System.Guid productPurchaseProductTaskID, global::System.Guid productPurchaseID, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, global::System.DateTime createdOn, bool isComplete, string processMessage, string processDetail, global::System.Nullable<System.Guid> productBusTaskID, bool hasError, global::System.Nullable<System.Guid> parentID, int numberOfRetries, ProductBusTaskDTO productBusTask, ProductPurchaseDTO productPurchase, StatusTypeDTO statusType, StatusTypeValueDTO statusTypeValue, List<ServiceInterfaceProcessLogDTO> serviceInterfaceProcessLogs, List<ProductPurchaseBusTaskProcessDetailDTO> productPurchaseBusTaskProcessDetails) {
 
           this.ProductPurchaseProductTaskID = productPurchaseProductTaskID;
           this.ProductPurchaseID = productPurchaseID;
@@ -42,6 +42,7 @@ namespace Bec.TargetFramework.Entities
           this.StatusType = statusType;
           this.StatusTypeValue = statusTypeValue;
           this.ServiceInterfaceProcessLogs = serviceInterfaceProcessLogs;
+          this.ProductPurchaseBusTaskProcessDetails = productPurchaseBusTaskProcessDetails;
         }
 
         #endregion
@@ -105,6 +106,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<ServiceInterfaceProcessLogDTO> ServiceInterfaceProcessLogs { get; set; }
+
+        [DataMember]
+        public List<ProductPurchaseBusTaskProcessDetailDTO> ProductPurchaseBusTaskProcessDetails { get; set; }
 
         #endregion
     }

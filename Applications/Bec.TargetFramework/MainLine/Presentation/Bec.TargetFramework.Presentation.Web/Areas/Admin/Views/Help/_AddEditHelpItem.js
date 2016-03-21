@@ -71,9 +71,8 @@
     {
         var helpType = $("#HelpTypeName").val();
 
-        showHideAndClearValueElement("#effectionFromSection", "#EffectiveFrom", (helpType === "Callout"));
-        showHideAndClearValueElement("#uiPositionSection", "#UiPosition", (helpType !== "Callout"));
-        showHideAndClearValueElement("#uiSelectorParentSection", "#UiSelectorParent", (helpType !== "Callout"));
+        showHideAndClearValueElement("#effectionFromSection", (helpType === "Callout"));
+        showHideAndClearValueElement("#uiPositionSection", (helpType !== "Callout"));
     }
 
     function showHideAndClearValueElement(sectionName, show) {

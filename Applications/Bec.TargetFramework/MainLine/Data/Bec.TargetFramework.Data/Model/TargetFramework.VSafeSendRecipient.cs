@@ -90,7 +90,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsSafeSendGroup in the schema.
         /// </summary>
-        public virtual bool IsSafeSendGroup
+        public virtual global::System.Nullable<bool> IsSafeSendGroup
         {
             get;
             set;

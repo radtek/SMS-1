@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public StatusTypeValueTemplateDTO() {
         }
 
-        public StatusTypeValueTemplateDTO(global::System.Guid statusTypeValueTemplateID, global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<StatusTypeStructureTemplateDTO> statusTypeStructureTemplates, StatusTypeTemplateDTO statusTypeTemplate) {
+        public StatusTypeValueTemplateDTO(global::System.Guid statusTypeValueTemplateID, global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<StatusTypeStructureTemplateDTO> statusTypeStructureTemplates, StatusTypeTemplateDTO statusTypeTemplate, List<ArtefactDependencyStatusTypeTemplateDTO> artefactDependencyStatusTypeTemplates) {
 
           this.StatusTypeValueTemplateID = statusTypeValueTemplateID;
           this.StatusTypeTemplateID = statusTypeTemplateID;
@@ -34,6 +34,7 @@ namespace Bec.TargetFramework.Entities
           this.DefaultOrganisationStatusTypeTemplates = defaultOrganisationStatusTypeTemplates;
           this.StatusTypeStructureTemplates = statusTypeStructureTemplates;
           this.StatusTypeTemplate = statusTypeTemplate;
+          this.ArtefactDependencyStatusTypeTemplates = artefactDependencyStatusTypeTemplates;
         }
 
         #endregion
@@ -73,6 +74,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public StatusTypeTemplateDTO StatusTypeTemplate { get; set; }
+
+        [DataMember]
+        public List<ArtefactDependencyStatusTypeTemplateDTO> ArtefactDependencyStatusTypeTemplates { get; set; }
 
         #endregion
     }

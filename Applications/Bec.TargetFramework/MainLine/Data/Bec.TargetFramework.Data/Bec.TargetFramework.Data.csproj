@@ -72,10 +72,13 @@
     <Compile Include="Converters\AddressChronologyConverter.cs" />
     <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="Converters\ApplicationStageConverter.cs" />
+    <Compile Include="Converters\ApplicationStageWorkflowConverter.cs" />
     <Compile Include="Converters\ArtefactClaimConverter.cs" />
     <Compile Include="Converters\ArtefactClaimTemplateConverter.cs" />
     <Compile Include="Converters\ArtefactConverter.cs" />
     <Compile Include="Converters\ArtefactDependencyConverter.cs" />
+    <Compile Include="Converters\ArtefactDependencyStatusTypeConverter.cs" />
+    <Compile Include="Converters\ArtefactDependencyStatusTypeTemplateConverter.cs" />
     <Compile Include="Converters\ArtefactDependencyTemplateConverter.cs" />
     <Compile Include="Converters\ArtefactNotificationConstructConverter.cs" />
     <Compile Include="Converters\ArtefactNotificationConstructTemplateConverter.cs" />
@@ -83,6 +86,8 @@
     <Compile Include="Converters\ArtefactProductTemplateConverter.cs" />
     <Compile Include="Converters\ArtefactRoleConverter.cs" />
     <Compile Include="Converters\ArtefactRoleTemplateConverter.cs" />
+    <Compile Include="Converters\ArtefactStatusTypeConverter.cs" />
+    <Compile Include="Converters\ArtefactStatusTypeTemplateConverter.cs" />
     <Compile Include="Converters\ArtefactSubscriptionConverter.cs" />
     <Compile Include="Converters\ArtefactSubscriptionTemplateConverter.cs" />
     <Compile Include="Converters\ArtefactTemplateConverter.cs" />
@@ -95,6 +100,8 @@
     <Compile Include="Converters\BillingTemplateConverter.cs" />
     <Compile Include="Converters\BucketConverter.cs" />
     <Compile Include="Converters\BucketTemplateConverter.cs" />
+    <Compile Include="Converters\BusTaskConverter.cs" />
+    <Compile Include="Converters\BusTaskHandlerConverter.cs" />
     <Compile Include="Converters\ClassificationTypeCategoryConverter.cs" />
     <Compile Include="Converters\ClassificationTypeConverter.cs" />
     <Compile Include="Converters\CompanyHouseConverter.cs" />
@@ -153,6 +160,8 @@
     <Compile Include="Converters\DefaultOrganisationUserTargetTemplateConverter.cs" />
     <Compile Include="Converters\DefaultOrganisationUserTypeConverter.cs" />
     <Compile Include="Converters\DefaultOrganisationUserTypeTemplateConverter.cs" />
+    <Compile Include="Converters\DefaultOrganisationWorkflowConverter.cs" />
+    <Compile Include="Converters\DefaultOrganisationWorkflowTemplateConverter.cs" />
     <Compile Include="Converters\DirectDebitMandateConverter.cs" />
     <Compile Include="Converters\DirectDebitMandateTemplateConverter.cs" />
     <Compile Include="Converters\DirectDebitScheduleConverter.cs" />
@@ -164,6 +173,7 @@
     <Compile Include="Converters\EventStatusConverter.cs" />
     <Compile Include="Converters\FieldDetailConverter.cs" />
     <Compile Include="Converters\FieldDetailTemplateConverter.cs" />
+    <Compile Include="Converters\FieldUpdateConverter.cs" />
     <Compile Include="Converters\FileConverter.cs" />
     <Compile Include="Converters\FnGetConversationActivityResultConverter.cs" />
     <Compile Include="Converters\FnGetHelpItemResultConverter.cs" />
@@ -176,7 +186,6 @@
     <Compile Include="Converters\HelpConverter.cs" />
     <Compile Include="Converters\HelpItemConverter.cs" />
     <Compile Include="Converters\HelpRoleConverter.cs" />
-    <Compile Include="Converters\InterfacePanelTemplateConverter.cs" />
     <Compile Include="Converters\InvoiceConverter.cs" />
     <Compile Include="Converters\InvoiceLineItemConverter.cs" />
     <Compile Include="Converters\InvoiceProcessLogConverter.cs" />
@@ -275,6 +284,7 @@
     <Compile Include="Converters\PackageProductSpecificationBlueprintTemplateConverter.cs" />
     <Compile Include="Converters\PackageProductTemplateConverter.cs" />
     <Compile Include="Converters\PackageTemplateConverter.cs" />
+    <Compile Include="Converters\PasswordResetRequestConverter.cs" />
     <Compile Include="Converters\PasswordResetSecretConverter.cs" />
     <Compile Include="Converters\PlanBillingConverter.cs" />
     <Compile Include="Converters\PlanBillingTemplateConverter.cs" />
@@ -317,9 +327,11 @@
     <Compile Include="Converters\ProductPlanTemplateConverter.cs" />
     <Compile Include="Converters\ProductProductAttributeConverter.cs" />
     <Compile Include="Converters\ProductProductAttributeTemplateConverter.cs" />
+    <Compile Include="Converters\ProductPurchaseBusTaskProcessDetailConverter.cs" />
     <Compile Include="Converters\ProductPurchaseBusTaskProcessLogConverter.cs" />
     <Compile Include="Converters\ProductPurchaseConverter.cs" />
     <Compile Include="Converters\ProductPurchaseProcessLogConverter.cs" />
+    <Compile Include="Converters\ProductPurchaseReferenceConverter.cs" />
     <Compile Include="Converters\ProductRelationshipBlueprintConverter.cs" />
     <Compile Include="Converters\ProductRelationshipBlueprintTemplateConverter.cs" />
     <Compile Include="Converters\ProductRelationshipConverter.cs" />
@@ -348,6 +360,7 @@
     <Compile Include="Converters\ResourceOperationTargetConverter.cs" />
     <Compile Include="Converters\RoleClaimConverter.cs" />
     <Compile Include="Converters\RoleConverter.cs" />
+    <Compile Include="Converters\RoleHierarchyConverter.cs" />
     <Compile Include="Converters\SafeSendGroupConverter.cs" />
     <Compile Include="Converters\ServiceDefinitionConverter.cs" />
     <Compile Include="Converters\ServiceDefinitionDetailConverter.cs" />
@@ -394,6 +407,10 @@
     <Compile Include="Converters\TaxRateTemplateConverter.cs" />
     <Compile Include="Converters\TempJsonDatumConverter.cs" />
     <Compile Include="Converters\TenantConverter.cs" />
+    <Compile Include="Converters\TFEventConverter.cs" />
+    <Compile Include="Converters\TFEventMessageSubscriberConverter.cs" />
+    <Compile Include="Converters\TFEventTFEventMessageSubscriberConverter.cs" />
+    <Compile Include="Converters\TFEventTypeConverter.cs" />
     <Compile Include="Converters\TimeoutentityConverter.cs" />
     <Compile Include="Converters\TransactionLevelComponentConverter.cs" />
     <Compile Include="Converters\TransactionLevelComponentTemplateConverter.cs" />
@@ -424,11 +441,14 @@
     <Compile Include="Converters\UserTypeConverter.cs" />
     <Compile Include="Converters\VAttachmentConverter.cs" />
     <Compile Include="Converters\VBranchConverter.cs" />
+    <Compile Include="Converters\VClaimConverter.cs" />
     <Compile Include="Converters\VClaimSourceConverter.cs" />
     <Compile Include="Converters\VClassificationConverter.cs" />
     <Compile Include="Converters\VCompanyConverter.cs" />
+    <Compile Include="Converters\VConversationActivityConverter.cs" />
     <Compile Include="Converters\VConversationConverter.cs" />
     <Compile Include="Converters\VConversationUnreadConverter.cs" />
+    <Compile Include="Converters\VConversationUnreadPerActiveUaoConverter.cs" />
     <Compile Include="Converters\VCountryAndCurrencyConverter.cs" />
     <Compile Include="Converters\VCountryDeductionConverter.cs" />
     <Compile Include="Converters\VDefaultEmailAddressConverter.cs" />
@@ -441,6 +461,7 @@
     <Compile Include="Converters\VMessageReadConverter.cs" />
     <Compile Include="Converters\VNotificationConstructConverter.cs" />
     <Compile Include="Converters\VNotificationConstructGroupConverter.cs" />
+    <Compile Include="Converters\VNotificationConstructGroupNotificationConstructConverter.cs" />
     <Compile Include="Converters\VNotificationInternalUnreadConverter.cs" />
     <Compile Include="Converters\VNotificationRecipientStatusConverter.cs" />
     <Compile Include="Converters\VNotificationViewOnlyUaoConverter.cs" />
@@ -474,16 +495,21 @@
     <Compile Include="Converters\VUserAccountOrganisationUserTypeOrganisationTypeConverter.cs" />
     <Compile Include="Converters\VUserRoleRegulatorDetailConverter.cs" />
     <Compile Include="Converters\VUserStatusConverter.cs" />
+    <Compile Include="Converters\WorkflowConverter.cs" />
+    <Compile Include="Converters\WorkflowTemplateConverter.cs" />
     <Compile Include="Model\TargetFramework.Account.cs" />
     <Compile Include="Model\TargetFramework.Actor.cs" />
     <Compile Include="Model\TargetFramework.ActorClaimRoleMapping.cs" />
     <Compile Include="Model\TargetFramework.Address.cs" />
     <Compile Include="Model\TargetFramework.AddressChronology.cs" />
     <Compile Include="Model\TargetFramework.ApplicationStage.cs" />
+    <Compile Include="Model\TargetFramework.ApplicationStageWorkflow.cs" />
     <Compile Include="Model\TargetFramework.Artefact.cs" />
     <Compile Include="Model\TargetFramework.ArtefactClaim.cs" />
     <Compile Include="Model\TargetFramework.ArtefactClaimTemplate.cs" />
     <Compile Include="Model\TargetFramework.ArtefactDependency.cs" />
+    <Compile Include="Model\TargetFramework.ArtefactDependencyStatusType.cs" />
+    <Compile Include="Model\TargetFramework.ArtefactDependencyStatusTypeTemplate.cs" />
     <Compile Include="Model\TargetFramework.ArtefactDependencyTemplate.cs" />
     <Compile Include="Model\TargetFramework.ArtefactNotificationConstruct.cs" />
     <Compile Include="Model\TargetFramework.ArtefactNotificationConstructTemplate.cs" />
@@ -491,6 +517,8 @@
     <Compile Include="Model\TargetFramework.ArtefactProductTemplate.cs" />
     <Compile Include="Model\TargetFramework.ArtefactRole.cs" />
     <Compile Include="Model\TargetFramework.ArtefactRoleTemplate.cs" />
+    <Compile Include="Model\TargetFramework.ArtefactStatusType.cs" />
+    <Compile Include="Model\TargetFramework.ArtefactStatusTypeTemplate.cs" />
     <Compile Include="Model\TargetFramework.ArtefactSubscription.cs" />
     <Compile Include="Model\TargetFramework.ArtefactSubscriptionTemplate.cs" />
     <Compile Include="Model\TargetFramework.ArtefactTemplate.cs" />
@@ -503,6 +531,8 @@
     <Compile Include="Model\TargetFramework.BillingTemplate.cs" />
     <Compile Include="Model\TargetFramework.Bucket.cs" />
     <Compile Include="Model\TargetFramework.BucketTemplate.cs" />
+    <Compile Include="Model\TargetFramework.BusTask.cs" />
+    <Compile Include="Model\TargetFramework.BusTaskHandler.cs" />
     <Compile Include="Model\TargetFramework.ClassificationType.cs" />
     <Compile Include="Model\TargetFramework.ClassificationTypeCategory.cs" />
     <Compile Include="Model\TargetFramework.CompanyHouse.cs" />
@@ -561,6 +591,8 @@
     <Compile Include="Model\TargetFramework.DefaultOrganisationUserTargetTemplate.cs" />
     <Compile Include="Model\TargetFramework.DefaultOrganisationUserType.cs" />
     <Compile Include="Model\TargetFramework.DefaultOrganisationUserTypeTemplate.cs" />
+    <Compile Include="Model\TargetFramework.DefaultOrganisationWorkflow.cs" />
+    <Compile Include="Model\TargetFramework.DefaultOrganisationWorkflowTemplate.cs" />
     <Compile Include="Model\TargetFramework.DirectDebitMandate.cs" />
     <Compile Include="Model\TargetFramework.DirectDebitMandateTemplate.cs" />
     <Compile Include="Model\TargetFramework.DirectDebitSchedule.cs" />
@@ -572,6 +604,7 @@
     <Compile Include="Model\TargetFramework.EventStatus.cs" />
     <Compile Include="Model\TargetFramework.FieldDetail.cs" />
     <Compile Include="Model\TargetFramework.FieldDetailTemplate.cs" />
+    <Compile Include="Model\TargetFramework.FieldUpdate.cs" />
     <Compile Include="Model\TargetFramework.File.cs" />
     <Compile Include="Model\TargetFramework.FnGetConversationActivityResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetHelpItemResult.cs" />
@@ -584,7 +617,6 @@
     <Compile Include="Model\TargetFramework.Help.cs" />
     <Compile Include="Model\TargetFramework.HelpItem.cs" />
     <Compile Include="Model\TargetFramework.HelpRole.cs" />
-    <Compile Include="Model\TargetFramework.InterfacePanelTemplate.cs" />
     <Compile Include="Model\TargetFramework.Invoice.cs" />
     <Compile Include="Model\TargetFramework.InvoiceLineItem.cs" />
     <Compile Include="Model\TargetFramework.InvoiceProcessLog.cs" />
@@ -683,6 +715,7 @@
     <Compile Include="Model\TargetFramework.PackageProductSpecificationBlueprintTemplate.cs" />
     <Compile Include="Model\TargetFramework.PackageProductTemplate.cs" />
     <Compile Include="Model\TargetFramework.PackageTemplate.cs" />
+    <Compile Include="Model\TargetFramework.PasswordResetRequest.cs" />
     <Compile Include="Model\TargetFramework.PasswordResetSecret.cs" />
     <Compile Include="Model\TargetFramework.Plan.cs" />
     <Compile Include="Model\TargetFramework.PlanBilling.cs" />
@@ -726,8 +759,10 @@
     <Compile Include="Model\TargetFramework.ProductProductAttribute.cs" />
     <Compile Include="Model\TargetFramework.ProductProductAttributeTemplate.cs" />
     <Compile Include="Model\TargetFramework.ProductPurchase.cs" />
+    <Compile Include="Model\TargetFramework.ProductPurchaseBusTaskProcessDetail.cs" />
     <Compile Include="Model\TargetFramework.ProductPurchaseBusTaskProcessLog.cs" />
     <Compile Include="Model\TargetFramework.ProductPurchaseProcessLog.cs" />
+    <Compile Include="Model\TargetFramework.ProductPurchaseReference.cs" />
     <Compile Include="Model\TargetFramework.ProductRelationship.cs" />
     <Compile Include="Model\TargetFramework.ProductRelationshipBlueprint.cs" />
     <Compile Include="Model\TargetFramework.ProductRelationshipBlueprintTemplate.cs" />
@@ -756,6 +791,7 @@
     <Compile Include="Model\TargetFramework.ResourceOperationTarget.cs" />
     <Compile Include="Model\TargetFramework.Role.cs" />
     <Compile Include="Model\TargetFramework.RoleClaim.cs" />
+    <Compile Include="Model\TargetFramework.RoleHierarchy.cs" />
     <Compile Include="Model\TargetFramework.SafeSendGroup.cs" />
     <Compile Include="Model\TargetFramework.ServiceDefinition.cs" />
     <Compile Include="Model\TargetFramework.ServiceDefinitionDetail.cs" />
@@ -805,6 +841,10 @@
     <Compile Include="Model\TargetFramework.TaxRateTemplate.cs" />
     <Compile Include="Model\TargetFramework.TempJsonDatum.cs" />
     <Compile Include="Model\TargetFramework.Tenant.cs" />
+    <Compile Include="Model\TargetFramework.TFEvent.cs" />
+    <Compile Include="Model\TargetFramework.TFEventMessageSubscriber.cs" />
+    <Compile Include="Model\TargetFramework.TFEventTFEventMessageSubscriber.cs" />
+    <Compile Include="Model\TargetFramework.TFEventType.cs" />
     <Compile Include="Model\TargetFramework.Timeoutentity.cs" />
     <Compile Include="Model\TargetFramework.TransactionLevelComponent.cs" />
     <Compile Include="Model\TargetFramework.TransactionLevelComponentTemplate.cs" />
@@ -835,11 +875,14 @@
     <Compile Include="Model\TargetFramework.UserType.cs" />
     <Compile Include="Model\TargetFramework.VAttachment.cs" />
     <Compile Include="Model\TargetFramework.VBranch.cs" />
+    <Compile Include="Model\TargetFramework.VClaim.cs" />
     <Compile Include="Model\TargetFramework.VClaimSource.cs" />
     <Compile Include="Model\TargetFramework.VClassification.cs" />
     <Compile Include="Model\TargetFramework.VCompany.cs" />
     <Compile Include="Model\TargetFramework.VConversation.cs" />
+    <Compile Include="Model\TargetFramework.VConversationActivity.cs" />
     <Compile Include="Model\TargetFramework.VConversationUnread.cs" />
+    <Compile Include="Model\TargetFramework.VConversationUnreadPerActiveUao.cs" />
     <Compile Include="Model\TargetFramework.VCountryAndCurrency.cs" />
     <Compile Include="Model\TargetFramework.VCountryDeduction.cs" />
     <Compile Include="Model\TargetFramework.VDefaultEmailAddress.cs" />
@@ -852,6 +895,7 @@
     <Compile Include="Model\TargetFramework.VMessageRead.cs" />
     <Compile Include="Model\TargetFramework.VNotificationConstruct.cs" />
     <Compile Include="Model\TargetFramework.VNotificationConstructGroup.cs" />
+    <Compile Include="Model\TargetFramework.VNotificationConstructGroupNotificationConstruct.cs" />
     <Compile Include="Model\TargetFramework.VNotificationInternalUnread.cs" />
     <Compile Include="Model\TargetFramework.VNotificationRecipientStatus.cs" />
     <Compile Include="Model\TargetFramework.VNotificationViewOnlyUao.cs" />
@@ -885,6 +929,8 @@
     <Compile Include="Model\TargetFramework.VUserAccountOrganisationUserTypeOrganisationType.cs" />
     <Compile Include="Model\TargetFramework.VUserRoleRegulatorDetail.cs" />
     <Compile Include="Model\TargetFramework.VUserStatus.cs" />
+    <Compile Include="Model\TargetFramework.Workflow.cs" />
+    <Compile Include="Model\TargetFramework.WorkflowTemplate.cs" />
     <Compile Include="Objects\UserClaimDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TargetFrameworkConfiguration.cs" />

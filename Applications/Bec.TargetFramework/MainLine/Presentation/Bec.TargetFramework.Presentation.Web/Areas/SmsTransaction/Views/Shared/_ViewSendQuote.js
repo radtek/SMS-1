@@ -100,9 +100,7 @@ function createDropZone(item, sendButton, uploadUrl) {
             //Add iframe to body
             iframe.appendTo('body');
             iframe.load(function (e) {
-                console.log($("#file").val());
                 $("#file").replaceWith($("#file").clone(true));
-                console.log($("#file").val());
 
                 var doc = getDoc(iframe[0]); //get iframe Document
                 var docRoot = doc.body ? doc.body : doc.documentElement;

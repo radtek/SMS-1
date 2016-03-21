@@ -4,6 +4,7 @@
     var helpPromises;
 
     setHelpPromises();
+    showCalloutIfJustLoggedIn();
 
     $("#tourButton").click(function () {
         $.ajax({
@@ -11,21 +12,21 @@
             type: 'GET',
             success: function (data) {
                 var steps = getStepsFromJson(data.Items);
-                startHelp("Tour",steps,null);
+                startHelp("Tour", steps, null);
             }
         });
     });
 
-
+    
     $("#showMeHowButton").click(function () {
         var uiPageUrl = window.location.pathname;
 
-        $.ajax({ 
+        $.ajax({
             url: ($("#tourDisplay").attr('data-gethelpitemsSMH')) + "&uiPageUrl=" + uiPageUrl,
             type: 'GET',
             success: function (data) {
                 var steps = getStepsFromJson(data.Items);
-                startHelp("Tour",steps,null);
+                startHelp("Tour", steps, null);
             }
         });
     });
@@ -36,17 +37,15 @@
             type: 'GET',
             success: function (data) {
                 var steps = getStepsFromJsonForCallouts(data.Items);
-                startHelp("Callout",steps,480);
+                startHelp("Callout", steps, 480);
             }
         });
     });
 
-    function getStepsFromJson(jsonDataItems)
-    {
+    function getStepsFromJson(jsonDataItems) {
         var steps = [];
         var totalItems = jsonDataItems.length;
         $.each(jsonDataItems, function (i, item) {
-
             steps.push({
                 target: item.UiSelector,
                 title: item.Title,
@@ -54,8 +53,7 @@
                 placement: item.UiPositionName.toLowerCase(),
                 delay: 500,
                 totalItems: totalItems,
-                onBindTarget: function() {
-                    console.log(item.UiSelector + " onBindTarget");
+                onBindTarget: function () {
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {
                         if ($(item.UiSelector).closest('ul').css("display") === 'none')
                             $(item.UiSelector).closest('ul').dropdown('toggle');
@@ -63,8 +61,7 @@
                         if (!$(item.UiSelector).closest('li').hasClass('active'))
                             $(item.UiSelector).closest('a').trigger('click');
                 },
-                onNext: function() {
-                    console.log(item.UiSelector + " onNext");
+                onNext: function () {
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {
                         if ($(item.UiSelector).closest('ul').css("display") === 'block')
                             $(item.UiSelector).closest('ul').dropdown('toggle');
@@ -72,8 +69,7 @@
                         if ($(item.UiSelector).closest('li').hasClass('active'))
                             $(item.UiSelector).closest('a').trigger('click');
                 },
-                onPrev: function() {
-                    console.log(item.UiSelector + " onPrev");
+                onPrev: function () {
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {
                         if ($(item.UiSelector).closest('ul').css("display") === 'block')
                             $(item.UiSelector).closest('ul').dropdown('toggle');
@@ -98,14 +94,14 @@
                 placement: 'right',
                 yOffset: 70,
                 totalItems: jsonDataItems.length,
-                onBindTarget: function() {
+                onBindTarget: function () {
                 },
-                onNext: function() {
+                onNext: function () {
                     // mark as viewed
                     $.ajax({
                         url: ($("#tourDisplay").attr('data-calloutasviewed')) + "?helpItemID=" + item.HelpItemID,
                         type: 'GET',
-                        success: function(data) {
+                        success: function (data) {
                         }
                     });
                 }
@@ -115,7 +111,7 @@
         return steps;
     }
 
-    function startHelp(helpType,stepList,width) {
+    function startHelp(helpType, stepList, width) {
         if (stepList.length > 0) {
             var helpProcess = {
                 id: "boo",
@@ -133,25 +129,39 @@
         }
     }
 
-    function setHopscotchRenderer(helpType)
-    {
+    function setHopscotchRenderer(helpType) {
         hopscotch.setRenderer(function (data) {
             var html;
-            helpPromises.helptype[helpType].done(function (template) {
+            helpPromises.display[helpType].done(function (template) {
                 html = template(data);
             });
             return html;
         });
     }
 
-    function setHelpPromises()
-    {
+    function setHelpPromises() {
         helpPromises = new defTmplWithNoContent($("#tourDisplay").data("templateurl"), "/Views/Shared/HelpTemplates/",
-            ['helptype'],
+            ['display'],
             [
-                { name: 'Tour', description: 'Tour'},
-                 { name: 'Callout', description: 'Callout'}
+                {name: 'Tour', description: 'Tour'},
+                {name: 'Callout', description: 'Callout'}
             ]
         );
     }
+
+    function showCalloutIfJustLoggedIn() {
+        var justLoggedIn = $("#tourDisplay").attr('data-justloggedon');
+        if (justLoggedIn === "True")
+        {
+            $.ajax({
+                url: ($("#tourDisplay").attr('data-gethelpitemsCallout')),
+                type: 'GET',
+                success: function (data) {
+                    var steps = getStepsFromJsonForCallouts(data.Items);
+                    startHelp("Callout", steps, 480);
+                }
+            });
+        }
+    }
+
 });

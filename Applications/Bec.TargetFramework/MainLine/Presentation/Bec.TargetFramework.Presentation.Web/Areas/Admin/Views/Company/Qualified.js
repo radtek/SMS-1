@@ -103,7 +103,6 @@ function activeChange(dataItem) {
                     dataItem.AuthorityDelegatedByEmail)
                 : ''
         });
-        console.log(data);
         var html = template(data);
         $('#activePanel').html(html);
         

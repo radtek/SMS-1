@@ -2,7 +2,7 @@
 @using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
 <!-- MAIN CONTENT -->
 <div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })" data-welcome="@TempData["WelcomeMessage"]" data-welcomeurl="@Url.Action("Welcome", "Transaction", new { Area = "SmsTransaction" })">
-    <div class="row">
+    <div class="row margin-bottom-10">
         <div class="col-sm-8 col-lg-9">
             <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-home margin-right-10"></i>Transactions</h2>
             @if (ViewBag.HasOrganisationAnySafeBankAccounts)
@@ -23,14 +23,12 @@
                     <button class="btn btn-default btn-header-search" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
                 </span>
             </div>
-            <div>
-                <p class="pull-left">Decision: @Html.DropDownList("decisionFilter", Html.EnumListString<SmsTransactionDecisionEnum>(), new { id = "decisionFilter" })</p>
-                <p class="pull-right">No Matches: @Html.DropDownList("noMatchFilter", Html.EnumListString<SmsTransactionNoMatchEnum>(), new { id = "noMatchFilter" })</p>
+            <div class="form-inline form-group">
+                <label>No Matches: </label>
+                @Html.DropDownList("noMatchFilter", Html.EnumListString<SmsTransactionNoMatchEnum>(), new { id = "noMatchFilter", @class = "form-control" })
             </div>
         </div>
     </div>
-
-    <br />
 
     <div class="row">
         <div class="col-sm-12">
@@ -66,43 +64,10 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="transactionPanel">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="well">
-                                        <h3>Transaction Details</h3>
-                                        <div id="transactionDetails"></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="well">
-                                        <h3>Primary Buyer</h3>
-                                        <h5>
-                                            Personal Details
-                                            <span class="pull-right">
-                                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
-                                                <a id="pinButton" class="btn btn-sm btn-primary" data-modallink="true" title="Regenerate PIN" data-url="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-repeat margin-right-5"></i>Regenerate PIN</a>
-                                            </span>
-                                        </h5>
-                                        <div id="primaryBuyer"></div>
-                                    </div>
-                                    <div class="well">
-                                        <h3>
-                                            Additional Buyers
-                                            <i class="fa fa-pulse fa-spinner margin-left-5" id="spinnerAdditionalBuyers" style="display:none;"></i>
-                                            <span class="pull-right">
-                                                <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer" data-url="@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
-                                            </span>
-                                        </h3>
-                                        <div id="additionalBuyers" data-url="@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})"></div>
-                                    </div>
-                                    <div class="well">
-                                        <h3>
-                                            Giftors
-                                            <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerGiftors" style="display:none;"></i>
-                                            <span class="pull-right">
-                                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor" data-url="@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
-                                            </span>
-                                        </h3>
-                                        <div id="giftors" data-url="@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})"></div>
+                                <div class="col-sm-12">
+                                    <div class="well transaction-details">
+                                        <div id="spinnerTransactionDetails" class="transaction-details-spinner"><i class="fa fa-lg fa-pulse fa-spinner"></i></div>
+                                        <div id="transactionDetails" data-url="@Url.Action("TransactionDetails", "Transaction", new { area = "SmsTransaction" })"></div>
                                     </div>
                                 </div>
                             </div>

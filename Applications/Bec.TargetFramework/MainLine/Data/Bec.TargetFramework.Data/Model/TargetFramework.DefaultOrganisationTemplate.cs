@@ -255,6 +255,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for DefaultOrganisationWorkflowTemplates in the schema.
+        /// </summary>
+        public virtual ICollection<DefaultOrganisationWorkflowTemplate> DefaultOrganisationWorkflowTemplates
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

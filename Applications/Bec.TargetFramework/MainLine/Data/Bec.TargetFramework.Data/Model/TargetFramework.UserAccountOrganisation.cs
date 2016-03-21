@@ -404,6 +404,60 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for FieldUpdates in the schema.
+        /// </summary>
+        public virtual ICollection<FieldUpdate> FieldUpdates
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for SmsTransactions in the schema.
+        /// </summary>
+        public virtual ICollection<SmsTransaction> SmsTransactions
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Helps_CreatedBy in the schema.
+        /// </summary>
+        public virtual ICollection<Help> Helps_CreatedBy
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Helps_ModifiedBy in the schema.
+        /// </summary>
+        public virtual ICollection<Help> Helps_ModifiedBy
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for HelpItems_CreatedBy in the schema.
+        /// </summary>
+        public virtual ICollection<HelpItem> HelpItems_CreatedBy
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for HelpItems_ModifiedBy in the schema.
+        /// </summary>
+        public virtual ICollection<HelpItem> HelpItems_ModifiedBy
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

@@ -91,6 +91,19 @@ namespace Bec.TargetFramework.Data
 
 
         #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// There are no comments for ApplicationStageWorkflows in the schema.
+        /// </summary>
+        public virtual ICollection<ApplicationStageWorkflow> ApplicationStageWorkflows
+        {
+            get;
+            set;
+        }
+
+        #endregion
     }
 
 }

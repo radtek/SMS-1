@@ -183,7 +183,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                         // if external notification reference then send - currently only support single user
                         SendExternalNotificationIfNeeded(notificationDto);
 
-                        m_NotificationLogic.SaveNotificationConversationSync(m_NotificationContainerDto.ActivityID, m_NotificationContainerDto.ActivityType, notificationDto);
+                        m_NotificationLogic.SaveNotificationConversationSync(m_NotificationContainerDto.ActivityID, m_NotificationContainerDto.ActivityType, null, true, notificationDto);
 
                         LogMessageAsCompleted();
                     }
