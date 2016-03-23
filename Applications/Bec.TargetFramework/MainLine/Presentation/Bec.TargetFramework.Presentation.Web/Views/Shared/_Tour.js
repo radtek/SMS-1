@@ -56,24 +56,22 @@
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {
                         if ($(item.UiSelector).closest('ul').css("display") === 'none')
                             $(item.UiSelector).closest('ul').dropdown('toggle');
-                    } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs'))
-                        if (!$(item.UiSelector).closest('li').hasClass('active'))
+                    } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs') && !$(item.UiSelector).closest('li').hasClass('active'))
                             $(item.UiSelector).closest('a').trigger('click');
                 },
                 onNext: function () {
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {
                         if ($(item.UiSelector).closest('ul').css("display") === 'block')
                             $(item.UiSelector).closest('ul').dropdown('toggle');
-                    } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs'))
-                        if ($(item.UiSelector).closest('li').hasClass('active'))
+                    } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs') && $(item.UiSelector).closest('li').hasClass('active'))
                             $(item.UiSelector).closest('a').trigger('click');
                 },
                 onPrev: function () {
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {
                         if ($(item.UiSelector).closest('ul').css("display") === 'block')
                             $(item.UiSelector).closest('ul').dropdown('toggle');
-                    } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs'))
-                        if ($(item.UiSelector).closest('li').hasClass('active'))
+                    } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs')
+                        && $(item.UiSelector).closest('li').hasClass('active'))
                             $(item.UiSelector).closest('a').trigger('click');
                 }
             });
@@ -99,9 +97,7 @@
                     // mark as viewed
                     $.ajax({
                         url: ($("#tourDisplay").attr('data-calloutasviewed')) + "?helpItemID=" + item.HelpItemID,
-                        type: 'GET',
-                        success: function (data) {
-                        }
+                        type: 'GET'
                     });
                 }
             });

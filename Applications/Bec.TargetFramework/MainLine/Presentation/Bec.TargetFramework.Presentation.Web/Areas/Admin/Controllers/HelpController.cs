@@ -427,7 +427,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
                     if (ro.UiPosition.HasValue)
                     {
-
                         if (ro.UiPosition == HelpPositionEnum.Top.GetIntValue())
                             ro.UiPositionName = HelpPositionEnum.Top.ToString();
                         else if (ro.UiPosition == HelpPositionEnum.Bottom.GetIntValue())
@@ -436,7 +435,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             ro.UiPositionName = HelpPositionEnum.Left.ToString();
                         else if (ro.UiPosition == HelpPositionEnum.Right.GetIntValue())
                             ro.UiPositionName = HelpPositionEnum.Right.ToString();
-
                     }
                 });
 

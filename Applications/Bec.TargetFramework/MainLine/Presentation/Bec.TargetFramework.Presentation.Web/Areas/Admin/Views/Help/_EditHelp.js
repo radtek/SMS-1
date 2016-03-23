@@ -85,10 +85,10 @@
 
     function hideShowElementsBasedOnHelpType(helpType) {
         if (helpType === "ShowMeHow") {
-            showHideAndClearValueElement("#uiPageUrlSection",null, true);
+            showHideAndClearValueElement("#uiPageUrlSection", true);
         }
         else {
-            showHideAndClearValueElement("#uiPageUrlSection", null, false);
+            showHideAndClearValueElement("#uiPageUrlSection", false);
         } 
     }
 
