@@ -115,9 +115,12 @@
                                 <li class="@Html.RouteIf("active", "Help", "Index")">
                                     <a href="@Url.Action("Index", "Help", new { area = "Admin" })" id="helpManagementMenu">Help Management</a>
                                 </li>
-                                }
+                                <li class="@Html.RouteIf("active", "Help", "Index")">
+                                    <a href="@Url.Action("Index", "Support", new { area = "Admin" })" id="helpManagementMenu">Support Management</a>
+                                </li>
+                            }
                             </ul>
-                        </li>
+                    </li>
                 }
             </ul>
         </nav>

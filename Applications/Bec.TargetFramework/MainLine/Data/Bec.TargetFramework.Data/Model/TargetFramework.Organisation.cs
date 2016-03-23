@@ -736,6 +736,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for SupportItems in the schema.
+        /// </summary>
+        public virtual ICollection<SupportItem> SupportItems
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

@@ -8,6 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EnsureThat;
+using Bec.TargetFramework.SB.Client.Interfaces;
+using System.Security.Cryptography;
+using System.Text;
+using ServiceStack.Text;
+using System.Diagnostics;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -16,6 +22,9 @@ namespace Bec.TargetFramework.Business.Logic
     {
         public TFSettingsLogicController Settings { get; set; }
         public ClassificationDataLogicController ClassificationLogic { get; set; }
+        public NotificationLogicController NotificationLogic { get; set; }
+        public IEventPublishLogicClient EventPublishClient { get; set; }
+        public UserLogicController UserLogic { get; set; }
 
         public bool DoesTypeAlreadyExist(int helpTypeID)
         {
@@ -465,5 +474,54 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public async Task<Guid> CreateSupportItem(SupportItemDTO supportItemDto, Guid orgId)
+        {
+            Ensure.That(supportItemDto).IsNotNull();
+
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var highestTicketNumber = scope.DbContexts.Get<TargetFrameworkEntities>().SupportItems.Max(s => s.TicketNumber);
+                var administrationOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(s => s.OrganisationTypeID.Equals(30));
+ 
+                supportItemDto.TicketNumber = highestTicketNumber + 1;
+                supportItemDto.SupportItemID = Guid.NewGuid();
+                supportItemDto.OrganisationID = administrationOrganisation.OrganisationID;
+
+                scope.DbContexts.Get<TargetFrameworkEntities>().SupportItems.Add(supportItemDto.ToEntity());
+                scope.SaveChanges();
+            }
+
+            var supportGroupHash = GetSupportSafeSendGroupHash();
+
+            await NotificationLogic.CreateConversation(null, supportItemDto.UserAccountOrganisationID, supportItemDto.AttachmentsID, ActivityType.SupportMessage, supportItemDto.SupportItemID, supportItemDto.Title, supportItemDto.Description, false,new string[] {supportGroupHash});
+         
+            
+            return supportItemDto.SupportItemID;
+        }
+
+        private string GetSupportSafeSendGroupHash()
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var adminOrganisationTypeID = OrganisationTypeEnum.Administration.GetIntValue();
+                var adminOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.FirstOrDefault(s => s.OrganisationTypeID.Equals(adminOrganisationTypeID));
+                var supportSafeSendGroup = scope.DbContexts.Get<TargetFrameworkEntities>().SafeSendGroups.FirstOrDefault(s => s.OrganisationTypeID.Equals(adminOrganisationTypeID) && s.Name.Equals("Support"));
+
+                if (supportSafeSendGroup == null)
+                    throw new ArgumentNullException("Support Safe Send Group is missing");
+                else
+                    return string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(adminOrganisation.OrganisationID.ToString() + supportSafeSendGroup.SafeSendGroupID.ToString())).Select(c => c.ToString("x2")));
+            }
+        }
+
+        public int? GetSupportItemRank(Guid stID, bool isClose)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var result = scope.DbContexts.Get<TargetFrameworkEntities>().FnSupportTicketRank(stID, isClose);
+
+                return result.First().ReturnValue;
+            }
+        }
     }
 }

@@ -1,0 +1,146 @@
+﻿@using Bec.TargetFramework.Presentation.Web.Helpers;
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <div class="col-sm-8 col-lg-9">
+            <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-commenting-o margin-right-10"></i>View Support Messages</h2>
+        </div>
+        <div class="col-sm-4 col-lg-3">
+            <div class="input-group margin-top-15 margin-bottom-5">
+                <input type="text" class="form-control" id="gridSearchInput" style="height:33px;">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="gridSearchButton" style="margin-right:13px; height:33px;"><i class="fa fa-search margin-right-5"></i>Search</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul id="tabList" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">
+                <li><a href="#s1">New </a></li>
+                <li><a href="#s2">Closed </a></li>
+            </ul>
+            <div id="tabContent" class="tab-content padding-10">
+
+                <div class="tab-pane fade in active" id="s1" role="tabpanel">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well">
+                                <div id="requestGrid" data-url="@Url.Action("GetSupportItems", "Support", new { area = "Admin" })" data-jumpto="@TempData["SupportItemId"]" data-jumptopage="@TempData["pageNumber"]" data-jumptorow="@TempData["rowNumber"]" data-resetsort="@TempData["resetSort"]"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row hidden" id="nPanel">
+                        <div class="col-sm-12 tabbable custom-tabs shadow">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#transactionPanel" data-toggle="tab"><i class="fa fa-commenting-o margin-right-10"></i><span>Support Message</span></a></li>
+                                <li><a href="#safeSendPanel" id="safeSendTab" data-toggle="tab"><i class="sms sms-safe-send margin-right-10"></i><span>Safe Send</span></a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="transactionPanel">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <!-- well -->
+                                            <div class="well">
+                                                <a id="closeButtonSupportItem" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewCloseSupportItem", "Support", new { area = "Admin" })">Close</a>
+                                                <h5>Selected Support Message</h5>
+                                                <dl class="dl-horizontal">
+                                                    <dt>Ticket Number:</dt>
+                                                    <dd><p id="ddnTicketNumber"></p></dd>
+                                                    <dt>Name:</dt>
+                                                    <dd><p id="ddnUserName"></p></dd>
+                                                    <dt>Email:</dt>
+                                                    <dd><p id="ddnEmail"></p></dd>
+                                                    <dt>Telephone:</dt>
+                                                    <dd><p id="ddnTelephone"></p></dd>
+                                                    <dt>Subject:</dt>
+                                                    <dd><p id="ddnSubject"></p></dd>
+                                                    <dt>Created On:</dt>
+                                                    <dd><p id="ddnCreatedOn"></p></dd>
+                                                    <dt>Type:</dt>
+                                                    <dd><p id="ddnType"></p></dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <!-- well -->
+                                            <div class="well">
+                                                <h5>Content:</h5>
+                                                <div id="ddnDescription" style="margin-left:16px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="safeSendPanel">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="well">
+                                                <div id="supportItemConversationContainer" data-activity-id="">
+                                                    @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = true, CanCreateNewConversation = false, ActivityType = ActivityType.SupportMessage })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="s2" role="tabpanel">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well">
+                                <div id="closedGrid" data-url="@Url.Action("GetClosedSupportItems", "Support", new { area = "Admin" })" data-jumpto="@TempData["SupportItemId"]" data-jumptopage="@TempData["pageNumber"]" data-jumptorow="@TempData["rowNumber"]" data-resetsort="@TempData["resetSort"]"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row hidden" id="ePanel">
+                        <div class="col-sm-6">
+                            <!-- well -->
+                            <div class="well">
+                                <h5>Selected Support Message</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Ticket Number:</dt>
+                                    <dd><p id="ddcTicketNumber"></p></dd>
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddcUserName"></p></dd>
+                                    <dt>Email:</dt>
+                                    <dd><p id="ddcEmail"></p></dd>
+                                    <dt>Telephone:</dt>
+                                    <dd><p id="ddcTelephone"></p></dd>
+                                    <dt>Subject:</dt>
+                                    <dd><p id="ddcSubject"></p></dd>
+                                    <dt>Closed On:</dt>
+                                    <dd><p id="ddcClosedOn"></p></dd>
+                                    <dt>Type:</dt>
+                                    <dd><p id="ddcType"></p></dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="well">
+                                <h5>Reason:</h5>
+                                <div id="ddcReason" style="margin-left:16px;"></div>
+                            </div>
+                            <!-- well -->
+                            <div class="well">
+                                <h5>Content:</h5>
+                                <div id="ddcDescription" style="margin-left:16px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script async src="@Scripts.Url("~/Scripts/Admin/Support/Index")"></script>
+}

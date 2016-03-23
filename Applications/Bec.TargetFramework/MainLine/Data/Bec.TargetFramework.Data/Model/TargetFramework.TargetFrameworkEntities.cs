@@ -2206,6 +2206,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ArtefactStatusType in the schema.
         /// </summary>
         public virtual DbSet<ArtefactStatusType> ArtefactStatusTypes { get; set; }
+    
+        /// <summary>
+        /// There are no comments for SupportItem in the schema.
+        /// </summary>
+        public virtual DbSet<SupportItem> SupportItems { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VSafeSendRecipientSupport in the schema.
+        /// </summary>
+        public virtual DbSet<VSafeSendRecipientSupport> VSafeSendRecipientSupports { get; set; }
 
         #region Methods
 
@@ -2710,6 +2720,33 @@ namespace Bec.TargetFramework.Data
                 uaoidParameter = new ObjectParameter("uaoid", typeof(global::System.Nullable<System.Guid>));
             }
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FnGetConversationActivityResult>("TargetFrameworkEntities.FnGetConversationActivity", orgidParameter, activitytypeParameter, activityidParameter, lParameter, oParameter, userorgtypenameParameter, uaoidParameter);
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnSupportTicketRank in the schema.
+        /// </summary>
+        public virtual ObjectResult<FnSupportTicketRankResult> FnSupportTicketRank (global::System.Nullable<System.Guid> stid, global::System.Nullable<bool> isclose)
+        {
+            ObjectParameter stidParameter;
+            if (stid.HasValue)
+            {
+                stidParameter = new ObjectParameter("stid", stid);
+            }
+            else
+            {
+                stidParameter = new ObjectParameter("stid", typeof(global::System.Nullable<System.Guid>));
+            }
+            ObjectParameter iscloseParameter;
+            if (isclose.HasValue)
+            {
+                iscloseParameter = new ObjectParameter("isclose", isclose);
+            }
+            else
+            {
+                iscloseParameter = new ObjectParameter("isclose", typeof(global::System.Nullable<bool>));
+            }
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FnSupportTicketRankResult>("TargetFrameworkEntities.FnSupportTicketRank", stidParameter, iscloseParameter);
         }
 
         #endregion

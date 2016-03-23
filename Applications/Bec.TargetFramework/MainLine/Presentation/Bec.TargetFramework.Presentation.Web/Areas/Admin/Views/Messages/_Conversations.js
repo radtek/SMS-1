@@ -124,6 +124,7 @@
     }
 
     function loadConversations() {
+        
         if (!currentActivity.enabled) {
             $('#conversationsContainer').hide();
             $('#messagesContainer').hide();
@@ -452,6 +453,7 @@
                 currentActivity.enabled = enabled;
 
                 if (canLoadConversations()) {
+               
                     loadConversations();
                 }
             });

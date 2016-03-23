@@ -79,6 +79,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             conversationDto.Link = Url.Action("Index", "SafeBuyer", new { Area = "Buyer", selectedTransactionId = conversationDto.ActivityID });
                         }
                         break;
+                    case ActivityType.SupportMessage:
+                        if (ClaimsHelper.UserHasClaim("Add", "Support"))
+                        {
+                            conversationDto.Link = Url.Action("Index", "Support", new { Area = "Admin", supportItemId = conversationDto.ActivityID });
+                        }
+                        break;
                 }
             }
         }
@@ -274,6 +280,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             switch (activityType)
             {
                 case ActivityType.SmsTransaction: return true;
+                case ActivityType.SupportMessage: return true;
             }
             return false;
         }
@@ -325,6 +332,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var resultBa = await QueryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", selectBa + filterBa);
                     var ba = resultBa.FirstOrDefault();
                     return ba.OrganisationID == orgId && ClaimsAuthorization.CheckAccess("View", "BankAccount");
+                case ActivityType.SupportMessage:
+                    return ClaimsAuthorization.CheckAccess("Send", "Support") || ClaimsAuthorization.CheckAccess("Add", "Support");
             }
 
             return false;

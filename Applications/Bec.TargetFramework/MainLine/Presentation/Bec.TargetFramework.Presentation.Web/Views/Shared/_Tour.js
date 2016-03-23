@@ -16,7 +16,6 @@
             }
         });
     });
-
     
     $("#showMeHowButton").click(function () {
         var uiPageUrl = window.location.pathname;

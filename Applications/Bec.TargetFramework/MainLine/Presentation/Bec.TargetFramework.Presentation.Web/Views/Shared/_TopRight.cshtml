@@ -42,6 +42,12 @@
                     </a>
                 </li>
             }
+            @if (ClaimsHelper.UserHasClaim("Send", "Support"))
+            {
+                <li>
+                    <a id="requestSupport" data-modallink="true" data-href="@Url.Action("ViewAddSupportItem", "Support", new { area = "Admin" })" data-url="@Url.Action("ViewAddSupportItem", "Support", new { area = "Admin" })" title="Request Support"><i class="fa fa-commenting-o"></i><span class="header-btn-text">Request Support</span></a>
+                </li>
+            }
         </ul>
     </div>
 
@@ -59,10 +65,5 @@
             </li>
         </ul>
     </div>
-
-    <div id="welcome-message" class="pull-right margin-top-15 margin-right-15 hidden-xs">
-        <span>@Context.GetEmail()</span>
-    </div>
-  
 }
 

@@ -37,6 +37,7 @@
     <Content Include="Development\PendingNext\03_PurchaseDeclineDecisionPerBuyerParty.sql" />
     <Content Include="Development\PendingNext\02_SafeBuyerForFreeSettings.sql" />
     <Content Include="Development\PendingNext\01_FieldUpdateTable.sql" />
+    <Content Include="Development\PendingNext\Help.sql" />
     <Content Include="Development\PendingNext\SmsUaoUpdate.sql" />
     <Content Include="Development\1.3.74-lender-enhancements\02_lender-mapping.sql" />
     <Content Include="Development\1.3.70-extended-free-trial\01_SchemaChange.sql" />
@@ -69,6 +70,7 @@
     <Content Include="Development\1.3.74-lender-enhancements\04_conversations-update.sql" />
     <Content Include="Development\1.3.72-hotfix-news\01_Schema.sql" />
     <Content Include="Development\1.3.74-lender-enhancements\Combined\1.3.74-lender-enhancements-tf-combined.sql" />
+    <Content Include="Development\PendingNext\Support.sql" />
     <Content Include="Development\SafeBuyerReceipt.sql" />
     <Content Include="Development\1.3.74-lender-enhancements\Combined\1.3.74-lender-enhancements-tf-combined.sql" />
     <Content Include="Scripts\BE Framework Scripts\AddRowVersion.sql" />
@@ -217,7 +219,6 @@
     <Content Include="Scripts\UI InterfacePanelFieldDetail Scripts\UIFieldsIPDeletePromoteScript.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Development\Pending\" />
     <Folder Include="Scripts\Creation Scripts\Supplier Organisations\" />
   </ItemGroup>
   <ItemGroup>

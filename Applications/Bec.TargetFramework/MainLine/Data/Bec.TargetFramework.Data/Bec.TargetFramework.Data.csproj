@@ -178,6 +178,7 @@
     <Compile Include="Converters\FnGetConversationActivityResultConverter.cs" />
     <Compile Include="Converters\FnGetHelpItemResultConverter.cs" />
     <Compile Include="Converters\FnGetUserClaimResultConverter.cs" />
+    <Compile Include="Converters\FnSupportTicketRankResultConverter.cs" />
     <Compile Include="Converters\GlobalAccountingPeriodConverter.cs" />
     <Compile Include="Converters\GlobalDirectDebitCollectionPeriodConverter.cs" />
     <Compile Include="Converters\GlobalPaymentMethodConverter.cs" />
@@ -403,6 +404,7 @@
     <Compile Include="Converters\StatusTypeValueTemplateConverter.cs" />
     <Compile Include="Converters\StructureConverter.cs" />
     <Compile Include="Converters\SubscriptionConverter.cs" />
+    <Compile Include="Converters\SupportItemConverter.cs" />
     <Compile Include="Converters\TaxRateConverter.cs" />
     <Compile Include="Converters\TaxRateTemplateConverter.cs" />
     <Compile Include="Converters\TempJsonDatumConverter.cs" />
@@ -486,6 +488,7 @@
     <Compile Include="Converters\VResourceConverter.cs" />
     <Compile Include="Converters\VRoleConverter.cs" />
     <Compile Include="Converters\VSafeSendRecipientConverter.cs" />
+    <Compile Include="Converters\VSafeSendRecipientSupportConverter.cs" />
     <Compile Include="Converters\VStateConverter.cs" />
     <Compile Include="Converters\VStatusTypeConverter.cs" />
     <Compile Include="Converters\VStatusTypeTemplateConverter.cs" />
@@ -609,6 +612,7 @@
     <Compile Include="Model\TargetFramework.FnGetConversationActivityResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetHelpItemResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetUserClaimResult.cs" />
+    <Compile Include="Model\TargetFramework.FnSupportTicketRankResult.cs" />
     <Compile Include="Model\TargetFramework.GlobalAccountingPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalDirectDebitCollectionPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalPaymentMethod.cs" />
@@ -834,6 +838,7 @@
     <Compile Include="Model\TargetFramework.StatusTypeValueTemplate.cs" />
     <Compile Include="Model\TargetFramework.Structure.cs" />
     <Compile Include="Model\TargetFramework.Subscription.cs" />
+    <Compile Include="Model\TargetFramework.SupportItem.cs" />
     <Compile Include="Model\TargetFramework.TargetFrameworkEntities.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -920,6 +925,7 @@
     <Compile Include="Model\TargetFramework.VResource.cs" />
     <Compile Include="Model\TargetFramework.VRole.cs" />
     <Compile Include="Model\TargetFramework.VSafeSendRecipient.cs" />
+    <Compile Include="Model\TargetFramework.VSafeSendRecipientSupport.cs" />
     <Compile Include="Model\TargetFramework.VState.cs" />
     <Compile Include="Model\TargetFramework.VStatusType.cs" />
     <Compile Include="Model\TargetFramework.VStatusTypeTemplate.cs" />

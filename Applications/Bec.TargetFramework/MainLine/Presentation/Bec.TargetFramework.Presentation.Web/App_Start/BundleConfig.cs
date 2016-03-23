@@ -188,6 +188,10 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/_DeleteHelp").Include("~/Areas/Admin/Views/Help/_DeleteHelp.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Help/HelpShared").Include("~/Areas/Admin/Views/Help/HelpShared.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Tour").Include("~/Views/Shared/_Tour.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Support/Index").Include("~/Areas/Admin/Views/Support/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Support/_AddSupportItem").Include("~/Areas/Admin/Views/Support/_AddSupportItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Support/_CloseSupportItem").Include("~/Areas/Admin/Views/Support/_CloseSupportItem.js"));
             
             BundleTable.EnableOptimizations = true;
         }

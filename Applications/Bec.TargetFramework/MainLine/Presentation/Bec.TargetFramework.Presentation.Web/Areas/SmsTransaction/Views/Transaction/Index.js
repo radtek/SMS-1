@@ -108,10 +108,6 @@
 
     setupTemplatePromise(bankAccountChecksDetailsPromise, getRazorViewPath('_bankAccountChecksDetailsTmpl', 'Shared/Templates', ''));
 
-    if ($('#content').data("welcome") == "True") {
-        handleModal({ url: $('#content').data("welcomeurl") }, null, true);
-    }
-
     function setupTabs() {
         $('#rPanel li a').click(function (e) {
             e.stopPropagation();

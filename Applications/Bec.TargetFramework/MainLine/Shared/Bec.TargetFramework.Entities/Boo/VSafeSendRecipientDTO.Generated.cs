@@ -22,9 +22,10 @@ namespace Bec.TargetFramework.Entities
         public VSafeSendRecipientDTO() {
         }
 
-        public VSafeSendRecipientDTO(global::System.Guid smsTransactionID, global::System.Guid relatedID, global::System.Guid organisationID, string firstName, string lastName, string organisationTypeName, global::System.Nullable<bool> isSafeSendGroup, string organisationName) {
+        public VSafeSendRecipientDTO(global::System.Guid activityID, int activityTypeID, global::System.Guid relatedID, global::System.Guid organisationID, string firstName, string lastName, string organisationTypeName, bool isSafeSendGroup, string organisationName) {
 
-          this.SmsTransactionID = smsTransactionID;
+          this.ActivityID = activityID;
+          this.ActivityTypeID = activityTypeID;
           this.RelatedID = relatedID;
           this.OrganisationID = organisationID;
           this.FirstName = firstName;
@@ -39,7 +40,10 @@ namespace Bec.TargetFramework.Entities
         #region Properties
 
         [DataMember]
-        public global::System.Guid SmsTransactionID { get; set; }
+        public global::System.Guid ActivityID { get; set; }
+
+        [DataMember]
+        public int ActivityTypeID { get; set; }
 
         [DataMember]
         public global::System.Guid RelatedID { get; set; }
@@ -57,7 +61,7 @@ namespace Bec.TargetFramework.Entities
         public string OrganisationTypeName { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsSafeSendGroup { get; set; }
+        public bool IsSafeSendGroup { get; set; }
 
         [DataMember]
         public string OrganisationName { get; set; }

@@ -29,7 +29,8 @@ namespace Bec.TargetFramework.Entities
             var target = new VSafeSendRecipientDTO();
 
             // Properties
-            target.SmsTransactionID = source.SmsTransactionID;
+            target.ActivityID = source.ActivityID;
+            target.ActivityTypeID = source.ActivityTypeID;
             target.RelatedID = source.RelatedID;
             target.OrganisationID = source.OrganisationID;
             target.FirstName = source.FirstName;
@@ -52,7 +53,8 @@ namespace Bec.TargetFramework.Entities
             var target = new Bec.TargetFramework.Data.VSafeSendRecipient();
 
             // Properties
-            target.SmsTransactionID = source.SmsTransactionID;
+            target.ActivityID = source.ActivityID;
+            target.ActivityTypeID = source.ActivityTypeID;
             target.RelatedID = source.RelatedID;
             target.OrganisationID = source.OrganisationID;
             target.FirstName = source.FirstName;

@@ -544,6 +544,10 @@
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
       <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\FnSupportTicketRankResultDTO.cs" />
+    <Compile Include="Boo\FnSupportTicketRankResultDTO.Generated.cs">
+      <DependentUpon>FnSupportTicketRankResultDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\GlobalAccountingPeriodDTO.cs" />
     <Compile Include="Boo\GlobalAccountingPeriodDTO.Generated.cs">
       <DependentUpon>GlobalAccountingPeriodDTO.cs</DependentUpon>
@@ -1528,6 +1532,10 @@
     <Compile Include="Boo\SubscriptionDTO.Generated.cs">
       <DependentUpon>SubscriptionDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\SupportItemDTO.cs" />
+    <Compile Include="Boo\SupportItemDTO.Generated.cs">
+      <DependentUpon>SupportItemDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\TaxRateDTO.Generated.cs">
       <DependentUpon>TaxRateDTO.cs</DependentUpon>
     </Compile>
@@ -1796,6 +1804,10 @@
     <Compile Include="Boo\VSafeSendRecipientDTO.cs" />
     <Compile Include="Boo\VSafeSendRecipientDTO.Generated.cs">
       <DependentUpon>VSafeSendRecipientDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VSafeSendRecipientSupportDTO.cs" />
+    <Compile Include="Boo\VSafeSendRecipientSupportDTO.Generated.cs">
+      <DependentUpon>VSafeSendRecipientSupportDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VStateDTO.Generated.cs">
       <DependentUpon>VStateDTO.cs</DependentUpon>

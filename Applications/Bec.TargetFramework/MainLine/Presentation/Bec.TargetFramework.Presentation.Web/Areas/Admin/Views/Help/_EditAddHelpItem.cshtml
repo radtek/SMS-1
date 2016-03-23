@@ -35,7 +35,14 @@
                                     </label>
                                 </section>
                                 <section id="uiSelectorSection">
-                                    <label class="label">UI Selector</label>
+                                    @if (Model.HelpTypeName == HelpTypeEnum.Callout.ToString())
+                                    {
+                                        <label class="label">UI Selector (For callouts, this becomes the category e.g. Role Hierarchy is enforced)</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="label">UI Selector</label>
+                                    }
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                         @Html.TextBoxFor(m => m.UiSelector, new { tabindex = "3", maxlength = 200 })
@@ -44,7 +51,7 @@
                                 <section id="uiPositionSection">
                                     <label class="label">UI Position</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.UiPosition, Html.EnumListWithIntValue<HelpPositionEnum>(), "Please Select", new { tabindex = "5" })
+                                        @Html.DropDownListFor(m => m.UiPosition, Html.EnumListWithIntValue<HelpPositionEnum>(), "Please Select", new { tabindex = "4" })
                                         <i></i>
                                     </label>
                                 </section>
@@ -52,13 +59,13 @@
                                     <label class="label">Effective From</label>
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.EffectiveFrom, new { tabindex = "5", @class = "dateinput" })
+                                        @Html.TextBoxFor(m => m.EffectiveFrom, "{0:dd/MM/yyyy}", new { tabindex = "5", @class = "dateinput" })
                                     </label>
                                 </section>
                                 <section id="rolesSection">
                                     <label class="label">Roles</label>
                                     <label class="input">
-                                        @Html.ListBoxFor(m => m.SelectedRoles, new SelectList(Model.Roles, "RoleID", "RoleName"), new { multiple = "multiple", @id = "ddlRolesEdit", style = "width:100%; resize:none;" })
+                                        @Html.ListBoxFor(m => m.SelectedRoles, new SelectList(Model.Roles, "RoleID", "RoleName"), new { tabindex = "6",multiple = "multiple", @id = "ddlRolesEdit", style = "width:100%; resize:none;" })
                                     </label>
                                 </section>
                             </div>

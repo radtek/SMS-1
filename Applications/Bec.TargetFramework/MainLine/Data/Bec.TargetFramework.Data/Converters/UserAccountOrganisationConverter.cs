@@ -77,6 +77,9 @@ namespace Bec.TargetFramework.Entities
               target.Helps_ModifiedBy = source.Helps_ModifiedBy.ToDtosWithRelated(level - 1);
               target.HelpItems_CreatedBy = source.HelpItems_CreatedBy.ToDtosWithRelated(level - 1);
               target.HelpItems_ModifiedBy = source.HelpItems_ModifiedBy.ToDtosWithRelated(level - 1);
+              target.SupportItems = source.SupportItems.ToDtosWithRelated(level - 1);
+              target.SupportItems_CreatedBy = source.SupportItems_CreatedBy.ToDtosWithRelated(level - 1);
+              target.SupportItems_ClosedBy = source.SupportItems_ClosedBy.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

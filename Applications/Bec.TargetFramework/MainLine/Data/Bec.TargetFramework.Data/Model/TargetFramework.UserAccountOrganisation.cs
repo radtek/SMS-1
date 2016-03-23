@@ -458,6 +458,33 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for SupportItems in the schema.
+        /// </summary>
+        public virtual ICollection<SupportItem> SupportItems
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for SupportItems_CreatedBy in the schema.
+        /// </summary>
+        public virtual ICollection<SupportItem> SupportItems_CreatedBy
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for SupportItems_ClosedBy in the schema.
+        /// </summary>
+        public virtual ICollection<SupportItem> SupportItems_ClosedBy
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

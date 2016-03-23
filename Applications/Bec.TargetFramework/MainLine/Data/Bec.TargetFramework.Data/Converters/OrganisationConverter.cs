@@ -106,6 +106,7 @@ namespace Bec.TargetFramework.Entities
               target.Contact_AuthorityDelegatedByContactID = source.Contact_AuthorityDelegatedByContactID.ToDtoWithRelated(level - 1);
               target.ConversationSafeSendGroupParticipants = source.ConversationSafeSendGroupParticipants.ToDtosWithRelated(level - 1);
               target.LegalOrganisationDetail = source.LegalOrganisationDetail.ToDtoWithRelated(level - 1);
+              target.SupportItems = source.SupportItems.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

@@ -16,10 +16,12 @@ using Mehdime.Entity;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -503,7 +505,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 foreach (var p in participants)
                 {
-                    if (p.IsSafeSendGroup.GetValueOrDefault(false))
+                    if (p.IsSafeSendGroup)
                         conv.ConversationSafeSendGroupParticipants.Add(new ConversationSafeSendGroupParticipant { OrganisationID = p.OrganisationID, SafeSendGroupID = p.RelatedID });
                     else
                         conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p.RelatedID });
@@ -571,8 +573,8 @@ namespace Bec.TargetFramework.Business.Logic
                 if (from == null) throw new Exception("Illegal sender");
                 if (from.IsSafeSendGroup) n.CreatedBySafeSendGroupID = from.Value;
 
-                var uaoRecipients = recipients.Where(x => !x.IsSafeSendGroup.GetValueOrDefault(false)).Select(x => x.RelatedID);
-                foreach (var group in recipients.Where(x => x.IsSafeSendGroup.GetValueOrDefault(false)).GroupBy(x => x.OrganisationID).Select(x => new { Org = x.Key, SafeSendGroups = x.Select(y => y.RelatedID).ToList() }))
+                var uaoRecipients = recipients.Where(x => !x.IsSafeSendGroup).Select(x => x.RelatedID);
+                foreach (var group in recipients.Where(x => x.IsSafeSendGroup).GroupBy(x => x.OrganisationID).Select(x => new { Org = x.Key, SafeSendGroups = x.Select(y => y.RelatedID).ToList() }))
                 {
                     var safeSendGroupUaoIDs = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationSafeSendGroups
                         .Where(x => x.UserAccountOrganisation.OrganisationID == group.Org && group.SafeSendGroups.Contains(x.SafeSendGroupID))
@@ -647,28 +649,41 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
+                var org = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).Organisation;
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.ActivityID == activityID && (x.IsSafeSendGroup || x.RelatedID != senderUaoID));
+                
                 switch (activityTypeID)
                 {
                     case ActivityType.SmsTransaction:
-                var org = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == senderUaoID).Organisation;
-                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VSafeSendRecipients.Where(x => x.SmsTransactionID == activityID && (x.IsSafeSendGroup.GetValueOrDefault(false) || x.RelatedID != senderUaoID));
-                
-                switch (org.OrganisationType.Name)
-                {
-                    case "Personal":
-                        ret = ret.Where(x => x.OrganisationTypeName != "Lender");
+                        switch (org.OrganisationType.Name)
+                        {
+                            case "Personal":
+                                ret = ret.Where(x => x.OrganisationTypeName != "Lender");
+                                break;
+                            case "Lender":
+                                ret = ret.Where(x => x.OrganisationTypeName != "Personal" && x.OrganisationTypeName != "Lender");
+                                break;
+                        }
                         break;
-                    case "Lender":
-                        ret = ret.Where(x => x.OrganisationTypeName != "Personal" && x.OrganisationTypeName != "Lender");
+                    case ActivityType.SupportMessage:
                         break;
-                }
-                ret = ret.OrderBy(x => x.IsSafeSendGroup).ThenByDescending(x => x.OrganisationName).ThenBy(x => x.LastName);
-                var ret2 = ret.ToDtos();
-                foreach (var item in ret2) item.Hash = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(item.OrganisationID.ToString() + item.RelatedID.ToString())).Select(c => c.ToString("x2")));
-                return ret2;
                     default:
                         throw new Exception("Invalid activity type");
                 }
+
+                ret = ret.OrderBy(x => x.IsSafeSendGroup).ThenByDescending(x => x.OrganisationName).ThenBy(x => x.LastName);
+                var ret2 = ret.ToDtos();
+                foreach (var item in ret2) item.Hash = string.Join("", MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(item.OrganisationID.ToString() + item.RelatedID.ToString())).Select(c => c.ToString("x2")));
+
+                Debug.WriteLine("-------------");
+
+                ret2.ForEach(item => {
+                    Debug.WriteLine(item.RelatedID + ":" + item.Hash);
+                });
+
+                
+
+                return ret2;
             }
         }
 

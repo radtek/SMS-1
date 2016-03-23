@@ -61,7 +61,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<GoogleGeoCodeResponse> GeoCodePostcodeAsync(String postCode);
 		GoogleGeoCodeResponse GeoCodePostcodeSync(String postCode);
 	}
-
+	 
 	public partial interface IBankAccountLogicClient : IClientBase	{	
 		Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID);
 		Boolean HasOrganisationAnySafeBankAccountSync(Guid organisationID);
@@ -82,7 +82,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
 		void PublishCheckNoMatchNotificationSync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
 	}
-
+	 
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
 		Task<List<CountryCodeDTO>> GetCountriesAsync();
 		List<CountryCodeDTO> GetCountriesSync();
@@ -93,7 +93,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<Int32> GetClassificationDataForTypeNameAsync(String categoryName,String typeName);
 		Int32 GetClassificationDataForTypeNameSync(String categoryName,String typeName);
 	}
-
+	 
 	public partial interface IFileLogicClient : IClientBase	{	
 		Task<ClamScanResult> UploadFileAsync(FileDTO file);
 		ClamScanResult UploadFileSync(FileDTO file);
@@ -106,152 +106,46 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<ClamScanResult> ScanForVirusAsync(ScanBytesDTO data);
 		ClamScanResult ScanForVirusSync(ScanBytesDTO data);
 	}
-
+	 
 	public partial interface IHelpLogicClient : IClientBase	{	
-
-		/// <param name="helpTypeID"></param>
-		/// <returns></returns>
 		Task<Boolean> DoesTypeAlreadyExistAsync(Int32 helpTypeID);
-
-		/// <param name="helpTypeID"></param>
-		/// <returns></returns>
 		Boolean DoesTypeAlreadyExistSync(Int32 helpTypeID);
-
-		/// <param name="helpID"></param>
-		/// <param name="uiPageURL"></param>
-		/// <returns></returns>
 		Task<Boolean> DoesShowMeHowUiPageUrlAlreadyExistAsync(Guid helpID,String uiPageURL);
-
-		/// <param name="helpID"></param>
-		/// <param name="uiPageURL"></param>
-		/// <returns></returns>
 		Boolean DoesShowMeHowUiPageUrlAlreadyExistSync(Guid helpID,String uiPageURL);
-
-		/// <param name="uaoID"></param>
-		/// <param name="helpItemID"></param>
-		/// <returns></returns>
 		Task MarkCalloutAsViewedAsync(Guid uaoID,Guid helpItemID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="helpItemID"></param>
-		/// <returns></returns>
 		void MarkCalloutAsViewedSync(Guid uaoID,Guid helpItemID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <returns></returns>
 		Task<String> GetFromTempStoreAsync(Guid uaoID,Guid tempID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <returns></returns>
 		String GetFromTempStoreSync(Guid uaoID,Guid tempID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <returns></returns>
 		Task DeleteTempStoreAsync(Guid uaoID,Guid tempID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <returns></returns>
 		void DeleteTempStoreSync(Guid uaoID,Guid tempID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="helpTypeID"></param>
-		/// <param name="uiPageUrl"></param>
-		/// <returns></returns>
 		Task<List<AddHelpItemDTO>> GetHelpItemsForDisplayAsync(Guid uaoID,Int32 helpTypeID,String uiPageUrl);
-
-		/// <param name="uaoID"></param>
-		/// <param name="helpTypeID"></param>
-		/// <param name="uiPageUrl"></param>
-		/// <returns></returns>
 		List<AddHelpItemDTO> GetHelpItemsForDisplaySync(Guid uaoID,Int32 helpTypeID,String uiPageUrl);
-
-		/// <param name="hiID"></param>
-		/// <returns></returns>
 		Task DeleteHelpItemAsync(Guid hiID);
-
-		/// <param name="hiID"></param>
-		/// <returns></returns>
 		void DeleteHelpItemSync(Guid hiID);
-
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		Task DeleteHelpAsync(Guid hID);
-
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		void DeleteHelpSync(Guid hID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
 		Task AddToTempStoreAsync(Guid uaoID,Guid tempID,String data);
-
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
 		void AddToTempStoreSync(Guid uaoID,Guid tempID,String data);
-
-		/// <param name="hiID"></param>
-		/// <param name="hID"></param>
-		/// <param name="up"></param>
-		/// <returns></returns>
 		Task MoveHelpItemAsync(Guid hiID,Guid hID,Boolean up);
-
-		/// <param name="hiID"></param>
-		/// <param name="hID"></param>
-		/// <param name="up"></param>
-		/// <returns></returns>
 		void MoveHelpItemSync(Guid hiID,Guid hID,Boolean up);
-
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		Task<IEnumerable<AddHelpItemDTO>> GetHelpItemsAsync(Guid hID);
-
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		IEnumerable<AddHelpItemDTO> GetHelpItemsSync(Guid hID);
-
-		/// <param name="hiID"></param>
-		/// <returns></returns>
 		Task<AddHelpItemDTO> GetHelpItemAsync(Guid hiID);
-
-		/// <param name="hiID"></param>
-		/// <returns></returns>
 		AddHelpItemDTO GetHelpItemSync(Guid hiID);
-
-		/// <returns></returns>
 		Task SaveHelpItemAsync(AddHelpItemDTO dto);
-
-		/// <returns></returns>
 		void SaveHelpItemSync(AddHelpItemDTO dto);
-
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		Task<AddHelpDTO> GetHelpAsync(Guid hID);
-
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		AddHelpDTO GetHelpSync(Guid hID);
-
-		/// <returns></returns>
 		Task SaveHelpAsync(AddHelpDTO dto);
-
-		/// <returns></returns>
 		void SaveHelpSync(AddHelpDTO dto);
-
-		/// <returns></returns>
 		Task<IEnumerable<RoleDTO>> GetHelpRolesAsync();
-
-		/// <returns></returns>
 		IEnumerable<RoleDTO> GetHelpRolesSync();
+		Task<Guid> CreateSupportItemAsync(Guid OrgId,SupportItemDTO supportItemDto);
+		Guid CreateSupportItemSync(Guid OrgId,SupportItemDTO supportItemDto);
+		Task<Nullable<Int32>> GetSupportItemRankAsync(Guid stID,Boolean isClose);
+		Nullable<Int32> GetSupportItemRankSync(Guid stID,Boolean isClose);
 	}
-
+	 
 	public partial interface IInvoiceLogicClient : IClientBase	{	
 		Task<Boolean> DoesInvoiceExistForShoppingCartAsync(Guid shoppingCartId);
 		Boolean DoesInvoiceExistForShoppingCartSync(Guid shoppingCartId);
@@ -286,12 +180,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task MarkInvoiceAsPaymentScheduledAsync(Guid invoiceID);
 		void MarkInvoiceAsPaymentScheduledSync(Guid invoiceID);
 	}
-
+	 
 	public partial interface IMiscLogicClient : IClientBase	{	
 		Task<Guid> AddNewsArticleAsync(NewsArticleDTO dto);
 		Guid AddNewsArticleSync(NewsArticleDTO dto);
 	}
-
+	 
 	public partial interface INotificationLogicClient : IClientBase	{	
 		Task<Boolean> HasNotificationAlreadyBeenSentInTheLastTimePeriodAsync(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
 		Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriodSync(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
@@ -354,7 +248,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<List<CreateConversationRecipientDTO>> GetUserSafeSendGroupsAsync(Guid uaoId,Guid orgId);
 		List<CreateConversationRecipientDTO> GetUserSafeSendGroupsSync(Guid uaoId,Guid orgId);
 	}
-
+	 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
 		Task ExpireTemporaryLoginsAsync(Int32 days,Int32 hours,Int32 minutes);
 		void ExpireTemporaryLoginsSync(Int32 days,Int32 hours,Int32 minutes);
@@ -401,7 +295,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<Boolean> CanLenderNameBeUsedAsync(String lenderName);
 		Boolean CanLenderNameBeUsedSync(String lenderName);
 	}
-
+	 
 	public partial interface IPaymentLogicClient : IClientBase	{	
 		Task<TransactionOrderPaymentDTO> GetTheSuccessfulOrderPaymentForTransactionOrderAsync(Guid transactionOrderId);
 		TransactionOrderPaymentDTO GetTheSuccessfulOrderPaymentForTransactionOrderSync(Guid transactionOrderId);
@@ -410,14 +304,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<TransactionOrderPaymentDTO> ProcessPaymentTransactionAsync(OrderRequestDTO request);
 		TransactionOrderPaymentDTO ProcessPaymentTransactionSync(OrderRequestDTO request);
 	}
-
+	 
 	public partial interface IProductLogicClient : IClientBase	{	
 		Task<ProductDTO> GetTopUpProductAsync();
 		ProductDTO GetTopUpProductSync();
 		Task<ProductDetailDTO> GetBankAccountCheckProductAsync();
 		ProductDetailDTO GetBankAccountCheckProductSync();
 	}
-
+	 
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
 		Task<ShoppingCartDTO> CreateShoppingCartAsync(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode);
 		ShoppingCartDTO CreateShoppingCartSync(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode);
@@ -426,7 +320,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task RemoveProductFromShoppingCartAsync(Guid cartID,Guid itemID);
 		void RemoveProductFromShoppingCartSync(Guid cartID,Guid itemID);
 	}
-
+	 
 	public partial interface ISmsTransactionLogicClient : IClientBase	{	
 		Task<Guid> AddSmsTransactionAsync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
 		Guid AddSmsTransactionSync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
@@ -461,12 +355,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<CartPricingDTO> EnsureCartAsync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
 		CartPricingDTO EnsureCartSync(Guid txID,Guid uaoID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum);
 	}
-
+	 
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
 		Task<Dictionary<String, String>> GetSettingsAsync();
 		Dictionary<String, String> GetSettingsSync();
 	}
-
+	 
 	public partial interface ITransactionOrderLogicClient : IClientBase	{	
 		Task<TransactionOrderDTO> GetTransactionForInvoiceAsync(Guid invoiceId);
 		TransactionOrderDTO GetTransactionForInvoiceSync(Guid invoiceId);
@@ -475,12 +369,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<TransactionOrderDTO> CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
 		TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTOSync(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
 	}
-
+	 
 	public partial interface IUserAccountAuditLogicClient : IClientBase	{	
 		Task CreateAndSaveAuditAsync(String requestData,WebUserObject wuo);
 		void CreateAndSaveAuditSync(String requestData,WebUserObject wuo);
 	}
-
+	 
 	public partial interface IUserLogicClient : IClientBase, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{	
 		Task<UserLoginValidation> AuthenticateUserAsync(String username,String password);
 		UserLoginValidation AuthenticateUserSync(String username,String password);
@@ -585,7 +479,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Task<Boolean> CanEmailBeUsedAsProfessionalAsync(String email,Nullable<Guid> uaoID);
 		Boolean CanEmailBeUsedAsProfessionalSync(String email,Nullable<Guid> uaoID);
 	}
-
+	 
 }
 #endregion
 
@@ -1031,53 +925,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class HelpLogicClient : ClientBase, Interfaces.IHelpLogicClient	{		
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public HelpLogicClient(string url) : base(url)
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public HelpLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
 		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="helpTypeID"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> DoesTypeAlreadyExistAsync(Int32 helpTypeID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object, Boolean>("api/HelpLogic/DoesTypeAlreadyExist?helpTypeID=" + helpTypeID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="helpTypeID"></param>
 		public virtual Boolean DoesTypeAlreadyExistSync(Int32 helpTypeID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/HelpLogic/DoesTypeAlreadyExist?helpTypeID=" + helpTypeID, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="helpID"></param>
-		/// <param name="uiPageURL"></param>
-		/// <returns></returns>
 		public virtual Task<Boolean> DoesShowMeHowUiPageUrlAlreadyExistAsync(Guid helpID,String uiPageURL)
 		{
 			uiPageURL = uiPageURL.UrlEncode();
@@ -1085,11 +955,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object, Boolean>("api/HelpLogic/DoesShowMeHowUiPageUrlAlreadyExist?helpID=" + helpID + "&uiPageURL=" + uiPageURL, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="helpID"></param>
-		/// <param name="uiPageURL"></param>
 		public virtual Boolean DoesShowMeHowUiPageUrlAlreadyExistSync(Guid helpID,String uiPageURL)
 		{
 			uiPageURL = uiPageURL.UrlEncode();
@@ -1097,82 +962,42 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, Boolean>("api/HelpLogic/DoesShowMeHowUiPageUrlAlreadyExist?helpID=" + helpID + "&uiPageURL=" + uiPageURL, null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="helpItemID"></param>
-		/// <returns></returns>
 		public virtual Task MarkCalloutAsViewedAsync(Guid uaoID,Guid helpItemID)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/HelpLogic/MarkCalloutAsViewed?uaoID=" + uaoID + "&helpItemID=" + helpItemID, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="helpItemID"></param>
 		public virtual void MarkCalloutAsViewedSync(Guid uaoID,Guid helpItemID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/HelpLogic/MarkCalloutAsViewed?uaoID=" + uaoID + "&helpItemID=" + helpItemID, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <returns></returns>
 		public virtual Task<String> GetFromTempStoreAsync(Guid uaoID,Guid tempID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<String>("api/HelpLogic/GetFromTempStore?uaoID=" + uaoID + "&tempID=" + tempID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
 		public virtual String GetFromTempStoreSync(Guid uaoID,Guid tempID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<String>("api/HelpLogic/GetFromTempStore?uaoID=" + uaoID + "&tempID=" + tempID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <returns></returns>
 		public virtual Task DeleteTempStoreAsync(Guid uaoID,Guid tempID)
 		{
 			string _user = getHttpContextUser();
 			return DeleteAsync("api/HelpLogic/DeleteTempStore?uaoID=" + uaoID + "&tempID=" + tempID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
 		public virtual void DeleteTempStoreSync(Guid uaoID,Guid tempID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => DeleteAsync("api/HelpLogic/DeleteTempStore?uaoID=" + uaoID + "&tempID=" + tempID, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="helpTypeID"></param>
-		/// <param name="uiPageUrl"></param>
-		/// <returns></returns>
 		public virtual Task<List<AddHelpItemDTO>> GetHelpItemsForDisplayAsync(Guid uaoID,Int32 helpTypeID,String uiPageUrl)
 		{
 			uiPageUrl = uiPageUrl.UrlEncode();
@@ -1180,12 +1005,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return GetAsync<List<AddHelpItemDTO>>("api/HelpLogic/GetHelpItemsForDisplay?uaoID=" + uaoID + "&helpTypeID=" + helpTypeID + "&uiPageUrl=" + uiPageUrl, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="helpTypeID"></param>
-		/// <param name="uiPageUrl"></param>
 		public virtual List<AddHelpItemDTO> GetHelpItemsForDisplaySync(Guid uaoID,Int32 helpTypeID,String uiPageUrl)
 		{
 			uiPageUrl = uiPageUrl.UrlEncode();
@@ -1193,55 +1012,30 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => GetAsync<List<AddHelpItemDTO>>("api/HelpLogic/GetHelpItemsForDisplay?uaoID=" + uaoID + "&helpTypeID=" + helpTypeID + "&uiPageUrl=" + uiPageUrl, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hiID"></param>
-		/// <returns></returns>
 		public virtual Task DeleteHelpItemAsync(Guid hiID)
 		{
 			string _user = getHttpContextUser();
 			return DeleteAsync("api/HelpLogic/DeleteHelpItem?hiID=" + hiID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hiID"></param>
 		public virtual void DeleteHelpItemSync(Guid hiID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => DeleteAsync("api/HelpLogic/DeleteHelpItem?hiID=" + hiID, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		public virtual Task DeleteHelpAsync(Guid hID)
 		{
 			string _user = getHttpContextUser();
 			return DeleteAsync("api/HelpLogic/DeleteHelp?hID=" + hID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hID"></param>
 		public virtual void DeleteHelpSync(Guid hID)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => DeleteAsync("api/HelpLogic/DeleteHelp?hID=" + hID, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
 		public virtual Task AddToTempStoreAsync(Guid uaoID,Guid tempID,String data)
 		{
 			data = data.UrlEncode();
@@ -1249,12 +1043,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return PostAsync<object>("api/HelpLogic/AddToTempStore?uaoID=" + uaoID + "&tempID=" + tempID + "&data=" + data, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="tempID"></param>
-		/// <param name="data"></param>
 		public virtual void AddToTempStoreSync(Guid uaoID,Guid tempID,String data)
 		{
 			data = data.UrlEncode();
@@ -1262,156 +1050,116 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<object>("api/HelpLogic/AddToTempStore?uaoID=" + uaoID + "&tempID=" + tempID + "&data=" + data, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hiID"></param>
-		/// <param name="hID"></param>
-		/// <param name="up"></param>
-		/// <returns></returns>
 		public virtual Task MoveHelpItemAsync(Guid hiID,Guid hID,Boolean up)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<object>("api/HelpLogic/MoveHelpItem?hiID=" + hiID + "&hID=" + hID + "&up=" + up, null, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hiID"></param>
-		/// <param name="hID"></param>
-		/// <param name="up"></param>
 		public virtual void MoveHelpItemSync(Guid hiID,Guid hID,Boolean up)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/HelpLogic/MoveHelpItem?hiID=" + hiID + "&hID=" + hID + "&up=" + up, null, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		public virtual Task<IEnumerable<AddHelpItemDTO>> GetHelpItemsAsync(Guid hID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<IEnumerable<AddHelpItemDTO>>("api/HelpLogic/GetHelpItems?hID=" + hID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hID"></param>
 		public virtual IEnumerable<AddHelpItemDTO> GetHelpItemsSync(Guid hID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<IEnumerable<AddHelpItemDTO>>("api/HelpLogic/GetHelpItems?hID=" + hID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hiID"></param>
-		/// <returns></returns>
 		public virtual Task<AddHelpItemDTO> GetHelpItemAsync(Guid hiID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<AddHelpItemDTO>("api/HelpLogic/GetHelpItem?hiID=" + hiID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hiID"></param>
 		public virtual AddHelpItemDTO GetHelpItemSync(Guid hiID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<AddHelpItemDTO>("api/HelpLogic/GetHelpItem?hiID=" + hiID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task SaveHelpItemAsync(AddHelpItemDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<AddHelpItemDTO>("api/HelpLogic/SaveHelpItem", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void SaveHelpItemSync(AddHelpItemDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<AddHelpItemDTO>("api/HelpLogic/SaveHelpItem", dto, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hID"></param>
-		/// <returns></returns>
 		public virtual Task<AddHelpDTO> GetHelpAsync(Guid hID)
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<AddHelpDTO>("api/HelpLogic/GetHelp?hID=" + hID, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="hID"></param>
 		public virtual AddHelpDTO GetHelpSync(Guid hID)
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<AddHelpDTO>("api/HelpLogic/GetHelp?hID=" + hID, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task SaveHelpAsync(AddHelpDTO dto)
 		{
 			string _user = getHttpContextUser();
 			return PostAsync<AddHelpDTO>("api/HelpLogic/SaveHelp", dto, _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual void SaveHelpSync(AddHelpDTO dto)
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<AddHelpDTO>("api/HelpLogic/SaveHelp", dto, _user)).Wait();
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		public virtual Task<IEnumerable<RoleDTO>> GetHelpRolesAsync()
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<IEnumerable<RoleDTO>>("api/HelpLogic/GetHelpRoles", _user);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual IEnumerable<RoleDTO> GetHelpRolesSync()
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<IEnumerable<RoleDTO>>("api/HelpLogic/GetHelpRoles", _user)).Result;
 		}
 
+		public virtual Task<Guid> CreateSupportItemAsync(Guid OrgId,SupportItemDTO supportItemDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<SupportItemDTO, Guid>("api/HelpLogic/CreateSupportItem?OrgId=" + OrgId, supportItemDto, _user);
+		}
+
+		public virtual Guid CreateSupportItemSync(Guid OrgId,SupportItemDTO supportItemDto)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<SupportItemDTO, Guid>("api/HelpLogic/CreateSupportItem?OrgId=" + OrgId, supportItemDto, _user)).Result;
+		}
+
+		public virtual Task<Nullable<Int32>> GetSupportItemRankAsync(Guid stID,Boolean isClose)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Nullable<Int32>>("api/HelpLogic/GetSupportItemRank?stID=" + stID + "&isClose=" + isClose, _user);
+		}
+
+		public virtual Nullable<Int32> GetSupportItemRankSync(Guid stID,Boolean isClose)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Nullable<Int32>>("api/HelpLogic/GetSupportItemRank?stID=" + stID + "&isClose=" + isClose, _user)).Result;
+		}
+
 		#endregion
 	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class InvoiceLogicClient : ClientBase, Interfaces.IInvoiceLogicClient	{		
 
 		public InvoiceLogicClient(string url) : base(url)
@@ -2526,7 +2274,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<EditBuyerPartyDTO>("api/SmsTransactionLogic/EditBuyerParty", editBuyerPartyDto, _user)).Wait();
-	}
+		}
 
 		public virtual Task ReplaceSrcFundsBankAccountsAsync(Guid uaoTxID,IEnumerable<SmsSrcFundsBankAccountDTO> srcFundsBankAccounts)
 		{
@@ -2580,7 +2328,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return GetAsync<IEnumerable<Guid>>("api/SmsTransactionLogic/GetSmsTransactionRelatedPartyDeclinedProductUaoIds?txID=" + txID, _user);
-	}
+		}
 
 		public virtual IEnumerable<Guid> GetSmsTransactionRelatedPartyDeclinedProductUaoIdsSync(Guid txID)
 		{
@@ -2624,7 +2372,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<SmsTransactionDTO>("api/SmsTransactionLogic/GetSmsTransactionWithPendingUpdates?txID=" + txID, _user)).Result;
-	}
+		}
 
 		public virtual Task ResolveSmsTransactionPendingUpdatesAsync(Guid txID,Guid uaoID,List<FieldUpdateDTO> updates)
 		{

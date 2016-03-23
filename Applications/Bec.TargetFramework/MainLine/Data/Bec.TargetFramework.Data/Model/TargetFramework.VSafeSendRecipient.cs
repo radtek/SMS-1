@@ -28,9 +28,19 @@ namespace Bec.TargetFramework.Data
         #region Properties
     
         /// <summary>
-        /// There are no comments for SmsTransactionID in the schema.
+        /// There are no comments for ActivityID in the schema.
         /// </summary>
-        public virtual global::System.Guid SmsTransactionID
+        public virtual global::System.Guid ActivityID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ActivityTypeID in the schema.
+        /// </summary>
+        public virtual int ActivityTypeID
         {
             get;
             set;
@@ -90,7 +100,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsSafeSendGroup in the schema.
         /// </summary>
-        public virtual global::System.Nullable<bool> IsSafeSendGroup
+        public virtual bool IsSafeSendGroup
         {
             get;
             set;

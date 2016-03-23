@@ -27,7 +27,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public ActionResult Index()
         {
-            TempData["WelcomeMessage"] = TempData["JustRegistered"];
 
             CheckWhetherserJustLoggedIn();
 

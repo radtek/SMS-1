@@ -193,6 +193,7 @@
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
     <Compile Include="Areas\Admin\Controllers\HelpController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SupportController.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\Admin\Models\OrganisationSettingsModel.cs" />
@@ -283,6 +284,9 @@
     <Content Include="Areas\Admin\Views\Shared\_AddNotes.js" />
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Admin\Views\Shared\_Unverify.js" />
+    <Content Include="Areas\Admin\Views\Support\Index.js" />
+    <Content Include="Areas\Admin\Views\Support\_AddSupportItem.js" />
+    <Content Include="Areas\Admin\Views\Support\_CloseSupportItem.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_DeclineProduct.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
@@ -851,7 +855,6 @@
     </Content>
     <Content Include="Areas\Account\Views\RegisterAdmin\RegistrationSuccess.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Transaction\Welcome.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Downloads\Index.cshtml" />
     <Content Include="Areas\Account\Views\Search\Index.cshtml" />
     <Content Include="Areas\Account\Views\PersonalDetails\Index.cshtml" />
@@ -948,7 +951,9 @@
     <Content Include="Areas\Admin\Views\Help\_EditHelpItem.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_DeleteHelp.cshtml" />
     <Content Include="Areas\Admin\Views\Help\_DeleteHelpItem.cshtml" />
-    <Content Include="Areas\Buyer\Views\SafeBuyer\Welcome.cshtml" />
+    <Content Include="Areas\Admin\Views\Support\_AddSupportItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Support\_CloseSupportItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Support\Index.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
