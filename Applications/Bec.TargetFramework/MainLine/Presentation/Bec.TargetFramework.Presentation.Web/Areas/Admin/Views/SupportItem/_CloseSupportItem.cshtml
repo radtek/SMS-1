@@ -1,0 +1,56 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@using Bec.TargetFramework.Presentation.Web.Helpers;
+@model Edit<SupportItemDTO>
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="closeSupportItemLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="closeSupportItemLabel">Close Support Message</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form id="closeSupportItem-form" class="smart-form" data-url="@Url.Action("CloseSupportItem", "SupportItem", new { area = "Admin" })" data-redirectto="@Url.Action("Index", "SupportItem", new { area = "Admin" })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("SupportItemId", (object)ViewBag.SupportItemId)
+                            @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col">
+                                        <label class="label">Are you sure you want to close @Model.Model.Title?</label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col">
+                                        <label class="label">Reason</label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-xs-12">
+                                        <label class="textarea">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextAreaFor(m => m.Model.Reason, new { tabindex = "4", maxlength = "500", rows = 5, id = "reason" })
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelCloseSupportItem" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitCloseSupportItem" class="btn btn-primary" tabindex="5">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/SupportItem/_CloseSupportItem")"></script>
