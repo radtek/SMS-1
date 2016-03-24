@@ -1,6 +1,5 @@
 ﻿<div id="tourDisplay" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })" data-gethelpitems="@Url.Action("GetHelpItemsForDisplay", "Help", new { area = "Admin", htn = "Tour" })"
      data-gethelpitemssmh="@Url.Action("GetHelpItemsForDisplay", "Help", new { area = "Admin", htn = "ShowMeHow" })"
      data-gethelpitemscallout="@Url.Action("GetHelpItemsForDisplay", "Help", new { area = "Admin", htn = "Callout" })"
-     data-calloutasviewed="@Url.Action("MarkCalloutAsViewed", "Help", new { area = "Admin" })"
-     data-justloggedon="@TempData["JustLoggedOn"]"></div>
+     data-calloutasviewed="@Url.Action("MarkCalloutAsViewed", "Help", new { area = "Admin" })"></div>
 <script async src="@Scripts.Url("~/Scripts/Shared/_Tour")"></script>

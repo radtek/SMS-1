@@ -145,8 +145,9 @@
     }
 
     function showCalloutIfJustLoggedIn() {
-        var justLoggedIn = $("#tourDisplay").attr('data-justloggedon');
-        if (justLoggedIn === "True")
+        
+        if (document.referrer.toLowerCase().indexOf('/account/login')
+            || document.referrer.toLowerCase().indexOf('/account/accepttcs'))
         {
             $.ajax({
                 url: ($("#tourDisplay").attr('data-gethelpitemsCallout')),

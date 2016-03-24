@@ -27,9 +27,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public ActionResult Index()
         {
-
-            CheckWhetherserJustLoggedIn();
-
             if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
             {
                 return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
@@ -54,17 +51,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             {
                 return View();
             }
-        }
-
-        private void CheckWhetherserJustLoggedIn()
-        {
-            var urlReferer = Request.UrlReferrer;
-            if (urlReferer != null && urlReferer.AbsoluteUri.ToLower().Contains("account/login") && Request.IsAuthenticated)
-            {
-                TempData["JustLoggedOn"] = true;
-            }
-            else
-                TempData["JustLoggedOn"] = false;
         }
 
         public ActionResult Denied()
