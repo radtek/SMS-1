@@ -10091,7 +10091,7 @@
           <Property Name="SmsUserAccountOrganisationTransactionID" Type="uuid" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="SmsTransactionID" Type="uuid" Nullable="false" />
-          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" />
           <Property Name="AddressID" Type="uuid" />
           <Property Name="ContactID" Type="uuid" Nullable="false" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />

@@ -204,13 +204,20 @@
     }
 
     function hideShowGridColumn(grid, column, show) {
+        var kendoGrid = $(grid).data("kendoGrid");
+        var columnPosition = 0;
+
+        for (var i = 0; i < kendoGrid.columns.length; i++) {
+            if (kendoGrid.columns[i].field === column)
+                columnPosition = i;
+        }
+
         if (show) {
             $(grid).find("table th").eq(column).show();
-            $(grid).data('kendoGrid').showColumn(column);
-        }
-        else {
+            kendoGrid.showColumn(columnPosition);
+        } else {
             $(grid).find("table th").eq(column).hide();
-            $(grid).data('kendoGrid').hideColumn(column);
+            kendoGrid.hideColumn(columnPosition);
         }
     }
 

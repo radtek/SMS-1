@@ -50,7 +50,7 @@
                 title: item.Title,
                 content: item.Description,
                 placement: item.UiPositionName.toLowerCase(),
-                delay: 500,
+                delay: 200,
                 totalItems: totalItems,
                 onBindTarget: function () {
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {

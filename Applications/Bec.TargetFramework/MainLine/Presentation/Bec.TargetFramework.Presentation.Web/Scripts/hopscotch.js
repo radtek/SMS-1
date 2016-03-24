@@ -781,8 +781,8 @@
       }
 
       // Determine label for next button
-      if(isLast){
-        nextBtnText = utils.getI18NString('doneBtn');
+      if (isLast) {
+          nextBtnText = utils.getI18NString('doneBtn');
       } else if(step.showSkip) {
         nextBtnText = utils.getI18NString('skipBtn');
       } else {
@@ -1790,9 +1790,9 @@
           targetEl     = utils.getStepTarget(step);
 
       function showBubble() {
-        utils.invokeEventCallbacks('show', step.onShow);
-        bubble.show();
-        
+              utils.invokeEventCallbacks('show', step.onShow);
+              bubble.show();
+  
       }
 
       if (currStepNum !== stepNum && getCurrStep().nextOnTargetClick) {
@@ -1802,24 +1802,27 @@
 
       // Update bubble for current step
       currStepNum = stepNum;
+          if ($(targetEl).is(":visible")) {
+              bubble.hide(false);
+              bubble.render(step, stepNum, function(adjustScroll) {
+                  // when done adjusting window scroll, call showBubble helper fn
+                  if (adjustScroll) {
+                      adjustWindowScroll(showBubble);
+                  } else {
+                      showBubble();
+                  }
 
-      bubble.hide(false);
-      bubble.render(step, stepNum, function(adjustScroll) {
-        // when done adjusting window scroll, call showBubble helper fn
-        if (adjustScroll) {
-          adjustWindowScroll(showBubble);
-        }
-        else {
-          showBubble();
-        }
+                  // If we want to advance to next step when user clicks on target.
+                  if (step.nextOnTargetClick) {
+                      utils.addEvtListener(targetEl, 'click', targetClickNextFn);
+                  }
+              });
+          } else {
+              utils.invokeEventCallbacks('close', step.onClose);
+          }
 
-        // If we want to advance to next step when user clicks on target.
-        if (step.nextOnTargetClick) {
-          utils.addEvtListener(targetEl, 'click', targetClickNextFn);
-        }
-      });
 
-      //setStateHelper();
+          //setStateHelper();
     },
 
     setStateHelper = function() {
@@ -1985,7 +1988,8 @@
            
         if (!utils.getStepTarget(step)) {
         return;
-      }
+        }
+
       if (step.delay) {
         setTimeout(function() {
           showStepHelper(stepNum);
@@ -2630,7 +2634,15 @@ var revealer = new Revealer();
 
 // now bind the `revealer` to significant Hopscotch events
 hopscotch.listen('show', function () {
-    revealer.reveal(hopscotch.getCurrTarget());
+    var currentTarget = hopscotch.getCurrTarget();
+    
+    if (currentTarget) {
+        alert('display reveal:' + currentTarget);
+        revealer.reveal(hopscotch.getCurrTarget());
+    }
+    else
+        revealer.hide();
+
 });
 hopscotch.listen('close', function () {
     revealer.hide();

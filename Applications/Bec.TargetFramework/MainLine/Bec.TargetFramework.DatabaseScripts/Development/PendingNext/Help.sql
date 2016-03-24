@@ -549,6 +549,25 @@ CREATE TABLE public."UserAccountOrganisationHelpViewed" (
 WITH (oids = false);
 
 -- views
+CREATE TABLE public."RoleHierarchy" (
+  "RoleHierarchyID" UUID DEFAULT uuid_generate_v1() NOT NULL,
+  "RoleID" UUID NOT NULL,
+  "ParentRoleID" UUID,
+  "Level" INTEGER NOT NULL,
+  CONSTRAINT "pkRoleHierarchy" PRIMARY KEY("RoleID", "RoleHierarchyID", "Level"),
+  CONSTRAINT "Hierarchy_ParentRoleID" FOREIGN KEY ("ParentRoleID")
+    REFERENCES public."Role"("RoleID")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE,
+  CONSTRAINT "Hierarchy_RoleID" FOREIGN KEY ("RoleID")
+    REFERENCES public."Role"("RoleID")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) 
+WITH (oids = false);
+
 
 CREATE VIEW public."vOrganisationRoleHierarchy" (
     "OrganisationRoleID",
