@@ -2637,7 +2637,6 @@ hopscotch.listen('show', function () {
     var currentTarget = hopscotch.getCurrTarget();
     
     if (currentTarget) {
-        alert('display reveal:' + currentTarget);
         revealer.reveal(hopscotch.getCurrTarget());
     }
     else
