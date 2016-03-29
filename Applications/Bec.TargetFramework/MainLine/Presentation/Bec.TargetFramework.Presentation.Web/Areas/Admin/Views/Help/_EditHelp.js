@@ -195,10 +195,8 @@
         $.ajax({
             url: url,
             type: 'GET',
-            success: function (data) {
-                if (data.success === true) {
+            complete: function (data) {
                     $(grid).data('kendoGrid').dataSource.read();
-                }
             }
         });
     }

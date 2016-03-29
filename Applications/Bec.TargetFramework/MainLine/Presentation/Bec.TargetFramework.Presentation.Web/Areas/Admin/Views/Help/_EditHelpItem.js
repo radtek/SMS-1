@@ -23,11 +23,9 @@
                 url: $("#editHelpItem-form").attr('action'),
                 type: 'POST',
                 data: $("#editHelpItem-form").serialize(),
-                success: function (data) {
-                    if (data.success === true) {
+                complete: function (data) {
                         $("#ehGrid").data('kendoGrid').dataSource.read();
-                        $('#cancelEditHelpItem').click();
-                    } 
+                        $('#cancelEditHelpItem').click(); 
                 }
             });
         }

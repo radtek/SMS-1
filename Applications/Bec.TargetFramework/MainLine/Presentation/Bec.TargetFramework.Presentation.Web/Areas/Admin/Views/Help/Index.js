@@ -94,8 +94,15 @@ $(function () {
         if (!!dataItem.CreatedOn) dataItem.CreatedOnDisplay = dateString(dataItem.CreatedOn);
         if (!!dataItem.ModifiedOn) dataItem.ModifiedOnDisplay = dateString(dataItem.ModifiedOn);
 
+        var helpItemsNotDeleted = [];
+
+        $.each(dataItem.HelpItems, function (i, item) {
+            if (dataItem.HelpItems[i].IsDeleted === false)
+                helpItemsNotDeleted.push(dataItem.HelpItems[i]);
+        });
+
         var data = _.extend({}, dataItem, {
-            helpItems: _.toArray(dataItem.HelpItems)
+            helpItems: _.toArray(helpItemsNotDeleted)
         });
 
         // sort items

@@ -236,6 +236,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 help.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
                 help.CreatedOn = DateTime.Now;
 
+                help.HelpItems.ToList().ForEach(item =>
+                    {
+                        item.CreatedOn = DateTime.Now;
+                        item.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+                    });
+
                 await HelpClient.SaveHelpAsync(help);
                 await HelpClient.DeleteTempStoreAsync(WebUserHelper.GetWebUserObject(HttpContext).UaoID, help.TempStoreID);
 
@@ -245,7 +251,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 Logger.Error(ex);
 
-                this.AddToastMessage("Help Added Unsuccessfully", "Help " + help.Name + " has saved unsuccessfully. Please try again", ToastType.Success);
+                this.AddToastMessage("Add Help has failed", "Help " + help.Name + " has saved unsuccessfully. Please try again", ToastType.Success);
             }
 
             return RedirectToAction("Index");
@@ -276,7 +282,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 Logger.Error(ex);
 
-                this.AddToastMessage("Help Saved Unsuccessfully", "Help " + help.Name + " has saved unsuccessfully. Please try again", ToastType.Success);
+                this.AddToastMessage("Edit Help has failed", "Help " + help.Name + " has saved unsuccessfully. Please try again", ToastType.Success);
             }
 
             return RedirectToAction("Index");
@@ -317,9 +323,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteHelpItem(AddHelpItemDTO dto)
         {
-            await HelpClient.DeleteHelpItemAsync(dto.HelpItemID);
+            try
+            {
+                await HelpClient.DeleteHelpItemAsync(dto.HelpItemID);
 
-            return Json(new { success = true, action = "DeleteHelpItem" });
+                return Json(new { success = true, action = "DeleteHelpItem" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+
+                this.AddToastMessage("Delete HelpItem failed", "Help Item " + dto.Title + " did not delete successfully. Please try again", ToastType.Error);
+
+                return Json(new { success = false, action = "DeleteHelpItem" });
+            }
         }
 
         [ClaimsRequired("Delete", "Help", Order = 1021)]
@@ -335,7 +352,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteHelp(AddHelpDTO dto)
         {
-            await HelpClient.DeleteHelpAsync(dto.HelpID);
+            try
+            {
+                await HelpClient.DeleteHelpAsync(dto.HelpID);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+
+                this.AddToastMessage("Delete Help failed", "Help " + dto.Name + " did not delete successfully. Please try again", ToastType.Error);
+            }
 
             return RedirectToAction("Index");
         }
@@ -372,12 +398,23 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditHelpItem(AddHelpItemDTO help)
         {
-            help.ModifiedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            help.ModifiedOn = DateTime.Now;
+            try
+            {
+                help.ModifiedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+                help.ModifiedOn = DateTime.Now;
 
-            await HelpClient.SaveHelpItemAsync(help);
+                await HelpClient.SaveHelpItemAsync(help);
 
-            return Json(new { success = true, action = "EditHelpItem" });
+                return Json(new { success = true, action = "EditHelpItem" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+
+                this.AddToastMessage("Edit HelpItem has failed", "Help Item " + help.Title + " did not save successfully. Please try again", ToastType.Error);
+
+                return Json(new { success = false, action = "EditHelpItem" });
+            }
         }
 
         [ClaimsRequired("Edit", "Help", Order = 1028)]
@@ -399,11 +436,23 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddEditHelpItem(AddHelpItemDTO helpItem)
         {
-            helpItem.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            helpItem.CreatedOn = DateTime.Now;
+            try
+            {
+                helpItem.CreatedBy = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+                helpItem.CreatedOn = DateTime.Now;
 
-            await HelpClient.SaveHelpItemAsync(helpItem);
-            return Json(new { success = true, action = "AddEditHelpItem" });
+                await HelpClient.SaveHelpItemAsync(helpItem);
+
+                return Json(new { success = true, action = "AddEditHelpItem" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+
+                this.AddToastMessage("Add HelpItem has failed", "Help Item " + helpItem.Title + " did not save successfully. Please try again", ToastType.Error);
+
+                return Json(new { success = false, action = "AddEditHelpItem" });
+            }
         }
 
         [ClaimsRequired("Add", "Help", Order = 1030)]
@@ -463,6 +512,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     cln =b.UserAccountOrganisation_CreatedBy.Contact.LastName,
                     b.UserAccountOrganisation_ModifiedBy.Contact.FirstName,
                     b.UserAccountOrganisation_ModifiedBy.Contact.LastName, 
+                    b.IsDeleted,
                     b.CreatedBy, b.Description, b.DisplayOrder, blah = b.Roles.Select(r => new { r.RoleName }) })
             });
 
@@ -470,7 +520,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var calloutTypeID = helpTypeList.Single(s => s.ClassificationTypeID.Equals(HelpTypeEnum.Callout.GetIntValue())).ClassificationTypeID;
             var shmTypeID = helpTypeList.Single(s => s.ClassificationTypeID.Equals(HelpTypeEnum.ShowMeHow.GetIntValue())).ClassificationTypeID;
 
-            var where = ODataHelper.Expression<HelpDTO>(x => x.HelpID != null);
+            var where = ODataHelper.Expression<HelpDTO>(x => x.HelpID != null && x.IsDeleted == false);
 
             if (!string.IsNullOrEmpty(search))
             {

@@ -30,7 +30,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().Helps.Any(s => s.HelpTypeID.Equals(helpTypeID));
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Helps.Any(s => s.HelpTypeID.Equals(helpTypeID) && s.IsDeleted == false);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 int helpTypeID = HelpTypeEnum.ShowMeHow.GetIntValue();
 
-                return scope.DbContexts.Get<TargetFrameworkEntities>().Helps.Any(s => !s.HelpID.Equals(helpID) && s.HelpTypeID.Equals(helpTypeID) && s.UiPageUrl.ToLower().Equals(uiPageURL));
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Helps.Any(s => !s.HelpID.Equals(helpID) && s.IsDeleted == false && s.HelpTypeID.Equals(helpTypeID) && s.UiPageUrl.ToLower().Equals(uiPageURL));
             }
         }
 
@@ -108,16 +108,12 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     var helpItem = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Single(s => s.HelpItemID.Equals(hiID));
 
-                    if(helpItem.Roles.Any())
-                        helpItem.Roles.Clear();
-
-                    if (helpItem.UserAccountOrganisationHelpVieweds.Any())
-                        helpItem.UserAccountOrganisationHelpVieweds.Clear();
-
-                    scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Remove(helpItem);
+                    // mark as deleted
+                    helpItem.IsDeleted = true;
 
                     // reorder grid items
-                    var existingHelpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(hi => hi.HelpID.Equals(helpItem.HelpID) && !hi.HelpItemID.Equals(hiID)).OrderBy(o => o.DisplayOrder);
+                    var existingHelpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(hi => hi.HelpID.Equals(helpItem.HelpID) && !hi.HelpItemID.Equals(hiID)
+                        && hi.IsDeleted == false).OrderBy(o => o.DisplayOrder);
 
                     int displayOrder = 0;
 
@@ -136,25 +132,20 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
+                // mark as deleted
                 if (scope.DbContexts.Get<TargetFrameworkEntities>().Helps.Any(s => s.HelpID.Equals(hID)))
                 {
                     var help = scope.DbContexts.Get<TargetFrameworkEntities>().Helps.Single(s => s.HelpID.Equals(hID));
 
                     if (help.HelpItems.Any())
                     {
-                        while(help.HelpItems.Count > 0)
+                        foreach (var hi in help.HelpItems)
                         {
-                            var helpItem = help.HelpItems.First();
-                            if (helpItem.Roles.Any())
-                                helpItem.Roles.Clear();
-
-                            scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Remove(helpItem);
+                            hi.IsDeleted = true;
                         }
-
-                        help.HelpItems.Clear();
                     }
 
-                    scope.DbContexts.Get<TargetFrameworkEntities>().Helps.Remove(help);
+                    help.IsDeleted = true;
 
                     await scope.SaveChangesAsync();
                 }
@@ -191,7 +182,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(s => s.HelpID == hID).OrderBy(o => o.DisplayOrder).ToList();
+                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(s => s.HelpID == hID && s.IsDeleted == false).OrderBy(o => o.DisplayOrder).ToList();
 
                 if (helpItems.Any())
                 {
@@ -247,7 +238,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var helpItemsDtos = new List<AddHelpItemDTO>();
 
-                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(s => s.HelpID == hID);
+                var helpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Where(s => s.HelpID == hID && s.IsDeleted == false);
 
                 if (helpItems.Any())
                 {
@@ -307,7 +298,8 @@ namespace Bec.TargetFramework.Business.Logic
                 if (existingHelpItem == null)
                 {
                     // get total number of existing
-                    var totalExistingHelpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Count(s => s.HelpID.Equals(dto.HelpID));
+                    var totalExistingHelpItems = scope.DbContexts.Get<TargetFrameworkEntities>().HelpItems.Count(s => s.HelpID.Equals(dto.HelpID)
+                        && s.IsDeleted == false);
 
                     existingHelpItem = new HelpItem
                     {

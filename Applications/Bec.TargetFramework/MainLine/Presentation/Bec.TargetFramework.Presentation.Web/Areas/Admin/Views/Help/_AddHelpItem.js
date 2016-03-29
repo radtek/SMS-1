@@ -23,11 +23,9 @@
                 url: $("#addHelpItem-form").attr('action'),
                 type: 'POST',
                 data: $("#addHelpItem-form").serialize(),
-                success: function (data) {
-                    if (data.success === true) {
+                complete: function (data) {
                         $("#hiGrid").data('kendoGrid').dataSource.read();
                         $('#cancelAddHelpItem').click();
-                    }
                 }
             });
         }

@@ -22,11 +22,9 @@
                 url: $("#editAddHelpItem-form").attr('action'),
                 type: 'POST',
                 data: $("#editAddHelpItem-form").serialize(),
-                success: function (data) {
-                    if (data.success === true) {
+                complete: function (data) {
                         $("#hiGrid").data('kendoGrid').dataSource.read();
                         $('#cancelEditAddHelpItem').click();
-                    } 
                 }
             });
         }

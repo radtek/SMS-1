@@ -7,11 +7,9 @@
                 url: $("#deleteHelpItem-form").attr('action'),
                 type: 'POST',
                 data: $("#deleteHelpItem-form").serialize(),
-                success: function (data) {
-                    if (data.success === true) {
+                complete: function (data) {
                         $("#ehGrid").data('kendoGrid').dataSource.read();
                         $('#cancelDeleteHelpItem').click();
-                    }
                 }
             });
         }

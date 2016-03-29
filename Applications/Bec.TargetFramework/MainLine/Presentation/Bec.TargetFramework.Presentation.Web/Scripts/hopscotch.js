@@ -750,7 +750,7 @@
           isLast,
           opts;
 
-      // Cache current step information.
+        // Cache current step information.
       if (step) {
         this.currStep = step;
       }
@@ -1790,7 +1790,7 @@
           targetEl     = utils.getStepTarget(step);
 
       function showBubble() {
-              utils.invokeEventCallbacks('show', step.onShow);
+              
               bubble.show();
   
       }
@@ -1802,6 +1802,10 @@
 
       // Update bubble for current step
       currStepNum = stepNum;
+
+        // run the show before checking whether visible or not
+        utils.invokeEventCallbacks('show', step.onShow);
+
           if ($(targetEl).is(":visible")) {
               bubble.hide(false);
               bubble.render(step, stepNum, function(adjustScroll) {
@@ -1819,6 +1823,10 @@
               });
           } else {
               utils.invokeEventCallbacks('close', step.onClose);
+
+              if (getOption('skipIfNoElement')) {
+                  self.nextStep(false);
+              }
           }
 
 
@@ -1987,7 +1995,7 @@
             utils.invokeEventCallbacks('bindTarget', step.onBindTarget);
            
         if (!utils.getStepTarget(step)) {
-        return;
+            return;
         }
 
       if (step.delay) {
