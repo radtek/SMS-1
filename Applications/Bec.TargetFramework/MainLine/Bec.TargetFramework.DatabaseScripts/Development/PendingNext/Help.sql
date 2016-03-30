@@ -430,7 +430,7 @@ VALUES ((
     );
     
  -- Tables
- CREATE TABLE public."Help" (
+CREATE TABLE public."Help" (
   "HelpID" UUID DEFAULT uuid_generate_v1() NOT NULL,
   "Name" VARCHAR(400) NOT NULL,
   "Description" VARCHAR(2000),
@@ -458,6 +458,7 @@ VALUES ((
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE
+    NOT VALID
 ) 
 WITH (oids = false);
 
@@ -619,7 +620,7 @@ $body$
     
     left outer join "Help" hel on hel."HelpID" = hipp."HelpID"
     
-    where hipp."HelpItemID" =
+    where hipp."IsDeleted" = false and  hipp."HelpItemID" =
      (select hip."HelpItemID"
      from "HelpItem" hip
           inner join 
@@ -794,3 +795,17 @@ VALUES (
   (select "RoleID" from "Role" where "RoleName" = 'Lender Administrator'),
   1
 );
+
+-- GRANTS
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON Help TO bef; -- Add
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON HelpItem TO bef; -- Add
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON HelpItemRole TO bef; -- Add
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON HelpRole TO bef; -- Add
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON RoleHierarchy TO bef; -- Add
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON TempJsonData TO bef; -- Add
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON UserAccountOrganisationHelpViewed TO bef; -- Add
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON vOrganisationRoleHierarchy TO bef; -- Add
+GRANT EXECUTE ON FUNCTION fn_GetHelpItems(in UserAccountOrganisationID uuid, in HelpTypeID int4, in UiPageUrl varchar) TO postgres;
+GRANT EXECUTE ON FUNCTION fn_GetHelpItems(in UserAccountOrganisationID uuid, in HelpTypeID int4, in UiPageUrl varchar) TO bef;
+GRANT EXECUTE ON FUNCTION fn_GetHelpItems(in UserAccountOrganisationID uuid, in HelpTypeID int4, in UiPageUrl varchar) TO sg_postgres_developer;
+GRANT EXECUTE ON FUNCTION fn_GetHelpItems(in UserAccountOrganisationID uuid, in HelpTypeID int4, in UiPageUrl varchar) TO sg_postgres_application;

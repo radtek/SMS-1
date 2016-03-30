@@ -10,11 +10,27 @@
   "Reason" VARCHAR,
   "CreatedOn" TIMESTAMP(0) WITH TIME ZONE DEFAULT now() NOT NULL,
   "ClosedOn" TIMESTAMP(0) WITH TIME ZONE,
-  "CreatedBy" VARCHAR(200) NOT NULL,
-  "ClosedBy" VARCHAR(200),
   "IsDeleted" BOOLEAN DEFAULT false NOT NULL,
   "IsActive" BOOLEAN DEFAULT true NOT NULL,
+  "OrganisationID" UUID NOT NULL,
+  "CreatedBy" UUID NOT NULL,
+  "ClosedBy" UUID,
   CONSTRAINT "RequestSupport_pkey" PRIMARY KEY("SupportItemID"),
+  CONSTRAINT "SupportItem_fk" FOREIGN KEY ("OrganisationID")
+    REFERENCES public."Organisation"("OrganisationID")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE,
+  CONSTRAINT "SupportItem_fk1" FOREIGN KEY ("CreatedBy")
+    REFERENCES public."UserAccountOrganisation"("UserAccountOrganisationID")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE,
+  CONSTRAINT "SupportItem_fk2" FOREIGN KEY ("ClosedBy")
+    REFERENCES public."UserAccountOrganisation"("UserAccountOrganisationID")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE,
   CONSTRAINT "fk_RequestSupport_UserAccountOrganisation" FOREIGN KEY ("UserAccountOrganisationID")
     REFERENCES public."UserAccountOrganisation"("UserAccountOrganisationID")
     ON DELETE NO ACTION
@@ -172,3 +188,11 @@ from "UserAccountOrganisation" uao
 where exists (select 1 from "UserAccountOrganisationRole" uaor
 	where uaor."UserAccountOrganisationID" = uao."UserAccountOrganisationID"
     and uaor."OrganisationRoleID" = (select "OrganisationRoleID" from "OrganisationRole" where "RoleName" = 'Support Administrator'));
+
+-- GRANTS
+GRANT DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE ON SupportItem TO bef; -- Add
+GRANT EXECUTE ON FUNCTION fn_SupportTicketRank(in stid uuid, in isclose bool) TO bef;
+GRANT EXECUTE ON FUNCTION fn_SupportTicketRank(in stid uuid, in isclose bool) TO postgres;
+GRANT EXECUTE ON FUNCTION fn_SupportTicketRank(in stid uuid, in isclose bool) TO sg_postgres_developer;
+GRANT EXECUTE ON FUNCTION fn_SupportTicketRank(in stid uuid, in isclose bool) TO sg_postgres_application;
+
