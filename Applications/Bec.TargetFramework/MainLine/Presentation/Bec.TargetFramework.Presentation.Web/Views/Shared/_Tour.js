@@ -54,18 +54,25 @@
                 delay: 200,
                 totalItems: totalItems,
                 onBindTarget: function () {
+                    console.log('onbind ' + item.UiSelector);
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {
                         if ($(item.UiSelector).closest('ul').css("display") === 'none')
                             $(item.UiSelector).closest('ul').dropdown('toggle');
                     } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs') && !$(item.UiSelector).closest('li').hasClass('active'))
                         $(item.UiSelector).closest('a').trigger('click');
                     else if ($(item.UiSelector).closest('.tab-pane') != null
-                        && $(item.UiSelector).closest('.tab-pane').attr('id') != undefined)
+                        && $(item.UiSelector).closest('.tab-pane').attr('id') !== undefined)
                     {
                         var el = $("a[href=#" + $(item.UiSelector).closest('.tab-pane').attr('id') + "]");
-
                         if (!$(el).closest('li').hasClass('active'))
                             $(el).trigger('click');
+                    }
+                    else if ($(item.UiSelector).closest('nav') !== null
+                        && $(item.UiSelector).is('a'))
+                    {
+                        // find nearest parent menu and then trigger a click on the closest item
+                        if (!$(item.UiSelector).closest('li').closest('ul').closest('li').hasClass('open'))
+                            $(item.UiSelector).closest('li').closest('ul').closest('li').find('a').trigger('click');
                     }
                 },
                 onNext: function () {
@@ -73,7 +80,7 @@
                         if ($(item.UiSelector).closest('ul').css("display") === 'block')
                             $(item.UiSelector).closest('ul').dropdown('toggle');
                     } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs') && $(item.UiSelector).closest('li').hasClass('active'))
-                            $(item.UiSelector).closest('a').trigger('click');
+                        $(item.UiSelector).closest('a').trigger('click');
                 },
                 onPrev: function () {
                     if ($(item.UiSelector).closest('ul').hasClass('dropdown-menu')) {
@@ -81,11 +88,8 @@
                             $(item.UiSelector).closest('ul').dropdown('toggle');
                     } else if ($(item.UiSelector).closest('ul').hasClass('nav-tabs')
                         && $(item.UiSelector).closest('li').hasClass('active'))
-                            $(item.UiSelector).closest('a').trigger('click');
+                        $(item.UiSelector).closest('a').trigger('click');
                 },
-                onShow: function ()
-                {
-                }
             });
         });
 

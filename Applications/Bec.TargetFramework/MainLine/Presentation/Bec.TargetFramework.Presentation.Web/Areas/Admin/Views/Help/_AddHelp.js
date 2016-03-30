@@ -72,13 +72,7 @@
         url: $("#hiGrid").data("url"),
         schema: { data: "Items", total: "Count", model: { id: "HelpItemID" } },
         type: "json",
-        serverSorting: true,
-        serverPaging: true,
         defaultSort: { field: "CreatedOn", dir: "desc" },
-        resetSort: $("#hiGrid").data("resetsort"),
-        jumpToId: $("#hiGrid").data("jumpto"),
-        jumpToPage: $("#hiGrid").data("jumptopage"),
-        jumpToRow: $("#hiGrid").data("jumptorow"),
         columns: [
             {
                 field: "HelpItemID",
@@ -146,14 +140,7 @@
     hiGrid.makeGrid();
 
     $("#hiGrid").data("kendoGrid").bind("dataBound", function(e) {
-        var helpType = $("#HelpTypeID").find(":selected").text();
-        if (helpType === "Callout") {
-            hideShowGridColumn("#hiGrid", "UiPositionName", false);
-            hideShowGridColumn("#hiGrid", "EffectiveFrom", true);
-        } else {
-            hideShowGridColumn("#hiGrid", "UiPositionName", true);
-            hideShowGridColumn("#hiGrid", "EffectiveFrom", false);
-        }
+        $('#hiGrid .k-grid-content').height(230);
     });
     // hide and show elements based upon the helptypeid being changed
     $("#HelpTypeID").on("change", function(e) {
@@ -231,25 +218,6 @@
             }
         });
     }
-
-    function hideShowGridColumn(grid, column, show) {
-        var kendoGrid = $(grid).data("kendoGrid");
-        var columnPosition = 0;
-
-        for (var i = 0; i < kendoGrid.columns.length; i++) {
-            if (kendoGrid.columns[i].field === column)
-                columnPosition = i;
-        }
-
-        if (show) {
-            $(grid).find("table th").eq(column).show();
-            kendoGrid.showColumn(columnPosition);
-        } else {
-            $(grid).find("table th").eq(column).hide();
-            kendoGrid.hideColumn(columnPosition);
-        }
-    }
-
 
     function getGuid(str) {
         return str.slice(0, 8) + "-" + str.slice(8, 12) + "-" + str.slice(12, 16) +

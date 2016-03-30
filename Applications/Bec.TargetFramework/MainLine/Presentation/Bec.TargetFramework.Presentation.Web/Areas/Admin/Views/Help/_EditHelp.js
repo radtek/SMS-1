@@ -103,13 +103,7 @@
             url: $('#ehGrid').data("url"),
             schema: { data: "Items", total: "Count", model: { id: "HelpItemID" } },
             type: 'json',
-            serverSorting: true,
-            serverPaging: true,
             defaultSort: { field: "DisplayOrder", dir: "asc" },
-            resetSort: $('#ehGrid').data("resetsort"),
-            jumpToId: $('#ehGrid').data("jumpto"),
-            jumpToPage: $('#ehGrid').data("jumptopage"),
-            jumpToRow: $('#ehGrid').data("jumptorow"),
             columns: [
                 {
                     field: "HelpItemID",
@@ -169,15 +163,7 @@
     ehGrid.makeGrid();
 
     $('#ehGrid').data('kendoGrid').bind("dataBound", function (e) {
-        var helpType = $("#HelpTypeID").find(":selected").text();
-        if (helpType === "Callout") {
-            hideShowGridColumn('#ehGrid', "UiPositionName", false);
-            hideShowGridColumn('#ehGrid', "EffectiveFrom", true);
-        }
-        else {
-            hideShowGridColumn('#ehGrid', "UiPositionName", true);
-            hideShowGridColumn('#ehGrid', "EffectiveFrom", false);
-        }
+        $('#ehGrid .k-grid-content').height(230);
     });
 
     hideAndShow();
@@ -200,25 +186,6 @@
             }
         });
     }
-
-    function hideShowGridColumn(grid, column, show) {
-        var kendoGrid = $(grid).data("kendoGrid");
-        var columnPosition = 0;
-
-        for (var i = 0; i < kendoGrid.columns.length; i++) {
-            if (kendoGrid.columns[i].field === column)
-                columnPosition = i;
-        }
-
-        if (show) {
-            $(grid).find("table th").eq(column).show();
-            kendoGrid.showColumn(columnPosition);
-        } else {
-            $(grid).find("table th").eq(column).hide();
-            kendoGrid.hideColumn(columnPosition);
-        }
-    }
-
 
     function getGuid(str) {
         return str.slice(0, 8) + "-" + str.slice(8, 12) + "-" + str.slice(12, 16) +

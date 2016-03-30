@@ -1804,11 +1804,13 @@
       currStepNum = stepNum;
 
         // run the show before checking whether visible or not
-        utils.invokeEventCallbacks('show', step.onShow);
+        //utils.invokeEventCallbacks('show', step.onShow);
 
           if ($(targetEl).is(":visible")) {
               bubble.hide(false);
-              bubble.render(step, stepNum, function(adjustScroll) {
+              bubble.render(step, stepNum, function (adjustScroll) {
+                  console.log('reveal');
+                  revealer.reveal(utils.getStepTarget(getCurrStep()));
                   // when done adjusting window scroll, call showBubble helper fn
                   if (adjustScroll) {
                       adjustWindowScroll(showBubble);
@@ -1939,8 +1941,11 @@
       // Find the current step we should begin the tour on, and then actually start the tour.
       findStartingStep(currStepNum, skippedSteps, function (stepNum) {
           
-        if ((stepNum !== -1))
-            utils.invokeEventCallbacks('bindTarget', currTour.steps[stepNum].onBindTarget);
+          //if ((stepNum !== -1)) {
+          //    console.log('on bind callback findStartingStep');
+          //    utils.invokeEventCallbacks('bindTarget', currTour.steps[stepNum].onBindTarget);
+          //    currTour.steps[stepNum].onBindExecuted = true;
+          //}
 
 
         var target = (stepNum !== -1) && utils.getStepTarget(currTour.steps[stepNum]);
@@ -1991,9 +1996,12 @@
         
         var step = currTour.steps[stepNum];
 
-        if ((step !== null && step.onBindTarget) != null)
+        if (step !== null && step.onBindTarget != null)
+        {
+            console.log('on bind callback');
             utils.invokeEventCallbacks('bindTarget', step.onBindTarget);
-           
+        }
+            
         if (!utils.getStepTarget(step)) {
             return;
         }
@@ -2640,17 +2648,6 @@ function Revealer() {
 
 var revealer = new Revealer();
 
-// now bind the `revealer` to significant Hopscotch events
-hopscotch.listen('show', function () {
-    var currentTarget = hopscotch.getCurrTarget();
-    
-    if (currentTarget) {
-        revealer.reveal(hopscotch.getCurrTarget());
-    }
-    else
-        revealer.hide();
-
-});
 hopscotch.listen('close', function () {
     revealer.hide();
 });
