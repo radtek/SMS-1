@@ -10091,7 +10091,7 @@
           <Property Name="SmsUserAccountOrganisationTransactionID" Type="uuid" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="SmsTransactionID" Type="uuid" Nullable="false" />
-          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" />
+          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="AddressID" Type="uuid" />
           <Property Name="ContactID" Type="uuid" Nullable="false" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
@@ -10367,6 +10367,7 @@
           <Property Name="DisplayOrder" Type="int" devart:DefaultValue="(-1)" />
           <Property Name="EffectiveFrom" Type="timestamptz" />
           <Property Name="UiPosition" Type="int" />
+          <Property Name="IncludeStartTour" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="HelpItemRole">
           <Key>
@@ -31210,6 +31211,7 @@
           <Property Name="DisplayOrder" Type="Int32" ed:ValidateRequired="False" ed:Guid="85a20cbb-6b94-4301-a2ea-84a4f5ca74a5" />
           <Property Name="EffectiveFrom" Type="DateTime" ed:ValidateRequired="False" ed:Guid="8d8643df-91fb-4f17-b6ff-0eec0425e5c9" />
           <Property Name="UiPosition" Type="Int32" ed:ValidateRequired="False" ed:Guid="e64612a7-cf45-425d-b68d-eb47a93a258d" />
+          <Property Name="IncludeStartTour" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="ac2fab90-2223-43ab-b365-1afcbb4bd443" />
           <NavigationProperty Name="Help" Relationship="Bec.TargetFramework.Data.Help_HelpItem" FromRole="HelpItems" ToRole="Help" ed:Guid="1bc29edc-5a7c-41f0-b465-b0297ae32c6c" />
           <NavigationProperty Name="UserAccountOrganisationHelpVieweds" Relationship="Bec.TargetFramework.Data.HelpItemID_UAOID" FromRole="HelpItem" ToRole="UserAccountOrganisationHelpVieweds" ed:Guid="fcc6c30e-4487-413f-a91a-2d799bce7e1c" />
           <NavigationProperty Name="Roles" Relationship="Bec.TargetFramework.Data.HelpItem_Role" FromRole="HelpItems" ToRole="Roles" ed:Guid="32479a32-3f60-4e71-91d5-fbc1aadf2c62" />
@@ -47152,6 +47154,7 @@
                 <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
                 <ScalarProperty Name="EffectiveFrom" ColumnName="EffectiveFrom" />
                 <ScalarProperty Name="UiPosition" ColumnName="UiPosition" />
+                <ScalarProperty Name="IncludeStartTour" ColumnName="IncludeStartTour" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -226,7 +226,8 @@ namespace Bec.TargetFramework.Business.Logic
                 HelpItemID = hi.HelpItemID,
                 ModifiedBy = hi.ModifiedBy,
                 ModifiedOn = hi.ModifiedOn,
-                UiPosition = hi.UiPosition
+                UiPosition = hi.UiPosition,
+                IncludeStartTour = hi.IncludeStartTour
             };
 
             return hiDto;
@@ -313,7 +314,8 @@ namespace Bec.TargetFramework.Business.Logic
                         UiSelector = dto.UiSelector,
                         UiSelectorParent = dto.UiSelectorParent,
                         UiPosition = dto.UiPosition,
-                        HelpItemID = Guid.NewGuid()
+                        HelpItemID = Guid.NewGuid(),
+                        IncludeStartTour = dto.IncludeStartTour
                     };
 
                     if (dto.SelectedRoles.Any())
@@ -343,6 +345,7 @@ namespace Bec.TargetFramework.Business.Logic
                     existingHelpItem.UiSelector = dto.UiSelector;
                     existingHelpItem.UiSelectorParent = dto.UiSelectorParent;
                     existingHelpItem.UiPosition = dto.UiPosition;
+                    existingHelpItem.IncludeStartTour = dto.IncludeStartTour;
 
                     if (dto.SelectedRoles.Any())
                     {
@@ -422,7 +425,8 @@ namespace Bec.TargetFramework.Business.Logic
                                 UiSelector = helpItem.UiSelector,
                                 UiSelectorParent = helpItem.UiSelectorParent,
                                 HelpItemID = Guid.NewGuid(),
-                                UiPosition = helpItem.UiPosition
+                                UiPosition = helpItem.UiPosition,
+                                IncludeStartTour = helpItem.IncludeStartTour
                             };
 
                             index++;

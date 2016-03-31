@@ -338,6 +338,7 @@
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\hopscotch.js" />
+    <Content Include="Scripts\jquery.highlight.js" />
     <Content Include="Scripts\Libs\handlebars-v4.0.5.js" />
     <Content Include="Scripts\Libs\jquery.scrollTo.js" />
     <Content Include="Areas\Admin\Views\Messages\_Conversations.js" />

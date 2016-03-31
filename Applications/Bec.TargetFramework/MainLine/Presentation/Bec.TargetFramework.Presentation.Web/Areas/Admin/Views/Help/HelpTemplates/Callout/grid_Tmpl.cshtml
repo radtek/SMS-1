@@ -23,6 +23,7 @@
                     <th>Title</th>
                     <th>UI Selector</th>
                     <th>Effective From</th>
+                    <th>Tour Button</th>
                     <th>Roles</th>
                 </tr>
             </thead>
@@ -32,6 +33,7 @@
                     <td>{{Title}}</td>
                     <td>{{UiSelector}}</td>
                     <td>{{dateFormat EffectiveFrom format="DD/MM/YYYY"}}</td>
+                    <td>{{#if IncludeStartTour}}Y{{/if}}</td>
                     <td width="20%">
                         <table>
                             {{#each Roles}}

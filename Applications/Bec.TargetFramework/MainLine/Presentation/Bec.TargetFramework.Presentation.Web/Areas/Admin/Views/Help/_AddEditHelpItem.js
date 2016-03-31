@@ -70,6 +70,7 @@
         var helpType = $("#HelpTypeName").val();
 
         showHideAndClearValueElement("#effectionFromSection", (helpType === "Callout"));
+        showHideAndClearValueElement("#includeStartTourSection", (helpType === "Callout"));
         showHideAndClearValueElement("#uiPositionSection", (helpType !== "Callout"));
     }
 

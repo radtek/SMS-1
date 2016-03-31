@@ -820,6 +820,7 @@
           placement: step.placement,
           padding: utils.valOrDefault(step.padding, this.opt.bubblePadding),
           width: utils.getPixelValue(step.width) || this.opt.bubbleWidth,
+          showTourButton: step.showTourButton,
           customData: (step.customData || {})
         },
         tour:{
@@ -1809,7 +1810,6 @@
           if ($(targetEl).is(":visible")) {
               bubble.hide(false);
               bubble.render(step, stepNum, function (adjustScroll) {
-                  console.log('reveal');
                   revealer.reveal(utils.getStepTarget(getCurrStep()));
                   // when done adjusting window scroll, call showBubble helper fn
                   if (adjustScroll) {
@@ -1998,7 +1998,6 @@
 
         if (step !== null && step.onBindTarget != null)
         {
-            console.log('on bind callback');
             utils.invokeEventCallbacks('bindTarget', step.onBindTarget);
         }
             
@@ -2623,20 +2622,9 @@ function Revealer() {
     }
 
     function reveal(target) {
-        cleanupPrevTarget();
-        overlay().fadeIn();
-        if (target) {
-            $currTarget = $(target);
-            // make sure the target node's `position` behaves with `z-index` correctly
-            var position = $currTarget.css('position')
-            if (!/^(?:absolute|fixed|relative)$/.test(position)) {
-                position = 'relative';
-            }
-            $currTarget.css({
-                position: position,
-                zIndex: OVERLAY_ZINDEX + 1
-            });
-            $prevTarget = $currTarget;
+        if(target)
+        {
+            $(target).highlightOverlay();
         }
     }
 

@@ -478,6 +478,7 @@ CREATE TABLE public."HelpItem" (
   "UiPosition" INTEGER,
   "CreatedBy" UUID NOT NULL,
   "ModifiedBy" UUID,
+  "IncludeStartTour" BOOLEAN DEFAULT false NOT NULL,
   CONSTRAINT "HelpItem_pkey" PRIMARY KEY("HelpItemID"),
   CONSTRAINT "HelpItem_fk" FOREIGN KEY ("UiPosition")
     REFERENCES public."ClassificationType"("ClassificationTypeID")
@@ -615,8 +616,9 @@ $body$
   hipp."EffectiveFrom",
   hipp."UiPosition",
   hipp."CreatedBy",
-  hipp."ModifiedBy"
-     from "HelpItem" hipp 
+  hipp."ModifiedBy",
+  hipp."IncludeStartTour"
+     from "HelpItem" hipp
     
     left outer join "Help" hel on hel."HelpID" = hipp."HelpID"
     
@@ -636,7 +638,7 @@ $body$
               $1
             group by hir."HelpItemID"
           ) boo on boo."HelpItemID" = hip."HelpItemID"
-     where  ((hipp."UiSelector" = hip."UiSelector") or (hipp."UiSelector" is null and hip."UiSelector" is null)) and hel."HelpTypeID" = $2
+     where hip."IsDeleted" = false and  ((hipp."UiSelector" = hip."UiSelector") or (hipp."UiSelector" is null and hip."UiSelector" is null)) and hel."HelpTypeID" = $2
       and case when $3 is not null then (hel."UiPageUrl" = $3) else (hel."UiPageUrl" is null) end
       and case when ($2 = (select ct."ClassificationTypeID" from "ClassificationType" ct where ct."Name" = 'Callout' and ct."ClassificationTypeCategoryID" = 91829172))
       	then ((to_date(cast(hipp."EffectiveFrom" as varchar),'yyyy-MM-dd') <= CURRENT_DATE) and (NOT EXISTS (select 1 from "UserAccountOrganisationHelpViewed" hv where

@@ -14,7 +14,7 @@
     <div class="hopscotch-actions">
         {{i18n.stepNum}}/{{i18n.numSteps}}
         {{#if buttons.showPrev}}<button class="btn prev hopscotch-prev ">{{i18n.prevBtn}}</button>{{/if}}
-        {{#if buttons.showCTA}}<button class="btn btn-primary next hopscotch-cta ">{{i18n.ctaLabel}}</button>{{/if}}
+        {{#if step.showTourButton}}<button class="btn btn-primary next hopscotch-cta" id="startTourFromCallout"><i class="fa fa-bus"></i><span class="header-btn-text">Start Tour</span></button>{{/if}}
         {{#if buttons.showNext}}<button class="btn btn-primary next hopscotch-next ">{{i18n.nextBtn}}</button>{{/if}}
     </div>
    {{#if buttons.showClose}}<button class="hopscotch-bubble-close hopscotch-close"></button>{{/if}}

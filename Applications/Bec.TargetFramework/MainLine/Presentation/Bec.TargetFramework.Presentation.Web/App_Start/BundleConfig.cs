@@ -80,6 +80,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/kendo/kendo.grid.min.js",
                 "~/Scripts/kendo/kendo.aspnetmvc.min.js",
                 "~/Scripts/dropzone/dropzone.js",
+                "~/Scripts/jquery.highlight.js",
                 "~/Scripts/hopscotch.js",
                 "~/Scripts/sizzle.js"
                 ));

@@ -70,5 +70,7 @@ namespace Bec.TargetFramework.Entities
         public List<string> SelectedRoleNames { get; set; }
 
         public Guid TempStoreID { get; set; }
+        [DataMember]
+        public bool IncludeStartTour { get; set; }
     }
 }

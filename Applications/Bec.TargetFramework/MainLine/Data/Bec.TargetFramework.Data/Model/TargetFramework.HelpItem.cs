@@ -25,6 +25,7 @@ namespace Bec.TargetFramework.Data
         {
           this.IsActive = true;
           this.IsDeleted = false;
+          this.IncludeStartTour = false;
         }
 
         #region Properties
@@ -173,6 +174,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for UiPosition in the schema.
         /// </summary>
         public virtual global::System.Nullable<int> UiPosition
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IncludeStartTour in the schema.
+        /// </summary>
+        public virtual bool IncludeStartTour
         {
             get;
             set;

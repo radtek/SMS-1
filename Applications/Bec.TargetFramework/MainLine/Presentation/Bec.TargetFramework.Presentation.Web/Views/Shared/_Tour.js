@@ -16,7 +16,13 @@
             }
         });
     });
-    
+
+    $(document).on('click', 'button#startTourFromCallout', function () {
+        hopscotch.endTour(true, true);
+        
+        $("#tourButton").trigger('click');
+    });
+
     $("#showMeHowButton").click(function () {
         var uiPageUrl = window.location.pathname;
 
@@ -35,7 +41,7 @@
             url: ($("#tourDisplay").attr('data-gethelpitemsCallout')),
             type: 'GET',
             success: function (data) {
-                var steps = getStepsFromJsonForCallouts(data.Items);
+                var steps = getStepsFromJsonForCallouts(data.Items,true);
                 startHelp("Callout", steps, 480);
             }
         });
@@ -94,7 +100,7 @@
         return steps;
     }
 
-    function getStepsFromJsonForCallouts(jsonDataItems) {
+    function getStepsFromJsonForCallouts(jsonDataItems,fromButton) {
         var steps = [];
 
         $.each(jsonDataItems, function (i, item) {
@@ -104,16 +110,21 @@
                 content: item.Description,
                 placement: 'right',
                 yOffset: 70,
+                showTourButton: item.IncludeStartTour,
                 totalItems: jsonDataItems.length,
                 onBindTarget: function () {
                 },
                 onNext: function () {
                     // mark as viewed
-                    $.ajax({
-                        url: ($("#tourDisplay").attr('data-calloutasviewed')) + "?helpItemID=" + item.HelpItemID,
-                        type: 'GET'
-                    });
-                }
+                    if (fromButton === false)
+                        {
+                         $.ajax({
+                                url: ($("#tourDisplay").attr('data-calloutasviewed')) + "?helpItemID=" + item.HelpItemID,
+                                type: 'GET'
+                            });
+                       }
+                       
+                   }
             });
         });
 
@@ -130,7 +141,7 @@
                 width: width
             };
 
-            if (width != null)
+            if (width !== null)
                 helpProcess.bubbleWidth = width;
 
             setHopscotchRenderer(helpType);
@@ -160,14 +171,13 @@
 
     function showCalloutIfJustLoggedIn() {
         
-        if (document.referrer.toLowerCase().indexOf('/account/login')
-            || document.referrer.toLowerCase().indexOf('/account/accepttcs'))
-        {
+        var justLoggedIn = $("#tourDisplay").attr('data-justloggedon');
+        if (justLoggedIn === "True") {
             $.ajax({
                 url: ($("#tourDisplay").attr('data-gethelpitemsCallout')),
                 type: 'GET',
                 success: function (data) {
-                    var steps = getStepsFromJsonForCallouts(data.Items);
+                    var steps = getStepsFromJsonForCallouts(data.Items,false);
                     startHelp("Callout", steps, 480);
                 }
             });

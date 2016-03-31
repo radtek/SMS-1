@@ -1905,39 +1905,24 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
-      <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
-      <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
-      <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
-      <Exclude Name="ClaimName" Table="public.vClaimSource" Type="Column" />
-      <Exclude Name="ClaimSubType" Table="public.vClaimSource" Type="Column" />
-      <Exclude Name="ClaimSubID" Table="public.vClaimSource" Type="Column" />
-      <Exclude Name="ClaimSubName" Table="public.vClaimSource" Type="Column" />
-      <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
-      <Exclude Name="name" Table="public.vClassification" Type="Column" />
-      <Exclude Name="ClassificationTypeCategoryID" Table="public.vClassification" Type="Column" />
-      <Exclude Name="categoryname" Table="public.vClassification" Type="Column" />
-      <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyName" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyRecordCreated" Table="public.vCompany" Type="Column" />
-      <Exclude Name="IsCompanyVerified" Table="public.vCompany" Type="Column" />
-      <Exclude Name="IsCompanyPinCreated" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminTitle" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminFirstName" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminLastName" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminTel" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminEmail" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyRegulator" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyOtherRegulator" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyAddress1" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyAddress2" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyTownCity" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyCounty" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyPostCode" Table="public.vCompany" Type="Column" />
-      <Exclude Name="AdditionalAddressInformation" Table="public.vCompany" Type="Column" />
-      <Exclude Name="ReturnUrl" Table="public.vCompany" Type="Column" />
-      <Exclude Name="ConversationID" Table="public.vConversationUnread" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="public.vConversationUnread" Type="Column" />
-      <Exclude Name="UnreadCount" Table="public.vConversationUnread" Type="Column" />
+      <Exclude Name="SupportItemID" Table="public.vSafeSendRecipientSupport" Type="Column" />
+      <Exclude Name="RelatedID" Table="public.vSafeSendRecipientSupport" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vSafeSendRecipientSupport" Type="Column" />
+      <Exclude Name="FirstName" Table="public.vSafeSendRecipientSupport" Type="Column" />
+      <Exclude Name="LastName" Table="public.vSafeSendRecipientSupport" Type="Column" />
+      <Exclude Name="OrganisationName" Table="public.vSafeSendRecipientSupport" Type="Column" />
+      <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipientSupport" Type="Column" />
+      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipientSupport" Type="Column" />
+      <Exclude Name="" Table="public.vSafeSendRecipientSupport" Type="Constraint" />
+      <Exclude Name="ActivityID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="ActivityTypeID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="RelatedID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="FirstName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="LastName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipient" Type="Column" />
+      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="NotificationID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="NotificationConstructID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
@@ -1994,6 +1979,39 @@
       <Exclude Name="IsMultipleProductCombinationDiscount" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="IsMultipleProductCombinationDiscountPercentageBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="IsMultipleProductCombinationDiscountCheapestFreeBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="ConversationID" Table="public.vConversationUnread" Type="Column" />
+      <Exclude Name="UserAccountOrganisationID" Table="public.vConversationUnread" Type="Column" />
+      <Exclude Name="UnreadCount" Table="public.vConversationUnread" Type="Column" />
+      <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimName" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimSubType" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimSubID" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimSubName" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
+      <Exclude Name="name" Table="public.vClassification" Type="Column" />
+      <Exclude Name="ClassificationTypeCategoryID" Table="public.vClassification" Type="Column" />
+      <Exclude Name="categoryname" Table="public.vClassification" Type="Column" />
+      <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyName" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyRecordCreated" Table="public.vCompany" Type="Column" />
+      <Exclude Name="IsCompanyVerified" Table="public.vCompany" Type="Column" />
+      <Exclude Name="IsCompanyPinCreated" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminTitle" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminFirstName" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminLastName" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminTel" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminEmail" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyRegulator" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyOtherRegulator" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyAddress1" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyAddress2" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyTownCity" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyCounty" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyPostCode" Table="public.vCompany" Type="Column" />
+      <Exclude Name="AdditionalAddressInformation" Table="public.vCompany" Type="Column" />
+      <Exclude Name="ReturnUrl" Table="public.vCompany" Type="Column" />
       <Exclude Name="OrganisationLedgerAccountID" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="TransactionOrderID" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="BalanceOn" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
@@ -2016,44 +2034,6 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="ActivityID" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="ActivityTypeID" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="RelatedID" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="OrganisationID" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="FirstName" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="LastName" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="OrganisationName" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="SupportItemID" Table="public.vSafeSendRecipientSupport" Type="Column" />
-      <Exclude Name="RelatedID" Table="public.vSafeSendRecipientSupport" Type="Column" />
-      <Exclude Name="OrganisationID" Table="public.vSafeSendRecipientSupport" Type="Column" />
-      <Exclude Name="FirstName" Table="public.vSafeSendRecipientSupport" Type="Column" />
-      <Exclude Name="LastName" Table="public.vSafeSendRecipientSupport" Type="Column" />
-      <Exclude Name="OrganisationName" Table="public.vSafeSendRecipientSupport" Type="Column" />
-      <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipientSupport" Type="Column" />
-      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipientSupport" Type="Column" />
-      <Exclude Name="" Table="public.vSafeSendRecipientSupport" Type="Constraint" />
-      <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
-      <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
-      <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
-      <Exclude Name="ConversationID" Table="public.vConversationUnread" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="public.vConversationUnread" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
-      <Exclude Name="UserTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
-      <Exclude Name="OrganisationTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
-      <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
-      <Exclude Name="Balance" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
-      <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="ActivityID" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="ActivityTypeID" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="RelatedID" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="FirstName" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="LastName" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="OrganisationName" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="OrganisationTypeName" Table="public.vSafeSendRecipient" Type="Column" />
-      <Exclude Name="IsSafeSendGroup" Table="public.vSafeSendRecipient" Type="Column" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public HelpItemDTO() {
         }
 
-        public HelpItemDTO(global::System.Guid helpItemID, global::System.Guid helpID, string title, string description, string uiSelector, string uiSelectorParent, bool isActive, bool isDeleted, global::System.DateTime createdOn, global::System.Guid createdBy, global::System.Nullable<System.DateTime> modifiedOn, global::System.Nullable<System.Guid> modifiedBy, global::System.Nullable<int> displayOrder, global::System.Nullable<System.DateTime> effectiveFrom, global::System.Nullable<int> uiPosition, HelpDTO help, List<UserAccountOrganisationHelpViewedDTO> userAccountOrganisationHelpVieweds, List<RoleDTO> roles, ClassificationTypeDTO classificationType, UserAccountOrganisationDTO userAccountOrganisation_CreatedBy, UserAccountOrganisationDTO userAccountOrganisation_ModifiedBy) {
+        public HelpItemDTO(global::System.Guid helpItemID, global::System.Guid helpID, string title, string description, string uiSelector, string uiSelectorParent, bool isActive, bool isDeleted, global::System.DateTime createdOn, global::System.Guid createdBy, global::System.Nullable<System.DateTime> modifiedOn, global::System.Nullable<System.Guid> modifiedBy, global::System.Nullable<int> displayOrder, global::System.Nullable<System.DateTime> effectiveFrom, global::System.Nullable<int> uiPosition, bool includeStartTour, HelpDTO help, List<UserAccountOrganisationHelpViewedDTO> userAccountOrganisationHelpVieweds, List<RoleDTO> roles, ClassificationTypeDTO classificationType, UserAccountOrganisationDTO userAccountOrganisation_CreatedBy, UserAccountOrganisationDTO userAccountOrganisation_ModifiedBy) {
 
           this.HelpItemID = helpItemID;
           this.HelpID = helpID;
@@ -39,6 +39,7 @@ namespace Bec.TargetFramework.Entities
           this.DisplayOrder = displayOrder;
           this.EffectiveFrom = effectiveFrom;
           this.UiPosition = uiPosition;
+          this.IncludeStartTour = includeStartTour;
           this.Help = help;
           this.UserAccountOrganisationHelpVieweds = userAccountOrganisationHelpVieweds;
           this.Roles = roles;
@@ -95,6 +96,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<int> UiPosition { get; set; }
+
+        [DataMember]
+        public bool IncludeStartTour { get; set; }
 
         #endregion
 

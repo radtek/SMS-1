@@ -61,11 +61,15 @@
                                             @Html.TextBoxFor(m => m.EffectiveFrom, "{0:dd/MM/yyyy}", new { tabindex = "5", @class = "dateinput" })
                                         </label>
                                     </section>
+                                    <section id="includeStartTourSection">
+                                        <label class="label">Include Start Tour Button</label>
+                                        @Html.EditorFor(m => m.IncludeStartTour, new { tabindex = "6" })
+                                    </section>
                                     <section id="rolesSection">
                                         <label class="label">Roles</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            @Html.ListBoxFor(m => m.SelectedRoles, new SelectList(Model.Roles, "RoleID", "RoleName"), new {tabindex = "6",multiple = "multiple", @id = "ddlRoles", style = "width:100%; resize:none;"})
+                                            @Html.ListBoxFor(m => m.SelectedRoles, new SelectList(Model.Roles, "RoleID", "RoleName"), new {tabindex = "7",multiple = "multiple", @id = "ddlRoles", style = "width:100%; resize:none;"})
                                         </label>
                                     </section>
                                 </div>

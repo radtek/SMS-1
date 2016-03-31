@@ -44,6 +44,7 @@ namespace Bec.TargetFramework.Entities
             target.DisplayOrder = source.DisplayOrder;
             target.EffectiveFrom = source.EffectiveFrom;
             target.UiPosition = source.UiPosition;
+            target.IncludeStartTour = source.IncludeStartTour;
 
             // Navigation Properties
             if (level > 0) {
@@ -84,6 +85,7 @@ namespace Bec.TargetFramework.Entities
             target.DisplayOrder = source.DisplayOrder;
             target.EffectiveFrom = source.EffectiveFrom;
             target.UiPosition = source.UiPosition;
+            target.IncludeStartTour = source.IncludeStartTour;
 
             // User-defined partial method
             OnEntityCreating(source, target);

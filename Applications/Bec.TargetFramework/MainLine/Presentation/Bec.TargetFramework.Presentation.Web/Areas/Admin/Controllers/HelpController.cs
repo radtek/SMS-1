@@ -513,6 +513,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     b.UserAccountOrganisation_ModifiedBy.Contact.FirstName,
                     b.UserAccountOrganisation_ModifiedBy.Contact.LastName, 
                     b.IsDeleted,
+                    b.IncludeStartTour,
                     b.CreatedBy, b.Description, b.DisplayOrder, blah = b.Roles.Select(r => new { r.RoleName }) })
             });
 

@@ -73,6 +73,7 @@
 
         showHideAndClearValueElement("#effectionFromSection", (helpType === "Callout"));
         showHideAndClearValueElement("#uiPositionSection", (helpType !== "Callout"));
+        showHideAndClearValueElement("#includeStartTourSection", (helpType === "Callout"));
         showHideAndClearValueElement("#uiSelectorParentSection", (helpType !== "Callout"));
     }
 
