@@ -120,13 +120,27 @@
                 {
                     field: "UiPositionName",
                     title: "UI Position",
-                    width: 120
+                    width: 120,
+                    hidden: ($("#HelpTypeID").find(":selected").text() === "Callout")
+                },
+                {
+                    field: "IncludeStartTour",
+                    title: "Tour Button",
+                    width: 120,
+                    hidden: ($("#HelpTypeID").find(":selected").text() !== "Callout"),
+                    template: function (dataItem) {
+                        if (dataItem.IncludeStartTour !== null
+                            && dataItem.IncludeStartTour === true) {
+                            return "Y";
+                        } else
+                            return "";
+                    }
                 },
                 {
                     field: "SelectedRoles",
                     title: "Roles",
                     template: function (dataItem) {
-                        if (dataItem.SelectedRoleNames != null) {
+                        if (dataItem.SelectedRoleNames !== null) {
                             var dataString = "";
                             for (var k = 0; k < dataItem.SelectedRoleNames.length; k++) {
                                 dataString += dataItem.SelectedRoleNames[k] + "</br>";
@@ -140,6 +154,7 @@
                     field: "EffectiveFrom",
                     title: "Effective",
                     width: 100,
+                    hidden: ($("#HelpTypeID").find(":selected").text() !== "Callout"),
                     template: function (dataItem) { if (dataItem.EffectiveFrom == null) { return '' } else return kendo.toString(kendo.parseDate(dataItem.EffectiveFrom), 'dd/MM/yyyy'); }
                 },
                 {

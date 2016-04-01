@@ -92,6 +92,18 @@
                 width: 120
             },
             {
+                field: "IncludeStartTour",
+                title: "Tour Button",
+                width: 120,
+                template: function (dataItem) {
+                    if (dataItem.IncludeStartTour !== null
+                        && dataItem.IncludeStartTour === true) {
+                        return "Y";
+                    } else
+                        return "";
+                }
+            },
+            {
                 field: "SelectedRoles",
                 title: "Roles",
                 template: function(dataItem) {
