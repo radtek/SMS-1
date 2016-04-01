@@ -19,8 +19,6 @@ $(function () {
         resetSort: $('#txGrid').data("resetsort"),
         panels: ['helpPanel'],
         jumpToId: $('#txGrid').data("jumpto"),
-        jumpToPage: $('#txGrid').data("jumptopage"),
-        jumpToRow: $('#txGrid').data("jumptorow"),
         searchElementId: 'gridSearchInput',
         searchButtonId: 'gridSearchButton',
         clearSearchButtonId: 'clearGridSearch',

@@ -110,16 +110,13 @@
                     <li>
                         <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent" id="supportMenu">Support</span></a>
                         <ul>
-                            @if (ClaimsHelper.UserHasClaim("Add", "Help"))
-                            { 
                                 <li class="@Html.RouteIf("active", "Help", "Index")">
                                     <a href="@Url.Action("Index", "Help", new { area = "Admin" })" id="helpManagementMenu">Help Management</a>
                                 </li>
-                                <li class="@Html.RouteIf("active", "Help", "Index")">
+                                <li class="@Html.RouteIf("active", "Support", "Index")">
                                     <a href="@Url.Action("Index", "Support", new { area = "Admin" })" id="helpManagementMenu">Support Management</a>
                                 </li>
-                            }
-                            </ul>
+                        </ul>
                     </li>
                 }
             </ul>

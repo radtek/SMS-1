@@ -2622,9 +2622,20 @@ function Revealer() {
     }
 
     function reveal(target) {
-        if(target)
-        {
-            $(target).highlightOverlay();
+        cleanupPrevTarget();
+        overlay().fadeIn();
+        if (target) {
+            $currTarget = $(target);
+            // make sure the target node's `position` behaves with `z-index` correctly
+            var position = $currTarget.css('position')
+            if (!/^(?:absolute|fixed|relative)$/.test(position)) {
+                position = 'relative';
+            }
+            $currTarget.css({
+                position: position,
+                zIndex: OVERLAY_ZINDEX + 1
+            });
+            $prevTarget = $currTarget;
         }
     }
 

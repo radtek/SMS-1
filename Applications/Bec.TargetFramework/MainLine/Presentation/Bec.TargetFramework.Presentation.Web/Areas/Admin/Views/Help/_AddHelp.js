@@ -88,7 +88,8 @@
             },
             {
                 field: "UiPositionName",
-                title: "UI Position"
+                title: "UI Position",
+                width: 120
             },
             {
                 field: "SelectedRoles",
@@ -106,7 +107,7 @@
             },
             {
                 field: "EffectiveFrom",
-                title: "Effective From",
+                title: "Effective",
                 width: 100,
                 template: function(dataItem) {
                     if (dataItem.EffectiveFrom == null) {
@@ -141,36 +142,8 @@
 
     $("#hiGrid").data("kendoGrid").bind("dataBound", function(e) {
         $('#hiGrid .k-grid-content').height(230);
-
-        var helpType = $("#HelpTypeID").find(":selected").text();
-
-        if (helpType === 'Callout') {
-            hideShowGridColumn('#hiGrid', 'UiPositionName', false);
-            hideShowGridColumn('#hiGrid', 'EffectiveFrom', true);
-        }
-        else {
-            hideShowGridColumn('#hiGrid', 'UiPositionName', true);
-            hideShowGridColumn('#hiGrid', 'EffectiveFrom', false);
-        }
     });
 
-    function hideShowGridColumn(grid, column, show) {
-        var kendoGrid = $(grid).data("kendoGrid");
-        var columnPosition = 0;
-
-        for (var i = 0; i < kendoGrid.columns.length; i++) {
-            if (kendoGrid.columns[i].field === column)
-                columnPosition = i;
-        }
-
-        if (show) {
-            $(grid).find("table th").eq(column).show();
-            kendoGrid.showColumn(columnPosition);
-        } else {
-            $(grid).find("table th").eq(column).hide();
-            kendoGrid.hideColumn(columnPosition);
-        }
-    }
     // hide and show elements based upon the helptypeid being changed
     $("#HelpTypeID").on("change", function(e) {
 

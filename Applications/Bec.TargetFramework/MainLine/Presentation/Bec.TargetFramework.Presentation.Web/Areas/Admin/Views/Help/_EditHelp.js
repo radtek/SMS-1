@@ -119,7 +119,8 @@
                 },
                 {
                     field: "UiPositionName",
-                    title: "UI Position"
+                    title: "UI Position",
+                    width: 120
                 },
                 {
                     field: "SelectedRoles",
@@ -137,7 +138,7 @@
                 },
                 {
                     field: "EffectiveFrom",
-                    title: "Effective From",
+                    title: "Effective",
                     width: 100,
                     template: function (dataItem) { if (dataItem.EffectiveFrom == null) { return '' } else return kendo.toString(kendo.parseDate(dataItem.EffectiveFrom), 'dd/MM/yyyy'); }
                 },
@@ -164,36 +165,7 @@
 
     $('#ehGrid').data('kendoGrid').bind("dataBound", function (e) {
         $('#ehGrid .k-grid-content').height(230);
-
-        var helpType = $("#HelpTypeID").find(":selected").text();
-
-        if(helpType === 'Callout')
-        {
-            hideShowGridColumn('#ehGrid', 'UiPositionName', false);
-        }
-        else
-        {
-                hideShowGridColumn('#ehGrid', 'EffectiveFrom', false);
-        }
     });
-
-    function hideShowGridColumn(grid, column, show) {
-        var kendoGrid = $(grid).data("kendoGrid");
-        var columnPosition = 0;
-
-        for (var i = 0; i < kendoGrid.columns.length; i++) {
-            if (kendoGrid.columns[i].field === column)
-                columnPosition = i;
-        }
-
-        if (show) {
-            $(grid).find("table th").eq(column).show();
-            kendoGrid.showColumn(columnPosition);
-        } else {
-            $(grid).find("table th").eq(column).hide();
-            kendoGrid.hideColumn(columnPosition);
-        }
-    }
 
     hideAndShow();
 
